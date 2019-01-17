@@ -35,49 +35,49 @@ export function createRouter(): VueRouter {
         path: '/alerts',
         name: 'alerts',
         component: Alerts,
-        meta: { requiresAuth: true }
+        meta: { title: 'Alerts', requiresAuth: true }
       },
       {
         path: '/alert/:id',
         name: 'alert',
         component: Alert,
-        meta: { requiresAuth: true }
+        meta: { title: 'Alert Detail', requiresAuth: true }
       },
       {
         path: '/heartbeats',
         name: 'heartbeats',
         component: Heartbeats,
-        meta: { requiresAuth: true }
+        meta: { title: 'Heartbeats', requiresAuth: true }
       },
       {
         path: '/blackouts',
         name: 'blackouts',
         component: Blackouts,
-        meta: { requiresAuth: true }
+        meta: { title: 'Blackouts', requiresAuth: true }
       },
       {
         path: '/users',
         name: 'users',
         component: Users,
-        meta: { requiresAuth: true }
+        meta: { title: 'Users', requiresAuth: true }
       },
       {
         path: '/perms',
         name: 'perms',
         component: Perms,
-        meta: { requiresAuth: true }
+        meta: { title: 'Permissions', requiresAuth: true }
       },
       {
         path: '/customers',
         name: 'customers',
         component: Customers,
-        meta: { requiresAuth: true }
+        meta: { title: 'Customers', requiresAuth: true }
       },
       {
         path: '/keys',
         name: 'apiKeys',
         component: ApiKeys,
-        meta: { requiresAuth: true }
+        meta: { title: 'API Keys', requiresAuth: true }
       },
       {
         path: '/about',
@@ -86,38 +86,44 @@ export function createRouter(): VueRouter {
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(/* webpackChunkName: 'about' */ './views/About.vue')
+          import(/* webpackChunkName: 'about' */ './views/About.vue'),
+        meta: { title: 'About', requiresAuth: true }
       },
       {
         path: '/login',
         name: 'login',
-        component: Login
+        component: Login,
+        meta: { title: 'Login' }
       },
       {
         path: '/signup',
         name: 'signup',
-        component: Signup
+        component: Signup,
+        meta: { title: 'Sign Up' }
       },
       {
         path: '/confirm/:token',
         name: 'confirm',
-        component: Confirm
+        component: Confirm,
+        meta: { title: 'Confirm Email' }
       },
       {
         path: '/forgot',
         name: 'forgot',
-        component: Forgot
+        component: Forgot,
+        meta: { title: 'Forgot Password' }
       },
       {
         path: '/reset/:token',
         name: 'reset',
-        component: Reset
+        component: Reset,
+        meta: { title: 'Reset Password' }
       },
       {
         path: '/settings',
         name: 'settings',
         component: Settings,
-        meta: { requiresAuth: true }
+        meta: { title: 'Settings', requiresAuth: true }
       }
     ]
   } as RouterOptions)
@@ -136,6 +142,11 @@ export function createRouter(): VueRouter {
     } else {
       next()
     }
+  })
+
+  router.beforeEach((to, from, next) => {
+    document.title = to.meta.title + ' | Alerta'
+    next()
   })
 
   // redirect hashbang mode links to HTML5 mode links
