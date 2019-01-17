@@ -1,0 +1,29 @@
+language: node_js
+node_js:
+  - "8"
+
+cache:
+  directories:
+    - "node_modules"
+
+branches:
+  only:
+  - master
+
+install:
+  - npm install
+  - npm run build
+
+script:
+  - npm run lint:nofix
+  - npm run test:unit
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  target-branch: gh-pages
+  local-dir: dist
+  on:
+    branch: master
+
