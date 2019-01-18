@@ -58,7 +58,7 @@ export default {
     },
     setTab(env) {
       if (env === 'ALL') {
-        this.filter = {}
+        this.filter = null
       } else {
         this.filter = { environment: env }
       }
