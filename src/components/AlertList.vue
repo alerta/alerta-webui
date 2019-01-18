@@ -58,6 +58,9 @@ export default {
     AlertListSideNav,
     DateTime
   },
+  props: {
+    filter: null
+  },
   data() {
     return {
       descending: true,
@@ -90,7 +93,13 @@ export default {
   },
   computed: {
     alerts() {
-      return this.$store.getters['alerts/alerts']
+      if (this.filter) {
+        return this.$store.getters['alerts/alerts'].filter(
+          alert => alert.environment === this.filter.environment
+        )
+      } else {
+        return this.$store.getters['alerts/alerts']
+      }
     },
     isLoading() {
       return this.$store.state.keys.isLoading
