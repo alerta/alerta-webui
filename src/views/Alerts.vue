@@ -9,18 +9,18 @@
 
       <v-tab
         v-for="env in environments"
-        :key="env"
-        :href="'#tab-' + env"
-        @click="setTab(env)"
+        :key="env.environment"
+        :href="'#tab-' + env.environment"
+        @click="setTab(env.environment)"
       >
-        {{ env }}
+        {{ env.environment }} ({{ env.count }})
       </v-tab>
 
       <v-tabs-items>
         <v-tab-item
           v-for="env in environments"
-          :key="env"
-          :value="'tab-' + env"
+          :key="env.environment"
+          :value="'tab-' + env.environment"
           :transition="false" :reverse-transition="false"
         >
           <alert-list :filter="filter"/>
@@ -44,8 +44,10 @@ export default {
   }),
   computed: {
     environments() {
-      return ['ALL'].concat(this.$store.getters['alerts/environments'])
-    }
+      let e = this.$store.state.alerts.environments
+      let totalCount = e.map(e => e.count).reduce((a, b) => a + b, 0)
+      return [{environment: 'ALL', count: totalCount}].concat(e)
+    },
   },
   created() {
     this.getEnvironments()
