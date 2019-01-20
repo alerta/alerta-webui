@@ -139,6 +139,8 @@
 <script>
 import ListButtonAdd from '@/components/ListButtonAdd'
 
+import utils from '@/common/utils'
+
 export default {
   components: {
     ListButtonAdd
@@ -176,7 +178,10 @@ export default {
       return this.$store.state.perms.permissions
     },
     allowedScopes() {
-      return this.$store.state.perms.scopes
+      return utils.getAllowedScopes(
+        this.$store.getters['auth/scopes'],
+        this.$store.state.perms.scopes
+      )
     },
     isLoading() {
       return this.$store.state.perms.isLoading

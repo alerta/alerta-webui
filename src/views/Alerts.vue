@@ -46,8 +46,8 @@ export default {
     environments() {
       let e = this.$store.state.alerts.environments
       let totalCount = e.map(e => e.count).reduce((a, b) => a + b, 0)
-      return [{environment: 'ALL', count: totalCount}].concat(e)
-    },
+      return [{ environment: 'ALL', count: totalCount }].concat(e)
+    }
   },
   created() {
     this.getEnvironments()

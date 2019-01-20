@@ -34,6 +34,11 @@ describe('ApiKeyList', () => {
           permissions: [],
           scopes: []
         }
+      },
+      getters: {
+        ['auth/scopes']() {
+          return ['read', 'write'] // default user scopes
+        }
       }
     })
   })
