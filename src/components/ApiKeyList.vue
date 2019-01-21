@@ -10,7 +10,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm6 md12>
-                <v-tooltip right>
+                <v-tooltip :key="copyIconText" right>
                   <v-text-field
                     v-if="editedItem.key"
                     slot="activator"
@@ -21,7 +21,7 @@
                     append-icon="content_copy"
                     @click:append="clipboardCopy(editedItem.key)"
                   ></v-text-field>
-                  <span>Copy</span>
+                  <span>{{ copyIconText }}</span>
                 </v-tooltip>
               </v-flex>
               <v-flex xs12 sm6 md12>
@@ -117,9 +117,9 @@
         <template slot="items" slot-scope="props">
           <td monospace nowrap
           >{{ props.item.key }}
-            <v-tooltip top>
+            <v-tooltip :key="copyIconText" top>
               <v-icon slot="activator" :value="props.item.key" style="font-size: 16px;" @click="clipboardCopy(props.item.key)">content_copy</v-icon>
-              <span>Copy</span>
+              <span>{{ copyIconText }}</span>
             </v-tooltip>
           </td>
           <td>
@@ -254,7 +254,8 @@ export default {
         customer: null,
         scopes: [],
         expireTime: null
-      }
+      },
+      copyIconText: 'Copy'
     }
   },
   computed: {
@@ -344,12 +345,16 @@ export default {
       return new Date().getTime() > new Date(date).getTime()
     },
     clipboardCopy(text) {
+      this.copyIconText = 'Copied!'
       let textarea = document.createElement('textarea')
       textarea.textContent = text
       document.body.appendChild(textarea)
       textarea.select()
       document.execCommand('copy')
       document.body.removeChild(textarea)
+      setTimeout(() => {
+        this.copyIconText = 'Copy'
+      }, 2000)
     },
     toData(item) {
       return btoa(JSON.stringify(item))
