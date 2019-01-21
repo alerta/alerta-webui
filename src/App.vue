@@ -90,6 +90,20 @@
         <v-icon>search</v-icon>
       </v-btn>
  -->
+      <div>
+        <v-tooltip left>
+          <v-switch
+            slot="activator"
+            :input-value="isWatch"
+            hide-details
+            open-delay="3000"
+            @change="toggle('isWatch', $event)"
+          >
+          </v-switch>
+          <span>Watch</span>
+        </v-tooltip>
+      </div>
+
       <v-btn icon @click="toggleFullScreen">
         <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
       </v-btn>
