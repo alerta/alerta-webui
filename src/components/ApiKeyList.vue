@@ -209,6 +209,7 @@
 
 <script>
 import ListButtonAdd from '@/components/ListButtonAdd'
+import utils from '@/common/utils'
 
 export default {
   components: {
@@ -261,7 +262,10 @@ export default {
       return this.$store.state.keys.keys
     },
     allowedScopes() {
-      return this.$store.state.perms.scopes
+      return utils.getAllowedScopes(
+        this.$store.getters['auth/scopes'],
+        this.$store.state.perms.scopes
+      )
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']

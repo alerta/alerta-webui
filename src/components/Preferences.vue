@@ -63,6 +63,8 @@
       </v-container>
     </v-form>
 
+    <pre>{{ payload }}</pre>
+
   </div>
 </template>
 
@@ -86,6 +88,9 @@ export default {
     },
     dates() {
       return this.$store.getters.getPreference('dates')
+    },
+    payload() {
+      return this.$store.getters['auth/getPayload']
     },
     shortTimeHint() {
       return `Example ${this.$options.filters.date(
