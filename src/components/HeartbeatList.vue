@@ -26,9 +26,12 @@
         <td>{{ props.item.customer }}</td>
         <td>
           <v-chip
+            v-for="tag in props.item.tags"
+            :key="tag"
             label
+            small
           >
-            {{ props.item.tags }}
+            <v-icon left>label</v-icon>{{ tag }}
           </v-chip>
         </td>
         <td>
@@ -37,8 +40,8 @@
         <td>
           <date-time :value="props.item.receiveTime" format="mediumDate"/>
         </td>
-        <td>{{ diffTime(props.item.createTime, props.item.receiveTime) }}ms</td>
-        <td>{{ props.item.timeout }}s</td>
+        <td>{{ diffTime(props.item.createTime, props.item.receiveTime) }} ms</td>
+        <td>{{ props.item.timeout | hhmmss }}</td>
         <td>{{ props.item.receiveTime | timeago }}</td>
         <td class="justify-center layout px-0">
           <v-icon

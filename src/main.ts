@@ -19,6 +19,7 @@ import '@/directives/hasPerms'
 
 import '@/filters/capitalize'
 import '@/filters/date'
+import '@/filters/hhmmss'
 import '@/filters/shortId'
 import '@/filters/timeago'
 import '@/filters/until'
