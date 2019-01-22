@@ -113,6 +113,8 @@
         class="elevation-1"
         :search="search"
         :loading="isLoading"
+        must-sort
+        sort-icon="arrow_drop_down"
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
@@ -197,9 +199,9 @@ export default {
       page: 1,
       rowsPerPageItems: [10, 20, 30, 40],
       pagination: {
+        sortBy: 'name',
         rowsPerPage: 20
       },
-      sortBy: 'name',
       // totalItems: number,
       search: '',
       dialog: false,

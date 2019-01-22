@@ -17,6 +17,8 @@
       class="elevation-1"
       :search="search"
       :loading="isLoading"
+      must-sort
+      sort-icon="arrow_drop_down"
     >
       <template slot="items" slot-scope="props">
         <tr
@@ -63,13 +65,13 @@ export default {
   },
   data() {
     return {
-      descending: true,
       page: 1,
       rowsPerPageItems: [10, 20, 30, 40],
       pagination: {
+        sortBy: 'lastReceiveTime',
+        descending: true,
         rowsPerPage: 20
       },
-      sortBy: 'lastReceiveTime',
       // totalItems: number,
       search: '',
       sidenav: false,
