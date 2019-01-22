@@ -49,7 +49,11 @@ export default {
   methods: {
     forgot() {
       this.$store.dispatch('auth/forgot', this.email).then(() => {
-        console.log('reset link sent')
+        this.$store.dispatch(
+          'notifications/success',
+          'Reset email sent successfully!',
+          { root: true }
+        )
       })
     }
   }

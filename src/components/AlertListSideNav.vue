@@ -409,7 +409,6 @@ export default {
       ])
     },
     shelveAlert() {
-      console.log('shelve', this.shelveTimeout)
       this.$store.dispatch('alerts/takeAction', [
         this.item.id,
         'shelve',
