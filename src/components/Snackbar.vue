@@ -5,7 +5,7 @@
     :color="snackbar.type"
     :timeout="snackbar.timeout"
   >
-    {{ snackbar.text }}
+    {{ snackbar.text | capitalize }}
     <v-btn
       flat
       @click="close"
@@ -29,8 +29,9 @@ export default {
   },
   watch: {
     snackbar(newVal, oldVal) {
-      if (!newVal.text) return
-      this.show = true
+      if (this.$store.getters['notifications/hasSnackbar']) {
+        this.$nextTick(() => (this.show = true))
+      }
     },
     show(val) {
       val || this.close()

@@ -47,9 +47,6 @@ export function makeStore(vueAuth) {
           .then(() => commit('SET_AUTH', vueAuth.getPayload()))
           .then(() => commit('SET_TOKEN', vueAuth.getToken()))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
-          .catch(error =>
-            dispatch('notifications/error', error, { root: true })
-          )
       },
       login({ commit, dispatch }, { credentials }) {
         return vueAuth
@@ -57,9 +54,6 @@ export function makeStore(vueAuth) {
           .then(() => commit('SET_AUTH', vueAuth.getPayload()))
           .then(() => commit('SET_TOKEN', vueAuth.getToken()))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
-          .catch(error =>
-            dispatch('notifications/error', error, { root: true })
-          )
       },
       authenticate({ commit, dispatch }, payload) {
         return vueAuth
@@ -67,16 +61,13 @@ export function makeStore(vueAuth) {
           .then(() => commit('SET_AUTH', vueAuth.getPayload()))
           .then(() => commit('SET_TOKEN', vueAuth.getToken()))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
-          .catch(error =>
-            dispatch('notifications/error', error, { root: true })
-          )
       },
       confirm({ commit }, token) {
         return AuthApi.confirm(token)
       },
       forgot({ commit }, email) {
         commit('SET_SENDING')
-        return AuthApi.forgot(email).then(() => commit('RESET_SENDING'))
+        return AuthApi.forgot(email).finally(() => commit('RESET_SENDING'))
       },
       reset({ commit }, [token, password]) {
         return AuthApi.reset(token, password)
@@ -86,9 +77,6 @@ export function makeStore(vueAuth) {
           .logout()
           .then(() => commit('RESET_AUTH'))
           .then(() => commit('CLEAR_TOKEN'))
-          .catch(error =>
-            dispatch('notifications/error', error, { root: true })
-          )
       }
     },
 

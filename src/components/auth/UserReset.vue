@@ -56,7 +56,7 @@ export default {
       this.$store
         .dispatch('auth/reset', [this.$route.params.token, this.password])
         .then(() => {
-          console.log('resetting ...')
+          /* give feedback to user that it worked, and auto-redirect? */
         })
     }
   }

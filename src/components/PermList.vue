@@ -5,7 +5,7 @@
         <v-card-title>
           <span class="headline">{{ formTitle }}</span>
         </v-card-title>
-        {{ editedId }} ... {{ editedItem.id }}
+
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>

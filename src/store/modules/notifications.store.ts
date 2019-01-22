@@ -49,19 +49,30 @@ const actions = {
     commit('REMOVE_BANNER')
   },
 
+  success({ commit }, message) {
+    commit('ADD_SNACKBAR', {
+      type: 'success',
+      text: message,
+      action: 'OK',
+      timeout: 3000
+    })
+  },
+
   error({ commit }, error) {
-    if (error instanceof Error) {
+    // HTTP error with status, code, message and errors.
+    if (error.hasOwnProperty('code')) {
+      commit('ADD_SNACKBAR', {
+        type: error.status,
+        text: `${error.message} (${error.code})`,
+        action: 'RETRY',
+        timeout: 5000
+      })
+    } else {
       commit('ADD_SNACKBAR', {
         type: 'error',
         text: `${error.name}: ${error.message}`,
         action: 'RETRY',
         timeout: 5000
-      })
-    } else {
-      // Alerta API error with status, code, message and errors.
-      commit('ADD_BANNER', {
-        type: 'error',
-        text: `${error.code} Error: ${error.message}\n${error.errors}`
       })
     }
   }
