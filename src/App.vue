@@ -77,7 +77,6 @@
       </v-list>
     </v-navigation-drawer>
 
-
     <v-toolbar>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
      

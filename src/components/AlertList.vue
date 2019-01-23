@@ -1,14 +1,6 @@
 <template>
   <div>
 
-    <alert-list-side-nav
-      v-if="selectedItem"
-      :value="sidenav"
-      :item="selectedItem"
-    />
-
-    <audio v-if="playSound && !isMute" :src="$config.audio.new" autoplay></audio>
-
     <v-data-table
       :headers="headers"
       :items="alerts"
@@ -53,16 +45,17 @@
 </template>
 
 <script>
-import AlertListSideNav from './AlertListSideNav'
 import DateTime from './DateTime'
 
 export default {
   components: {
-    AlertListSideNav,
     DateTime
   },
   props: {
-    filter: null
+    filter: {
+      type: Object,
+      default: null
+    }
   },
   data() {
     return {
@@ -75,9 +68,7 @@ export default {
       },
       // totalItems: number,
       search: '',
-      sidenav: false,
-      playSound: false,
-      statusFilter: ['open', 'unknown'],
+
       headers: [
         { text: 'Severity', value: 'severity' },
         { text: 'Status', value: 'status' },
@@ -97,9 +88,25 @@ export default {
   computed: {
     alerts() {
       if (this.filter) {
-        return this.$store.getters['alerts/alerts'].filter(
-          alert => alert.environment === this.filter.environment
-        )
+        return this.$store.getters['alerts/alerts']
+          .filter(
+            alert =>
+              this.filter.environment
+                ? alert.environment === this.filter.environment
+                : true
+          )
+          .filter(
+            alert =>
+              this.filter.service
+                ? alert.service.some(x => this.filter.service.includes(x))
+                : true
+          )
+          .filter(
+            alert =>
+              this.filter.status
+                ? this.filter.status.includes(alert.status)
+                : true
+          )
       } else {
         return this.$store.getters['alerts/alerts']
       }
@@ -109,9 +116,6 @@ export default {
     },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
-    },
-    isMute() {
-      return this.$store.getters.getPreference('isMute')
     },
     refreshInterval() {
       return (
@@ -131,7 +135,8 @@ export default {
       if (
         old &&
         current.length > old.length &&
-        this.statusFilter.includes('open')
+        this.filter.status &&
+        this.filter.status.includes('open')
       ) {
         this.playSound = true
       } else {
@@ -190,7 +195,9 @@ export default {
         if (typeof a[index] == 'string') {
           return a[index].localeCompare(b[index]) * reverseSort
         } else {
-          return a[index].join('').localeCompare(b[index].join('')) * reverseSort
+          return (
+            a[index].join('').localeCompare(b[index].join('')) * reverseSort
+          )
         }
       })
     },
@@ -202,7 +209,6 @@ export default {
     },
     selectItem(itemId) {
       this.selectedId = itemId
-      this.sidenav = !this.sidenav
     }
   }
 }
