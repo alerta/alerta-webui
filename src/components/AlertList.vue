@@ -18,6 +18,7 @@
       :search="search"
       :loading="isLoading"
       must-sort
+      :custom-sort="customSort"
       sort-icon="arrow_drop_down"
     >
       <template slot="items" slot-scope="props">
@@ -68,7 +69,7 @@ export default {
       page: 1,
       rowsPerPageItems: [10, 20, 30, 40],
       pagination: {
-        sortBy: 'lastReceiveTime',
+        sortBy: 'multi',
         descending: true,
         rowsPerPage: 20
       },
@@ -154,6 +155,45 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    customSort(items, index, isDescending) {
+      if (!index) return items
+
+      const reverseSort = isDescending ? -1 : 1
+
+      // sort by severity then lastReceiveTime
+      if (index == 'multi') {
+        return items.sort((a, b) => {
+          if (a.severity == b.severity) {
+            return b.lastReceiveTime - a.lastReceiveTime
+          }
+          const severityCodeA = this.$config.severity[a.severity]
+          const severityCodeB = this.$config.severity[b.severity]
+          if (severityCodeA < severityCodeB) return reverseSort * 1
+          if (severityCodeA > severityCodeB) return reverseSort * -1
+          return 0
+        })
+      }
+
+      // sort by severity code
+      if (index == 'severity') {
+        return items.sort((a, b) => {
+          const severityCodeA = this.$config.severity[a.severity]
+          const severityCodeB = this.$config.severity[b.severity]
+          if (severityCodeA > severityCodeB) return reverseSort * 1
+          if (severityCodeA < severityCodeB) return reverseSort * -1
+          return 0
+        })
+      }
+
+      // use default sort
+      return items.sort((a, b) => {
+        if (typeof a[index] == 'string') {
+          return a[index].localeCompare(b[index]) * reverseSort
+        } else {
+          return a[index].join('').localeCompare(b[index].join('')) * reverseSort
+        }
+      })
+    },
     getAlerts() {
       this.$store.dispatch('alerts/getAlerts')
     },
