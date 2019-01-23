@@ -11,7 +11,8 @@
       <v-toolbar flat>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 
-        <v-toolbar-title class="logo">
+        <img v-if="$config.site_logo_url" :src="$config.site_logo_url" height="48">
+        <v-toolbar-title v-else class="logo">
           alerta
         </v-toolbar-title>
       </v-toolbar>
@@ -79,8 +80,9 @@
 
     <v-toolbar>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-
-      <v-toolbar-title class="logo">
+     
+      <img v-if="$config.site_logo_url" :src="$config.site_logo_url" height="48">
+      <v-toolbar-title v-else class="logo">
         alerta
       </v-toolbar-title>
 
