@@ -109,18 +109,23 @@
                   v-model="editedItem.tags"
                   :items="currentTags"
                   label="Tags"
-                  chips
-                  clearable
-                  solo
                   multiple
+                  chips
                 >
-                  <template slot="selection" slot-scope="data">
+                  <template
+                    slot="selection"
+                    slot-scope="data"
+                  >
                     <v-chip
+                      :key="JSON.stringify(data.item)"
                       :selected="data.selected"
-                      close
+                      :disabled="data.disabled"
+                      class="v-chip--select-multi"
+                      label
+                      small
+                      @input="data.parent.selectItem(data.item)"
                     >
-                      <strong>{{ data.item }}</strong>&nbsp;
-                      <span>(role)</span>
+                      <v-icon left>label</v-icon>{{ data.item }}
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -396,7 +401,11 @@ export default {
       val || this.close()
     },
     refresh(val) {
-      val || this.getBlackouts()
+      this.getBlackouts()
+      this.getCustomers()
+      this.getEnvironments()
+      this.getServices()
+      this.getTags()
     }
   },
   created() {
