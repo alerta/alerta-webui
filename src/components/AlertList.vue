@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-data-table
       :headers="headers"
       :items="alerts"
@@ -41,14 +40,23 @@
         </tr>
       </template>
     </v-data-table>
+
+    <alert-list-details
+      v-if="selectedId"
+      :value="details"
+      :item="selectedItem"
+      @close="details = false"
+    />
   </div>
 </template>
 
 <script>
+import AlertListDetails from './AlertListDetails'
 import DateTime from './DateTime'
 
 export default {
   components: {
+    AlertListDetails,
     DateTime
   },
   props: {
@@ -80,6 +88,7 @@ export default {
         { text: 'Value', value: 'value' },
         { text: 'Description', value: 'text' }
       ],
+      details: false,
       selectedId: null,
       timer: null
     }
@@ -139,6 +148,7 @@ export default {
     },
     selectItem(itemId) {
       this.selectedId = itemId
+      this.details = true
     }
   }
 }

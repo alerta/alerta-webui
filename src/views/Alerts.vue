@@ -38,7 +38,8 @@
           v-for="env in environments"
           :key="env.environment"
           :value="'tab-' + env.environment"
-          :transition="false" :reverse-transition="false"
+          :transition="false"
+          :reverse-transition="false"
         >
           <alert-list
             :alerts="alerts"
