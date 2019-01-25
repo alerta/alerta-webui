@@ -63,49 +63,64 @@
           <v-list-tile-title>Open</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-icon color="black">visibility</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-title>Watch</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          v-show="isWatched"
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-icon color="black">visibility_off</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-title>Unwatch</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-icon color="blue lighten-1">schedule</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-title>Shelve</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-icon color="blue lighten-1">schedule</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-title>Unshelve</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-icon color="blue darken-3">check_circle_outline</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-title>Ack</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-icon color="blue darken-3">check_circle_outline</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-title>Unack</v-list-tile-title>
         </v-list-tile>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-icon color="orange">highlight_off</v-icon>
           </v-list-tile-avatar>
@@ -194,6 +209,11 @@ export default {
       } else {
         return this.$store.getters['alerts/alerts']
       }
+    },
+    isWatched() {
+      return false
+      // let user = this.$store.getters['auth/getPayload'].name
+      // return this.item.tags.indexOf(`watch:${user}`) > -1
     },
     refreshInterval() {
       return (
