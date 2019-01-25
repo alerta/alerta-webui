@@ -56,7 +56,24 @@
 
     <v-bottom-sheet v-model="sheet">
       <v-list>
-        <v-subheader>Open in</v-subheader>
+        <v-list-tile>
+        <v-btn
+            color="green"
+            class="white--text"
+            @click="takeAction('open')"
+          >
+            <v-icon>refresh</v-icon>&nbsp;Open
+          </v-btn>
+        </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon>refresh</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Open</v-list-tile-title>
+        </v-list-tile>
+
+
         <v-list-tile
           v-for="tile in tiles"
           :key="tile.title"
@@ -103,6 +120,11 @@ export default {
         { img: 'hangouts.png', title: 'Hangouts' },
         { img: 'messenger.png', title: 'Messenger' },
         { img: 'google.png', title: 'Google+' }
+      ],
+      actions: [
+        { title: 'Action1', icon: 'build', color: 'primary'},
+        { title: 'Action2', icon: 'build', color: 'secondary'},
+        { title: 'Action3', icon: 'build', color: 'accent'}
       ]
   }),
   computed: {
