@@ -1,5 +1,6 @@
 <template>
   <div class="alerts">
+    <audio v-if="playSound && !isMute" :src="$config.audio.new" autoplay></audio>
 
     <alert-list-filter
       :value="sidesheet"
@@ -18,7 +19,7 @@
         @click="setEnv(env.environment)"
       >
         <v-badge color="grey">
-          <span slot="badge">{{ env.count }}</span>
+          <span slot="badge">{{ environmentCounts[env.environment] || 0 }}</span>
           {{ env.environment }}&nbsp;
         </v-badge>
       </v-tab>
@@ -40,7 +41,7 @@
           :transition="false" :reverse-transition="false"
         >
           <alert-list
-            :filter="filter"
+            :alerts="alerts"
           />
         </v-tab-item>
       </v-tabs-items>
@@ -65,21 +66,94 @@ export default {
       environment: null,
       service: null,
       status: ['open', 'ack']
-    }
+    },
+    playSound: false
   }),
   computed: {
     environments() {
       let e = this.$store.state.alerts.environments
       let totalCount = e.map(e => e.count).reduce((a, b) => a + b, 0)
       return [{ environment: 'ALL', count: totalCount }].concat(e)
+    },
+    environmentCounts() {
+      return this.alerts.reduce((grp, a) => {
+        grp[a.environment] = grp[a.environment] + 1 || 1
+        grp['ALL'] = grp['ALL'] + 1 || 1
+        return grp
+      }, {})
+    },
+    alerts() {
+      if (this.filter) {
+        return this.$store.getters['alerts/alerts']
+          .filter(
+            alert =>
+              this.filter.environment
+                ? alert.environment === this.filter.environment
+                : true
+          )
+          .filter(
+            alert =>
+              this.filter.service
+                ? alert.service.some(x => this.filter.service.includes(x))
+                : true
+          )
+          .filter(
+            alert =>
+              this.filter.status
+                ? this.filter.status.includes(alert.status)
+                : true
+          )
+      } else {
+        return this.$store.getters['alerts/alerts']
+      }
+    },
+    refreshInterval() {
+      return (
+        this.$store.getters.getPreference('refreshInterval') ||
+        this.$store.getters.getConfig('refresh_interval')
+      )
+    },
+    autoRefresh() {
+      return true // FIXME: autoRefresh setting comes from server in alert response
+    },
+    refresh() {
+      return this.$store.state.refresh
+    },
+    isMute() {
+      return this.$store.getters.getPreference('isMute')
+    }
+  },
+  watch: {
+    alerts(current, old) {
+      if (
+        old &&
+        current.length > old.length &&
+        this.filter.status &&
+        this.filter.status.includes('open')
+      ) {
+        this.playSound = true
+      } else {
+        this.playSound = false
+      }
+    },
+    refresh(val) {
+      val || this.getAlerts()
     }
   },
   created() {
     this.getEnvironments()
-    // this.getServices()
-    // this.getTags()
+    this.getAlerts()
+    if (this.autoRefresh) {
+      this.timer = setInterval(() => this.getAlerts(), this.refreshInterval)
+    }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer)
   },
   methods: {
+    getAlerts() {
+      this.$store.dispatch('alerts/getAlerts')
+    },
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')
     },

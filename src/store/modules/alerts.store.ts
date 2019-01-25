@@ -20,6 +20,7 @@ const mutations = {
     state.isLoading = true
   },
   SET_ALERTS(state, alerts): any {
+    state.isLoading = false
     state.alerts = alerts
   },
   SET_ENVIRONMENTS(state, environments): any {

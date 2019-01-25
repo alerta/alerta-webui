@@ -52,9 +52,9 @@ export default {
     DateTime
   },
   props: {
-    filter: {
-      type: Object,
-      default: null
+    alerts: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -68,7 +68,6 @@ export default {
       },
       // totalItems: number,
       search: '',
-      playSound: false,
       headers: [
         { text: 'Severity', value: 'severity' },
         { text: 'Status', value: 'status' },
@@ -86,78 +85,12 @@ export default {
     }
   },
   computed: {
-    alerts() {
-      if (this.filter) {
-        return this.$store.getters['alerts/alerts']
-          .filter(
-            alert =>
-              this.filter.environment
-                ? alert.environment === this.filter.environment
-                : true
-          )
-          .filter(
-            alert =>
-              this.filter.service
-                ? alert.service.some(x => this.filter.service.includes(x))
-                : true
-          )
-          .filter(
-            alert =>
-              this.filter.status
-                ? this.filter.status.includes(alert.status)
-                : true
-          )
-      } else {
-        return this.$store.getters['alerts/alerts']
-      }
-    },
     isLoading() {
-      return this.$store.state.keys.isLoading
+      return this.$store.state.alerts.isLoading
     },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
-    },
-    isMute() {
-      return this.$store.getters.getPreference('isMute')
-    },
-    refreshInterval() {
-      return (
-        this.$store.getters.getPreference('refreshInterval') ||
-        this.$store.getters.getConfig('refresh_interval')
-      )
-    },
-    autoRefresh() {
-      return true // FIXME: autoRefresh setting comes from server in alert response
-    },
-    refresh() {
-      return this.$store.state.refresh
     }
-  },
-  watch: {
-    alerts(current, old) {
-      if (
-        old &&
-        current.length > old.length &&
-        this.filter.status &&
-        this.filter.status.includes('open')
-      ) {
-        this.playSound = true
-      } else {
-        this.playSound = false
-      }
-    },
-    refresh(val) {
-      val || this.getAlerts()
-    }
-  },
-  created() {
-    this.getAlerts()
-    if (this.autoRefresh) {
-      this.timer = setInterval(() => this.getAlerts(), this.refreshInterval)
-    }
-  },
-  beforeDestroy() {
-    clearInterval(this.timer)
   },
   methods: {
     customSort(items, index, isDescending) {
@@ -200,9 +133,6 @@ export default {
           )
         }
       })
-    },
-    getAlerts() {
-      this.$store.dispatch('alerts/getAlerts')
     },
     severityColor(severity) {
       return this.$store.getters.getConfig('colors').severity[severity]
