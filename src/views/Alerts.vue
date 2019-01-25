@@ -24,7 +24,7 @@
         </v-badge>
       </v-tab>
       <v-spacer></v-spacer>
-  <v-btn
+      <v-btn
         color="purple"
         dark
         @click="sheet = true"
@@ -56,39 +56,69 @@
 
     <v-bottom-sheet v-model="sheet">
       <v-list>
-        <v-list-tile>
-        <v-btn
-            color="green"
-            class="white--text"
-            @click="takeAction('open')"
-          >
-            <v-icon>refresh</v-icon>&nbsp;Open
-          </v-btn>
-        </v-list-tile>
-
         <v-list-tile @click="takeAction('open')">
           <v-list-tile-avatar>
-            <v-icon>refresh</v-icon>
+            <v-icon color="green">refresh</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-title>Open</v-list-tile-title>
         </v-list-tile>
 
-
-        <v-list-tile
-          v-for="tile in tiles"
-          :key="tile.title"
-          @click="sheet = false"
-        >
+        <v-list-tile @click="takeAction('open')">
           <v-list-tile-avatar>
-            <v-avatar size="32px" tile>
-              <img
-                :src="`https://cdn.vuetifyjs.com/images/bottom-sheets/${tile.img}`"
-                :alt="tile.title"
-              >
-            </v-avatar>
+            <v-icon color="black">visibility</v-icon>
           </v-list-tile-avatar>
-          <v-list-tile-title>{{ tile.title }}</v-list-tile-title>
+          <v-list-tile-title>Watch</v-list-tile-title>
         </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon color="black">visibility_off</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Unwatch</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon color="blue lighten-1">schedule</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Shelve</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon color="blue lighten-1">schedule</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Unshelve</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon color="blue darken-3">check_circle_outline</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Ack</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon color="blue darken-3">check_circle_outline</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Unack</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon color="orange">highlight_off</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Close</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile @click="takeAction('open')">
+          <v-list-tile-avatar>
+            <v-icon color="red">delete_forever</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Delete</v-list-tile-title>
+        </v-list-tile>
+    
       </v-list>
     </v-bottom-sheet>
 
@@ -113,19 +143,19 @@ export default {
       status: ['open', 'ack']
     },
     playSound: false,
-         sheet: false,
-      tiles: [
-        { img: 'keep.png', title: 'Keep' },
-        { img: 'inbox.png', title: 'Inbox' },
-        { img: 'hangouts.png', title: 'Hangouts' },
-        { img: 'messenger.png', title: 'Messenger' },
-        { img: 'google.png', title: 'Google+' }
-      ],
-      actions: [
-        { title: 'Action1', icon: 'build', color: 'primary'},
-        { title: 'Action2', icon: 'build', color: 'secondary'},
-        { title: 'Action3', icon: 'build', color: 'accent'}
-      ]
+    sheet: false,
+    tiles: [
+      { img: 'keep.png', title: 'Keep' },
+      { img: 'inbox.png', title: 'Inbox' },
+      { img: 'hangouts.png', title: 'Hangouts' },
+      { img: 'messenger.png', title: 'Messenger' },
+      { img: 'google.png', title: 'Google+' }
+    ],
+    actions: [
+      { title: 'Action1', icon: 'build', color: 'primary' },
+      { title: 'Action2', icon: 'build', color: 'secondary' },
+      { title: 'Action3', icon: 'build', color: 'accent' }
+    ]
   }),
   computed: {
     environments() {
