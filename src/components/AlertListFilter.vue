@@ -62,6 +62,19 @@
               @change="setService"
             ></v-select>
           </v-flex>
+
+          <v-flex xs12 sm6 md12>
+            <v-select
+              v-model="selectedDateRange"
+              :items="dateRanges"
+              name="dateRange"
+              label="Date/Time"
+              outline
+              item-text="text"
+              item-value="range"
+              @input="setDateRange"
+            ></v-select>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-card>
@@ -110,8 +123,15 @@ export default {
         'closed',
         'expired'
       ],
+      dateRanges: [
+        { text: 'Latest', range: [null, null] },
+        { text: '1 hour', range: [3600, null] },
+        { text: '6 hours', range: [3600 * 6, null] },
+        { text: '12 hours', range: [3600 * 12, null] }
+      ],
       selectedStatus: this.filter.status || [],
-      selectedService: this.filter.service || []
+      selectedService: this.filter.service || [],
+      selectedDateRange: this.filter.dateRange || [null, null]
     }
   },
   computed: {
@@ -179,6 +199,9 @@ export default {
     },
     setService(service) {
       this.$emit('set-service', service)
+    },
+    setDateRange() {
+      this.$emit('set-date', this.selectedDateRange)
     },
     close() {
       this.$emit('close')

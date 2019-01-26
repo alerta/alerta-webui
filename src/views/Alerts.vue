@@ -7,6 +7,7 @@
       :filter="filter"
       @set-status="setStatus"
       @set-service="setService"
+      @set-date="setDateRange"
       @close="sidesheet = false"
     />
 
@@ -54,6 +55,7 @@
 <script>
 import AlertList from '@/components/AlertList.vue'
 import AlertListFilter from '@/components/AlertListFilter.vue'
+import moment from 'moment'
 
 export default {
   components: {
@@ -66,7 +68,8 @@ export default {
     filter: {
       environment: null,
       service: null,
-      status: ['open', 'ack']
+      status: ['open', 'ack'],
+      dateRange: [null, null]
     },
     playSound: false
   }),
@@ -104,6 +107,34 @@ export default {
                 ? this.filter.status.includes(alert.status)
                 : true
           )
+          .filter(alert => {
+            if (this.filter.dateRange) {
+              const startTime = this.filter.dateRange[0]
+                ? moment()
+                  .utc()
+                  .subtract(this.filter.dateRange[0], 'seconds')
+                : null
+              const endTime = this.filter.dateRange[1]
+                ? moment()
+                  .utc()
+                  .subtract(this.filter.dateRange[1], 'seconds')
+                : null
+
+              const lastReceiveTime = moment(
+                String(alert.lastReceiveTime)
+              ).utc()
+              const afterStart = startTime
+                ? lastReceiveTime.isSameOrAfter(startTime)
+                : true
+              const beforeEnd = endTime
+                ? lastReceiveTime.isBefore(endTime)
+                : true
+
+              return afterStart && beforeEnd
+            } else {
+              return true
+            }
+          })
       } else {
         return this.$store.getters['alerts/alerts']
       }
@@ -171,6 +202,11 @@ export default {
     setStatus(st) {
       this.filter = Object.assign({}, this.filter, {
         status: st.length > 0 ? st : null
+      })
+    },
+    setDateRange(range) {
+      this.filter = Object.assign({}, this.filter, {
+        dateRange: range
       })
     }
   }
