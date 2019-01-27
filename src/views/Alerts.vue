@@ -62,6 +62,7 @@ export default {
     AlertList,
     AlertListFilter
   },
+  props: ['query'],
   data: () => ({
     currentTab: 'ALL',
     sidesheet: false,
@@ -173,6 +174,7 @@ export default {
     }
   },
   created() {
+    this.setSearch(this.query)
     this.getEnvironments()
     this.getAlerts()
     if (this.autoRefresh) {
@@ -183,6 +185,9 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    setSearch(query) {
+      this.$store.dispatch('alerts/updateQuery', { q: query })
+    },
     getAlerts() {
       this.$store.dispatch('alerts/getAlerts')
     },

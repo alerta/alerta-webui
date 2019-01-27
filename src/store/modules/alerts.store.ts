@@ -6,7 +6,7 @@ const state = {
   isLoading: false,
 
   alerts: [],
-  query: {},
+  query: {}, // 'q' query string syntax eg. {"q": "severity:critical"}
   environments: [],
   services: [],
   tags: [],
@@ -48,9 +48,8 @@ const actions = {
       commit('SET_ALERTS', alerts)
     )
   },
-  search({ commit, dispatch }, query) {
+  updateQuery({ commit, dispatch }, query) {
     commit('SET_SEARCH_QUERY', query)
-    dispatch('getAlerts')
   },
 
   takeAction({ commit, dispatch }, [alertId, action, text, timeout]) {
