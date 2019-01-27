@@ -86,11 +86,24 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <!-- 
-      <v-btn icon>
+      <v-text-field
+        v-model="search"
+        flat
+        label="Search"
+        prepend-inner-icon="search"
+        solo
+        clearable
+        height="44"
+        class="pt-2"
+        @change="setSearch"
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
+      
+      <!-- <v-btn icon>
         <v-icon>search</v-icon>
-      </v-btn>
- -->
+      </v-btn> -->
+
       <div>
         <v-tooltip left>
           <v-switch
@@ -159,6 +172,7 @@ export default {
   },
   props: [],
   data: () => ({
+    search: null,
     menu: false,
     message: false,
     hints: true,
@@ -239,6 +253,9 @@ export default {
     }
   },
   methods: {
+    setSearch(query) {
+      this.$store.dispatch('alerts/search', { q: query })
+    },
     toggle(sw, value) {
       this.$store.dispatch('alerts/toggle', [sw, value])
     },

@@ -6,6 +6,7 @@ const state = {
   isLoading: false,
 
   alerts: [],
+  query: {},
   environments: [],
   services: [],
   tags: [],
@@ -23,6 +24,9 @@ const mutations = {
     state.isLoading = false
     state.alerts = alerts
   },
+  SET_SEARCH_QUERY(state, query): any {
+    state.query = query
+  },
   SET_ENVIRONMENTS(state, environments): any {
     state.environments = environments
   },
@@ -38,11 +42,15 @@ const mutations = {
 }
 
 const actions = {
-  getAlerts({ commit }) {
+  getAlerts({ commit, state }) {
     commit('SET_LOADING')
-    return AlertsApi.getAlerts({}).then(({ alerts }) =>
+    return AlertsApi.getAlerts(state.query).then(({ alerts }) =>
       commit('SET_ALERTS', alerts)
     )
+  },
+  search({ commit, dispatch }, query) {
+    commit('SET_SEARCH_QUERY', query)
+    dispatch('getAlerts')
   },
 
   takeAction({ commit, dispatch }, [alertId, action, text, timeout]) {
