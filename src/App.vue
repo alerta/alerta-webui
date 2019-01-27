@@ -88,6 +88,7 @@
       <v-spacer></v-spacer>
 
       <v-text-field
+        v-if="$route.name === 'alerts'"
         v-model="query"
         :flat="!hasFocus"
         label="Search"
@@ -98,8 +99,8 @@
         class="pt-2 hidden-sm-and-down"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
+        @change="submitSearch"
         @click:clear="clearSearch"
-        @change="setSearch"
       ></v-text-field>
 
       <v-spacer></v-spacer>
@@ -176,7 +177,6 @@ export default {
   },
   props: [],
   data: () => ({
-    query: null,
     hasFocus: false,
     menu: false,
     message: false,
@@ -255,15 +255,33 @@ export default {
     },
     profile() {
       return this.$store.state.auth.payload || {}
+    },
+    query: {
+      get() {
+        return this.$store.state.alerts.query
+          ? this.$store.state.alerts.query.q
+          : null
+      },
+      set(value) {
+        // FIXME: offer query suggestions to user here, in future
+      }
     }
   },
   methods: {
-    setSearch(query) {
-      this.$store.dispatch('alerts/search', { q: query })
+    submitSearch(query) {
+      this.$store.dispatch('alerts/updateQuery', { q: query })
+      this.$router.push({
+        query: { ...this.$router.query, q: query }
+      })
+      this.refresh()
     },
     clearSearch() {
       this.query = null
-      this.$store.dispatch('alerts/search', null)
+      this.$store.dispatch('alerts/updateQuery', null)
+      this.$router.push({
+        query: { ...this.$router.query, q: undefined }
+      })
+      this.refresh()
     },
     toggle(sw, value) {
       this.$store.dispatch('alerts/toggle', [sw, value])
