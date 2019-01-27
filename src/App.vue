@@ -86,15 +86,19 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
+
       <v-text-field
-        v-model="search"
-        flat
+        v-model="query"
+        :flat="!hasFocus"
         label="Search"
         prepend-inner-icon="search"
         solo
         clearable
         height="44"
-        class="pt-2"
+        class="pt-2 hidden-sm-and-down"
+        @focus="hasFocus = true"
+        @blur="hasFocus = false"
+        @click:clear="clearSearch"
         @change="setSearch"
       ></v-text-field>
 
@@ -172,7 +176,8 @@ export default {
   },
   props: [],
   data: () => ({
-    search: null,
+    query: null,
+    hasFocus: false,
     menu: false,
     message: false,
     hints: true,
@@ -255,6 +260,10 @@ export default {
   methods: {
     setSearch(query) {
       this.$store.dispatch('alerts/search', { q: query })
+    },
+    clearSearch() {
+      this.query = null
+      this.$store.dispatch('alerts/search', null)
     },
     toggle(sw, value) {
       this.$store.dispatch('alerts/toggle', [sw, value])
