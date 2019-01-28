@@ -9,7 +9,8 @@
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
-            Sorry, there was a problem confirming your email address <a href="/">Please try again</a>
+            Sorry, there was a problem confirming your email address
+            <a href="/">Please try again</a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
             Error: {{ error }}
@@ -36,5 +37,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

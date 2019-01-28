@@ -28,21 +28,13 @@
           <v-btn block color="primary" type="submit">Sign In</v-btn>
         </v-form>
         <div class="text-xs-center">
-          <v-btn
-            flat
-            color="primary"
-            to="/signup"
-            :disabled="!signupEnabled"
-          >Create Account</v-btn>
-          <v-btn
-            flat
-            color="primary"
-            to="/forgot"
-          >Forgot Password?</v-btn>
+          <v-btn flat color="primary" to="/signup" :disabled="!signupEnabled"
+          >Create Account</v-btn
+          >
+          <v-btn flat color="primary" to="/forgot">Forgot Password?</v-btn>
         </div>
       </v-flex>
-      <v-flex xs12 sm8 offset-xs0 offset-sm2>
-      </v-flex>
+      <v-flex xs12 sm8 offset-xs0 offset-sm2> </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -89,5 +81,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

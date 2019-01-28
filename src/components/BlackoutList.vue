@@ -45,7 +45,11 @@
                     label="Start Date"
                     prepend-icon="event"
                   ></v-text-field>
-                  <v-date-picker v-model="editedItem.period.startDate" no-title @input="menu1 = false"></v-date-picker>
+                  <v-date-picker
+                    v-model="editedItem.period.startDate"
+                    no-title
+                    @input="menu1 = false"
+                  ></v-date-picker>
                 </v-menu>
               </v-flex>
 
@@ -79,7 +83,11 @@
                     v-model="editedItem.period.endDate"
                     label="End Date"
                   ></v-text-field>
-                  <v-date-picker v-model="editedItem.period.endDate" no-title @input="menu2 = false"></v-date-picker>
+                  <v-date-picker
+                    v-model="editedItem.period.endDate"
+                    no-title
+                    @input="menu2 = false"
+                  ></v-date-picker>
                 </v-menu>
               </v-flex>
 
@@ -95,13 +103,22 @@
                 ></v-select>
               </v-flex>
               <v-flex xs12 sm6 md12>
-                <v-text-field v-model="editedItem.resource" label="Resource"></v-text-field>
+                <v-text-field
+                  v-model="editedItem.resource"
+                  label="Resource"
+                ></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md12>
-                <v-text-field v-model="editedItem.event" label="Event"></v-text-field>
+                <v-text-field
+                  v-model="editedItem.event"
+                  label="Event"
+                ></v-text-field>
               </v-flex>
               <v-flex xs12 sm6 md12>
-                <v-text-field v-model="editedItem.group" label="Group"></v-text-field>
+                <v-text-field
+                  v-model="editedItem.group"
+                  label="Group"
+                ></v-text-field>
               </v-flex>
 
               <v-flex xs12 sm6 md12>
@@ -112,10 +129,7 @@
                   multiple
                   chips
                 >
-                  <template
-                    slot="selection"
-                    slot-scope="data"
-                  >
+                  <template slot="selection" slot-scope="data">
                     <v-chip
                       :key="JSON.stringify(data.item)"
                       :selected="data.selected"
@@ -132,7 +146,10 @@
               </v-flex>
 
               <v-flex xs12 sm6 md12>
-                <v-text-field v-model="editedItem.text" label="Reason"></v-text-field>
+                <v-text-field
+                  v-model="editedItem.text"
+                  label="Reason"
+                ></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -187,12 +204,7 @@
           <td>{{ props.item.event }}</td>
           <td>{{ props.item.group }}</td>
           <td>
-            <v-chip
-              v-for="tag in props.item.tags"
-              :key="tag"
-              label
-              small
-            >
+            <v-chip v-for="tag in props.item.tags" :key="tag" label small>
               <v-icon left>label</v-icon>{{ tag }}
             </v-chip>
           </td>
@@ -208,7 +220,7 @@
               </v-icon>
 
               <v-icon
-                v-if="props.item.status == 'active'" 
+                v-if="props.item.status == 'active'"
                 slot="activator"
                 color="primary"
                 small
@@ -216,19 +228,18 @@
               </v-icon>
 
               <v-icon
-                v-if="props.item.status == 'expired'" 
+                v-if="props.item.status == 'expired'"
                 slot="activator"
                 small
               >block
               </v-icon>
-
             </v-tooltip>
           </td>
           <td class="text-xs-left">
-            <date-time :value="props.item.startTime" format="mediumDate"/>
+            <date-time :value="props.item.startTime" format="mediumDate" />
           </td>
           <td class="text-xs-left">
-            <date-time :value="props.item.endTime" format="mediumDate"/>
+            <date-time :value="props.item.endTime" format="mediumDate" />
           </td>
           <td class="text-xs-left" nowrap>{{ props.item.endTime | until }}</td>
           <td class="text-xs-left">{{ props.item.user }}</td>
@@ -237,24 +248,13 @@
           </td> -->
           <td class="text-xs-left">{{ props.item.text }}</td>
           <td class="justify-center layout px-0">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(props.item)"
-            >
+            <v-icon small class="mr-2" @click="editItem(props.item)">
               edit
             </v-icon>
-            <v-icon
-              small
-              class="mr-2"
-              @click="copyItem(props.item)"
-            >
+            <v-icon small class="mr-2" @click="copyItem(props.item)">
               content_copy
             </v-icon>
-            <v-icon
-              small
-              @click="deleteItem(props.item)"
-            >
+            <v-icon small @click="deleteItem(props.item)">
               delete
             </v-icon>
           </td>
@@ -270,8 +270,10 @@
       </v-data-table>
     </v-card>
 
-    <list-button-add v-has-perms="'write:blackouts'" @add-to-list="dialog = true" />
-
+    <list-button-add
+      v-has-perms="'write:blackouts'"
+      @add-to-list="dialog = true"
+    />
   </div>
 </template>
 
@@ -519,5 +521,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

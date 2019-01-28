@@ -42,11 +42,9 @@
                   multiple
                 >
                   <template slot="selection" slot-scope="data">
-                    <v-chip
-                      :selected="data.selected"
-                      close
-                    >
-                      <strong>{{ data.item }}</strong>&nbsp;
+                    <v-chip :selected="data.selected" close>
+                      <strong>{{ data.item }}</strong
+                      >&nbsp;
                       <span>(scope)</span>
                     </v-chip>
                   </template>
@@ -72,13 +70,16 @@
                   ></v-text-field>
                   <v-date-picker
                     v-model="pickerDate"
-                    :min="new Date().toISOString().slice(0,10)"
+                    :min="new Date().toISOString().slice(0, 10)"
                     @input="menu = false"
                   ></v-date-picker>
                 </v-menu>
               </v-flex>
               <v-flex xs12 sm6 md12>
-                <v-text-field v-model="editedItem.text" label="Comment"></v-text-field>
+                <v-text-field
+                  v-model="editedItem.text"
+                  label="Comment"
+                ></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -117,46 +118,36 @@
         sort-icon="arrow_drop_down"
       >
         <template slot="items" slot-scope="props">
-          <td monospace nowrap
-          >{{ props.item.key }}
+          <td monospace nowrap>
+            {{ props.item.key }}
             <v-tooltip :key="copyIconText" top>
-              <v-icon slot="activator" :value="props.item.key" style="font-size: 16px;" @click="clipboardCopy(props.item.key)">content_copy</v-icon>
+              <v-icon
+                slot="activator"
+                :value="props.item.key"
+                style="font-size: 16px;"
+                @click="clipboardCopy(props.item.key)"
+              >content_copy</v-icon
+              >
               <span>{{ copyIconText }}</span>
             </v-tooltip>
           </td>
           <td>
-            <v-tooltip
-              v-if="!isExpired(props.item.expires)"
-              top
-            >
-              <v-icon
-                slot="activator"
-                color="primary"
-                small
-              >check_circle</v-icon>
+            <v-tooltip v-if="!isExpired(props.item.expires)" top>
+              <v-icon slot="activator" color="primary" small
+              >check_circle</v-icon
+              >
               <span>Active</span>
             </v-tooltip>
-            <v-tooltip
-              v-if="isExpired(props.item.expires)"
-              top
-            >
-              <v-icon
-                slot="activator"
-                small
-              >error_outline</v-icon>
+            <v-tooltip v-if="isExpired(props.item.expires)" top>
+              <v-icon slot="activator" small>error_outline</v-icon>
               <span>Expired</span>
             </v-tooltip>
-
-
           </td>
           <td>{{ props.item.user }}</td>
           <td>
-            <v-chip
-              v-for="scope in props.item.scopes"
-              :key="scope"
-              small
-            >
-              <strong>{{ scope }}</strong>&nbsp;
+            <v-chip v-for="scope in props.item.scopes" :key="scope" small>
+              <strong>{{ scope }}</strong
+              >&nbsp;
               <span>(scope)</span>
             </v-chip>
           </td>
@@ -166,11 +157,7 @@
           <td>{{ props.item.lastUsedTime | timeago }}</td>
           <td>{{ props.item.customer }}</td>
           <td class="justify-center layout px-0">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(props.item)"
-            >
+            <v-icon small class="mr-2" @click="editItem(props.item)">
               edit
             </v-icon>
             <v-icon
@@ -185,9 +172,7 @@
               :href="`data:text/plain;base64,${toData(props.item)}`"
               :download="`key_${props.item.id}.json`"
             >
-              <v-icon
-                small
-              >
+              <v-icon small>
                 get_app
               </v-icon>
             </a>
@@ -205,7 +190,6 @@
     </v-card>
 
     <list-button-add @add-to-list="dialog = true" />
-
   </div>
 </template>
 

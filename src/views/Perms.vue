@@ -1,6 +1,6 @@
 <template>
   <div class="perms">
-    <perm-list/>
+    <perm-list />
   </div>
 </template>
 

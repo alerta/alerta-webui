@@ -6,10 +6,7 @@
     :timeout="snackbar.timeout"
   >
     {{ snackbar.text | capitalize }}
-    <v-btn
-      flat
-      @click="close"
-    >
+    <v-btn flat @click="close">
       {{ snackbar.action }}
     </v-btn>
   </v-snackbar>
@@ -46,5 +43,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

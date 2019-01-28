@@ -1,5 +1,5 @@
 <template>
-  <user-reset/>
+  <user-reset />
 </template>
 
 <script lang="ts">

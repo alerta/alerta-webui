@@ -21,10 +21,12 @@
             block
             color="primary"
             type="submit"
-          >Send</v-btn>
+          >Send</v-btn
+          >
         </v-form>
         <div class="text-xs-center">
-          <span class="body-2">Already have an account?</span> <v-btn flat color="primary" to="/login">Sign In</v-btn>
+          <span class="body-2">Already have an account?</span>
+          <v-btn flat color="primary" to="/login">Sign In</v-btn>
         </div>
       </v-flex>
       <v-flex xs12 sm8 offset-xs0 offset-sm2></v-flex>
@@ -60,5 +62,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

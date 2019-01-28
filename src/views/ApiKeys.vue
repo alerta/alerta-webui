@@ -1,6 +1,6 @@
 <template>
   <div class="keys">
-    <api-key-list/>
+    <api-key-list />
   </div>
 </template>
 

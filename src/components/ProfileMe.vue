@@ -4,12 +4,16 @@
       <v-list-tile>
         <v-list-tile-content>
           <v-list-tile-title>{{ profile.name }}</v-list-tile-title>
-          <v-list-tile-sub-title>{{ profile.preferred_username }}</v-list-tile-sub-title>
+          <v-list-tile-sub-title>{{
+            profile.preferred_username
+          }}</v-list-tile-sub-title>
         </v-list-tile-content>
 
         <v-list-tile-action>
           <v-tooltip v-if="profile.provider && profile.provider != 'basic'" top>
-            <v-icon slot="activator">{{ provider[profile.provider].icon }}</v-icon>
+            <v-icon slot="activator">{{
+              provider[profile.provider].icon
+            }}</v-icon>
             <span>{{ provider[profile.provider].text }}</span>
           </v-tooltip>
           <v-tooltip v-else-if="profile.email_verified" top>
@@ -42,13 +46,13 @@
           <v-list-tile-sub-title>Organizations</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile  v-if="profile.groups">
+      <v-list-tile v-if="profile.groups">
         <v-list-tile-content>
           <v-list-tile-title>{{ profile.groups }}</v-list-tile-title>
           <v-list-tile-sub-title>Groups</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile  v-if="profile.roles">
+      <v-list-tile v-if="profile.roles">
         <v-list-tile-content>
           <v-list-tile-title>{{ profile.roles }}</v-list-tile-title>
           <v-list-tile-sub-title>Roles</v-list-tile-sub-title>
@@ -114,5 +118,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

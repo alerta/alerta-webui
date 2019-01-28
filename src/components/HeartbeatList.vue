@@ -27,29 +27,23 @@
         <td>{{ props.item.origin }}</td>
         <td>{{ props.item.customer }}</td>
         <td>
-          <v-chip
-            v-for="tag in props.item.tags"
-            :key="tag"
-            label
-            small
-          >
+          <v-chip v-for="tag in props.item.tags" :key="tag" label small>
             <v-icon left>label</v-icon>{{ tag }}
           </v-chip>
         </td>
         <td>
-          <date-time :value="props.item.createTime" format="mediumDate"/>
+          <date-time :value="props.item.createTime" format="mediumDate" />
         </td>
         <td>
-          <date-time :value="props.item.receiveTime" format="mediumDate"/>
+          <date-time :value="props.item.receiveTime" format="mediumDate" />
         </td>
-        <td>{{ diffTime(props.item.createTime, props.item.receiveTime) }} ms</td>
+        <td>
+          {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
+        </td>
         <td>{{ props.item.timeout | hhmmss }}</td>
         <td>{{ props.item.receiveTime | timeago }}</td>
         <td class="justify-center layout px-0">
-          <v-icon
-            small
-            @click="deleteItem(props.item)"
-          >
+          <v-icon small @click="deleteItem(props.item)">
             delete
           </v-icon>
         </td>
@@ -132,5 +126,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

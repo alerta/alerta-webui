@@ -1,5 +1,5 @@
 <template>
-  <user-confirm/>
+  <user-confirm />
 </template>
 
 <script lang="ts">

@@ -1,6 +1,10 @@
 <template>
   <div class="alerts">
-    <audio v-if="playSound && !isMute" :src="$config.audio.new" autoplay></audio>
+    <audio
+      v-if="playSound && !isMute"
+      :src="$config.audio.new"
+      autoplay
+    ></audio>
 
     <alert-list-filter
       :value="sidesheet"
@@ -20,16 +24,14 @@
         @click="setEnv(env.environment)"
       >
         <v-badge color="grey">
-          <span slot="badge">{{ environmentCounts[env.environment] || 0 }}</span>
+          <span slot="badge">{{
+            environmentCounts[env.environment] || 0
+          }}</span>
           {{ env.environment }}&nbsp;
         </v-badge>
       </v-tab>
       <v-spacer></v-spacer>
-      <v-btn
-        flat
-        icon
-        @click="sidesheet = !sidesheet"
-      >
+      <v-btn flat icon @click="sidesheet = !sidesheet">
         <v-icon>filter_list</v-icon>
       </v-btn>
       <span class="pr-2"></span>
@@ -42,13 +44,10 @@
           :transition="false"
           :reverse-transition="false"
         >
-          <alert-list
-            :alerts="alerts"
-          />
+          <alert-list :alerts="alerts" />
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
-
   </div>
 </template>
 
@@ -96,23 +95,20 @@ export default {
     alerts() {
       if (this.filter) {
         return this.$store.getters['alerts/alerts']
-          .filter(
-            alert =>
-              this.filter.environment
-                ? alert.environment === this.filter.environment
-                : true
+          .filter(alert =>
+            this.filter.environment
+              ? alert.environment === this.filter.environment
+              : true
           )
-          .filter(
-            alert =>
-              this.filter.service
-                ? alert.service.some(x => this.filter.service.includes(x))
-                : true
+          .filter(alert =>
+            this.filter.service
+              ? alert.service.some(x => this.filter.service.includes(x))
+              : true
           )
-          .filter(
-            alert =>
-              this.filter.status
-                ? this.filter.status.includes(alert.status)
-                : true
+          .filter(alert =>
+            this.filter.status
+              ? this.filter.status.includes(alert.status)
+              : true
           )
           .filter(alert => {
             if (this.filter.dateRange) {
@@ -224,5 +220,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

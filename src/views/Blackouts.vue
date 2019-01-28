@@ -1,6 +1,6 @@
 <template>
   <div class="blackouts">
-    <blackout-list/>
+    <blackout-list />
   </div>
 </template>
 
