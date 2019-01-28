@@ -17,8 +17,13 @@
                   persistent-hint
                 ></v-text-field>
                 <v-flex xs12 sm6 md12>
-                  <v-chip v-show="editedItem.customer" close @click="editedItem.customer = null">
-                    <strong>{{ editedItem.customer }}</strong>&nbsp;
+                  <v-chip
+                    v-show="editedItem.customer"
+                    close
+                    @click="editedItem.customer = null"
+                  >
+                    <strong>{{ editedItem.customer }}</strong
+                    >&nbsp;
                     <span>(customer)</span>
                   </v-chip>
                 </v-flex>
@@ -67,22 +72,16 @@
           <td>{{ props.item.match }}</td>
           <td>
             <v-chip>
-              <strong>{{ props.item.customer }}</strong>&nbsp;
+              <strong>{{ props.item.customer }}</strong
+              >&nbsp;
               <span>(customer)</span>
             </v-chip>
           </td>
           <td class="justify-center layout px-0">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(props.item)"
-            >
+            <v-icon small class="mr-2" @click="editItem(props.item)">
               edit
             </v-icon>
-            <v-icon
-              small
-              @click="deleteItem(props.item)"
-            >
+            <v-icon small @click="deleteItem(props.item)">
               delete
             </v-icon>
           </td>
@@ -99,7 +98,6 @@
     </v-card>
 
     <list-button-add @add-to-list="dialog = true" />
-
   </div>
 </template>
 
@@ -201,5 +199,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

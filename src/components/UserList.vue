@@ -18,7 +18,12 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md3>
-                  <v-switch v-model="editedItem.status" true-value="active" false-value="inactive" label="Active"></v-switch>
+                  <v-switch
+                    v-model="editedItem.status"
+                    true-value="active"
+                    false-value="inactive"
+                    label="Active"
+                  ></v-switch>
                 </v-flex>
                 <v-flex xs12 sm6 md9>
                   <v-text-field
@@ -28,13 +33,18 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md3>
-                  <v-checkbox v-model="editedItem.email_verified" label="Verified"></v-checkbox>
+                  <v-checkbox
+                    v-model="editedItem.email_verified"
+                    label="Verified"
+                  ></v-checkbox>
                 </v-flex>
 
                 <v-flex xs12 sm6>
                   <v-text-field
                     v-model="editedItem.password"
-                    :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+                    :append-icon="
+                      showPassword ? 'visibility_off' : 'visibility'
+                    "
                     :rules="[rules.min]"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
@@ -45,7 +55,9 @@
                 </v-flex>
                 <v-flex xs12 sm6>
                   <v-text-field
-                    :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+                    :append-icon="
+                      showPassword ? 'visibility_off' : 'visibility'
+                    "
                     :rules="[rules.passwordMatch]"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
@@ -66,18 +78,19 @@
                     multiple
                   >
                     <template slot="selection" slot-scope="data">
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                      >
-                        <strong>{{ data.item }}</strong>&nbsp;
+                      <v-chip :selected="data.selected" close>
+                        <strong>{{ data.item }}</strong
+                        >&nbsp;
                         <span>(role)</span>
                       </v-chip>
                     </template>
                   </v-combobox>
                 </v-flex>
                 <v-flex xs12 sm6 md12>
-                  <v-text-field v-model="editedItem.text" label="Comment"></v-text-field>
+                  <v-text-field
+                    v-model="editedItem.text"
+                    label="Comment"
+                  ></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -124,7 +137,9 @@
                 slot="activator"
                 :color="props.item.status == 'active' ? 'primary' : ''"
                 @click="toggleUserStatus(props.item)"
-              >{{ props.item.status === 'active' ? 'toggle_on' : 'toggle_off' }}
+              >{{
+                props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
+              }}
               </v-icon>
               <span>{{ props.item.status | capitalize }}</span>
             </v-tooltip>
@@ -132,38 +147,45 @@
           <td>{{ props.item.email }}</td>
           <td>
             <v-tooltip top>
-              <v-icon slot="activator" @click="toggleEmailVerified(props.item)">{{ props.item.email_verified ? 'check_box' : 'check_box_outline_blank' }}</v-icon>
-              <span>{{ props.item.email_verified ? 'Email Verified' : 'Email not verified' }}</span>
+              <v-icon
+                slot="activator"
+                @click="toggleEmailVerified(props.item)"
+              >{{
+                props.item.email_verified
+                  ? 'check_box'
+                  : 'check_box_outline_blank'
+              }}</v-icon
+              >
+              <span>{{
+                props.item.email_verified
+                  ? 'Email Verified'
+                  : 'Email not verified'
+              }}</span>
             </v-tooltip>
           </td>
           <td>
-            <v-chip
-              v-for="role in props.item.roles"
-              :key="role"
-            >
-              <strong>{{ role }}</strong>&nbsp;
+            <v-chip v-for="role in props.item.roles" :key="role">
+              <strong>{{ role }}</strong
+              >&nbsp;
               <span>(role)</span>
             </v-chip>
           </td>
           <td class="text-xs-right">
-            <date-time :value="props.item.createTime" format="mediumDate"/>
+            <date-time :value="props.item.createTime" format="mediumDate" />
           </td>
           <td class="text-xs-right">
-            <date-time v-if="props.item.lastLogin" :value="props.item.lastLogin" format="mediumDate"/>
+            <date-time
+              v-if="props.item.lastLogin"
+              :value="props.item.lastLogin"
+              format="mediumDate"
+            />
           </td>
           <td class="text-xs-right">{{ props.item.text }}</td>
           <td class="justify-center layout px-0">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(props.item)"
-            >
+            <v-icon small class="mr-2" @click="editItem(props.item)">
               edit
             </v-icon>
-            <v-icon
-              small
-              @click="deleteItem(props.item)"
-            >
+            <v-icon small @click="deleteItem(props.item)">
               delete
             </v-icon>
           </td>
@@ -180,7 +202,6 @@
     </v-card>
 
     <list-button-add @add-to-list="dialog = true" />
-
   </div>
 </template>
 
@@ -337,5 +358,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

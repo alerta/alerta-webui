@@ -4,7 +4,9 @@
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-xs-center headline font-weight-medium">
           <span v-show="signupEnabled">Create your Alerta account</span>
-          <span v-show="!signupEnabled">Sorry, sign up is not currently available</span>
+          <span v-show="!signupEnabled"
+          >Sorry, sign up is not currently available</span
+          >
         </p>
         <v-form @submit.prevent="signup()">
           <v-text-field
@@ -57,15 +59,13 @@
             outline
           >
           </v-text-field>
-          <v-btn
-            block
-            color="primary"
-            type="submit"
-            :disabled="!signupEnabled"
-          >Sign Up</v-btn>
+          <v-btn block color="primary" type="submit" :disabled="!signupEnabled"
+          >Sign Up</v-btn
+          >
         </v-form>
         <div class="text-xs-center">
-          <span class="body-2">Already have an account?</span> <v-btn flat color="primary" to="/login">Sign In</v-btn>
+          <span class="body-2">Already have an account?</span>
+          <v-btn flat color="primary" to="/login">Sign In</v-btn>
         </div>
       </v-flex>
       <v-flex xs12 sm8 offset-xs0 offset-sm2></v-flex>
@@ -115,5 +115,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

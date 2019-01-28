@@ -1,7 +1,7 @@
 <template>
   <div class="about">
-    <manifest/>
-    <status/>
+    <manifest />
+    <status />
   </div>
 </template>
 

@@ -1,14 +1,6 @@
 <template>
   <v-fab-transition>
-    <v-btn
-      key="add"
-      color="accent"
-      fab
-      fixed
-      bottom
-      right
-      @click="addToList"
-    >
+    <v-btn key="add" color="accent" fab fixed bottom right @click="addToList">
       <v-icon color="white">add</v-icon>
       <v-icon>close</v-icon>
     </v-btn>
@@ -25,5 +17,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

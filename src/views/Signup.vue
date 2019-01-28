@@ -1,5 +1,5 @@
 <template>
-  <user-signup/>
+  <user-signup />
 </template>
 
 <script lang="ts">

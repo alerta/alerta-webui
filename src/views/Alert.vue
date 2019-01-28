@@ -1,9 +1,6 @@
 <template>
   <div class="alert">
-    <alert-detail
-      :id="id"
-      @close="$router.push({name: 'alerts'})"
-    />
+    <alert-detail :id="id" @close="$router.push({ name: 'alerts' })" />
   </div>
 </template>
 

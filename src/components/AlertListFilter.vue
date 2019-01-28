@@ -7,9 +7,7 @@
     width="300"
     right
   >
-    <v-card
-      tile
-    >
+    <v-card tile>
       <v-toolbar card dense>
         <v-toolbar-title class="body-2 grey--text">Filters</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -23,14 +21,8 @@
         </v-menu>
       </v-toolbar>
 
-      <v-container
-        fluid
-        grid-list-xl
-      >
-        <v-layout
-          align-center
-          wrap
-        >
+      <v-container fluid grid-list-xl>
+        <v-layout align-center wrap>
           <v-flex>
             <v-select
               v-model="selectedStatus"
@@ -78,7 +70,6 @@
         </v-layout>
       </v-container>
     </v-card>
-   
   </v-navigation-drawer>
 </template>
 
@@ -210,5 +201,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

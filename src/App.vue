@@ -1,17 +1,21 @@
 <template>
   <v-app id="alerta" :dark="isDark">
-
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       fixed
       app
     >
-
       <v-toolbar flat>
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-side-icon
+          @click.stop="drawer = !drawer"
+        ></v-toolbar-side-icon>
 
-        <img v-if="$config.site_logo_url" :src="$config.site_logo_url" height="48">
+        <img
+          v-if="$config.site_logo_url"
+          :src="$config.site_logo_url"
+          height="48"
+        />
         <v-toolbar-title v-else class="logo">
           alerta
         </v-toolbar-title>
@@ -20,12 +24,7 @@
       <v-divider></v-divider>
       <v-list dense>
         <template v-for="item in items">
-          <v-layout
-            v-if="item.heading"
-            :key="item.heading"
-            row
-            align-center
-          >
+          <v-layout v-if="item.heading" :key="item.heading" row align-center>
             <v-flex xs6>
               <v-subheader v-if="item.heading">
                 {{ item.heading }}
@@ -49,10 +48,7 @@
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile
-              v-for="(child, i) in item.children"
-              :key="i"
-            >
+            <v-list-tile v-for="(child, i) in item.children" :key="i">
               <v-list-tile-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-tile-action>
@@ -63,7 +59,12 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
-          <v-list-tile v-else :key="item.text" v-has-perms="item.perms" :to="item.path">
+          <v-list-tile
+            v-else
+            :key="item.text"
+            v-has-perms="item.perms"
+            :to="item.path"
+          >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -79,8 +80,12 @@
 
     <v-toolbar>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-     
-      <img v-if="$config.site_logo_url" :src="$config.site_logo_url" height="48">
+
+      <img
+        v-if="$config.site_logo_url"
+        :src="$config.site_logo_url"
+        height="48"
+      />
       <v-toolbar-title v-else class="logo">
         alerta
       </v-toolbar-title>
@@ -104,7 +109,7 @@
       ></v-text-field>
 
       <v-spacer></v-spacer>
-      
+
       <!-- <v-btn icon>
         <v-icon>search</v-icon>
       </v-btn> -->
@@ -138,28 +143,19 @@
         offset-x
         :disabled="!isLoggedIn"
       >
-        <v-btn
-          slot="activator"
-          :disabled="!isLoggedIn"
-          icon
-        >
+        <v-btn slot="activator" :disabled="!isLoggedIn" icon>
           <v-icon>{{ navbar.signin.icon }}</v-icon>
         </v-btn>
 
-        <profile-me
-          v-if="profile"
-          :profile="profile"
-          @close="menu = false"
-        />
+        <profile-me v-if="profile" :profile="profile" @close="menu = false" />
       </v-menu>
     </v-toolbar>
 
     <v-content>
-      <banner/>
-      <router-view/>
-      <snackbar/>
+      <banner />
+      <router-view />
+      <snackbar />
     </v-content>
-
   </v-app>
 </template>
 

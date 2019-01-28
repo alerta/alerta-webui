@@ -14,7 +14,7 @@
     >
       <template slot="items" slot-scope="props">
         <tr
-          :style="{'background-color': severityColor(props.item.severity)}"
+          :style="{ 'background-color': severityColor(props.item.severity) }"
           @click="selectItem(props.item.id)"
         >
           <td>
@@ -28,7 +28,10 @@
             </v-chip>
           </td>
           <td>
-            <date-time :value="props.item.lastReceiveTime" format="mediumDate"/>
+            <date-time
+              :value="props.item.lastReceiveTime"
+              format="mediumDate"
+            />
           </td>
           <td>{{ props.item.environment }}</td>
           <td class="text-xs-right">{{ props.item.service.join(', ') }}</td>
@@ -40,7 +43,6 @@
         </tr>
       </template>
     </v-data-table>
-
   </div>
 </template>
 

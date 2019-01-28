@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-switch
       label="Dark theme"
       :input-value="editedItem.isDark"
@@ -18,15 +17,13 @@
     >
     </v-switch>
 
-    dates => <pre>{{ dates }}</pre>
+    dates =>
+    <pre>{{ dates }}</pre>
 
     <v-form>
       <v-container>
         <v-layout>
-          <v-flex
-            xs12
-            md4
-          >
+          <v-flex xs12 md4>
             <v-text-field
               v-model="editedItem.shortTime"
               label="Short Time"
@@ -52,19 +49,15 @@
               label="Refresh Interval"
               hint="Seconds"
             ></v-text-field>
-            <v-btn
-              @click="save"
-            >
+            <v-btn @click="save">
               Save
             </v-btn>
-
           </v-flex>
         </v-layout>
       </v-container>
     </v-form>
 
     <pre>{{ payload }}</pre>
-
   </div>
 </template>
 
@@ -141,5 +134,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

@@ -10,8 +10,13 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm6 md12>
-                <v-chip v-show="editedItem.match" close @click="editedItem.match = null">
-                  <strong>{{ editedItem.match }}</strong>&nbsp;
+                <v-chip
+                  v-show="editedItem.match"
+                  close
+                  @click="editedItem.match = null"
+                >
+                  <strong>{{ editedItem.match }}</strong
+                  >&nbsp;
                   <span>(role)</span>
                 </v-chip>
               </v-flex>
@@ -30,11 +35,9 @@
                   multiple
                 >
                   <template slot="selection" slot-scope="data">
-                    <v-chip
-                      :selected="data.selected"
-                      close
-                    >
-                      <strong>{{ data.item }}</strong>&nbsp;
+                    <v-chip :selected="data.selected" close>
+                      <strong>{{ data.item }}</strong
+                      >&nbsp;
                       <span>(scope)</span>
                     </v-chip>
                   </template>
@@ -78,10 +81,9 @@
       >
         <template slot="items" slot-scope="props">
           <td>
-            <v-chip
-              small
-            >
-              <strong>{{ props.item.match }}</strong>&nbsp;
+            <v-chip small>
+              <strong>{{ props.item.match }}</strong
+              >&nbsp;
               <span>(role)</span>
             </v-chip>
             <v-tooltip top>
@@ -95,12 +97,9 @@
             </v-tooltip>
           </td>
           <td>
-            <v-chip
-              v-for="scope in props.item.scopes"
-              :key="scope"
-              small
-            >
-              <strong>{{ scope }}</strong>&nbsp;
+            <v-chip v-for="scope in props.item.scopes" :key="scope" small>
+              <strong>{{ scope }}</strong
+              >&nbsp;
               <span>(scope)</span>
             </v-chip>
           </td>
@@ -134,7 +133,6 @@
     </v-card>
 
     <list-button-add @add-to-list="dialog = true" />
-
   </div>
 </template>
 
@@ -248,5 +246,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

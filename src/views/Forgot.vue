@@ -1,5 +1,5 @@
 <template>
-  <user-forgot/>
+  <user-forgot />
 </template>
 
 <script lang="ts">
