@@ -42,6 +42,7 @@ export function createRouter(): VueRouter {
         path: '/alert/:id',
         name: 'alert',
         component: Alert,
+        props: true,
         meta: { title: 'Alert Detail', requiresAuth: true }
       },
       {

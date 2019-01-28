@@ -62,7 +62,13 @@ export default {
     AlertList,
     AlertListFilter
   },
-  props: ['query'],
+  props: {
+    query: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
   data: () => ({
     currentTab: 'ALL',
     sidesheet: false,

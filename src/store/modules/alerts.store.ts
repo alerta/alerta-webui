@@ -11,6 +11,8 @@ const state = {
   services: [],
   tags: [],
 
+  alert: {},
+
   // not persisted
   isWatch: false,
   isKiosk: false
@@ -26,6 +28,9 @@ const mutations = {
   },
   SET_SEARCH_QUERY(state, query): any {
     state.query = query
+  },
+  SET_ALERT(state, alert): any {
+    state.alert = alert
   },
   SET_ENVIRONMENTS(state, environments): any {
     state.environments = environments
@@ -50,6 +55,12 @@ const actions = {
   },
   updateQuery({ commit, dispatch }, query) {
     commit('SET_SEARCH_QUERY', query)
+  },
+
+  getAlert({ commit }, alertId) {
+    return AlertsApi.getAlert(alertId).then(({ alert }) => {
+      commit('SET_ALERT', alert)
+    })
   },
 
   takeAction({ commit, dispatch }, [alertId, action, text, timeout]) {

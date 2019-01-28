@@ -41,22 +41,14 @@
       </template>
     </v-data-table>
 
-    <alert-list-details
-      v-if="selectedId"
-      :value="details"
-      :item="selectedItem"
-      @close="details = false"
-    />
   </div>
 </template>
 
 <script>
-import AlertListDetails from './AlertListDetails'
 import DateTime from './DateTime'
 
 export default {
   components: {
-    AlertListDetails,
     DateTime
   },
   props: {
@@ -147,8 +139,7 @@ export default {
       return this.$store.getters.getConfig('colors').severity[severity]
     },
     selectItem(itemId) {
-      this.selectedId = itemId
-      this.details = true
+      this.$router.push({ name: 'alert', params: { id: itemId } })
     }
   }
 }
