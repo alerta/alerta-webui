@@ -480,7 +480,10 @@
       <v-list>
         <v-subheader>Actions</v-subheader>
 
-        <v-list-tile @click="takeAction('open')">
+        <v-list-tile
+          v-show="item.status == 'ack' || item.status == 'closed'"
+          @click="takeAction('open')"
+        >
           <v-list-tile-avatar>
             <v-avatar size="32px" tile>
               <v-icon color="green">refresh</v-icon>
@@ -507,9 +510,26 @@
           <v-list-tile-title>Unwatch</v-list-tile-title>
         </v-list-tile>
 
+        <v-list-tile v-show="item.status == 'open'" @click="takeAction('ack')">
+          <v-list-tile-avatar>
+            <v-avatar size="32px" tile>
+              <v-icon color="blue darken-2">check_circle_outline</v-icon>
+            </v-avatar>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Ack</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-tile v-show="item.status == 'ack'" @click="takeAction('unack')">
+          <v-list-tile-avatar>
+            <v-avatar size="32px" tile>
+              <v-icon color="blue darken-2">check_circle_outline</v-icon>
+            </v-avatar>
+          </v-list-tile-avatar>
+          <v-list-tile-title>Unack</v-list-tile-title>
+        </v-list-tile>
+
         <v-list-tile
-          v-show="item.status != 'shelved'"
-          :disabled="item.status == 'closed'"
+          v-show="item.status == 'open' || item.status == 'ack'"
           @click="shelveAlert()"
         >
           <v-list-tile-avatar>
@@ -533,29 +553,7 @@
         </v-list-tile>
 
         <v-list-tile
-          v-show="item.status != 'ack'"
-          :disabled="item.status == 'shelved' || item.status == 'closed'"
-          @click="takeAction('ack')"
-        >
-          <v-list-tile-avatar>
-            <v-avatar size="32px" tile>
-              <v-icon color="blue darken-2">check_circle_outline</v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Ack</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile v-show="item.status == 'ack'" @click="takeAction('unack')">
-          <v-list-tile-avatar>
-            <v-avatar size="32px" tile>
-              <v-icon color="blue darken-2">check_circle_outline</v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Unack</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          :disabled="item.status == 'closed'"
+          v-show="item.status != 'closed'"
           @click="takeAction('close')"
         >
           <v-list-tile-avatar>
