@@ -5,6 +5,8 @@ beta.alerta.io
 
 This is the repository for the next major release of the Alerta web console.
 
+![webui](/docs/images/alerta-webui-v7-beta1.png?raw=true&v=1)
+
 Installation
 -------------
 
