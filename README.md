@@ -29,7 +29,7 @@ or a `config.json` configuration file in the `dist` directory.
 
 Any setting from the API server can be overridden if included in
 the local `config.json` file. For a full list of supported settings
-see [web UI config settings documentation][1].
+see the web UI config settings in the [online docs][1].
 
 [1]: https://docs.alerta.io/en/latest/webui.html#configuration-from-api-server
 
@@ -42,11 +42,17 @@ most deployments.
 Deployment
 ----------
 
-### Using Docker
+During the beta phase a docker container is available to download and
+test the new web UI. It can be built locally using the `Dockerfile` in
+this repository 
 
-    $ docker build -t alerta/alerta-app .
+    $ docker build -t alerta/alerta-beta .
     $ docker run -e VUE_APP_ALERTA_ENDPOINT=https://alerta-api.example.com \
-      -it -p 8080:8000 --rm --name alerta-app alerta/alerta-app
+      -it -p 8080:8000 --rm --name alerta-beta alerta/alerta-beta
+
+or the container can be downloaded from Docker Hub.
+
+    $ docker pull alerta/alerta-beta
 
 Development
 -----------
