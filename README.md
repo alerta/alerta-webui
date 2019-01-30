@@ -48,7 +48,7 @@ this repository
 
     $ docker build -t alerta/alerta-beta .
     $ docker run -e VUE_APP_ALERTA_ENDPOINT=https://alerta-api.example.com \
-      -it -p 8080:8000 --rm --name alerta-beta alerta/alerta-beta
+      -it -p 8000:80 --rm --name alerta-beta alerta/alerta-beta
 
 or the container can be downloaded from Docker Hub.
 
