@@ -112,10 +112,11 @@ export default {
           text: this.text
         })
         .then(() => {
-          if (this.emailVerification) {
+          this.$router.push(this.$route.query.redirect || '/')
+        })
+        .catch(error => {
+          if (error.response.status === 403 && this.emailVerification) {
             this.$router.push('/login')
-          } else {
-            this.$router.push(this.$route.query.redirect || '/')
           }
         })
     }
