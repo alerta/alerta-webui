@@ -305,6 +305,23 @@ export default {
 
 <style>
 @font-face {
+  font-family: Roboto;
+  src: url('assets/fonts/Roboto/Roboto-Regular.ttf');
+}
+
+@font-face {
+  font-family: Roboto;
+  font-weight: medium;
+  src: url('assets/fonts/Roboto/Roboto-Medium.ttf');
+}
+
+@font-face {
+  font-family: Roboto;
+  font-weight: bold;
+  src: url('assets/fonts/Roboto/Roboto-Bold.ttf');
+}
+
+@font-face {
   font-family: Sintony;
   src: url('assets/fonts/Sintony-Regular.ttf');
 }
