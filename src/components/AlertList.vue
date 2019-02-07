@@ -5,7 +5,7 @@
       :items="alerts"
       :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
-      class="elevation-1"
+      class="elevation-1 alert-table"
       :search="search"
       :loading="isLoading"
       must-sort
@@ -17,15 +17,28 @@
           :style="{ 'background-color': severityColor(props.item.severity) }"
           @click="selectItem(props.item.id)"
         >
-          <td>
-            <v-chip small>
-              {{ props.item.severity }}
-            </v-chip>
+          <td style="white-space: nowrap">
+            <v-icon
+              v-if="props.item.trendIndication == 'moreSevere'"
+              class="trend-arrow"
+              small
+            >arrow_upward</v-icon
+            >
+            <v-icon
+              v-else-if="props.item.trendIndication == 'lessSevere'"
+              class="trend-arrow"
+              small
+            >arrow_downward</v-icon
+            >
+            <v-icon v-else class="trend-arrow" small>remove</v-icon>&nbsp;
+            <span :class="['label', 'label-' + props.item.severity]">
+              {{ props.item.severity | capitalize }}
+            </span>
           </td>
-          <td class="text-xs-right">
-            <v-chip small>
-              {{ props.item.status }}
-            </v-chip>
+          <td>
+            <span class="label">
+              {{ props.item.status | capitalize }}
+            </span>
           </td>
           <td>
             <date-time
@@ -34,12 +47,12 @@
             />
           </td>
           <td>{{ props.item.environment }}</td>
-          <td class="text-xs-right">{{ props.item.service.join(', ') }}</td>
-          <td class="text-xs-right">{{ props.item.resource }}</td>
-          <td class="text-xs-right">{{ props.item.event }}</td>
-          <td class="text-xs-right">{{ props.item.group }}</td>
-          <td class="text-xs-right">{{ props.item.value }}</td>
-          <td class="text-xs-right text-truncate">{{ props.item.text }}</td>
+          <td>{{ props.item.service.join(', ') }}</td>
+          <td>{{ props.item.resource }}</td>
+          <td>{{ props.item.event }}</td>
+          <td>{{ props.item.group }}</td>
+          <td>{{ props.item.value }}</td>
+          <td class="text-truncate">{{ props.item.text }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -71,15 +84,15 @@ export default {
       // totalItems: number,
       search: '',
       headers: [
-        { text: 'Severity', value: 'severity' },
-        { text: 'Status', value: 'status' },
-        { text: 'Last Recieve Time', value: 'lastReceiveTime' },
-        { text: 'Environment', value: 'environment' },
-        { text: 'Service', value: 'service' },
-        { text: 'Resource', value: 'resource' },
-        { text: 'Event', value: 'event' },
-        { text: 'Group', value: 'group' },
-        { text: 'Value', value: 'value' },
+        { text: 'Severity', value: 'severity', width: '1%' },
+        { text: 'Status', value: 'status', width: '1%' },
+        { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '1%' },
+        { text: 'Environment', value: 'environment', width: '1%' },
+        { text: 'Service', value: 'service', width: '1%' },
+        { text: 'Resource', value: 'resource', width: '1%' },
+        { text: 'Event', value: 'event', width: '1%' },
+        { text: 'Group', value: 'group', width: '1%' },
+        { text: 'Value', value: 'value', width: '1%' },
         { text: 'Description', value: 'text' }
       ],
       details: false,
@@ -148,7 +161,68 @@ export default {
 </script>
 
 <style>
-.container.grid-list-md .layout .flex {
-  padding: 1px;
+.alert-table .v-table tbody tr td {
+  border-top: 1px solid #ddd;
+  margin: 0;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: normal;
+}
+.alert-table .v-table tbody td {
+  height: 34px;
+}
+
+.trend-arrow {
+  font-weight: bold;
+}
+
+.label {
+  font-size: 10.998px;
+  font-weight: bold;
+  line-height: 14px;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #999999;
+}
+
+.label {
+  padding: 1px 4px 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.label-critical {
+  background-color: #b94a48;
+}
+
+.label-major {
+  background-color: #f89406;
+}
+
+.label-minor {
+  background-color: #ffd700;
+}
+
+.label-warning {
+  background-color: #3a87ad;
+}
+
+.label-normal,
+.label-cleared,
+.label-ok,
+.label-informational {
+  background-color: #468847;
+}
+
+.label-inverse {
+  background-color: #333333;
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>
