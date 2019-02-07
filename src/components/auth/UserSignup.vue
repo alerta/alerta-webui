@@ -59,7 +59,12 @@
             outline
           >
           </v-text-field>
-          <v-btn block color="primary" type="submit" :disabled="!signupEnabled"
+          <v-btn
+            :loading="isSending"
+            :disabled="!signupEnabled || isSending"
+            block
+            color="primary"
+            type="submit"
           >Sign Up</v-btn
           >
         </v-form>
@@ -87,6 +92,9 @@ export default {
     showPassword: false
   }),
   computed: {
+    isSending() {
+      return this.$store.state.auth.isSending
+    },
     signupEnabled() {
       return this.$store.getters.getConfig('signup_enabled')
     },
