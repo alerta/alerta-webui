@@ -37,6 +37,7 @@ export function makeStore(vueAuth) {
 
     actions: {
       signup({ commit, dispatch }, { name, email, password, text }) {
+        commit('SET_SENDING')
         return vueAuth
           .register({
             name,
@@ -47,6 +48,7 @@ export function makeStore(vueAuth) {
           .then(() => commit('SET_AUTH', vueAuth.getPayload()))
           .then(() => commit('SET_TOKEN', vueAuth.getToken()))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
+          .finally(() => commit('RESET_SENDING'))
       },
       login({ commit, dispatch }, { credentials }) {
         return vueAuth
@@ -85,7 +87,7 @@ export function makeStore(vueAuth) {
         return vueAuth.getPayload()
       },
       isLoggedIn(state) {
-        return state.isAuthenticated // vueAuth.isAuthenticated();
+        return state.isAuthenticated // FIXME: vueAuth.isAuthenticated();
       },
       scopes(state) {
         return 'scope' in state.payload ? state.payload.scope.split(' ') : []

@@ -23,12 +23,11 @@ export default {
     return Promise.reject(error)
   },
   redirectToLogin(error) {
-    if (
-      error.response.status === 401 &&
-      !error.response.data.errors.includes('invalid_token')
-    ) {
-      if (router.currentRoute.path != '/login') {
+    if (error.response.status === 401) {
+      if (store.getters['auth/isLoggedIn']) {
         store.dispatch('auth/logout')
+      }
+      if (router.currentRoute.path != '/login') {
         router.replace({
           path: '/login',
           query: { redirect: router.currentRoute.fullPath }
