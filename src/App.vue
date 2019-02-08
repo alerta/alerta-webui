@@ -311,6 +311,12 @@ export default {
 
 @font-face {
   font-family: Roboto;
+  font-weight: light;
+  src: url('assets/fonts/Roboto/Roboto-Light.ttf');
+}
+
+@font-face {
+  font-family: Roboto;
   font-weight: medium;
   src: url('assets/fonts/Roboto/Roboto-Medium.ttf');
 }
@@ -322,23 +328,40 @@ export default {
 }
 
 @font-face {
+  font-family: 'Roboto Condensed';
+  src: url('assets/fonts/RobotoCondensed/RobotoCondensed-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-weight: light;
+  src: url('assets/fonts/RobotoCondensed/RobotoCondensed-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-weight: bold;
+  src: url('assets/fonts/RobotoCondensed/RobotoCondensed-Bold.ttf');
+}
+
+@font-face {
   font-family: Sintony;
-  src: url('assets/fonts/Sintony-Regular.ttf');
+  src: url('assets/fonts/Sintony/Sintony-Regular.ttf');
 }
 
 @font-face {
   font-family: Sintony;
   font-weight: bold;
-  src: url('assets/fonts/Sintony-Bold.ttf');
+  src: url('assets/fonts/Sintony/Sintony-Bold.ttf');
 }
 
 @font-face {
   font-family: 'Sonsie One';
-  src: url('assets/fonts/SonsieOne-Regular.ttf');
+  src: url('assets/fonts/SonsieOne/SonsieOne-Regular.ttf');
 }
 
 .logo {
-  font-family: 'Sonsie One';
+  font-family: 'Sonsie One', serif;
   font-size: 26px;
 }
 </style>
