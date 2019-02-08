@@ -164,7 +164,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title>
+      <v-card-title class="title">
         Blackouts
         <v-spacer></v-spacer>
         <v-text-field
