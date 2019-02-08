@@ -12,7 +12,10 @@
       :custom-sort="customSort"
       sort-icon="arrow_drop_down"
     >
-      <template slot="items" slot-scope="props">
+      <template
+        slot="items"
+        slot-scope="props"
+      >
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
           @click="selectItem(props.item.id)"
@@ -22,15 +25,23 @@
               v-if="props.item.trendIndication == 'moreSevere'"
               class="trend-arrow"
               small
-            >arrow_upward</v-icon
             >
+              arrow_upward
+            </v-icon>
             <v-icon
               v-else-if="props.item.trendIndication == 'lessSevere'"
               class="trend-arrow"
               small
-            >arrow_downward</v-icon
             >
-            <v-icon v-else class="trend-arrow" small>remove</v-icon>&nbsp;
+              arrow_downward
+            </v-icon>
+            <v-icon
+              v-else
+              class="trend-arrow"
+              small
+            >
+              remove
+            </v-icon>&nbsp;
             <span :class="['label', 'label-' + props.item.severity]">
               {{ props.item.severity | capitalize }}
             </span>
@@ -52,7 +63,9 @@
           <td>{{ props.item.event }}</td>
           <td>{{ props.item.group }}</td>
           <td>{{ props.item.value }}</td>
-          <td class="text-truncate">{{ props.item.text }}</td>
+          <td class="text-truncate">
+            {{ props.item.text }}
+          </td>
         </tr>
       </template>
     </v-data-table>

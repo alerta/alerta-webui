@@ -4,7 +4,7 @@
       v-if="playSound && !isMute"
       :src="$config.audio.new"
       autoplay
-    ></audio>
+    />
 
     <alert-list-filter
       :value="sidesheet"
@@ -16,7 +16,7 @@
     />
 
     <v-tabs grow>
-      <v-tabs-slider></v-tabs-slider>
+      <v-tabs-slider />
       <v-tab
         v-for="env in environments"
         :key="env.environment"
@@ -24,17 +24,23 @@
         @click="setEnv(env.environment)"
       >
         <v-badge color="grey">
-          <span slot="badge">{{
-            environmentCounts[env.environment] || 0
-          }}</span>
+          <span slot="badge">
+            {{
+              environmentCounts[env.environment] || 0
+            }}
+          </span>
           {{ env.environment }}&nbsp;
         </v-badge>
       </v-tab>
-      <v-spacer></v-spacer>
-      <v-btn flat icon @click="sidesheet = !sidesheet">
+      <v-spacer />
+      <v-btn
+        flat
+        icon
+        @click="sidesheet = !sidesheet"
+      >
         <v-icon>filter_list</v-icon>
       </v-btn>
-      <span class="pr-2"></span>
+      <span class="pr-2" />
 
       <v-tabs-items>
         <v-tab-item

@@ -29,7 +29,7 @@ class Config {
 
   getLocalConfig() {
     return this.$http
-      .get('config.json')
+      .get('/config.json')
       .then(response => {
         let envConfig = {}
         if (process.env.VUE_APP_ALERTA_ENDPOINT) {

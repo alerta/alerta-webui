@@ -1,7 +1,10 @@
 <template>
-  <v-app id="alerta" :dark="isDark">
+  <v-app
+    id="alerta"
+    :dark="isDark"
+  >
     <v-navigation-drawer
-      v-model="drawer"
+      v-model="showDrawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       fixed
       app
@@ -9,29 +12,45 @@
       <v-toolbar flat>
         <v-toolbar-side-icon
           @click.stop="drawer = !drawer"
-        ></v-toolbar-side-icon>
+        />
 
         <img
           v-if="$config.site_logo_url"
           :src="$config.site_logo_url"
           height="48"
-        />
-        <v-toolbar-title v-else class="logo">
+        >
+        <v-toolbar-title
+          v-else
+          class="logo"
+        >
           alerta
         </v-toolbar-title>
       </v-toolbar>
 
-      <v-divider></v-divider>
+      <v-divider />
       <v-list dense>
         <template v-for="item in items">
-          <v-layout v-if="item.heading" :key="item.heading" row align-center>
+          <v-layout
+            v-if="item.heading"
+            :key="item.heading"
+            row
+            align-center
+          >
             <v-flex xs6>
               <v-subheader v-if="item.heading">
                 {{ item.heading }}
               </v-subheader>
             </v-flex>
-            <v-flex xs6 class="text-xs-center">
-              <a href="#!" class="body-2 black--text">EDIT</a>
+            <v-flex
+              xs6
+              class="text-xs-center"
+            >
+              <a
+                href="#!"
+                class="body-2 black--text"
+              >
+                EDIT
+              </a>
             </v-flex>
           </v-layout>
           <v-list-group
@@ -48,7 +67,10 @@
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-for="(child, i) in item.children" :key="i">
+            <v-list-tile
+              v-for="(child, i) in item.children"
+              :key="i"
+            >
               <v-list-tile-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-tile-action>
@@ -79,18 +101,21 @@
     </v-navigation-drawer>
 
     <v-toolbar>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
 
       <img
         v-if="$config.site_logo_url"
         :src="$config.site_logo_url"
         height="48"
-      />
-      <v-toolbar-title v-else class="logo">
+      >
+      <v-toolbar-title
+        v-else
+        class="logo"
+      >
         alerta
       </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <v-text-field
         v-if="$route.name === 'alerts'"
@@ -106,9 +131,9 @@
         @blur="hasFocus = false"
         @change="submitSearch"
         @click:clear="clearSearch"
-      ></v-text-field>
+      />
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <!-- <v-btn icon>
         <v-icon>search</v-icon>
@@ -122,18 +147,22 @@
             hide-details
             open-delay="3000"
             @change="toggle('isWatch', $event)"
-          >
-          </v-switch>
+          />
           <span>Watch</span>
         </v-tooltip>
       </div>
 
-      <v-btn icon @click="toggleFullScreen">
+      <v-btn
+        icon
+        @click="toggleFullScreen"
+      >
         <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
       </v-btn>
 
       <v-btn icon>
-        <v-icon @click="refresh">refresh</v-icon>
+        <v-icon @click="refresh">
+          refresh
+        </v-icon>
       </v-btn>
 
       <v-menu
@@ -143,11 +172,19 @@
         offset-x
         :disabled="!isLoggedIn"
       >
-        <v-btn slot="activator" :disabled="!isLoggedIn" icon>
+        <v-btn
+          slot="activator"
+          :disabled="!isLoggedIn"
+          icon
+        >
           <v-icon>{{ navbar.signin.icon }}</v-icon>
         </v-btn>
 
-        <profile-me v-if="profile" :profile="profile" @close="menu = false" />
+        <profile-me
+          v-if="profile"
+          :profile="profile"
+          @close="menu = false"
+        />
       </v-menu>
     </v-toolbar>
 
@@ -237,6 +274,9 @@ export default {
     ]
   }),
   computed: {
+    showDrawer() {
+      return this.isLoggedIn ? this.drawer : false
+    },
     isDark() {
       return this.$store.getters.getPreference('isDark')
     },

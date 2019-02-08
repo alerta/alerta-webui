@@ -2,14 +2,14 @@
   <v-card>
     <v-card-title class="title">
       Heartbeats
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-text-field
         v-model="search"
         append-icon="search"
         label="Search"
         single-line
         hide-details
-      ></v-text-field>
+      />
     </v-card-title>
 
     <v-data-table
@@ -23,19 +23,35 @@
       must-sort
       sort-icon="arrow_drop_down"
     >
-      <template slot="items" slot-scope="props">
+      <template
+        slot="items"
+        slot-scope="props"
+      >
         <td>{{ props.item.origin }}</td>
         <td>{{ props.item.customer }}</td>
         <td>
-          <v-chip v-for="tag in props.item.tags" :key="tag" label small>
-            <v-icon left>label</v-icon>{{ tag }}
+          <v-chip
+            v-for="tag in props.item.tags"
+            :key="tag"
+            label
+            small
+          >
+            <v-icon left>
+              label
+            </v-icon>{{ tag }}
           </v-chip>
         </td>
         <td>
-          <date-time :value="props.item.createTime" format="mediumDate" />
+          <date-time
+            :value="props.item.createTime"
+            format="mediumDate"
+          />
         </td>
         <td>
-          <date-time :value="props.item.receiveTime" format="mediumDate" />
+          <date-time
+            :value="props.item.receiveTime"
+            format="mediumDate"
+          />
         </td>
         <td>
           {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
@@ -43,17 +59,29 @@
         <td>{{ props.item.timeout | hhmmss }}</td>
         <td>{{ props.item.receiveTime | timeago }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small @click="deleteItem(props.item)">
+          <v-icon
+            small
+            @click="deleteItem(props.item)"
+          >
             delete
           </v-icon>
         </td>
       </template>
       <template slot="no-data">
-        <v-alert :value="true" color="error" icon="warning">
+        <v-alert
+          :value="true"
+          color="error"
+          icon="warning"
+        >
           Sorry, nothing to display here :(
         </v-alert>
       </template>
-      <v-alert slot="no-results" :value="true" color="error" icon="warning">
+      <v-alert
+        slot="no-results"
+        :value="true"
+        color="error"
+        icon="warning"
+      >
         Your search for "{{ search }}" found no results.
       </v-alert>
     </v-data-table>

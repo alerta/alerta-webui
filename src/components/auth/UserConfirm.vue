@@ -1,23 +1,44 @@
 <template>
-  <v-container grid-list-sm fill-height>
-    <v-layout align-center row wrap>
-      <v-flex xs12 sm8 offset-xs0 offset-sm2>
+  <v-container
+    grid-list-sm
+    fill-height
+  >
+    <v-layout
+      align-center
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        sm8
+        offset-xs0
+        offset-sm2
+      >
         <div v-show="message">
           <span class="text-xs-center headline font-weight-medium">
-            Thanks! {{ message }}. You can now <a href="/login">login</a>
+            Thanks! {{ message }}. You can now <a href="/login">
+              login
+            </a>
           </span>
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
             Sorry, there was a problem confirming your email address
-            <a href="/">Please try again</a>
+            <a href="/">
+              Please try again
+            </a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
             Error: {{ error }}
           </p>
         </div>
       </v-flex>
-      <v-flex xs12 sm8 offset-xs0 offset-sm2></v-flex>
+      <v-flex
+        xs12
+        sm8
+        offset-xs0
+        offset-sm2
+      />
     </v-layout>
   </v-container>
 </template>

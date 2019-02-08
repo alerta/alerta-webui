@@ -7,8 +7,7 @@
       :hint="hint"
       persistent-hint
       @change="toggle($event !== null)"
-    >
-    </v-switch>
+    />
   </v-container>
 </template>
 

@@ -1,32 +1,49 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog
+      v-model="dialog"
+      max-width="500px"
+    >
       <v-card>
-        <v-toolbar dark color="secondary">
+        <v-toolbar
+          dark
+          color="secondary"
+        >
           <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-spacer />
         </v-toolbar>
 
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-select
                   v-model="editedItem.customer"
                   :items="allowedCustomers"
                   label="Customer"
-                ></v-select>
+                />
               </v-flex>
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-select
                   v-model="editedItem.environment"
                   :items="allowedEnvironments"
                   label="Environment"
                   required
-                ></v-select>
+                />
               </v-flex>
 
-              <v-flex xs12 lg4>
+              <v-flex
+                xs12
+                lg4
+              >
                 <v-menu
                   ref="menu1"
                   v-model="menu1"
@@ -44,29 +61,40 @@
                     v-model="editedItem.period.startDate"
                     label="Start Date"
                     prepend-icon="event"
-                  ></v-text-field>
+                  />
                   <v-date-picker
                     v-model="editedItem.period.startDate"
                     no-title
                     @input="menu1 = false"
-                  ></v-date-picker>
+                  />
                 </v-menu>
               </v-flex>
 
-              <v-flex xs12 lg2 d-flex>
+              <v-flex
+                xs12
+                lg2
+                d-flex
+              >
                 <v-select
                   v-model="editedItem.period.startTime"
                   :items="times"
-                ></v-select>
+                />
               </v-flex>
-              <v-flex xs12 lg2 d-flex>
+              <v-flex
+                xs12
+                lg2
+                d-flex
+              >
                 <v-select
                   v-model="editedItem.period.endTime"
                   :items="times"
-                ></v-select>
+                />
               </v-flex>
 
-              <v-flex xs12 lg4>
+              <v-flex
+                xs12
+                lg4
+              >
                 <v-menu
                   v-model="menu2"
                   :close-on-content-click="false"
@@ -82,16 +110,20 @@
                     slot="activator"
                     v-model="editedItem.period.endDate"
                     label="End Date"
-                  ></v-text-field>
+                  />
                   <v-date-picker
                     v-model="editedItem.period.endDate"
                     no-title
                     @input="menu2 = false"
-                  ></v-date-picker>
+                  />
                 </v-menu>
               </v-flex>
 
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-select
                   v-model="editedItem.service"
                   :items="currentServices"
@@ -100,28 +132,44 @@
                   multiple
                   hint="Choose one or more service"
                   persistent-hint
-                ></v-select>
+                />
               </v-flex>
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-text-field
                   v-model="editedItem.resource"
                   label="Resource"
-                ></v-text-field>
+                />
               </v-flex>
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-text-field
                   v-model="editedItem.event"
                   label="Event"
-                ></v-text-field>
+                />
               </v-flex>
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-text-field
                   v-model="editedItem.group"
                   label="Group"
-                ></v-text-field>
+                />
               </v-flex>
 
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-combobox
                   v-model="editedItem.tags"
                   :items="currentTags"
@@ -129,7 +177,10 @@
                   multiple
                   chips
                 >
-                  <template slot="selection" slot-scope="data">
+                  <template
+                    slot="selection"
+                    slot-scope="data"
+                  >
                     <v-chip
                       :key="JSON.stringify(data.item)"
                       :selected="data.selected"
@@ -139,26 +190,44 @@
                       small
                       @input="data.parent.selectItem(data.item)"
                     >
-                      <v-icon left>label</v-icon>{{ data.item }}
+                      <v-icon left>
+                        label
+                      </v-icon>{{ data.item }}
                     </v-chip>
                   </template>
                 </v-combobox>
               </v-flex>
 
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-text-field
                   v-model="editedItem.text"
                   label="Reason"
-                ></v-text-field>
+                />
               </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
 
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-          <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            flat
+            @click="close"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            flat
+            @click="save"
+          >
+            Save
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -166,14 +235,14 @@
     <v-card>
       <v-card-title class="title">
         Blackouts
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
           label="Search"
           single-line
           hide-details
-        ></v-text-field>
+        />
       </v-card-title>
 
       <v-data-table
@@ -187,7 +256,10 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template slot="items" slot-scope="props">
+        <template
+          slot="items"
+          slot-scope="props"
+        >
           <td>{{ props.item.customer }}</td>
           <td>{{ props.item.environment }}</td>
           <td>
@@ -204,8 +276,15 @@
           <td>{{ props.item.event }}</td>
           <td>{{ props.item.group }}</td>
           <td>
-            <v-chip v-for="tag in props.item.tags" :key="tag" label small>
-              <v-icon left>label</v-icon>{{ tag }}
+            <v-chip
+              v-for="tag in props.item.tags"
+              :key="tag"
+              label
+              small
+            >
+              <v-icon left>
+                label
+              </v-icon>{{ tag }}
             </v-chip>
           </td>
           <td class="text-xs-right">
@@ -216,7 +295,8 @@
                 slot="activator"
                 light
                 small
-              >schedule
+              >
+                schedule
               </v-icon>
 
               <v-icon
@@ -224,47 +304,84 @@
                 slot="activator"
                 color="primary"
                 small
-              >notifications_paused
+              >
+                notifications_paused
               </v-icon>
 
               <v-icon
                 v-if="props.item.status == 'expired'"
                 slot="activator"
                 small
-              >block
+              >
+                block
               </v-icon>
             </v-tooltip>
           </td>
           <td class="text-xs-left">
-            <date-time :value="props.item.startTime" format="mediumDate" />
+            <date-time
+              :value="props.item.startTime"
+              format="mediumDate"
+            />
           </td>
           <td class="text-xs-left">
-            <date-time :value="props.item.endTime" format="mediumDate" />
+            <date-time
+              :value="props.item.endTime"
+              format="mediumDate"
+            />
           </td>
-          <td class="text-xs-left" nowrap>{{ props.item.endTime | until }}</td>
-          <td class="text-xs-left">{{ props.item.user }}</td>
+          <td
+            class="text-xs-left"
+            nowrap
+          >
+            {{ props.item.endTime | until }}
+          </td>
+          <td class="text-xs-left">
+            {{ props.item.user }}
+          </td>
           <!-- <td class="text-xs-left">
             <date-time :value="props.item.createTime" format="mediumDate"/>
           </td> -->
-          <td class="text-xs-left">{{ props.item.text }}</td>
+          <td class="text-xs-left">
+            {{ props.item.text }}
+          </td>
           <td class="justify-center layout px-0">
-            <v-icon small class="mr-2" @click="editItem(props.item)">
+            <v-icon
+              small
+              class="mr-2"
+              @click="editItem(props.item)"
+            >
               edit
             </v-icon>
-            <v-icon small class="mr-2" @click="copyItem(props.item)">
+            <v-icon
+              small
+              class="mr-2"
+              @click="copyItem(props.item)"
+            >
               content_copy
             </v-icon>
-            <v-icon small @click="deleteItem(props.item)">
+            <v-icon
+              small
+              @click="deleteItem(props.item)"
+            >
               delete
             </v-icon>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert
+            :value="true"
+            color="error"
+            icon="warning"
+          >
             Sorry, nothing to display here :(
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert
+          slot="no-results"
+          :value="true"
+          color="error"
+          icon="warning"
+        >
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>

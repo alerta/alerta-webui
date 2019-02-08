@@ -6,7 +6,6 @@ module.exports = {
   },
   extends: [
     "plugin:vue/recommended",
-    "@vue/prettier",
     "@vue/typescript"
   ],
   rules: {
@@ -23,4 +22,4 @@ module.exports = {
   parserOptions: {
     parser: "typescript-eslint-parser"
   }
-};
+}

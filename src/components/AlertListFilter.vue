@@ -8,21 +8,40 @@
     right
   >
     <v-card tile>
-      <v-toolbar card dense>
-        <v-toolbar-title class="body-2 grey--text">Filters</v-toolbar-title>
-        <v-spacer></v-spacer>
+      <v-toolbar
+        card
+        dense
+      >
+        <v-toolbar-title class="body-2 grey--text">
+          Filters
+        </v-toolbar-title>
+        <v-spacer />
         <v-toolbar-items>
           <!-- <v-btn flat @click="dialog = false">Reset</v-btn> -->
         </v-toolbar-items>
-        <v-menu bottom right offset-y>
-          <v-btn slot="activator" icon @click="close">
+        <v-menu
+          bottom
+          right
+          offset-y
+        >
+          <v-btn
+            slot="activator"
+            icon
+            @click="close"
+          >
             <v-icon>close</v-icon>
           </v-btn>
         </v-menu>
       </v-toolbar>
 
-      <v-container fluid grid-list-xl>
-        <v-layout align-center wrap>
+      <v-container
+        fluid
+        grid-list-xl
+      >
+        <v-layout
+          align-center
+          wrap
+        >
           <v-flex>
             <v-select
               v-model="selectedStatus"
@@ -36,10 +55,14 @@
               hint="Choose one or more status"
               persistent-hint
               @change="setStatus"
-            ></v-select>
+            />
           </v-flex>
 
-          <v-flex xs12 sm6 md12>
+          <v-flex
+            xs12
+            sm6
+            md12
+          >
             <v-select
               v-model="selectedService"
               :items="currentServices"
@@ -52,10 +75,14 @@
               hint="Choose one or more service"
               persistent-hint
               @change="setService"
-            ></v-select>
+            />
           </v-flex>
 
-          <v-flex xs12 sm6 md12>
+          <v-flex
+            xs12
+            sm6
+            md12
+          >
             <v-select
               v-model="selectedDateRange"
               :items="dateRanges"
@@ -65,7 +92,7 @@
               item-text="text"
               item-value="range"
               @input="setDateRange"
-            ></v-select>
+            />
           </v-flex>
         </v-layout>
       </v-container>
