@@ -331,10 +331,10 @@ export default {
 }
 
 .v-btn__content {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
 }
 
 .v-navigation-drawer {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
 }
 </style>
