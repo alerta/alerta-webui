@@ -1,45 +1,69 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog
+      v-model="dialog"
+      max-width="500px"
+    >
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
+            <span class="headline">
+              {{ formTitle }}
+            </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md9>
+                <v-flex
+                  xs12
+                  sm6
+                  md9
+                >
                   <v-text-field
                     v-model="editedItem.name"
                     label="Name"
                     :rules="[rules.required]"
-                  ></v-text-field>
+                  />
                 </v-flex>
-                <v-flex xs12 sm6 md3>
+                <v-flex
+                  xs12
+                  sm6
+                  md3
+                >
                   <v-switch
                     v-model="editedItem.status"
                     true-value="active"
                     false-value="inactive"
                     label="Active"
-                  ></v-switch>
+                  />
                 </v-flex>
-                <v-flex xs12 sm6 md9>
+                <v-flex
+                  xs12
+                  sm6
+                  md9
+                >
                   <v-text-field
                     v-model="editedItem.email"
                     label="Email"
                     :required="[rules.required]"
-                  ></v-text-field>
+                  />
                 </v-flex>
-                <v-flex xs12 sm6 md3>
+                <v-flex
+                  xs12
+                  sm6
+                  md3
+                >
                   <v-checkbox
                     v-model="editedItem.email_verified"
                     label="Verified"
-                  ></v-checkbox>
+                  />
                 </v-flex>
 
-                <v-flex xs12 sm6>
+                <v-flex
+                  xs12
+                  sm6
+                >
                   <v-text-field
                     v-model="editedItem.password"
                     :append-icon="
@@ -51,9 +75,12 @@
                     label="Password"
                     class="input-group--focused"
                     @click:append="showPassword = !showPassword"
-                  ></v-text-field>
+                  />
                 </v-flex>
-                <v-flex xs12 sm6>
+                <v-flex
+                  xs12
+                  sm6
+                >
                   <v-text-field
                     :append-icon="
                       showPassword ? 'visibility_off' : 'visibility'
@@ -64,10 +91,14 @@
                     label="Confirm Password"
                     :value="confirmPassword"
                     @click:append="showPassword = !showPassword"
-                  ></v-text-field>
+                  />
                 </v-flex>
 
-                <v-flex xs12 sm6 md12>
+                <v-flex
+                  xs12
+                  sm6
+                  md12
+                >
                   <v-combobox
                     v-model="editedItem.roles"
                     :items="allowedRoles"
@@ -77,29 +108,50 @@
                     solo
                     multiple
                   >
-                    <template slot="selection" slot-scope="data">
-                      <v-chip :selected="data.selected" close>
-                        <strong>{{ data.item }}</strong
-                        >&nbsp;
+                    <template
+                      slot="selection"
+                      slot-scope="data"
+                    >
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                      >
+                        <strong>{{ data.item }}</strong>&nbsp;
                         <span>(role)</span>
                       </v-chip>
                     </template>
                   </v-combobox>
                 </v-flex>
-                <v-flex xs12 sm6 md12>
+                <v-flex
+                  xs12
+                  sm6
+                  md12
+                >
                   <v-text-field
                     v-model="editedItem.text"
                     label="Comment"
-                  ></v-text-field>
+                  />
                 </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="close"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="save"
+            >
+              Save
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -108,14 +160,14 @@
     <v-card>
       <v-card-title class="title">
         Users
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
           label="Search"
           single-line
           hide-details
-        ></v-text-field>
+        />
       </v-card-title>
 
       <v-data-table
@@ -129,7 +181,10 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template slot="items" slot-scope="props">
+        <template
+          slot="items"
+          slot-scope="props"
+        >
           <td>{{ props.item.name }}</td>
           <td>
             <v-tooltip top>
@@ -137,9 +192,10 @@
                 slot="activator"
                 :color="props.item.status == 'active' ? 'primary' : ''"
                 @click="toggleUserStatus(props.item)"
-              >{{
-                props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
-              }}
+              >
+                {{
+                  props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
+                }}
               </v-icon>
               <span>{{ props.item.status | capitalize }}</span>
             </v-tooltip>
@@ -150,28 +206,36 @@
               <v-icon
                 slot="activator"
                 @click="toggleEmailVerified(props.item)"
-              >{{
-                props.item.email_verified
-                  ? 'check_box'
-                  : 'check_box_outline_blank'
-              }}</v-icon
               >
-              <span>{{
-                props.item.email_verified
-                  ? 'Email Verified'
-                  : 'Email not verified'
-              }}</span>
+                {{
+                  props.item.email_verified
+                    ? 'check_box'
+                    : 'check_box_outline_blank'
+                }}
+              </v-icon>
+              <span>
+                {{
+                  props.item.email_verified
+                    ? 'Email Verified'
+                    : 'Email not verified'
+                }}
+              </span>
             </v-tooltip>
           </td>
           <td>
-            <v-chip v-for="role in props.item.roles" :key="role">
-              <strong>{{ role }}</strong
-              >&nbsp;
+            <v-chip
+              v-for="role in props.item.roles"
+              :key="role"
+            >
+              <strong>{{ role }}</strong>&nbsp;
               <span>(role)</span>
             </v-chip>
           </td>
           <td class="text-xs-right">
-            <date-time :value="props.item.createTime" format="mediumDate" />
+            <date-time
+              :value="props.item.createTime"
+              format="mediumDate"
+            />
           </td>
           <td class="text-xs-right">
             <date-time
@@ -180,22 +244,40 @@
               format="mediumDate"
             />
           </td>
-          <td class="text-xs-right">{{ props.item.text }}</td>
+          <td class="text-xs-right">
+            {{ props.item.text }}
+          </td>
           <td class="justify-center layout px-0">
-            <v-icon small class="mr-2" @click="editItem(props.item)">
+            <v-icon
+              small
+              class="mr-2"
+              @click="editItem(props.item)"
+            >
               edit
             </v-icon>
-            <v-icon small @click="deleteItem(props.item)">
+            <v-icon
+              small
+              @click="deleteItem(props.item)"
+            >
               delete
             </v-icon>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert
+            :value="true"
+            color="error"
+            icon="warning"
+          >
             Sorry, nothing to display here :(
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert
+          slot="no-results"
+          :value="true"
+          color="error"
+          icon="warning"
+        >
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
@@ -262,7 +344,7 @@ export default {
         required: v => !!v || 'Required.',
         min: v => !v || v.length >= 6 || 'Min 6 characters',
         passwordMatch: v =>
-          v == this.editedItem.password || 'Passwords entered don\'t match'  // eslint-disable-line prettier/prettier
+          v == this.editedItem.password || 'Passwords entered don\'t match'
       }
     }
   },

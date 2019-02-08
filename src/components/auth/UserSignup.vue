@@ -1,12 +1,28 @@
 <template>
-  <v-container grid-list-sm fill-height>
-    <v-layout align-center row wrap>
-      <v-flex xs12 sm8 offset-xs0 offset-sm2>
+  <v-container
+    grid-list-sm
+    fill-height
+  >
+    <v-layout
+      align-center
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        sm8
+        offset-xs0
+        offset-sm2
+      >
         <p class="text-xs-center headline font-weight-medium">
-          <span v-show="signupEnabled">Create your Alerta account</span>
-          <span v-show="!signupEnabled"
-          >Sorry, sign up is not currently available</span
+          <span v-show="signupEnabled">
+            Create your Alerta account
+          </span>
+          <span
+            v-show="!signupEnabled"
           >
+            Sorry, sign up is not currently available
+          </span>
         </p>
         <v-form @submit.prevent="signup()">
           <v-text-field
@@ -16,8 +32,7 @@
             label="Full Name"
             :disabled="!signupEnabled"
             outline
-          >
-          </v-text-field>
+          />
           <v-text-field
             v-model="email"
             name="login"
@@ -26,8 +41,7 @@
             prepend-inner-icon="alternate_email"
             :disabled="!signupEnabled"
             outline
-          >
-          </v-text-field>
+          />
           <v-text-field
             v-model="password"
             name="password"
@@ -37,8 +51,7 @@
             :disabled="!signupEnabled"
             outline
             @click:append="showPassword = !showPassword"
-          >
-          </v-text-field>
+          />
           <v-text-field
             v-model="confirmPassword"
             name="confirm-password"
@@ -48,8 +61,7 @@
             :disabled="!signupEnabled"
             outline
             @click:append="showPassword = !showPassword"
-          >
-          </v-text-field>
+          />
           <v-text-field
             v-model="text"
             name="text"
@@ -57,23 +69,36 @@
             label="Description"
             :disabled="!signupEnabled"
             outline
-          >
-          </v-text-field>
+          />
           <v-btn
             :loading="isSending"
             :disabled="!signupEnabled || isSending"
             block
             color="primary"
             type="submit"
-          >Sign Up</v-btn
           >
+            Sign Up
+          </v-btn>
         </v-form>
         <div class="text-xs-center">
-          <span class="body-2">Already have an account?</span>
-          <v-btn flat color="primary" to="/login">Sign In</v-btn>
+          <span class="body-2">
+            Already have an account?
+          </span>
+          <v-btn
+            flat
+            color="primary"
+            to="/login"
+          >
+            Sign In
+          </v-btn>
         </div>
       </v-flex>
-      <v-flex xs12 sm8 offset-xs0 offset-sm2></v-flex>
+      <v-flex
+        xs12
+        sm8
+        offset-xs0
+        offset-sm2
+      />
     </v-layout>
   </v-container>
 </template>

@@ -22,6 +22,9 @@ export default {
     }
     return api.put(`/alert/${alertId}/attributes`, data)
   },
+  addNote(alertId: string, data: object) {
+    return api.put(`/alert/${alertId}/note`, data)
+  },
   getAlerts(query: object) {
     let config = {
       params: query

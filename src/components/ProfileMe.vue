@@ -4,31 +4,48 @@
       <v-list-tile>
         <v-list-tile-content>
           <v-list-tile-title>{{ profile.name }}</v-list-tile-title>
-          <v-list-tile-sub-title>{{
-            profile.preferred_username
-          }}</v-list-tile-sub-title>
+          <v-list-tile-sub-title>
+            {{
+              profile.preferred_username
+            }}
+          </v-list-tile-sub-title>
         </v-list-tile-content>
 
         <v-list-tile-action>
-          <v-tooltip v-if="profile.provider && profile.provider != 'basic'" top>
-            <v-icon slot="activator">{{
-              provider[profile.provider].icon
-            }}</v-icon>
+          <v-tooltip
+            v-if="profile.provider && profile.provider != 'basic'"
+            top
+          >
+            <v-icon slot="activator">
+              {{
+                provider[profile.provider].icon
+              }}
+            </v-icon>
             <span>{{ provider[profile.provider].text }}</span>
           </v-tooltip>
-          <v-tooltip v-else-if="profile.email_verified" top>
-            <v-icon slot="activator">verified_user</v-icon>
+          <v-tooltip
+            v-else-if="profile.email_verified"
+            top
+          >
+            <v-icon slot="activator">
+              verified_user
+            </v-icon>
             <span>Email verified</span>
           </v-tooltip>
-          <v-tooltip v-else top>
-            <v-icon slot="activator">fas fa-user-times</v-icon>
+          <v-tooltip
+            v-else
+            top
+          >
+            <v-icon slot="activator">
+              fas fa-user-times
+            </v-icon>
             <span>Email not verified</span>
           </v-tooltip>
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
 
-    <v-divider></v-divider>
+    <v-divider />
 
     <v-list>
       <v-list-tile v-if="isCustomerViews">
@@ -70,10 +87,21 @@
     </v-list>
 
     <v-card-actions>
-      <v-spacer></v-spacer>
+      <v-spacer />
 
-      <v-btn flat @click="close">Cancel</v-btn>
-      <v-btn color="primary" flat @click="logout()">Sign Out</v-btn>
+      <v-btn
+        flat
+        @click="close"
+      >
+        Cancel
+      </v-btn>
+      <v-btn
+        color="primary"
+        flat
+        @click="logout()"
+      >
+        Sign Out
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>

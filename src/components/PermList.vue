@@ -1,30 +1,42 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog
+      v-model="dialog"
+      max-width="500px"
+    >
       <v-card>
         <v-card-title>
-          <span class="headline">{{ formTitle }}</span>
+          <span class="headline">
+            {{ formTitle }}
+          </span>
         </v-card-title>
 
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12 sm6 md12>
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-chip
                   v-show="editedItem.match"
                   close
                   @click="editedItem.match = null"
                 >
-                  <strong>{{ editedItem.match }}</strong
-                  >&nbsp;
+                  <strong>{{ editedItem.match }}</strong>&nbsp;
                   <span>(role)</span>
                 </v-chip>
               </v-flex>
               <v-text-field
                 v-model="editedItem.match"
                 label="Role"
-              ></v-text-field>
-              <v-flex xs12 sm6 md12>
+              />
+              <v-flex
+                xs12
+                sm6
+                md12
+              >
                 <v-combobox
                   v-model="editedItem.scopes"
                   :items="allowedScopes"
@@ -34,10 +46,15 @@
                   solo
                   multiple
                 >
-                  <template slot="selection" slot-scope="data">
-                    <v-chip :selected="data.selected" close>
-                      <strong>{{ data.item }}</strong
-                      >&nbsp;
+                  <template
+                    slot="selection"
+                    slot-scope="data"
+                  >
+                    <v-chip
+                      :selected="data.selected"
+                      close
+                    >
+                      <strong>{{ data.item }}</strong>&nbsp;
                       <span>(scope)</span>
                     </v-chip>
                   </template>
@@ -48,9 +65,21 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-          <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            flat
+            @click="close"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            flat
+            @click="save"
+          >
+            Save
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -58,14 +87,14 @@
     <v-card>
       <v-card-title class="title">
         Permissions
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
           label="Search"
           single-line
           hide-details
-        ></v-text-field>
+        />
       </v-card-title>
 
       <v-data-table
@@ -79,11 +108,13 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template slot="items" slot-scope="props">
+        <template
+          slot="items"
+          slot-scope="props"
+        >
           <td>
             <v-chip small>
-              <strong>{{ props.item.match }}</strong
-              >&nbsp;
+              <strong>{{ props.item.match }}</strong>&nbsp;
               <span>(role)</span>
             </v-chip>
             <v-tooltip top>
@@ -91,15 +122,19 @@
                 v-if="['admin', 'user'].includes(props.item.match)"
                 slot="activator"
                 small
-              >lock
+              >
+                lock
               </v-icon>
               <span>System role</span>
             </v-tooltip>
           </td>
           <td>
-            <v-chip v-for="scope in props.item.scopes" :key="scope" small>
-              <strong>{{ scope }}</strong
-              >&nbsp;
+            <v-chip
+              v-for="scope in props.item.scopes"
+              :key="scope"
+              small
+            >
+              <strong>{{ scope }}</strong>&nbsp;
               <span>(scope)</span>
             </v-chip>
           </td>
@@ -122,11 +157,20 @@
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert
+            :value="true"
+            color="error"
+            icon="warning"
+          >
             Sorry, nothing to display here :(
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert
+          slot="no-results"
+          :value="true"
+          color="error"
+          icon="warning"
+        >
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>

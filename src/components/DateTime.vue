@@ -1,6 +1,9 @@
 <template>
   <v-tooltip top>
-    <span slot="activator" style="white-space: nowrap">
+    <span
+      slot="activator"
+      style="white-space: nowrap"
+    >
       {{ value | date(formatString) }}
     </span>
     <span>{{ value | date('YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>

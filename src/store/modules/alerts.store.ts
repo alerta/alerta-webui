@@ -80,6 +80,11 @@ const actions = {
       dispatch('getAlerts')
     )
   },
+  addNote({ commit, dispatch }, [alertId, note]) {
+    return AlertsApi.addNote(alertId, {
+      note: note
+    }).then(response => dispatch('getAlerts'))
+  },
   deleteAlert({ commit, dispatch }, alertId) {
     return AlertsApi.deleteAlert(alertId).then(response =>
       dispatch('getAlerts')
