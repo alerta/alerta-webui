@@ -9,6 +9,7 @@ module.exports = {
     "@vue/typescript"
   ],
   rules: {
+    semi: ["error", "never"],
     "no-console": "warn",
     "no-debugger": "error",
     quotes: ["error", "single"],
