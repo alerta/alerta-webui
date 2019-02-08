@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>
+    <v-card-title class="title">
       Heartbeats
       <v-spacer></v-spacer>
       <v-text-field

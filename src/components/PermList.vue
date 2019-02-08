@@ -56,7 +56,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title>
+      <v-card-title class="title">
         Permissions
         <v-spacer></v-spacer>
         <v-text-field

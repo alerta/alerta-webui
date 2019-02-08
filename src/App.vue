@@ -337,4 +337,12 @@ export default {
 .v-navigation-drawer {
   font-family: 'Roboto', sans-serif;
 }
+
+.v-tabs__bar {
+  font-family: 'Roboto', sans-serif;
+}
+
+.v-card__title {
+  font-family: 'Roboto', sans-serif;
+}
 </style>
