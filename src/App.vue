@@ -310,35 +310,31 @@ export default {
 }
 
 @font-face {
-  font-family: Roboto;
-  font-weight: medium;
-  src: url('assets/fonts/Roboto/Roboto-Medium.ttf');
-}
-
-@font-face {
-  font-family: Roboto;
-  font-weight: bold;
-  src: url('assets/fonts/Roboto/Roboto-Bold.ttf');
-}
-
-@font-face {
   font-family: Sintony;
-  src: url('assets/fonts/Sintony-Regular.ttf');
+  src: url('assets/fonts/Sintony/Sintony-Regular.ttf');
 }
 
 @font-face {
   font-family: Sintony;
   font-weight: bold;
-  src: url('assets/fonts/Sintony-Bold.ttf');
+  src: url('assets/fonts/Sintony/Sintony-Bold.ttf');
 }
 
 @font-face {
   font-family: 'Sonsie One';
-  src: url('assets/fonts/SonsieOne-Regular.ttf');
+  src: url('assets/fonts/SonsieOne/SonsieOne-Regular.ttf');
 }
 
 .logo {
-  font-family: 'Sonsie One';
+  font-family: 'Sonsie One', serif;
   font-size: 26px;
+}
+
+.v-btn__content {
+  font-family: 'Roboto';
+}
+
+.v-navigation-drawer {
+  font-family: 'Roboto';
 }
 </style>
