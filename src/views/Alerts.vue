@@ -37,6 +37,7 @@
       <v-btn
         flat
         icon
+        :class="{ active: isActive }"
         @click="sidesheet = !sidesheet"
       >
         <v-icon>filter_list</v-icon>
@@ -79,6 +80,7 @@ export default {
     currentTab: 'ALL',
     sidesheet: false,
     filter: {
+      text: null,
       environment: null,
       service: null,
       status: ['open', 'ack'],
@@ -87,13 +89,16 @@ export default {
     playSound: false
   }),
   computed: {
+    isActive() {
+      return this.filter.text || this.filter.service || this.filter.dateRange[0] || this.filter.dateRange[1]
+    },
     environments() {
       let e = this.$store.state.alerts.environments
       let totalCount = e.map(e => e.count).reduce((a, b) => a + b, 0)
       return [{ environment: 'ALL', count: totalCount }].concat(e)
     },
     environmentCounts() {
-      return this.alerts.reduce((grp, a) => {
+      return this.$store.getters['alerts/alerts'].reduce((grp, a) => {
         grp[a.environment] = grp[a.environment] + 1 || 1
         grp['ALL'] = grp['ALL'] + 1 || 1
         return grp
@@ -237,4 +242,16 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.active::after {
+  background-color: rgb(255, 82, 82);
+  border-radius: 50%;
+  box-sizing: border-box;
+  content: " ";
+  height: 8px;
+  position: absolute;
+  right: 7px;
+  top: 9px;
+  width: 8px;
+}
+</style>
