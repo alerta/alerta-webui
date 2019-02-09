@@ -10,9 +10,9 @@
     >
       <v-flex
         xs12
-        sm8
+        sm6
         offset-xs0
-        offset-sm2
+        offset-sm3
       >
         <p class="text-xs-center headline font-weight-medium">
           <span v-show="signupEnabled">
@@ -95,9 +95,9 @@
       </v-flex>
       <v-flex
         xs12
-        sm8
+        sm6
         offset-xs0
-        offset-sm2
+        offset-sm3
       />
     </v-layout>
   </v-container>

@@ -10,9 +10,9 @@
     >
       <v-flex
         xs12
-        sm8
+        sm6
         offset-xs0
-        offset-sm2
+        offset-sm3
       >
         <div v-show="message">
           <span class="text-xs-center headline font-weight-medium">
@@ -35,9 +35,9 @@
       </v-flex>
       <v-flex
         xs12
-        sm8
+        sm6
         offset-xs0
-        offset-sm2
+        offset-sm3
       />
     </v-layout>
   </v-container>
