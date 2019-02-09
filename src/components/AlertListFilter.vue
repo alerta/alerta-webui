@@ -42,7 +42,29 @@
           align-center
           wrap
         >
-          <v-flex>
+          <v-flex
+            xs12
+            sm6
+            md12
+          >
+            <v-text-field
+              v-model="filterText"
+              label="Search"
+              prepend-inner-icon="search"
+              outline
+              dense
+              clearable
+              hint="Filter results by text search"
+              persistent-hint
+              @change="setText"
+            />
+          </v-flex>
+
+          <v-flex
+            xs12
+            sm6
+            md12
+          >
             <v-select
               v-model="selectedStatus"
               :items="statusList"
@@ -131,7 +153,6 @@ export default {
         { text: 'Value', value: 'value' },
         { text: 'Text', value: 'text' }
       ],
-      text: null,
       statusList: [
         'open',
         'assign',
@@ -147,6 +168,7 @@ export default {
         { text: '6 hours', range: [3600 * 6, null] },
         { text: '12 hours', range: [3600 * 12, null] }
       ],
+      filterText: this.filter.text || null,
       selectedStatus: this.filter.status || [],
       selectedService: this.filter.service || [],
       selectedDateRange: this.filter.dateRange || [null, null]
@@ -176,41 +198,11 @@ export default {
     this.getServices()
   },
   methods: {
-    takeAction(action) {
-      this.$store.dispatch('alerts/takeAction', [
-        this.item.id,
-        action,
-        this.text
-      ])
-    },
-    shelveAlert() {
-      this.$store.dispatch('alerts/takeAction', [
-        this.item.id,
-        'shelve',
-        this.text,
-        this.shelveTimeout
-      ])
-    },
-    watchAlert() {
-      let user = this.$store.getters['auth/getPayload'].name
-      this.$store.dispatch('alerts/tagAlert', [
-        this.item.id,
-        { tags: [`watch:${user}`] }
-      ])
-    },
-    unwatchAlert() {
-      let user = this.$store.getters['auth/getPayload'].name
-      this.$store.dispatch('alerts/untagAlert', [
-        this.item.id,
-        { tags: [`watch:${user}`] }
-      ])
-    },
-    deleteAlert() {
-      confirm('Are you sure you want to delete this item?') &&
-        this.$store.dispatch('alerts/deleteAlert', this.item.id)
-    },
     getServices() {
       this.$store.dispatch('alerts/getServices')
+    },
+    setText(text) {
+      this.$emit('set-text', text)
     },
     setStatus(status) {
       this.$emit('set-status', status)
