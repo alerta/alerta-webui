@@ -4,7 +4,7 @@
     :dark="isDark"
   >
     <v-navigation-drawer
-      v-model="showDrawer"
+      :value="showDrawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       fixed
       app
@@ -206,7 +206,7 @@ export default {
     message: false,
     hints: true,
     dialog: false,
-    drawer: null,
+    drawer: false,
     navbar: {
       signin: { icon: 'account_circle', text: 'Sign In', path: '/login' }
     },
