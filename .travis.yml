@@ -19,11 +19,17 @@ script:
   - npm run test:unit
 
 deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  target-branch: gh-pages
-  local-dir: dist
-  on:
-    branch: master
-
+  - provider: pages
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN
+    target-branch: gh-pages
+    local-dir: dist
+    on:
+      branch: master
+  - provider: releases
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN
+    file_glob: true
+    file: dist/**/*
+    on:
+      tags: true
