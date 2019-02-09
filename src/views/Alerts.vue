@@ -9,6 +9,7 @@
     <alert-list-filter
       :value="sidesheet"
       :filter="filter"
+      @set-text="setText"
       @set-status="setStatus"
       @set-service="setService"
       @set-date="setDateRange"
@@ -101,6 +102,11 @@ export default {
     alerts() {
       if (this.filter) {
         return this.$store.getters['alerts/alerts']
+          .filter(alert =>
+            this.filter.text
+              ? Object.keys(alert).some(k => alert[k] && alert[k].toString().toLowerCase().includes(this.filter.text))
+              : true
+          )
           .filter(alert =>
             this.filter.environment
               ? alert.environment === this.filter.environment
@@ -207,14 +213,19 @@ export default {
         environment: env === 'ALL' ? null : env
       })
     },
-    setService(svc) {
+    setText(t) {
       this.filter = Object.assign({}, this.filter, {
-        service: svc.length > 0 ? svc : null
+        text: t
       })
     },
     setStatus(st) {
       this.filter = Object.assign({}, this.filter, {
         status: st.length > 0 ? st : null
+      })
+    },
+    setService(svc) {
+      this.filter = Object.assign({}, this.filter, {
+        service: svc.length > 0 ? svc : null
       })
     },
     setDateRange(range) {
