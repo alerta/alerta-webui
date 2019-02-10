@@ -52,7 +52,7 @@
           :transition="false"
           :reverse-transition="false"
         >
-          <alert-list :alerts="alerts" />
+          <alert-list :alerts="alertsByEnvironment" />
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
@@ -92,29 +92,12 @@ export default {
     isActive() {
       return this.filter.text || this.filter.service || this.filter.dateRange[0] || this.filter.dateRange[1]
     },
-    environments() {
-      let e = this.$store.state.alerts.environments
-      let totalCount = e.map(e => e.count).reduce((a, b) => a + b, 0)
-      return [{ environment: 'ALL', count: totalCount }].concat(e)
-    },
-    environmentCounts() {
-      return this.$store.getters['alerts/alerts'].reduce((grp, a) => {
-        grp[a.environment] = grp[a.environment] + 1 || 1
-        grp['ALL'] = grp['ALL'] + 1 || 1
-        return grp
-      }, {})
-    },
     alerts() {
       if (this.filter) {
         return this.$store.getters['alerts/alerts']
           .filter(alert =>
             this.filter.text
               ? Object.keys(alert).some(k => alert[k] && alert[k].toString().toLowerCase().includes(this.filter.text))
-              : true
-          )
-          .filter(alert =>
-            this.filter.environment
-              ? alert.environment === this.filter.environment
               : true
           )
           .filter(alert =>
@@ -158,6 +141,25 @@ export default {
       } else {
         return this.$store.getters['alerts/alerts']
       }
+    },
+    environments() {
+      let e = this.$store.state.alerts.environments
+      let totalCount = e.map(e => e.count).reduce((a, b) => a + b, 0)
+      return [{ environment: 'ALL', count: totalCount }].concat(e)
+    },
+    environmentCounts() {
+      return this.alerts.reduce((grp, a) => {
+        grp[a.environment] = grp[a.environment] + 1 || 1
+        grp['ALL'] = grp['ALL'] + 1 || 1
+        return grp
+      }, {})
+    },
+    alertsByEnvironment() {
+      return this.alerts.filter(alert =>
+        this.filter.environment
+          ? alert.environment === this.filter.environment
+          : true
+      )
     },
     refreshInterval() {
       return (

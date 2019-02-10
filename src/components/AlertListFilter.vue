@@ -56,7 +56,7 @@
               clearable
               hint="Filter results by text search"
               persistent-hint
-              @change="setText"
+              @input="setText"
             />
           </v-flex>
 
