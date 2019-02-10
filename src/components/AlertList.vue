@@ -200,7 +200,7 @@ export default {
 }
 
 .label {
-  font-size: 10.998px;
+  font-size: 11px;
   font-weight: bold;
   line-height: 14px;
   color: #ffffff;
