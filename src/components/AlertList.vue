@@ -57,14 +57,17 @@
               format="mediumDate"
             />
           </td>
+          <td>{{ props.item.duplicateCount }}</td>
           <td>{{ props.item.environment }}</td>
           <td>{{ props.item.service.join(', ') }}</td>
           <td>{{ props.item.resource }}</td>
           <td>{{ props.item.event }}</td>
           <td>{{ props.item.group }}</td>
           <td>{{ props.item.value }}</td>
-          <td class="text-truncate">
-            {{ props.item.text }}
+          <td>
+            <div class="fixed-table">
+              <div class="text-truncate">{{ props.item.text }}</div>
+            </div>
           </td>
         </tr>
       </template>
@@ -97,15 +100,16 @@ export default {
       // totalItems: number,
       search: '',
       headers: [
-        { text: 'Severity', value: 'severity', width: '1%' },
-        { text: 'Status', value: 'status', width: '1%' },
-        { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '1%' },
-        { text: 'Environment', value: 'environment', width: '1%' },
-        { text: 'Service', value: 'service', width: '1%' },
-        { text: 'Resource', value: 'resource', width: '1%' },
-        { text: 'Event', value: 'event', width: '1%' },
-        { text: 'Group', value: 'group', width: '1%' },
-        { text: 'Value', value: 'value', width: '1%' },
+        { text: 'Severity', value: 'severity', width: '5%' },
+        { text: 'Status', value: 'status', width: '5%' },
+        { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
+        { text: 'Dupl.', value: 'duplicateCount', width: '3%' },
+        { text: 'Environment', value: 'environment', width: '5%' },
+        { text: 'Service', value: 'service', width: '10%' },
+        { text: 'Resource', value: 'resource', width: '10%' },
+        { text: 'Event', value: 'event', width: '10%' },
+        { text: 'Group', value: 'group', width: '7%' },
+        { text: 'Value', value: 'value', width: '5%' },
         { text: 'Description', value: 'text' }
       ],
       details: false,
@@ -174,15 +178,21 @@ export default {
 </script>
 
 <style>
-.alert-table .v-table tbody tr td {
-  border-top: 1px solid #ddd;
-  margin: 0;
-  font-size: 12px;
-  line-height: 14px;
-  font-weight: normal;
+
+.alert-table .v-table th, td {
+  padding: 0px 5px !important;
 }
+
 .alert-table .v-table tbody td {
+  border-top: 1px solid rgb(221, 221, 221);
   height: 34px;
+  font-size: 12px;
+}
+
+.fixed-table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
 }
 
 .trend-arrow {
