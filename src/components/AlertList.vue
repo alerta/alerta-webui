@@ -63,7 +63,7 @@
           <td>{{ props.item.resource }}</td>
           <td>{{ props.item.event }}</td>
           <td>{{ props.item.group }}</td>
-          <td>{{ props.item.value }}</td>
+          <td class="text-no-wrap">{{ props.item.value }}</td>
           <td>
             <div class="fixed-table">
               <div class="text-truncate">{{ props.item.text }}</div>
@@ -101,7 +101,7 @@ export default {
       search: '',
       headers: [
         { text: 'Severity', value: 'severity', width: '5%' },
-        { text: 'Status', value: 'status', width: '5%' },
+        { text: 'Status', value: 'status', width: '3%' },
         { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
         { text: 'Dupl.', value: 'duplicateCount', width: '3%' },
         { text: 'Environment', value: 'environment', width: '5%' },
@@ -137,8 +137,8 @@ export default {
           if (a.severity == b.severity) {
             return b.lastReceiveTime - a.lastReceiveTime
           }
-          const severityCodeA = this.$config.severity[a.severity]
-          const severityCodeB = this.$config.severity[b.severity]
+          const severityCodeA = this.$config.severity[a.severity.toLowerCase()]
+          const severityCodeB = this.$config.severity[b.severity.toLowerCase()]
           if (severityCodeA < severityCodeB) return reverseSort * 1
           if (severityCodeA > severityCodeB) return reverseSort * -1
           return 0
@@ -148,8 +148,8 @@ export default {
       // sort by severity code
       if (index == 'severity') {
         return items.sort((a, b) => {
-          const severityCodeA = this.$config.severity[a.severity]
-          const severityCodeB = this.$config.severity[b.severity]
+          const severityCodeA = this.$config.severity[a.severity.toLowerCase()]
+          const severityCodeB = this.$config.severity[b.severity.toLowerCase()]
           if (severityCodeA > severityCodeB) return reverseSort * 1
           if (severityCodeA < severityCodeB) return reverseSort * -1
           return 0
@@ -168,7 +168,7 @@ export default {
       })
     },
     severityColor(severity) {
-      return this.$store.getters.getConfig('colors').severity[severity]
+      return this.$store.getters.getConfig('colors').severity[severity.toLowerCase()]
     },
     selectItem(itemId) {
       this.$router.push({ name: 'alert', params: { id: itemId } })
