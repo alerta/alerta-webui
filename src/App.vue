@@ -92,7 +92,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar>
+    <v-toolbar flat>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" />
 
       <img

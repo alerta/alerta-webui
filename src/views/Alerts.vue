@@ -16,7 +16,7 @@
       @close="sidesheet = false"
     />
 
-    <v-tabs grow>
+    <v-tabs class="px-2" grow>
       <v-tabs-slider />
       <v-tab
         v-for="env in environments"

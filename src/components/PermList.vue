@@ -102,7 +102,7 @@
         :items="perms"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
-        class="elevation-1"
+        class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort

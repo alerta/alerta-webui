@@ -428,7 +428,6 @@
                 :items="history"
                 item-key="index"
                 :pagination.sync="pagination"
-                class="elevation-1"
                 hide-actions
               >
                 <template

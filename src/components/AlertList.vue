@@ -5,7 +5,7 @@
       :items="alerts"
       :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
-      class="elevation-1 alert-table"
+      class="alert-table"
       :search="search"
       :loading="isLoading"
       must-sort
