@@ -147,7 +147,9 @@ export function createRouter(): VueRouter {
   })
 
   router.beforeEach((to, from, next) => {
-    document.title = to.meta.title + ' | Alerta'
+    if (to.meta.title) {
+      document.title = to.meta.title + ' | Alerta'
+    }
     next()
   })
 
