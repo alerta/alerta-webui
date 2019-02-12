@@ -16,7 +16,10 @@
       @close="sidesheet = false"
     />
 
-    <v-tabs class="px-2" grow>
+    <v-tabs
+      class="px-2"
+      grow
+    >
       <v-tabs-slider />
       <v-tab
         v-for="env in environments"
@@ -197,23 +200,26 @@ export default {
   created() {
     this.setSearch(this.query)
     this.getEnvironments()
-    this.getAlerts()
-    if (this.autoRefresh) {
-      this.timer = setInterval(() => this.getAlerts(), this.refreshInterval)
-    }
+    this.refreshAlerts()
   },
   beforeDestroy() {
-    clearInterval(this.timer)
+    clearTimeout(this.timer)
   },
   methods: {
     setSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
     },
     getAlerts() {
-      this.$store.dispatch('alerts/getAlerts')
+      return this.$store.dispatch('alerts/getAlerts')
     },
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')
+    },
+    refreshAlerts() {
+      this.getAlerts()
+        .then(() => {
+          this.timer = setTimeout(() => this.refreshAlerts(), this.refreshInterval)
+        })
     },
     setEnv(env) {
       this.filter = Object.assign({}, this.filter, {

@@ -12,7 +12,6 @@
       <v-icon color="white">
         add
       </v-icon>
-      <v-icon>close</v-icon>
     </v-btn>
   </v-fab-transition>
 </template>

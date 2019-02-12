@@ -26,6 +26,9 @@ const mutations = {
     state.isLoading = false
     state.alerts = alerts
   },
+  RESET_LOADING(state) {
+    state.isLoading = false
+  },
   SET_SEARCH_QUERY(state, query): any {
     state.query = query
   },
@@ -49,9 +52,9 @@ const mutations = {
 const actions = {
   getAlerts({ commit, state }) {
     commit('SET_LOADING')
-    return AlertsApi.getAlerts(state.query).then(({ alerts }) =>
-      commit('SET_ALERTS', alerts)
-    )
+    return AlertsApi.getAlerts(state.query)
+      .then(({ alerts }) => commit('SET_ALERTS', alerts))
+      .catch(() => commit('RESET_LOADING'))
   },
   updateQuery({ commit, dispatch }, query) {
     commit('SET_SEARCH_QUERY', query)
