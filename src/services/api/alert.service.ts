@@ -1,4 +1,7 @@
 import api from './index'
+import axios from 'axios'
+
+let queryInProgress
 
 export default {
   getAlert(alertId: string) {
@@ -26,8 +29,13 @@ export default {
     return api.put(`/alert/${alertId}/note`, data)
   },
   getAlerts(query: object) {
+    if (query && queryInProgress) {
+      queryInProgress.cancel('Too many search requests. Cancelling current query.')
+    }
+    queryInProgress = axios.CancelToken.source()
     let config = {
-      params: query
+      params: query,
+      cancelToken: queryInProgress.token
     }
     return api.get('/alerts', config)
   },

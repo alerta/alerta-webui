@@ -7,7 +7,6 @@
       :pagination.sync="pagination"
       class="alert-table"
       :search="search"
-      :loading="isLoading"
       must-sort
       :custom-sort="customSort"
       sort-icon="arrow_drop_down"
@@ -63,10 +62,14 @@
           <td>{{ props.item.resource }}</td>
           <td>{{ props.item.event }}</td>
           <td>{{ props.item.group }}</td>
-          <td class="text-no-wrap">{{ props.item.value }}</td>
+          <td class="text-no-wrap">
+            {{ props.item.value }}
+          </td>
           <td>
             <div class="fixed-table">
-              <div class="text-truncate">{{ props.item.text }}</div>
+              <div class="text-truncate">
+                {{ props.item.text }}
+              </div>
             </div>
           </td>
         </tr>
@@ -118,9 +121,6 @@ export default {
     }
   },
   computed: {
-    isLoading() {
-      return this.$store.state.alerts.isLoading
-    },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
     }

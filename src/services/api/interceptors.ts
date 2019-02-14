@@ -19,11 +19,13 @@ export default {
 
   // response handlers
   interceptErrors(error) {
-    store.dispatch('notifications/error', error.response.data)
+    if (error.response) {
+      store.dispatch('notifications/error', error.response.data)
+    }
     return Promise.reject(error)
   },
   redirectToLogin(error) {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       if (store.getters['auth/isLoggedIn']) {
         store.dispatch('auth/logout')
       }
