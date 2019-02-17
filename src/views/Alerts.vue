@@ -17,7 +17,7 @@
     />
 
     <v-tabs
-      class="px-2"
+      class="px-1"
       grow
     >
       <v-tabs-slider />

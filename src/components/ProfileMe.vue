@@ -100,7 +100,7 @@
         flat
         @click="logout()"
       >
-        Sign Out
+        Log Out
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -118,6 +118,7 @@ export default {
     provider: {
       basic: { icon: 'fas fa-id-card', text: 'BasicAuth' }, // FIXME
       basic_ldap: { icon: 'fas fa-id-card', text: 'LDAP' },
+      azure: { icon: 'fab fa-windows', text: 'Azure OAuth2' },
       github: { icon: 'fab fa-github', text: 'GitHub OAuth2' },
       gitlab: { icon: 'fab fa-gitlab', text: 'GitLab OAuth2' },
       google: { icon: 'fab fa-google', text: 'Google OAuth2' },
@@ -136,8 +137,9 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('auth/logout')
-      this.$router.go('/')
+      this.$store
+        .dispatch('auth/logout')
+        .then(() => this.$router.push('/'))
     },
     close() {
       this.$emit('close')

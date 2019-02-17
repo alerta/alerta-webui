@@ -17,7 +17,7 @@
         <div v-show="message">
           <span class="text-xs-center headline font-weight-medium">
             Thanks! {{ message }}. You can now <a href="/login">
-              login
+              log in
             </a>
           </span>
         </div>
