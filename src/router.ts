@@ -20,8 +20,6 @@ import Settings from './views/Settings.vue'
 
 Vue.use(VueRouter)
 
-import { store } from './main'
-
 export function createRouter(): VueRouter {
   const router = new VueRouter({
     mode: 'history',
@@ -29,7 +27,9 @@ export function createRouter(): VueRouter {
     routes: [
       {
         path: '/',
-        redirect: { name: 'alerts' }
+        name: 'home',
+        component: Home,
+        meta: { title: 'Home' }
       },
       {
         path: '/alerts',
@@ -84,9 +84,6 @@ export function createRouter(): VueRouter {
       {
         path: '/about',
         name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () =>
           import(/* webpackChunkName: 'about' */ './views/About.vue'),
         meta: { title: 'About', requiresAuth: true }

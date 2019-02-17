@@ -130,7 +130,26 @@
       <!-- <v-btn icon>
         <v-icon>search</v-icon>
       </v-btn>-->
-      <div>
+
+      <v-btn
+        v-show="!isLoggedIn && $config.signup_enabled"
+        round
+        outline
+        color="primary"
+        to="/signup"  
+      >
+        Sign Up
+      </v-btn>
+      <v-btn
+        v-show="!isLoggedIn"
+        round
+        color="primary"
+        to="/login"
+      >
+        Log In
+      </v-btn>
+
+      <div v-show="isLoggedIn">
         <v-tooltip left>
           <v-switch
             slot="activator"
@@ -144,19 +163,24 @@
       </div>
 
       <v-btn
+        v-show="isLoggedIn"
         icon
         @click="toggleFullScreen"
       >
         <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
       </v-btn>
 
-      <v-btn icon>
+      <v-btn
+        v-show="isLoggedIn"
+        icon
+      >
         <v-icon @click="refresh">
           refresh
         </v-icon>
       </v-btn>
 
       <v-menu
+        v-show="isLoggedIn"
         v-model="menu"
         :close-on-content-click="false"
         :nudge-width="200"

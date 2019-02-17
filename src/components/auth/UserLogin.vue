@@ -9,13 +9,25 @@
       wrap
     >
       <v-flex
+        v-show="!isBasicAuth"
         xs12
         sm6
         offset-xs0
         offset-sm3
       >
         <p class="text-xs-center headline font-weight-medium">
-          Please login to continue
+          Redirecting to {{ $config.provider | capitalize }} for authentication...
+        </p>
+      </v-flex>
+      <v-flex
+        v-show="isBasicAuth"
+        xs12
+        sm6
+        offset-xs0
+        offset-sm3
+      >
+        <p class="text-xs-center headline font-weight-medium">
+          Log in to Alerta to continue
         </p>
         <v-form @submit.prevent="login()">
           <v-text-field
@@ -40,7 +52,7 @@
             color="primary"
             type="submit"
           >
-            Sign In
+            Log In
           </v-btn>
         </v-form>
         <div class="text-xs-center">
@@ -102,12 +114,12 @@ export default {
       }
       this.$store
         .dispatch('auth/login', { credentials: credentials })
-        .then(() => this.$router.push(this.$route.query.redirect || '/'))
+        .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
     },
     authenticate() {
       this.$store
         .dispatch('auth/authenticate', { provider: this.$config.provider })
-        .then(() => this.$router.push(this.$route.query.redirect || '/'))
+        .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
     }
   }
 }

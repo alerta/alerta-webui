@@ -16,6 +16,16 @@ export function vueAuth(config) {
     storageNamespace: 'auth',
     registerUrl: '/auth/signup',
     providers: {
+      azure: {
+        name: 'azure',
+        url: `${config.endpoint}/auth/azure`,
+        clientId: config.client_id,
+        authorizationEndpoint: `https://login.microsoftonline.com/${config.azure_tenant}/oauth2/authorize`,
+        redirectUri: window.location.origin,
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 1020, height: 618 }
+      },
       github: {
         url: `${config.endpoint}/auth/github`,
         clientId: config.client_id,
@@ -23,19 +33,23 @@ export function vueAuth(config) {
         scope: ['user:email', 'read:org']
       },
       gitlab: {
+        name: 'gitlab',
         url: `${config.endpoint}/auth/gitlab`,
         clientId: config.client_id,
         authorizationEndpoint: `${config.gitlab_url}/oauth/authorize`,
         redirectUri: window.location.origin,
         requiredUrlParams: ['scope'],
         scope: ['openid'],
-        oauthType: '2.0'
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 1020, height: 618 }
       },
       google: {
         url: `${config.endpoint}/auth/google`,
         clientId: config.client_id
       },
       keycloak: {
+        name: 'keycloak',
         url: `${config.endpoint}/auth/keycloak`,
         clientId: config.client_id,
         authorizationEndpoint: `${config.keycloak_url}/auth/realms/${
@@ -45,6 +59,7 @@ export function vueAuth(config) {
         oauthType: '2.0'
       },
       pingfederate: {
+        name: 'pingfederate',
         url: `${config.endpoint}/auth/pingfederate`,
         clientId: config.client_id,
         authorizationEndpoint: config.pingfederate_url,

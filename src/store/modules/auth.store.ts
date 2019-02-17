@@ -13,19 +13,15 @@ export function makeStore(vueAuth) {
     },
 
     mutations: {
-      SET_AUTH(state, payload) {
+      SET_AUTH(state, [payload, token]) {
         state.isAuthenticated = true
+        state.token = token
         state.payload = payload
       },
       RESET_AUTH(state) {
         state.isAuthenticated = false
-        state.payload = {}
-      },
-      SET_TOKEN(state, token) {
-        state.token = token
-      },
-      CLEAR_TOKEN(state) {
         state.token = null
+        state.payload = {}
       },
       SET_SENDING(state) {
         state.isSending = true
@@ -45,23 +41,20 @@ export function makeStore(vueAuth) {
             password,
             text
           })
-          .then(() => commit('SET_AUTH', vueAuth.getPayload()))
-          .then(() => commit('SET_TOKEN', vueAuth.getToken()))
+          .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
           .finally(() => commit('RESET_SENDING'))
       },
       login({ commit, dispatch }, { credentials }) {
         return vueAuth
           .login(credentials)
-          .then(() => commit('SET_AUTH', vueAuth.getPayload()))
-          .then(() => commit('SET_TOKEN', vueAuth.getToken()))
+          .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
       },
       authenticate({ commit, dispatch }, payload) {
         return vueAuth
           .authenticate(payload.provider)
-          .then(() => commit('SET_AUTH', vueAuth.getPayload()))
-          .then(() => commit('SET_TOKEN', vueAuth.getToken()))
+          .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
       },
       confirm({ commit }, token) {
@@ -69,16 +62,17 @@ export function makeStore(vueAuth) {
       },
       forgot({ commit }, email) {
         commit('SET_SENDING')
-        return AuthApi.forgot(email).finally(() => commit('RESET_SENDING'))
+        return AuthApi
+          .forgot(email)
+          .finally(() => commit('RESET_SENDING'))
       },
       reset({ commit }, [token, password]) {
         return AuthApi.reset(token, password)
       },
-      logout({ commit, dispatch }) {
+      logout({ commit }) {
         return vueAuth
           .logout()
           .then(() => commit('RESET_AUTH'))
-          .then(() => commit('CLEAR_TOKEN'))
       }
     },
 
