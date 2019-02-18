@@ -17,7 +17,8 @@
       >
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
-          @click="selectItem(props.item.id)"
+          @mouseover="showIcons = props.item.id"
+          @mouseout="showIcons = null"
         >
           <td style="white-space: nowrap">
             <v-icon
@@ -65,11 +66,133 @@
           <td class="text-no-wrap">
             {{ props.item.value }}
           </td>
-          <td>
+          <td :colspan="showIcons === props.item.id ? '1' : '2'">
             <div class="fixed-table">
               <div class="text-truncate">
                 {{ props.item.text }}
               </div>
+            </div>
+          </td>
+          <td
+            v-show="showIcons === props.item.id"
+            style="white-space: nowrap"
+          >
+            <div
+              style="display:inline-block;"
+            >
+              <v-btn
+                v-show="props.item.status == 'ack' || props.item.status == 'closed'"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="takeAction(props.item.id, 'open')"
+              >
+                <v-icon small>
+                  refresh
+                </v-icon>
+              </v-btn>
+
+              <v-btn
+                v-show="!isWatched(props.item.tags)"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="watchAlert(props.item.id)"
+              >
+                <v-icon small>
+                  visibility
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-show="isWatched(props.item.tags)"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="unwatchAlert(props.item.id)"
+              >
+                <v-icon small>
+                  visibility_off
+                </v-icon>
+              </v-btn>
+
+              <v-btn
+                v-show="props.item.status == 'open'"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="takeAction(props.item.id, 'ack')"
+              >
+                <v-icon small>
+                  check
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-show="props.item.status == 'ack'"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="takeAction(props.item.id, 'unack')"
+              >
+                <v-icon small>
+                  undo
+                </v-icon>
+              </v-btn>
+
+              <v-btn
+                v-show="props.item.status == 'open' || props.item.status == 'ack'"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="shelveAlert(props.item.id)"
+              >
+                <v-icon small>
+                  schedule
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-show="props.item.status == 'shelved'"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="takeAction(props.item.id, 'unshelve')"
+              >
+                <v-icon small>
+                  restore
+                </v-icon>
+              </v-btn>
+
+              <v-btn
+                v-show="props.item.status != 'closed'"
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="takeAction(props.item.id, 'close')"
+              >
+                <v-icon small>
+                  highlight_off
+                </v-icon>
+              </v-btn>
+              <v-btn
+                flat
+                icon
+                small
+                class="px-1 mx-0"
+                @click="deleteAlert(props.item.id)"
+              >
+                <v-icon small>
+                  delete
+                </v-icon>
+              </v-btn>
+
+              <v-btn flat icon small class="px-1 mx-0"><v-icon small>more_vert</v-icon></v-btn>
             </div>
           </td>
         </tr>
@@ -113,16 +236,24 @@ export default {
         { text: 'Event', value: 'event', width: '10%' },
         { text: 'Group', value: 'group', width: '7%' },
         { text: 'Value', value: 'value', width: '5%' },
-        { text: 'Description', value: 'text' }
+        { text: 'Description', value: 'text' },
+        { text: '', value: '' },
       ],
       details: false,
       selectedId: null,
+      showIcons: null,
       timer: null
     }
   },
   computed: {
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
+    },
+    shelveTimeout() {
+      return this.$store.getters.getPreference('shelveTimeout')
+    },
+    username() {
+      return this.$store.getters['auth/getPayload'].name
     }
   },
   methods: {
@@ -172,6 +303,34 @@ export default {
     },
     selectItem(itemId) {
       this.$router.push({ name: 'alert', params: { id: itemId } })
+    },
+    takeAction(id, action) {
+      this.$store
+        .dispatch('alerts/takeAction', [id, action, 'operator action short-cut'])
+    },
+    shelveAlert(id) {
+      this.$store
+        .dispatch('alerts/takeAction', [
+          id,
+          'shelve',
+          'operator shelve short-cut',
+          this.shelveTimeout
+        ])
+    },
+    isWatched(tags) {
+      return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
+    },
+    watchAlert(id) {
+      this.$store
+        .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
+    },
+    unwatchAlert(id) {
+      this.$store
+        .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
+    },
+    deleteAlert(id) {
+      confirm('Are you sure you want to delete this item?') &&
+        this.$store.dispatch('alerts/deleteAlert', id)
     }
   }
 }
@@ -185,8 +344,8 @@ export default {
 
 .alert-table .v-table tbody td {
   border-top: 1px solid rgb(221, 221, 221);
-  height: 34px;
-  font-size: 12px;
+  height: 42px;
+  font-size: 14px;
 }
 
 .fixed-table {
@@ -200,7 +359,7 @@ export default {
 }
 
 .label {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: bold;
   line-height: 14px;
   color: #ffffff;
@@ -248,4 +407,9 @@ export default {
   white-space: nowrap;
   overflow: hidden;
 }
+
+/* .v-btn:hover:before,
+.v-btn:focus:before {
+  content: none;
+} */
 </style>

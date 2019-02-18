@@ -1,5 +1,7 @@
 <template>
-  <v-card>
+  <v-card
+    max-width="300"
+  >
     <v-list>
       <v-list-tile>
         <v-list-tile-content>

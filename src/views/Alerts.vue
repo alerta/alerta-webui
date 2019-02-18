@@ -45,6 +45,12 @@
       >
         <v-icon>filter_list</v-icon>
       </v-btn>
+      <v-btn
+        flat
+        icon
+      >
+        <v-icon>more_vert</v-icon>
+      </v-btn>
       <span class="pr-2" />
 
       <v-tabs-items>
