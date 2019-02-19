@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-data-table
+      v-model="selected"
       :headers="headers"
       :items="alerts"
       :rows-per-page-items="rowsPerPageItems"
@@ -21,27 +22,38 @@
           @mouseout="showIcons = null"
         >
           <td style="white-space: nowrap">
+            <v-checkbox
+              v-if="selectableRows"
+              v-model="props.selected"
+              primary
+              hide-details
+              color="gray"
+              class="select-box"
+              :ripple="false"
+            />
             <v-icon
-              v-if="props.item.trendIndication == 'moreSevere'"
+              v-else-if="props.item.trendIndication == 'moreSevere'"
               class="trend-arrow"
-              small
+              @click="multiselect = true; props.selected = true"
             >
               arrow_upward
             </v-icon>
             <v-icon
               v-else-if="props.item.trendIndication == 'lessSevere'"
               class="trend-arrow"
-              small
+              @click="multiselect = true; props.selected = true"
             >
               arrow_downward
             </v-icon>
             <v-icon
               v-else
               class="trend-arrow"
-              small
+              @click="multiselect = true; props.selected = true"
             >
               remove
-            </v-icon>&nbsp;
+            </v-icon>
+          </td>
+          <td>
             <span :class="['label', 'label-' + props.item.severity]">
               {{ props.item.severity | capitalize }}
             </span>
@@ -66,7 +78,7 @@
           <td class="text-no-wrap">
             {{ props.item.value }}
           </td>
-          <td :colspan="showIcons === props.item.id ? '1' : '2'">
+          <td :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'">
             <div class="fixed-table">
               <div class="text-truncate">
                 {{ props.item.text }}
@@ -74,7 +86,7 @@
             </div>
           </td>
           <td
-            v-show="showIcons === props.item.id"
+            v-show="showIcons === props.item.id && !selectableRows"
             style="white-space: nowrap"
           >
             <div
@@ -210,7 +222,16 @@
                 </v-icon>
               </v-btn>
 
-              <v-btn flat icon small class="btn--plain px-1 mx-0"><v-icon small>more_vert</v-icon></v-btn>
+              <v-btn
+                flat
+                icon
+                small
+                class="btn--plain px-1 mx-0"
+              >
+                <v-icon small>
+                  more_vert
+                </v-icon>
+              </v-btn>
             </div>
           </td>
         </tr>
@@ -244,6 +265,7 @@ export default {
       // totalItems: number,
       search: '',
       headers: [
+        { text: '', value: 'trendIndication', width: '1%', sortable: false },
         { text: 'Severity', value: 'severity', width: '5%' },
         { text: 'Status', value: 'status', width: '3%' },
         { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
@@ -260,12 +282,24 @@ export default {
       details: false,
       selectedId: null,
       showIcons: null,
+      multiselect: false,
       timer: null
     }
   },
   computed: {
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
+    },
+    selectableRows() {
+      return this.selected.length > 0
+    },
+    selected: {
+      get() {
+        return this.$store.state.alerts.selected
+      },
+      set(value) {
+        this.$store.dispatch('alerts/updateSelected', value)
+      }
     },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
@@ -372,8 +406,12 @@ export default {
   width: 100%;
 }
 
-.trend-arrow {
-  font-weight: bold;
+i.select-box {
+  font-size: 20px;
+}
+
+i.trend-arrow {
+  font-size: 20px;
 }
 
 .label {
@@ -426,18 +464,13 @@ export default {
   overflow: hidden;
 }
 
-/* .v-btn:hover:before,
-.v-btn:focus:before {
-  content: none;
-} */
-
 .btn--plain {
   height: auto;
   width: auto;
   margin: 0;
   padding: 8px;
   min-width: 0;
-  font-size: 24;
+  font-size: 24px;
 }
 .btn--plain {
   padding: 0;

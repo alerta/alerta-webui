@@ -6,6 +6,7 @@ const state = {
   isLoading: false,
 
   alerts: [],
+  selected: [],
   query: {}, // 'q' query string syntax eg. {"q": "severity:critical"}
   environments: [],
   services: [],
@@ -32,6 +33,9 @@ const mutations = {
   SET_SEARCH_QUERY(state, query): any {
     state.query = query
   },
+  SET_SELECTED(state, selected) {
+    state.selected = selected
+  },
   SET_ALERT(state, alert): any {
     state.alert = alert
   },
@@ -56,8 +60,11 @@ const actions = {
       .then(({ alerts }) => commit('SET_ALERTS', alerts))
       .catch(() => commit('RESET_LOADING'))
   },
-  updateQuery({ commit, dispatch }, query) {
+  updateQuery({ commit }, query) {
     commit('SET_SEARCH_QUERY', query)
+  },
+  updateSelected({ commit }, selected) {
+    commit('SET_SELECTED', selected)
   },
 
   getAlert({ commit }, alertId) {

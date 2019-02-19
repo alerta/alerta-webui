@@ -31,6 +31,7 @@ const actions = {
 export function createStore(): Store<State> {
   return new Vuex.Store({
     state: {
+      multiselect: false,
       refresh: false
     },
     mutations,

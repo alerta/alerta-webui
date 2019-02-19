@@ -92,8 +92,13 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar flat>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+    <v-toolbar
+      v-if="selected.length == 0"
+      flat
+    >
+      <v-toolbar-side-icon
+        @click.stop="drawer = !drawer"
+      />
 
       <img
         v-if="$config.site_logo_url"
@@ -118,18 +123,27 @@
         solo
         clearable
         height="44"
-        class="pt-2 hidden-sm-and-down"
+        class="pt-2 mr-3 hidden-sm-and-down"
         @focus="hasFocus = true"
         @blur="hasFocus = false"
         @change="submitSearch"
         @click:clear="clearSearch"
       />
 
-      <v-spacer />
+      <div v-show="isLoggedIn">
+        <v-tooltip left>
+          <v-switch
+            slot="activator"
+            :input-value="isWatch"
+            hide-details
+            open-delay="3000"
+            @change="toggle('isWatch', $event)"
+          />
+          <span>Watch</span>
+        </v-tooltip>
+      </div>
 
-      <!-- <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn>-->
+      <v-spacer />
 
       <v-btn
         v-show="!isLoggedIn && $config.signup_enabled"
@@ -149,18 +163,133 @@
         Log In
       </v-btn>
 
-      <div v-show="isLoggedIn">
-        <v-tooltip left>
-          <v-switch
-            slot="activator"
-            :input-value="isWatch"
-            hide-details
-            open-delay="3000"
-            @change="toggle('isWatch', $event)"
-          />
-          <span>Watch</span>
-        </v-tooltip>
-      </div>
+      <v-btn
+        v-show="isLoggedIn"
+        icon
+        @click="toggleFullScreen"
+      >
+        <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+      </v-btn>
+
+      <v-btn
+        v-show="isLoggedIn"
+        icon
+      >
+        <v-icon @click="refresh">
+          refresh
+        </v-icon>
+      </v-btn>
+
+      <v-menu
+        v-show="isLoggedIn"
+        v-model="menu"
+        :close-on-content-click="false"
+        :nudge-width="200"
+        offset-x
+        :disabled="!isLoggedIn"
+      >
+        <v-btn
+          slot="activator"
+          :disabled="!isLoggedIn"
+          icon
+        >
+          <v-icon>{{ navbar.signin.icon }}</v-icon>
+        </v-btn>
+
+        <profile-me
+          v-if="profile"
+          :profile="profile"
+          @close="menu = false"
+        />
+      </v-menu>
+    </v-toolbar>
+
+    <v-toolbar
+      v-if="selected.length > 0"
+      color="grey lighten-2"
+    >
+      <v-btn
+        icon
+        @click="clearSelected"
+      >
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
+      <v-toolbar-title>
+        Back
+      </v-toolbar-title>
+
+      <v-spacer />
+
+      {{ selected.length }} selected
+
+      <v-spacer />
+      <v-btn
+        icon
+        @click="toggleWatch()"
+      >
+        <v-icon>
+          visibility
+        </v-icon>
+      </v-btn>
+
+      <v-btn
+        icon
+        @click="takeBulkAction('ack')"
+      >
+        <v-icon>
+          check
+        </v-icon>
+      </v-btn>
+
+      <v-btn
+        icon
+        @click="bulkShelveAlert()"
+      >
+        <v-icon>
+          schedule
+        </v-icon>
+      </v-btn>
+
+      <v-btn
+        icon
+        @click="takeBulkAction('close')"
+      >
+        <v-icon>
+          highlight_off
+        </v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        @click="bulkDeleteAlert()"
+      >
+        <v-icon>
+          delete
+        </v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>more_vert</v-icon>
+      </v-btn>
+
+      <v-spacer />
+
+      <v-btn
+        v-show="!isLoggedIn && $config.signup_enabled"
+        round
+        outline
+        color="primary"
+        to="/signup"  
+      >
+        Sign Up
+      </v-btn>
+      <v-btn
+        v-show="!isLoggedIn"
+        round
+        color="primary"
+        to="/login"
+      >
+        Log In
+      </v-btn>
 
       <v-btn
         v-show="isLoggedIn"
@@ -316,6 +445,15 @@ export default {
       set(value) {
         // FIXME: offer query suggestions to user here, in future
       }
+    },
+    selected() {
+      return this.$store.state.alerts.selected
+    },
+    shelveTimeout() {
+      return this.$store.getters.getPreference('shelveTimeout')
+    },
+    username() {
+      return this.$store.getters['auth/getPayload'].name
     }
   },
   methods: {
@@ -333,6 +471,50 @@ export default {
         query: { ...this.$router.query, q: undefined }
       })
       this.refresh()
+    },
+    clearSelected() {
+      this.$store.dispatch('alerts/updateSelected', [])
+    },
+    takeBulkAction(action) {
+      this.selected.map(a => this.$store.dispatch('alerts/takeAction', [a.id, action, 'operator bulk action']))
+        .reduce(() => this.clearSelected())
+    },
+    bulkShelveAlert() {
+      this.selected.map(a => {
+        this.$store
+          .dispatch('alerts/takeAction', [
+            a.id,
+            'shelve',
+            'operator shelve short-cut',
+            this.shelveTimeout
+          ])
+      })
+        .reduce(() => this.clearSelected())
+    },
+    isWatched(tags) {
+      return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
+    },
+    toggleWatch() {
+      if (this.selected.some(x => !this.isWatched(x.tags))) {
+        this.selected.map(a => this.watchAlert(a.id))
+          .reduce(() => this.clearSelected())
+      } else {
+        this.selected.map(a => this.unwatchAlert(a.id))
+          .reduce(() => this.clearSelected())
+      }
+    },
+    watchAlert(id) {
+      this.$store
+        .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
+    },
+    unwatchAlert(id) {
+      this.$store
+        .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
+    },
+    bulkDeleteAlert() {
+      confirm('Are you sure you want to delete these items?') &&
+        this.selected.map(a => this.$store.dispatch('alerts/deleteAlert', a.id))
+          .reduce(() => this.clearSelected())
     },
     toggle(sw, value) {
       this.$store.dispatch('alerts/toggle', [sw, value])
