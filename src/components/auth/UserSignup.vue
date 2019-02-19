@@ -47,6 +47,7 @@
             name="password"
             :type="showPassword ? 'text' : 'password'"
             label="Password"
+            :rules="[rules.min]"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
             outline
@@ -55,9 +56,10 @@
           <v-text-field
             v-model="confirmPassword"
             name="confirm-password"
+            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :type="showPassword ? 'text' : 'password'"
             label="Confirm Password"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :rules="[rules.passwordMatch]"
             :disabled="!signupEnabled"
             outline
             @click:append="showPassword = !showPassword"
@@ -108,14 +110,22 @@ import { router } from '@/main'
 
 export default {
   props: [],
-  data: () => ({
-    name: null,
-    email: null,
-    password: null,
-    confirmPassword: null,
-    text: null,
-    showPassword: false
-  }),
+  data() {
+    return {
+      name: null,
+      email: null,
+      password: null,
+      confirmPassword: null,
+      showPassword: false,
+      text: null,
+      rules: {
+        required: v => !!v || 'Required.',
+        min: v => !v || v.length >= 6 || 'Min 6 characters',
+        passwordMatch: v =>
+          v == this.password || 'Passwords entered don\'t match'
+      }
+    }
+  },
   computed: {
     isSending() {
       return this.$store.state.auth.isSending
