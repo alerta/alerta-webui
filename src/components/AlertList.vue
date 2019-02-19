@@ -85,10 +85,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="takeAction(props.item.id, 'open')"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   refresh
                 </v-icon>
               </v-btn>
@@ -98,10 +100,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="watchAlert(props.item.id)"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   visibility
                 </v-icon>
               </v-btn>
@@ -110,10 +114,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="unwatchAlert(props.item.id)"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   visibility_off
                 </v-icon>
               </v-btn>
@@ -123,10 +129,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="takeAction(props.item.id, 'ack')"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   check
                 </v-icon>
               </v-btn>
@@ -135,10 +143,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="takeAction(props.item.id, 'unack')"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   undo
                 </v-icon>
               </v-btn>
@@ -148,10 +158,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="shelveAlert(props.item.id)"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   schedule
                 </v-icon>
               </v-btn>
@@ -160,10 +172,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="takeAction(props.item.id, 'unshelve')"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   restore
                 </v-icon>
               </v-btn>
@@ -173,10 +187,12 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="takeAction(props.item.id, 'close')"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   highlight_off
                 </v-icon>
               </v-btn>
@@ -184,15 +200,17 @@
                 flat
                 icon
                 small
-                class="px-1 mx-0"
+                class="btn--plain px-1 mx-0"
                 @click="deleteAlert(props.item.id)"
               >
-                <v-icon small>
+                <v-icon
+                  size="20px"
+                >
                   delete
                 </v-icon>
               </v-btn>
 
-              <v-btn flat icon small class="px-1 mx-0"><v-icon small>more_vert</v-icon></v-btn>
+              <v-btn flat icon small class="btn--plain px-1 mx-0"><v-icon small>more_vert</v-icon></v-btn>
             </div>
           </td>
         </tr>
@@ -412,4 +430,25 @@ export default {
 .v-btn:focus:before {
   content: none;
 } */
+
+.btn--plain {
+  height: auto;
+  width: auto;
+  margin: 0;
+  padding: 8px;
+  min-width: 0;
+  font-size: 24;
+}
+.btn--plain {
+  padding: 0;
+  opacity: 0.6;
+}
+.btn--plain:before {
+  background-color: transparent !important;
+  transition: none !important;
+}
+.btn--plain:hover {
+  opacity: 1;
+}
+
 </style>
