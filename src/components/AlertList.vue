@@ -406,12 +406,14 @@ export default {
   width: 100%;
 }
 
-i.select-box {
-  font-size: 20px;
-}
-
 i.trend-arrow {
   font-size: 20px;
+  width: 24px !important;
+}
+
+div.select-box {
+  font-size: 20px;
+  width: 24px !important;
 }
 
 .label {
