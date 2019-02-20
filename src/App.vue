@@ -232,7 +232,9 @@
 
       <v-spacer />
 
-      <span class="subheading">{{ selected.length }} selected</span>
+      <span class="subheading">
+        {{ selected.length }} selected
+      </span>
 
       <v-spacer />
 
