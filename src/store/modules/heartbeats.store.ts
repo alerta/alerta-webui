@@ -4,7 +4,6 @@ const namespaced = true
 
 const state = {
   isLoading: false,
-  error: null,
 
   heartbeats: []
 }
@@ -17,9 +16,8 @@ const mutations = {
     state.isLoading = false
     state.heartbeats = heartbeats
   },
-  SET_ERROR(state, error) {
+  RESET_LOADING(state) {
     state.isLoading = false
-    state.error = error
   }
 }
 
@@ -28,14 +26,13 @@ const actions = {
     commit('SET_LOADING')
     return HeartbeatsApi.getHeartbeats({})
       .then(({ heartbeats }) => commit('SET_HEARTBEATS', heartbeats))
-      .catch(error => commit('SET_ERROR', error.response.data.message))
+      .catch(() => commit('RESET_LOADING'))
   },
   deleteHeartbeat({ dispatch, commit }, heartbeatId) {
     return HeartbeatsApi.deleteHeartbeat(heartbeatId)
       .then(response => {
         dispatch('getHeartbeats')
       })
-      .catch(error => commit('SET_ERROR', error.response.data.message))
   }
 }
 

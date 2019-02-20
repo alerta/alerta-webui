@@ -4,7 +4,6 @@ const namespaced = true
 
 const state = {
   isLoading: false,
-  error: null,
 
   keys: []
 }
@@ -21,9 +20,8 @@ const mutations = {
     state.isLoading = false
     state.keys = keys
   },
-  SET_ERROR(state, error) {
+  RESET_LOADING(state) {
     state.isLoading = false
-    state.error = error
   }
 }
 
@@ -32,28 +30,25 @@ const actions = {
     commit('SET_LOADING')
     return KeysApi.getKeys({})
       .then(({ keys }) => commit('SET_KEYS', keys))
-      .catch(error => commit('SET_ERROR', error.response.data.message))
+      .catch(() => commit('RESET_LOADING'))
   },
   createKey({ dispatch, commit }, key) {
     return KeysApi.createKey(key)
       .then(response => {
         dispatch('getKeys')
       })
-      .catch(error => commit('SET_ERROR', error.response.data.message))
   },
   updateKey({ dispatch, commit }, [key, update]) {
     return KeysApi.updateKey(key, update)
       .then(response => {
         dispatch('getKeys')
       })
-      .catch(error => dispatch('notifications/error', error, { root: true }))
   },
   deleteKey({ dispatch, commit }, key) {
     return KeysApi.deleteKey(key)
       .then(response => {
         dispatch('getKeys')
       })
-      .catch(error => commit('SET_ERROR', error.response.data.message))
   }
 }
 

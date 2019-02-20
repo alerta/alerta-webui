@@ -38,17 +38,14 @@ const actions = {
     return ManagementApi.manifest().then(manifest =>
       commit('SET_MANIFEST', manifest)
     )
-    // .catch(error => commit('SET_ERROR', error.response.data.message));
   },
   getHealthcheck({ commit, dispatch }) {
     return ManagementApi.healthcheck().then(healthcheck =>
       commit('SET_HEALTHCHECK', healthcheck)
     )
-    // .catch(error => commit('SET_ERROR', error.response.data.message));
   },
   getStatus({ commit, dispatch }) {
     return ManagementApi.status().then(status => commit('SET_STATUS', status))
-    // .catch(error => commit('SET_ERROR', error.response.data.message));
   }
 }
 
