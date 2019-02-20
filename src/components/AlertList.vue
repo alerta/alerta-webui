@@ -11,6 +11,7 @@
       must-sort
       :custom-sort="customSort"
       sort-icon="arrow_drop_down"
+      select-all
     >
       <template
         slot="items"
@@ -20,6 +21,7 @@
           :style="{ 'background-color': severityColor(props.item.severity) }"
           @mouseover="showIcons = props.item.id"
           @mouseout="showIcons = null"
+          @click="selectItem(props.item.id)"
         >
           <td style="white-space: nowrap">
             <v-checkbox
@@ -30,25 +32,26 @@
               color="gray"
               class="select-box"
               :ripple="false"
+              @click.stop
             />
             <v-icon
               v-else-if="props.item.trendIndication == 'moreSevere'"
               class="trend-arrow"
-              @click="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; props.selected = true"
             >
               arrow_upward
             </v-icon>
             <v-icon
               v-else-if="props.item.trendIndication == 'lessSevere'"
               class="trend-arrow"
-              @click="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; props.selected = true"
             >
               arrow_downward
             </v-icon>
             <v-icon
               v-else
               class="trend-arrow"
-              @click="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; props.selected = true"
             >
               remove
             </v-icon>
@@ -98,7 +101,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'open')"
+                @click.stop="takeAction(props.item.id, 'open')"
               >
                 <v-icon
                   size="20px"
@@ -113,7 +116,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="watchAlert(props.item.id)"
+                @click.stop="watchAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -127,7 +130,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="unwatchAlert(props.item.id)"
+                @click.stop="unwatchAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -142,7 +145,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'ack')"
+                @click.stop="takeAction(props.item.id, 'ack')"
               >
                 <v-icon
                   size="20px"
@@ -156,7 +159,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'unack')"
+                @click.stop="takeAction(props.item.id, 'unack')"
               >
                 <v-icon
                   size="20px"
@@ -171,7 +174,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="shelveAlert(props.item.id)"
+                @click.stop="shelveAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -185,7 +188,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'unshelve')"
+                @click.stop="takeAction(props.item.id, 'unshelve')"
               >
                 <v-icon
                   size="20px"
@@ -200,7 +203,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'close')"
+                @click.stop="takeAction(props.item.id, 'close')"
               >
                 <v-icon
                   size="20px"
@@ -213,7 +216,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="deleteAlert(props.item.id)"
+                @click.stop="deleteAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -265,7 +268,6 @@ export default {
       // totalItems: number,
       search: '',
       headers: [
-        { text: '', value: 'trendIndication', width: '1%', sortable: false },
         { text: 'Severity', value: 'severity', width: '5%' },
         { text: 'Status', value: 'status', width: '3%' },
         { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
