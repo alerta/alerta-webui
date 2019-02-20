@@ -9,7 +9,9 @@
       fixed
       app
     >
-      <v-toolbar flat>
+      <v-toolbar
+        flat
+      >
         <v-toolbar-side-icon @click.stop="drawer = !drawer" />
 
         <img
@@ -95,6 +97,7 @@
     <v-toolbar
       v-if="selected.length == 0"
       flat
+      class="mb-1"
     >
       <v-toolbar-side-icon
         @click.stop="drawer = !drawer"
@@ -131,7 +134,7 @@
       />
 
       <div v-show="isLoggedIn">
-        <v-tooltip left>
+        <v-tooltip bottom>
           <v-switch
             slot="activator"
             :input-value="isWatch"
@@ -163,22 +166,30 @@
         Log In
       </v-btn>
 
-      <v-btn
-        v-show="isLoggedIn"
-        icon
-        @click="toggleFullScreen"
-      >
-        <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <v-btn
+          v-show="isLoggedIn"
+          slot="activator"
+          icon
+          @click="toggleFullScreen"
+        >
+          <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+        </v-btn>
+        <span>Full screen</span>
+      </v-tooltip>
 
-      <v-btn
-        v-show="isLoggedIn"
-        icon
-      >
-        <v-icon @click="refresh">
-          refresh
-        </v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <v-btn
+          v-show="isLoggedIn"
+          slot="activator"
+          icon
+        >
+          <v-icon @click="refresh">
+            refresh
+          </v-icon>
+        </v-btn>
+        <span>Refresh</span>
+      </v-tooltip>
 
       <v-menu
         v-show="isLoggedIn"
@@ -207,6 +218,7 @@
     <v-toolbar
       v-if="selected.length > 0"
       color="grey lighten-2"
+      class="mb-1"
     >
       <v-btn
         icon
@@ -220,54 +232,84 @@
 
       <v-spacer />
 
-      {{ selected.length }} selected
+      <span class="subheading">{{ selected.length }} selected</span>
 
       <v-spacer />
-      <v-btn
-        icon
-        @click="toggleWatch()"
-      >
-        <v-icon>
-          visibility
-        </v-icon>
-      </v-btn>
+
+      <v-tooltip bottom>
+        <v-btn
+          slot="activator"
+          icon
+          class="btn--plain"
+          @click="toggleWatch()"
+        >
+          <v-icon>
+            visibility
+          </v-icon>
+        </v-btn>
+        <span>Watch</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <v-btn
+          slot="activator"
+          icon
+          class="btn--plain"
+          @click="takeBulkAction('ack')"
+        >
+          <v-icon>
+            check
+          </v-icon>
+        </v-btn>
+        <span>Ack</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <v-btn
+          slot="activator"
+          icon
+          class="btn--plain"
+          @click="bulkShelveAlert()"
+        >
+          <v-icon>
+            schedule
+          </v-icon>
+        </v-btn>
+        <span>Shelve</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <v-btn
+          slot="activator"
+          icon
+          class="btn--plain"
+          @click="takeBulkAction('close')"
+        >
+          <v-icon>
+            highlight_off
+          </v-icon>
+        </v-btn>
+        <span>Close</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <v-btn
+          slot="activator"
+          icon
+          class="btn--plain"
+          @click="bulkDeleteAlert()"
+        >
+          <v-icon>
+            delete
+          </v-icon>
+        </v-btn>
+        <span>Delete</span>
+      </v-tooltip>
 
       <v-btn
         icon
-        @click="takeBulkAction('ack')"
+        class="btn--plain"
       >
-        <v-icon>
-          check
-        </v-icon>
-      </v-btn>
-
-      <v-btn
-        icon
-        @click="bulkShelveAlert()"
-      >
-        <v-icon>
-          schedule
-        </v-icon>
-      </v-btn>
-
-      <v-btn
-        icon
-        @click="takeBulkAction('close')"
-      >
-        <v-icon>
-          highlight_off
-        </v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click="bulkDeleteAlert()"
-      >
-        <v-icon>
-          delete
-        </v-icon>
-      </v-btn>
-
-      <v-btn icon>
         <v-icon>more_vert</v-icon>
       </v-btn>
 
@@ -291,22 +333,30 @@
         Log In
       </v-btn>
 
-      <v-btn
-        v-show="isLoggedIn"
-        icon
-        @click="toggleFullScreen"
-      >
-        <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <v-btn
+          v-show="isLoggedIn"
+          slot="activator"
+          icon
+          @click="toggleFullScreen"
+        >
+          <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+        </v-btn>
+        <span>Full screen</span>
+      </v-tooltip>
 
-      <v-btn
-        v-show="isLoggedIn"
-        icon
-      >
-        <v-icon @click="refresh">
-          refresh
-        </v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <v-btn
+          v-show="isLoggedIn"
+          slot="activator"
+          icon
+        >
+          <v-icon @click="refresh">
+            refresh
+          </v-icon>
+        </v-btn>
+        <span>Refresh</span>
+      </v-tooltip>
 
       <v-menu
         v-show="isLoggedIn"
@@ -4880,19 +4930,15 @@ export default {
   font-size: 26px;
 }
 
-.v-btn__content {
-  font-family: "Roboto", sans-serif;
+.btn--plain {
+  padding: 0;
+  opacity: 0.6;
 }
-
-.v-navigation-drawer {
-  font-family: "Roboto", sans-serif;
+.btn--plain:before {
+  background-color: transparent !important;
+  transition: none !important;
 }
-
-.v-tabs__bar {
-  font-family: "Roboto", sans-serif;
-}
-
-.v-card__title {
-  font-family: "Roboto", sans-serif;
+.btn--plain:hover {
+  opacity: 1;
 }
 </style>
