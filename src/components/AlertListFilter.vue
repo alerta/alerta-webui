@@ -2,6 +2,7 @@
   <v-navigation-drawer
     :value="sidesheet"
     clipped
+    disable-resize-watcher
     absolute
     hide-overlay
     width="300"
