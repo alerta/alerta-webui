@@ -6,6 +6,7 @@
     <v-navigation-drawer
       :value="showDrawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
+      disable-resize-watcher
       fixed
       app
     >
