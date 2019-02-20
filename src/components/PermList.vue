@@ -138,7 +138,7 @@
               <span>(scope)</span>
             </v-chip>
           </td>
-          <td class="justify-center layout px-0">
+          <td>
             <v-icon
               small
               class="mr-2"

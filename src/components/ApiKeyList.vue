@@ -229,7 +229,7 @@
           <td>{{ props.item.count }}</td>
           <td>{{ props.item.lastUsedTime | timeago }}</td>
           <td>{{ props.item.customer }}</td>
-          <td class="justify-center layout px-0">
+          <td>
             <v-icon
               small
               class="mr-2"
@@ -240,6 +240,7 @@
             <v-icon
               v-has-perms.disable="'admin:keys'"
               small
+              class="mr-2"
               @click="deleteItem(props.item)"
             >
               delete
@@ -443,8 +444,4 @@ td[monospace] {
     monospace;
 }
 
-.download-link {
-  padding-left: 6px;
-  text-decoration: none;
-}
 </style>
