@@ -19,6 +19,7 @@
       >
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
+          class="hover-lighten"
           @mouseover="showIcons = props.item.id"
           @mouseout="showIcons = null"
           @click="selectItem(props.item.id)"
@@ -279,7 +280,7 @@ export default {
         { text: 'Group', value: 'group', width: '7%' },
         { text: 'Value', value: 'value', width: '5%' },
         { text: 'Description', value: 'text' },
-        { text: '', value: '' },
+        { text: '', value: '', sortable: false }  // action buttons
       ],
       details: false,
       selectedId: null,
@@ -466,6 +467,10 @@ div.select-box {
 .no-wrap {
   white-space: nowrap;
   overflow: hidden;
+}
+
+.hover-lighten:hover {
+  filter: brightness(0.87);
 }
 
 .btn--plain {

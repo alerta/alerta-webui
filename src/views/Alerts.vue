@@ -40,7 +40,7 @@
       <v-btn
         flat
         icon
-        :class="{ active: isActive }"
+        :class="{ 'filter-active': isActive }"
         @click="sidesheet = !sidesheet"
       >
         <v-icon>filter_list</v-icon>
@@ -257,7 +257,7 @@ export default {
 </script>
 
 <style>
-.active::after {
+.filter-active::after {
   background-color: rgb(255, 82, 82);
   border-radius: 50%;
   box-sizing: border-box;

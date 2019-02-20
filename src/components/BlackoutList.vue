@@ -344,7 +344,7 @@
           <td class="text-xs-left">
             {{ props.item.text }}
           </td>
-          <td class="justify-center layout px-0">
+          <td>
             <v-icon
               small
               class="mr-2"
