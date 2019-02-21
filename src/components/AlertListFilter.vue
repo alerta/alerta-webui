@@ -10,10 +10,11 @@
   >
     <v-card tile>
       <v-toolbar
+        :color="isDark ? '#616161' : '#eeeeee'"
         card
         dense
       >
-        <v-toolbar-title class="body-2 grey--text">
+        <v-toolbar-title>
           Filters
         </v-toolbar-title>
         <v-spacer />
@@ -176,6 +177,9 @@ export default {
     }
   },
   computed: {
+    isDark() {
+      return this.$store.getters.getPreference('isDark')
+    },
     history() {
       return this.item.history.map((h, index) => ({ index: index, ...h }))
     },
