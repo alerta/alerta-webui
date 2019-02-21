@@ -3,18 +3,109 @@
     id="alerta"
     :dark="isDark"
   >
-    <v-navigation-drawer
-      :value="showDrawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      disable-resize-watcher
-      fixed
-      app
-    >
+    <div v-if="!isKiosk">
+      <v-navigation-drawer
+        :value="showDrawer"
+        :clipped="$vuetify.breakpoint.lgAndUp"
+        disable-resize-watcher
+        fixed
+        app
+      >
+        <v-toolbar
+          :color="isDark ? '#616161' : '#eeeeee'"
+          flat
+        >
+          <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+
+          <img
+            v-if="$config.site_logo_url"
+            :src="$config.site_logo_url"
+            height="48"
+          >
+          <v-toolbar-title
+            v-else
+            class="logo"
+          >
+            alerta
+          </v-toolbar-title>
+        </v-toolbar>
+
+        <v-divider />
+        <v-list dense>
+          <template v-for="item in items">
+            <v-layout
+              v-if="item.heading"
+              :key="item.heading"
+              row
+              align-center
+            >
+              <v-flex xs6>
+                <v-subheader v-if="item.heading">
+                  {{ item.heading }}
+                </v-subheader>
+              </v-flex>
+              <v-flex
+                xs6
+                class="text-xs-center"
+              >
+                <a
+                  href="#!"
+                  class="body-2 black--text"
+                >
+                  EDIT
+                </a>
+              </v-flex>
+            </v-layout>
+            <v-list-group
+              v-else-if="item.children"
+              :key="item.text"
+              v-model="item.model"
+              :prepend-icon="item.model ? item.icon : item['icon-alt']"
+              append-icon
+            >
+              <v-list-tile slot="activator">
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile
+                v-for="(child, i) in item.children"
+                :key="i"
+              >
+                <v-list-tile-action v-if="child.icon">
+                  <v-icon>{{ child.icon }}</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ child.text }}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list-group>
+            <v-list-tile
+              v-else
+              :key="item.text"
+              v-has-perms="item.perms"
+              :to="item.path"
+            >
+              <v-list-tile-action>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+        </v-list>
+      </v-navigation-drawer>
+
       <v-toolbar
+        v-if="selected.length == 0"
         :color="isDark ? '#616161' : '#eeeeee'"
         flat
+        class="mb-1"
       >
-        <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+        <v-toolbar-side-icon
+          @click.stop="drawer = !drawer"
+        />
 
         <img
           v-if="$config.site_logo_url"
@@ -27,368 +118,279 @@
         >
           alerta
         </v-toolbar-title>
+
+        <v-spacer />
+
+        <v-text-field
+          v-if="$route.name === 'alerts'"
+          v-model="query"
+          :flat="!hasFocus"
+          label="Search"
+          prepend-inner-icon="search"
+          solo
+          clearable
+          height="44"
+          class="pt-2 mr-3 hidden-sm-and-down"
+          @focus="hasFocus = true"
+          @blur="hasFocus = false"
+          @change="submitSearch"
+          @click:clear="clearSearch"
+        />
+
+        <div
+          v-if="$route.name === 'alerts'"
+          v-show="isLoggedIn"
+        >
+          <v-tooltip bottom>
+            <v-switch
+              slot="activator"
+              :input-value="isWatch"
+              hide-details
+              open-delay="3000"
+              @change="toggle('isWatch', $event)"
+            />
+            <span>Watch</span>
+          </v-tooltip>
+        </div>
+
+        <v-spacer />
+
+        <v-btn
+          v-show="!isLoggedIn && $config.signup_enabled"
+          round
+          outline
+          color="primary"
+          to="/signup"  
+        >
+          Sign Up
+        </v-btn>
+        <v-btn
+          v-show="!isLoggedIn"
+          round
+          color="primary"
+          to="/login"
+        >
+          Log In
+        </v-btn>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="isLoggedIn"
+            slot="activator"
+            icon
+            @click="toggleFullScreen"
+          >
+            <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+          </v-btn>
+          <span>Full screen</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="isLoggedIn"
+            slot="activator"
+            icon
+          >
+            <v-icon @click="refresh">
+              refresh
+            </v-icon>
+          </v-btn>
+          <span>Refresh</span>
+        </v-tooltip>
+
+        <v-menu
+          v-show="isLoggedIn"
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-x
+          :disabled="!isLoggedIn"
+        >
+          <v-btn
+            slot="activator"
+            :disabled="!isLoggedIn"
+            icon
+          >
+            <v-icon>{{ navbar.signin.icon }}</v-icon>
+          </v-btn>
+
+          <profile-me
+            v-if="profile"
+            :profile="profile"
+            @close="menu = false"
+          />
+        </v-menu>
       </v-toolbar>
 
-      <v-divider />
-      <v-list dense>
-        <template v-for="item in items">
-          <v-layout
-            v-if="item.heading"
-            :key="item.heading"
-            row
-            align-center
-          >
-            <v-flex xs6>
-              <v-subheader v-if="item.heading">
-                {{ item.heading }}
-              </v-subheader>
-            </v-flex>
-            <v-flex
-              xs6
-              class="text-xs-center"
-            >
-              <a
-                href="#!"
-                class="body-2 black--text"
-              >
-                EDIT
-              </a>
-            </v-flex>
-          </v-layout>
-          <v-list-group
-            v-else-if="item.children"
-            :key="item.text"
-            v-model="item.model"
-            :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon
-          >
-            <v-list-tile slot="activator">
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile
-              v-for="(child, i) in item.children"
-              :key="i"
-            >
-              <v-list-tile-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>{{ child.text }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list-group>
-          <v-list-tile
-            v-else
-            :key="item.text"
-            v-has-perms="item.perms"
-            :to="item.path"
-          >
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-toolbar
-      v-if="selected.length == 0"
-      :color="isDark ? '#616161' : '#eeeeee'"
-      flat
-      class="mb-1"
-    >
-      <v-toolbar-side-icon
-        @click.stop="drawer = !drawer"
-      />
-
-      <img
-        v-if="$config.site_logo_url"
-        :src="$config.site_logo_url"
-        height="48"
+      <v-toolbar
+        v-if="selected.length > 0"
+        :color="isDark ? '#8e8e8e' : '#bcbcbc'"
+        class="mb-1"
       >
-      <v-toolbar-title
-        v-else
-        class="logo"
-      >
-        alerta
-      </v-toolbar-title>
+        <v-btn
+          icon
+          @click="clearSelected"
+        >
+          <v-icon>arrow_back</v-icon>
+        </v-btn>
+        <v-toolbar-title>
+          Back
+        </v-toolbar-title>
 
-      <v-spacer />
+        <v-spacer />
 
-      <v-text-field
-        v-if="$route.name === 'alerts'"
-        v-model="query"
-        :flat="!hasFocus"
-        label="Search"
-        prepend-inner-icon="search"
-        solo
-        clearable
-        height="44"
-        class="pt-2 mr-3 hidden-sm-and-down"
-        @focus="hasFocus = true"
-        @blur="hasFocus = false"
-        @change="submitSearch"
-        @click:clear="clearSearch"
-      />
+        <span class="subheading">
+          {{ selected.length }} selected
+        </span>
 
-      <div
-        v-if="$route.name === 'alerts'"
-        v-show="isLoggedIn"
-      >
+        <v-spacer />
+
         <v-tooltip bottom>
-          <v-switch
+          <v-btn
             slot="activator"
-            :input-value="isWatch"
-            hide-details
-            open-delay="3000"
-            @change="toggle('isWatch', $event)"
-          />
+            icon
+            class="btn--plain"
+            @click="toggleWatch()"
+          >
+            <v-icon>
+              visibility
+            </v-icon>
+          </v-btn>
           <span>Watch</span>
         </v-tooltip>
-      </div>
 
-      <v-spacer />
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
+            @click="takeBulkAction('ack')"
+          >
+            <v-icon>
+              check
+            </v-icon>
+          </v-btn>
+          <span>Ack</span>
+        </v-tooltip>
 
-      <v-btn
-        v-show="!isLoggedIn && $config.signup_enabled"
-        round
-        outline
-        color="primary"
-        to="/signup"  
-      >
-        Sign Up
-      </v-btn>
-      <v-btn
-        v-show="!isLoggedIn"
-        round
-        color="primary"
-        to="/login"
-      >
-        Log In
-      </v-btn>
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
+            @click="bulkShelveAlert()"
+          >
+            <v-icon>
+              schedule
+            </v-icon>
+          </v-btn>
+          <span>Shelve</span>
+        </v-tooltip>
 
-      <v-tooltip bottom>
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
+            @click="takeBulkAction('close')"
+          >
+            <v-icon>
+              highlight_off
+            </v-icon>
+          </v-btn>
+          <span>Close</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
+            @click="bulkDeleteAlert()"
+          >
+            <v-icon>
+              delete
+            </v-icon>
+          </v-btn>
+          <span>Delete</span>
+        </v-tooltip>
+
         <v-btn
-          v-show="isLoggedIn"
-          slot="activator"
           icon
-          @click="toggleFullScreen"
+          class="btn--plain"
         >
-          <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+          <v-icon>more_vert</v-icon>
         </v-btn>
-        <span>Full screen</span>
-      </v-tooltip>
 
-      <v-tooltip bottom>
+        <v-spacer />
+
         <v-btn
+          v-show="!isLoggedIn && $config.signup_enabled"
+          round
+          outline
+          color="primary"
+          to="/signup"  
+        >
+          Sign Up
+        </v-btn>
+        <v-btn
+          v-show="!isLoggedIn"
+          round
+          color="primary"
+          to="/login"
+        >
+          Log In
+        </v-btn>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="isLoggedIn"
+            slot="activator"
+            icon
+            @click="toggleFullScreen"
+          >
+            <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+          </v-btn>
+          <span>Full screen</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="isLoggedIn"
+            slot="activator"
+            icon
+          >
+            <v-icon @click="refresh">
+              refresh
+            </v-icon>
+          </v-btn>
+          <span>Refresh</span>
+        </v-tooltip>
+
+        <v-menu
           v-show="isLoggedIn"
-          slot="activator"
-          icon
-        >
-          <v-icon @click="refresh">
-            refresh
-          </v-icon>
-        </v-btn>
-        <span>Refresh</span>
-      </v-tooltip>
-
-      <v-menu
-        v-show="isLoggedIn"
-        v-model="menu"
-        :close-on-content-click="false"
-        :nudge-width="200"
-        offset-x
-        :disabled="!isLoggedIn"
-      >
-        <v-btn
-          slot="activator"
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-x
           :disabled="!isLoggedIn"
-          icon
         >
-          <v-icon>{{ navbar.signin.icon }}</v-icon>
-        </v-btn>
+          <v-btn
+            slot="activator"
+            :disabled="!isLoggedIn"
+            icon
+          >
+            <v-icon>{{ navbar.signin.icon }}</v-icon>
+          </v-btn>
 
-        <profile-me
-          v-if="profile"
-          :profile="profile"
-          @close="menu = false"
-        />
-      </v-menu>
-    </v-toolbar>
-
-    <v-toolbar
-      v-if="selected.length > 0"
-      :color="isDark ? '#8e8e8e' : '#bcbcbc'"
-      class="mb-1"
-    >
-      <v-btn
-        icon
-        @click="clearSelected"
-      >
-        <v-icon>arrow_back</v-icon>
-      </v-btn>
-      <v-toolbar-title>
-        Back
-      </v-toolbar-title>
-
-      <v-spacer />
-
-      <span class="subheading">
-        {{ selected.length }} selected
-      </span>
-
-      <v-spacer />
-
-      <v-tooltip bottom>
-        <v-btn
-          slot="activator"
-          icon
-          class="btn--plain"
-          @click="toggleWatch()"
-        >
-          <v-icon>
-            visibility
-          </v-icon>
-        </v-btn>
-        <span>Watch</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <v-btn
-          slot="activator"
-          icon
-          class="btn--plain"
-          @click="takeBulkAction('ack')"
-        >
-          <v-icon>
-            check
-          </v-icon>
-        </v-btn>
-        <span>Ack</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <v-btn
-          slot="activator"
-          icon
-          class="btn--plain"
-          @click="bulkShelveAlert()"
-        >
-          <v-icon>
-            schedule
-          </v-icon>
-        </v-btn>
-        <span>Shelve</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <v-btn
-          slot="activator"
-          icon
-          class="btn--plain"
-          @click="takeBulkAction('close')"
-        >
-          <v-icon>
-            highlight_off
-          </v-icon>
-        </v-btn>
-        <span>Close</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <v-btn
-          slot="activator"
-          icon
-          class="btn--plain"
-          @click="bulkDeleteAlert()"
-        >
-          <v-icon>
-            delete
-          </v-icon>
-        </v-btn>
-        <span>Delete</span>
-      </v-tooltip>
-
-      <v-btn
-        icon
-        class="btn--plain"
-      >
-        <v-icon>more_vert</v-icon>
-      </v-btn>
-
-      <v-spacer />
-
-      <v-btn
-        v-show="!isLoggedIn && $config.signup_enabled"
-        round
-        outline
-        color="primary"
-        to="/signup"  
-      >
-        Sign Up
-      </v-btn>
-      <v-btn
-        v-show="!isLoggedIn"
-        round
-        color="primary"
-        to="/login"
-      >
-        Log In
-      </v-btn>
-
-      <v-tooltip bottom>
-        <v-btn
-          v-show="isLoggedIn"
-          slot="activator"
-          icon
-          @click="toggleFullScreen"
-        >
-          <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
-        </v-btn>
-        <span>Full screen</span>
-      </v-tooltip>
-
-      <v-tooltip bottom>
-        <v-btn
-          v-show="isLoggedIn"
-          slot="activator"
-          icon
-        >
-          <v-icon @click="refresh">
-            refresh
-          </v-icon>
-        </v-btn>
-        <span>Refresh</span>
-      </v-tooltip>
-
-      <v-menu
-        v-show="isLoggedIn"
-        v-model="menu"
-        :close-on-content-click="false"
-        :nudge-width="200"
-        offset-x
-        :disabled="!isLoggedIn"
-      >
-        <v-btn
-          slot="activator"
-          :disabled="!isLoggedIn"
-          icon
-        >
-          <v-icon>{{ navbar.signin.icon }}</v-icon>
-        </v-btn>
-
-        <profile-me
-          v-if="profile"
-          :profile="profile"
-          @close="menu = false"
-        />
-      </v-menu>
-    </v-toolbar>
+          <profile-me
+            v-if="profile"
+            :profile="profile"
+            @close="menu = false"
+          />
+        </v-menu>
+      </v-toolbar>
+    </div>
 
     <v-content>
       <banner />
@@ -485,6 +487,9 @@ export default {
     isWatch() {
       return this.$store.state.alerts.isWatch
     },
+    isKiosk() {
+      return this.$store.state.alerts.isKiosk
+    },
     isLoggedIn() {
       return this.$store.getters['auth/isLoggedIn']
     },
@@ -512,6 +517,13 @@ export default {
     },
     username() {
       return this.$store.getters['auth/getPayload'].name
+    }
+  },
+  watch: {
+    isKiosk(val) {
+      if (val) {
+        this.toggleFullScreen()
+      }
     }
   },
   methods: {

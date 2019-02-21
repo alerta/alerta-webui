@@ -83,6 +83,11 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    isKiosk: {
+      type: String,
+      required: false,
+      default: null
     }
   },
   data: () => ({
@@ -205,6 +210,7 @@ export default {
   },
   created() {
     this.setSearch(this.query)
+    this.setKiosk(this.isKiosk)
     this.getEnvironments()
     this.refreshAlerts()
   },
@@ -214,6 +220,9 @@ export default {
   methods: {
     setSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
+    },
+    setKiosk(isKiosk) {
+      this.$store.dispatch('alerts/updateKiosk', isKiosk)
     },
     getAlerts() {
       return this.$store.dispatch('alerts/getAlerts')

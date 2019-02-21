@@ -35,7 +35,10 @@ export function createRouter(): VueRouter {
         path: '/alerts',
         name: 'alerts',
         component: Alerts,
-        props: route => ({ query: route.query.q }),
+        props: route => ({
+          query: route.query.q,
+          isKiosk: route.query.kiosk,
+        }),
         meta: { title: 'Alerts', requiresAuth: true }
       },
       {
