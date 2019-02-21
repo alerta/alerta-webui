@@ -11,6 +11,7 @@
       app
     >
       <v-toolbar
+        :color="isDark ? '#616161' : '#eeeeee'"
         flat
       >
         <v-toolbar-side-icon @click.stop="drawer = !drawer" />
@@ -97,6 +98,7 @@
 
     <v-toolbar
       v-if="selected.length == 0"
+      :color="isDark ? '#616161' : '#eeeeee'"
       flat
       class="mb-1"
     >
@@ -134,7 +136,10 @@
         @click:clear="clearSearch"
       />
 
-      <div v-show="isLoggedIn">
+      <div
+        v-if="$route.name === 'alerts'"
+        v-show="isLoggedIn"
+      >
         <v-tooltip bottom>
           <v-switch
             slot="activator"
@@ -218,7 +223,7 @@
 
     <v-toolbar
       v-if="selected.length > 0"
-      color="grey lighten-2"
+      :color="isDark ? '#8e8e8e' : '#bcbcbc'"
       class="mb-1"
     >
       <v-btn
