@@ -88,13 +88,40 @@
       <v-card-title class="title">
         Permissions
         <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-        />
+        <v-flex
+          xs3
+          class="mr-3 pt-3"
+        >
+          <v-combobox
+            v-model="wantScopes"
+            :items="scopes"
+            label="Scopes"
+            chips
+            multiple
+          >
+            <template
+              slot="selection"
+              slot-scope="data"
+            >
+              <v-chip
+                :selected="data.selected"
+                close
+              >
+                <strong>{{ data.item }}</strong>&nbsp;
+                <span>(scope)</span>
+              </v-chip>
+            </template>
+          </v-combobox>
+        </v-flex>
+        <v-flex xs6>
+          <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+          />
+        </v-flex>
       </v-card-title>
 
       <v-data-table
@@ -104,6 +131,7 @@
         :pagination.sync="pagination"
         class="px-2"
         :search="search"
+        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -200,6 +228,7 @@ export default {
       },
       // totalItems: number,
       search: '',
+      wantScopes: [],
       dialog: false,
       headers: [
         { text: 'Role', value: 'match' },
@@ -220,6 +249,9 @@ export default {
   computed: {
     perms() {
       return this.$store.state.perms.permissions
+    },
+    scopes() {
+      return this.$store.state.perms.scopes
     },
     allowedScopes() {
       return utils.getAllowedScopes(
@@ -255,6 +287,20 @@ export default {
     },
     getScopes() {
       this.$store.dispatch('perms/getScopes')
+    },
+    filterByScopes(scopes) {
+      this.wantScopes = scopes
+    },
+    customFilter(items, search, filter) {
+      items = items.filter(item =>
+        this.wantScopes.length > 0 ? item.scopes.some(x => this.wantScopes.includes(x)) : item
+      )
+
+      if (search.trim() === '') return items
+
+      return items.filter(i => (
+        Object.keys(i).some(j => filter(i[j], search))
+      ))
     },
     editItem(item) {
       this.editedId = item.id
