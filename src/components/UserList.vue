@@ -161,13 +161,40 @@
       <v-card-title class="title">
         Users
         <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-        />
+        <v-flex
+          xs3
+          class="mr-3 pt-3"
+        >
+          <v-combobox
+            v-model="wantRoles"
+            :items="allowedRoles"
+            label="Roles"
+            chips
+            multiple
+          >
+            <template
+              slot="selection"
+              slot-scope="data"
+            >
+              <v-chip
+                :selected="data.selected"
+                close
+              >
+                <strong>{{ data.item }}</strong>&nbsp;
+                <span>(role)</span>
+              </v-chip>
+            </template>
+          </v-combobox>
+        </v-flex>
+        <v-flex xs6>
+          <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+          />
+        </v-flex>
       </v-card-title>
 
       <v-data-table
@@ -177,6 +204,7 @@
         :pagination.sync="pagination"
         class="px-2"
         :search="search"
+        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -307,6 +335,7 @@ export default {
       },
       // totalItems: number,
       search: '',
+      wantRoles: [],
       dialog: false,
       headers: [
         { text: 'Name', value: 'name' },
@@ -383,6 +412,20 @@ export default {
     },
     getPerms() {
       this.$store.dispatch('perms/getPerms')
+    },
+    filterByRoles(roles) {
+      this.wantRoles = roles
+    },
+    customFilter(items, search, filter) {
+      items = items.filter(item =>
+        this.wantRoles.length > 0 ? item.roles.some(x => this.wantRoles.includes(x)) : item
+      )
+
+      if (search.trim() === '') return items
+
+      return items.filter(i => (
+        Object.keys(i).some(j => filter(i[j], search))
+      ))
     },
     toggleUserStatus(item) {
       this.$store.dispatch('users/setUserStatus', [
