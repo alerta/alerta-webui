@@ -22,9 +22,11 @@
           class="hover-lighten"
           @mouseover="showIcons = props.item.id"
           @mouseout="showIcons = null"
-          @click="selectItem(props.item.id)"
         >
-          <td style="white-space: nowrap">
+          <td
+            style="white-space: nowrap"
+            @click="selectItem(props.item.id)"
+          >
             <v-checkbox
               v-if="selectableRows"
               v-model="props.selected"
@@ -57,32 +59,68 @@
               remove
             </v-icon>
           </td>
-          <td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
             <span :class="['label', 'label-' + props.item.severity]">
               {{ props.item.severity | capitalize }}
             </span>
           </td>
-          <td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
             <span class="label">
               {{ props.item.status | capitalize }}
             </span>
           </td>
-          <td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
             <date-time
               :value="props.item.lastReceiveTime"
               format="mediumDate"
             />
           </td>
-          <td>{{ props.item.duplicateCount }}</td>
-          <td>{{ props.item.environment }}</td>
-          <td>{{ props.item.service.join(', ') }}</td>
-          <td>{{ props.item.resource }}</td>
-          <td>{{ props.item.event }}</td>
-          <td>{{ props.item.group }}</td>
-          <td class="text-no-wrap">
+          <td
+            @click="selectItem(props.item.id)"
+          >
+            {{ props.item.duplicateCount }}
+          </td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
+            {{ props.item.environment }}
+          </td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
+            {{ props.item.service.join(', ') }}
+          </td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
+            {{ props.item.resource }}
+          </td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
+            {{ props.item.event }}
+          </td>
+          <td
+            @click="selectItem(props.item.id)"
+          >
+            {{ props.item.group }}
+          </td>
+          <td
+            class="text-no-wrap"
+            @click="selectItem(props.item.id)"
+          >
             {{ props.item.value }}
           </td>
-          <td :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'">
+          <td
+            :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
+            @click="selectItem(props.item.id)"
+          >
             <div class="fixed-table">
               <div class="text-truncate">
                 {{ props.item.text }}
@@ -102,7 +140,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="takeAction(props.item.id, 'open')"
+                @click="takeAction(props.item.id, 'open')"
               >
                 <v-icon
                   size="20px"
@@ -117,7 +155,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="watchAlert(props.item.id)"
+                @click="watchAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -131,7 +169,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="unwatchAlert(props.item.id)"
+                @click="unwatchAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -146,7 +184,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="takeAction(props.item.id, 'ack')"
+                @click="takeAction(props.item.id, 'ack')"
               >
                 <v-icon
                   size="20px"
@@ -160,7 +198,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="takeAction(props.item.id, 'unack')"
+                @click="takeAction(props.item.id, 'unack')"
               >
                 <v-icon
                   size="20px"
@@ -175,7 +213,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="shelveAlert(props.item.id)"
+                @click="shelveAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -189,7 +227,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="takeAction(props.item.id, 'unshelve')"
+                @click="takeAction(props.item.id, 'unshelve')"
               >
                 <v-icon
                   size="20px"
@@ -204,7 +242,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="takeAction(props.item.id, 'close')"
+                @click="takeAction(props.item.id, 'close')"
               >
                 <v-icon
                   size="20px"
@@ -217,7 +255,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click.stop="deleteAlert(props.item.id)"
+                @click="deleteAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -226,16 +264,32 @@
                 </v-icon>
               </v-btn>
 
-              <v-btn
-                flat
-                icon
-                small
-                class="btn--plain px-1 mx-0"
+              <v-menu
+                bottom
+                left
               >
-                <v-icon small>
-                  more_vert
-                </v-icon>
-              </v-btn>
+                <v-btn
+                  slot="activator"
+                  flat
+                  icon
+                  small
+                  class="btn--plain px-1 mx-0"
+                >
+                  <v-icon small>
+                    more_vert
+                  </v-icon>
+                </v-btn>
+
+                <v-list>
+                  <v-list-tile
+                    v-for="(action, i) in actions"
+                    :key="i"
+                    @click="takeAction(props.item.id, action)"
+                  >
+                    <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
             </div>
           </td>
         </tr>
@@ -290,6 +344,9 @@ export default {
     }
   },
   computed: {
+    actions() {
+      return this.$config.actions
+    },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
     },
