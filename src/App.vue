@@ -69,14 +69,15 @@
                 </v-list-tile-content>
               </v-list-tile>
               <v-list-tile
-                v-for="(child, i) in item.children"
+                v-for="(tag, i) in currentTags"
                 :key="i"
+                :to="`/alerts?q=tag:${tag}`"
               >
-                <v-list-tile-action v-if="child.icon">
-                  <v-icon>{{ child.icon }}</v-icon>
+                <v-list-tile-action>
+                  <v-icon>label</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                  <v-list-tile-title>{{ child.text }}</v-list-tile-title>
+                  <v-list-tile-title>{{ tag }}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list-group>
@@ -476,7 +477,7 @@ export default {
         'icon-alt': 'keyboard_arrow_down',
         text: 'Labels',
         model: true,
-        children: [{ icon: 'add', text: 'Create label' }]
+        children: [{ icon: 'label', text: 'Create label' }]
       },
       // {
       //   icon: 'keyboard_arrow_up',
@@ -532,6 +533,9 @@ export default {
     actions() {
       return this.$config.actions
     },
+    currentTags() {
+      return this.$store.getters['alerts/tags']
+    },
     selected() {
       return this.$store.state.alerts.selected
     },
@@ -549,7 +553,13 @@ export default {
       }
     }
   },
+  created() {
+    this.getTags()
+  },
   methods: {
+    getTags() {
+      this.$store.dispatch('alerts/getTags')
+    },
     submitSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
       this.$router.push({

@@ -141,7 +141,7 @@ const getters = {
     return state.services.map(s => s.service)
   },
   tags: state => {
-    return state.tags.map(t => t.tag)
+    return state.tags.filter(t => !t.tag.startsWith('watch')).map(t => t.tag)
   }
 }
 
