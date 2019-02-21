@@ -33,6 +33,9 @@ const mutations = {
   SET_SEARCH_QUERY(state, query): any {
     state.query = query
   },
+  SET_KIOSK(state, isKiosk): any {
+    state.isKiosk = isKiosk
+  },
   SET_SELECTED(state, selected) {
     state.selected = selected
   },
@@ -62,6 +65,9 @@ const actions = {
   },
   updateQuery({ commit }, query) {
     commit('SET_SEARCH_QUERY', query)
+  },
+  updateKiosk({ commit }, isKiosk) {
+    commit('SET_KIOSK', isKiosk)
   },
   updateSelected({ commit }, selected) {
     commit('SET_SELECTED', selected)
