@@ -315,12 +315,32 @@
           <span>Delete</span>
         </v-tooltip>
 
-        <v-btn
-          icon
-          class="btn--plain"
+        <v-menu
+          bottom
+          left
         >
-          <v-icon>more_vert</v-icon>
-        </v-btn>
+          <v-btn
+            slot="activator"
+            flat
+            icon
+            small
+            class="btn--plain px-1 mx-0"
+          >
+            <v-icon small>
+              more_vert
+            </v-icon>
+          </v-btn>
+
+          <v-list>
+            <v-list-tile
+              v-for="(action, i) in actions"
+              :key="i"
+              @click="takeBulkAction(action)"
+            >
+              <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
 
         <v-spacer />
 
@@ -508,6 +528,9 @@ export default {
       set(value) {
         // FIXME: offer query suggestions to user here, in future
       }
+    },
+    actions() {
+      return this.$config.actions
     },
     selected() {
       return this.$store.state.alerts.selected
