@@ -62,6 +62,10 @@ To run, create a `config.json` file and mount the file into the container
     $ docker run -v "$PWD/config.json:/usr/share/nginx/html/config.json" \
       -it -p 8000:80 --rm --name alerta-beta alerta/alerta-beta
 
+Note: Update the `CORS_ORIGINS` setting in the Alerta API server config
+to include the URL that the beta web console is hosted at otherwise
+the browser will throw "blocked by CORS policy" errors and not work.
+
 Development
 -----------
 
