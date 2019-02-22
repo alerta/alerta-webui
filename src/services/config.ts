@@ -38,6 +38,9 @@ class Config {
         if (process.env.VUE_APP_CLIENT_ID) {
           envConfig['client_id'] = process.env.VUE_APP_CLIENT_ID
         }
+        if (process.env.VUE_APP_TRACKING_ID) {
+          envConfig['tracking_id'] = process.env.VUE_APP_TRACKING_ID
+        }
         return { ...response.data, ...envConfig }
       })
       .catch((error: any) => {
