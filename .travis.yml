@@ -10,26 +10,26 @@ branches:
   only:
   - master
 
-install:
-  - npm install
-  - npm run build
+jobs:
+  include:
+    - stage: test
+      script:
+        - npm run lint:nofix
+        - npm run test:unit
 
-script:
-  - npm run lint:nofix
-  - npm run test:unit
+    - stage: build github
+      env: VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com
+      install:
+        - npm install
+        - npm run build
 
-deploy:
-  - provider: pages
-    skip-cleanup: true
-    github-token: $GITHUB_TOKEN
-    target-branch: gh-pages
-    local-dir: dist
-    on:
-      branch: master
-  - provider: releases
-    skip-cleanup: true
-    github-token: $GITHUB_TOKEN
-    file_glob: true
-    file: dist/**/*
-    on:
-      tags: true
+    - stage: deploy github
+      script: skip
+      deploy:
+        - provider: pages
+          skip-cleanup: true
+          github-token: $GITHUB_TOKEN
+          target-branch: gh-pages
+          local-dir: dist
+          on:
+            branch: master
