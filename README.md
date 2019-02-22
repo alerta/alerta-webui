@@ -17,11 +17,15 @@ Configuration
 
 Most configuration will come from the Alerta API server. The minimum,
 and most common, configuration is simply to tell the web UI where the
-API server is located, using either an environment variable:
+API server is located.
+
+Environment variables for some settings can be used at build time:
 
     $ export VUE_APP_ALERTA_ENDPOINT=https://alerta-api.example.com
+    $ npm install
+    $ npm run build
 
-or a `config.json` configuration file in the `dist` directory.
+or place a `config.json` configuration file in the `dist` directory:
 
     {
         "endpoint": "https://alerta-api.example.com"
@@ -33,9 +37,9 @@ see the web UI config settings in the [online docs][1].
 
 [1]: https://docs.alerta.io/en/latest/webui.html#configuration-from-api-server
 
-As a special case, support for setting an OAuth Client ID using an
-environment variable is possible but should not be be necessary for
-most deployments.
+As a special case, support for setting an OAuth Client ID using a
+build-time environment variable is possible but should not be be
+necessary for most deployments.
 
     $ export VUE_APP_CLIENT_ID=0ffe5d26-6c66-4871-a6fa-593d9fa972b1
 
@@ -47,12 +51,16 @@ test the new web UI. It can be built locally using the `Dockerfile` in
 this repository 
 
     $ docker build -t alerta/alerta-beta .
-    $ docker run -e VUE_APP_ALERTA_ENDPOINT=https://alerta-api.example.com \
-      -it -p 8000:80 --rm --name alerta-beta alerta/alerta-beta
 
 or the container can be downloaded from Docker Hub.
 
     $ docker pull alerta/alerta-beta
+
+To run, create a `config.json` file and mount the file into the container
+
+    $ echo '{"endpoint": "https://alerta-api.example.com"}' > config.json
+    $ docker run -v "$PWD/config.json:/usr/share/nginx/html/config.json" \
+      -it -p 8000:80 --rm --name alerta-beta alerta/alerta-beta
 
 Development
 -----------
