@@ -23,8 +23,7 @@ jobs:
         - npm run build
 
     - stage: deploy
-      env:
-        - VUE_APP_ALERTA_ENDPOINT="https://alerta-api.herokuapp.com"
+      before_script: echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com > .env
       script: npm run build
       deploy:
         - provider: pages
