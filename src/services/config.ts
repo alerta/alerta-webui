@@ -2,6 +2,7 @@ import Axios, { AxiosResponse, AxiosInstance } from 'axios'
 
 class Config {
   private config: any = {}
+  private envConfig: any = {}
   private localConfig: any = {}
   private remoteConfig: any = {}
 
@@ -12,12 +13,19 @@ class Config {
   }
 
   getConfig(): Promise<any> {
-    return this.getLocalConfig()
+    return this.getEnvConfig()
+      .then(response => {
+        return this.setEnvConfig(response)
+      })
+      .then(() => {
+        return this.getLocalConfig()
+      })
       .then(response => {
         return this.setLocalConfig(response)
       })
       .then(response => {
-        return this.getRemoteConfig(response.endpoint)
+        let endpoint = this.config.endpoint ? this.config.endpoint : 'http://localhost:8080'
+        return this.getRemoteConfig(endpoint)
       })
       .then(response => {
         return this.setRemoteConfig(response)
@@ -27,22 +35,26 @@ class Config {
       })
   }
 
+  getEnvConfig() {
+    return new Promise((resolve, reject) => {
+      let envConfig = {}
+      if (process.env.VUE_APP_ALERTA_ENDPOINT) {
+        envConfig['endpoint'] = process.env.VUE_APP_ALERTA_ENDPOINT
+      }
+      if (process.env.VUE_APP_CLIENT_ID) {
+        envConfig['client_id'] = process.env.VUE_APP_CLIENT_ID
+      }
+      if (process.env.VUE_APP_TRACKING_ID) {
+        envConfig['tracking_id'] = process.env.VUE_APP_TRACKING_ID
+      }
+      resolve(envConfig)
+    })
+  }
+
   getLocalConfig() {
     return this.$http
       .get('/config.json')
-      .then(response => {
-        let envConfig = {}
-        if (process.env.VUE_APP_ALERTA_ENDPOINT) {
-          envConfig['endpoint'] = process.env.VUE_APP_ALERTA_ENDPOINT
-        }
-        if (process.env.VUE_APP_CLIENT_ID) {
-          envConfig['client_id'] = process.env.VUE_APP_CLIENT_ID
-        }
-        if (process.env.VUE_APP_TRACKING_ID) {
-          envConfig['tracking_id'] = process.env.VUE_APP_TRACKING_ID
-        }
-        return { ...response.data, ...envConfig }
-      })
+      .then(response => response.data)
       .catch((error: any) => {
         console.log(error)
       })
@@ -58,7 +70,12 @@ class Config {
   }
 
   mergeConfig() {
-    return (this.config = { ...this.remoteConfig, ...this.localConfig })
+    return (this.config = { ...this.remoteConfig, ...this.localConfig, ...this.envConfig })
+  }
+
+  setEnvConfig(data: any) {
+    this.envConfig = data
+    return this.mergeConfig()
   }
 
   setLocalConfig(data: any) {
