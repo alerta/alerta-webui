@@ -86,6 +86,12 @@ export default {
     }
     return api.get('/services', config)
   },
+  getGroups(query: object) {
+    let config = {
+      params: query
+    }
+    return api.get('/groups', config)
+  },
   getTags(query: object) {
     let config = {
       params: query

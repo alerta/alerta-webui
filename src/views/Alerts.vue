@@ -12,6 +12,7 @@
       @set-text="setText"
       @set-status="setStatus"
       @set-service="setService"
+      @set-group="setGroup"
       @set-date="setDateRange"
       @close="sidesheet = false"
     />
@@ -96,8 +97,9 @@ export default {
     filter: {
       text: null,
       environment: null,
-      service: null,
       status: ['open', 'ack'],
+      service: null,
+      group: null,
       dateRange: [null, null]
     },
     playSound: false
@@ -115,13 +117,18 @@ export default {
               : true
           )
           .filter(alert =>
+            this.filter.status
+              ? this.filter.status.includes(alert.status)
+              : true
+          )
+          .filter(alert =>
             this.filter.service
               ? alert.service.some(x => this.filter.service.includes(x))
               : true
           )
           .filter(alert =>
-            this.filter.status
-              ? this.filter.status.includes(alert.status)
+            this.filter.group
+              ? this.filter.group.includes(alert.group)
               : true
           )
           .filter(alert => {
@@ -254,6 +261,11 @@ export default {
     setService(svc) {
       this.filter = Object.assign({}, this.filter, {
         service: svc.length > 0 ? svc : null
+      })
+    },
+    setGroup(grp) {
+      this.filter = Object.assign({}, this.filter, {
+        group: grp.length > 0 ? grp : null
       })
     },
     setDateRange(range) {

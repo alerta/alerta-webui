@@ -10,6 +10,7 @@ const state = {
   query: {}, // 'q' query string syntax eg. {"q": "severity:critical"}
   environments: [],
   services: [],
+  groups: [],
   tags: [],
 
   alert: {},
@@ -47,6 +48,9 @@ const mutations = {
   },
   SET_SERVICES(state, services): any {
     state.services = services
+  },
+  SET_GROUPS(state, groups): any {
+    state.groups = groups
   },
   SET_TAGS(state, tags): any {
     state.tags = tags
@@ -117,6 +121,9 @@ const actions = {
       commit('SET_SERVICES', services)
     )
   },
+  getGroups({ commit }) {
+    return AlertsApi.getGroups({}).then(({ groups }) => commit('SET_GROUPS', groups))
+  },
   getTags({ commit }) {
     return AlertsApi.getTags({}).then(({ tags }) => commit('SET_TAGS', tags))
   },
@@ -138,10 +145,13 @@ const getters = {
     return state.environments.map(e => e.environment)
   },
   services: state => {
-    return state.services.map(s => s.service)
+    return state.services.map(s => s.service).sort()
+  },
+  groups: state => {
+    return state.groups.map(g => g.group).sort()
   },
   tags: state => {
-    return state.tags.map(t => t.tag)
+    return state.tags.map(t => t.tag).sort()
   }
 }
 
