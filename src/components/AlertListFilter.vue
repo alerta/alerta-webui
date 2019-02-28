@@ -108,6 +108,26 @@
             md12
           >
             <v-select
+              v-model="selectedGroup"
+              :items="currentGroups"
+              :menu-props="{ maxHeight: '400' }"
+              placeholder="All groups"
+              label="Group"
+              multiple
+              outline
+              dense
+              hint="Choose one or more group"
+              persistent-hint
+              @change="setGroup"
+            />
+          </v-flex>
+
+          <v-flex
+            xs12
+            sm6
+            md12
+          >
+            <v-select
               v-model="selectedDateRange"
               :items="dateRanges"
               name="dateRange"
@@ -173,6 +193,7 @@ export default {
       filterText: this.filter.text || null,
       selectedStatus: this.filter.status || [],
       selectedService: this.filter.service || [],
+      selectedGroup: this.filter.group || [],
       selectedDateRange: this.filter.dateRange || [null, null]
     }
   },
@@ -192,6 +213,9 @@ export default {
     },
     currentServices() {
       return this.$store.getters['alerts/services']
+    },
+    currentGroups() {
+      return this.$store.getters['alerts/groups']
     }
   },
   watch: {
@@ -201,10 +225,14 @@ export default {
   },
   created() {
     this.getServices()
+    this.getGroups()
   },
   methods: {
     getServices() {
       this.$store.dispatch('alerts/getServices')
+    },
+    getGroups() {
+      this.$store.dispatch('alerts/getGroups')
     },
     setText(text) {
       this.$emit('set-text', text)
@@ -214,6 +242,9 @@ export default {
     },
     setService(service) {
       this.$emit('set-service', service)
+    },
+    setGroup(group) {
+      this.$emit('set-group', group)
     },
     setDateRange() {
       this.$emit('set-date', this.selectedDateRange)
