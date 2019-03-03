@@ -97,7 +97,7 @@ export default {
     filter: {
       text: null,
       environment: null,
-      status: ['open', 'ack'],
+      status: [],
       service: null,
       group: null,
       dateRange: [null, null]
@@ -107,6 +107,13 @@ export default {
   computed: {
     isActive() {
       return this.filter.text || this.filter.service || this.filter.dateRange[0] || this.filter.dateRange[1]
+    },
+    activeStatus() {
+      if (this.$config.alarm_model == 'ALERTA') {
+        return ['open', 'ack']
+      } else {
+        return ['UNACK', 'ACKED', 'RTNUN']
+      }
     },
     alerts() {
       if (this.filter) {
@@ -220,6 +227,7 @@ export default {
     this.setKiosk(this.isKiosk)
     this.getEnvironments()
     this.refreshAlerts()
+    this.filter.status = this.activeStatus
   },
   beforeDestroy() {
     clearTimeout(this.timer)

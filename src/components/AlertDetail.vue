@@ -514,17 +514,17 @@
         </v-btn>
 
         <v-btn
-          v-show="item.status != 'shelved'"
+          v-show="!isShelved"
           color="blue"
           class="white--text"
-          :disabled="item.status == 'closed'"
+          :disabled="isClosed"
           @click="shelveAlert()"
         >
           <v-icon>schedule</v-icon>&nbsp;Shelve
         </v-btn>
 
         <v-btn
-          v-show="item.status == 'shelved'"
+          v-show="isShelved"
           color="blue"
           class="white--text"
           @click="takeAction('unshelve')"
@@ -533,17 +533,17 @@
         </v-btn>
 
         <v-btn
-          v-show="item.status != 'ack'"
+          v-show="!isAcked"
           color="blue darken-2"
           class="white--text"
-          :disabled="item.status == 'shelved' || item.status == 'closed'"
+          :disabled="isShelved || isClosed"
           @click="takeAction('ack')"
         >
           <v-icon>check_circle_outline</v-icon>&nbsp;Ack
         </v-btn>
 
         <v-btn
-          v-show="item.status == 'ack'"
+          v-show="isAcked"
           color="blue darken-2"
           class="white--text"
           @click="takeAction('unack')"
@@ -554,7 +554,7 @@
         <v-btn
           color="orange"
           class="white--text"
-          :disabled="item.status == 'closed'"
+          :disabled="isClosed"
           @click="takeAction('close')"
         >
           <v-icon>highlight_off</v-icon>&nbsp;Close
@@ -595,7 +595,7 @@
         <v-subheader>Actions</v-subheader>
 
         <v-list-tile
-          v-show="item.status == 'ack' || item.status == 'closed'"
+          v-show="isAcked || isClosed"
           @click="takeAction('open')"
         >
           <v-list-tile-avatar>
@@ -663,7 +663,7 @@
         </v-list-tile>
 
         <v-list-tile
-          v-show="item.status == 'ack'"
+          v-show="isAcked"
           @click="takeAction('unack')"
         >
           <v-list-tile-avatar>
@@ -680,7 +680,7 @@
         </v-list-tile>
 
         <v-list-tile
-          v-show="item.status == 'open' || item.status == 'ack'"
+          v-show="!isShelved"
           @click="shelveAlert()"
         >
           <v-list-tile-avatar>
@@ -697,7 +697,7 @@
         </v-list-tile>
 
         <v-list-tile
-          v-show="item.status == 'shelved'"
+          v-show="isShelved"
           @click="takeAction('unshelve')"
         >
           <v-list-tile-avatar>
@@ -714,7 +714,7 @@
         </v-list-tile>
 
         <v-list-tile
-          v-show="item.status != 'closed'"
+          v-show="!isClosed"
           @click="takeAction('close')"
         >
           <v-list-tile-avatar>
@@ -819,10 +819,21 @@ export default {
       return this.$store.getters.getPreference('shelveTimeout')
     },
     isWatched() {
-      let user = this.$store.getters['auth/getPayload'].name
       return this.item.tags
-        ? this.item.tags.indexOf(`watch:${user}`) > -1
+        ? this.item.tags.indexOf(`watch:${this.username}`) > -1
         : false
+    },
+    isAcked() {
+      return this.item.status == 'ack' || this.item.status == 'ACKED'
+    },
+    isShelved() {
+      return this.item.status == 'shelved' || this.item.status == 'SHLVD'
+    },
+    isClosed() {
+      return this.item.status == 'closed'
+    },
+    username() {
+      return this.$store.getters['auth/getPayload'].name
     },
     headersByScreenSize() {
       return this.headers.filter(

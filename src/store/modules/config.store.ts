@@ -2,7 +2,7 @@ import stateMerge from 'vue-object-merge'
 
 const state = {
   endpoint: 'http://local.alerta.io:8080',
-  alarm_model: {},
+  alarm_model: {},  // includes severity, colors and status maps
 
   auth_required: true,
   provider: 'basic',
@@ -19,8 +19,9 @@ const state = {
 
   site_logo_url: '',
 
-  severity: {},
-  colors: {},
+  severity: {},  // moved to alarm_model
+  colors: {},  // moved to alarm_model
+
   dates: {
     longDate: 'd/M/YYYY h:mm:ss.SSS A',
     mediumDate: 'ddd d MMM HH:mm',

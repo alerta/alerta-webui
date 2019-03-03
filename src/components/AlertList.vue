@@ -62,7 +62,7 @@
           <td
             @click="selectItem(props.item.id)"
           >
-            <span :class="['label', 'label-' + props.item.severity]">
+            <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
               {{ props.item.severity | capitalize }}
             </span>
           </td>
@@ -135,7 +135,7 @@
               style="display:inline-block;"
             >
               <v-btn
-                v-show="props.item.status == 'ack' || props.item.status == 'closed'"
+                v-show="isAcked(props.item.status) || isClosed(props.item.status)"
                 flat
                 icon
                 small
@@ -179,7 +179,7 @@
               </v-btn>
 
               <v-btn
-                v-show="props.item.status == 'open'"
+                v-show="!isAcked(props.item.status)"
                 flat
                 icon
                 small
@@ -193,7 +193,7 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-show="props.item.status == 'ack'"
+                v-show="isAcked(props.item.status)"
                 flat
                 icon
                 small
@@ -208,7 +208,7 @@
               </v-btn>
 
               <v-btn
-                v-show="props.item.status == 'open' || props.item.status == 'ack'"
+                v-show="!isShelved(props.item.status)"
                 flat
                 icon
                 small
@@ -222,7 +222,7 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-show="props.item.status == 'shelved'"
+                v-show="isShelved(props.item.status)"
                 flat
                 icon
                 small
@@ -237,7 +237,7 @@
               </v-btn>
 
               <v-btn
-                v-show="props.item.status != 'closed'"
+                v-show="!isClosed(props.item.status)"
                 flat
                 icon
                 small
@@ -411,10 +411,22 @@ export default {
       })
     },
     severityColor(severity) {
-      return this.$store.getters.getConfig('colors').severity[severity.toLowerCase()]
+      return this.$store.getters.getConfig('colors').severity[severity]
     },
     selectItem(itemId) {
       this.$router.push({ name: 'alert', params: { id: itemId } })
+    },
+    isWatched(tags) {
+      return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
+    },
+    isAcked(status) {
+      return status == 'ack' || status == 'ACKED'
+    },
+    isShelved(status) {
+      return status == 'shelved' || status == 'SHLVD'
+    },
+    isClosed(status) {
+      return status == 'closed'
     },
     takeAction(id, action) {
       this.$store
@@ -428,9 +440,6 @@ export default {
           'operator shelve short-cut',
           this.shelveTimeout
         ])
-    },
-    isWatched(tags) {
-      return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
     },
     watchAlert(id) {
       this.$store
