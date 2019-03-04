@@ -175,15 +175,6 @@ export default {
         { text: 'Value', value: 'value' },
         { text: 'Text', value: 'text' }
       ],
-      statusList: [
-        'open',
-        'assign',
-        'ack',
-        'shelved',
-        'blackout',
-        'closed',
-        'expired'
-      ],
       dateRanges: [
         { text: 'Latest', range: [null, null] },
         { text: '1 hour', range: [3600, null] },
@@ -210,6 +201,12 @@ export default {
     isWatched() {
       let user = this.$store.getters['auth/getPayload'].name
       return this.item.tags.indexOf(`watch:${user}`) > -1
+    },
+    statusList() {
+      let statusMap = this.$config.alarm_model.status
+      return Object.keys(statusMap).sort((a, b) => {
+        return statusMap[a].localeCompare(statusMap[b])
+      })
     },
     currentServices() {
       return this.$store.getters['alerts/services']
