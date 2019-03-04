@@ -203,7 +203,18 @@ export default {
       return this.item.tags.indexOf(`watch:${user}`) > -1
     },
     statusList() {
-      let statusMap = this.$config.alarm_model.status
+      // FIXME - remove defaultStatusMap from v7.0 onwards
+      let defaultStatusMap = {
+        'open': 'A',
+        'assign': 'B',
+        'ack': 'C',
+        'shelved': 'D',
+        'blackout': 'E',
+        'closed': 'F',
+        'expired': 'G',
+        'unknown': 'H'
+      }
+      let statusMap = this.$config.alarm_model.status || defaultStatusMap
       return Object.keys(statusMap).sort((a, b) => {
         return statusMap[a].localeCompare(statusMap[b])
       })
