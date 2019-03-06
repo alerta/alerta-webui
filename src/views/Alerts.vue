@@ -97,7 +97,7 @@ export default {
     filter: {
       text: null,
       environment: null,
-      status: [],
+      status: null,
       service: null,
       group: null,
       dateRange: [null, null]
@@ -109,10 +109,10 @@ export default {
       return this.filter.text || this.filter.service || this.filter.dateRange[0] || this.filter.dateRange[1]
     },
     activeStatus() {
-      if (this.$config.alarm_model == 'ALERTA') {
-        return ['open', 'ack']
-      } else {
+      if (this.$config.alarm_model == 'isa_18_2') {
         return ['UNACK', 'ACKED', 'RTNUN']
+      } else {
+        return ['open', 'ack']
       }
     },
     alerts() {
