@@ -16,9 +16,6 @@ jobs:
       script:
         - npm run lint:nofix
         - npm run test:unit
-
-    - stage: build
-      install:
         - npm install
         - npm run build
 
@@ -33,3 +30,14 @@ jobs:
           local-dir: dist
           on:
             branch: master
+
+    - stage: release
+      deploy:
+        - provider: releases
+          skip-cleanup: true
+          github-token: $GITHUB_TOKEN
+          file_glob: true
+          file: dist/**/*
+          on:
+            tags: true
+
