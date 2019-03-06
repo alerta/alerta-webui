@@ -10,15 +10,17 @@ branches:
   only:
   - master
 
+script:
+  - npm run lint:nofix
+  - npm run test:unit
+  - npm install
+  - npm run build
+
+before_deploy:
+  - cd dist; zip ../${TRAVIS_TAG}.zip -r *; cd ..
+
 jobs:
   include:
-    - stage: test
-      script:
-        - npm run lint:nofix
-        - npm run test:unit
-        - npm install
-        - npm run build
-
     - stage: deploy
       before_script: echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com > .env
       script: npm run build
@@ -36,8 +38,7 @@ jobs:
         - provider: releases
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
-          file_glob: true
-          file: dist/**/*
+          file:
+            - dist/${TRAVIS_TAG}.zip
           on:
             tags: true
-
