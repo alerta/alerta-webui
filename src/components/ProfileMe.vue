@@ -125,6 +125,7 @@ export default {
       gitlab: { icon: 'fab fa-gitlab', text: 'GitLab OAuth2' },
       google: { icon: 'fab fa-google', text: 'Google OAuth2' },
       keycloak: { icon: 'fas fa-key', text: 'Keycloak' },
+      openid: { icon: 'fab fa-openid', text: 'OpenID Connect' },
       pingfederate: { icon: 'fas fa-id-badge', text: 'PingFederate' },
       saml2: { icon: 'fas fa-id-badge', text: 'SAML2' }
     }
