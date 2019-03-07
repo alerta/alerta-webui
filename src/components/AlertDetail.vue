@@ -79,6 +79,7 @@
                     <div class="flex xs9 text-xs-left">
                       <div class="font-weight-regular">
                         <date-time
+                          v-if="item.createTime"
                           :value="item.createTime"
                           format="longDate"
                         />
@@ -97,6 +98,7 @@
                     <div class="flex xs9 text-xs-left">
                       <div class="font-weight-regular">
                         <date-time
+                          v-if="item.receiveTime"
                           :value="item.receiveTime"
                           format="longDate"
                         />
@@ -115,6 +117,7 @@
                     <div class="flex xs9 text-xs-left">
                       <div class="font-weight-regular">
                         <date-time
+                          v-if="item.lastReceiveTime"
                           :value="item.lastReceiveTime"
                           format="longDate"
                         />
