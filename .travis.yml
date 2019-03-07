@@ -6,10 +6,6 @@ cache:
   directories:
     - "node_modules"
 
-branches:
-  only:
-  - master
-
 script:
   - npm run lint:nofix
   - npm run test:unit
@@ -17,7 +13,14 @@ script:
   - npm run build
 
 before_deploy:
-  - cd dist; zip ../${TRAVIS_TAG}.zip -r *; cd ..
+  # Set up git user name and tag this commit
+  - git config --local user.name "satterly"
+  - git config --local user.email "nfsatterly@gmail.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
+  # Create release files for upload
+  - zip alerta-web-beta.zip -r dist/*
+  - tar cvfz alerta-web-beta.tar.gz dist/*
 
 jobs:
   include:
@@ -39,6 +42,7 @@ jobs:
           skip-cleanup: true
           github-token: $GITHUB_TOKEN
           file:
-            - dist/${TRAVIS_TAG}.zip
+            - alerta-web-beta.zip
+            - alerta-web-beta.tar.gz
           on:
             tags: true
