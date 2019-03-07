@@ -1,48 +1,43 @@
 language: node_js
 node_js:
-  - "8"
+- '8'
 
 cache:
   directories:
-    - "node_modules"
+  - node_modules
+
+install:
+- npm install
 
 script:
-  - npm run lint:nofix
-  - npm run test:unit
-  - npm install
-  - npm run build
+- npm run lint:nofix
+- npm run test:unit
+- npm run build
 
 before_deploy:
-  # Set up git user name and tag this commit
-  - git config --local user.name "satterly"
-  - git config --local user.email "nfsatterly@gmail.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
-  # Create release files for upload
-  - zip alerta-web-beta.zip -r dist/*
-  - tar cvfz alerta-web-beta.tar.gz dist/*
+- zip alerta-web-beta.zip -r dist/*
+- tar cvfz alerta-web-beta.tar.gz dist/*
 
 jobs:
   include:
-    - stage: deploy
-      before_script: echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com > .env
-      script: npm run build
-      deploy:
-        - provider: pages
-          skip-cleanup: true
-          github-token: $GITHUB_TOKEN
-          target-branch: gh-pages
-          local-dir: dist
-          on:
-            branch: master
-
-    - stage: release
-      deploy:
-        - provider: releases
-          skip-cleanup: true
-          github-token: $GITHUB_TOKEN
-          file:
-            - alerta-web-beta.zip
-            - alerta-web-beta.tar.gz
-          on:
-            tags: true
+  - stage: deploy
+    before_script: echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com > .env
+    script: npm run build
+    deploy:
+    - provider: pages
+      skip-cleanup: true
+      github-token: "$GITHUB_TOKEN"
+      target-branch: gh-pages
+      local-dir: dist
+      on:
+        branch: master
+  - stage: release
+    deploy:
+    - provider: releases
+      skip-cleanup: true
+      api_key: "$GITHUB_TOKEN"
+      file:
+        - alerta-web-beta.zip
+        - alerta-web-beta.tar.gz
+      on:
+        tags: true
