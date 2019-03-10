@@ -25,7 +25,7 @@
         >
           <td
             style="white-space: nowrap"
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             <v-checkbox
               v-if="selectableRows"
@@ -60,21 +60,21 @@
             </v-icon>
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
               {{ props.item.severity | capitalize }}
             </span>
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             <span class="label">
               {{ props.item.status | capitalize }}
             </span>
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             <date-time
               :value="props.item.lastReceiveTime"
@@ -82,44 +82,44 @@
             />
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             {{ props.item.duplicateCount }}
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             {{ props.item.environment }}
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             {{ props.item.service.join(', ') }}
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             {{ props.item.resource }}
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             {{ props.item.event }}
           </td>
           <td
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             {{ props.item.group }}
           </td>
           <td
             class="text-no-wrap"
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             {{ props.item.value }}
           </td>
           <td
             :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
-            @click="selectItem(props.item.id)"
+            @click="selectItem(props.item)"
           >
             <div class="fixed-table">
               <div class="text-truncate">
@@ -413,8 +413,9 @@ export default {
     severityColor(severity) {
       return this.$store.getters.getConfig('colors').severity[severity]
     },
-    selectItem(itemId) {
-      this.$router.push({ name: 'alert', params: { id: itemId } })
+    selectItem(item) {
+      console.log('set-alert')
+      this.$emit('set-alert', item)
     },
     isWatched(tags) {
       return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
