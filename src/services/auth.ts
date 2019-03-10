@@ -58,6 +58,20 @@ export function vueAuth(config) {
         redirectUri: window.location.origin,
         oauthType: '2.0'
       },
+      openid: {
+        name: 'openid',
+        url: `${config.endpoint}/auth/openid`,
+        clientId: config.client_id,
+        authorizationEndpoint: config.oidc_auth_url,
+        redirectUri: window.location.origin,
+        requiredUrlParams: ['scope'],
+        optionalUrlParams: ['display', 'state'],
+        scope: 'openid+profile+email',
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 1020, height: 618 },
+        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
+      },
       pingfederate: {
         name: 'pingfederate',
         url: `${config.endpoint}/auth/pingfederate`,
