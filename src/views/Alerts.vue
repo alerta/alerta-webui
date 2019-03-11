@@ -6,18 +6,14 @@
       autoplay
     />
 
-    <alert-list-filter
-      :value="sidesheet"
-      :filter="filter"
-      @set-text="setText"
-      @set-status="setStatus"
-      @set-service="setService"
-      @set-group="setGroup"
-      @set-date="setDateRange"
-      @close="sidesheet = false"
+    <alert-detail
+      v-if="dialog"
+      :id="selectedId"
+      @close="close"
     />
 
     <v-tabs
+      v-if="!dialog"
       class="px-1"
       grow
     >
@@ -62,21 +58,37 @@
           :transition="false"
           :reverse-transition="false"
         >
-          <alert-list :alerts="alertsByEnvironment" />
+          <alert-list
+            :alerts="alertsByEnvironment"
+            @set-alert="setAlert"
+          />
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
+
+    <alert-list-filter
+      :value="sidesheet"
+      :filter="filter"
+      @set-text="setText"
+      @set-status="setStatus"
+      @set-service="setService"
+      @set-group="setGroup"
+      @set-date="setDateRange"
+      @close="sidesheet = false"
+    />
   </div>
 </template>
 
 <script>
 import AlertList from '@/components/AlertList.vue'
+import AlertDetail from '@/components/AlertDetail.vue'
 import AlertListFilter from '@/components/AlertListFilter.vue'
 import moment from 'moment'
 
 export default {
   components: {
     AlertList,
+    AlertDetail,
     AlertListFilter
   },
   props: {
@@ -93,6 +105,9 @@ export default {
   },
   data: () => ({
     currentTab: 'ALL',
+    dialog: false,
+    selectedId: null,
+    selectedItem: {},
     sidesheet: false,
     filter: {
       text: null,
@@ -206,6 +221,9 @@ export default {
     }
   },
   watch: {
+    dialog(val) {
+      val || this.close()
+    },
     alerts(current, old) {
       if (
         old &&
@@ -280,6 +298,19 @@ export default {
       this.filter = Object.assign({}, this.filter, {
         dateRange: range
       })
+    },
+    setAlert(item) {
+      console.log('setting alert...')
+      this.selectedId = item.id
+      this.selectedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+    close() {
+      this.dialog = false
+      setTimeout(() => {
+        this.selectedItem = {}
+        this.selectedId = null
+      }, 300)
     }
   }
 }

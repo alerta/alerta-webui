@@ -1,35 +1,202 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-    scrollable
-  >
-    <v-card tile>
-      <v-toolbar>
-        <v-toolbar-side-icon>
-          <v-icon @click="close">
-            close
-          </v-icon>
-        </v-toolbar-side-icon>
-        <v-toolbar-title>Alert details</v-toolbar-title>
-        <v-spacer />
-        <v-toolbar-items>
+  <v-card>
+    <v-card
+      tile
+    >
+      <v-toolbar
+        dense
+      >
+        <v-btn
+          icon
+          @click="dialog = false"
+        >
+          <v-icon>arrow_back</v-icon>
+        </v-btn>
+
+        <!-- <v-tooltip bottom>
           <v-btn
-            flat
+            v-show="isAcked(item.status) || isClosed(item.status)"
+            slot="activator"
             icon
-            @click="sheet = true"
+            class="btn--plain"
+            @click="takeAction(item.id, 'open')"
           >
-            <v-icon>more_vert</v-icon>
+            <v-icon
+              size="20px"
+            >
+              refresh
+            </v-icon>
           </v-btn>
-        </v-toolbar-items>
+          <span>Open</span>
+        </v-tooltip> -->
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="!isWatched(item.tags)"
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="watchAlert(item.id)"
+          >
+            <v-icon
+              size="20px"
+            >
+              visibility
+            </v-icon>
+          </v-btn>
+          <span>Watch</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="isWatched(item.tags)"
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="unwatchAlert(item.id)"
+          >
+            <v-icon
+              size="20px"
+            >
+              visibility_off
+            </v-icon>
+          </v-btn>
+          <span>Unwatch</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="!isAcked(item.status)"
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="takeAction(item.id, 'ack')"
+          >
+            <v-icon
+              size="20px"
+            >
+              check
+            </v-icon>
+          </v-btn>
+          <span>Ack</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="isAcked(item.status)"
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="takeAction(item.id, 'unack')"
+          >
+            <v-icon
+              size="20px"
+            >
+              undo
+            </v-icon>
+          </v-btn>
+          <span>Unack</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="!isShelved(item.status)"
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="shelveAlert(item.id)"
+          >
+            <v-icon
+              size="20px"
+            >
+              schedule
+            </v-icon>
+          </v-btn>
+          <span>Shelve</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            v-show="isShelved(item.status)"
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="takeAction(item.id, 'unshelve')"
+          >
+            <v-icon
+              size="20px"
+            >
+              restore
+            </v-icon>
+          </v-btn>
+          <span>Unshelve</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="takeAction(item.id, 'close')"
+          >
+            <v-icon
+              size="20px"
+            >
+              highlight_off
+            </v-icon>
+          </v-btn>
+          <span>Close</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="deleteAlert(item.id)"
+          >
+            <v-icon
+              size="20px"
+            >
+              delete
+            </v-icon>
+          </v-btn>
+          <span>Delete</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-menu
+            slot="activator"
+            bottom
+            left
+          >
+            <v-btn
+              slot="activator"
+              icon
+              class="btn--plain px-1 mx-0"
+            >
+              <v-icon>
+                more_vert
+              </v-icon>
+            </v-btn>
+
+            <v-list>
+              <v-list-tile
+                v-for="(action, i) in actions"
+                :key="i"
+                @click="takeAction(item.id, action)"
+              >
+                <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+          <span>More</span>
+        </v-tooltip>
       </v-toolbar>
 
       <v-card>
         <v-tabs
           v-model="active"
-          color="secondary"
           grow
         >
           <v-tab ripple>
@@ -489,280 +656,21 @@
         </v-tabs>
       </v-card>
 
-      <v-card-actions class="hidden-sm-and-down">
+      <v-card-actions>
+        <v-text-field
+          v-model="text"
+          label="Add note"
+          prepend-icon="edit"
+        />
         <v-btn
-          color="green"
-          class="white--text"
-          @click="takeAction('open')"
-        >
-          <v-icon>refresh</v-icon>&nbsp;Open
-        </v-btn>
-
-        <v-btn
-          v-show="!isWatched"
-          color="white"
-          class="black--text"
-          @click="watchAlert"
-        >
-          <v-icon>visibility</v-icon>&nbsp;Watch
-        </v-btn>
-
-        <v-btn
-          v-show="isWatched"
-          color="white"
-          class="black--text"
-          @click="unwatchAlert"
-        >
-          <v-icon>visibility_off</v-icon>&nbsp;Unwatch
-        </v-btn>
-
-        <v-btn
-          v-show="!isShelved"
-          color="blue"
-          class="white--text"
-          :disabled="isClosed"
-          @click="shelveAlert()"
-        >
-          <v-icon>schedule</v-icon>&nbsp;Shelve
-        </v-btn>
-
-        <v-btn
-          v-show="isShelved"
-          color="blue"
-          class="white--text"
-          @click="takeAction('unshelve')"
-        >
-          <v-icon>schedule</v-icon>&nbsp;Unshelve
-        </v-btn>
-
-        <v-btn
-          v-show="!isAcked"
-          color="blue darken-2"
-          class="white--text"
-          :disabled="isShelved || isClosed"
-          @click="takeAction('ack')"
-        >
-          <v-icon>check_circle_outline</v-icon>&nbsp;Ack
-        </v-btn>
-
-        <v-btn
-          v-show="isAcked"
-          color="blue darken-2"
-          class="white--text"
-          @click="takeAction('unack')"
-        >
-          <v-icon>check_circle_outline</v-icon>&nbsp;Unack
-        </v-btn>
-
-        <v-btn
-          color="orange"
-          class="white--text"
-          :disabled="isClosed"
-          @click="takeAction('close')"
-        >
-          <v-icon>highlight_off</v-icon>&nbsp;Close
-        </v-btn>
-
-        <v-btn
-          color="red"
-          class="white--text"
-          @click="deleteAlert"
-        >
-          <v-icon>delete_forever</v-icon>&nbsp;Delete
-        </v-btn>
-
-        <v-spacer />
-
-        <v-btn
-          color="white"
-          @click="addNote"
+          color="primary"
+          @click="addNote(item.id)"
         >
           <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
         </v-btn>
       </v-card-actions>
-
-      <v-card-text>
-        <div>
-          <v-text-field
-            v-model="text"
-            label="Operator comment"
-            hint="optional"
-            persistent-hint
-          />
-        </div>
-      </v-card-text>
     </v-card>
-
-    <v-bottom-sheet v-model="sheet">
-      <v-list>
-        <v-subheader>Actions</v-subheader>
-
-        <v-list-tile
-          v-show="isAcked || isClosed"
-          @click="takeAction('open')"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="green">
-                refresh
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Open</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          v-show="!isWatched"
-          @click="watchAlert"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="black">
-                visibility
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Watch</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          v-show="isWatched"
-          @click="unwatchAlert"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="black">
-                visibility_off
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Unwatch</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          v-show="item.status == 'open'"
-          @click="takeAction('ack')"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="blue darken-2">
-                check_circle_outline
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Ack</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          v-show="isAcked"
-          @click="takeAction('unack')"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="blue darken-2">
-                check_circle_outline
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Unack</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          v-show="!isShelved"
-          @click="shelveAlert()"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="blue">
-                schedule
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Shelve</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          v-show="isShelved"
-          @click="takeAction('unshelve')"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="blue">
-                schedule
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Unshelve</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile
-          v-show="!isClosed"
-          @click="takeAction('close')"
-        >
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="orange">
-                highlight_off
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Close</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile @click="deleteAlert">
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="red">
-                delete_forever
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Delete</v-list-tile-title>
-        </v-list-tile>
-
-        <v-list-tile @click="addNote">
-          <v-list-tile-avatar>
-            <v-avatar
-              size="32px"
-              tile
-            >
-              <v-icon color="black">
-                add
-              </v-icon>
-            </v-avatar>
-          </v-list-tile-avatar>
-          <v-list-tile-title>Add Note</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-bottom-sheet>
-  </v-dialog>
+  </v-card>
 </template>
 
 <script>
@@ -813,90 +721,86 @@ export default {
     item() {
       return this.$store.state.alerts.alert
     },
+    actions() {
+      return this.$config.actions
+    },
     history() {
       return this.item.history
         ? this.item.history.map((h, index) => ({ index: index, ...h }))
         : []
     },
-    shelveTimeout() {
-      return this.$store.getters.getPreference('shelveTimeout')
-    },
-    isWatched() {
-      return this.item.tags
-        ? this.item.tags.indexOf(`watch:${this.username}`) > -1
-        : false
-    },
-    isAcked() {
-      return this.item.status == 'ack' || this.item.status == 'ACKED'
-    },
-    isShelved() {
-      return this.item.status == 'shelved' || this.item.status == 'SHLVD'
-    },
-    isClosed() {
-      return this.item.status == 'closed'
-    },
-    username() {
-      return this.$store.getters['auth/getPayload'].name
-    },
     headersByScreenSize() {
       return this.headers.filter(
         h => !h.hide || !this.$vuetify.breakpoint[h.hide]
       )
+    },
+    shelveTimeout() {
+      return this.$store.getters.getPreference('shelveTimeout')
+    },
+    username() {
+      return this.$store.getters['auth/getPayload'].name
+    }
+  },
+  watch: {
+    dialog(val) {
+      val || this.close()
     }
   },
   created() {
     this.getAlert(this.id)
   },
   methods: {
-    getAlert(id) {
-      this.$store.dispatch('alerts/getAlert', id)
+    getAlert() {
+      this.$store.dispatch('alerts/getAlert', this.id)
     },
-    takeAction(action) {
+    isWatched(tags) {
+      return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
+    },
+    isAcked(status) {
+      return status == 'ack' || status == 'ACKED'
+    },
+    isShelved(status) {
+      return status == 'shelved' || status == 'SHLVD'
+    },
+    isClosed(status) {
+      return status == 'closed'
+    },
+    takeAction(id, action) {
       this.$store
-        .dispatch('alerts/takeAction', [this.item.id, action, this.text])
-        .then(() => this.getAlert(this.item.id))
-      this.sheet = false
+        .dispatch('alerts/takeAction', [id, action, 'operator action short-cut'])
+        .then(() => this.getAlert(this.id))
     },
-    shelveAlert() {
+    shelveAlert(id) {
       this.$store
         .dispatch('alerts/takeAction', [
-          this.item.id,
+          id,
           'shelve',
-          this.text,
+          'operator shelve short-cut',
           this.shelveTimeout
         ])
-        .then(() => this.getAlert(this.item.id))
-      this.sheet = false
+        .then(() => this.getAlert(this.id))
     },
-    watchAlert() {
-      let user = this.$store.getters['auth/getPayload'].name
+    watchAlert(id) {
       this.$store
-        .dispatch('alerts/tagAlert', [
-          this.item.id,
-          { tags: [`watch:${user}`] }
-        ])
-        .then(() => this.getAlert(this.item.id))
-      this.sheet = false
+        .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .then(() => this.getAlert(this.id))
     },
-    unwatchAlert() {
-      let user = this.$store.getters['auth/getPayload'].name
+    unwatchAlert(id) {
       this.$store
-        .dispatch('alerts/untagAlert', [
-          this.item.id,
-          { tags: [`watch:${user}`] }
-        ])
-        .then(() => this.getAlert(this.item.id))
-      this.sheet = false
+        .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .then(() => this.getAlert(this.id))
     },
-    addNote() {
+    addNote(id) {
       this.$store
-        .dispatch('alerts/addNote', [this.item.id, this.text])
-        .then(() => this.getAlert(this.item.id))
+        .dispatch('alerts/addNote', [id, this.text])
+        .then(() => {
+          this.text = null
+          this.getAlert(this.id)
+        })
     },
-    deleteAlert() {
+    deleteAlert(id) {
       confirm('Are you sure you want to delete this item?') &&
-        this.$store.dispatch('alerts/deleteAlert', this.item.id)
-      this.sheet = false
+        this.$store.dispatch('alerts/deleteAlert', id)
     },
     close() {
       this.$emit('close')

@@ -6,7 +6,7 @@ const state = {
   isLoading: false,
 
   alerts: [],
-  selected: [],
+  selected: [], // used by multi-select checkboxes
   query: {}, // 'q' query string syntax eg. {"q": "severity:critical"}
   environments: [],
   services: [],
