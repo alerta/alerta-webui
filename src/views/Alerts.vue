@@ -300,7 +300,6 @@ export default {
       })
     },
     setAlert(item) {
-      console.log('setting alert...')
       this.selectedId = item.id
       this.selectedItem = Object.assign({}, item)
       this.dialog = true

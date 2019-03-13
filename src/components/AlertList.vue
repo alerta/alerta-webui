@@ -414,7 +414,6 @@ export default {
       return this.$store.getters.getConfig('colors').severity[severity]
     },
     selectItem(item) {
-      console.log('set-alert')
       this.$emit('set-alert', item)
     },
     isWatched(tags) {

@@ -663,8 +663,8 @@
         </v-tabs>
       </v-card>
 
-      <alert-note-add
-        v-if="item"
+      <alert-actions
+        v-if="item.id"
         :id="item.id"
         :status="item.status"
         :is-watched="isWatched(item.tags)"
@@ -681,12 +681,12 @@
 
 <script>
 import DateTime from './DateTime'
-import AlertNoteAdd from '@/components/AlertNoteAdd'
+import AlertActions from '@/components/AlertActions'
 
 export default {
   components: {
     DateTime,
-    AlertNoteAdd
+    AlertActions
   },
   props: {
     id: {
