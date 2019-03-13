@@ -35,6 +35,11 @@ describe('ApiKeyList', () => {
           scopes: []
         }
       },
+      actions: {
+        ['customers/getCustomers'](){ },
+        ['perms/getScopes'](){ },
+        ['keys/getKeys'](){ }
+      },
       getters: {
         ['auth/scopes']() {
           return ['read', 'write'] // default user scopes
