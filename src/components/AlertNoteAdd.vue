@@ -1,13 +1,49 @@
 <template>
   <div>
-    <v-btn
+    <v-container
       v-if="!showForm"
-      outline
-      color="grey"
-      @click="showForm = true"
+      fluid
     >
-      <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
-    </v-btn>
+      <v-layout>
+        <v-flex>
+          <v-btn
+            v-show="!isWatched"
+            outline
+            color="grey"
+            @click="watchAlert"
+          >
+            <v-icon>visibility</v-icon>&nbsp;Watch
+          </v-btn>
+
+          <v-btn
+            v-show="isWatched"
+            outline
+            color="grey"
+            @click="unwatchAlert"
+          >
+            <v-icon>visibility_off</v-icon>&nbsp;Unwatch
+          </v-btn>
+
+          <v-btn
+            v-if="!showForm"
+            outline
+            color="grey"
+            @click="showForm = true"
+          >
+            <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
+          </v-btn>
+
+          <v-btn
+            outline
+            color="grey"
+            @click="deleteAlert"
+          >
+            <v-icon>delete_forever</v-icon>&nbsp;Delete
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
 
     <v-container
       v-if="showForm"
@@ -125,6 +161,10 @@ export default {
     status: {
       type: String,
       required: true
+    },
+    isWatched: {
+      type: Boolean,
+      required: true
     }
   },
   data: () => ({
@@ -156,9 +196,18 @@ export default {
       this.$emit('shelve-alert', this.id, this.text)
       this.close()
     },
+    watchAlert() {
+      this.$emit('watch-alert', this.id)
+    },
+    unwatchAlert() {
+      this.$emit('unwatch-alert', this.id)
+    },
     addNote(action) {
       this.$emit('add-note', this.id, this.text)
       this.close()
+    },
+    deleteAlert() {
+      this.$emit('delete-alert', this.id)
     },
     close() {
       this.text = null

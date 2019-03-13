@@ -664,11 +664,16 @@
       </v-card>
 
       <alert-note-add
+        v-if="item"
         :id="item.id"
         :status="item.status"
+        :is-watched="isWatched(item.tags)"
         @take-action="takeAction"
         @shelve-alert="shelveAlert"
+        @watch-alert="watchAlert"
+        @unwatch-alert="unwatchAlert"
         @add-note="addNote"
+        @delete-alert="deleteAlert"
       />
     </v-card>
   </v-card>
