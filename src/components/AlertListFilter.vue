@@ -146,7 +146,6 @@
 
 <script>
 export default {
-  components: {},
   props: {
     value: {
       type: Boolean,
@@ -157,8 +156,8 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    sidesheet: this.value,
+  data: vm => ({
+    sidesheet: vm.value,
     active: null,
     pagination: {
       rowsPerPage: 10,
@@ -180,11 +179,11 @@ export default {
       { text: '6 hours', range: [3600 * 6, null] },
       { text: '12 hours', range: [3600 * 12, null] }
     ],
-    filterText: this.filter.text || null,
-    selectedStatus: this.filter.status || [],
-    selectedService: this.filter.service || [],
-    selectedGroup: this.filter.group || [],
-    selectedDateRange: this.filter.dateRange || [null, null]
+    filterText: vm.filter.text || null,
+    selectedStatus: vm.filter.status || [],
+    selectedService: vm.filter.service || [],
+    selectedGroup: vm.filter.group || [],
+    selectedDateRange: vm.filter.dateRange || [null, null]
   }),
   computed: {
     isDark() {

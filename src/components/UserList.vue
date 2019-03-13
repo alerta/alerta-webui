@@ -324,7 +324,7 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data: () => ({
+  data: vm => ({
     descending: true,
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40],
@@ -372,7 +372,7 @@ export default {
       required: v => !!v || 'Required.',
       min: v => !v || v.length >= 6 || 'Min 6 characters',
       passwordMatch: v =>
-        v == this.editedItem.password || 'Passwords entered don\'t match'
+        v == vm.editedItem.password || 'Passwords entered don\'t match'
     }
   }),
   computed: {

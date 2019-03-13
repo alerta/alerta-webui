@@ -101,7 +101,7 @@ export default {
       return this.$store.getters.getConfig('signup_enabled')
     }
   },
-  created: function() {
+  created() {
     if (!this.isBasicAuth) {
       this.authenticate()
     }

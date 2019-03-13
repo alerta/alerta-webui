@@ -404,7 +404,7 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data: () => ({
+  data: vm => ({
     descending: true,
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40],
@@ -441,7 +441,7 @@ export default {
       event: null,
       group: null,
       tags: [],
-      period: this.defaultTimes(),
+      period: vm.defaultTimes(),
       text: ''
     },
     menu1: false,
