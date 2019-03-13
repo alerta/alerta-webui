@@ -95,31 +95,29 @@ export default {
   components: {
     DateTime
   },
-  data() {
-    return {
+  data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40],
+    pagination: {
+      sortBy: 'receiveTime',
       descending: true,
-      page: 1,
-      rowsPerPageItems: [10, 20, 30, 40],
-      pagination: {
-        sortBy: 'receiveTime',
-        descending: true,
-        rowsPerPage: 20
-      },
-      // totalItems: number,
-      search: '',
-      headers: [
-        { text: 'Origin', value: 'origin' },
-        { text: 'Customer', value: 'customer' },
-        { text: 'Tags', value: 'tags' },
-        { text: 'Create Time', value: 'createTime' },
-        { text: 'Receive Time', value: 'receiveTime' },
-        { text: 'Latency', value: 'latency' },
-        { text: 'Timeout', value: 'timeout' },
-        { text: 'Since', value: 'since' },
-        { text: 'Actions', value: 'name', sortable: false }
-      ]
-    }
-  },
+      rowsPerPage: 20
+    },
+    // totalItems: number,
+    search: '',
+    headers: [
+      { text: 'Origin', value: 'origin' },
+      { text: 'Customer', value: 'customer' },
+      { text: 'Tags', value: 'tags' },
+      { text: 'Create Time', value: 'createTime' },
+      { text: 'Receive Time', value: 'receiveTime' },
+      { text: 'Latency', value: 'latency' },
+      { text: 'Timeout', value: 'timeout' },
+      { text: 'Since', value: 'since' },
+      { text: 'Actions', value: 'name', sortable: false }
+    ]
+  }),
   computed: {
     heartbeats() {
       return this.$store.state.heartbeats.heartbeats

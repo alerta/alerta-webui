@@ -324,59 +324,57 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data() {
-    return {
-      descending: true,
-      page: 1,
-      rowsPerPageItems: [10, 20, 30, 40],
-      pagination: {
-        sortBy: 'name',
-        rowsPerPage: 20
-      },
-      // totalItems: number,
-      search: '',
-      wantRoles: [],
-      dialog: false,
-      headers: [
-        { text: 'Name', value: 'name' },
-        { text: 'Status', value: 'status' },
-        { text: 'Login', value: 'email' },
-        { text: 'Verified?', value: 'email_verified' },
-        { text: 'Roles', value: 'roles' },
-        { text: 'Created', value: 'createTime' },
-        { text: 'Last Login', value: 'lastLogin' },
-        { text: 'Comment', value: 'text' },
-        { text: 'Actions', value: 'name', sortable: false }
-      ],
-      editedId: null,
-      editedItem: {
-        name: '',
-        status: 'active',
-        email: '',
-        email_verified: false,
-        password: '',
-        roles: [],
-        text: ''
-      },
-      defaultItem: {
-        name: '',
-        status: 'active',
-        email: '',
-        email_verified: false,
-        password: '',
-        roles: [],
-        text: ''
-      },
-      confirmPassword: '',
-      showPassword: false,
-      rules: {
-        required: v => !!v || 'Required.',
-        min: v => !v || v.length >= 6 || 'Min 6 characters',
-        passwordMatch: v =>
-          v == this.editedItem.password || 'Passwords entered don\'t match'
-      }
+  data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40],
+    pagination: {
+      sortBy: 'name',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
+    search: '',
+    wantRoles: [],
+    dialog: false,
+    headers: [
+      { text: 'Name', value: 'name' },
+      { text: 'Status', value: 'status' },
+      { text: 'Login', value: 'email' },
+      { text: 'Verified?', value: 'email_verified' },
+      { text: 'Roles', value: 'roles' },
+      { text: 'Created', value: 'createTime' },
+      { text: 'Last Login', value: 'lastLogin' },
+      { text: 'Comment', value: 'text' },
+      { text: 'Actions', value: 'name', sortable: false }
+    ],
+    editedId: null,
+    editedItem: {
+      name: '',
+      status: 'active',
+      email: '',
+      email_verified: false,
+      password: '',
+      roles: [],
+      text: ''
+    },
+    defaultItem: {
+      name: '',
+      status: 'active',
+      email: '',
+      email_verified: false,
+      password: '',
+      roles: [],
+      text: ''
+    },
+    confirmPassword: '',
+    showPassword: false,
+    rules: {
+      required: v => !!v || 'Required.',
+      min: v => !v || v.length >= 6 || 'Min 6 characters',
+      passwordMatch: v =>
+        v == this.editedItem.password || 'Passwords entered don\'t match'
     }
-  },
+  }),
   computed: {
     users() {
       return this.$store.state.users.users

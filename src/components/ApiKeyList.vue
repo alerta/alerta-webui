@@ -288,50 +288,48 @@ export default {
   components: {
     ListButtonAdd
   },
-  data() {
-    return {
-      descending: true,
-      page: 1,
-      rowsPerPageItems: [10, 20, 30, 40],
-      pagination: {
-        sortBy: 'lastUsedTime',
-        rowsPerPage: 20
-      },
-      search: '',
-      dialog: false,
-      headers: [
-        { text: 'API Key', value: 'key', sortable: false },
-        { text: '', value: 'expireTime' },
-        { text: 'User', value: 'user' },
-        { text: 'Scopes', value: 'scopes' },
-        { text: 'Description', value: 'text' },
-        { text: 'Expires', value: 'expireTime' },
-        { text: 'Count', value: 'count' },
-        { text: 'Last Used', value: 'lastUsedTime' },
-        { text: 'Customer', value: 'customer' },
-        { text: 'Actions', value: 'name', sortable: false }
-      ],
-      editedId: null,
-      editedItem: {
-        key: '',
-        user: '',
-        text: '',
-        customer: null,
-        scopes: [],
-        expireTime: null
-      },
-      menu: false,
-      pickerDate: null,
-      defaultItem: {
-        user: '',
-        text: '',
-        customer: null,
-        scopes: [],
-        expireTime: null
-      },
-      copyIconText: 'Copy'
-    }
-  },
+  data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40],
+    pagination: {
+      sortBy: 'lastUsedTime',
+      rowsPerPage: 20
+    },
+    search: '',
+    dialog: false,
+    headers: [
+      { text: 'API Key', value: 'key', sortable: false },
+      { text: '', value: 'expireTime' },
+      { text: 'User', value: 'user' },
+      { text: 'Scopes', value: 'scopes' },
+      { text: 'Description', value: 'text' },
+      { text: 'Expires', value: 'expireTime' },
+      { text: 'Count', value: 'count' },
+      { text: 'Last Used', value: 'lastUsedTime' },
+      { text: 'Customer', value: 'customer' },
+      { text: 'Actions', value: 'name', sortable: false }
+    ],
+    editedId: null,
+    editedItem: {
+      key: '',
+      user: '',
+      text: '',
+      customer: null,
+      scopes: [],
+      expireTime: null
+    },
+    menu: false,
+    pickerDate: null,
+    defaultItem: {
+      user: '',
+      text: '',
+      customer: null,
+      scopes: [],
+      expireTime: null
+    },
+    copyIconText: 'Copy'
+  }),
   computed: {
     keys() {
       return this.$store.state.keys.keys

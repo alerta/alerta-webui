@@ -110,22 +110,20 @@ import { router } from '@/main'
 
 export default {
   props: [],
-  data() {
-    return {
-      name: null,
-      email: null,
-      password: null,
-      confirmPassword: null,
-      showPassword: false,
-      text: null,
-      rules: {
-        required: v => !!v || 'Required.',
-        min: v => !v || v.length >= 6 || 'Min 6 characters',
-        passwordMatch: v =>
-          v == this.password || 'Passwords entered don\'t match'
-      }
+  data: () => ({
+    name: null,
+    email: null,
+    password: null,
+    confirmPassword: null,
+    showPassword: false,
+    text: null,
+    rules: {
+      required: v => !!v || 'Required.',
+      min: v => !v || v.length >= 6 || 'Min 6 characters',
+      passwordMatch: v =>
+        v == this.password || 'Passwords entered don\'t match'
     }
-  },
+  }),
   computed: {
     isSending() {
       return this.$store.state.auth.isSending

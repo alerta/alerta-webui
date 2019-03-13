@@ -404,68 +404,66 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data() {
-    return {
-      descending: true,
-      page: 1,
-      rowsPerPageItems: [10, 20, 30, 40],
-      pagination: {
-        sortBy: 'startTime',
-        rowsPerPage: 20
+  data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40],
+    pagination: {
+      sortBy: 'startTime',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
+    search: '',
+    dialog: false,
+    headers: [
+      { text: 'Customer', value: 'customer' },
+      { text: 'Environment', value: 'environment' },
+      { text: 'Service', value: 'service' },
+      { text: 'Resource', value: 'resource' },
+      { text: 'Event', value: 'event' },
+      { text: 'Group', value: 'group' },
+      { text: 'Tags', value: 'tags' },
+      { text: '', value: 'status' },
+      { text: 'Start', value: 'startTime' },
+      { text: 'End', value: 'endTime' },
+      { text: 'Expires', value: 'remaining' },
+      { text: 'User', value: 'user' },
+      // { text: 'Created', value: 'createTime' },
+      { text: 'Reason', value: 'text' },
+      { text: 'Actions', value: 'name', sortable: false }
+    ],
+    editedId: null,
+    editedItem: {
+      customer: null,
+      environment: null,
+      service: [],
+      resource: null,
+      event: null,
+      group: null,
+      tags: [],
+      period: this.defaultTimes(),
+      text: ''
+    },
+    menu1: false,
+    menu2: false,
+    defaultItem: {
+      customer: null,
+      environment: null,
+      service: [],
+      resource: null,
+      event: null,
+      group: null,
+      tags: [],
+      period: {
+        startDate: null,
+        startTime: null,
+        endDate: null,
+        endTime: null
       },
-      // totalItems: number,
-      search: '',
-      dialog: false,
-      headers: [
-        { text: 'Customer', value: 'customer' },
-        { text: 'Environment', value: 'environment' },
-        { text: 'Service', value: 'service' },
-        { text: 'Resource', value: 'resource' },
-        { text: 'Event', value: 'event' },
-        { text: 'Group', value: 'group' },
-        { text: 'Tags', value: 'tags' },
-        { text: '', value: 'status' },
-        { text: 'Start', value: 'startTime' },
-        { text: 'End', value: 'endTime' },
-        { text: 'Expires', value: 'remaining' },
-        { text: 'User', value: 'user' },
-        // { text: 'Created', value: 'createTime' },
-        { text: 'Reason', value: 'text' },
-        { text: 'Actions', value: 'name', sortable: false }
-      ],
-      editedId: null,
-      editedItem: {
-        customer: null,
-        environment: null,
-        service: [],
-        resource: null,
-        event: null,
-        group: null,
-        tags: [],
-        period: this.defaultTimes(),
-        text: ''
-      },
-      menu1: false,
-      menu2: false,
-      defaultItem: {
-        customer: null,
-        environment: null,
-        service: [],
-        resource: null,
-        event: null,
-        group: null,
-        tags: [],
-        period: {
-          startDate: null,
-          startTime: null,
-          endDate: null,
-          endTime: null
-        },
-        text: ''
-      },
-      rules: {}
-    }
-  },
+      text: ''
+    },
+    rules: {}
+  }),
   computed: {
     blackouts() {
       return this.$store.state.blackouts.blackouts.map(b => {

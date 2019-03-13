@@ -217,35 +217,33 @@ export default {
   components: {
     ListButtonAdd
   },
-  data() {
-    return {
-      descending: true,
-      page: 1,
-      rowsPerPageItems: [10, 20, 30, 40],
-      pagination: {
-        sortBy: 'match',
-        rowsPerPage: 20
-      },
-      // totalItems: number,
-      search: '',
-      wantScopes: [],
-      dialog: false,
-      headers: [
-        { text: 'Role', value: 'match' },
-        { text: 'Scopes', value: 'scopes' },
-        { text: 'Actions', value: 'name', sortable: false }
-      ],
-      editedId: null,
-      editedItem: {
-        match: '',
-        scopes: []
-      },
-      defaultItem: {
-        match: '',
-        scopes: []
-      }
+  data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40],
+    pagination: {
+      sortBy: 'match',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
+    search: '',
+    wantScopes: [],
+    dialog: false,
+    headers: [
+      { text: 'Role', value: 'match' },
+      { text: 'Scopes', value: 'scopes' },
+      { text: 'Actions', value: 'name', sortable: false }
+    ],
+    editedId: null,
+    editedItem: {
+      match: '',
+      scopes: []
+    },
+    defaultItem: {
+      match: '',
+      scopes: []
     }
-  },
+  }),
   computed: {
     perms() {
       return this.$store.state.perms.permissions

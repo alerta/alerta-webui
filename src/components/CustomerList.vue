@@ -150,34 +150,32 @@ export default {
   components: {
     ListButtonAdd
   },
-  data() {
-    return {
-      descending: true,
-      page: 1,
-      rowsPerPageItems: [10, 20, 30, 40],
-      pagination: {
-        sortBy: 'match',
-        rowsPerPage: 20
-      },
-      // totalItems: number,
-      search: '',
-      dialog: false,
-      headers: [
-        { text: 'Look Up', value: 'match' },
-        { text: 'Customer', value: 'customer' },
-        { text: 'Actions', value: 'name', sortable: false }
-      ],
-      editedId: null,
-      editedItem: {
-        match: null,
-        customer: null
-      },
-      defaultItem: {
-        match: null,
-        customer: null
-      }
+  data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40],
+    pagination: {
+      sortBy: 'match',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
+    search: '',
+    dialog: false,
+    headers: [
+      { text: 'Look Up', value: 'match' },
+      { text: 'Customer', value: 'customer' },
+      { text: 'Actions', value: 'name', sortable: false }
+    ],
+    editedId: null,
+    editedItem: {
+      match: null,
+      customer: null
+    },
+    defaultItem: {
+      match: null,
+      customer: null
     }
-  },
+  }),
   computed: {
     customers() {
       return this.$store.state.customers.customers

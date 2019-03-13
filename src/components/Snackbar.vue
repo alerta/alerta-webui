@@ -17,11 +17,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      show: false
-    }
-  },
+  data: () => ({
+    show: false
+  }),
   computed: {
     snackbar() {
       return this.$store.state.notifications.snackbars[0] || {}
