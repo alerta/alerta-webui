@@ -311,38 +311,36 @@ export default {
       default: () => []
     }
   },
-  data() {
-    return {
-      page: 1,
-      rowsPerPageItems: [10, 20, 30, 40],
-      pagination: {
-        sortBy: 'multi',
-        descending: true,
-        rowsPerPage: 20
-      },
-      // totalItems: number,
-      search: '',
-      headers: [
-        { text: 'Severity', value: 'severity', width: '5%' },
-        { text: 'Status', value: 'status', width: '3%' },
-        { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
-        { text: 'Dupl.', value: 'duplicateCount', width: '3%' },
-        { text: 'Environment', value: 'environment', width: '5%' },
-        { text: 'Service', value: 'service', width: '10%' },
-        { text: 'Resource', value: 'resource', width: '10%' },
-        { text: 'Event', value: 'event', width: '10%' },
-        { text: 'Group', value: 'group', width: '7%' },
-        { text: 'Value', value: 'value', width: '5%' },
-        { text: 'Description', value: 'text' },
-        { text: '', value: '', sortable: false }  // action buttons
-      ],
-      details: false,
-      selectedId: null,
-      showIcons: null,
-      multiselect: false,
-      timer: null
-    }
-  },
+  data: () => ({
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40],
+    pagination: {
+      sortBy: 'multi',
+      descending: true,
+      rowsPerPage: 20
+    },
+    // totalItems: number,
+    search: '',
+    headers: [
+      { text: 'Severity', value: 'severity', width: '5%' },
+      { text: 'Status', value: 'status', width: '3%' },
+      { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
+      { text: 'Dupl.', value: 'duplicateCount', width: '3%' },
+      { text: 'Environment', value: 'environment', width: '5%' },
+      { text: 'Service', value: 'service', width: '10%' },
+      { text: 'Resource', value: 'resource', width: '10%' },
+      { text: 'Event', value: 'event', width: '10%' },
+      { text: 'Group', value: 'group', width: '7%' },
+      { text: 'Value', value: 'value', width: '5%' },
+      { text: 'Description', value: 'text' },
+      { text: '', value: '', sortable: false }  // action buttons
+    ],
+    details: false,
+    selectedId: null,
+    showIcons: null,
+    multiselect: false,
+    timer: null
+  }),
   computed: {
     actions() {
       return this.$config.actions

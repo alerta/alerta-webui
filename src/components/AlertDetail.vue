@@ -694,36 +694,34 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      dialog: true,
-      sheet: false,
-      tiles1: [
-        { img: 'keep.png', title: 'Keep' },
-        { img: 'inbox.png', title: 'Inbox' },
-        { img: 'hangouts.png', title: 'Hangouts' },
-        { img: 'messenger.png', title: 'Messenger' },
-        { img: 'google.png', title: 'Google+' }
-      ],
-      tiles: [],
-      active: null,
-      pagination: {
-        rowsPerPage: 10,
-        sortBy: 'updateTime'
-      },
-      headers: [
-        { text: 'Alert ID', value: 'id', hide: 'smAndDown' },
-        { text: 'Update Time', value: 'updateTime', hide: 'smAndDown' },
-        { text: 'Updated', value: 'updateTime', hide: 'mdAndUp' },
-        { text: 'Severity', value: 'severity', hide: 'smAndDown' },
-        { text: 'Status', value: 'status', hide: 'smAndDown' },
-        { text: 'Type', value: 'type' },
-        { text: 'Event', value: 'event', hide: 'smAndDown' },
-        { text: 'Value', value: 'value', hide: 'smAndDown' },
-        { text: 'Text', value: 'text' }
-      ]
-    }
-  },
+  data: () => ({
+    dialog: true,
+    sheet: false,
+    tiles1: [
+      { img: 'keep.png', title: 'Keep' },
+      { img: 'inbox.png', title: 'Inbox' },
+      { img: 'hangouts.png', title: 'Hangouts' },
+      { img: 'messenger.png', title: 'Messenger' },
+      { img: 'google.png', title: 'Google+' }
+    ],
+    tiles: [],
+    active: null,
+    pagination: {
+      rowsPerPage: 10,
+      sortBy: 'updateTime'
+    },
+    headers: [
+      { text: 'Alert ID', value: 'id', hide: 'smAndDown' },
+      { text: 'Update Time', value: 'updateTime', hide: 'smAndDown' },
+      { text: 'Updated', value: 'updateTime', hide: 'mdAndUp' },
+      { text: 'Severity', value: 'severity', hide: 'smAndDown' },
+      { text: 'Status', value: 'status', hide: 'smAndDown' },
+      { text: 'Type', value: 'type' },
+      { text: 'Event', value: 'event', hide: 'smAndDown' },
+      { text: 'Value', value: 'value', hide: 'smAndDown' },
+      { text: 'Text', value: 'text' }
+    ]
+  }),
   computed: {
     item() {
       return this.$store.state.alerts.alert

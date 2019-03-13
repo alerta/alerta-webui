@@ -157,37 +157,35 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      sidesheet: this.value,
-      active: null,
-      pagination: {
-        rowsPerPage: 10,
-        sortBy: 'updateTime'
-      },
-      headers: [
-        { text: 'Alert ID', value: 'id' },
-        { text: 'Update Time', value: 'updateTime' },
-        { text: 'Severity', value: 'severity' },
-        { text: 'Status', value: 'status' },
-        { text: 'Type', value: 'type' },
-        { text: 'Event', value: 'event' },
-        { text: 'Value', value: 'value' },
-        { text: 'Text', value: 'text' }
-      ],
-      dateRanges: [
-        { text: 'Latest', range: [null, null] },
-        { text: '1 hour', range: [3600, null] },
-        { text: '6 hours', range: [3600 * 6, null] },
-        { text: '12 hours', range: [3600 * 12, null] }
-      ],
-      filterText: this.filter.text || null,
-      selectedStatus: this.filter.status || [],
-      selectedService: this.filter.service || [],
-      selectedGroup: this.filter.group || [],
-      selectedDateRange: this.filter.dateRange || [null, null]
-    }
-  },
+  data: () => ({
+    sidesheet: this.value,
+    active: null,
+    pagination: {
+      rowsPerPage: 10,
+      sortBy: 'updateTime'
+    },
+    headers: [
+      { text: 'Alert ID', value: 'id' },
+      { text: 'Update Time', value: 'updateTime' },
+      { text: 'Severity', value: 'severity' },
+      { text: 'Status', value: 'status' },
+      { text: 'Type', value: 'type' },
+      { text: 'Event', value: 'event' },
+      { text: 'Value', value: 'value' },
+      { text: 'Text', value: 'text' }
+    ],
+    dateRanges: [
+      { text: 'Latest', range: [null, null] },
+      { text: '1 hour', range: [3600, null] },
+      { text: '6 hours', range: [3600 * 6, null] },
+      { text: '12 hours', range: [3600 * 12, null] }
+    ],
+    filterText: this.filter.text || null,
+    selectedStatus: this.filter.status || [],
+    selectedService: this.filter.service || [],
+    selectedGroup: this.filter.group || [],
+    selectedDateRange: this.filter.dateRange || [null, null]
+  }),
   computed: {
     isDark() {
       return this.$store.getters.getPreference('isDark')

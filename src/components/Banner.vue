@@ -12,11 +12,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      show: false
-    }
-  },
+  data: () => ({
+    show: false
+  }),
   computed: {
     banner() {
       return this.$store.state.notifications.banners[0] || {}
