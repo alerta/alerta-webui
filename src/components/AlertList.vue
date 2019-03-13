@@ -466,6 +466,7 @@ export default {
 .alert-table .v-table tbody td {
   border-top: 1px solid rgb(221, 221, 221);
   height: 42px;
+  font-family: 'Sintony', sans-serif;
   font-size: 14px;
 }
 
