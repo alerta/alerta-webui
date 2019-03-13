@@ -1,7 +1,10 @@
 <template>
-  <v-card>
+  <v-card
+    flat
+  >
     <v-card
       tile
+      flat
     >
       <v-toolbar
         dense
@@ -194,7 +197,9 @@
         </v-tooltip>
       </v-toolbar>
 
-      <v-card>
+      <v-card
+        flat
+      >
         <v-tabs
           v-model="active"
           grow
@@ -206,7 +211,9 @@
             :transition="false"
             :reverse-transition="false"
           >
-            <v-card>
+            <v-card
+              flat
+            >
               <v-card-text>
                 <div class="flex xs12">
                   <div class="d-flex align-top">
@@ -656,29 +663,25 @@
         </v-tabs>
       </v-card>
 
-      <v-card-actions>
-        <v-text-field
-          v-model="text"
-          label="Add note"
-          prepend-icon="edit"
-        />
-        <v-btn
-          color="primary"
-          @click="addNote(item.id)"
-        >
-          <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
-        </v-btn>
-      </v-card-actions>
+      <alert-note-add
+        :id="item.id"
+        :status="item.status"
+        @take-action="takeAction"
+        @shelve-alert="shelveAlert"
+        @add-note="addNote"
+      />
     </v-card>
   </v-card>
 </template>
 
 <script>
 import DateTime from './DateTime'
+import AlertNoteAdd from '@/components/AlertNoteAdd'
 
 export default {
   components: {
-    DateTime
+    DateTime,
+    AlertNoteAdd
   },
   props: {
     id: {
@@ -713,8 +716,7 @@ export default {
         { text: 'Event', value: 'event', hide: 'smAndDown' },
         { text: 'Value', value: 'value', hide: 'smAndDown' },
         { text: 'Text', value: 'text' }
-      ],
-      text: null
+      ]
     }
   },
   computed: {
@@ -765,19 +767,16 @@ export default {
     isClosed(status) {
       return status == 'closed'
     },
-    takeAction(id, action) {
+    takeAction(id, action, text) {
+      text = text || `${action} by ${this.username}`
       this.$store
-        .dispatch('alerts/takeAction', [id, action, 'operator action short-cut'])
+        .dispatch('alerts/takeAction', [id, action, text])
         .then(() => this.getAlert(this.id))
     },
-    shelveAlert(id) {
+    shelveAlert(id, text) {
+      text = text || `shelved by ${this.username}`
       this.$store
-        .dispatch('alerts/takeAction', [
-          id,
-          'shelve',
-          'operator shelve short-cut',
-          this.shelveTimeout
-        ])
+        .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout])
         .then(() => this.getAlert(this.id))
     },
     watchAlert(id) {
@@ -790,11 +789,10 @@ export default {
         .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
         .then(() => this.getAlert(this.id))
     },
-    addNote(id) {
+    addNote(id, text) {
       this.$store
-        .dispatch('alerts/addNote', [id, this.text])
+        .dispatch('alerts/addNote', [id, text])
         .then(() => {
-          this.text = null
           this.getAlert(this.id)
         })
     },

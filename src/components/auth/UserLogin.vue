@@ -16,7 +16,7 @@
         offset-sm3
       >
         <p class="text-xs-center headline font-weight-medium">
-          Redirecting to {{ $config.provider | capitalize }} for authentication...
+          Using {{ $config.provider | capitalize }} for authentication...
         </p>
       </v-flex>
       <v-flex
