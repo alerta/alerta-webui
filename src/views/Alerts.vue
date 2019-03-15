@@ -7,7 +7,8 @@
     />
 
     <alert-detail
-      v-if="dialog"
+      v-show="dialog"
+      v-if="selectedId"
       :id="selectedId"
       @close="close"
     />
