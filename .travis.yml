@@ -9,17 +9,19 @@ cache:
 install:
 - npm install
 
-script:
-- npm run lint:nofix
-- npm run test:unit
-- npm run build
-
-before_deploy:
-- zip alerta-web-beta.zip -r dist/*
-- tar cvfz alerta-web-beta.tar.gz dist/*
+stages:
+  - test
+  - name: deploy
+    if: type != pull_request AND branch = master
+  - name: release
+    if: type != pull_request AND branch = master
 
 jobs:
   include:
+  - stage: test
+    script:
+    - npm run lint:nofix
+    - npm run test:unit
   - stage: deploy
     before_script: echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com > .env
     script: npm run build
@@ -32,6 +34,10 @@ jobs:
       on:
         branch: master
   - stage: release
+    script: npm run build
+    before_deploy:
+    - zip alerta-web-beta.zip -r dist/*
+    - tar cvfz alerta-web-beta.tar.gz dist/*
     deploy:
     - provider: releases
       skip-cleanup: true
