@@ -414,10 +414,10 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
-                        <span :class="['label', 'label-' + item.previousSeverity.toLowerCase()]">
+                        <span :class="['label', 'label-' + item.previousSeverity]">
                           {{ item.previousSeverity | capitalize }}
                         </span>&nbsp;&rarr;&nbsp;
-                        <span :class="['label', 'label-' + item.severity.toLowerCase()]">
+                        <span :class="['label', 'label-' + item.severity]">
                           {{ item.severity | capitalize }}
                         </span>
                       </div>
@@ -539,7 +539,7 @@
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
                         <span class="label">
-                          {{ item.repeat }}
+                          {{ item.repeat | capitalize }}
                         </span>
                       </div>
                     </div>
@@ -641,7 +641,7 @@
                     />
                   </td>
                   <td class="hidden-sm-and-down">
-                    <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
+                    <span :class="['label', 'label-' + props.item.severity]">
                       {{ props.item.severity | capitalize }}
                     </span>
                   </td>
