@@ -82,6 +82,13 @@
             />
           </td>
           <td
+            class="text-xs-right"
+            style="white-space: nowrap"
+            @click="selectItem(props.item)"
+          >
+            {{ timeoutLeft(props.item) | hhmmss }}
+          </td>
+          <td
             @click="selectItem(props.item)"
           >
             {{ props.item.duplicateCount }}
@@ -300,6 +307,7 @@
 
 <script>
 import DateTime from './DateTime'
+import moment from 'moment'
 
 export default {
   components: {
@@ -325,12 +333,13 @@ export default {
       { text: 'Severity', value: 'severity', width: '5%' },
       { text: 'Status', value: 'status', width: '3%' },
       { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
+      { text: 'Timeout', value: 'timeout', align: 'right', width: '3%' },
       { text: 'Dupl.', value: 'duplicateCount', width: '3%' },
       { text: 'Environment', value: 'environment', width: '5%' },
-      { text: 'Service', value: 'service', width: '10%' },
+      { text: 'Service', value: 'service', width: '8%' },
       { text: 'Resource', value: 'resource', width: '10%' },
       { text: 'Event', value: 'event', width: '10%' },
-      { text: 'Group', value: 'group', width: '7%' },
+      { text: 'Group', value: 'group', width: '5%' },
       { text: 'Value', value: 'value', width: '5%' },
       { text: 'Description', value: 'text' },
       { text: '', value: '', sortable: false }  // action buttons
@@ -367,6 +376,14 @@ export default {
     }
   },
   methods: {
+    timeoutLeft(item) {
+      let lastModified =
+        item.status == 'shelved'
+          ? item.history.filter(h => h.type == 'shelve').slice(-1)[0].updateTime
+          : item.lastReceiveTime
+      let expireTime = moment(lastModified).add(item.timeout, 'seconds')
+      return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
+    },
     customSort(items, index, isDescending) {
       if (!index) return items
 
@@ -436,7 +453,7 @@ export default {
           id,
           'shelve',
           'operator shelve short-cut',
-          this.shelveTimeout
+          this.shelveTimeout * 3600
         ])
     },
     watchAlert(id) {
