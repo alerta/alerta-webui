@@ -7,9 +7,10 @@ export default Vue.filter('hhmmss', function(value) {
   }
   if (value) {
     let duration = moment.duration(value, 'seconds')
-    let seconds = pad(duration.seconds())
-    let minutes = pad(duration.minutes())
-    let hours = Math.floor(duration.as('h'))
-    return `${hours}:${minutes}:${seconds}`
+    var seconds = pad(duration.seconds())
+    var minutes = pad(duration.minutes())
+    var hours = pad(duration.hours())
+    var days = Math.floor(duration.as('d'))
+    return `${days} days ${hours}:${minutes}:${seconds}`
   }
 })

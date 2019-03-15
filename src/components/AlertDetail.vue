@@ -791,7 +791,7 @@ export default {
     shelveAlert(id, text) {
       text = text || `shelved by ${this.username}`
       this.$store
-        .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout])
+        .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout * 3600])
         .then(() => this.getAlert(this.id))
     },
     watchAlert(id) {
