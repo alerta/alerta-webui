@@ -414,12 +414,12 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
-                        <v-chip small>
-                          {{ item.previousSeverity }}
-                        </v-chip>&nbsp;&rarr;&nbsp;
-                        <v-chip small>
-                          {{ item.severity }}
-                        </v-chip>
+                        <span :class="['label', 'label-' + item.previousSeverity.toLowerCase()]">
+                          {{ item.previousSeverity | capitalize }}
+                        </span>&nbsp;&rarr;&nbsp;
+                        <span :class="['label', 'label-' + item.severity.toLowerCase()]">
+                          {{ item.severity | capitalize }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -434,7 +434,9 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
-                        {{ item.status }}
+                        <span class="label">
+                          {{ item.status | capitalize }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -476,7 +478,9 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
-                        {{ item.trendIndication }}
+                        <span class="label">
+                          {{ item.trendIndication | splitCaps }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -504,7 +508,9 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
-                        {{ item.type }}
+                        <span class="label">
+                          {{ item.type | splitCaps }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -532,7 +538,9 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
-                        {{ item.repeat }}
+                        <span class="label">
+                          {{ item.repeat }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -615,7 +623,7 @@
                     {{ props.item.id | shortId }}
                   </td>
                   <td
-                    class="text-xs-right hidden-sm-and-down"
+                    class="hidden-sm-and-down"
                     nowrap
                   >
                     <date-time
@@ -624,7 +632,7 @@
                     />
                   </td>
                   <td
-                    class="text-xs-left hidden-md-and-up"
+                    class="hidden-md-and-up"
                     nowrap
                   >
                     <date-time
@@ -632,28 +640,31 @@
                       format="shortTime"
                     />
                   </td>
-                  <td class="text-xs-right hidden-sm-and-down">
-                    <v-chip small>
+                  <td class="hidden-sm-and-down">
+                    <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
                       {{ props.item.severity | capitalize }}
-                    </v-chip>
+                    </span>
                   </td>
-                  <td class="text-xs-right hidden-sm-and-down">
-                    <v-chip small>
+                  <td class="hidden-sm-and-down">
+                    <span class="label">
                       {{ props.item.status | capitalize }}
-                    </v-chip>
+                    </span>
                   </td>
-                  <td class="text-xs-left">
-                    <v-chip small>
+                  <td>
+                    <span class="label">
                       {{ props.item.type || 'unknown' | capitalize }}
-                    </v-chip>
+                    </span>
                   </td>
-                  <td class="text-xs-right hidden-sm-and-down">
+                  <td class="hidden-sm-and-down">
                     {{ props.item.event }}
                   </td>
-                  <td class="text-xs-right hidden-sm-and-down">
+                  <td class="hidden-sm-and-down">
                     {{ props.item.value }}
                   </td>
-                  <td class="text-xs-left">
+                  <td>
+                    {{ props.item.user }}
+                  </td>
+                  <td>
                     {{ props.item.text }}
                   </td>
                 </template>
@@ -719,6 +730,7 @@ export default {
       { text: 'Type', value: 'type' },
       { text: 'Event', value: 'event', hide: 'smAndDown' },
       { text: 'Value', value: 'value', hide: 'smAndDown' },
+      { text: 'User', value: 'user' },
       { text: 'Text', value: 'text' }
     ]
   }),
@@ -810,4 +822,51 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+
+.label {
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 14px;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #999999;
+}
+
+.label {
+  padding: 1px 4px 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.label-critical {
+  background-color: #b94a48;
+}
+
+.label-major {
+  background-color: #f89406;
+}
+
+.label-minor {
+  background-color: #ffd700;
+}
+
+.label-warning {
+  background-color: #3a87ad;
+}
+
+.label-normal,
+.label-cleared,
+.label-ok,
+.label-informational {
+  background-color: #468847;
+}
+
+.label-inverse {
+  background-color: #333333;
+}
+
+</style>
