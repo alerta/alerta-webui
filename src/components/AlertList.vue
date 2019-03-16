@@ -323,7 +323,7 @@ export default {
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40],
     pagination: {
-      sortBy: 'multi',
+      sortBy: 'default',
       descending: true,
       rowsPerPage: 20
     },
@@ -377,10 +377,7 @@ export default {
   },
   methods: {
     timeoutLeft(item) {
-      let lastModified =
-        item.status == 'shelved'
-          ? item.history.filter(h => h.type == 'shelve').slice(-1)[0].updateTime
-          : item.lastReceiveTime
+      let lastModified = this.isShelved(item.status) && item.updateTime ? item.updateTime : item.lastReceiveTime
       let expireTime = moment(lastModified).add(item.timeout, 'seconds')
       return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
     },
@@ -389,8 +386,8 @@ export default {
 
       const reverseSort = isDescending ? -1 : 1
 
-      // sort by severity then lastReceiveTime
-      if (index == 'multi') {
+      // sort by severity then lastReceiveTime (default)
+      if (index == 'default') {
         return items.sort((a, b) => {
           if (a.severity == b.severity) {
             return b.lastReceiveTime - a.lastReceiveTime
@@ -414,10 +411,23 @@ export default {
         })
       }
 
+      // sort by timeout time remaining
+      if (index == 'timeout') {
+        return items.sort((a, b) => {
+          const timeLeftA = this.timeoutLeft(a)
+          const timeLeftB = this.timeoutLeft(b)
+          if (timeLeftA > timeLeftB) return reverseSort * 1
+          if (timeLeftA < timeLeftB) return reverseSort * -1
+          return 0
+        })
+      }
+
       // use default sort
       return items.sort((a, b) => {
         if (typeof a[index] == 'string') {
           return a[index].localeCompare(b[index]) * reverseSort
+        } else if (typeof a[index] == 'number') {
+          return (a[index] - b[index]) * reverseSort
         } else {
           return (
             a[index].join('').localeCompare(b[index].join('')) * reverseSort
