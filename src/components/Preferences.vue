@@ -1,136 +1,221 @@
 <template>
-  <div>
-    <v-switch
-      label="Dark theme"
-      :input-value="editedItem.isDark"
-      hint="Enable dark theme throughout the app"
-      persistent-hint
-      @change="toggle('isDark', $event)"
-    />
-    <v-switch
-      label="Mute"
-      :input-value="editedItem.isMute"
-      hint="Audible sound for new alerts"
-      persistent-hint
-      @change="toggle('isMute', $event)"
-    />
+  <v-container fluid>
+    <v-layout>
+      <v-flex xs1 />
+      <v-flex xs9>
+        <v-form ref="form">
+          <v-card flat>
+            <v-card-title
+              class="pb-0"
+            >
+              <div>
+                <div class="headline">
+                  Application settings
+                </div>
+              </div>
+            </v-card-title>
+            <v-card-actions>
+              <v-radio-group
+                class="mt-0"
+              >
+                <v-checkbox
+                  v-model="isDark"
+                  label="Dark theme"
+                  hide-details
+                  class="my-0"
+                />
+                <v-checkbox
+                  v-model="isPlaySounds"
+                  label="Play notification sounds"
+                  hide-details
+                  class="my-0"
+                />
+              </v-radio-group>
+            </v-card-actions>
+          </v-card>
 
-    dates =>
-    <pre>{{ dates }}</pre>
+          <v-card flat>
+            <v-card-title
+              class="pb-0"
+            >
+              <div>
+                <div class="headline">
+                  Date and time settings
+                </div>
+              </div>
+            </v-card-title>
+            <v-card-actions>
+              <v-layout column>
+                <v-flex xs3>
+                  <v-select
+                    v-model="longDate"
+                    :items="dateFormats"
+                    label="Long date format"
+                  />
+                </v-flex>
 
-    <v-form>
-      <v-container>
-        <v-layout>
-          <v-flex
-            xs12
-            md4
-          >
-            <v-text-field
-              v-model="editedItem.shortTime"
-              label="Short Time"
-              :hint="shortTimeHint"
-            />
-            <v-text-field
-              v-model="editedItem.mediumDate"
-              label="Medium Date"
-              :hint="mediumDateHint"
-            />
-            <v-text-field
-              v-model="editedItem.longDate"
-              label="Long Date"
-              :hint="longDateHint"
-            />
-            <v-text-field
-              v-model.number="editedItem.shelveTimeout"
-              label="Shelve Timeout"
-              hint="Hours"
-            />
-            <v-text-field
-              v-model.number="editedItem.refreshInterval"
-              label="Refresh Interval"
-              hint="Seconds"
-            />
-            <v-btn @click="save">
-              Save
-            </v-btn>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-form>
+                <v-flex xs3>
+                  <v-select
+                    v-model="mediumDate"
+                    :items="dateFormats"
+                    label="Medium date format"
+                  />
+                </v-flex>
 
-    <pre>{{ payload }}</pre>
-  </div>
+                <v-flex xs3>
+                  <v-select
+                    v-model="shortTime"
+                    :items="timeFormats"
+                    label="Short time format"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-card-actions>
+          </v-card>
+
+          <v-card flat>
+            <v-card-title
+              class="pb-0"
+            >
+              <div>
+                <div class="headline">
+                  Alert summary settings
+                </div>
+              </div>
+            </v-card-title>
+            <v-card-actions>
+              <v-layout column>
+                <v-flex xs3>
+                  <v-select
+                    v-model="refreshInterval"
+                    :items="refreshOptions"
+                    label="Refresh interval"
+                    type="number"
+                  />
+                </v-flex>
+
+                <v-flex xs3>
+                  <v-select
+                    v-model="shelveTimeout"
+                    :items="shelveTimeoutOptions"
+                    label="Shelve timeout"
+                    type="number"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data: () => ({
-    editedItem: {
-      shortTime: null,
-      mediumDate: null,
-      longDate: null,
-      shelveTimeout: null,
-      refreshInterval: null
-    }
+    dateFormats: [
+      {text: moment().format('L'), value: 'L'},
+      {text: moment().format('l'), value: 'l'},
+      {text: moment().format('LL'), value: 'LL'},
+      {text: moment().format('ll'), value: 'll'},
+      {text: moment().format('ddd D MMM HH:mm'), value: 'ddd D MMM HH:mm'},
+      {text: moment().format('LLL'), value: 'LLL'},
+      {text: moment().format('lll'), value: 'lll'},
+      {text: moment().format('LLLL'), value: 'LLLL'},
+      {text: moment().format('llll'), value: 'llll'},
+      {text: moment().format('ddd D MMM, YYYY HH:mm:ss.SSS Z'), value: 'ddd D MMM, YYYY HH:mm:ss.SSS Z'},
+      {text: moment().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'), value: 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'},
+
+    ],
+    timeFormats: [
+      {text: moment().format('LT'), value: 'LT'},
+      {text: moment().format('LTS'), value: 'LTS'},
+    ],
+    refreshOptions: [
+      {text: '2 seconds', value: 2*1000},
+      {text: '5 seconds', value: 5*1000},
+      {text: '10 seconds', value: 10*1000},
+      {text: '30 seconds', value: 30*1000},
+      {text: '60 seconds', value: 60*1000}
+    ],
+    shelveTimeoutOptions: [
+      {text: '2 hours', value: 2*60*60},
+      {text: '4 hours', value: 4*60*60},
+      {text: '8 hours', value: 8*60*60}
+    ]
   }),
   computed: {
-    isDark() {
-      return this.$store.getters.getPreference('isDark')
+    isDark: {
+      get() {
+        return this.$store.getters.getPreference('isDark')
+      },
+      set(value) {
+        this.$store.dispatch('toggle', ['isDark', value])
+      }
     },
-    isMute() {
-      return this.$store.getters.getPreference('isMute')
+    isPlaySounds: {
+      get() {
+        return !this.$store.getters.getPreference('isMute')
+      },
+      set(value) {
+        this.$store.dispatch('toggle', ['isMute', !value])
+      }
     },
-    dates() {
-      return this.$store.getters.getPreference('dates')
+    longDate: {
+      get() {
+        return this.$store.state.prefs.dates.longDate
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {
+          dates: {longDate: value}
+        })
+      }
     },
-    payload() {
-      return this.$store.getters['auth/getPayload']
+    mediumDate: {
+      get() {
+        return this.$store.state.prefs.dates.mediumDate
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {
+          dates: {mediumDate: value}
+        })
+      }
     },
-    shortTimeHint() {
-      return `Example ${this.$options.filters.date(
-        new Date().toISOString(),
-        this.dates.shortTime
-      )}`
+    shortTime: {
+      get() {
+        return this.$store.state.prefs.dates.shortTime
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {
+          dates: {shortTime: value}
+        })
+      }
     },
-    mediumDateHint() {
-      return `Example ${this.$options.filters.date(
-        new Date().toISOString(),
-        this.dates.mediumDate
-      )}`
+    refreshInterval: {
+      get() {
+        return (
+          this.$store.getters.getPreference('refreshInterval') ||
+          this.$store.getters.getConfig('refresh_interval')
+        )
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {refreshInterval: value})
+      }
     },
-    longDateHint() {
-      return `Example ${this.$options.filters.date(
-        new Date().toISOString(),
-        this.dates.longDate
-      )}`
-    },
-    shelveTimeout() {
-      return this.$store.getters.getPreference('shelveTimeout')
-    },
-    refreshInterval() {
-      return (
-        this.$store.getters.getPreference('refreshInterval') ||
-        this.$store.getters.getConfig('refresh_interval')
-      )
+    shelveTimeout: {
+      get() {
+        return this.$store.getters.getPreference('shelveTimeout')
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {shelveTimeout: value})
+      }
     }
   },
   mounted() {
     this.$store.dispatch('getUserPrefs')
-  },
-  methods: {
-    toggle(sw, value) {
-      console.log('toggle', sw, value)
-      this.$store.dispatch('toggle', [sw, value])
-    },
-    save() {
-      this.$store.dispatch('setUserPrefs', {
-        isDark: this.editedItem.isDark,
-        isMute: this.editedItem.isMute,
-        dates: this.editedItem.dates,
-        refreshInterval: this.editedItem.refreshInterval,
-        shelveTimeout: this.editedItem.shelveTimeout
-      })
-    }
   }
 }
 </script>

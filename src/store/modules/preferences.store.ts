@@ -5,12 +5,12 @@ const state = {
   isDark: false,
   isMute: false,
   dates: {
-    longDate: null,
-    mediumDate: null,
-    shortTime: null
+    longDate: 'ddd D MMM, YYYY HH:mm:ss.SSS Z',
+    mediumDate: 'ddd D MMM HH:mm',
+    shortTime: 'LT'
   },
-  refreshInterval: null,
-  shelveTimeout: 2 // hours
+  refreshInterval: 5*1000,
+  shelveTimeout: 2*60*60
 }
 
 const mutations = {
@@ -23,19 +23,16 @@ const actions = {
   getUserPrefs({ dispatch, commit }) {
     return UsersApi.getMeAttributes()
       .then(({ attributes }) => commit('SET_PREFS', attributes.prefs))
-      .catch(error => dispatch('notifications/error', error, { root: true }))
   },
   toggle({ dispatch, commit }, [s, v]) {
     return UsersApi.updateMeAttributes({ prefs: { [s]: v } })
       .then(response => dispatch('getUserPrefs'))
-      .catch(error => dispatch('notifications/error', error, { root: true }))
+      .then(() => dispatch('notifications/success', 'Settings saved.', { root: true }))
   },
   setUserPrefs({ dispatch, commit }, prefs) {
     return UsersApi.updateMeAttributes({ prefs: prefs })
-      .then(response => {
-        dispatch('getUserPrefs')
-      })
-      .catch(error => dispatch('notifications/error', error, { root: true }))
+      .then(response => dispatch('getUserPrefs'))
+      .then(() => dispatch('notifications/success', 'Settings saved.', { root: true }))
   }
 }
 
