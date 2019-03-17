@@ -105,6 +105,19 @@
               </v-layout>
             </v-card-actions>
           </v-card>
+
+          <v-card flat>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="blue darken-1"
+                flat
+                @click="reset"
+              >
+                Reset
+              </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-form>
       </v-flex>
     </v-layout>
@@ -216,6 +229,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getUserPrefs')
+  },
+  methods: {
+    reset() {
+      this.$store.dispatch('resetUserPrefs')
+    }
   }
 }
 </script>
