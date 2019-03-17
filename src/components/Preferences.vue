@@ -1,127 +1,116 @@
 <template>
-  <v-container fluid>
-    <v-layout>
-      <v-flex xs1 />
-      <v-flex xs9>
-        <v-form ref="form">
-          <v-card flat>
-            <v-card-title
-              class="pb-0"
-            >
-              <div>
-                <div class="headline">
-                  Application settings
-                </div>
-              </div>
-            </v-card-title>
-            <v-card-actions>
-              <v-radio-group
-                class="mt-0"
-              >
-                <v-checkbox
-                  v-model="isDark"
-                  label="Dark theme"
-                  hide-details
-                  class="my-0"
-                />
-                <v-checkbox
-                  v-model="isPlaySounds"
-                  label="Play notification sounds"
-                  hide-details
-                  class="my-0"
-                />
-              </v-radio-group>
-            </v-card-actions>
-          </v-card>
+  <v-form ref="form">
+    <v-card flat>
+      <v-card-title
+        class="pb-0"
+      >
+        <div>
+          <div class="headline">
+            Application settings
+          </div>
+        </div>
+      </v-card-title>
+      <v-card-actions>
+        <v-radio-group
+          class="mt-0"
+        >
+          <v-checkbox
+            v-model="isDark"
+            label="Dark theme"
+            hide-details
+            class="my-0"
+          />
+          <v-checkbox
+            v-model="isPlaySounds"
+            label="Play notification sounds"
+            hide-details
+            class="my-0"
+          />
+        </v-radio-group>
+      </v-card-actions>
+    </v-card>
 
-          <v-card flat>
-            <v-card-title
-              class="pb-0"
-            >
-              <div>
-                <div class="headline">
-                  Date and time settings
-                </div>
-              </div>
-            </v-card-title>
-            <v-card-actions>
-              <v-layout column>
-                <v-flex xs3>
-                  <v-select
-                    v-model="longDate"
-                    :items="dateFormats"
-                    label="Long date format"
-                  />
-                </v-flex>
+    <v-card flat>
+      <v-flex sm6 md4>
+        <v-card-title
+          class="pb-0"
+        >
+          <div>
+            <div class="headline">
+              Date and time settings
+            </div>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-layout column>
+            <v-select
+              v-model="longDate"
+              :items="dateFormats"
+              label="Long date format"
+            />
 
-                <v-flex xs3>
-                  <v-select
-                    v-model="mediumDate"
-                    :items="dateFormats"
-                    label="Medium date format"
-                  />
-                </v-flex>
+            <v-select
+              v-model="mediumDate"
+              :items="dateFormats"
+              label="Medium date format"
+            />
 
-                <v-flex xs3>
-                  <v-select
-                    v-model="shortTime"
-                    :items="timeFormats"
-                    label="Short time format"
-                  />
-                </v-flex>
-              </v-layout>
-            </v-card-actions>
-          </v-card>
-
-          <v-card flat>
-            <v-card-title
-              class="pb-0"
-            >
-              <div>
-                <div class="headline">
-                  Alert summary settings
-                </div>
-              </div>
-            </v-card-title>
-            <v-card-actions>
-              <v-layout column>
-                <v-flex xs3>
-                  <v-select
-                    v-model="refreshInterval"
-                    :items="refreshOptions"
-                    label="Refresh interval"
-                    type="number"
-                  />
-                </v-flex>
-
-                <v-flex xs3>
-                  <v-select
-                    v-model="shelveTimeout"
-                    :items="shelveTimeoutOptions"
-                    label="Shelve timeout"
-                    type="number"
-                  />
-                </v-flex>
-              </v-layout>
-            </v-card-actions>
-          </v-card>
-
-          <v-card flat>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="blue darken-1"
-                flat
-                @click="reset"
-              >
-                Reset
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-form>
+            <v-select
+              v-model="shortTime"
+              :items="timeFormats"
+              label="Short time format"
+            />
+          </v-layout>
+        </v-card-actions>
       </v-flex>
-    </v-layout>
-  </v-container>
+    </v-card>
+
+    <v-card flat>
+      <v-flex sm6 md4>
+        <v-card-title
+          class="pb-0"
+        >
+          <div>
+            <div class="headline">
+              Alert summary settings
+            </div>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-layout column>
+            <v-select
+              v-model="refreshInterval"
+              :items="refreshOptions"
+              label="Refresh interval"
+              type="number"
+            />
+
+            <v-select
+              v-model="shelveTimeout"
+              :items="shelveTimeoutOptions"
+              label="Shelve timeout"
+              type="number"
+            />
+          </v-layout>
+        </v-card-actions>
+      </v-flex>
+    </v-card>
+
+    <v-card flat>
+      <v-flex sm6 md4>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            flat
+            @click="reset"
+          >
+            Reset
+          </v-btn>
+        </v-card-actions>
+      </v-flex>
+    </v-card>
+  </v-form>
 </template>
 
 <script>
