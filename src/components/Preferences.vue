@@ -146,6 +146,8 @@ export default {
     timeFormats: [
       {text: moment().format('LT'), value: 'LT'},
       {text: moment().format('LTS'), value: 'LTS'},
+      {text: moment().format('HH:mm:ss'), value: 'HH:mm:ss'},
+      {text: moment().format('HH:mm:ss.SSS Z'), value: 'HH:mm:ss.SSS Z'},
     ],
     refreshOptions: [
       {text: '2 seconds', value: 2*1000},
