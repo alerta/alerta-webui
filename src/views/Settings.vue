@@ -1,9 +1,6 @@
 <template>
   <div class="settings">
     <preferences />
-
-    <h2>Server config settings</h2>
-    <pre>{{ $config }}</pre>
   </div>
 </template>
 
