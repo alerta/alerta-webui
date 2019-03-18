@@ -46,8 +46,6 @@
         >
           <v-flex
             xs12
-            sm6
-            md12
           >
             <v-text-field
               v-model="filterText"
@@ -58,17 +56,14 @@
               clearable
               hint="Filter results by text search"
               persistent-hint
-              @input="setText"
             />
           </v-flex>
 
           <v-flex
             xs12
-            sm6
-            md12
           >
             <v-select
-              v-model="selectedStatus"
+              v-model="filterStatus"
               :items="statusList"
               small-chips
               placeholder="All statuses"
@@ -78,17 +73,14 @@
               dense
               hint="Choose one or more status"
               persistent-hint
-              @change="setStatus"
             />
           </v-flex>
 
           <v-flex
             xs12
-            sm6
-            md12
           >
             <v-select
-              v-model="selectedService"
+              v-model="filterService"
               :items="currentServices"
               :menu-props="{ maxHeight: '400' }"
               placeholder="All services"
@@ -98,17 +90,14 @@
               dense
               hint="Choose one or more service"
               persistent-hint
-              @change="setService"
             />
           </v-flex>
 
           <v-flex
             xs12
-            sm6
-            md12
           >
             <v-select
-              v-model="selectedGroup"
+              v-model="filterGroup"
               :items="currentGroups"
               :menu-props="{ maxHeight: '400' }"
               placeholder="All groups"
@@ -118,28 +107,40 @@
               dense
               hint="Choose one or more group"
               persistent-hint
-              @change="setGroup"
             />
           </v-flex>
 
           <v-flex
             xs12
-            sm6
-            md12
           >
             <v-select
-              v-model="selectedDateRange"
+              v-model="filterDateRange"
               :items="dateRanges"
               name="dateRange"
               label="Date/Time"
               outline
               item-text="text"
               item-value="range"
-              @input="setDateRange"
             />
           </v-flex>
         </v-layout>
       </v-container>
+    </v-card>
+    <v-card flat>
+      <v-flex
+        xs12
+      >
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            flat
+            @click="reset"
+          >
+            Reset
+          </v-btn>
+        </v-card-actions>
+      </v-flex>
     </v-card>
   </v-navigation-drawer>
 </template>
@@ -150,10 +151,6 @@ export default {
     value: {
       type: Boolean,
       default: false
-    },
-    filter: {
-      type: Object,
-      required: true
     }
   },
   data: vm => ({
@@ -178,12 +175,7 @@ export default {
       { text: '1 hour', range: [3600, null] },
       { text: '6 hours', range: [3600 * 6, null] },
       { text: '12 hours', range: [3600 * 12, null] }
-    ],
-    filterText: vm.filter.text || null,
-    selectedStatus: vm.filter.status || [],
-    selectedService: vm.filter.service || [],
-    selectedGroup: vm.filter.group || [],
-    selectedDateRange: vm.filter.dateRange || [null, null]
+    ]
   }),
   computed: {
     isDark() {
@@ -221,6 +213,56 @@ export default {
     },
     currentGroups() {
       return this.$store.getters['alerts/groups']
+    },
+    filterText: {
+      get() {
+        return this.$store.state.alerts.filter.text
+      },
+      set(value) {
+        this.$store.dispatch('alerts/setFilter', {
+          text: value
+        })
+      }
+    },
+    filterStatus: {
+      get() {
+        return this.$store.state.alerts.filter.status
+      },
+      set(value) {
+        this.$store.dispatch('alerts/setFilter', {
+          status: value.length > 0 ? value : null
+        })
+      }
+    },
+    filterService: {
+      get() {
+        return this.$store.state.alerts.filter.service
+      },
+      set(value) {
+        this.$store.dispatch('alerts/setFilter', {
+          service: value.length > 0 ? value : null
+        })
+      }
+    },
+    filterGroup: {
+      get() {
+        return this.$store.state.alerts.filter.group
+      },
+      set(value) {
+        this.$store.dispatch('alerts/setFilter', {
+          group: value.length > 0 ? value : null
+        })
+      }
+    },
+    filterDateRange: {
+      get() {
+        return this.$store.state.alerts.filter.dateRange
+      },
+      set(value) {
+        this.$store.dispatch('alerts/setFilter', {
+          dateRange: value
+        })
+      }
     }
   },
   watch: {
@@ -239,20 +281,8 @@ export default {
     getGroups() {
       this.$store.dispatch('alerts/getGroups')
     },
-    setText(text) {
-      this.$emit('set-text', text)
-    },
-    setStatus(status) {
-      this.$emit('set-status', status)
-    },
-    setService(service) {
-      this.$emit('set-service', service)
-    },
-    setGroup(group) {
-      this.$emit('set-group', group)
-    },
-    setDateRange() {
-      this.$emit('set-date', this.selectedDateRange)
+    reset() {
+      this.$store.dispatch('alerts/resetFilter')
     },
     close() {
       this.$emit('close')

@@ -1,8 +1,6 @@
 import UsersApi from '@/services/api/user.service'
 import stateMerge from 'vue-object-merge'
 
-
-
 const getDefaults = () => {
   return {
     isDark: false,

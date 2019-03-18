@@ -69,12 +69,6 @@
 
     <alert-list-filter
       :value="sidesheet"
-      :filter="filter"
-      @set-text="setText"
-      @set-status="setStatus"
-      @set-service="setService"
-      @set-group="setGroup"
-      @set-date="setDateRange"
       @close="sidesheet = false"
     />
   </div>
@@ -110,26 +104,14 @@ export default {
     selectedId: null,
     selectedItem: {},
     sidesheet: false,
-    filter: {
-      text: null,
-      environment: null,
-      status: null,
-      service: null,
-      group: null,
-      dateRange: [null, null]
-    },
     playSound: false
   }),
   computed: {
+    filter() {
+      return this.$store.state.alerts.filter
+    },
     isActive() {
       return this.filter.text || this.filter.service || this.filter.dateRange[0] || this.filter.dateRange[1]
-    },
-    activeStatus() {
-      if (this.$config.alarm_model == 'isa_18_2') {
-        return ['UNACK', 'ACKED', 'RTNUN']
-      } else {
-        return ['open', 'ack']
-      }
     },
     alerts() {
       if (this.filter) {
@@ -230,7 +212,7 @@ export default {
         old &&
         current.length > old.length &&
         this.filter.status &&
-        this.filter.status.includes('open')
+        this.filter.status.includes('open')  // FIXME
       ) {
         this.playSound = true
       } else {
@@ -246,7 +228,6 @@ export default {
     this.setKiosk(this.isKiosk)
     this.getEnvironments()
     this.refreshAlerts()
-    this.filter.status = this.activeStatus
   },
   beforeDestroy() {
     clearTimeout(this.timer)
@@ -271,33 +252,8 @@ export default {
         })
     },
     setEnv(env) {
-      this.filter = Object.assign({}, this.filter, {
+      this.$store.dispatch('alerts/setFilter', {
         environment: env === 'ALL' ? null : env
-      })
-    },
-    setText(t) {
-      this.filter = Object.assign({}, this.filter, {
-        text: t
-      })
-    },
-    setStatus(st) {
-      this.filter = Object.assign({}, this.filter, {
-        status: st.length > 0 ? st : null
-      })
-    },
-    setService(svc) {
-      this.filter = Object.assign({}, this.filter, {
-        service: svc.length > 0 ? svc : null
-      })
-    },
-    setGroup(grp) {
-      this.filter = Object.assign({}, this.filter, {
-        group: grp.length > 0 ? grp : null
-      })
-    },
-    setDateRange(range) {
-      this.filter = Object.assign({}, this.filter, {
-        dateRange: range
       })
     },
     setAlert(item) {

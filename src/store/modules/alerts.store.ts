@@ -2,6 +2,16 @@ import AlertsApi from '@/services/api/alert.service'
 
 const namespaced = true
 
+const getDefaultFilter = () => {
+  return {
+    text: null,
+    environment: null,
+    status: ['open', 'ack'],  // FIXME
+    service: null,
+    group: null,
+    dateRange: [null, null]
+  }
+}
 const state = {
   isLoading: false,
 
@@ -21,7 +31,16 @@ const state = {
 
   // not persisted
   isWatch: false,
-  isKiosk: false
+  isKiosk: false,
+
+  filter: {
+    text: null,
+    environment: null,
+    status: ['open', 'ack'],  // FIXME
+    service: null,
+    group: null,
+    dateRange: [null, null]
+  }
 }
 
 const mutations = {
@@ -70,6 +89,12 @@ const mutations = {
   },
   SET_SETTING(state, { s, v }) {
     state[s] = v
+  },
+  SET_FILTER(state, filter): any {
+    state.filter = Object.assign({}, state.filter, filter)
+  },
+  RESET_FILTER(state): any {
+    state.filter = Object.assign({}, state.filter, getDefaultFilter())
   }
 }
 
@@ -153,6 +178,12 @@ const actions = {
 
   toggle({ commit }, [s, v]) {
     commit('SET_SETTING', { s, v })
+  },
+  setFilter({ commit }, filter) {
+    commit('SET_FILTER', filter)
+  },
+  resetFilter({ commit }) {
+    commit('RESET_FILTER')
   }
 }
 
