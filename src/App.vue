@@ -240,7 +240,7 @@
         <v-spacer />
 
         <span class="subheading">
-          {{ selected.length }} selected
+          {{ selected.length }}<span class="hidden-xs-only"> selected</span>
         </span>
 
         <v-spacer />
