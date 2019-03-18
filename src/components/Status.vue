@@ -29,6 +29,7 @@
         <td>Last Update</td>
         <td>
           <date-time
+            v-if="props.item.lastTime"
             :value="props.item.lastTime"
             format="longDate"
           />
@@ -63,9 +64,17 @@ export default {
     },
     uptime() {
       return [{
-        lastTime: moment(this.$store.state.management.time).utc(),
+        lastTime: moment(this.$store.state.management.time).utc().toISOString(),
         uptime: this.$store.state.management.uptime
       }]
+    },
+    refresh() {
+      return this.$store.state.refresh
+    }
+  },
+  watch: {
+    refresh(val) {
+      val || this.getStatus()
     }
   },
   created() {

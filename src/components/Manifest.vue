@@ -11,7 +11,12 @@
       <td>{{ application | capitalize }} API {{ props.item.release }}</td>
       <td>{{ props.item.build }}</td>
       <td>{{ props.item.date }}</td>
-      <td>{{ props.item.revision }}</td>
+      <td>
+        <a
+          :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
+          target="_blank"
+        >{{ props.item.revision }}</a>
+      </td>
     </template>
   </v-data-table>
 </template>
@@ -30,6 +35,14 @@ export default {
   computed: {
     application() {
       return this.$store.state.management.application
+    },
+    refresh() {
+      return this.$store.state.refresh
+    }
+  },
+  watch: {
+    refresh(val) {
+      val || this.getManifest()
     }
   },
   created() {
