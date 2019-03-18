@@ -471,12 +471,18 @@ export default {
         perms: 'read:perms'
       },
       { icon: 'vpn_key', text: 'API Keys', path: '/keys', perms: 'read:keys' },
+      // {
+      //   icon: 'keyboard_arrow_up',
+      //   'icon-alt': 'keyboard_arrow_down',
+      //   text: 'Labels',
+      //   model: true,
+      //   children: [{ icon: 'add', text: 'Create label' }]
+      // },
       {
-        icon: 'keyboard_arrow_up',
-        'icon-alt': 'keyboard_arrow_down',
-        text: 'Labels',
-        model: true,
-        children: [{ icon: 'add', text: 'Create label' }]
+        icon: 'assessment',
+        text: 'Reports',
+        path: '/reports',
+        perms: 'read:alerts'
       },
       // {
       //   icon: 'keyboard_arrow_up',
