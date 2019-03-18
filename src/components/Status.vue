@@ -1,30 +1,71 @@
 <template>
-  <v-container fluid>
-    {{ application }}
-    <pre>{{ metrics }}</pre>
-    {{ time }}
-    {{ uptime }}
-    {{ version }}
-  </v-container>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="metrics"
+      hide-actions
+    >
+      <template
+        slot="items"
+        slot-scope="props"
+      >
+        <td>{{ props.item.title }}</td>
+        <td>{{ props.item.type | capitalize }}</td>
+        <td>{{ props.item.group }}.{{ props.item.name }}</td>
+        <td>{{ props.item.value || props.item.count }}</td>
+        <td>{{ avgTime(props.item) }}</td>
+      </template>
+    </v-data-table>
+
+    <v-data-table
+      :headers="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
+      :items="uptime"
+      hide-actions
+    >
+      <template
+        slot="items"
+        slot-scope="props"
+      >
+        <td>Last Update</td>
+        <td>
+          <date-time
+            :value="props.item.lastTime"
+            format="longDate"
+          />
+        </td>
+        <td>Uptime</td>
+        <td>{{ props.item.uptime / 1000 | days }}</td>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script>
+import DateTime from './DateTime'
+import moment from 'moment'
+
 export default {
+  components: {
+    DateTime
+  },
+  data: () => ({
+    headers: [
+      {text: 'Metric', value: 'title', sortable: false},
+      {text: 'Type', value: 'type', sortable: false},
+      {text: 'Name', value: 'name', sortable: false},
+      {text: 'Value', value: 'value', sortable: false},
+      {text: 'Avg. Time', value: 'time', sortable: false},
+    ]
+  }),
   computed: {
-    application() {
-      return this.$store.state.management.application
-    },
     metrics() {
       return this.$store.state.management.metrics
     },
-    time() {
-      return this.$store.state.management.time
-    },
     uptime() {
-      return this.$store.state.management.uptime
-    },
-    version() {
-      return this.$store.state.management.version
+      return [{
+        lastTime: moment(this.$store.state.management.time).utc(),
+        uptime: this.$store.state.management.uptime
+      }]
     }
   },
   created() {
@@ -33,6 +74,13 @@ export default {
   methods: {
     getStatus() {
       return this.$store.dispatch('management/getStatus')
+    },
+    avgTime(item) {
+      if (item.type == 'timer') {
+        return (item.totalTime / item.count).toFixed(2) + ' ms'
+      } else {
+        return 'n/a'
+      }
     }
   }
 }

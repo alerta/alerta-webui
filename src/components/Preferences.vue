@@ -31,7 +31,10 @@
     </v-card>
 
     <v-card flat>
-      <v-flex sm6 md4>
+      <v-flex
+        sm6
+        md4
+      >
         <v-card-title
           class="pb-0"
         >
@@ -66,7 +69,10 @@
     </v-card>
 
     <v-card flat>
-      <v-flex sm6 md4>
+      <v-flex
+        sm6
+        md4
+      >
         <v-card-title
           class="pb-0"
         >
@@ -97,7 +103,10 @@
     </v-card>
 
     <v-card flat>
-      <v-flex sm6 md4>
+      <v-flex
+        sm6
+        md4
+      >
         <v-card-actions>
           <v-spacer />
           <v-btn

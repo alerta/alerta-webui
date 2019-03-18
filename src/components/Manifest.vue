@@ -1,18 +1,40 @@
 <template>
-  <v-container fluid>
-    {{ manifest }}
-  </v-container>
+  <v-data-table
+    :headers="headers"
+    :items="manifest"
+    hide-actions
+  >
+    <template
+      slot="items"
+      slot-scope="props"
+    >
+      <td>{{ application | capitalize }} API {{ props.item.release }}</td>
+      <td>{{ props.item.build }}</td>
+      <td>{{ props.item.date }}</td>
+      <td>{{ props.item.revision }}</td>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
 export default {
+  data: () => ({
+    headers: [
+      {text: 'API', value: 'release', sortable: false},
+      {text: 'Build', value: 'build', sortable: false},
+      {text: 'Date', value: 'date', sortable: false},
+      {text: 'Git Revision', value: 'revision', sortable: false},
+    ],
+    manifest: []
+  }),
   computed: {
-    manifest() {
-      return this.$store.state.management.manifest
+    application() {
+      return this.$store.state.management.application
     }
   },
   created() {
     this.getManifest()
+      .then(() => this.manifest = Array.of(this.$store.state.management.manifest))
   },
   methods: {
     getManifest() {
