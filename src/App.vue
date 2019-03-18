@@ -32,7 +32,7 @@
 
         <v-divider />
         <v-list dense>
-          <template v-for="item in items">
+          <template v-for="(item, index) in items">
             <v-layout
               v-if="item.heading"
               :key="item.heading"
@@ -81,7 +81,7 @@
               </v-list-tile>
             </v-list-group>
             <v-list-tile
-              v-else
+              v-else-if="item.icon"
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
@@ -93,6 +93,10 @@
                 <v-list-tile-title>{{ item.text }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+            <v-divider
+              v-else-if="item.divider"
+              :key="index"
+            />
           </template>
         </v-list>
       </v-navigation-drawer>
@@ -497,6 +501,7 @@ export default {
       //     { text: 'Other contacts' }
       //   ]
       // },
+      { divider: true},
       { icon: 'settings', text: 'Settings', path: '/settings' },
       // { icon: 'chat_bubble', text: 'Send feedback' },
       { icon: 'help', text: 'Help', path: 'https://docs.alerta.io' },

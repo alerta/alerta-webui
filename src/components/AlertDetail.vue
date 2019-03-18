@@ -652,7 +652,7 @@
                   </td>
                   <td>
                     <span class="label">
-                      {{ props.item.type || 'unknown' | capitalize }}
+                      {{ props.item.type || 'unknown' | splitCaps }}
                     </span>
                   </td>
                   <td class="hidden-sm-and-down">
@@ -669,6 +669,29 @@
                   </td>
                 </template>
               </v-data-table>
+            </div>
+          </v-tab-item>
+
+          <v-tab ripple>
+            Data
+          </v-tab>
+          <v-tab-item
+            :transition="false"
+            :reverse-transition="false"
+          >
+            <div class="tab-item-wrapper">
+              <v-container>
+                <v-layout>
+                  <v-flex>
+                    <v-card
+                      flat
+                      color="grey lighten-3"
+                    >
+                      <pre>{{ item.rawData || 'no raw data' }}</pre>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </v-container>
             </div>
           </v-tab-item>
         </v-tabs>
