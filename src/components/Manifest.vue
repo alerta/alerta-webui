@@ -15,7 +15,7 @@
         <a
           :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
           target="_blank"
-        >{{ props.item.revision }}</a>
+        >{{ props.item.revision }} <v-icon small>launch</v-icon></a>
       </td>
     </template>
   </v-data-table>

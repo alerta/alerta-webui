@@ -10,6 +10,7 @@ import Users from './views/Users.vue'
 import Perms from './views/Perms.vue'
 import Customers from './views/Customers.vue'
 import ApiKeys from './views/ApiKeys.vue'
+import Reports from './views/Reports.vue'
 
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
@@ -83,6 +84,12 @@ export function createRouter(): VueRouter {
         name: 'apiKeys',
         component: ApiKeys,
         meta: { title: 'API Keys', requiresAuth: true }
+      },
+      {
+        path: '/reports',
+        name: 'reports',
+        component: Reports,
+        meta: { title: 'Reports', requiresAuth: true }
       },
       {
         path: '/about',
