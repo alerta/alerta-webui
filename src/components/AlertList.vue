@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       v-model="selected"
-      :headers="headers"
+      :headers="customHeaders"
       :items="alerts"
       :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
@@ -60,69 +60,187 @@
             </v-icon>
           </td>
           <td
-            @click="selectItem(props.item)"
+            v-for="col in $config.columns"
+            :key="col"
           >
-            <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
-              {{ props.item.severity | capitalize }}
+            <span
+              v-if="col == 'id'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.id | shortId }}
             </span>
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            <span class="label">
-              {{ props.item.status | capitalize }}
+            <span
+              v-if="col == 'resource'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.resource }}
             </span>
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            <date-time
-              :value="props.item.lastReceiveTime"
-              format="mediumDate"
-            />
-          </td>
-          <td
-            class="text-xs-right"
-            style="white-space: nowrap"
-            @click="selectItem(props.item)"
-          >
-            {{ timeoutLeft(props.item) | hhmmss }}
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            {{ props.item.duplicateCount }}
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            {{ props.item.environment }}
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            {{ props.item.service.join(', ') }}
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            {{ props.item.resource }}
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            {{ props.item.event }}
-          </td>
-          <td
-            @click="selectItem(props.item)"
-          >
-            {{ props.item.group }}
-          </td>
-          <td
-            class="text-no-wrap"
-            @click="selectItem(props.item)"
-          >
-            {{ props.item.value }}
+            <span
+              v-if="col == 'event'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.event }}
+            </span>
+            <span
+              v-if="col == 'environment'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.environment }}
+            </span>
+            <span
+              v-if="col == 'severity'"
+              @click="selectItem(props.item)"
+            >
+              <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
+                {{ props.item.severity | capitalize }}
+              </span>
+            </span>
+            <span
+              v-if="col == 'correlate'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.correlate.join(', ') }}
+            </span>
+            <span
+              v-if="col == 'status'"
+              @click="selectItem(props.item)"
+            >
+              <span class="label">
+                {{ props.item.status | capitalize }}
+              </span>
+            </span>
+            <span
+              v-if="col == 'service'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.service.join(', ') }}
+            </span>
+            <span
+              v-if="col == 'group'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.group }}
+            </span>
+            <span
+              v-if="col == 'value'"
+              class="text-no-wrap"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.value }}
+            </span>
+            <span
+              v-if="col == 'text'"
+              class="text-no-wrap"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.text }}
+            </span>
+            <span
+              v-if="col == 'tags'"
+            >
+              <span
+                v-for="tag in props.item.tags"
+                :key="tag"
+              ><span class="label">{{ tag }}</span>&nbsp;</span>
+            </span>
+            <span
+              v-if="props.item.attributes.hasOwnProperty(col)"
+              @click="selectItem(props.item.attributes[col])"
+            >
+              {{ props.item.attributes[col] }}
+            </span>
+            <span
+              v-if="col == 'origin'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.origin }}
+            </span>
+            <span
+              v-if="col == 'type'"
+              @click="selectItem(props.item)"
+            >
+              <span class="label">
+                {{ props.item.type | splitCaps }}
+              </span>
+            </span>
+            <span
+              v-if="col == 'createTime'"
+              @click="selectItem(props.item)"
+            >
+              <date-time
+                :value="props.item.createTime"
+                format="mediumDate"
+              />
+            </span>
+            <span
+              v-if="col == 'timeout'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.timeout }}
+            </span>
+            <span
+              v-if="col == 'timeoutLeft'"
+              class="text-xs-right"
+              style="white-space: nowrap"
+              @click="selectItem(props.item)"
+            >
+              {{ timeoutLeft(props.item) | hhmmss }}
+            </span>
+            <!-- rawData not supported -->
+            <span
+              v-if="col == 'customer' && $config.customer_views"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.customer }}
+            </span>
+            <span
+              v-if="col == 'duplicateCount'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.duplicateCount }}
+            </span>
+            <span
+              v-if="col == 'repeat'"
+              @click="selectItem(props.item)"
+            >
+              <span class="label">
+                {{ props.item.repeat | capitalize }}
+              </span>
+            </span>
+            <span
+              v-if="col == 'previousSeverity'"
+              @click="selectItem(props.item)"
+            >
+              <span :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]">
+                {{ props.item.previousSeverity | capitalize }}
+              </span>
+            </span>
+            <!-- trendIndication -->
+            <span
+              v-if="col == 'receiveTime'"
+              @click="selectItem(props.item)"
+            >
+              <date-time
+                :value="props.item.receiveTime"
+                format="mediumDate"
+              />
+            </span>
+            <span
+              v-if="col == 'lastReceiveId'"
+              @click="selectItem(props.item)"
+            >
+              {{ props.item.lastReceiveId | shortId }}
+            </span>
+            <span
+              v-if="col == 'lastReceiveTime'"
+              @click="selectItem(props.item)"
+            >
+              <date-time
+                :value="props.item.lastReceiveTime"
+                format="mediumDate"
+              />
+            </span>
+            <!-- history not supported -->
           </td>
           <td
             :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
@@ -134,6 +252,7 @@
               </div>
             </div>
           </td>
+
           <td
             v-show="showIcons === props.item.id && !selectableRows"
             style="white-space: nowrap"
@@ -329,21 +448,34 @@ export default {
     },
     // totalItems: number,
     search: '',
-    headers: [
-      { text: 'Severity', value: 'severity', width: '5%' },
-      { text: 'Status', value: 'status', width: '3%' },
-      { text: 'Last Recieve Time', value: 'lastReceiveTime', width: '5%' },
-      { text: 'Timeout', value: 'timeout', align: 'right', width: '3%' },
-      { text: 'Dupl.', value: 'duplicateCount', width: '3%' },
-      { text: 'Environment', value: 'environment', width: '5%' },
-      { text: 'Service', value: 'service', width: '8%' },
-      { text: 'Resource', value: 'resource', width: '10%' },
-      { text: 'Event', value: 'event', width: '10%' },
-      { text: 'Group', value: 'group', width: '5%' },
-      { text: 'Value', value: 'value', width: '5%' },
-      { text: 'Description', value: 'text' },
-      { text: '', value: '', sortable: false }  // action buttons
-    ],
+    headersMap: {
+      id: { text: 'Alert ID', value: 'id' },
+      resource: { text: 'Resource', value: 'resource' },
+      event: { text: 'Event', value: 'event' },
+      environment: { text: 'Environment', value: 'environment' },
+      severity: { text: 'Severity', value: 'severity' },
+      correlate: { text: 'Correlate', value: 'correlate' },
+      status: { text: 'Status', value: 'status' },
+      service: { text: 'Service', value: 'service' },
+      group: { text: 'Group', value: 'group' },
+      value: { text: 'Value', value: 'value' },
+      text: { text: 'Description', value: 'text' },
+      tags: { text: 'Tags', value: 'tags' },
+      attributes: { text: 'Attribute', value: 'attributes' },
+      origin: { text: 'Origin', value: 'origin' },
+      type: { text: 'Type', value: 'type' },
+      createTime: { text: 'Create Time', value: 'createTime' },
+      timeout: { text: 'Timeout', value: 'timeout' },
+      timeoutLeft: { text: 'Timeout', value: 'timeoutLeft' },
+      customer: { text: 'Customer', value: 'customer' },
+      duplicateCount: { text: 'Dupl.', value: 'duplicateCount' },
+      repeat: { text: 'Repeat', value: 'repeat' },
+      previousSeverity: { text: 'Prev. Severity', value: 'previousSeverity' },
+      trendIndication: { text: 'Trend Indication', value: 'trendIndication' },
+      receiveTime: { text: 'Receive Time', value: 'receiveTime' },
+      lastReceiveId: { text: 'Last Receive Id', value: 'lastReceiveId' },
+      lastReceiveTime: { text: 'Last Receive Time', value: 'lastReceiveTime' },
+    },
     details: false,
     selectedId: null,
     showIcons: null,
@@ -353,6 +485,12 @@ export default {
   computed: {
     actions() {
       return this.$config.actions
+    },
+    customHeaders() {
+      let headers = this.$config.columns
+        .map(c => this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: c })
+      headers.push({ text: 'Description', value: 'text' })  // 'text' must be last column
+      return headers
     },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
