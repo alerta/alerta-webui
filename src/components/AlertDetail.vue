@@ -300,7 +300,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div
+                  v-if="$config.customer_views"
+                  class="flex xs12"
+                >
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="header font-weight-bold">

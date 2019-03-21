@@ -50,7 +50,9 @@
     <v-divider />
 
     <v-list>
-      <v-list-tile v-if="isCustomerViews">
+      <v-list-tile
+        v-if="$config.customer_views"
+      >
         <v-list-tile-content>
           <v-list-tile-title>
             {{ profile.customers }}
@@ -133,9 +135,6 @@ export default {
   computed: {
     scopes() {
       return this.$store.getters['auth/scopes']
-    },
-    isCustomerViews() {
-      return this.$store.getters['auth/isCustomerViews']
     }
   },
   methods: {

@@ -13,7 +13,7 @@
     </v-card-title>
 
     <v-data-table
-      :headers="headers"
+      :headers="computedHeaders"
       :items="heartbeats"
       :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
@@ -28,7 +28,11 @@
         slot-scope="props"
       >
         <td>{{ props.item.origin }}</td>
-        <td>{{ props.item.customer }}</td>
+        <td
+          v-if="$config.customer_views"
+        >
+          {{ props.item.customer }}
+        </td>
         <td>
           <v-chip
             v-for="tag in props.item.tags"
@@ -121,6 +125,9 @@ export default {
   computed: {
     heartbeats() {
       return this.$store.state.heartbeats.heartbeats
+    },
+    computedHeaders() {
+      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
     },
     isLoading() {
       return this.$store.state.heartbeats.isLoading

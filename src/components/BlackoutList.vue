@@ -17,9 +17,8 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex
+                v-if="$config.customer_views"
                 xs12
-                sm6
-                md12
               >
                 <v-select
                   v-model="editedItem.customer"
@@ -29,8 +28,6 @@
               </v-flex>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-select
                   v-model="editedItem.environment"
@@ -42,7 +39,6 @@
 
               <v-flex
                 xs12
-                lg4
               >
                 <v-menu
                   ref="menu1"
@@ -72,8 +68,6 @@
 
               <v-flex
                 xs12
-                lg2
-                d-flex
               >
                 <v-select
                   v-model="editedItem.period.startTime"
@@ -82,8 +76,6 @@
               </v-flex>
               <v-flex
                 xs12
-                lg2
-                d-flex
               >
                 <v-select
                   v-model="editedItem.period.endTime"
@@ -93,7 +85,6 @@
 
               <v-flex
                 xs12
-                lg4
               >
                 <v-menu
                   v-model="menu2"
@@ -121,8 +112,6 @@
 
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-select
                   v-model="editedItem.service"
@@ -136,8 +125,6 @@
               </v-flex>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-text-field
                   v-model="editedItem.resource"
@@ -146,8 +133,6 @@
               </v-flex>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-text-field
                   v-model="editedItem.event"
@@ -156,8 +141,6 @@
               </v-flex>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-text-field
                   v-model="editedItem.group"
@@ -167,8 +150,6 @@
 
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-combobox
                   v-model="editedItem.tags"
@@ -200,8 +181,6 @@
 
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-text-field
                   v-model="editedItem.text"
@@ -246,7 +225,7 @@
       </v-card-title>
 
       <v-data-table
-        :headers="headers"
+        :headers="computedHeaders"
         :items="blackouts"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
@@ -260,7 +239,11 @@
           slot="items"
           slot-scope="props"
         >
-          <td>{{ props.item.customer }}</td>
+          <td
+            v-if="$config.customer_views"
+          >
+            {{ props.item.customer }}
+          </td>
           <td>{{ props.item.environment }}</td>
           <td>
             <v-chip
@@ -339,7 +322,7 @@
             {{ props.item.user }}
           </td>
           <!-- <td class="text-xs-left">
-            <date-time :value="props.item.createTime" format="mediumDate"/>
+            <date-time :value="props.item.createTime" format="mediumDate"/> FIXME
           </td> -->
           <td class="text-xs-left">
             {{ props.item.text }}
@@ -428,7 +411,7 @@ export default {
       { text: 'End', value: 'endTime' },
       { text: 'Expires', value: 'remaining' },
       { text: 'User', value: 'user' },
-      // { text: 'Created', value: 'createTime' },
+      // { text: 'Created', value: 'createTime' }, FIXME
       { text: 'Reason', value: 'text' },
       { text: 'Actions', value: 'name', sortable: false }
     ],
@@ -478,6 +461,9 @@ export default {
           }
         })
       })
+    },
+    computedHeaders() {
+      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']
