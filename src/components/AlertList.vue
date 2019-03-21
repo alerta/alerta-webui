@@ -528,7 +528,9 @@ export default {
       if (index == 'default') {
         return items.sort((a, b) => {
           if (a.severity == b.severity) {
-            return b.lastReceiveTime - a.lastReceiveTime
+            const sortBy = this.$config.sort_by.replace(/^\-/,'')
+            const reverseTime = this.$config.sort_by.startsWith('-') ? -1 : 1
+            return (b[sortBy] - a[sortBy]) * reverseTime
           }
           const severityCodeA = this.$config.severity[a.severity.toLowerCase()]
           const severityCodeB = this.$config.severity[b.severity.toLowerCase()]

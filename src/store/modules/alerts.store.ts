@@ -99,9 +99,15 @@ const mutations = {
 }
 
 const actions = {
-  getAlerts({ commit, state }) {
+  getAlerts({ rootGetters, commit, state }) {
     commit('SET_LOADING')
-    return AlertsApi.getAlerts(state.query)
+    let query = state.query
+    let sortBy = rootGetters['getConfig']('sort_by')
+    query['sort-by'] = sortBy.replace(/^\-/,'')
+    if (sortBy.startsWith('-')) {
+      query['reverse'] = 1
+    }
+    return AlertsApi.getAlerts(query)
       .then(({ alerts }) => commit('SET_ALERTS', alerts))
       .catch(() => commit('RESET_LOADING'))
   },
