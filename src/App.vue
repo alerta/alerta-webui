@@ -81,7 +81,7 @@
               </v-list-tile>
             </v-list-group>
             <v-list-tile
-              v-else-if="item.icon"
+              v-else-if="item.icon && item.show"
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
@@ -437,7 +437,7 @@ export default {
     Snackbar
   },
   props: [],
-  data: () => ({
+  data: vm => ({
     hasFocus: false,
     menu: false,
     message: false,
@@ -448,33 +448,55 @@ export default {
       signin: { icon: 'account_circle', text: 'Sign In', path: '/login' }
     },
     items: [
-      { icon: 'list', text: 'Alerts', path: '/alerts', perms: 'read:alerts' },
+      {
+        icon: 'list',
+        text: 'Alerts',
+        path: '/alerts',
+        perms: 'read:alerts',
+        show: true
+      },
       {
         icon: 'timer',
         text: 'Heartbeats',
         path: '/heartbeats',
-        perms: 'read:heartbeats'
+        perms: 'read:heartbeats',
+        show: true
       },
-      { icon: 'people', text: 'Users', path: '/users', perms: 'read:users' },
+      {
+        icon: 'people',
+        text: 'Users',
+        path: '/users',
+        perms: 'read:users',
+        show: true
+      },
       {
         icon: 'domain',
         text: 'Customers',
         path: '/customers',
-        perms: 'read:customers'
+        perms: 'read:customers',
+        show: vm.$config.customer_views
       },
       {
         icon: 'notifications_off',
         text: 'Blackouts',
         path: '/blackouts',
-        perms: 'read:blackouts'
+        perms: 'read:blackouts',
+        show: true
       },
       {
         icon: 'security',
         text: 'Permissions',
         path: '/perms',
-        perms: 'read:perms'
+        perms: 'read:perms',
+        show: true
       },
-      { icon: 'vpn_key', text: 'API Keys', path: '/keys', perms: 'read:keys' },
+      {
+        icon: 'vpn_key',
+        text: 'API Keys',
+        path: '/keys',
+        perms: 'read:keys',
+        show: true
+      },
       // {
       //   icon: 'keyboard_arrow_up',
       //   'icon-alt': 'keyboard_arrow_down',
@@ -486,7 +508,8 @@ export default {
         icon: 'assessment',
         text: 'Reports',
         path: '/reports',
-        perms: 'read:alerts'
+        perms: 'read:alerts',
+        show: true
       },
       // {
       //   icon: 'keyboard_arrow_up',
@@ -502,10 +525,26 @@ export default {
       //   ]
       // },
       { divider: true},
-      { icon: 'settings', text: 'Settings', path: '/settings' },
+      {
+        icon: 'settings',
+        text: 'Settings',
+        path: '/settings',
+        show: true
+      },
       // { icon: 'chat_bubble', text: 'Send feedback' },
-      { icon: 'help', text: 'Help', path: 'https://docs.alerta.io' },
-      { icon: 'info', text: 'About', path: '/about', perms: 'read:management' }
+      {
+        icon: 'help',
+        text: 'Help',
+        path: 'https://docs.alerta.io',
+        show: true
+      },
+      {
+        icon: 'info',
+        text: 'About',
+        path: '/about',
+        perms: 'read:management',
+        show: true
+      }
     ]
   }),
   computed: {
@@ -523,9 +562,6 @@ export default {
     },
     isLoggedIn() {
       return this.$store.getters['auth/isLoggedIn']
-    },
-    isCustomerViews() {
-      return this.$store.getters['auth/isCustomerViews']
     },
     profile() {
       return this.$store.state.auth.payload || {}

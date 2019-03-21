@@ -16,8 +16,6 @@
             <v-layout wrap>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-tooltip
                   :key="copyIconText"
@@ -37,9 +35,8 @@
                 </v-tooltip>
               </v-flex>
               <v-flex
+                v-if="$config.customer_views"
                 xs12
-                sm6
-                md12
               >
                 <v-select
                   v-model="editedItem.customer"
@@ -49,8 +46,6 @@
               </v-flex>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-combobox
                   v-model="editedItem.scopes"
@@ -77,8 +72,6 @@
               </v-flex>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-menu
                   v-model="menu"
@@ -106,8 +99,6 @@
               </v-flex>
               <v-flex
                 xs12
-                sm6
-                md12
               >
                 <v-text-field
                   v-model="editedItem.text"
@@ -152,7 +143,7 @@
       </v-card-title>
 
       <v-data-table
-        :headers="headers"
+        :headers="computedHeaders"
         :items="keys"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
@@ -228,7 +219,11 @@
           <td>{{ props.item.expireTime | timeago }}</td>
           <td>{{ props.item.count }}</td>
           <td>{{ props.item.lastUsedTime | timeago }}</td>
-          <td>{{ props.item.customer }}</td>
+          <td
+            v-if="$config.customer_views"
+          >
+            {{ props.item.customer }}
+          </td>
           <td>
             <v-icon
               small
@@ -333,6 +328,9 @@ export default {
   computed: {
     keys() {
       return this.$store.state.keys.keys
+    },
+    computedHeaders() {
+      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
     },
     allowedScopes() {
       return utils.getAllowedScopes(

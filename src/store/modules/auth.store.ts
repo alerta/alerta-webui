@@ -91,12 +91,6 @@ export function makeStore(vueAuth) {
           return getters.scopes.includes('admin')
         }
         return false
-      },
-      isCustomerViews(state, getters) {
-        if (getters.isLoggedIn) {
-          return 'customers' in state.payload
-        }
-        return false
       }
     }
   }

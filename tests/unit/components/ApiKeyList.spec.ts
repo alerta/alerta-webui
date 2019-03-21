@@ -52,7 +52,10 @@ describe('ApiKeyList', () => {
     const msg = 'Sorry, nothing to display here :('
     const wrapper = shallowMount(ApiKeyList, {
       propsData: { msg },
-      store
+      store,
+      mocks: {
+        $config: () => true
+      }
     })
     expect(wrapper.text()).toMatch(msg)
   })
