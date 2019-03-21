@@ -24,7 +24,7 @@
           @mouseout="showIcons = null"
         >
           <td
-            style="white-space: nowrap"
+            class="text-no-wrap"
             @click="selectItem(props.item)"
           >
             <v-checkbox
@@ -180,8 +180,7 @@
             </span>
             <span
               v-if="col == 'timeoutLeft'"
-              class="text-xs-right"
-              style="white-space: nowrap"
+              class="text-xs-right text-no-wrap"
               @click="selectItem(props.item)"
             >
               {{ timeoutLeft(props.item) | hhmmss }}
@@ -255,7 +254,7 @@
 
           <td
             v-show="showIcons === props.item.id && !selectableRows"
-            style="white-space: nowrap"
+            class="text-no-wrap"
           >
             <div
               style="display:inline-block;"
@@ -623,7 +622,6 @@ export default {
 </script>
 
 <style>
-
 .alert-table .v-table th, td {
   padding: 0px 5px !important;
 }
@@ -696,11 +694,6 @@ div.select-box {
   background-color: #333333;
 }
 
-.no-wrap {
-  white-space: nowrap;
-  overflow: hidden;
-}
-
 .hover-lighten:hover {
   filter: brightness(0.87);
 }
@@ -724,5 +717,4 @@ div.select-box {
 .btn--plain:hover {
   opacity: 1;
 }
-
 </style>

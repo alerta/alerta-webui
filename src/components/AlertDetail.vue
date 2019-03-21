@@ -626,8 +626,7 @@
                     {{ props.item.id | shortId }}
                   </td>
                   <td
-                    class="hidden-sm-and-down"
-                    nowrap
+                    class="hidden-sm-and-down text-no-wrap"
                   >
                     <date-time
                       :value="props.item.updateTime"
@@ -635,8 +634,7 @@
                     />
                   </td>
                   <td
-                    class="hidden-md-and-up"
-                    nowrap
+                    class="hidden-md-and-up text-no-wrap"
                   >
                     <date-time
                       :value="props.item.updateTime"
@@ -849,7 +847,6 @@ export default {
 </script>
 
 <style>
-
 .label {
   font-size: 13px;
   font-weight: bold;
@@ -894,5 +891,4 @@ export default {
 .label-inverse {
   background-color: #333333;
 }
-
 </style>

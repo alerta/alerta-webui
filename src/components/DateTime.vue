@@ -2,7 +2,7 @@
   <v-tooltip top>
     <span
       slot="activator"
-      style="white-space: nowrap"
+      class="text-no-wrap"
     >
       {{ value | date(formatString) }}
     </span>

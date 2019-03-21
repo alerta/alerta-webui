@@ -158,8 +158,8 @@
           slot-scope="props"
         >
           <td
+            class="text-no-wrap"
             monospace
-            nowrap
           >
             {{ props.item.key }}
             <v-tooltip
@@ -228,12 +228,12 @@
             <v-btn
               v-has-perms.disable="'write:keys'"
               icon
-              class="mr-0"
+              class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
               <v-icon
                 small
-                color="grey"
+                color="grey darken-3"
               >
                 edit
               </v-icon>
@@ -241,12 +241,12 @@
             <v-btn
               v-has-perms.disable="'admin:keys'"
               icon
-              class="mx-0"
+              class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
               <v-icon
                 small
-                color="grey"
+                color="grey darken-3"
               >
                 delete
               </v-icon>
@@ -256,11 +256,11 @@
               :href="`data:text/plain;base64,${toData(props.item)}`"
               :download="`key_${props.item.id}.json`"
               icon
-              class="mx-0"
+              class="btn--plain mx-0"
             >
               <v-icon
                 small
-                color="grey"
+                color="grey darken-3"
               >
                 get_app
               </v-icon>
@@ -457,12 +457,5 @@ input[monospace],
 td[monospace] {
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
     monospace;
-}
-
-.v-btn:hover:before {
-  background-color: transparent;
-}
-.v-btn--icon {
-  width: 24px !important;
 }
 </style>

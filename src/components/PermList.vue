@@ -170,13 +170,13 @@
             <v-btn
               v-has-perms.disable="'admin:perms'"
               icon
-              class="mr-0"
+              class="btn--plain mr-0"
               :disabled="['admin', 'user'].includes(props.item.match)"
               @click="editItem(props.item)"
             >
               <v-icon
                 small
-                color="grey"
+                color="grey darken-3"
               >
                 edit
               </v-icon>
@@ -184,13 +184,13 @@
             <v-btn
               v-has-perms.disable="'admin:perms'"
               icon
-              class="mx-0"
+              class="btn--plain mx-0"
               :disabled="['admin', 'user'].includes(props.item.match)"
               @click="deleteItem(props.item)"
             >
               <v-icon
                 small
-                color="grey"
+                color="grey darken-3"
               >
                 delete
               </v-icon>
@@ -350,11 +350,4 @@ export default {
 }
 </script>
 
-<style>
-.v-btn:hover:before {
-  background-color: transparent;
-}
-.v-btn--icon {
-  width: 24px !important;
-}
-</style>
+<style></style>

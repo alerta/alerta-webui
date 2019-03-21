@@ -9,7 +9,7 @@
           <v-btn
             v-show="!isWatched"
             outline
-            color="grey"
+            color="grey darken-2"
             @click="watchAlert"
           >
             <v-icon>visibility</v-icon>&nbsp;Watch
@@ -18,7 +18,7 @@
           <v-btn
             v-show="isWatched"
             outline
-            color="grey"
+            color="grey darken-2"
             @click="unwatchAlert"
           >
             <v-icon>visibility_off</v-icon>&nbsp;Unwatch
@@ -27,7 +27,7 @@
           <v-btn
             v-if="!showForm"
             outline
-            color="grey"
+            color="grey darken-2"
             @click="showForm = true"
           >
             <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
@@ -35,7 +35,7 @@
 
           <v-btn
             outline
-            color="grey"
+            color="grey darken-2"
             @click="deleteAlert"
           >
             <v-icon>delete_forever</v-icon>&nbsp;Delete
@@ -137,7 +137,7 @@
                   @click="close"
                 >
                   <v-icon
-                    color="grey"
+                    color="grey darken-1"
                   >
                     delete
                   </v-icon>
