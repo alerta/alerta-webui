@@ -2,6 +2,7 @@
   <v-fab-transition>
     <v-btn
       key="add"
+      v-has-perms="perms"
       color="accent"
       fab
       fixed
@@ -18,6 +19,12 @@
 
 <script>
 export default {
+  props: {
+    perms: {
+      type: String,
+      required: true
+    }
+  },
   methods: {
     addToList() {
       this.$emit('add-to-list')

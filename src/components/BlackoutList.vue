@@ -327,27 +327,46 @@
           <td class="text-xs-left">
             {{ props.item.text }}
           </td>
-          <td>
-            <v-icon
-              small
-              class="mr-2"
+          <td class="text-no-wrap">
+            <v-btn
+              v-has-perms.disable="'write:blackouts'"
+              icon
+              class="mr-0"
               @click="editItem(props.item)"
             >
-              edit
-            </v-icon>
-            <v-icon
-              small
-              class="mr-2"
+              <v-icon
+                small
+                color="grey"
+              >
+                edit
+              </v-icon>
+            </v-btn>
+            <v-btn
+              v-has-perms.disable="'write:blackouts'"
+              icon
+              class="mx-0"
               @click="copyItem(props.item)"
             >
-              content_copy
-            </v-icon>
-            <v-icon
-              small
+              <v-icon
+                small
+                color="grey"
+              >
+                content_copy
+              </v-icon>
+            </v-btn>
+            <v-btn
+              v-has-perms.disable="'write:blackouts'"
+              icon
+              class="mx-0"
               @click="deleteItem(props.item)"
             >
-              delete
-            </v-icon>
+              <v-icon
+                small
+                color="grey"
+              >
+                delete
+              </v-icon>
+            </v-btn>
           </td>
         </template>
         <template slot="no-data">
@@ -371,7 +390,7 @@
     </v-card>
 
     <list-button-add
-      v-has-perms="'write:blackouts'"
+      perms="write:blackouts"
       @add-to-list="dialog = true"
     />
   </div>
@@ -622,4 +641,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.v-btn:hover:before {
+  background-color: transparent;
+}
+.v-btn--icon {
+  width: 24px !important;
+}
+</style>
