@@ -77,6 +77,24 @@
           </v-flex>
 
           <v-flex
+            v-if="$config.customer_views"
+            xs12
+          >
+            <v-select
+              v-model="filterCustomer"
+              :items="currentCustomers"
+              :menu-props="{ maxHeight: '400' }"
+              placeholder="All customers"
+              label="Customer"
+              multiple
+              outline
+              dense
+              hint="Choose one or more customer"
+              persistent-hint
+            />
+          </v-flex>
+
+          <v-flex
             xs12
           >
             <v-select
@@ -208,6 +226,9 @@ export default {
         return statusMap[a].localeCompare(statusMap[b])
       })
     },
+    currentCustomers() {
+      return this.$store.getters['customers/customers']
+    },
     currentServices() {
       return this.$store.getters['alerts/services']
     },
@@ -231,6 +252,16 @@ export default {
       set(value) {
         this.$store.dispatch('alerts/setFilter', {
           status: value.length > 0 ? value : null
+        })
+      }
+    },
+    filterCustomer: {
+      get() {
+        return this.$store.state.alerts.filter.customer
+      },
+      set(value) {
+        this.$store.dispatch('alerts/setFilter', {
+          customer: value.length > 0 ? value : null
         })
       }
     },
@@ -271,10 +302,14 @@ export default {
     }
   },
   created() {
+    this.getCustomers()
     this.getServices()
     this.getGroups()
   },
   methods: {
+    getCustomers() {
+      this.$store.dispatch('customers/getCustomers')
+    },
     getServices() {
       this.$store.dispatch('alerts/getServices')
     },

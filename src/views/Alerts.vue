@@ -127,6 +127,11 @@ export default {
               : true
           )
           .filter(alert =>
+            this.filter.customer
+              ? this.filter.customer.includes(alert.customer)
+              : true
+          )
+          .filter(alert =>
             this.filter.service
               ? alert.service.some(x => this.filter.service.includes(x))
               : true
