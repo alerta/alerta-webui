@@ -166,22 +166,35 @@
               <span>(scope)</span>
             </v-chip>
           </td>
-          <td>
-            <v-icon
-              small
-              class="mr-2"
+          <td class="text-no-wrap">
+            <v-btn
+              v-has-perms.disable="'admin:perms'"
+              icon
+              class="mr-0"
               :disabled="['admin', 'user'].includes(props.item.match)"
               @click="editItem(props.item)"
             >
-              edit
-            </v-icon>
-            <v-icon
-              small
+              <v-icon
+                small
+                color="grey"
+              >
+                edit
+              </v-icon>
+            </v-btn>
+            <v-btn
+              v-has-perms.disable="'admin:perms'"
+              icon
+              class="mx-0"
               :disabled="['admin', 'user'].includes(props.item.match)"
               @click="deleteItem(props.item)"
             >
-              delete
-            </v-icon>
+              <v-icon
+                small
+                color="grey"
+              >
+                delete
+              </v-icon>
+            </v-btn>
           </td>
         </template>
         <template slot="no-data">
@@ -204,7 +217,10 @@
       </v-data-table>
     </v-card>
 
-    <list-button-add @add-to-list="dialog = true" />
+    <list-button-add
+      perms="admin:perms"
+      @add-to-list="dialog = true"
+    />
   </div>
 </template>
 
@@ -334,4 +350,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.v-btn:hover:before {
+  background-color: transparent;
+}
+.v-btn--icon {
+  width: 24px !important;
+}
+</style>

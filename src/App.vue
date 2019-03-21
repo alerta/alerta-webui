@@ -466,7 +466,7 @@ export default {
         icon: 'people',
         text: 'Users',
         path: '/users',
-        perms: 'read:users',
+        perms: 'admin:users',
         show: true
       },
       {
@@ -529,6 +529,7 @@ export default {
         icon: 'settings',
         text: 'Settings',
         path: '/settings',
+        perms: null,
         show: true
       },
       // { icon: 'chat_bubble', text: 'Send feedback' },
@@ -536,6 +537,7 @@ export default {
         icon: 'help',
         text: 'Help',
         path: 'https://docs.alerta.io',
+        perms: null,
         show: true
       },
       {

@@ -62,13 +62,20 @@
         </td>
         <td>{{ props.item.timeout | hhmmss }}</td>
         <td>{{ props.item.receiveTime | timeago }}</td>
-        <td class="justify-center layout px-0">
-          <v-icon
-            small
+        <td class="text-no-wrap">
+          <v-btn
+            v-has-perms.disable="'write:heartbeats'"
+            icon
+            class="mr-0"
             @click="deleteItem(props.item)"
           >
-            delete
-          </v-icon>
+            <v-icon
+              small
+              color="grey"
+            >
+              delete
+            </v-icon>
+          </v-btn>
         </td>
       </template>
       <template slot="no-data">
@@ -159,4 +166,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.v-btn:hover:before {
+  background-color: transparent;
+}
+.v-btn--icon {
+  width: 24px !important;
+}
+</style>
