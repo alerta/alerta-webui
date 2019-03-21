@@ -532,8 +532,8 @@ export default {
             const reverseTime = this.$config.sort_by.startsWith('-') ? -1 : 1
             return (b[sortBy] - a[sortBy]) * reverseTime
           }
-          const severityCodeA = this.$config.severity[a.severity.toLowerCase()]
-          const severityCodeB = this.$config.severity[b.severity.toLowerCase()]
+          const severityCodeA = this.$config.severity[a.severity]
+          const severityCodeB = this.$config.severity[b.severity]
           if (severityCodeA < severityCodeB) return reverseSort * 1
           if (severityCodeA > severityCodeB) return reverseSort * -1
           return 0
@@ -543,8 +543,8 @@ export default {
       // sort by severity code
       if (index == 'severity') {
         return items.sort((a, b) => {
-          const severityCodeA = this.$config.severity[a.severity.toLowerCase()]
-          const severityCodeB = this.$config.severity[b.severity.toLowerCase()]
+          const severityCodeA = this.$config.severity[a.severity]
+          const severityCodeB = this.$config.severity[b.severity]
           if (severityCodeA > severityCodeB) return reverseSort * 1
           if (severityCodeA < severityCodeB) return reverseSort * -1
           return 0
