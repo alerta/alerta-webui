@@ -216,8 +216,17 @@
             </v-chip>
           </td>
           <td>{{ props.item.text }}</td>
-          <td>{{ props.item.expireTime | timeago }}</td>
-          <td>{{ props.item.count }}</td>
+          <td>
+            <date-time
+              :value="props.item.expireTime"
+              format="mediumDate"
+            />
+          </td>
+          <td
+            class="text-xs-center"
+          >
+            {{ props.item.count }}
+          </td>
           <td>{{ props.item.lastUsedTime | timeago }}</td>
           <td
             v-if="$config.customer_views"
@@ -295,14 +304,17 @@
 </template>
 
 <script>
+import DateTime from './DateTime'
 import ListButtonAdd from '@/components/ListButtonAdd'
 import utils from '@/common/utils'
+import moment from 'moment'
 
 export default {
   components: {
+    DateTime,
     ListButtonAdd
   },
-  data: () => ({
+  data: vm => ({
     descending: true,
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40],
@@ -334,7 +346,7 @@ export default {
       expireTime: null
     },
     menu: false,
-    pickerDate: null,
+    pickerDate: vm.defaultExpireTime(),
     defaultItem: {
       user: '',
       text: '',
@@ -376,11 +388,6 @@ export default {
     },
     refresh(val) {
       val || this.getApiKeys()
-    },
-    pickerDate(val) {
-      let endOfDay = new Date(val)
-      endOfDay.setHours(23, 59, 59, 999)
-      this.editedItem.expireTime = endOfDay.toISOString()
     }
   },
   created() {
@@ -398,9 +405,18 @@ export default {
     getCustomers() {
       this.$store.dispatch('customers/getCustomers')
     },
+    defaultExpireTime() {
+      return moment().add(1, 'Year').endOf('day').toISOString().slice(0, 10)
+    },
+    endOfDay(date) {
+      let endOfDay = new Date(date)
+      endOfDay.setHours(23, 59, 59, 999)
+      return endOfDay.toISOString()
+    },
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
+      this.pickerDate = item.expireTime.slice(0, 10)
       this.dialog = true
     },
     deleteItem(item) {
@@ -411,6 +427,7 @@ export default {
       this.dialog = false
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
+        this.pickerDate = this.defaultExpireTime()
         this.editedId = null
       }, 300)
     },
@@ -421,12 +438,17 @@ export default {
           {
             scopes: this.editedItem.scopes,
             text: this.editedItem.text,
-            expireTime: this.editedItem.expireTime,
+            expireTime: this.endOfDay(this.pickerDate),
             customer: this.editedItem.customer
           }
         ])
       } else {
-        this.$store.dispatch('keys/createKey', this.editedItem)
+        this.$store.dispatch(
+          'keys/createKey',
+          Object.assign(this.editedItem, {
+            expireTime: this.endOfDay(this.pickerDate)
+          })
+        )
       }
       this.close()
     },
