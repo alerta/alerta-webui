@@ -7,6 +7,7 @@
       flat
     >
       <v-toolbar
+        :color="isDark ? '#616161' : '#eeeeee'"
         dense
       >
         <v-btn
@@ -326,14 +327,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div class="font-weight-regular">
-                        <v-chip
-                          v-for="service in item.service"
-                          :key="service"
-                          outline
-                          small
-                        >
-                          {{ service }}
-                        </v-chip>
+                        {{ item.service.join(', ') }}
                       </div>
                     </div>
                   </div>
@@ -585,17 +579,22 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div
+                  v-for="(value, attr) in item.attributes"
+                  :key="attr"
+                  class="flex xs12"
+                >
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="header font-weight-bold">
-                        Attributes
+                        {{ attr | splitCaps }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
-                        {{ item.attributes }}
-                      </div>
+                      <div
+                        class="font-weight-regular"
+                        v-html="value"
+                      />
                     </div>
                   </div>
                 </div>
@@ -685,8 +684,8 @@
                 <v-layout>
                   <v-flex>
                     <v-card
+                      :color="isDark ? 'grey darken-1' : 'grey lighten-3'"
                       flat
-                      color="grey lighten-3"
                     >
                       <pre>{{ item.rawData || 'no raw data' }}</pre>
                     </v-card>
@@ -759,6 +758,9 @@ export default {
     ]
   }),
   computed: {
+    isDark() {
+      return this.$store.getters.getPreference('isDark')
+    },
     item() {
       return this.$store.state.alerts.alert
     },
