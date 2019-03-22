@@ -125,6 +125,7 @@
 
                 <v-btn
                   color="white"
+                  :class="{'black--text': isDark}"
                   @click="addNote"
                 >
                   <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
@@ -177,6 +178,9 @@ export default {
     ]
   }),
   computed: {
+    isDark() {
+      return this.$store.getters.getPreference('isDark')
+    },
     isAcked() {
       return this.status == 'ack' || this.status == 'ACKED'
     },
