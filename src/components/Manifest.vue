@@ -10,7 +10,13 @@
     >
       <td>{{ application | capitalize }} API {{ props.item.release }}</td>
       <td>{{ props.item.build }}</td>
-      <td>{{ props.item.date }}</td>
+      <td>
+        <date-time
+          v-if="props.item.date"
+          :value="props.item.date"
+          format="mediumDate"
+        />
+      </td>
       <td>
         <a
           :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
@@ -22,7 +28,12 @@
 </template>
 
 <script>
+import DateTime from './DateTime'
+
 export default {
+  components: {
+    DateTime
+  },
   data: () => ({
     headers: [
       {text: 'API', value: 'release', sortable: false},
