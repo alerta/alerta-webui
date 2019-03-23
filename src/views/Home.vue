@@ -40,9 +40,6 @@
           Please sign up or log in to continue.
         </p>
       </v-flex>
-      <v-flex>
-        <p>{{ $config }}</p>
-      </v-flex>
       <v-flex
         xs12
         sm6

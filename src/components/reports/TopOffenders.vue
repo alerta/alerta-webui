@@ -15,8 +15,12 @@
           slot-scope="props"
         >
           <td>{{ props.item.event }}</td>
-          <td>{{ props.item.count }}</td>
-          <td>{{ props.item.duplicateCount }}</td>
+          <td class="text-xs-center">
+            {{ props.item.count }}
+          </td>
+          <td class="text-xs-center">
+            {{ props.item.duplicateCount }}
+          </td>
           <td>{{ props.item.environments.join(', ') }}</td>
           <td>{{ props.item.services.join(', ') }}</td>
           <td>

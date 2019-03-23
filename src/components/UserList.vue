@@ -216,7 +216,7 @@
           slot-scope="props"
         >
           <td>{{ props.item.name }}</td>
-          <td>
+          <td class="text-xs-center">
             <v-tooltip top>
               <v-icon
                 slot="activator"
@@ -231,7 +231,7 @@
             </v-tooltip>
           </td>
           <td>{{ props.item.email }}</td>
-          <td>
+          <td class="text-xs-center">
             <v-tooltip top>
               <v-icon
                 slot="activator"
