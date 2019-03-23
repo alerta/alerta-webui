@@ -24,6 +24,7 @@
                     v-model="editedItem.name"
                     label="Name"
                     :rules="[rules.required]"
+                    required
                   />
                 </v-flex>
                 <v-flex
@@ -46,7 +47,8 @@
                   <v-text-field
                     v-model="editedItem.email"
                     label="Email"
-                    :required="[rules.required]"
+                    :rules="[rules.required]"
+                    required
                   />
                 </v-flex>
                 <v-flex
@@ -89,7 +91,7 @@
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
                     label="Confirm Password"
-                    :value="confirmPassword"
+                    :value="editedItem.confirmPassword"
                     @click:append="showPassword = !showPassword"
                   />
                 </v-flex>
@@ -148,7 +150,7 @@
             <v-btn
               color="blue darken-1"
               flat
-              @click="save"
+              @click="validate"
             >
               Save
             </v-btn>
@@ -370,6 +372,7 @@ export default {
       email: '',
       email_verified: false,
       password: '',
+      confirmPassword: '',
       roles: [],
       text: ''
     },
@@ -379,16 +382,16 @@ export default {
       email: '',
       email_verified: false,
       password: '',
+      confirmPassword: '',
       roles: [],
       text: ''
     },
-    confirmPassword: '',
     showPassword: false,
     rules: {
       required: v => !!v || 'Required.',
       min: v => !v || v.length >= 6 || 'Min 6 characters',
       passwordMatch: v =>
-        v == vm.editedItem.password || 'Passwords entered don\'t match'
+        !v || v == vm.editedItem.password || 'Passwords entered don\'t match'
     }
   }),
   computed: {
@@ -465,14 +468,16 @@ export default {
     close() {
       this.dialog = false
       setTimeout(() => {
+        this.$refs.form.reset()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedId = null
-        this.confirmPassword = null
-        this.reset()
       }, 300)
     },
-    reset() {
-      this.$refs.form.reset()
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.$refs.form.resetValidation()
+        this.save()
+      }
     },
     save() {
       if (this.editedId) {
