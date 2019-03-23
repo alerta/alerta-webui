@@ -1,6 +1,6 @@
 <template>
   <v-card
-    max-width="300"
+    max-width="350"
   >
     <v-list>
       <v-list-tile>
@@ -55,7 +55,22 @@
       >
         <v-list-tile-content>
           <v-list-tile-title>
-            {{ profile.customers }}
+            <span
+              v-for="(customer, index) in profile.customers"
+              :key="index"
+            >
+              <v-chip
+                v-if="index < 3"
+                outline
+                small
+              >
+                <span>{{ customer }}</span>
+              </v-chip>
+              <span
+                v-if="index === 3"
+                class="grey--text caption"
+              >(+{{ profile.customers.length - 1 }} others)</span>
+            </span>
           </v-list-tile-title>
           <v-list-tile-sub-title>Customers</v-list-tile-sub-title>
         </v-list-tile-content>
@@ -63,27 +78,88 @@
 
       <v-list-tile v-if="profile.orgs">
         <v-list-tile-content>
-          <v-list-tile-title>{{ profile.orgs }}</v-list-tile-title>
+          <v-list-tile-title>
+            <span
+              v-for="(org, index) in profile.orgs"
+              :key="index"
+            >
+              <v-chip
+                v-if="index < 3"
+                small
+              >
+                <span>{{ org }}</span>
+              </v-chip>
+              <span
+                v-if="index === 3"
+                class="grey--text caption"
+              >(+{{ profile.orgs.length - 1 }} others)</span>
+            </span>
+          </v-list-tile-title>
           <v-list-tile-sub-title>Organizations</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile v-if="profile.groups">
         <v-list-tile-content>
-          <v-list-tile-title>{{ profile.groups }}</v-list-tile-title>
+          <v-list-tile-title>
+            <span
+              v-for="(group, index) in profile.groups"
+              :key="index"
+            >
+              <v-chip
+                v-if="index < 3"
+                small
+              >
+                <span>{{ group }}</span>
+              </v-chip>
+              <span
+                v-if="index === 3"
+                class="grey--text caption"
+              >(+{{ profile.groups.length - 1 }} others)</span>
+            </span>
+          </v-list-tile-title>
           <v-list-tile-sub-title>Groups</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile v-if="profile.roles">
         <v-list-tile-content>
-          <v-list-tile-title>{{ profile.roles }}</v-list-tile-title>
+          <v-list-tile-title>
+            <span
+              v-for="(role, index) in profile.roles"
+              :key="index"
+            >
+              <v-chip
+                v-if="index < 3"
+                small
+              >
+                <span>{{ role }}</span>
+              </v-chip>
+              <span
+                v-if="index === 3"
+                class="grey--text caption"
+              >(+{{ profile.roles.length - 1 }} others)</span>
+            </span>
+          </v-list-tile-title>
           <v-list-tile-sub-title>Roles</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
-
       <v-list-tile>
         <v-list-tile-content>
           <v-list-tile-title>
-            {{ scopes }}
+            <span
+              v-for="(scope, index) in scopes"
+              :key="index"
+            >
+              <v-chip
+                v-if="index < 3"
+                small
+              >
+                <span>{{ scope }}</span>
+              </v-chip>
+              <span
+                v-if="index === 3"
+                class="grey--text caption"
+              >(+{{ scopes.length - 1 }} others)</span>
+            </span>
           </v-list-tile-title>
           <v-list-tile-sub-title>Scopes</v-list-tile-sub-title>
         </v-list-tile-content>
@@ -150,4 +226,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.v-list__tile__title {
+  height: 40px;
+}
+</style>
