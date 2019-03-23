@@ -4,64 +4,70 @@
       v-model="dialog"
       max-width="500px"
     >
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            {{ formTitle }}
-          </span>
-        </v-card-title>
+      <v-form ref="form">
+        <v-card>
+          <v-card-title>
+            <span class="headline">
+              {{ formTitle }}
+            </span>
+          </v-card-title>
 
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex
-                xs12
-              >
-                <v-text-field
-                  v-model="editedItem.match"
-                  label="Look Up"
-                  hint="Use login, Keycloak role, GitHub org, GitLab group or email domain"
-                  persistent-hint
-                />
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
                 <v-flex
                   xs12
                 >
-                  <v-chip
-                    v-show="editedItem.customer"
-                    close
-                    @click="editedItem.customer = null"
+                  <v-text-field
+                    v-model="editedItem.match"
+                    label="Look Up"
+                    hint="Use login, Keycloak role, GitHub org, GitLab group or email domain"
+                    persistent-hint
+                    :rules="[rules.required]"
+                    required
+                  />
+                  <v-flex
+                    xs12
                   >
-                    <strong>{{ editedItem.customer }}</strong>&nbsp;
-                    <span>(customer)</span>
-                  </v-chip>
+                    <v-chip
+                      v-show="editedItem.customer"
+                      close
+                      @click="editedItem.customer = null"
+                    >
+                      <strong>{{ editedItem.customer }}</strong>&nbsp;
+                      <span>(customer)</span>
+                    </v-chip>
+                  </v-flex>
+                  <v-text-field
+                    v-model="editedItem.customer"
+                    label="Customer"
+                    :rules="[rules.required]"
+                    required
+                  />
                 </v-flex>
-                <v-text-field
-                  v-model="editedItem.customer"
-                  label="Customer"
-                />
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
+              </v-layout>
+            </v-container>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="close"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="save"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="close"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="validate"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
     </v-dialog>
 
     <v-card>
@@ -186,6 +192,9 @@ export default {
     defaultItem: {
       match: null,
       customer: null
+    },
+    rules: {
+      required: v => !!v || 'Required.'
     }
   }),
   computed: {
@@ -229,9 +238,16 @@ export default {
     close() {
       this.dialog = false
       setTimeout(() => {
+        this.$refs.form.reset()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedId = null
       }, 300)
+    },
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.$refs.form.resetValidation()
+        this.save()
+      }
     },
     save() {
       if (this.editedId) {

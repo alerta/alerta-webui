@@ -4,211 +4,212 @@
       v-model="dialog"
       max-width="500px"
     >
-      <v-card>
-        <v-toolbar
-          dark
-          color="secondary"
-        >
-          <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
-          <v-spacer />
-        </v-toolbar>
+      <v-form ref="form">
+        <v-card>
+          <v-card-title>
+            <span class="headline">
+              {{ formTitle }}
+            </span>
+          </v-card-title>
 
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex
-                v-if="$config.customer_views"
-                xs12
-              >
-                <v-select
-                  v-model="editedItem.customer"
-                  :items="allowedCustomers"
-                  label="Customer"
-                />
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-select
-                  v-model="editedItem.environment"
-                  :items="allowedEnvironments"
-                  label="Environment"
-                  required
-                />
-              </v-flex>
-
-              <v-flex
-                xs12
-              >
-                <v-menu
-                  ref="menu1"
-                  v-model="menu1"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  max-width="290px"
-                  min-width="290px"
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex
+                  v-if="$config.customer_views"
+                  xs12
                 >
-                  <v-text-field
-                    slot="activator"
-                    v-model="editedItem.period.startDate"
-                    label="Start Date"
-                    prepend-icon="event"
+                  <v-select
+                    v-model="editedItem.customer"
+                    :items="allowedCustomers"
+                    label="Customer"
                   />
-                  <v-date-picker
-                    v-model="editedItem.period.startDate"
-                    no-title
-                    @input="menu1 = false"
-                  />
-                </v-menu>
-              </v-flex>
-
-              <v-flex
-                xs12
-              >
-                <v-select
-                  v-model="editedItem.period.startTime"
-                  :items="times"
-                />
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-select
-                  v-model="editedItem.period.endTime"
-                  :items="times"
-                />
-              </v-flex>
-
-              <v-flex
-                xs12
-              >
-                <v-menu
-                  v-model="menu2"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  max-width="290px"
-                  min-width="290px"
+                </v-flex>
+                <v-flex
+                  xs12
                 >
-                  <v-text-field
-                    slot="activator"
-                    v-model="editedItem.period.endDate"
-                    label="End Date"
+                  <v-select
+                    v-model="editedItem.environment"
+                    :items="allowedEnvironments"
+                    label="Environment"
+                    :rules="[rules.required]"
+                    required
                   />
-                  <v-date-picker
-                    v-model="editedItem.period.endDate"
-                    no-title
-                    @input="menu2 = false"
-                  />
-                </v-menu>
-              </v-flex>
+                </v-flex>
 
-              <v-flex
-                xs12
-              >
-                <v-select
-                  v-model="editedItem.service"
-                  :items="currentServices"
-                  :menu-props="{ maxHeight: '400' }"
-                  label="Service"
-                  multiple
-                  hint="Choose one or more service"
-                  persistent-hint
-                />
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-text-field
-                  v-model="editedItem.resource"
-                  label="Resource"
-                />
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-text-field
-                  v-model="editedItem.event"
-                  label="Event"
-                />
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-text-field
-                  v-model="editedItem.group"
-                  label="Group"
-                />
-              </v-flex>
-
-              <v-flex
-                xs12
-              >
-                <v-combobox
-                  v-model="editedItem.tags"
-                  :items="currentTags"
-                  label="Tags"
-                  multiple
-                  chips
+                <v-flex
+                  xs4
                 >
-                  <template
-                    slot="selection"
-                    slot-scope="data"
+                  <v-menu
+                    ref="menu1"
+                    v-model="menu1"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
                   >
-                    <v-chip
-                      :key="JSON.stringify(data.item)"
-                      :selected="data.selected"
-                      :disabled="data.disabled"
-                      class="v-chip--select-multi"
-                      label
-                      small
-                      @input="data.parent.selectItem(data.item)"
+                    <v-text-field
+                      slot="activator"
+                      v-model="editedItem.period.startDate"
+                      label="Start Date"
+                      prepend-icon="event"
+                    />
+                    <v-date-picker
+                      v-model="editedItem.period.startDate"
+                      no-title
+                      @input="menu1 = false"
+                    />
+                  </v-menu>
+                </v-flex>
+
+                <v-flex
+                  xs2
+                >
+                  <v-select
+                    v-model="editedItem.period.startTime"
+                    :items="times"
+                  />
+                </v-flex>
+                <v-flex
+                  xs2
+                >
+                  <v-select
+                    v-model="editedItem.period.endTime"
+                    :items="times"
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs4
+                >
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="editedItem.period.endDate"
+                      label="End Date"
+                    />
+                    <v-date-picker
+                      v-model="editedItem.period.endDate"
+                      no-title
+                      @input="menu2 = false"
+                    />
+                  </v-menu>
+                </v-flex>
+
+                <v-flex
+                  xs12
+                >
+                  <v-select
+                    v-model="editedItem.service"
+                    :items="currentServices"
+                    :menu-props="{ maxHeight: '400' }"
+                    label="Service"
+                    multiple
+                    hint="Choose one or more service"
+                    persistent-hint
+                  />
+                </v-flex>
+                <v-flex
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.resource"
+                    label="Resource"
+                  />
+                </v-flex>
+                <v-flex
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.event"
+                    label="Event"
+                  />
+                </v-flex>
+                <v-flex
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.group"
+                    label="Group"
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs12
+                >
+                  <v-combobox
+                    v-model="editedItem.tags"
+                    :items="currentTags"
+                    label="Tags"
+                    multiple
+                    chips
+                  >
+                    <template
+                      slot="selection"
+                      slot-scope="data"
                     >
-                      <v-icon left>
+                      <v-chip
+                        :key="JSON.stringify(data.item)"
+                        :selected="data.selected"
+                        :disabled="data.disabled"
+                        class="v-chip--select-multi"
                         label
-                      </v-icon>{{ data.item }}
-                    </v-chip>
-                  </template>
-                </v-combobox>
-              </v-flex>
+                        small
+                        @input="data.parent.selectItem(data.item)"
+                      >
+                        <v-icon left>
+                          label
+                        </v-icon>{{ data.item }}
+                      </v-chip>
+                    </template>
+                  </v-combobox>
+                </v-flex>
 
-              <v-flex
-                xs12
-              >
-                <v-text-field
-                  v-model="editedItem.text"
-                  label="Reason"
-                />
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
+                <v-flex
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.text"
+                    label="Reason"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="close"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="save"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="close"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="validate"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
     </v-dialog>
 
     <v-card>
@@ -463,7 +464,9 @@ export default {
       },
       text: ''
     },
-    rules: {}
+    rules: {
+      required: v => !!v || 'Required.'
+    }
   }),
   computed: {
     blackouts() {
@@ -591,10 +594,17 @@ export default {
     close() {
       this.dialog = false
       setTimeout(() => {
+        this.$refs.form.reset()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedItem.period = this.defaultTimes()
         this.editedId = null
       }, 300)
+    },
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.$refs.form.resetValidation()
+        this.save()
+      }
     },
     save() {
       if (this.editedId) {
