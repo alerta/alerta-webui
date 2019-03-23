@@ -4,84 +4,88 @@
       v-model="dialog"
       max-width="500px"
     >
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            {{ formTitle }}
-          </span>
-        </v-card-title>
+      <v-form ref="form">
+        <v-card>
+          <v-card-title>
+            <span class="headline">
+              {{ formTitle }}
+            </span>
+          </v-card-title>
 
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex
-                xs12
-                sm6
-                md12
-              >
-                <v-chip
-                  v-show="editedItem.match"
-                  close
-                  @click="editedItem.match = null"
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex
+                  xs12
+                  sm6
+                  md12
                 >
-                  <strong>{{ editedItem.match }}</strong>&nbsp;
-                  <span>(role)</span>
-                </v-chip>
-              </v-flex>
-              <v-text-field
-                v-model="editedItem.match"
-                label="Role"
-              />
-              <v-flex
-                xs12
-                sm6
-                md12
-              >
-                <v-combobox
-                  v-model="editedItem.scopes"
-                  :items="allowedScopes"
-                  label="Scopes"
-                  chips
-                  clearable
-                  solo
-                  multiple
-                >
-                  <template
-                    slot="selection"
-                    slot-scope="data"
+                  <v-chip
+                    v-show="editedItem.match"
+                    close
+                    @click="editedItem.match = null"
                   >
-                    <v-chip
-                      :selected="data.selected"
-                      close
+                    <strong>{{ editedItem.match }}</strong>&nbsp;
+                    <span>(role)</span>
+                  </v-chip>
+                </v-flex>
+                <v-text-field
+                  v-model="editedItem.match"
+                  label="Role"
+                  :rules="[rules.required]"
+                  required
+                />
+                <v-flex
+                  xs12
+                  sm6
+                  md12
+                >
+                  <v-combobox
+                    v-model="editedItem.scopes"
+                    :items="allowedScopes"
+                    label="Scopes"
+                    chips
+                    clearable
+                    solo
+                    multiple
+                  >
+                    <template
+                      slot="selection"
+                      slot-scope="data"
                     >
-                      <strong>{{ data.item }}</strong>&nbsp;
-                      <span>(scope)</span>
-                    </v-chip>
-                  </template>
-                </v-combobox>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                      >
+                        <strong>{{ data.item }}</strong>&nbsp;
+                        <span>(scope)</span>
+                      </v-chip>
+                    </template>
+                  </v-combobox>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="close"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="save"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="close"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="validate"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
     </v-dialog>
 
     <v-card>
@@ -258,6 +262,9 @@ export default {
     defaultItem: {
       match: '',
       scopes: []
+    },
+    rules: {
+      required: v => !!v || 'Required.'
     }
   }),
   computed: {
@@ -328,9 +335,16 @@ export default {
     close() {
       this.dialog = false
       setTimeout(() => {
+        this.$refs.form.reset()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedId = null
       }, 300)
+    },
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.$refs.form.resetValidation()
+        this.save()
+      }
     },
     save() {
       if (this.editedId) {

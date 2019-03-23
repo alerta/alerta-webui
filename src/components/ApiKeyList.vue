@@ -4,129 +4,131 @@
       v-model="dialog"
       max-width="500px"
     >
-      <v-card>
-        <v-card-title>
-          <span class="headline">
-            {{ formTitle }}
-          </span>
-        </v-card-title>
+      <v-form ref="form">
+        <v-card>
+          <v-card-title>
+            <span class="headline">
+              {{ formTitle }}
+            </span>
+          </v-card-title>
 
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex
-                xs12
-              >
-                <v-tooltip
-                  :key="copyIconText"
-                  right
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex
+                  xs12
                 >
-                  <v-text-field
-                    v-if="editedItem.key"
-                    slot="activator"
-                    v-model="editedItem.key"
-                    label="API Key"
-                    readonly
-                    monospace
-                    append-icon="content_copy"
-                    @click:append="clipboardCopy(editedItem.key)"
-                  />
-                  <span>{{ copyIconText }}</span>
-                </v-tooltip>
-              </v-flex>
-              <v-flex
-                v-if="$config.customer_views"
-                xs12
-              >
-                <v-select
-                  v-model="editedItem.customer"
-                  :items="allowedCustomers"
-                  label="Customer"
-                />
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-combobox
-                  v-model="editedItem.scopes"
-                  :items="allowedScopes"
-                  label="Scopes"
-                  chips
-                  clearable
-                  solo
-                  multiple
-                >
-                  <template
-                    slot="selection"
-                    slot-scope="data"
+                  <v-tooltip
+                    :key="copyIconText"
+                    right
                   >
-                    <v-chip
-                      :selected="data.selected"
-                      close
+                    <v-text-field
+                      v-if="editedItem.key"
+                      slot="activator"
+                      v-model="editedItem.key"
+                      label="API Key"
+                      readonly
+                      monospace
+                      append-icon="content_copy"
+                      @click:append="clipboardCopy(editedItem.key)"
+                    />
+                    <span>{{ copyIconText }}</span>
+                  </v-tooltip>
+                </v-flex>
+                <v-flex
+                  v-if="$config.customer_views"
+                  xs12
+                >
+                  <v-select
+                    v-model="editedItem.customer"
+                    :items="allowedCustomers"
+                    label="Customer"
+                  />
+                </v-flex>
+                <v-flex
+                  xs12
+                >
+                  <v-combobox
+                    v-model="editedItem.scopes"
+                    :items="allowedScopes"
+                    label="Scopes"
+                    chips
+                    clearable
+                    solo
+                    multiple
+                  >
+                    <template
+                      slot="selection"
+                      slot-scope="data"
                     >
-                      <strong>{{ data.item }}</strong>&nbsp;
-                      <span>(scope)</span>
-                    </v-chip>
-                  </template>
-                </v-combobox>
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-menu
-                  v-model="menu"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  min-width="290px"
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                      >
+                        <strong>{{ data.item }}</strong>&nbsp;
+                        <span>(scope)</span>
+                      </v-chip>
+                    </template>
+                  </v-combobox>
+                </v-flex>
+                <v-flex
+                  xs12
+                >
+                  <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="pickerDate"
+                      label="Expires"
+                      prepend-icon="event"
+                      readonly
+                    />
+                    <v-date-picker
+                      v-model="pickerDate"
+                      :min="new Date().toISOString().slice(0, 10)"
+                      @input="menu = false"
+                    />
+                  </v-menu>
+                </v-flex>
+                <v-flex
+                  xs12
                 >
                   <v-text-field
-                    slot="activator"
-                    v-model="pickerDate"
-                    label="Expires"
-                    prepend-icon="event"
-                    readonly
+                    v-model="editedItem.text"
+                    label="Comment"
                   />
-                  <v-date-picker
-                    v-model="pickerDate"
-                    :min="new Date().toISOString().slice(0, 10)"
-                    @input="menu = false"
-                  />
-                </v-menu>
-              </v-flex>
-              <v-flex
-                xs12
-              >
-                <v-text-field
-                  v-model="editedItem.text"
-                  label="Comment"
-                />
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="close"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="save"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="close"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="save"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
     </v-dialog>
 
     <v-card>
