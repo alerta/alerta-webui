@@ -184,7 +184,11 @@
               </v-icon>
             </v-btn>
 
-            <v-list>
+            <v-list
+              subheader
+            >
+              <v-subheader>Actions</v-subheader>
+              <v-divider />
               <v-list-tile
                 v-for="(action, i) in actions"
                 :key="i"
