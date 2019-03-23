@@ -13,8 +13,7 @@ stages:
   - test
   - name: deploy
     if: type != pull_request AND branch = master
-  - name: release
-    if: type != pull_request AND branch = master
+  - release
 
 jobs:
   include:
