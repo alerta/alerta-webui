@@ -389,9 +389,9 @@ export default {
     showPassword: false,
     rules: {
       required: v => !!v || 'Required.',
-      min: v => !v || v.length >= 6 || 'Min 6 characters',
+      min: v => (v && v.length >= 6) || 'Min 6 characters',
       passwordMatch: v =>
-        !v || v == vm.editedItem.password || 'Passwords entered don\'t match'
+        (v && v == vm.editedItem.password) || 'Passwords entered don\'t match'
     }
   }),
   computed: {

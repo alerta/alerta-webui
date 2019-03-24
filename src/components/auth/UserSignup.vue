@@ -24,7 +24,7 @@
             Sorry, sign up is not currently available
           </span>
         </p>
-        <v-form @submit.prevent="signup()">
+        <v-form ref="form">
           <v-text-field
             v-model="name"
             name="name"
@@ -32,6 +32,8 @@
             label="Full Name"
             :disabled="!signupEnabled"
             outline
+            :rules="[rules.required]"
+            required
           />
           <v-text-field
             v-model="email"
@@ -41,16 +43,19 @@
             prepend-inner-icon="alternate_email"
             :disabled="!signupEnabled"
             outline
+            :rules="[rules.required]"
+            required
           />
           <v-text-field
             v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
             label="Password"
-            :rules="[rules.min]"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
             outline
+            :rules="[rules.min]"
+            required
             @click:append="showPassword = !showPassword"
           />
           <v-text-field
@@ -59,9 +64,10 @@
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :type="showPassword ? 'text' : 'password'"
             label="Confirm Password"
-            :rules="[rules.passwordMatch]"
             :disabled="!signupEnabled"
             outline
+            :rules="[rules.passwordMatch]"
+            required
             @click:append="showPassword = !showPassword"
           />
           <v-text-field
@@ -77,7 +83,7 @@
             :disabled="!signupEnabled || isSending"
             block
             color="primary"
-            type="submit"
+            @click="validate"
           >
             Sign Up
           </v-btn>
@@ -110,18 +116,18 @@ import { router } from '@/main'
 
 export default {
   props: [],
-  data: () => ({
+  data: vm => ({
     name: null,
     email: null,
-    password: null,
-    confirmPassword: null,
+    password: '',
+    confirmPassword: '',
     showPassword: false,
     text: null,
     rules: {
       required: v => !!v || 'Required.',
-      min: v => !v || v.length >= 6 || 'Min 6 characters',
+      min: v => (v && v.length >= 6) || 'Min 6 characters',
       passwordMatch: v =>
-        v == this.password || 'Passwords entered don\'t match'
+        (v && v == vm.password) || 'Passwords entered don\'t match'
     }
   }),
   computed: {
@@ -136,17 +142,22 @@ export default {
     }
   },
   methods: {
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.$refs.form.resetValidation()
+        this.signup()
+      }
+    },
     signup() {
+      let credentials = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        text: this.text
+      }
       this.$store
-        .dispatch('auth/signup', {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          text: this.text
-        })
-        .then(() => {
-          this.$router.push(this.$route.query.redirect || '/')
-        })
+        .dispatch('auth/signup', credentials)
+        .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
         .catch(error => {
           if (error.response.status === 403 && this.emailVerification) {
             this.$router.push('/login')

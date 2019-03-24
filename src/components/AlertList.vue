@@ -214,7 +214,7 @@
                 {{ props.item.previousSeverity | capitalize }}
               </span>
             </span>
-            <!-- trendIndication -->
+            <!-- trendIndication not supported -->
             <span
               v-if="col == 'receiveTime'"
               @click="selectItem(props.item)"

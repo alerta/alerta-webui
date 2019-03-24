@@ -46,12 +46,14 @@ const actions = {
       .then(response => {
         dispatch('getUsers')
       })
+      .then(() => dispatch('notifications/success', 'User status saved.', { root: true }))
   },
   setEmailVerified({ dispatch, commit }, [userId, emailVerified]) {
     return UsersApi.updateUser(userId, { email_verified: emailVerified })
       .then(response => {
         dispatch('getUsers')
       })
+      .then(() => dispatch('notifications/success', 'Email verified saved.', { root: true }))
   },
   deleteUser({ dispatch, commit }, userId) {
     return UsersApi.deleteUser(userId)

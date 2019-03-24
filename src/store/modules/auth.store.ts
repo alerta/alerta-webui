@@ -45,7 +45,7 @@ export function makeStore(vueAuth) {
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
           .finally(() => commit('RESET_SENDING'))
       },
-      login({ commit, dispatch }, { credentials }) {
+      login({ commit, dispatch }, credentials) {
         return vueAuth
           .login(credentials)
           .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))

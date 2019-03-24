@@ -5,7 +5,8 @@
   >
     <div v-if="!isKiosk">
       <v-navigation-drawer
-        :value="showDrawer"
+        v-if="isLoggedIn || !$config.auth_required"
+        v-model="drawer"
         :clipped="$vuetify.breakpoint.lgAndUp"
         disable-resize-watcher
         fixed
@@ -157,7 +158,7 @@
           </v-tooltip>
         </div>
 
-        <v-spacer />
+        <v-spacer class="hidden-sm-and-down" />
 
         <v-btn
           v-show="!isLoggedIn && $config.signup_enabled"
@@ -335,7 +336,11 @@
             </v-icon>
           </v-btn>
 
-          <v-list>
+          <v-list
+            subheader
+          >
+            <v-subheader>Actions</v-subheader>
+            <v-divider />
             <v-list-tile
               v-for="(action, i) in actions"
               :key="i"
@@ -550,9 +555,6 @@ export default {
     ]
   }),
   computed: {
-    showDrawer() {
-      return this.isLoggedIn ? this.drawer : false
-    },
     isDark() {
       return this.$store.getters.getPreference('isDark')
     },

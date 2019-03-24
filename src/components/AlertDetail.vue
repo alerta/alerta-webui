@@ -17,23 +17,6 @@
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <!-- <v-tooltip bottom>
-          <v-btn
-            v-show="isAcked(item.status) || isClosed(item.status)"
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="takeAction(item.id, 'open')"
-          >
-            <v-icon
-              size="20px"
-            >
-              refresh
-            </v-icon>
-          </v-btn>
-          <span>Open</span>
-        </v-tooltip> -->
-
         <v-tooltip bottom>
           <v-btn
             v-show="!isWatched(item.tags)"
@@ -330,7 +313,10 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div
+                        v-if="item.service"
+                        class="font-weight-regular"
+                      >
                         {{ item.service.join(', ') }}
                       </div>
                     </div>

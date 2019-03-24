@@ -321,9 +321,6 @@
           <td class="text-xs-left">
             {{ props.item.user }}
           </td>
-          <!-- <td class="text-xs-left">
-            <date-time :value="props.item.createTime" format="mediumDate"/> FIXME
-          </td> -->
           <td class="text-xs-left">
             {{ props.item.text }}
           </td>

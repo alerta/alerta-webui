@@ -18,9 +18,7 @@
           Filters
         </v-toolbar-title>
         <v-spacer />
-        <v-toolbar-items>
-          <!-- <v-btn flat @click="dialog = false">Reset</v-btn> -->
-        </v-toolbar-items>
+        <v-toolbar-items />
         <v-menu
           bottom
           right

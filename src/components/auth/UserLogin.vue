@@ -11,12 +11,21 @@
       <v-flex
         v-show="!isBasicAuth"
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
-          Authenticating with {{ providerName }} ...
+        <p
+          v-if="authProvider"
+          class="headline text-xs-center font-weight-medium"
+        >
+          Authenticating with {{ authProvider }} ...
+        </p>
+        <p
+          v-else
+          class="headline text-xs-center font-weight-medium"
+        >
+          Unknown authentication provider ({{ $config.provider || 'none' }}).
         </p>
       </v-flex>
       <v-flex
@@ -97,15 +106,16 @@ export default {
     isBasicAuth() {
       return this.$config.provider == 'basic'
     },
-    providerName() {
-      return this.$store.getters['auth/getOptions']['providers'][this.$config.provider].name
+    authProvider() {
+      let providers = this.$store.getters['auth/getOptions']['providers']
+      return providers[this.$config.provider] ? providers[this.$config.provider].name : null
     },
     signupEnabled() {
       return this.$store.getters.getConfig('signup_enabled')
     }
   },
   created() {
-    if (!this.isBasicAuth) {
+    if (this.authProvider) {
       this.authenticate()
     }
   },
@@ -116,7 +126,7 @@ export default {
         password: this.password
       }
       this.$store
-        .dispatch('auth/login', { credentials: credentials })
+        .dispatch('auth/login', credentials)
         .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
     },
     authenticate() {
