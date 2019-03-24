@@ -51,9 +51,9 @@ export function makeStore(vueAuth) {
           .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
       },
-      authenticate({ commit, dispatch }, payload) {
+      authenticate({ commit, dispatch }, provider) {
         return vueAuth
-          .authenticate(payload.provider)
+          .authenticate(provider)
           .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
       },
@@ -77,6 +77,9 @@ export function makeStore(vueAuth) {
     },
 
     getters: {
+      getOptions() {
+        return vueAuth.options
+      },
       getPayload() {
         return vueAuth.getPayload()
       },

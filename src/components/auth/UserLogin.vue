@@ -16,7 +16,7 @@
         offset-sm3
       >
         <p class="text-xs-center headline font-weight-medium">
-          Using {{ $config.provider | capitalize }} for authentication...
+          Authenticating with {{ providerName }} ...
         </p>
       </v-flex>
       <v-flex
@@ -95,7 +95,10 @@ export default {
   }),
   computed: {
     isBasicAuth() {
-      return this.$config.provider.startsWith('basic')
+      return this.$config.provider == 'basic'
+    },
+    providerName() {
+      return this.$store.getters['auth/getOptions']['providers'][this.$config.provider].name
     },
     signupEnabled() {
       return this.$store.getters.getConfig('signup_enabled')
@@ -118,7 +121,7 @@ export default {
     },
     authenticate() {
       this.$store
-        .dispatch('auth/authenticate', { provider: this.$config.provider })
+        .dispatch('auth/authenticate', this.$config.provider)
         .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
     }
   }
