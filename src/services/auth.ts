@@ -17,7 +17,7 @@ export function vueAuth(config) {
     registerUrl: '/auth/signup',
     providers: {
       azure: {
-        name: 'azure',
+        name: 'Azure Active Directory',
         url: `${config.endpoint}/auth/azure`,
         clientId: config.client_id,
         authorizationEndpoint: `https://login.microsoftonline.com/${config.azure_tenant}/oauth2/authorize`,
@@ -27,13 +27,14 @@ export function vueAuth(config) {
         popupOptions: { width: 1020, height: 618 }
       },
       github: {
+        name: 'GitHub',
         url: `${config.endpoint}/auth/github`,
         clientId: config.client_id,
         authorizationEndpoint: `${config.github_url}/login/oauth/authorize`,
         scope: ['user:email', 'read:org']
       },
       gitlab: {
-        name: 'gitlab',
+        name: 'GitLab',
         url: `${config.endpoint}/auth/gitlab`,
         clientId: config.client_id,
         authorizationEndpoint: `${config.gitlab_url}/oauth/authorize`,
@@ -45,11 +46,12 @@ export function vueAuth(config) {
         popupOptions: { width: 1020, height: 618 }
       },
       google: {
+        name: 'Google',
         url: `${config.endpoint}/auth/google`,
         clientId: config.client_id
       },
       keycloak: {
-        name: 'keycloak',
+        name: 'Keycloak',
         url: `${config.endpoint}/auth/keycloak`,
         clientId: config.client_id,
         authorizationEndpoint: `${config.keycloak_url}/auth/realms/${
@@ -59,7 +61,7 @@ export function vueAuth(config) {
         oauthType: '2.0'
       },
       openid: {
-        name: 'openid',
+        name: 'OpenID',
         url: `${config.endpoint}/auth/openid`,
         clientId: config.client_id,
         authorizationEndpoint: config.oidc_auth_url,
@@ -73,7 +75,7 @@ export function vueAuth(config) {
         state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       pingfederate: {
-        name: 'pingfederate',
+        name: 'PingFederate',
         url: `${config.endpoint}/auth/pingfederate`,
         clientId: config.client_id,
         authorizationEndpoint: config.pingfederate_url,
