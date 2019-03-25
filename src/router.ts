@@ -24,7 +24,7 @@ Vue.use(VueRouter)
 export function createRouter(): VueRouter {
   const router = new VueRouter({
     mode: 'history',
-    base: process.env.BASE_URL,
+    base: '/alerta-web/',
     routes: [
       {
         path: '/',
