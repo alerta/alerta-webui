@@ -26,9 +26,10 @@ import '@/filters/splitCaps'
 import '@/filters/timeago'
 import '@/filters/until'
 
-export function createApp() {
-  const store = createStore()
-  const router = createRouter()
+export const store = createStore()
+
+export function createApp(config) {
+  const router = createRouter(config.base_path)
   sync(store, router)
 
   const app = new Vue({
@@ -36,15 +37,14 @@ export function createApp() {
     store,
     render: (h: any) => h(App)
   })
-
-  return { app, router, store }
+  return { app, router }
 }
-
-export const { app, router, store }: any = createApp()
 
 bootstrap.getConfig().then(config => {
   Vue.prototype.$config = config
   axios.defaults.baseURL = config.endpoint
+
+  const { app, router }: any = createApp(config)
 
   store.dispatch('update', config)
   store.registerModule('auth', makeStore(vueAuth(config)))
@@ -54,9 +54,7 @@ bootstrap.getConfig().then(config => {
     router
   })
 
-  axios.interceptors.request.use(interceptors.addXsrfHeader)
   axios.interceptors.response.use(undefined, interceptors.interceptErrors)
-  axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
 
   app.$mount('#app')
 })

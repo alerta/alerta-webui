@@ -115,8 +115,6 @@
 </template>
 
 <script>
-import { router } from '@/main'
-
 export default {
   props: [],
   data: () => ({

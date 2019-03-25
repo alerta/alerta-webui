@@ -21,10 +21,10 @@ import Settings from './views/Settings.vue'
 
 Vue.use(VueRouter)
 
-export function createRouter(): VueRouter {
+export function createRouter(basePath): VueRouter {
   const router = new VueRouter({
     mode: 'history',
-    base: process.env.BASE_URL,
+    base: basePath || process.env.BASE_URL,
     routes: [
       {
         path: '/',
