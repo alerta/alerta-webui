@@ -53,7 +53,7 @@ class Config {
 
   getLocalConfig() {
     return this.$http
-      .get('/config.json')
+      .get('./config.json')
       .then(response => response.data)
       .catch((error: any) => {
         console.log(error)
