@@ -56,6 +56,7 @@ export function makeStore(vueAuth) {
           .authenticate(provider)
           .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
+          .catch((error: any) => console.warn(error.message))
       },
       confirm({ commit }, token) {
         return AuthApi.confirm(token)
