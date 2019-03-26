@@ -21,10 +21,10 @@ import Settings from './views/Settings.vue'
 
 Vue.use(VueRouter)
 
-export function createRouter(): VueRouter {
+export function createRouter(baseUrl): VueRouter {
   const router = new VueRouter({
     mode: 'history',
-    base: '/alerta-web/',
+    base: baseUrl || process.env.BASE_URL,
     routes: [
       {
         path: '/',
