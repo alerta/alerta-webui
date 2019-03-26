@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter, { RouterOptions } from 'vue-router'
 
+import { store } from '@/main'
+
 import Home from './views/Home.vue'
 import Alerts from './views/Alerts.vue'
 import Alert from './views/Alert.vue'
@@ -140,7 +142,7 @@ export function createRouter(basePath): VueRouter {
   // redirect users not logged in to /login if authentication enabled
   router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (!router.app.$store.getters['auth/isLoggedIn']) {
+      if (!store.getters['auth/isLoggedIn']) {
         next({
           path: '/login',
           query: { redirect: to.fullPath }

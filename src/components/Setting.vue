@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     toggle(value) {
-      this.$store.dispatch('update', [this.switch, value])
+      this.$store.dispatch('updateConfig', [this.switch, value])
     }
   },
   getters: {
