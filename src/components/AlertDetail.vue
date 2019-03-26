@@ -669,20 +669,16 @@
             :transition="false"
             :reverse-transition="false"
           >
-            <div class="tab-item-wrapper">
-              <v-container>
-                <v-layout>
-                  <v-flex>
-                    <v-card
-                      :color="isDark ? 'grey darken-1' : 'grey lighten-3'"
-                      flat
-                    >
-                      <pre>{{ item.rawData || 'no raw data' }}</pre>
-                    </v-card>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </div>
+            <v-card
+              :color="isDark ? 'grey darken-1' : 'grey lighten-3'"
+              class="mx-1"
+              style="overflow-x: auto;"
+              flat
+            >
+              <v-card-text>
+                <pre>{{ item.rawData || 'no raw data' }}</pre>
+              </v-card-text>
+            </v-card>
           </v-tab-item>
         </v-tabs>
       </v-card>
