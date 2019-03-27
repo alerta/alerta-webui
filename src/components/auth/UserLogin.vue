@@ -125,12 +125,12 @@ export default {
       }
       this.$store
         .dispatch('auth/login', credentials)
-        .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
+        .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
     },
     authenticate() {
       this.$store
         .dispatch('auth/authenticate', this.$config.provider)
-        .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
+        .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
     }
   }
 }

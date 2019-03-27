@@ -56,7 +56,6 @@ export function makeStore(vueAuth) {
           .authenticate(provider)
           .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
-          .catch((error: any) => console.warn(error.message))
       },
       confirm({ commit }, token) {
         return AuthApi.confirm(token)
@@ -71,6 +70,7 @@ export function makeStore(vueAuth) {
         return AuthApi.reset(token, password)
       },
       logout({ commit }) {
+        if (!vueAuth.isAuthenticated()) return
         return vueAuth
           .logout()
           .then(() => commit('RESET_AUTH'))
@@ -88,7 +88,7 @@ export function makeStore(vueAuth) {
         return vueAuth.isAuthenticated()
       },
       scopes(state) {
-        return state.payload ? state.payload.scope.split(' ') : []
+        return state.payload && state.payload.scope ? state.payload.scope.split(' ') : []
       },
       isAdmin(state, getters) {
         if (getters.isLoggedIn) {
