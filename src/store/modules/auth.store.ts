@@ -5,9 +5,9 @@ export function makeStore(vueAuth) {
     namespaced: true,
 
     state: {
-      isAuthenticated: false,
-      token: null,
-      payload: {},
+      isAuthenticated: vueAuth.isAuthenticated(),
+      token: vueAuth.getToken(),
+      payload: vueAuth.getPayload(),
 
       isSending: false
     },
@@ -81,14 +81,14 @@ export function makeStore(vueAuth) {
       getOptions() {
         return vueAuth.options
       },
-      getPayload() {
-        return vueAuth.getPayload()
+      getPayload(state) {
+        return state.payload
       },
       isLoggedIn(state) {
-        return state.isAuthenticated // FIXME: vueAuth.isAuthenticated();
+        return vueAuth.isAuthenticated()
       },
       scopes(state) {
-        return 'scope' in state.payload ? state.payload.scope.split(' ') : []
+        return state.payload ? state.payload.scope.split(' ') : []
       },
       isAdmin(state, getters) {
         if (getters.isLoggedIn) {

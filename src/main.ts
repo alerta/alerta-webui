@@ -28,33 +28,27 @@ import '@/filters/until'
 
 export const store = createStore()
 
-export function createApp(config) {
-  const router = createRouter(config.base_path)
-  sync(store, router)
+bootstrap.getConfig()
+  .then(config => {
+    Vue.prototype.$config = config
 
-  const app = new Vue({
-    router,
-    store,
-    render: (h: any) => h(App)
+    store.dispatch('updateConfig', config)
+    store.registerModule('auth', makeStore(vueAuth(config)))
+
+    axios.defaults.baseURL = config.endpoint
+    axios.interceptors.response.use(undefined, interceptors.interceptErrors)
+
+    const router = createRouter(config.base_path)
+
+    Vue.use(GoogleAnalytics, {
+      trackingId: config.tracking_id,
+      router
+    })
+    sync(store, router)
+
+    new Vue({
+      router,
+      store,
+      render: (h: any) => h(App)
+    }).$mount('#app')
   })
-  return { app, router }
-}
-
-bootstrap.getConfig().then(config => {
-  Vue.prototype.$config = config
-  axios.defaults.baseURL = config.endpoint
-
-  const { app, router }: any = createApp(config)
-
-  store.dispatch('update', config)
-  store.registerModule('auth', makeStore(vueAuth(config)))
-
-  Vue.use(GoogleAnalytics, {
-    trackingId: config.tracking_id,
-    router
-  })
-
-  axios.interceptors.response.use(undefined, interceptors.interceptErrors)
-
-  app.$mount('#app')
-})

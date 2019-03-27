@@ -43,7 +43,7 @@ const mutations = {
 }
 
 const actions = {
-  update({ commit }, config) {
+  updateConfig({ commit }, config) {
     commit('SET_CONFIG', config)
   }
 }
