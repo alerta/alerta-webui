@@ -19,6 +19,7 @@ import Signup from './views/Signup.vue'
 import Confirm from './views/Confirm.vue'
 import Forgot from './views/Forgot.vue'
 import Reset from './views/Reset.vue'
+import Logout from './views/Logout.vue'
 import Settings from './views/Settings.vue'
 
 Vue.use(VueRouter)
@@ -123,6 +124,12 @@ export function createRouter(basePath): VueRouter {
         name: 'reset',
         component: Reset,
         meta: { title: 'Reset Password' }
+      },
+      {
+        path: '/logout',
+        name: 'logout',
+        component: Logout,
+        meta: { title: 'Logout' }
       },
       {
         path: '/settings',

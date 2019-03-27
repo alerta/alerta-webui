@@ -104,7 +104,8 @@ export default {
     selectedId: null,
     selectedItem: {},
     sidesheet: false,
-    playSound: false
+    playSound: false,
+    timer: null
   }),
   computed: {
     filter() {
@@ -232,10 +233,11 @@ export default {
     this.setSearch(this.query)
     this.setKiosk(this.isKiosk)
     this.getEnvironments()
+    this.cancelTimer()
     this.refreshAlerts()
   },
   beforeDestroy() {
-    clearTimeout(this.timer)
+    this.cancelTimer()
   },
   methods: {
     setSearch(query) {
@@ -249,6 +251,12 @@ export default {
     },
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')
+    },
+    cancelTimer() {
+      if (this.timer) {
+        clearTimeout(this.timer)
+        this.timer = null
+      }
     },
     refreshAlerts() {
       this.getAlerts()
