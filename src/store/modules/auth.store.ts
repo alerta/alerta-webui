@@ -70,7 +70,6 @@ export function makeStore(vueAuth) {
         return AuthApi.reset(token, password)
       },
       logout({ commit }) {
-        if (!vueAuth.isAuthenticated()) return
         return vueAuth
           .logout()
           .then(() => commit('RESET_AUTH'))
@@ -85,7 +84,7 @@ export function makeStore(vueAuth) {
         return state.payload
       },
       isLoggedIn(state) {
-        return vueAuth.isAuthenticated()
+        return state.isAuthenticated
       },
       scopes(state) {
         return state.payload && state.payload.scope ? state.payload.scope.split(' ') : []

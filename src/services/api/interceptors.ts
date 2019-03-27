@@ -9,7 +9,7 @@ export function makeInterceptors(router) {
       }
       return Promise.reject(error)
     },
-  
+
     // redirect to login if API rejects auth token
     redirectToLogin(error) {
       if (error.response && error.response.status === 401) {
