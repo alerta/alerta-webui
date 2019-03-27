@@ -29,12 +29,6 @@ export function createRouter(basePath): VueRouter {
     base: basePath || process.env.BASE_URL,
     routes: [
       {
-        path: '/',
-        name: 'home',
-        component: Home,
-        meta: { title: 'Home' }
-      },
-      {
         path: '/alerts',
         name: 'alerts',
         component: Alerts,
@@ -135,6 +129,10 @@ export function createRouter(basePath): VueRouter {
         name: 'settings',
         component: Settings,
         meta: { title: 'Settings', requiresAuth: true }
+      },
+      {
+        path: '*',
+        redirect: '/alerts'
       }
     ]
   } as RouterOptions)

@@ -64,14 +64,14 @@ const actions = {
       commit('ADD_SNACKBAR', {
         type: error.status,
         text: `${error.message} (${error.code})`,
-        action: 'RETRY',
+        action: 'CLOSE',
         timeout: 5000
       })
     } else {
       commit('ADD_SNACKBAR', {
         type: 'error',
         text: `${error.name}: ${error.message}`,
-        action: 'RETRY',
+        action: 'CLOSE',
         timeout: 5000
       })
     }

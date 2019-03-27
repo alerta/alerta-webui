@@ -155,10 +155,10 @@ export default {
       }
       this.$store
         .dispatch('auth/signup', credentials)
-        .then(() => this.$router.push(this.$route.query.redirect || '/alerts'))
+        .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
         .catch(error => {
           if (error.response.status === 403 && this.emailVerification) {
-            this.$router.push('/login')
+            this.$router.push({ name: 'login' })
           }
         })
     }

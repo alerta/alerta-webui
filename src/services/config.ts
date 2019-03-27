@@ -56,7 +56,7 @@ class Config {
       .get('./config.json')
       .then(response => response.data)
       .catch((error: any) => {
-        console.log(error)
+        console.warn(error.message)
       })
   }
 
@@ -65,7 +65,7 @@ class Config {
       .get(`${endpoint}/config`)
       .then(response => response.data)
       .catch((error: any) => {
-        console.log(error)
+        console.error(error.message)
       })
   }
 

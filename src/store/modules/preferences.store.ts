@@ -30,6 +30,7 @@ const actions = {
   getUserPrefs({ dispatch, commit }) {
     return UsersApi.getMeAttributes()
       .then(({ attributes }) => commit('SET_PREFS', attributes.prefs))
+      .catch((error) => dispatch('notifications/error', Error('Could not retrieve user preferences.'), { root: true }))
   },
   toggle({ dispatch, commit }, [s, v]) {
     return UsersApi.updateMeAttributes({ prefs: { [s]: v } })

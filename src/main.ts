@@ -7,7 +7,7 @@ import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
 import axios from 'axios'
 import { makeStore } from '@/store/modules/auth.store'
-import interceptors from '@/services/api/interceptors'
+import { makeInterceptors } from '@/services/api/interceptors'
 import { vueAuth } from '@/services/auth'
 import GoogleAnalytics from '@/plugins/analytics'
 
@@ -30,15 +30,16 @@ export const store = createStore()
 
 bootstrap.getConfig()
   .then(config => {
-    Vue.prototype.$config = config
+    const router = createRouter(config.base_path)
 
+    Vue.prototype.$config = config
     store.dispatch('updateConfig', config)
     store.registerModule('auth', makeStore(vueAuth(config)))
-
     axios.defaults.baseURL = config.endpoint
-    axios.interceptors.response.use(undefined, interceptors.interceptErrors)
 
-    const router = createRouter(config.base_path)
+    const interceptors = makeInterceptors(router)
+    axios.interceptors.response.use(undefined, interceptors.interceptErrors)
+    axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
 
     Vue.use(GoogleAnalytics, {
       trackingId: config.tracking_id,

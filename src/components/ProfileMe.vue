@@ -217,7 +217,7 @@ export default {
     logout() {
       this.$store
         .dispatch('auth/logout')
-        .then(() => this.$router.push('/'))
+        .then(() => this.$router.push({ name: 'login' }))
     },
     close() {
       this.$emit('close')
