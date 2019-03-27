@@ -40,6 +40,15 @@ const state = {
     service: null,
     group: null,
     dateRange: [null, null]
+  },
+
+  pagination: {
+    descending: true,
+    page: 1,
+    rowsPerPage: 20,
+    sortBy: 'default',
+    totalItems: 0,
+    rowsPerPageItems: [10, 20, 30, 40]
   }
 }
 
@@ -95,6 +104,9 @@ const mutations = {
   },
   RESET_FILTER(state): any {
     state.filter = Object.assign({}, state.filter, getDefaultFilter())
+  },
+  SET_PAGINATION(state, pagination) {
+    state.pagination = pagination
   }
 }
 
@@ -190,6 +202,9 @@ const actions = {
   },
   resetFilter({ commit }) {
     commit('RESET_FILTER')
+  },
+  setPagination({ commit }, pagination) {
+    commit('SET_PAGINATION', pagination)
   }
 }
 

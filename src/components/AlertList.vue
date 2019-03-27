@@ -4,8 +4,8 @@
       v-model="selected"
       :headers="customHeaders"
       :items="alerts"
-      :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
+      :rows-per-page-items="pagination.rowsPerPageItems"
       class="alert-table"
       :search="search"
       must-sort
@@ -442,14 +442,6 @@ export default {
     }
   },
   data: () => ({
-    page: 1,
-    rowsPerPageItems: [10, 20, 30, 40],
-    pagination: {
-      sortBy: 'default',
-      descending: true,
-      rowsPerPage: 20
-    },
-    // totalItems: number,
     search: '',
     headersMap: {
       id: { text: 'Alert ID', value: 'id' },
@@ -486,6 +478,14 @@ export default {
     timer: null
   }),
   computed: {
+    pagination: {
+      get() {
+        return this.$store.state.alerts.pagination
+      },
+      set(value) {
+        this.$store.dispatch('alerts/setPagination', value)
+      }
+    },
     actions() {
       return this.$config.actions
     },
