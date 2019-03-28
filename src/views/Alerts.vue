@@ -249,7 +249,9 @@ export default {
   created() {
     this.currentTab = this.defaultTab
     this.setSearch(this.query)
-    this.setFilter(this.fromHash(this.hash))
+    if (this.hash) {
+      this.setFilter(this.fromHash(this.hash))
+    }
     this.setKiosk(this.isKiosk)
     this.getEnvironments()
     this.cancelTimer()
@@ -261,7 +263,7 @@ export default {
   methods: {
     fromHash(h) {
       let hash = decodeURI(h).substring(1)
-      return hash.split(';').map(x => x.split(':')).reduce((a, c) => Object.assign(a, {[c[0]]: c[1]}), {})
+      return hash ? hash.split(';').map(x => x.split(':')).reduce((a, c) => Object.assign(a, {[c[0]]: c[1]}), {}) : {}
     },
     toHash(f) {
       return '#' + Object.entries(f).filter(x => x[1]).reduce((a,c) => a.concat(c[0] + ':' + c[1]), []).join(';')
