@@ -34,9 +34,10 @@ const state = {
   isKiosk: false,
 
   filter: {
-    text: null,
     environment: null,
+    text: null,
     status: ['open', 'ack'],  // FIXME
+    customer: null,
     service: null,
     group: null,
     dateRange: [null, null]
