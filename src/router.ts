@@ -36,6 +36,7 @@ export function createRouter(basePath): VueRouter {
         props: route => ({
           query: route.query.q,
           isKiosk: route.query.kiosk,
+          hash: route.hash
         }),
         meta: { title: 'Alerts', requiresAuth: true }
       },

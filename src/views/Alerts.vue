@@ -15,6 +15,7 @@
 
     <v-tabs
       v-if="!dialog"
+      v-model="currentTab"
       class="px-1"
       grow
     >
@@ -51,7 +52,9 @@
       </v-btn>
       <span class="pr-2" />
 
-      <v-tabs-items>
+      <v-tabs-items
+        v-model="currentTab"
+      >
         <v-tab-item
           v-for="env in environments"
           :key="env.environment"
@@ -96,10 +99,15 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    hash: {
+      type: String,
+      required: false,
+      default: ''
     }
   },
-  data: () => ({
-    currentTab: 'ALL',
+  data: vm => ({
+    currentTab: 'tab-ALL',
     dialog: false,
     selectedId: null,
     selectedItem: {},
@@ -108,11 +116,14 @@ export default {
     timer: null
   }),
   computed: {
+    defaultTab() {
+      return this.fromHash(this.hash).environment ? `tab-${this.fromHash(this.hash).environment}` : 'tab-ALL'
+    },
     filter() {
       return this.$store.state.alerts.filter
     },
     isActive() {
-      return this.filter.text || this.filter.service || this.filter.dateRange[0] || this.filter.dateRange[1]
+      return this.filter.text || this.filter.status ||this.filter.customer || this.filter.service || this.filter.group || this.filter.dateRange[0] || this.filter.dateRange[1]
     },
     alerts() {
       if (this.filter) {
@@ -225,12 +236,20 @@ export default {
         this.playSound = false
       }
     },
+    filter: {
+      handler(val) {
+        history.pushState(null, null, this.toHash(val))
+      },
+      deep: true
+    },
     refresh(val) {
       val || this.getAlerts()
     }
   },
   created() {
+    this.currentTab = this.defaultTab
     this.setSearch(this.query)
+    this.setFilter(this.fromHash(this.hash))
     this.setKiosk(this.isKiosk)
     this.getEnvironments()
     this.cancelTimer()
@@ -240,8 +259,26 @@ export default {
     this.cancelTimer()
   },
   methods: {
+    fromHash(h) {
+      let hash = decodeURI(h).substring(1)
+      return hash.split(';').map(x => x.split(':')).reduce((a, c) => Object.assign(a, {[c[0]]: c[1]}), {})
+    },
+    toHash(f) {
+      return '#' + Object.entries(f).filter(x => x[1]).reduce((a,c) => a.concat(c[0] + ':' + c[1]), []).join(';')
+    },
     setSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
+    },
+    setFilter(filter) {
+      this.$store.dispatch('alerts/setFilter', {
+        environment: filter.environment,
+        text: filter.text,
+        status: filter.status ? filter.status.split(',') : null,
+        customer: filter.customer ? filter.customer.split(',') : null,
+        service: filter.service ? filter.service.split(',') : null,
+        group: filter.group ? filter.group.split(',') : null,
+        dateRange: filter.dateRange ? filter.dateRange.split(',').map(n => n ? parseInt(n) : null) : [null, null]
+      })
     },
     setKiosk(isKiosk) {
       this.$store.dispatch('alerts/updateKiosk', isKiosk)
