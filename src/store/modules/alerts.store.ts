@@ -107,7 +107,7 @@ const mutations = {
     state.filter = Object.assign({}, state.filter, getDefaultFilter())
   },
   SET_PAGINATION(state, pagination) {
-    state.pagination = pagination
+    state.pagination = Object.assign({}, state.pagination, pagination)
   }
 }
 
