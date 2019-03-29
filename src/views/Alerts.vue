@@ -218,6 +218,9 @@ export default {
     },
     isMute() {
       return this.$store.getters.getPreference('isMute')
+    },
+    pagination() {
+      return this.$store.state.alerts.pagination
     }
   },
   watch: {
@@ -238,7 +241,13 @@ export default {
     },
     filter: {
       handler(val) {
-        history.pushState(null, null, this.toHash(val))
+        history.pushState(null, null, `#${this.toHash(val)};sb:${this.pagination.sortBy};sd:${this.pagination.descending ? 1 : 0 }`)
+      },
+      deep: true
+    },
+    pagination: {
+      handler(val) {
+        history.pushState(null, null, `#${this.toHash(this.filter)};sb:${val.sortBy};sd:${val.descending ? 1 : 0 }`)
       },
       deep: true
     },
@@ -250,7 +259,9 @@ export default {
     this.currentTab = this.defaultTab
     this.setSearch(this.query)
     if (this.hash) {
-      this.setFilter(this.fromHash(this.hash))
+      let hashMap = this.fromHash(this.hash)
+      this.setFilter(hashMap)
+      this.setSort(hashMap)
     }
     this.setKiosk(this.isKiosk)
     this.getEnvironments()
@@ -266,7 +277,7 @@ export default {
       return hash ? hash.split(';').map(x => x.split(':')).reduce((a, c) => Object.assign(a, {[c[0]]: c[1]}), {}) : {}
     },
     toHash(f) {
-      return '#' + Object.entries(f).filter(x => x[1]).reduce((a,c) => a.concat(c[0] + ':' + c[1]), []).join(';')
+      return Object.entries(f).filter(x => x[1]).reduce((a,c) => a.concat(c[0] + ':' + c[1]), []).join(';')
     },
     setSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
@@ -280,6 +291,12 @@ export default {
         service: filter.service ? filter.service.split(',') : null,
         group: filter.group ? filter.group.split(',') : null,
         dateRange: filter.dateRange ? filter.dateRange.split(',').map(n => n ? parseInt(n) : null) : [null, null]
+      })
+    },
+    setSort(sort) {
+      this.$store.dispatch('alerts/setPagination', {
+        descending: sort.sd == '1',
+        sortBy: sort.sb
       })
     },
     setKiosk(isKiosk) {
