@@ -196,8 +196,8 @@ export default {
   },
   data: () => ({
     provider: {
-      basic: { icon: 'fas fa-id-card', text: 'BasicAuth' }, // FIXME
-      basic_ldap: { icon: 'fas fa-id-card', text: 'LDAP' },
+      basic: { icon: 'fas fa-id-card', text: 'BasicAuth' },
+      ldap: { icon: 'fas fa-id-card', text: 'LDAP' },
       azure: { icon: 'fab fa-windows', text: 'Azure OAuth2' },
       github: { icon: 'fab fa-github', text: 'GitHub OAuth2' },
       gitlab: { icon: 'fab fa-gitlab', text: 'GitLab OAuth2' },

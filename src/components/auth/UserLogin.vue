@@ -102,7 +102,7 @@ export default {
   }),
   computed: {
     isBasicAuth() {
-      return this.$config.provider == 'basic'
+      return this.$config.provider == 'basic' || this.$config.provider == 'ldap'
     },
     authProvider() {
       let providers = this.$store.getters['auth/getOptions']['providers']
