@@ -68,6 +68,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.password"
+                    :disabled="!isBasicAuth"
                     :append-icon="
                       showPassword ? 'visibility_off' : 'visibility'
                     "
@@ -84,6 +85,7 @@
                   sm6
                 >
                   <v-text-field
+                    :disabled="!isBasicAuth"
                     :append-icon="
                       showPassword ? 'visibility_off' : 'visibility'
                     "
@@ -395,6 +397,9 @@ export default {
     }
   }),
   computed: {
+    isBasicAuth() {
+      return this.$config.provider == 'basic'
+    },
     users() {
       return this.$store.state.users.users
     },
