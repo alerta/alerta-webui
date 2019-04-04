@@ -22,6 +22,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.name"
+                    :disabled="!isBasicAuth"
                     label="Name"
                     :rules="[rules.required]"
                     required
@@ -46,6 +47,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.email"
+                    :disabled="!isBasicAuth"
                     label="Email"
                     :rules="[rules.required]"
                     required
@@ -67,17 +69,23 @@
                   sm6
                 >
                   <v-text-field
+                    v-show="isBasicAuth"
                     v-model="editedItem.password"
-                    :disabled="!isBasicAuth"
                     :append-icon="
                       showPassword ? 'visibility_off' : 'visibility'
                     "
-                    :rules="[rules.min]"
+                    :rules="isBasicAuth ? [rules.min] : []"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
                     label="Password"
                     class="input-group--focused"
                     @click:append="showPassword = !showPassword"
+                  />
+                  <v-text-field
+                    v-show="!isBasicAuth"
+                    disabled
+                    append-icon="visibility"
+                    label="Password"
                   />
                 </v-flex>
                 <v-flex
@@ -85,16 +93,22 @@
                   sm6
                 >
                   <v-text-field
-                    :disabled="!isBasicAuth"
+                    v-show="isBasicAuth"
                     :append-icon="
                       showPassword ? 'visibility_off' : 'visibility'
                     "
-                    :rules="[rules.passwordMatch]"
+                    :rules="isBasicAuth ? [rules.passwordMatch] : []"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
                     label="Confirm Password"
                     :value="editedItem.confirmPassword"
                     @click:append="showPassword = !showPassword"
+                  />
+                  <v-text-field
+                    v-show="!isBasicAuth"
+                    disabled
+                    append-icon="visibility"
+                    label="Confirm Password"
                   />
                 </v-flex>
 
@@ -329,6 +343,7 @@
     </v-card>
 
     <list-button-add
+      v-show="isBasicAuth"
       perms="admin:users"
       @add-to-list="dialog = true"
     />
