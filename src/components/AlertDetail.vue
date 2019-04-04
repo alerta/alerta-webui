@@ -700,6 +700,7 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce'
 import DateTime from './DateTime'
 import AlertActions from '@/components/AlertActions'
 
@@ -794,39 +795,39 @@ export default {
     isClosed(status) {
       return status == 'closed'
     },
-    takeAction(id, action, text) {
+    takeAction: debounce(function(id, action, text) {
       text = text || `${action} by ${this.username}`
       this.$store
         .dispatch('alerts/takeAction', [id, action, text])
         .then(() => this.getAlert(this.id))
-    },
-    shelveAlert(id, text) {
+    }, 200, {leading: true, trailing: false}),
+    shelveAlert: debounce(function(id, text) {
       text = text || `shelved by ${this.username}`
       this.$store
         .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout * 3600])
         .then(() => this.getAlert(this.id))
-    },
-    watchAlert(id) {
+    }, 200, {leading: true, trailing: false}),
+    watchAlert: debounce(function(id) {
       this.$store
         .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
         .then(() => this.getAlert(this.id))
-    },
-    unwatchAlert(id) {
+    }, 200, {leading: true, trailing: false}),
+    unwatchAlert: debounce(function(id) {
       this.$store
         .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
         .then(() => this.getAlert(this.id))
-    },
-    addNote(id, text) {
+    }, 200, {leading: true, trailing: false}),
+    addNote: debounce(function(id, text) {
       this.$store
         .dispatch('alerts/addNote', [id, text])
         .then(() => {
           this.getAlert(this.id)
         })
-    },
-    deleteAlert(id) {
+    }, 200, {leading: true, trailing: false}),
+    deleteAlert: debounce(function(id) {
       confirm('Are you sure you want to delete this item?') &&
         this.$store.dispatch('alerts/deleteAlert', id)
-    },
+    }, 200, {leading: true, trailing: false}),
     close() {
       this.$emit('close')
     }

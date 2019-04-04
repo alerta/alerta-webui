@@ -428,6 +428,7 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce'
 import DateTime from './DateTime'
 import moment from 'moment'
 
@@ -596,11 +597,11 @@ export default {
     isClosed(status) {
       return status == 'closed'
     },
-    takeAction(id, action) {
+    takeAction: debounce(function(id, action) {
       this.$store
         .dispatch('alerts/takeAction', [id, action, 'operator action short-cut'])
-    },
-    shelveAlert(id) {
+    }, 200, {leading: true, trailing: false}),
+    shelveAlert: debounce(function(id) {
       this.$store
         .dispatch('alerts/takeAction', [
           id,
@@ -608,19 +609,19 @@ export default {
           'operator shelve short-cut',
           this.shelveTimeout * 3600
         ])
-    },
-    watchAlert(id) {
+    }, 200, {leading: true, trailing: false}),
+    watchAlert: debounce(function(id) {
       this.$store
         .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
-    },
-    unwatchAlert(id) {
+    }, 200, {leading: true, trailing: false}),
+    unwatchAlert: debounce(function(id) {
       this.$store
         .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
-    },
-    deleteAlert(id) {
+    }, 200, {leading: true, trailing: false}),
+    deleteAlert: debounce(function(id) {
       confirm('Are you sure you want to delete this item?') &&
         this.$store.dispatch('alerts/deleteAlert', id)
-    }
+    }, 200, {leading: true, trailing: false}),
   }
 }
 </script>
