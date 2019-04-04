@@ -69,6 +69,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn
+                  :disabled="!isAcked && !isClosed"
                   color="green"
                   class="white--text"
                   @click="takeAction('open')"
@@ -77,29 +78,10 @@
                 </v-btn>
 
                 <v-btn
-                  v-show="!isShelved"
-                  color="blue"
-                  class="white--text"
-                  :disabled="isClosed"
-                  @click="shelveAlert()"
-                >
-                  <v-icon>schedule</v-icon>&nbsp;Shelve
-                </v-btn>
-
-                <v-btn
-                  v-show="isShelved"
-                  color="blue"
-                  class="white--text"
-                  @click="takeAction('unshelve')"
-                >
-                  <v-icon>schedule</v-icon>&nbsp;Unshelve
-                </v-btn>
-
-                <v-btn
                   v-show="!isAcked"
+                  :disabled="!isOpen"
                   color="blue darken-2"
                   class="white--text"
-                  :disabled="isShelved || isClosed"
                   @click="takeAction('ack')"
                 >
                   <v-icon>check_circle_outline</v-icon>&nbsp;Ack
@@ -115,9 +97,28 @@
                 </v-btn>
 
                 <v-btn
+                  v-show="!isShelved"
+                  :disabled="!isOpen && !isAcked"
+                  color="blue"
+                  class="white--text"
+                  @click="shelveAlert()"
+                >
+                  <v-icon>schedule</v-icon>&nbsp;Shelve
+                </v-btn>
+
+                <v-btn
+                  v-show="isShelved"
+                  color="blue"
+                  class="white--text"
+                  @click="takeAction('unshelve')"
+                >
+                  <v-icon>schedule</v-icon>&nbsp;Unshelve
+                </v-btn>
+
+                <v-btn
+                  :disabled="isClosed"
                   color="orange"
                   class="white--text"
-                  :disabled="isClosed"
                   @click="takeAction('close')"
                 >
                   <v-icon>highlight_off</v-icon>&nbsp;Close
@@ -182,6 +183,9 @@ export default {
   computed: {
     isDark() {
       return this.$store.getters.getPreference('isDark')
+    },
+    isOpen(status) {
+      return this.status == 'open' || this.status == 'NORM'
     },
     isAcked() {
       return this.status == 'ack' || this.status == 'ACKED'

@@ -19,6 +19,23 @@
 
         <v-tooltip bottom>
           <v-btn
+            :disabled="!isAcked(item.status) && !isClosed(item.status)"
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="takeAction(item.id, 'open')"
+          >
+            <v-icon
+              size="20px"
+            >
+              refresh
+            </v-icon>
+          </v-btn>
+          <span>Open</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <v-btn
             v-show="!isWatched(item.tags)"
             slot="activator"
             icon
@@ -54,6 +71,7 @@
         <v-tooltip bottom>
           <v-btn
             v-show="!isAcked(item.status)"
+            :disabled="!isOpen(item.status)"
             slot="activator"
             icon
             class="btn--plain px-1 mx-0"
@@ -88,6 +106,7 @@
         <v-tooltip bottom>
           <v-btn
             v-show="!isShelved(item.status)"
+            :disabled="!isOpen(item.status) && !isAcked(item.status)"
             slot="activator"
             icon
             class="btn--plain px-1 mx-0"
@@ -121,6 +140,7 @@
 
         <v-tooltip bottom>
           <v-btn
+            :disabled="isClosed(item.status)"
             slot="activator"
             icon
             class="btn--plain px-1 mx-0"
@@ -782,6 +802,9 @@ export default {
   methods: {
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
+    },
+    isOpen(status) {
+      return status == 'open' || status == 'NORM'
     },
     isWatched(tags) {
       return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
