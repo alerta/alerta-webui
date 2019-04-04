@@ -153,6 +153,8 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce'
+
 export default {
   props: {
     id: {
@@ -192,27 +194,27 @@ export default {
     }
   },
   methods: {
-    takeAction(action) {
+    takeAction: debounce(function(action) {
       this.$emit('take-action', this.id, action, this.text)
       this.close()
-    },
-    shelveAlert(action) {
+    }, 200, {leading: true, trailing: false}),
+    shelveAlert: debounce(function(action) {
       this.$emit('shelve-alert', this.id, this.text)
       this.close()
-    },
-    watchAlert() {
+    }, 200, {leading: true, trailing: false}),
+    watchAlert: debounce(function() {
       this.$emit('watch-alert', this.id)
-    },
-    unwatchAlert() {
+    }, 200, {leading: true, trailing: false}),
+    unwatchAlert: debounce(function() {
       this.$emit('unwatch-alert', this.id)
-    },
-    addNote(action) {
+    }, 200, {leading: true, trailing: false}),
+    addNote: debounce(function(action) {
       this.$emit('add-note', this.id, this.text)
       this.close()
-    },
-    deleteAlert() {
+    }, 200, {leading: true, trailing: false}),
+    deleteAlert: debounce(function() {
       this.$emit('delete-alert', this.id)
-    },
+    }, 200, {leading: true, trailing: false}),
     close() {
       this.text = null
       this.showForm = false
