@@ -304,7 +304,7 @@
               </v-btn>
 
               <v-btn
-                v-show="!isAcked(props.item.status)"
+                v-show="isOpen(props.item.status)"
                 flat
                 icon
                 small
@@ -333,7 +333,7 @@
               </v-btn>
 
               <v-btn
-                v-show="!isShelved(props.item.status)"
+                v-show="isOpen(props.item.status) || isAcked(props.item.status)"
                 flat
                 icon
                 small
@@ -584,6 +584,9 @@ export default {
     },
     selectItem(item) {
       this.$emit('set-alert', item)
+    },
+    isOpen(status) {
+      return status == 'open' || status == 'NORM'
     },
     isWatched(tags) {
       return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
