@@ -39,5 +39,8 @@ export default {
   },
   deleteUser(userId: string) {
     return api.delete(`/user/${userId}`)
+  },
+  getGroups(userId: string) {
+    return api.get(`/user/${userId}/groups`)
   }
 }

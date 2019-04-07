@@ -9,6 +9,7 @@ import Alert from './views/Alert.vue'
 import Heartbeats from './views/Heartbeats.vue'
 import Blackouts from './views/Blackouts.vue'
 import Users from './views/Users.vue'
+import Groups from './views/Groups.vue'
 import Perms from './views/Perms.vue'
 import Customers from './views/Customers.vue'
 import ApiKeys from './views/ApiKeys.vue'
@@ -64,6 +65,12 @@ export function createRouter(basePath): VueRouter {
         name: 'users',
         component: Users,
         meta: { title: 'Users', requiresAuth: true }
+      },
+      {
+        path: '/groups',
+        name: 'groups',
+        component: Groups,
+        meta: { title: 'Groups', requiresAuth: true }
       },
       {
         path: '/perms',

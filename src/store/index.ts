@@ -5,6 +5,7 @@ import alerts from './modules/alerts.store'
 import heartbeats from './modules/heartbeats.store'
 import blackouts from './modules/blackouts.store'
 import users from './modules/users.store'
+import groups from './modules/groups.store'
 import perms from './modules/perms.store'
 import customers from './modules/customers.store'
 import keys from './modules/keys.store'
@@ -43,6 +44,7 @@ export function createStore(): Store<State> {
       heartbeats,
       blackouts,
       users,
+      groups,
       perms,
       customers,
       keys,

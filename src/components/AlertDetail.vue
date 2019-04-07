@@ -19,8 +19,8 @@
 
         <v-tooltip bottom>
           <v-btn
-            :disabled="!isAcked(item.status) && !isClosed(item.status)"
             slot="activator"
+            :disabled="!isAcked(item.status) && !isClosed(item.status)"
             icon
             class="btn--plain px-1 mx-0"
             @click="takeAction(item.id, 'open')"
@@ -71,8 +71,8 @@
         <v-tooltip bottom>
           <v-btn
             v-show="!isAcked(item.status)"
-            :disabled="!isOpen(item.status)"
             slot="activator"
+            :disabled="!isOpen(item.status)"
             icon
             class="btn--plain px-1 mx-0"
             @click="takeAction(item.id, 'ack')"
@@ -106,8 +106,8 @@
         <v-tooltip bottom>
           <v-btn
             v-show="!isShelved(item.status)"
-            :disabled="!isOpen(item.status) && !isAcked(item.status)"
             slot="activator"
+            :disabled="!isOpen(item.status) && !isAcked(item.status)"
             icon
             class="btn--plain px-1 mx-0"
             @click="shelveAlert(item.id)"
@@ -140,8 +140,8 @@
 
         <v-tooltip bottom>
           <v-btn
-            :disabled="isClosed(item.status)"
             slot="activator"
+            :disabled="isClosed(item.status)"
             icon
             class="btn--plain px-1 mx-0"
             @click="takeAction(item.id, 'close')"

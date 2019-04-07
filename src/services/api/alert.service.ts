@@ -90,12 +90,12 @@ export default {
     let config = {
       params: query
     }
-    return api.get('/groups', config)
+    return api.get('/alerts/groups', config)
   },
   getTags(query: object) {
     let config = {
       params: query
     }
-    return api.get('/tags', config)
+    return api.get('/alerts/tags', config)
   }
 }
