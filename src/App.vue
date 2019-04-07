@@ -468,11 +468,18 @@ export default {
         show: true
       },
       {
-        icon: 'people',
+        icon: 'person',
         text: 'Users',
         path: '/users',
         perms: 'admin:users',
         show: true
+      },
+      {
+        icon: 'people',
+        text: 'Groups',
+        path: '/groups',
+        perms: 'read:groups',
+        show: vm.$config.provider == 'basic'
       },
       {
         icon: 'domain',

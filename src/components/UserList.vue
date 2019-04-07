@@ -117,6 +117,37 @@
                   sm6
                   md12
                 >
+                  <v-select
+                    v-model="userGroups"
+                    :items="allGroups"
+                    label="Groups"
+                    item-text="name"
+                    item-value="id"
+                    chips
+                    solo
+                    multiple
+                    readonly
+                  >
+                    <template
+                      slot="selection"
+                      slot-scope="data"
+                    >
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                      >
+                        <strong>{{ data.item.name }}</strong>&nbsp;
+                        <span>(group)</span>
+                      </v-chip>
+                    </template>
+                  </v-select>
+                </v-flex>
+
+                <v-flex
+                  xs12
+                  sm6
+                  md12
+                >
                   <v-combobox
                     v-model="editedItem.roles"
                     :items="allowedRoles"
@@ -393,6 +424,7 @@ export default {
       roles: [],
       text: ''
     },
+    editedGroups: null,
     defaultItem: {
       name: '',
       status: 'active',
@@ -418,6 +450,17 @@ export default {
     users() {
       return this.$store.state.users.users
     },
+    allGroups() {
+      return this.$store.state.groups.groups
+    },
+    userGroups: {
+      get() {
+        return this.$store.state.users.groups
+      },
+      set(value) {
+        this.editedGroups = value
+      }
+    },
     allowedRoles() {
       return this.$store.getters['perms/roles']
     },
@@ -436,16 +479,23 @@ export default {
       val || this.close()
     },
     refresh(val) {
-      val || this.getUsers()
+      this.getUsers()
     }
   },
   created() {
     this.getUsers()
+    this.getGroups()
     this.getPerms()
   },
   methods: {
     getUsers() {
       this.$store.dispatch('users/getUsers')
+    },
+    getGroups() {
+      this.$store.dispatch('groups/getGroups')
+    },
+    getUserGroups(userId) {
+      this.$store.dispatch('users/getUserGroups', userId)
     },
     getPerms() {
       this.$store.dispatch('perms/getPerms')
@@ -479,6 +529,7 @@ export default {
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
+      this.getUserGroups(item.id)
       this.dialog = true
     },
     deleteItem(item) {
@@ -513,6 +564,9 @@ export default {
             email_verified: this.editedItem.email_verified
           }
         ])
+        if (this.editedGroups) {
+          // FIXME - diff previous groups with this and update user groups
+        }
       } else {
         this.$store.dispatch('users/createUser', this.editedItem)
       }

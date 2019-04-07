@@ -6,7 +6,8 @@ const state = {
   isLoading: false,
 
   domains: [],
-  users: []
+  users: [],
+  groups: []
 }
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
   SET_USERS(state, users) {
     state.isLoading = false
     state.users = users
+  },
+  SET_USER_GROUPS(state, groups) {
+    state.groups = groups
   },
   RESET_LOADING(state) {
     state.isLoading = false
@@ -60,6 +64,10 @@ const actions = {
       .then(response => {
         dispatch('getUsers')
       })
+  },
+  getUserGroups({ dispatch, commit }, userId) {
+    return UsersApi.getGroups(userId)
+      .then(({ groups }) => commit('SET_USER_GROUPS', groups))
   }
 }
 
