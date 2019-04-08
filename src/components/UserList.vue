@@ -126,7 +126,6 @@
                     chips
                     solo
                     multiple
-                    readonly
                   >
                     <template
                       slot="selection"
@@ -564,12 +563,13 @@ export default {
             email_verified: this.editedItem.email_verified
           }
         ])
-        if (this.editedGroups) {
-          // FIXME - diff previous groups with this and update user groups
-        }
       } else {
         this.$store.dispatch('users/createUser', this.editedItem)
       }
+      let addedGroups = this.editedGroups.filter(g => !this.userGroups.map(g => g.id).includes(g))
+      let removedGroups = this.userGroups.map(g => g.id).filter(g => !this.editedGroups.includes(g))
+      addedGroups.map(groupId => this.$store.dispatch('groups/addUserToGroup', [groupId, this.editedId]))
+      removedGroups.map(groupId => this.$store.dispatch('groups/removeUserFromGroup', [groupId, this.editedId]))
       this.close()
     }
   }
