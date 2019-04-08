@@ -4,7 +4,10 @@
       v-model="dialog"
       max-width="500px"
     >
-      <v-form ref="form">
+      <v-form
+        ref="form"
+        autocomplete="off"
+      >
         <v-card>
           <v-card-title>
             <span class="headline">
@@ -35,8 +38,8 @@
                 >
                   <v-switch
                     v-model="editedItem.status"
-                    true-value="active"
-                    false-value="inactive"
+                    :true-value="'active'"
+                    :false-value="'inactive'"
                     label="Active"
                   />
                 </v-flex>
@@ -79,6 +82,7 @@
                     name="input-10-2"
                     label="Password"
                     class="input-group--focused"
+                    autocomplete="new-password"
                     @click:append="showPassword = !showPassword"
                   />
                   <v-text-field
@@ -102,6 +106,7 @@
                     name="input-10-2"
                     label="Confirm Password"
                     :value="editedItem.confirmPassword"
+                    autocomplete="new-password"
                     @click:append="showPassword = !showPassword"
                   />
                   <v-text-field
@@ -126,6 +131,7 @@
                     chips
                     solo
                     multiple
+                    :disabled="!editedId"
                   >
                     <template
                       slot="selection"
@@ -415,7 +421,7 @@ export default {
     editedId: null,
     editedItem: {
       name: '',
-      status: 'active',
+      status: vm.editedId ? null : 'active',
       email: '',
       email_verified: false,
       password: '',
@@ -426,7 +432,7 @@ export default {
     editedGroups: null,
     defaultItem: {
       name: '',
-      status: 'active',
+      status: vm.editedId ? null : 'active',
       email: '',
       email_verified: false,
       password: '',
@@ -437,9 +443,9 @@ export default {
     showPassword: false,
     rules: {
       required: v => !!v || 'Required.',
-      min: v => (v && v.length >= 6) || 'Min 6 characters',
+      min: v => (vm.editedId && v == null) || (v && v.length >= 6) || 'Min 6 characters',
       passwordMatch: v =>
-        (v && v == vm.editedItem.password) || 'Passwords entered don\'t match'
+        (vm.editedId && v == null) || (v && v == vm.editedItem.password) || 'Passwords entered don\'t match'
     }
   }),
   computed: {
@@ -485,6 +491,7 @@ export default {
     this.getUsers()
     this.getGroups()
     this.getPerms()
+    this.editedItem = Object.assign({}, this.defaultItem)
   },
   methods: {
     getUsers() {
@@ -529,6 +536,8 @@ export default {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
       this.getUserGroups(item.id)
+      this.editedGroups = null
+      this.$refs.form.resetValidation()
       this.dialog = true
     },
     deleteItem(item) {
@@ -538,7 +547,7 @@ export default {
     close() {
       this.dialog = false
       setTimeout(() => {
-        this.$refs.form.reset()
+        this.$refs.form.resetValidation()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedId = null
       }, 300)
@@ -563,13 +572,15 @@ export default {
             email_verified: this.editedItem.email_verified
           }
         ])
+        if (this.editedGroups) {
+          const addedGroups = this.editedGroups.filter(g => !this.userGroups.map(g => g.id).includes(g))
+          const removedGroups = this.userGroups.map(g => g.id).filter(g => !this.editedGroups.includes(g))
+          addedGroups.map(groupId => this.$store.dispatch('groups/addUserToGroup', [groupId, this.editedId]))
+          removedGroups.map(groupId => this.$store.dispatch('groups/removeUserFromGroup', [groupId, this.editedId]))
+        }
       } else {
         this.$store.dispatch('users/createUser', this.editedItem)
       }
-      let addedGroups = this.editedGroups.filter(g => !this.userGroups.map(g => g.id).includes(g))
-      let removedGroups = this.userGroups.map(g => g.id).filter(g => !this.editedGroups.includes(g))
-      addedGroups.map(groupId => this.$store.dispatch('groups/addUserToGroup', [groupId, this.editedId]))
-      removedGroups.map(groupId => this.$store.dispatch('groups/removeUserFromGroup', [groupId, this.editedId]))
       this.close()
     }
   }
