@@ -281,7 +281,7 @@
 </template>
 
 <script>
-import ListButtonAdd from '@/components/ListButtonAdd'
+import ListButtonAdd from './lib/ListButtonAdd'
 
 export default {
   components: {

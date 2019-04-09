@@ -229,7 +229,7 @@
 </template>
 
 <script>
-import ListButtonAdd from '@/components/ListButtonAdd'
+import ListButtonAdd from './lib/ListButtonAdd'
 
 import utils from '@/common/utils'
 

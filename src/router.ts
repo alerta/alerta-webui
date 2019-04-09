@@ -3,7 +3,6 @@ import VueRouter, { RouterOptions } from 'vue-router'
 
 import { store } from '@/main'
 
-import Home from './views/Home.vue'
 import Alerts from './views/Alerts.vue'
 import Alert from './views/Alert.vue'
 import Heartbeats from './views/Heartbeats.vue'
