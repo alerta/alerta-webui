@@ -1,6 +1,9 @@
 <template>
   <v-form ref="form">
-    <v-card flat>
+    <v-card
+      flat
+      class="pl-3"
+    >
       <v-card-title
         class="pb-0"
       >
@@ -30,7 +33,10 @@
       </v-card-actions>
     </v-card>
 
-    <v-card flat>
+    <v-card
+      flat
+      class="pl-3"
+    >
       <v-flex
         sm6
         md4
@@ -68,7 +74,10 @@
       </v-flex>
     </v-card>
 
-    <v-card flat>
+    <v-card
+      flat
+      class="pl-3"
+    >
       <v-flex
         sm6
         md4
@@ -84,18 +93,20 @@
         </v-card-title>
         <v-card-actions>
           <v-layout column>
-            <v-select
-              v-model="refreshInterval"
+            <v-combobox
+              v-model.number="refreshInterval"
               :items="refreshOptions"
               label="Refresh interval"
               type="number"
+              suffix="seconds"
             />
 
-            <v-select
-              v-model="shelveTimeout"
+            <v-combobox
+              v-model.number="shelveTimeout"
               :items="shelveTimeoutOptions"
               label="Shelve timeout"
               type="number"
+              suffix="hours"
             />
           </v-layout>
         </v-card-actions>
@@ -147,18 +158,8 @@ export default {
       {text: moment().format('HH:mm:ss'), value: 'HH:mm:ss'},
       {text: moment().format('HH:mm:ss.SSS Z'), value: 'HH:mm:ss.SSS Z'},
     ],
-    refreshOptions: [
-      {text: '2 seconds', value: 2*1000},
-      {text: '5 seconds', value: 5*1000},
-      {text: '10 seconds', value: 10*1000},
-      {text: '30 seconds', value: 30*1000},
-      {text: '60 seconds', value: 60*1000}
-    ],
-    shelveTimeoutOptions: [
-      {text: '2 hours', value: 2*60*60},
-      {text: '4 hours', value: 4*60*60},
-      {text: '8 hours', value: 8*60*60}
-    ]
+    refreshOptions: [2, 5, 10, 30, 60],  // seconds
+    shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
   }),
   computed: {
     isDark: {
@@ -210,20 +211,20 @@ export default {
     refreshInterval: {
       get() {
         return (
-          this.$store.getters.getPreference('refreshInterval') ||
-          this.$store.getters.getConfig('refresh_interval')
+          (this.$store.getters.getPreference('refreshInterval') ||
+            this.$store.getters.getConfig('refresh_interval')) / 1000
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {refreshInterval: value})
+        this.$store.dispatch('setUserPrefs', {refreshInterval: value * 1000})
       }
     },
     shelveTimeout: {
       get() {
-        return this.$store.getters.getPreference('shelveTimeout')
+        return this.$store.getters.getPreference('shelveTimeout') / 60 / 60
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {shelveTimeout: value})
+        this.$store.dispatch('setUserPrefs', {shelveTimeout: value * 60 * 60})
       }
     }
   },
