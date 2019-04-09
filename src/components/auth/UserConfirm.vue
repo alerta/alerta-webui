@@ -15,11 +15,11 @@
         offset-sm3
       >
         <div v-show="message">
-          <span class="text-xs-center headline font-weight-medium">
+          <p class="text-xs-center headline font-weight-medium">
             Thanks! {{ message }}. You can now <a href="/login">
               log in
             </a>
-          </span>
+          </p>
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
@@ -52,8 +52,8 @@ export default {
   mounted() {
     this.$store
       .dispatch('auth/confirm', this.$route.params.token)
-      .then(response => (this.message = response.message))
-      .catch(error => (this.error = error.response.data.message))
+      .then(response => this.message = response.message)
+      .catch(error => this.error = error.response.data.message)
   }
 }
 </script>

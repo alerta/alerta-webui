@@ -50,12 +50,14 @@ export function makeStore(vueAuth) {
           .login(credentials)
           .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
+          .catch((error) => { throw error})
       },
       authenticate({ commit, dispatch }, provider) {
         return vueAuth
           .authenticate(provider)
           .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
+          .catch((error) => { throw error})
       },
       confirm({ commit }, token) {
         return AuthApi.confirm(token)
