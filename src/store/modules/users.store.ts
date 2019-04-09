@@ -21,6 +21,9 @@ const mutations = {
   SET_USER_GROUPS(state, groups) {
     state.groups = groups
   },
+  RESET_USER_GROUPS(state) {
+    state.groups = []
+  },
   RESET_LOADING(state) {
     state.isLoading = false
   }
@@ -68,6 +71,9 @@ const actions = {
   getUserGroups({ dispatch, commit }, userId) {
     return UsersApi.getGroups(userId)
       .then(({ groups }) => commit('SET_USER_GROUPS', groups))
+  },
+  resetUserGroups({ commit }) {
+    commit('RESET_USER_GROUPS')
   }
 }
 
