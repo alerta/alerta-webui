@@ -11,23 +11,31 @@
       <v-flex
         v-show="!isBasicAuth"
         xs12
-        sm8
+        sm6
         offset-xs0
-        offset-sm2
+        offset-sm3
       >
-        <p
-          v-if="authProvider"
-          class="headline text-xs-center font-weight-medium"
-        >
-          Authenticating with {{ authProvider }} ...
-        </p>
-        <p
-          v-else
-          class="headline text-xs-center font-weight-medium"
-        >
-          Unknown authentication provider ({{ $config.provider || 'none' }}).
-        </p>
+        <div v-show="message && !error">
+          <p class="text-xs-center headline font-weight-medium">
+            Please wait! {{ message }}
+          </p>
+        </div>
+        <div v-show="error">
+          <p class="text-xs-center headline font-weight-medium">
+            Sorry, there was a problem
+            <a
+              href="#"
+              @click="authenticate"
+            >
+              Please try again
+            </a>
+          </p>
+          <p class="text-xs-center subheading font-weight-medium">
+            Error: {{ error }}
+          </p>
+        </div>
       </v-flex>
+
       <v-flex
         v-show="isBasicAuth"
         xs12
@@ -98,7 +106,9 @@ export default {
   data: () => ({
     username: null,
     password: null,
-    showPassword: false
+    showPassword: false,
+    message: null,
+    error: null
   }),
   computed: {
     isBasicAuth() {
@@ -126,11 +136,19 @@ export default {
       this.$store
         .dispatch('auth/login', credentials)
         .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
+        .catch(error => this.error = error.response.data.message)
     },
     authenticate() {
-      this.$store
-        .dispatch('auth/authenticate', this.$config.provider)
-        .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
+      if (this.authProvider) {
+        this.message = `Authenticating with ${this.authProvider} ...`
+        this.$store
+          .dispatch('auth/authenticate', this.$config.provider)
+          .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
+          .catch(error => this.error = error.response.data.message)
+      } else {
+        this.message = 'Sorry, it is not possile to authenticate'
+        this.error = `Unknown authentication provider (${this.$config.provider})`
+      }
     }
   }
 }
