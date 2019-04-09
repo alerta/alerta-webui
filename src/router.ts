@@ -54,12 +54,6 @@ export function createRouter(basePath): VueRouter {
         meta: { title: 'Heartbeats', requiresAuth: true }
       },
       {
-        path: '/blackouts',
-        name: 'blackouts',
-        component: Blackouts,
-        meta: { title: 'Blackouts', requiresAuth: true }
-      },
-      {
         path: '/users',
         name: 'users',
         component: Users,
@@ -72,16 +66,22 @@ export function createRouter(basePath): VueRouter {
         meta: { title: 'Groups', requiresAuth: true }
       },
       {
-        path: '/perms',
-        name: 'perms',
-        component: Perms,
-        meta: { title: 'Permissions', requiresAuth: true }
-      },
-      {
         path: '/customers',
         name: 'customers',
         component: Customers,
         meta: { title: 'Customers', requiresAuth: true }
+      },
+      {
+        path: '/blackouts',
+        name: 'blackouts',
+        component: Blackouts,
+        meta: { title: 'Blackouts', requiresAuth: true }
+      },
+      {
+        path: '/perms',
+        name: 'perms',
+        component: Perms,
+        meta: { title: 'Permissions', requiresAuth: true }
       },
       {
         path: '/keys',
@@ -94,6 +94,17 @@ export function createRouter(basePath): VueRouter {
         name: 'reports',
         component: Reports,
         meta: { title: 'Reports', requiresAuth: true }
+      },
+      {
+        path: '/settings',
+        name: 'settings',
+        component: Settings,
+        meta: { title: 'Settings', requiresAuth: true }
+      },
+      {
+        path: '/help',
+        name: 'help',
+        component: () => window.open('https://docs.alerta.io', '_blank')
       },
       {
         path: '/about',
@@ -137,12 +148,6 @@ export function createRouter(basePath): VueRouter {
         name: 'logout',
         component: Logout,
         meta: { title: 'Logout' }
-      },
-      {
-        path: '/settings',
-        name: 'settings',
-        component: Settings,
-        meta: { title: 'Settings', requiresAuth: true }
       },
       {
         path: '*',

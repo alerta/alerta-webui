@@ -91,7 +91,15 @@
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+                <v-list-tile-title>
+                  {{ item.text }}
+                  <v-icon
+                    v-if="item.appendIcon"
+                    small
+                  >
+                    {{ item.appendIcon }}
+                  </v-icon>
+                </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-divider
@@ -548,7 +556,8 @@ export default {
       {
         icon: 'help',
         text: 'Help',
-        path: 'https://docs.alerta.io',
+        path: '/help',
+        appendIcon: 'open_in_new',
         perms: null,
         show: true
       },
