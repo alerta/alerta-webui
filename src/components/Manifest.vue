@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import DateTime from './DateTime'
+import DateTime from './lib/DateTime'
 
 export default {
   components: {

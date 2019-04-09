@@ -430,9 +430,9 @@
 </template>
 
 <script>
-import Banner from '@/components/Banner.vue'
+import Banner from '@/components/lib/Banner.vue'
 import ProfileMe from '@/components/ProfileMe.vue'
-import Snackbar from '@/components/Snackbar.vue'
+import Snackbar from '@/components/lib/Snackbar.vue'
 
 export default {
   name: 'App',

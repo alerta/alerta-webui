@@ -429,7 +429,7 @@
 
 <script>
 import debounce from 'lodash/debounce'
-import DateTime from './DateTime'
+import DateTime from './lib/DateTime'
 import moment from 'moment'
 
 export default {

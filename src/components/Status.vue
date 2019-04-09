@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import DateTime from './DateTime'
+import DateTime from './lib/DateTime'
 import moment from 'moment'
 
 export default {

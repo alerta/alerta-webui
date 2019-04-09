@@ -721,7 +721,7 @@
 
 <script>
 import debounce from 'lodash/debounce'
-import DateTime from './DateTime'
+import DateTime from './lib/DateTime'
 import AlertActions from '@/components/AlertActions'
 
 export default {

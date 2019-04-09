@@ -306,8 +306,8 @@
 </template>
 
 <script>
-import DateTime from './DateTime'
-import ListButtonAdd from '@/components/ListButtonAdd'
+import DateTime from './lib/DateTime'
+import ListButtonAdd from './lib/ListButtonAdd'
 import utils from '@/common/utils'
 import moment from 'moment'
 
