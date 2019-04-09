@@ -2,7 +2,7 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="500px"
+      max-width="540px"
     >
       <v-form ref="form">
         <v-card>
@@ -69,7 +69,7 @@
                 <v-flex
                   xs2
                 >
-                  <v-select
+                  <v-combobox
                     v-model="editedItem.period.startTime"
                     :items="times"
                   />
@@ -77,7 +77,7 @@
                 <v-flex
                   xs2
                 >
-                  <v-select
+                  <v-combobox
                     v-model="editedItem.period.endTime"
                     :items="times"
                   />
@@ -440,7 +440,12 @@ export default {
       event: null,
       group: null,
       tags: [],
-      period: vm.defaultTimes(),
+      period: {
+        startDate: null,
+        startTime: null,
+        endDate: null,
+        endTime: null
+      },
       text: ''
     },
     menu1: false,
@@ -535,6 +540,8 @@ export default {
     this.getEnvironments()
     this.getServices()
     this.getTags()
+    this.editedItem = Object.assign({}, this.defaultItem)
+    this.editedItem.period = this.defaultTimes()
   },
   methods: {
     getBlackouts() {
@@ -591,7 +598,7 @@ export default {
     close() {
       this.dialog = false
       setTimeout(() => {
-        this.$refs.form.reset()
+        this.$refs.form.resetValidation()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedItem.period = this.defaultTimes()
         this.editedId = null
