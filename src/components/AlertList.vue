@@ -514,7 +514,7 @@ export default {
       return this.$store.getters.getPreference('shelveTimeout')
     },
     username() {
-      return this.$store.getters['auth/getPayload'].name
+      return this.$store.getters['auth/getPayload'].preferred_username
     }
   },
   methods: {
@@ -615,11 +615,11 @@ export default {
     }, 200, {leading: true, trailing: false}),
     watchAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .dispatch('alerts/watchAlert', id)
     }, 200, {leading: true, trailing: false}),
     unwatchAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .dispatch('alerts/unwatchAlert', id)
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
       confirm('Are you sure you want to delete this item?') &&

@@ -140,6 +140,20 @@ const actions = {
     })
   },
 
+  watchAlert({ commit, dispatch, rootState}, alertId) {
+    const username = rootState.auth.payload.preferred_username
+    const tag = `watch:${username}`
+    return AlertsApi.tagAlert(alertId, {tags: [tag]}).then(response =>
+      dispatch('getAlerts')
+    )
+  },
+  unwatchAlert({ commit, dispatch, rootState}, alertId) {
+    const username = rootState.auth.payload.preferred_username
+    const tag = `watch:${username}`
+    return AlertsApi.untagAlert(alertId, {tags: [tag]}).then(response =>
+      dispatch('getAlerts')
+    )
+  },
   takeAction({ commit, dispatch }, [alertId, action, text, timeout]) {
     return AlertsApi.actionAlert(alertId, {
       action: action,
@@ -212,8 +226,9 @@ const actions = {
 const getters = {
   alerts: (state, getters, rootState) => {
     if (state.isWatch) {
-      let user = rootState.auth.payload.name
-      return state.alerts.filter(a => a.tags.includes(`watch:${user}`))
+      const username = rootState.auth.payload.preferred_username
+      const tag = `watch:${username}`
+      return state.alerts.filter(a => a.tags.includes(tag))
     } else {
       return state.alerts
     }

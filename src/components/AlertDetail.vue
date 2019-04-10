@@ -788,7 +788,7 @@ export default {
       return this.$store.getters.getPreference('shelveTimeout')
     },
     username() {
-      return this.$store.getters['auth/getPayload'].name
+      return this.$store.getters['auth/getPayload'].preferred_username
     }
   },
   watch: {
@@ -807,7 +807,8 @@ export default {
       return status == 'open' || status == 'NORM'
     },
     isWatched(tags) {
-      return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
+      const tag = `watch:${this.username}`
+      return tags ? tags.indexOf(tag) > -1 : false
     },
     isAcked(status) {
       return status == 'ack' || status == 'ACKED'
@@ -832,12 +833,12 @@ export default {
     }, 200, {leading: true, trailing: false}),
     watchAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .dispatch('alerts/watchAlert', id)
         .then(() => this.getAlert(this.id))
     }, 200, {leading: true, trailing: false}),
     unwatchAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .dispatch('alerts/unwatchAlert', id)
         .then(() => this.getAlert(this.id))
     }, 200, {leading: true, trailing: false}),
     addNote: debounce(function(id, text) {
