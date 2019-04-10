@@ -606,7 +606,7 @@ export default {
       return this.$store.getters.getPreference('shelveTimeout')
     },
     username() {
-      return this.$store.getters['auth/getPayload'].name
+      return this.$store.getters['auth/getPayload'].preferred_username
     }
   },
   watch: {
@@ -652,7 +652,8 @@ export default {
         .reduce(() => this.clearSelected())
     },
     isWatched(tags) {
-      return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
+      const tag = `watch:${this.username}`
+      return tags ? tags.indexOf(tag) > -1 : false
     },
     toggleWatch() {
       if (this.selected.some(x => !this.isWatched(x.tags))) {
@@ -665,11 +666,11 @@ export default {
     },
     watchAlert(id) {
       this.$store
-        .dispatch('alerts/tagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .dispatch('alerts/watchAlert', id)
     },
     unwatchAlert(id) {
       this.$store
-        .dispatch('alerts/untagAlert', [id, { tags: [`watch:${this.username}`] } ])
+        .dispatch('alerts/unwatchAlert', id)
     },
     bulkDeleteAlert() {
       confirm('Are you sure you want to delete these items?') &&

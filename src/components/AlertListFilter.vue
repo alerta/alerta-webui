@@ -204,8 +204,8 @@ export default {
       return this.$store.getters.getPreference('shelveTimeout')
     },
     isWatched() {
-      let user = this.$store.getters['auth/getPayload'].name
-      return this.item.tags.indexOf(`watch:${user}`) > -1
+      const tag = `watch:${this.username}`
+      return this.item.tags.indexOf(tag) > -1
     },
     statusList() {
       // FIXME - remove defaultStatusMap from v7.0 onwards
@@ -292,6 +292,9 @@ export default {
           dateRange: value
         })
       }
+    },
+    username() {
+      return this.$store.getters['auth/getPayload'].preferred_username
     }
   },
   watch: {
