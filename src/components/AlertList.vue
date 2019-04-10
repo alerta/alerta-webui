@@ -514,7 +514,7 @@ export default {
       return this.$store.getters.getPreference('shelveTimeout')
     },
     username() {
-      return this.$store.getters['auth/getPayload'].preferred_username
+      return this.$store.getters['auth/getUsername']
     }
   },
   methods: {

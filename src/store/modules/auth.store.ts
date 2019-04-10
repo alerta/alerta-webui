@@ -88,6 +88,9 @@ export function makeStore(vueAuth) {
       isLoggedIn(state) {
         return state.isAuthenticated
       },
+      getUsername(state) {
+        return state.payload && state.payload.preferred_username
+      },
       scopes(state) {
         return state.payload && state.payload.scope ? state.payload.scope.split(' ') : []
       },
