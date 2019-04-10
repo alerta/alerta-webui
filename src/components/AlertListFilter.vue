@@ -294,7 +294,7 @@ export default {
       }
     },
     username() {
-      return this.$store.getters['auth/getPayload'].preferred_username
+      return this.$store.getters['auth/getUsername']
     }
   },
   watch: {

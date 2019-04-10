@@ -158,7 +158,8 @@ export function createRouter(basePath): VueRouter {
 
   // redirect users not logged in to /login if authentication enabled
   router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    if ((store.getters.getConfig('auth_required') &&
+      to.matched.some(record => record.meta.requiresAuth))) {
       if (!store.getters['auth/isLoggedIn']) {
         next({
           path: '/login',

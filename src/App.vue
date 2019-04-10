@@ -5,7 +5,7 @@
   >
     <div v-if="!isKiosk">
       <v-navigation-drawer
-        v-if="isLoggedIn || !$config.auth_required"
+        v-if="isLoggedIn || !isAuthRequired"
         v-model="drawer"
         :clipped="$vuetify.breakpoint.lgAndUp"
         disable-resize-watcher
@@ -169,7 +169,7 @@
         <v-spacer class="hidden-sm-and-down" />
 
         <v-btn
-          v-show="!isLoggedIn && $config.signup_enabled"
+          v-show="!isLoggedIn && isAuthRequired && isSignupEnabled"
           round
           outline
           color="primary"
@@ -178,7 +178,7 @@
           Sign Up
         </v-btn>
         <v-btn
-          v-show="!isLoggedIn"
+          v-show="!isLoggedIn && isAuthRequired"
           round
           color="primary"
           to="/login"
@@ -188,7 +188,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn"
+            v-show="isLoggedIn || !isAuthRequired"
             slot="activator"
             icon
             @click="toggleFullScreen"
@@ -200,7 +200,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn"
+            v-show="isLoggedIn || !isAuthRequired"
             slot="activator"
             icon
           >
@@ -212,7 +212,7 @@
         </v-tooltip>
 
         <v-menu
-          v-show="isLoggedIn"
+          v-show="isLoggedIn || !isAuthRequired"
           v-model="menu"
           :close-on-content-click="false"
           :nudge-width="200"
@@ -362,7 +362,7 @@
         <v-spacer />
 
         <v-btn
-          v-show="!isLoggedIn && $config.signup_enabled"
+          v-show="!isLoggedIn && isAuthRequired && isSignupEnabled"
           round
           outline
           color="primary"
@@ -371,7 +371,7 @@
           Sign Up
         </v-btn>
         <v-btn
-          v-show="!isLoggedIn"
+          v-show="!isLoggedIn && isAuthRequired"
           round
           color="primary"
           to="/login"
@@ -381,7 +381,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn"
+            v-show="isLoggedIn || !isAuthRequired"
             slot="activator"
             icon
             @click="toggleFullScreen"
@@ -405,7 +405,7 @@
         </v-tooltip>
 
         <v-menu
-          v-show="isLoggedIn"
+          v-show="isLoggedIn || !isAuthRequired"
           v-model="menu"
           :close-on-content-click="false"
           :nudge-width="200"
@@ -583,6 +583,12 @@ export default {
     isLoggedIn() {
       return this.$store.getters['auth/isLoggedIn']
     },
+    isAuthRequired() {
+      return this.$config.auth_required
+    },
+    isSignupEnabled() {
+      return this.$config.signup_enabled
+    },
     profile() {
       return this.$store.state.auth.payload || {}
     },
@@ -606,7 +612,7 @@ export default {
       return this.$store.getters.getPreference('shelveTimeout')
     },
     username() {
-      return this.$store.getters['auth/getPayload'].preferred_username
+      return this.$store.getters['auth/getUsername']
     }
   },
   watch: {
@@ -665,12 +671,10 @@ export default {
       }
     },
     watchAlert(id) {
-      this.$store
-        .dispatch('alerts/watchAlert', id)
+      this.$store.dispatch('alerts/watchAlert', id)
     },
     unwatchAlert(id) {
-      this.$store
-        .dispatch('alerts/unwatchAlert', id)
+      this.$store.dispatch('alerts/unwatchAlert', id)
     },
     bulkDeleteAlert() {
       confirm('Are you sure you want to delete these items?') &&
