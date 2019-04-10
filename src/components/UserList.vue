@@ -49,6 +49,19 @@
                   md9
                 >
                   <v-text-field
+                    v-model="editedItem.login"
+                    :disabled="!isBasicAuth"
+                    label="Login"
+                    :rules="[rules.required]"
+                    required
+                  />
+                </v-flex>
+                <v-flex
+                  xs12
+                  sm6
+                  md9
+                >
+                  <v-text-field
                     v-model="editedItem.email"
                     :disabled="!isBasicAuth"
                     label="Email"
@@ -282,6 +295,7 @@
               <span>{{ props.item.status | capitalize }}</span>
             </v-tooltip>
           </td>
+          <td>{{ props.item.login }}</td>
           <td>{{ props.item.email }}</td>
           <td class="text-xs-center">
             <v-tooltip top>
@@ -410,7 +424,8 @@ export default {
     headers: [
       { text: 'Name', value: 'name' },
       { text: 'Status', value: 'status' },
-      { text: 'Login', value: 'email' },
+      { text: 'Login', value: 'login' },
+      { text: 'Email', value: 'email' },
       { text: 'Verified?', value: 'email_verified' },
       { text: 'Roles', value: 'roles' },
       { text: 'Created', value: 'createTime' },
@@ -422,6 +437,7 @@ export default {
     editedItem: {
       name: '',
       status: vm.editedId ? null : 'active',
+      login: '',
       email: '',
       email_verified: false,
       password: '',
@@ -433,6 +449,7 @@ export default {
     defaultItem: {
       name: '',
       status: vm.editedId ? null : 'active',
+      login: '',
       email: '',
       email_verified: false,
       password: '',
