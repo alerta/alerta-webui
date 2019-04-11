@@ -430,6 +430,7 @@
 <script>
 import debounce from 'lodash/debounce'
 import DateTime from './lib/DateTime'
+import _ from 'lodash'
 import moment from 'moment'
 
 export default {
@@ -492,7 +493,7 @@ export default {
     },
     customHeaders() {
       let headers = this.$config.columns
-        .map(c => this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: c })
+        .map(c => this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c })
       headers.push({ text: 'Description', value: 'text' })  // 'text' must be last column
       return headers
     },
@@ -568,13 +569,21 @@ export default {
 
       // use default sort
       return items.sort((a, b) => {
-        if (typeof a[index] == 'string') {
-          return a[index].localeCompare(b[index]) * reverseSort
-        } else if (typeof a[index] == 'number') {
-          return (a[index] - b[index]) * reverseSort
+        const aValue = _.get(a, index)
+        const bValue = _.get(b, index)
+        if (aValue === bValue) {
+          return 0
+        } else if (aValue == null) {
+          return 1
+        } else if (bValue == null) {
+          return -1
+        } else if (typeof aValue == 'string') {
+          return aValue.localeCompare(bValue) * reverseSort
+        } else if (typeof aValue == 'number') {
+          return (aValue - bValue) * reverseSort
         } else {
           return (
-            a[index].join('').localeCompare(b[index].join('')) * reverseSort
+            aValue.join('').localeCompare(bValue.join('')) * reverseSort
           )
         }
       })
