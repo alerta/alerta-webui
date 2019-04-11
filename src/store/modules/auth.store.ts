@@ -91,6 +91,9 @@ export function makeStore(vueAuth) {
       getUsername(state) {
         return state.payload && state.payload.preferred_username
       },
+      getAvatar(state) {
+        return state.payload && state.payload.picture
+      },
       scopes(state) {
         return state.payload && state.payload.scope ? state.payload.scope.split(' ') : []
       },
