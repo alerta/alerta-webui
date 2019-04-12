@@ -501,7 +501,7 @@ export default {
       val || this.close()
     },
     refresh(val) {
-      this.getUsers()
+      val || this.getUsers()
     }
   },
   created() {
