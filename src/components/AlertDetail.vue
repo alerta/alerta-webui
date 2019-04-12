@@ -787,11 +787,17 @@ export default {
     },
     username() {
       return this.$store.getters['auth/getUsername']
+    },
+    refresh() {
+      return this.$store.state.refresh
     }
   },
   watch: {
     dialog(val) {
       val || this.close()
+    },
+    refresh(val) {
+      val || this.getAlert(this.id)
     }
   },
   created() {
