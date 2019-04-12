@@ -17,5 +17,12 @@ export default {
       }
     }
     return Array.from(new Set(derivedScopes)).sort()
+  },
+  toHash(obj: object): string {
+    return Object.entries(obj).filter(x => !!x[1]).reduce((a: string[], [k,v]) => a.concat(`${k}:${v}`), []).join(';')
+  },
+  fromHash(hash: string): object {
+    let h = decodeURI(hash).substring(1)
+    return h ? h.split(';').map(x => x.split(':')).reduce((a, [k,v]) => Object.assign(a, {[k]: v}), {}) : {}
   }
 }

@@ -641,7 +641,8 @@ export default {
     submitSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
       this.$router.push({
-        query: { ...this.$router.query, q: query }
+        query: { ...this.$router.query, q: query },
+        hash: this.$store.getters['alerts/getHash']
       })
       this.refresh()
     },
@@ -649,7 +650,8 @@ export default {
       this.query = null
       this.$store.dispatch('alerts/updateQuery', null)
       this.$router.push({
-        query: { ...this.$router.query, q: undefined }
+        query: { ...this.$router.query, q: undefined },
+        hash: this.$store.getters['alerts/getHash']
       })
       this.refresh()
     },

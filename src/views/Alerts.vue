@@ -78,10 +78,12 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 import AlertList from '@/components/AlertList.vue'
 import AlertDetail from '@/components/AlertDetail.vue'
 import AlertListFilter from '@/components/AlertListFilter.vue'
-import moment from 'moment'
+import utils from '@/common/utils'
 
 export default {
   components: {
@@ -117,7 +119,7 @@ export default {
   }),
   computed: {
     defaultTab() {
-      return this.fromHash(this.hash).environment ? `tab-${this.fromHash(this.hash).environment}` : 'tab-ALL'
+      return utils.fromHash(this.hash).environment ? `tab-${utils.fromHash(this.hash).environment}` : 'tab-ALL'
     },
     filter() {
       return this.$store.state.alerts.filter
@@ -241,13 +243,13 @@ export default {
     },
     filter: {
       handler(val) {
-        history.pushState(null, null, `#${this.toHash(val)};sb:${this.pagination.sortBy};sd:${this.pagination.descending ? 1 : 0 }`)
+        history.pushState(null, null, this.$store.getters['alerts/getHash'])
       },
       deep: true
     },
     pagination: {
       handler(val) {
-        history.pushState(null, null, `#${this.toHash(this.filter)};sb:${val.sortBy};sd:${val.descending ? 1 : 0 }`)
+        history.pushState(null, null, this.$store.getters['alerts/getHash'])
       },
       deep: true
     },
@@ -259,7 +261,7 @@ export default {
     this.currentTab = this.defaultTab
     this.setSearch(this.query)
     if (this.hash) {
-      let hashMap = this.fromHash(this.hash)
+      let hashMap = utils.fromHash(this.hash)
       this.setFilter(hashMap)
       this.setSort(hashMap)
     }
@@ -272,13 +274,6 @@ export default {
     this.cancelTimer()
   },
   methods: {
-    fromHash(h) {
-      let hash = decodeURI(h).substring(1)
-      return hash ? hash.split(';').map(x => x.split(':')).reduce((a, c) => Object.assign(a, {[c[0]]: c[1]}), {}) : {}
-    },
-    toHash(f) {
-      return Object.entries(f).filter(x => x[1]).reduce((a,c) => a.concat(c[0] + ':' + c[1]), []).join(';')
-    },
     setSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
     },
