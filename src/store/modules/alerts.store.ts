@@ -206,10 +206,10 @@ const actions = {
     return AlertsApi.getTop10Count({}).then(({ top10 }) => commit('SET_TOP_OFFENDERS', top10))
   },
   getTopFlapping({ commit }) {
-    return AlertsApi.getTop10Count({}).then(({ top10 }) => commit('SET_TOP_FLAPPING', top10))
+    return AlertsApi.getTop10Flapping({}).then(({ top10 }) => commit('SET_TOP_FLAPPING', top10))
   },
   getTopStanding({ commit }) {
-    return AlertsApi.getTop10Count({}).then(({ top10 }) => commit('SET_TOP_STANDING', top10))
+    return AlertsApi.getTop10Standing({}).then(({ top10 }) => commit('SET_TOP_STANDING', top10))
   },
 
   toggle({ commit }, [s, v]) {

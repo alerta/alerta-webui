@@ -351,7 +351,7 @@ export default {
       val || this.close()
     },
     refresh(val) {
-      this.getGroups()
+      val || this.getGroups()
     }
   },
   created() {

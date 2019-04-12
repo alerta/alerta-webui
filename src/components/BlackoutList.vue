@@ -527,6 +527,7 @@ export default {
       val || this.close()
     },
     refresh(val) {
+      if (!val) return
       this.getBlackouts()
       this.getCustomers()
       this.getEnvironments()
