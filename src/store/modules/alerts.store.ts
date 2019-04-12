@@ -1,5 +1,7 @@
 import AlertsApi from '@/services/api/alert.service'
 
+import utils from '@/common/utils'
+
 const namespaced = true
 
 const getDefaultFilter = () => {
@@ -17,7 +19,6 @@ const state = {
 
   alerts: [],
   selected: [], // used by multi-select checkboxes
-  query: {}, // 'q' query string syntax eg. {"q": "severity:critical"}
   environments: [],
   services: [],
   groups: [],
@@ -33,6 +34,8 @@ const state = {
   isWatch: false,
   isKiosk: false,
 
+  // query, filter and pagination
+  query: {}, // 'q' query string syntax eg. {"q": "severity:critical"}
   filter: {
     environment: null,
     text: null,
@@ -244,6 +247,11 @@ const getters = {
   },
   tags: state => {
     return state.tags.map(t => t.tag).sort()
+  },
+  getHash: state => {
+    let filterHash = utils.toHash(state.filter)
+    let paginationHash = `sb:${state.pagination.sortBy};sd:${state.pagination.descending ? 1 : 0 }`
+    return `#${filterHash};${paginationHash}`
   }
 }
 
