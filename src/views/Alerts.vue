@@ -132,7 +132,7 @@ export default {
         return this.$store.getters['alerts/alerts']
           .filter(alert =>
             this.filter.text
-              ? Object.keys(alert).some(k => alert[k] && alert[k].toString().toLowerCase().includes(this.filter.text))
+              ? Object.keys(alert).some(k => alert[k] && alert[k].toString().toLowerCase().includes(this.filter.text.toLowerCase()))
               : true
           )
           .filter(alert =>
