@@ -1,8 +1,13 @@
 <template>
   <div>
     <v-card>
-      <v-card-title class="title">
-        Top 10 Standing
+      <v-card-title primary-title>
+        <div>
+          <div class="headline">
+            Top 10 Standing
+          </div><br>
+          <span class="grey--text">Stale alert sources that have active alerts for a prolonged duration.</span>
+        </div>
         <v-spacer />
       </v-card-title>
       <v-data-table

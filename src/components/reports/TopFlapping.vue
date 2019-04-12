@@ -1,8 +1,13 @@
 <template>
   <div>
     <v-card>
-      <v-card-title class="title">
-        Top 10 Flapping
+      <v-card-title primary-title>
+        <div>
+          <div class="headline">
+            Top 10 Flapping
+          </div><br>
+          <span class="grey--text">Chattering and fleeting alert sources that have generated the most number of alert severity changes.</span>
+        </div>
         <v-spacer />
       </v-card-title>
       <v-data-table
