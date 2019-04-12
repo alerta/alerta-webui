@@ -2,6 +2,7 @@
   <div>
     <v-container
       v-if="!showForm"
+      class="pa-1"
       fluid
     >
       <v-layout>
@@ -47,6 +48,7 @@
 
     <v-container
       v-if="showForm"
+      class="pa-1"
       fluid
     >
       <v-layout>
