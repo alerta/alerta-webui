@@ -1,8 +1,13 @@
 <template>
   <div>
     <v-card>
-      <v-card-title class="title">
-        Top 10 Offenders
+      <v-card-title primary-title>
+        <div>
+          <div class="headline">
+            Top 10 Offenders
+          </div><br>
+          <span class="grey--text">Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.</span>
+        </div>
         <v-spacer />
       </v-card-title>
       <v-data-table
