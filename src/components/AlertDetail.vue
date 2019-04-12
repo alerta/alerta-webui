@@ -392,7 +392,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        {{ item.correlate.join(', ') }}
+                        {{ item.correlate && item.correlate.join(', ') }}
                       </div>
                     </div>
                   </div>
