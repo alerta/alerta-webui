@@ -323,6 +323,7 @@ export default {
     setAlert(item) {
       this.selectedId = item.id
       this.selectedItem = Object.assign({}, item)
+      this.$router.push({ path: `/alert/${item.id}` })
       this.dialog = true
     },
     close() {
