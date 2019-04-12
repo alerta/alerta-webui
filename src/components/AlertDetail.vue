@@ -623,7 +623,6 @@
                 :items="history"
                 item-key="index"
                 :pagination.sync="pagination"
-                hide-actions
               >
                 <template
                   slot="items"
