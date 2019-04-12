@@ -22,10 +22,10 @@
           class="hover-lighten"
           @mouseover="showIcons = props.item.id"
           @mouseout="showIcons = null"
+          @click="selectItem(props.item)"
         >
           <td
             class="text-no-wrap"
-            @click="selectItem(props.item)"
           >
             <v-checkbox
               v-if="selectableRows"
@@ -65,31 +65,26 @@
           >
             <span
               v-if="col == 'id'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.id | shortId }}
             </span>
             <span
               v-if="col == 'resource'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.resource }}
             </span>
             <span
               v-if="col == 'event'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.event }}
             </span>
             <span
               v-if="col == 'environment'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.environment }}
             </span>
             <span
               v-if="col == 'severity'"
-              @click="selectItem(props.item)"
             >
               <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
                 {{ props.item.severity | capitalize }}
@@ -97,13 +92,11 @@
             </span>
             <span
               v-if="col == 'correlate'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.correlate.join(', ') }}
             </span>
             <span
               v-if="col == 'status'"
-              @click="selectItem(props.item)"
             >
               <span class="label">
                 {{ props.item.status | capitalize }}
@@ -111,27 +104,23 @@
             </span>
             <span
               v-if="col == 'service'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.service.join(', ') }}
             </span>
             <span
               v-if="col == 'group'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.group }}
             </span>
             <span
               v-if="col == 'value'"
               class="text-no-wrap"
-              @click="selectItem(props.item)"
             >
               {{ props.item.value }}
             </span>
             <span
               v-if="col == 'text'"
               class="text-no-wrap"
-              @click="selectItem(props.item)"
             >
               {{ props.item.text }}
             </span>
@@ -145,19 +134,16 @@
             </span>
             <span
               v-if="props.item.attributes.hasOwnProperty(col)"
-              @click="selectItem(props.item.attributes[col])"
             >
               {{ props.item.attributes[col] }}
             </span>
             <span
               v-if="col == 'origin'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.origin }}
             </span>
             <span
               v-if="col == 'type'"
-              @click="selectItem(props.item)"
             >
               <span class="label">
                 {{ props.item.type | splitCaps }}
@@ -165,7 +151,6 @@
             </span>
             <span
               v-if="col == 'createTime'"
-              @click="selectItem(props.item)"
             >
               <date-time
                 :value="props.item.createTime"
@@ -174,33 +159,28 @@
             </span>
             <span
               v-if="col == 'timeout'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.timeout }}
             </span>
             <span
               v-if="col == 'timeoutLeft'"
               class="text-xs-right text-no-wrap"
-              @click="selectItem(props.item)"
             >
               {{ timeoutLeft(props.item) | hhmmss }}
             </span>
             <!-- rawData not supported -->
             <span
               v-if="col == 'customer' && $config.customer_views"
-              @click="selectItem(props.item)"
             >
               {{ props.item.customer }}
             </span>
             <span
               v-if="col == 'duplicateCount'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.duplicateCount }}
             </span>
             <span
               v-if="col == 'repeat'"
-              @click="selectItem(props.item)"
             >
               <span class="label">
                 {{ props.item.repeat | capitalize }}
@@ -208,7 +188,6 @@
             </span>
             <span
               v-if="col == 'previousSeverity'"
-              @click="selectItem(props.item)"
             >
               <span :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]">
                 {{ props.item.previousSeverity | capitalize }}
@@ -217,7 +196,6 @@
             <!-- trendIndication not supported -->
             <span
               v-if="col == 'receiveTime'"
-              @click="selectItem(props.item)"
             >
               <date-time
                 :value="props.item.receiveTime"
@@ -226,13 +204,11 @@
             </span>
             <span
               v-if="col == 'lastReceiveId'"
-              @click="selectItem(props.item)"
             >
               {{ props.item.lastReceiveId | shortId }}
             </span>
             <span
               v-if="col == 'lastReceiveTime'"
-              @click="selectItem(props.item)"
             >
               <date-time
                 :value="props.item.lastReceiveTime"
@@ -243,7 +219,6 @@
           </td>
           <td
             :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
-            @click="selectItem(props.item)"
           >
             <div class="fixed-table">
               <div class="text-truncate">
@@ -265,7 +240,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'open')"
+                @click.stop="takeAction(props.item.id, 'open')"
               >
                 <v-icon
                   size="20px"
@@ -280,7 +255,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="watchAlert(props.item.id)"
+                @click.stop="watchAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -294,7 +269,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="unwatchAlert(props.item.id)"
+                @click.stop="unwatchAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -309,7 +284,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'ack')"
+                @click.stop="takeAction(props.item.id, 'ack')"
               >
                 <v-icon
                   size="20px"
@@ -323,7 +298,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'unack')"
+                @click.stop="takeAction(props.item.id, 'unack')"
               >
                 <v-icon
                   size="20px"
@@ -338,7 +313,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="shelveAlert(props.item.id)"
+                @click.stop="shelveAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -352,7 +327,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'unshelve')"
+                @click.stop="takeAction(props.item.id, 'unshelve')"
               >
                 <v-icon
                   size="20px"
@@ -367,7 +342,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="takeAction(props.item.id, 'close')"
+                @click.stop="takeAction(props.item.id, 'close')"
               >
                 <v-icon
                   size="20px"
@@ -380,7 +355,7 @@
                 icon
                 small
                 class="btn--plain px-1 mx-0"
-                @click="deleteAlert(props.item.id)"
+                @click.stop="deleteAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -413,7 +388,7 @@
                   <v-list-tile
                     v-for="(action, i) in actions"
                     :key="i"
-                    @click="takeAction(props.item.id, action)"
+                    @click.stop="takeAction(props.item.id, action)"
                   >
                     <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
                   </v-list-tile>
