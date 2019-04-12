@@ -223,43 +223,43 @@
               flat
             >
               <v-card-text>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Alert ID
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.id }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Last Receive Alert ID
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.lastReceiveId }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Create Time
                       </div>
                     </div>
                     <div class="flex xs9 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <date-time
                           v-if="item.createTime"
                           :value="item.createTime"
@@ -270,15 +270,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Receive Time
                       </div>
                     </div>
                     <div class="flex xs9 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <date-time
                           v-if="item.receiveTime"
                           :value="item.receiveTime"
@@ -289,15 +289,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Last Receive Time
                       </div>
                     </div>
                     <div class="flex xs9 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <date-time
                           v-if="item.lastReceiveTime"
                           :value="item.lastReceiveTime"
@@ -310,117 +310,116 @@
                 </div>
                 <div
                   v-if="$config.customer_views"
-                  class="flex xs12"
+                  class="flex xs12 ma-1"
                 >
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Customer
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.customer }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Service
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div
                         v-if="item.service"
-                        class="font-weight-regular"
                       >
                         {{ item.service.join(', ') }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Environment
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.environment }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Resource
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.resource }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Event
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.event }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Correlate
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
-                        {{ item.correlate }}
+                      <div>
+                        {{ item.correlate.join(', ') }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Group
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.group }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Severity
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <span :class="['label', 'label-' + item.previousSeverity]">
                           {{ item.previousSeverity | capitalize }}
                         </span>&nbsp;&rarr;&nbsp;
@@ -432,15 +431,15 @@
                   </div>
                 </div>
 
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Status
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <span class="label">
                           {{ item.status | capitalize }}
                         </span>
@@ -448,43 +447,43 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Value
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.value }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Text
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.text }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Trend Indication
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <span class="label">
                           {{ item.trendIndication | splitCaps }}
                         </span>
@@ -492,29 +491,29 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Timeout
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.timeout }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Type
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <span class="label">
                           {{ item.type | splitCaps }}
                         </span>
@@ -522,29 +521,29 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Duplicate Count
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.duplicateCount }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Repeat
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <span class="label">
                           {{ item.repeat | capitalize }}
                         </span>
@@ -552,29 +551,29 @@
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Origin
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         {{ item.origin }}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flex xs12">
+                <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         Tags
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div class="font-weight-regular">
+                      <div>
                         <v-chip
                           v-for="tag in item.tags"
                           :key="tag"
@@ -592,17 +591,16 @@
                 <div
                   v-for="(value, attr) in item.attributes"
                   :key="attr"
-                  class="flex xs12"
+                  class="flex xs12 ma-1"
                 >
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
-                      <div class="header font-weight-bold">
+                      <div class="grey--text">
                         {{ attr | splitCaps }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div
-                        class="font-weight-regular"
                         v-html="value"
                       />
                     </div>
