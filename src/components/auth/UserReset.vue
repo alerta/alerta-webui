@@ -10,9 +10,9 @@
     >
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
           <span>Choose a new password</span>
@@ -59,9 +59,9 @@
       </v-flex>
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       />
     </v-layout>
   </v-container>

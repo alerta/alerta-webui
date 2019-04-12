@@ -10,9 +10,9 @@
     >
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
           You have been logged out.
@@ -20,9 +20,9 @@
       </v-flex>
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       />
     </v-layout>
   </v-container>

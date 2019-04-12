@@ -11,9 +11,9 @@
     >
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
           <span>Enter your email and we'll send you a reset link</span>
@@ -52,9 +52,9 @@
       </v-flex>
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       />
     </v-layout>
 
@@ -66,9 +66,9 @@
     >
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
           <span>Check your email for a reset link...</span>
@@ -106,9 +106,9 @@
       </v-flex>
       <v-flex
         xs12
-        sm6
+        sm8
         offset-xs0
-        offset-sm3
+        offset-sm2
       />
     </v-layout>
   </v-container>
