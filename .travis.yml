@@ -37,14 +37,14 @@ jobs:
   - stage: release
     script: npm run build
     before_deploy:
-    - zip alerta-web-beta.zip -r dist/*
-    - tar cvfz alerta-web-beta.tar.gz dist/*
+    - zip alerta-webui.zip -r dist/*
+    - tar cvfz alerta-webui.tar.gz dist/*
     deploy:
     - provider: releases
       skip-cleanup: true
       api_key: "$GITHUB_TOKEN"
       file:
-        - alerta-web-beta.zip
-        - alerta-web-beta.tar.gz
+        - alerta-webui.zip
+        - alerta-webui.tar.gz
       on:
         tags: true
