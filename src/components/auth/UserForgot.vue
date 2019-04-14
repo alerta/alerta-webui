@@ -18,7 +18,7 @@
         <p class="text-xs-center headline font-weight-medium">
           <span>Enter your email and we'll send you a reset link</span>
         </p>
-        <v-form @submit.prevent="forgot()">
+        <v-form ref="form">
           <v-text-field
             v-model="email"
             name="login"
@@ -32,7 +32,7 @@
             :disabled="isSending"
             block
             color="primary"
-            type="submit"
+            @click="forgot"
           >
             Send
           </v-btn>
@@ -73,7 +73,7 @@
         <p class="text-xs-center headline font-weight-medium">
           <span>Check your email for a reset link...</span>
         </p>
-        <v-form @submit.prevent="forgot()">
+        <v-form>
           <v-text-field
             v-model="email"
             name="login"
