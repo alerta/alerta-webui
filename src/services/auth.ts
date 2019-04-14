@@ -9,12 +9,11 @@ Vue.use(VueAxios, axios)
 
 export function vueAuth(config) {
   return new VueAuthenticate(Vue.prototype.$http, {
-    baseUrl: config.endpoint,
     tokenName: 'token',
     tokenPrefix: '',
+    registerUrl: '/auth/signup',
     storageType: 'localStorage',
     storageNamespace: 'auth',
-    registerUrl: '/auth/signup',
     providers: {
       azure: {
         name: 'Azure Active Directory',
