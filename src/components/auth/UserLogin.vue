@@ -46,7 +46,7 @@
         <p class="text-xs-center headline font-weight-medium">
           Log in to Alerta to continue
         </p>
-        <v-form @submit.prevent="login()">
+        <v-form ref="form">
           <v-text-field
             v-model="username"
             name="login"
@@ -67,7 +67,7 @@
           <v-btn
             block
             color="primary"
-            type="submit"
+            @click="login"
           >
             Log In
           </v-btn>

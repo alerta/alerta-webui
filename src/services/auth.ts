@@ -18,7 +18,7 @@ export function vueAuth(config) {
     providers: {
       azure: {
         name: 'Azure Active Directory',
-        url: `${config.endpoint}/auth/azure`,
+        url: '/auth/azure',
         clientId: config.client_id,
         authorizationEndpoint: `https://login.microsoftonline.com/${config.azure_tenant}/oauth2/authorize`,
         redirectUri: window.location.origin,
@@ -28,14 +28,14 @@ export function vueAuth(config) {
       },
       github: {
         name: 'GitHub',
-        url: `${config.endpoint}/auth/github`,
+        url: '/auth/github',
         clientId: config.client_id,
         authorizationEndpoint: `${config.github_url}/login/oauth/authorize`,
         scope: ['user:email', 'read:org']
       },
       gitlab: {
         name: 'GitLab',
-        url: `${config.endpoint}/auth/gitlab`,
+        url: '/auth/gitlab',
         clientId: config.client_id,
         authorizationEndpoint: `${config.gitlab_url}/oauth/authorize`,
         redirectUri: window.location.origin,
@@ -47,12 +47,12 @@ export function vueAuth(config) {
       },
       google: {
         name: 'Google',
-        url: `${config.endpoint}/auth/google`,
+        url: '/auth/google',
         clientId: config.client_id
       },
       keycloak: {
         name: 'Keycloak',
-        url: `${config.endpoint}/auth/keycloak`,
+        url: '/auth/keycloak',
         clientId: config.client_id,
         authorizationEndpoint: `${config.keycloak_url}/auth/realms/${
           config.keycloak_realm
@@ -62,7 +62,7 @@ export function vueAuth(config) {
       },
       openid: {
         name: 'OpenID',
-        url: `${config.endpoint}/auth/openid`,
+        url: '/auth/openid',
         clientId: config.client_id,
         authorizationEndpoint: config.oidc_auth_url,
         redirectUri: window.location.origin,
@@ -76,7 +76,7 @@ export function vueAuth(config) {
       },
       pingfederate: {
         name: 'PingFederate',
-        url: `${config.endpoint}/auth/pingfederate`,
+        url: '/auth/pingfederate',
         clientId: config.client_id,
         authorizationEndpoint: config.pingfederate_url,
         redirectUri: window.location.origin + '/',

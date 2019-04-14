@@ -35,6 +35,8 @@ jobs:
       on:
         branch: master
   - stage: release
+    before_script:
+    - echo VUE_APP_DEBUG=1 > .env
     script: npm run build
     before_deploy:
     - zip alerta-webui.zip -r dist/*
