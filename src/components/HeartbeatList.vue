@@ -60,7 +60,11 @@
         <td>
           {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
         </td>
-        <td>{{ props.item.timeout | hhmmss }}</td>
+        <td
+          class="text-xs-center text-no-wrap"
+        >
+          {{ timeoutLeft(props.item) | hhmmss }}
+        </td>
         <td>{{ props.item.receiveTime | timeago }}</td>
         <td class="text-no-wrap">
           <v-btn
@@ -101,6 +105,7 @@
 
 <script>
 import DateTime from './lib/DateTime'
+import moment from 'moment'
 
 export default {
   components: {
@@ -152,6 +157,10 @@ export default {
     this.getHeartbeats()
   },
   methods: {
+    timeoutLeft(item) {
+      let expireTime = moment(item.createTime).add(item.timeout, 'seconds')
+      return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
+    },
     getHeartbeats() {
       this.$store.dispatch('heartbeats/getHeartbeats')
     },
