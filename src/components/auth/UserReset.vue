@@ -17,7 +17,7 @@
         <p class="text-xs-center headline font-weight-medium">
           <span>Choose a new password</span>
         </p>
-        <v-form ref="form">
+        <v-form @submit.prevent="reset()">
           <v-text-field
             v-model="password"
             name="password"
@@ -39,7 +39,7 @@
           <v-btn
             block
             color="primary"
-            @click="reset"
+            type="submit"
           >
             Reset Password
           </v-btn>
