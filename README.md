@@ -43,6 +43,18 @@ necessary for most deployments.
 
     $ export VUE_APP_CLIENT_ID=0ffe5d26-6c66-4871-a6fa-593d9fa972b1
 
+By default, Alerta Web assumes it will be deployed at the root of a
+domain, e.g. https://beta.alerta.io/. If Alerta Web is deployed at a
+sub-path, it will need to specify that sub-path using the `BASE_URL`
+build-time environment variable. For example, if Alerta Web is deployed
+at https://beta.alerta.io/alerta/, set `BASE_URL` to `/alerta`:
+
+    $ export BASE_URL=/alerta
+
+The value can also be set to an empty string (`''`) or a relative path (`./`)
+so that all assets are linked using relative paths. This allows the built
+bundle to be deployed under any public path.
+
 Deployment
 ----------
 
