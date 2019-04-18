@@ -51,9 +51,11 @@ at https://beta.alerta.io/alerta/, set `BASE_URL` to `/alerta`:
 
     $ export BASE_URL=/alerta
 
-The value can also be set to an empty string (`''`) or a relative path (`./`)
-so that all assets are linked using relative paths. This allows the built
-bundle to be deployed under any public path.
+The value cannot be set to an empty string (`''`) or a relative path (`./`)
+because Alerta Web is using HTML5 `history.pushState` routing that does not
+work properly with relative paths. See
+[Limitations of relative publicPath](https://cli.vuejs.org/config/#publicpath)
+for details.
 
 Deployment
 ----------
