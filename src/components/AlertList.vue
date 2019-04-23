@@ -7,6 +7,7 @@
       :pagination.sync="pagination"
       :rows-per-page-items="pagination.rowsPerPageItems"
       class="alert-table"
+      :style="{ fontSize: fontSize + 'px' }"
       :search="search"
       must-sort
       :custom-sort="customSort"
@@ -486,6 +487,9 @@ export default {
         this.$store.dispatch('alerts/updateSelected', value)
       }
     },
+    fontSize() {
+      return this.$store.getters.getPreference('fontSize')
+    },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
     },
@@ -622,7 +626,6 @@ export default {
   border-top: 1px solid rgb(221, 221, 221);
   height: 42px;
   font-family: 'Sintony', sans-serif;
-  font-size: 14px;
 }
 
 .fixed-table {

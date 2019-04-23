@@ -10,6 +10,7 @@ const getDefaults = () => {
       mediumDate: 'ddd D MMM HH:mm',
       shortTime: 'LT'
     },
+    fontSize: 14,
     refreshInterval: 5*1000,
     shelveTimeout: 2*60*60
   }

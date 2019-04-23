@@ -94,6 +94,14 @@
         <v-card-actions>
           <v-layout column>
             <v-combobox
+              v-model.number="fontSize"
+              :items="fontSizeOptions"
+              label="Font size"
+              type="number"
+              suffix="px"
+            />
+
+            <v-combobox
               v-model.number="refreshInterval"
               :items="refreshOptions"
               label="Refresh interval"
@@ -158,6 +166,7 @@ export default {
       {text: moment().format('HH:mm:ss'), value: 'HH:mm:ss'},
       {text: moment().format('HH:mm:ss.SSS Z'), value: 'HH:mm:ss.SSS Z'},
     ],
+    fontSizeOptions: [12, 14, 18, 24],  // px
     refreshOptions: [2, 5, 10, 30, 60],  // seconds
     shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
   }),
@@ -206,6 +215,14 @@ export default {
         this.$store.dispatch('setUserPrefs', {
           dates: {shortTime: value}
         })
+      }
+    },
+    fontSize: {
+      get() {
+        return this.$store.state.prefs.fontSize
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {fontSize: value})
       }
     },
     refreshInterval: {
