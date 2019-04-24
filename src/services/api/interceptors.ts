@@ -13,6 +13,9 @@ export function makeInterceptors(router) {
     // redirect to login if API rejects auth token
     redirectToLogin(error) {
       if (error.response && error.response.status === 401) {
+        if (store.getters['auth/isLoggedIn']) {
+          store.dispatch('auth/logout')
+        }
         if (router.currentRoute.path != '/login') {
           router.replace({
             path: '/login',
