@@ -1,5 +1,6 @@
 import AlertsApi from '@/services/api/alert.service'
 
+import moment from 'moment'
 import utils from '@/common/utils'
 
 const namespaced = true
@@ -117,13 +118,36 @@ const mutations = {
 const actions = {
   getAlerts({ rootGetters, commit, state }) {
     commit('SET_LOADING')
-    let query = state.query
+    // get "lucene" query params and sort order
+    let query = state.query.q ? state.query : {}
     let sortBy = rootGetters['getConfig']('sort_by')
     query['sort-by'] = sortBy.replace(/^\-/,'')
     if (sortBy.startsWith('-')) {
       query['reverse'] = 1
     }
-    return AlertsApi.getAlerts(query)
+
+    // append filter params to query params
+    let params = new URLSearchParams(query)
+    state.filter.status && state.filter.status.map(st => params.append('status', st))
+    state.filter.customer && state.filter.customer.map(c => params.append('customer', c))
+    state.filter.service && state.filter.service.map(s => params.append('service', s))
+    state.filter.group && state.filter.group.map(g => params.append('group', g))
+
+    // apply any date/time filters
+    if (state.filter.dateRange[0] !== null) {
+      params.append(
+        'from-date',
+        moment().utc().subtract(state.filter.dateRange[0], 'seconds').toISOString()
+      )
+    }
+    if (state.filter.dateRange[1] !== null) {
+      params.append(
+        'to-date',
+        moment().utc().subtract(state.filter.dateRange[1], 'seconds').toISOString()
+      )
+    }
+
+    return AlertsApi.getAlerts(params)
       .then(({ alerts }) => commit('SET_ALERTS', alerts))
       .catch(() => commit('RESET_LOADING'))
   },
