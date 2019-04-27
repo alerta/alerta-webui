@@ -250,7 +250,7 @@ export default {
       set(value) {
         this.$store.dispatch('alerts/setFilter', {
           status: value.length > 0 ? value : null
-        })
+        }).then(() => this.$store.dispatch('alerts/getAlerts'))
       }
     },
     filterCustomer: {
@@ -260,7 +260,7 @@ export default {
       set(value) {
         this.$store.dispatch('alerts/setFilter', {
           customer: value.length > 0 ? value : null
-        })
+        }).then(() => this.$store.dispatch('alerts/getAlerts'))
       }
     },
     filterService: {
@@ -270,7 +270,7 @@ export default {
       set(value) {
         this.$store.dispatch('alerts/setFilter', {
           service: value.length > 0 ? value : null
-        })
+        }).then(() => this.$store.dispatch('alerts/getAlerts'))
       }
     },
     filterGroup: {
@@ -280,7 +280,7 @@ export default {
       set(value) {
         this.$store.dispatch('alerts/setFilter', {
           group: value.length > 0 ? value : null
-        })
+        }).then(() => this.$store.dispatch('alerts/getAlerts'))
       }
     },
     filterDateRange: {
@@ -290,7 +290,7 @@ export default {
       set(value) {
         this.$store.dispatch('alerts/setFilter', {
           dateRange: value
-        })
+        }).then(() => this.$store.dispatch('alerts/getAlerts'))
       }
     },
     username() {
