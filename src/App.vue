@@ -429,7 +429,19 @@
             :disabled="!isLoggedIn"
             icon
           >
-            <v-icon>{{ navbar.signin.icon }}</v-icon>
+            <v-avatar
+              size="32px"
+            >
+              <img
+                v-if="avatar"
+                :src="avatar"
+                alt="Avatar"
+              >
+              <v-icon
+                v-else
+                v-text="navbar.signin.icon"
+              />
+            </v-avatar>
           </v-btn>
 
           <profile-me
