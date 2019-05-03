@@ -23,7 +23,8 @@ jobs:
     - npm run test:unit
   - stage: deploy
     before_script:
-    - echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com > .env
+    - echo BASE_URL=./ > .env
+    - echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com >> .env
     - echo VUE_APP_TRACKING_ID=UA-44644195-7 >> .env
     script: npm run build
     deploy:
