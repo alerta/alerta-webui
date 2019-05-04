@@ -470,6 +470,9 @@ export default {
       let headers = this.$config.columns
         .map(c => this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c })
       headers.push({ text: 'Description', value: 'text' })  // 'text' must be last column
+      if (this.showIcons) {
+        headers.push({ text: '', value: 'id' })
+      }
       return headers
     },
     selectedItem() {
