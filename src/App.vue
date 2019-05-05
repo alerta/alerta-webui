@@ -649,6 +649,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$store.dispatch('getUserPrefs')
+  },
   methods: {
     submitSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
