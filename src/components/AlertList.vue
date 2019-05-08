@@ -404,8 +404,8 @@
 
 <script>
 import debounce from 'lodash/debounce'
+import get from 'lodash/get'
 import DateTime from './lib/DateTime'
-import _ from 'lodash'
 import moment from 'moment'
 
 export default {
@@ -547,8 +547,8 @@ export default {
 
       // use default sort
       return items.sort((a, b) => {
-        const aValue = _.get(a, index)
-        const bValue = _.get(b, index)
+        const aValue = get(a, index)
+        const bValue = get(b, index)
         if (aValue === bValue) {
           return 0
         } else if (aValue == null) {
