@@ -1,9 +1,8 @@
 <template>
   <div class="alerts">
     <audio
-      v-if="playSound && !isMute"
+      ref="audio"
       :src="$config.audio.new"
-      autoplay
     />
 
     <alert-detail
@@ -114,7 +113,6 @@ export default {
     selectedId: null,
     selectedItem: {},
     sidesheet: false,
-    playSound: false,
     timer: null
   }),
   computed: {
@@ -187,10 +185,16 @@ export default {
         return this.$store.getters['alerts/alerts']
       }
     },
+    isNewOpenAlerts() {
+      return this.alerts.filter(x => x.status == 'open').reduce((a, v) => a || !v.repeat, false)
+    },
+    totalCount() {
+      return this.$store.state.alerts.environments
+        .map(e => e.count).reduce((a, b) => a + b, 0)
+    },
     environments() {
-      let e = this.$store.state.alerts.environments
-      let totalCount = e.map(e => e.count).reduce((a, b) => a + b, 0)
-      return [{ environment: 'ALL', count: totalCount }].concat(e)
+      return [{ environment: 'ALL', count: this.totalCount }]
+        .concat(this.$store.state.alerts.environments)
     },
     environmentCounts() {
       return this.alerts.reduce((grp, a) => {
@@ -228,18 +232,6 @@ export default {
   watch: {
     dialog(val) {
       val || this.close()
-    },
-    alerts(current, old) {
-      if (
-        old &&
-        current.length > old.length &&
-        this.filter.status &&
-        this.filter.status.includes('open')  // FIXME
-      ) {
-        this.playSound = true
-      } else {
-        this.playSound = false
-      }
     },
     filter: {
       handler(val) {
@@ -312,6 +304,9 @@ export default {
     refreshAlerts() {
       this.getAlerts()
         .then(() => {
+          if (this.isNewOpenAlerts) {
+            this.$refs.audio.play()
+          }
           this.timer = setTimeout(() => this.refreshAlerts(), this.refreshInterval)
         })
     },
