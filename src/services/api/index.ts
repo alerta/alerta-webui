@@ -2,8 +2,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import { AxiosRequestConfig } from 'axios'
 
-const logRequests = !!process.env.VUE_APP_DEBUG
-
 const api = {
   get(url: string, config?: AxiosRequestConfig) {
     return this.request('GET', url, null, config)
@@ -35,10 +33,8 @@ const api = {
     data?: any,
     config?: AxiosRequestConfig
   ) {
-    logRequests && console.log(`${method} ${url}...`)
     let t0 = performance.now()
     return axios.request({ ...config, url, method, data }).then(response => {
-      logRequests && console.log(response)
       let t1 = performance.now()
       Vue.prototype.$track('timing_complete', {
         name: method,

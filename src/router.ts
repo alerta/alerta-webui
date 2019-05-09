@@ -184,7 +184,6 @@ export function createRouter(basePath): VueRouter {
   router.beforeEach((to, from, next) => {
     if (to.fullPath.substr(0, 2) === '/#') {
       const pathMinusHashbang = to.fullPath.substr(2)
-      console.log('rewriting ', to.fullPath, ' to ', pathMinusHashbang)
       next(pathMinusHashbang)
     } else {
       next()
