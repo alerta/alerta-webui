@@ -1,5 +1,6 @@
 <template>
   <div class="alerts">
+
     <audio
       ref="audio"
       :src="$config.audio.new"
@@ -301,12 +302,13 @@ export default {
         this.timer = null
       }
     },
+    playSound() {
+      !this.isMute && this.$refs.audio.play()
+    },
     refreshAlerts() {
       this.getAlerts()
         .then(() => {
-          if (this.isNewOpenAlerts) {
-            this.$refs.audio.play()
-          }
+          this.isNewOpenAlerts && this.playSound()
           this.timer = setTimeout(() => this.refreshAlerts(), this.refreshInterval)
         })
     },
