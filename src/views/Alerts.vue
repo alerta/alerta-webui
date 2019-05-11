@@ -3,7 +3,7 @@
 
     <audio
       ref="audio"
-      :src="$config.audio.new"
+      :src="audioURL"
     />
 
     <alert-detail
@@ -117,6 +117,9 @@ export default {
     timer: null
   }),
   computed: {
+    audioURL() {
+      return this.$config.audio.new || this.$store.getters.getPreference('audioURL')
+    },
     defaultTab() {
       return utils.fromHash(this.hash).environment ? `tab-${utils.fromHash(this.hash).environment}` : 'tab-ALL'
     },
