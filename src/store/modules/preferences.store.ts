@@ -4,7 +4,8 @@ import stateMerge from 'vue-object-merge'
 const getDefaults = () => {
   return {
     isDark: false,
-    isMute: false,
+    isMute: true,
+    audioURL: '/audio/alert_high-intensity.ogg',
     dates: {
       longDate: 'ddd D MMM, YYYY HH:mm:ss.SSS Z',
       mediumDate: 'ddd D MMM HH:mm',

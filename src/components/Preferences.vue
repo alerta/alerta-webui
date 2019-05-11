@@ -28,7 +28,6 @@
             label="Play notification sounds"
             hide-details
             class="my-0"
-            :disabled="!$config.audio.new"
           />
         </v-radio-group>
       </v-card-actions>
@@ -173,7 +172,7 @@ export default {
     },
     isPlaySounds: {
       get() {
-        return this.$config.audio.new ? !this.$store.getters.getPreference('isMute') : false
+        return !this.$store.getters.getPreference('isMute')
       },
       set(value) {
         this.$store.dispatch('toggle', ['isMute', !value])
