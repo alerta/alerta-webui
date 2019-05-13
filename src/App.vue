@@ -574,7 +574,7 @@ export default {
         text: 'Settings',
         path: '/settings',
         perms: null,
-        show: true
+        show: vm.isLoggedIn
       },
       // { icon: 'chat_bubble', text: 'Send feedback' },
       {
@@ -650,7 +650,9 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('getUserPrefs')
+    if (this.isLoggedIn) {
+      this.$store.dispatch('getUserPrefs')
+    }
   },
   methods: {
     submitSearch(query) {
