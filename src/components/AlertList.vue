@@ -122,7 +122,7 @@
               v-if="col == 'text'"
               class="text-no-wrap"
             >
-              {{ props.item.text }}
+              <span v-html="props.item.text"></span>
             </span>
             <span
               v-if="col == 'tags'"
@@ -222,7 +222,7 @@
           >
             <div class="fixed-table">
               <div class="text-truncate">
-                {{ props.item.text }}
+                <span v-html="props.item.text"></span>
               </div>
             </div>
           </td>
