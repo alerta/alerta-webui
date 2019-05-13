@@ -243,7 +243,6 @@
         >
           Log In
         </v-btn>
-
       </v-toolbar>
 
       <v-toolbar
@@ -447,7 +446,6 @@
         >
           Log In
         </v-btn>
-
       </v-toolbar>
     </div>
 
@@ -481,118 +479,120 @@ export default {
     drawer: false,
     navbar: {
       signin: { icon: 'account_circle', text: 'Sign In', path: '/login' }
-    },
-    items: [
-      {
-        icon: 'list',
-        text: 'Alerts',
-        path: '/alerts',
-        perms: 'read:alerts',
-        show: true
-      },
-      {
-        icon: 'timer',
-        text: 'Heartbeats',
-        path: '/heartbeats',
-        perms: 'read:heartbeats',
-        show: true
-      },
-      {
-        icon: 'person',
-        text: 'Users',
-        path: '/users',
-        perms: 'admin:users',
-        show: true
-      },
-      {
-        icon: 'people',
-        text: 'Groups',
-        path: '/groups',
-        perms: 'read:groups',
-        show: vm.$config.provider == 'basic'
-      },
-      {
-        icon: 'domain',
-        text: 'Customers',
-        path: '/customers',
-        perms: 'read:customers',
-        show: vm.$config.customer_views
-      },
-      {
-        icon: 'notifications_off',
-        text: 'Blackouts',
-        path: '/blackouts',
-        perms: 'read:blackouts',
-        show: true
-      },
-      {
-        icon: 'security',
-        text: 'Permissions',
-        path: '/perms',
-        perms: 'read:perms',
-        show: true
-      },
-      {
-        icon: 'vpn_key',
-        text: 'API Keys',
-        path: '/keys',
-        perms: 'read:keys',
-        show: true
-      },
-      // {
-      //   icon: 'keyboard_arrow_up',
-      //   'icon-alt': 'keyboard_arrow_down',
-      //   text: 'Labels',
-      //   model: true,
-      //   children: [{ icon: 'add', text: 'Create label' }]
-      // },
-      {
-        icon: 'assessment',
-        text: 'Reports',
-        path: '/reports',
-        perms: 'read:alerts',
-        show: true
-      },
-      // {
-      //   icon: 'keyboard_arrow_up',
-      //   'icon-alt': 'keyboard_arrow_down',
-      //   text: 'More',
-      //   model: false,
-      //   children: [
-      //     { text: 'Import' },
-      //     { text: 'Export' },
-      //     { text: 'Print' },
-      //     { text: 'Undo changes' },
-      //     { text: 'Other contacts' }
-      //   ]
-      // },
-      { divider: true},
-      {
-        icon: 'settings',
-        text: 'Settings',
-        path: '/settings',
-        perms: null,
-        show: vm.isLoggedIn
-      },
-      // { icon: 'chat_bubble', text: 'Send feedback' },
-      {
-        icon: 'help',
-        text: 'Help',
-        path: '/help',
-        appendIcon: 'open_in_new',
-        perms: null,
-        show: true
-      },
-      {
-        icon: 'info',
-        text: 'About',
-        path: '/about',
-        perms: 'read:management',
-        show: true
-      }
-    ]
+    }
   }),
   computed: {
+    items() {
+      return [
+        {
+          icon: 'list',
+          text: 'Alerts',
+          path: '/alerts',
+          perms: 'read:alerts',
+          show: true
+        },
+        {
+          icon: 'timer',
+          text: 'Heartbeats',
+          path: '/heartbeats',
+          perms: 'read:heartbeats',
+          show: true
+        },
+        {
+          icon: 'person',
+          text: 'Users',
+          path: '/users',
+          perms: 'admin:users',
+          show: true
+        },
+        {
+          icon: 'people',
+          text: 'Groups',
+          path: '/groups',
+          perms: 'read:groups',
+          show: this.$config.provider == 'basic'
+        },
+        {
+          icon: 'domain',
+          text: 'Customers',
+          path: '/customers',
+          perms: 'read:customers',
+          show: this.$config.customer_views
+        },
+        {
+          icon: 'notifications_off',
+          text: 'Blackouts',
+          path: '/blackouts',
+          perms: 'read:blackouts',
+          show: true
+        },
+        {
+          icon: 'security',
+          text: 'Permissions',
+          path: '/perms',
+          perms: 'read:perms',
+          show: true
+        },
+        {
+          icon: 'vpn_key',
+          text: 'API Keys',
+          path: '/keys',
+          perms: 'read:keys',
+          show: true
+        },
+        // {
+        //   icon: 'keyboard_arrow_up',
+        //   'icon-alt': 'keyboard_arrow_down',
+        //   text: 'Labels',
+        //   model: true,
+        //   children: [{ icon: 'add', text: 'Create label' }]
+        // },
+        {
+          icon: 'assessment',
+          text: 'Reports',
+          path: '/reports',
+          perms: 'read:alerts',
+          show: true
+        },
+        // {
+        //   icon: 'keyboard_arrow_up',
+        //   'icon-alt': 'keyboard_arrow_down',
+        //   text: 'More',
+        //   model: false,
+        //   children: [
+        //     { text: 'Import' },
+        //     { text: 'Export' },
+        //     { text: 'Print' },
+        //     { text: 'Undo changes' },
+        //     { text: 'Other contacts' }
+        //   ]
+        // },
+        { divider: true},
+        {
+          icon: 'settings',
+          text: 'Settings',
+          path: '/settings',
+          perms: null,
+          show: this.isLoggedIn
+        },
+        // { icon: 'chat_bubble', text: 'Send feedback' },
+        {
+          icon: 'help',
+          text: 'Help',
+          path: '/help',
+          appendIcon: 'open_in_new',
+          perms: null,
+          show: true
+        },
+        {
+          icon: 'info',
+          text: 'About',
+          path: '/about',
+          perms: 'read:management',
+          show: true
+        }
+      ]
+    },
     isDark() {
       return this.$store.getters.getPreference('isDark')
     },

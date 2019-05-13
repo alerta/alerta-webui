@@ -470,7 +470,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <span v-html="item.text"></span>
+                        <span v-html="item.text" />
                       </div>
                     </div>
                   </div>

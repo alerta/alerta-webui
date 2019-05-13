@@ -1,6 +1,5 @@
 <template>
   <div class="alerts">
-
     <audio
       ref="audio"
       :src="audioURL"
