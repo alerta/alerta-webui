@@ -481,8 +481,11 @@ export default {
     drawer: false,
     navbar: {
       signin: { icon: 'account_circle', text: 'Sign In', path: '/login' }
-    },
-    items: [
+    }
+  }),
+  computed: {
+    items() {
+      return [
       {
         icon: 'list',
         text: 'Alerts',
@@ -509,14 +512,14 @@ export default {
         text: 'Groups',
         path: '/groups',
         perms: 'read:groups',
-        show: vm.$config.provider == 'basic'
+        show: this.$config.provider == 'basic'
       },
       {
         icon: 'domain',
         text: 'Customers',
         path: '/customers',
         perms: 'read:customers',
-        show: vm.$config.customer_views
+        show: this.$config.customer_views
       },
       {
         icon: 'notifications_off',
@@ -572,7 +575,7 @@ export default {
         text: 'Settings',
         path: '/settings',
         perms: null,
-        show: vm.isLoggedIn
+        show: this.isLoggedIn
       },
       // { icon: 'chat_bubble', text: 'Send feedback' },
       {
@@ -591,8 +594,7 @@ export default {
         show: true
       }
     ]
-  }),
-  computed: {
+    },
     isDark() {
       return this.$store.getters.getPreference('isDark')
     },
