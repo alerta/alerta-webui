@@ -1,6 +1,6 @@
 {
   "name": "alerta-webui",
-  "version": "7.2.2",
+  "version": "7.2.3",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 8000",
