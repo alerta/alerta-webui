@@ -168,24 +168,6 @@
 
         <v-spacer class="hidden-sm-and-down" />
 
-        <v-btn
-          v-show="!isLoggedIn && isAuthRequired && isSignupEnabled"
-          round
-          outline
-          color="primary"
-          to="/signup"  
-        >
-          Sign Up
-        </v-btn>
-        <v-btn
-          v-show="!isLoggedIn && isAuthRequired"
-          round
-          color="primary"
-          to="/login"
-        >
-          Log In
-        </v-btn>
-
         <v-tooltip bottom>
           <v-btn
             v-show="isLoggedIn || !isAuthRequired"
@@ -212,16 +194,14 @@
         </v-tooltip>
 
         <v-menu
-          v-show="isLoggedIn || !isAuthRequired"
+          v-show="isLoggedIn"
           v-model="menu"
           :close-on-content-click="false"
           :nudge-width="200"
           offset-x
-          :disabled="!isLoggedIn"
         >
           <v-btn
             slot="activator"
-            :disabled="!isLoggedIn"
             icon
           >
             <v-avatar
@@ -245,6 +225,25 @@
             @close="menu = false"
           />
         </v-menu>
+
+        <v-btn
+          v-show="!isLoggedIn && isSignupEnabled"
+          round
+          outline
+          color="primary"
+          to="/signup"
+        >
+          Sign Up
+        </v-btn>
+        <v-btn
+          v-show="!isLoggedIn"
+          round
+          color="primary"
+          to="/login"
+        >
+          Log In
+        </v-btn>
+
       </v-toolbar>
 
       <v-toolbar
@@ -373,24 +372,6 @@
 
         <v-spacer />
 
-        <v-btn
-          v-show="!isLoggedIn && isAuthRequired && isSignupEnabled"
-          round
-          outline
-          color="primary"
-          to="/signup"  
-        >
-          Sign Up
-        </v-btn>
-        <v-btn
-          v-show="!isLoggedIn && isAuthRequired"
-          round
-          color="primary"
-          to="/login"
-        >
-          Log In
-        </v-btn>
-
         <v-tooltip bottom>
           <v-btn
             v-show="isLoggedIn || !isAuthRequired"
@@ -405,7 +386,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn"
+            v-show="isLoggedIn || !isAuthRequired"
             slot="activator"
             icon
           >
@@ -417,16 +398,14 @@
         </v-tooltip>
 
         <v-menu
-          v-show="isLoggedIn || !isAuthRequired"
+          v-show="isLoggedIn"
           v-model="menu"
           :close-on-content-click="false"
           :nudge-width="200"
           offset-x
-          :disabled="!isLoggedIn"
         >
           <v-btn
             slot="activator"
-            :disabled="!isLoggedIn"
             icon
           >
             <v-avatar
@@ -450,6 +429,25 @@
             @close="menu = false"
           />
         </v-menu>
+
+        <v-btn
+          v-show="!isLoggedIn && isSignupEnabled"
+          round
+          outline
+          color="primary"
+          disabled
+        >
+          Sign Up
+        </v-btn>
+        <v-btn
+          v-show="!isLoggedIn"
+          round
+          color="primary"
+          disabled
+        >
+          Log In
+        </v-btn>
+
       </v-toolbar>
     </div>
 
