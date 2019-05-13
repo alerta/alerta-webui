@@ -470,7 +470,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        {{ item.text }}
+                        <span v-html="item.text"></span>
                       </div>
                     </div>
                   </div>
