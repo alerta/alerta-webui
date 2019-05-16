@@ -3,6 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="metrics"
+      class="px-2"
       hide-actions
     >
       <template
@@ -20,6 +21,7 @@
     <v-data-table
       :headers="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
       :items="uptime"
+      class="px-2"
       hide-actions
     >
       <template
