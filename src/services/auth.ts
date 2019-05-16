@@ -21,9 +21,13 @@ export function vueAuth(config) {
         clientId: config.client_id,
         authorizationEndpoint: `https://login.microsoftonline.com/${config.azure_tenant}/oauth2/authorize`,
         redirectUri: window.location.origin,
+        requiredUrlParams: ['scope'],
+        optionalUrlParams: ['display', 'state'],
+        scope: 'openid+profile+email',
         display: 'popup',
         oauthType: '2.0',
-        popupOptions: { width: 1020, height: 618 }
+        popupOptions: { width: 1020, height: 618 },
+        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       github: {
         name: 'GitHub',
@@ -39,10 +43,12 @@ export function vueAuth(config) {
         authorizationEndpoint: `${config.gitlab_url}/oauth/authorize`,
         redirectUri: window.location.origin,
         requiredUrlParams: ['scope'],
+        optionalUrlParams: ['display', 'state'],
         scope: ['openid'],
         display: 'popup',
         oauthType: '2.0',
-        popupOptions: { width: 1020, height: 618 }
+        popupOptions: { width: 1020, height: 618 },
+        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       google: {
         name: 'Google',
@@ -57,7 +63,13 @@ export function vueAuth(config) {
           config.keycloak_realm
         }/protocol/openid-connect/auth`,
         redirectUri: window.location.origin,
-        oauthType: '2.0'
+        requiredUrlParams: ['scope'],
+        optionalUrlParams: ['display', 'state'],
+        scope: 'openid+profile+email',
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 1020, height: 618 },
+        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       openid: {
         name: 'OpenID',
