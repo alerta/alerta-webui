@@ -32,6 +32,7 @@ class Config {
       })
       .catch((error: any) => {
         console.log(error)
+        throw(error)
       })
   }
 
@@ -65,7 +66,14 @@ class Config {
       .get(`${endpoint}/config`)
       .then(response => response.data)
       .catch((error: any) => {
-        console.error(error.message)
+        alert(
+          'ERROR: Failed to connect to Alerta API due to missing or invalid ' +
+          'config.json file.\n\n' +
+          'Please confirm a config.json file exists, contains an "endpoint" ' +
+          'setting and is in the same directory as the application index.html ' +
+          'file.'
+        )
+        throw(error)
       })
   }
 
