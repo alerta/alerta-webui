@@ -13,6 +13,7 @@
       <v-data-table
         :headers="headers"
         :items="top10"
+        class="px-2"
         hide-actions
       >
         <template

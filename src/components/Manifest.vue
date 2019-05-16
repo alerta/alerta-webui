@@ -2,6 +2,7 @@
   <v-data-table
     :headers="headers"
     :items="manifest"
+    class="px-2"
     hide-actions
   >
     <template
