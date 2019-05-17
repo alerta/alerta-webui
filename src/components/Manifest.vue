@@ -9,7 +9,9 @@
       slot="items"
       slot-scope="props"
     >
-      <td>{{ application | capitalize }} API {{ props.item.release }}</td>
+      <td>
+        {{ application | capitalize }} API {{ props.item.release }}
+      </td>
       <td>{{ props.item.build }}</td>
       <td>
         <date-time
@@ -19,10 +21,38 @@
         />
       </td>
       <td>
+        {{ props.item.revision }}
         <a
           :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
           target="_blank"
-        >{{ props.item.revision }} <v-icon small>launch</v-icon></a>
+        >
+          <v-tooltip right>
+            Open in GitHub
+            <v-icon
+              slot="activator"
+              small
+            >launch</v-icon>
+          </v-tooltip>
+        </a>
+      </td>
+      <td
+        monospace
+      >
+        <a :href="$config.endpoint" target="_blank">{{ $config.endpoint }}</a>
+        <v-tooltip
+          :key="copyIconText"
+          top
+        >
+          <v-icon
+            slot="activator"
+            small
+            @click="clipboardCopy($config.endpoint)"
+            class="px-1"
+          >
+            content_copy
+          </v-icon>
+          <span>{{ copyIconText }}</span>
+        </v-tooltip>
       </td>
     </template>
   </v-data-table>
@@ -41,8 +71,10 @@ export default {
       {text: 'Build', value: 'build', sortable: false},
       {text: 'Date', value: 'date', sortable: false},
       {text: 'Git Revision', value: 'revision', sortable: false},
+      {text: 'API Endpoint', value: 'endpoint', sortable: false}
     ],
-    manifest: []
+    manifest: [],
+    copyIconText: 'Copy'
   }),
   computed: {
     application() {
@@ -64,9 +96,26 @@ export default {
   methods: {
     getManifest() {
       return this.$store.dispatch('management/getManifest')
+    },
+    clipboardCopy(text) {
+      this.copyIconText = 'Copied!'
+      let textarea = document.createElement('textarea')
+      textarea.textContent = text
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+      setTimeout(() => {
+        this.copyIconText = 'Copy'
+      }, 2000)
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+td[monospace] {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
+    monospace;
+}
+</style>
