@@ -10,7 +10,7 @@
       slot-scope="props"
     >
       <td>
-        {{ application | capitalize }} API {{ props.item.release }}
+        <span class="hidden-sm-and-down">{{ application | capitalize }} API </span>{{ props.item.release }}
       </td>
       <td>{{ props.item.build }}</td>
       <td>
@@ -21,7 +21,8 @@
         />
       </td>
       <td>
-        {{ props.item.revision }}
+        <span class="hidden-sm-and-down">{{ props.item.revision }}</span>
+        <span class="show-md-and-up">{{ props.item.revision.substring(0, 7) }}</span>
         <a
           :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
           target="_blank"
@@ -35,10 +36,13 @@
           </v-tooltip>
         </a>
       </td>
-      <td
-        monospace
-      >
-        <a :href="$config.endpoint" target="_blank">{{ $config.endpoint }}</a>
+      <td>
+        <a
+          :href="$config.endpoint"
+          target="_blank"
+        >
+          <span class="monospace">{{ $config.endpoint }}</span>
+        </a>
         <v-tooltip
           :key="copyIconText"
           top
@@ -46,8 +50,8 @@
           <v-icon
             slot="activator"
             small
-            @click="clipboardCopy($config.endpoint)"
             class="px-1"
+            @click="clipboardCopy($config.endpoint)"
           >
             content_copy
           </v-icon>
@@ -113,9 +117,11 @@ export default {
 }
 </script>
 
-<style>
-td[monospace] {
+<style scoped>
+.monospace {
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
     monospace;
+  font-size: 12px !important;
+  font-weight: 600 !important;
 }
 </style>
