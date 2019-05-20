@@ -94,6 +94,14 @@
         <v-card-actions>
           <v-layout column>
             <v-combobox
+              v-model.number="rowsPerPage"
+              :items="rowsPerPageItems"
+              label="Rows per page"
+              type="number"
+              suffix="rows"
+            />
+
+            <v-combobox
               v-model.number="refreshInterval"
               :items="refreshOptions"
               label="Refresh interval"
@@ -206,6 +214,17 @@ export default {
         this.$store.dispatch('setUserPrefs', {
           dates: {shortTime: value}
         })
+      }
+    },
+    rowsPerPageItems() {
+      return this.$store.state.alerts.pagination.rowsPerPageItems
+    },
+    rowsPerPage: {
+      get() {
+        return (this.$store.getters.getPreference('rowsPerPage') || this.$store.state.alerts.pagination.rowsPerPage)
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {rowsPerPage: value})
       }
     },
     refreshInterval: {
