@@ -53,7 +53,7 @@ const state = {
     rowsPerPage: 20,
     sortBy: 'default',
     totalItems: 0,
-    rowsPerPageItems: [10, 20, 30, 40]
+    rowsPerPageItems: [10, 20, 30, 40, 50]
   }
 }
 
