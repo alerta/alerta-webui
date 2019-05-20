@@ -455,6 +455,9 @@ export default {
     timer: null
   }),
   computed: {
+    rowsPerPage() {
+      return this.$store.getters.getPreference('rowsPerPage')
+    },
     pagination: {
       get() {
         return this.$store.state.alerts.pagination
@@ -494,6 +497,11 @@ export default {
     },
     username() {
       return this.$store.getters['auth/getUsername']
+    }
+  },
+  watch: {
+    rowsPerPage(val) {
+      this.pagination = Object.assign({}, this.pagination, {rowsPerPage: val})
     }
   },
   methods: {

@@ -412,7 +412,7 @@ export default {
   data: vm => ({
     descending: true,
     page: 1,
-    rowsPerPageItems: [10, 20, 30, 40],
+    rowsPerPageItems: [10, 20, 30, 40, 50],
     pagination: {
       sortBy: 'name',
       rowsPerPage: 20
