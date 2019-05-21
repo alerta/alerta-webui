@@ -18,17 +18,22 @@
         >
           <v-toolbar-side-icon @click.stop="drawer = !drawer" />
 
-          <img
-            v-if="$config.site_logo_url"
-            :src="$config.site_logo_url"
-            height="48"
+          <router-link
+            to="/"
+            class="toolbar-title"
           >
-          <v-toolbar-title
-            v-else
-            class="logo"
-          >
-            alerta
-          </v-toolbar-title>
+            <img
+              v-if="$config.site_logo_url"
+              :src="$config.site_logo_url"
+              height="48"
+            >
+            <v-toolbar-title
+              v-else
+              class="logo"
+            >
+              alerta
+            </v-toolbar-title>
+          </router-link>
         </v-toolbar>
 
         <v-divider />
@@ -120,17 +125,22 @@
           @click.stop="drawer = !drawer"
         />
 
-        <img
-          v-if="$config.site_logo_url"
-          :src="$config.site_logo_url"
-          height="48"
+        <router-link
+          to="/"
+          class="toolbar-title"
         >
-        <v-toolbar-title
-          v-else
-          class="logo"
-        >
-          alerta
-        </v-toolbar-title>
+          <img
+            v-if="$config.site_logo_url"
+            :src="$config.site_logo_url"
+            height="48"
+          >
+          <v-toolbar-title
+            v-else
+            class="logo"
+          >
+            alerta
+          </v-toolbar-title>
+        </router-link>
 
         <v-spacer />
 
@@ -5070,6 +5080,11 @@ export default {
 .fa,
 .fas {
   font-weight: 900;
+}
+
+.toolbar-title {
+  color: inherit;
+  text-decoration: inherit;
 }
 
 .logo {
