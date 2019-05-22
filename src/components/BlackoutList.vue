@@ -23,6 +23,7 @@
                     v-model="editedItem.customer"
                     :items="allowedCustomers"
                     label="Customer"
+                    clearable
                   />
                 </v-flex>
                 <v-flex
