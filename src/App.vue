@@ -750,30 +750,30 @@ export default {
 <style>
 @font-face {
   font-family: Roboto;
-  src: url("assets/fonts/Roboto/Roboto-Regular.ttf");
+  src: url("./assets/fonts/Roboto/Roboto-Regular.ttf");
 }
 
 @font-face {
   font-family: Sintony;
-  src: url("assets/fonts/Sintony/Sintony-Regular.ttf");
+  src: url("./assets/fonts/Sintony/Sintony-Regular.ttf");
 }
 
 @font-face {
   font-family: Sintony;
   font-weight: bold;
-  src: url("assets/fonts/Sintony/Sintony-Bold.ttf");
+  src: url("./assets/fonts/Sintony/Sintony-Bold.ttf");
 }
 
 @font-face {
   font-family: "Sonsie One";
-  src: url("assets/fonts/SonsieOne/SonsieOne-Logo.woff2") format("woff2");
+  src: url("./assets/fonts/SonsieOne/SonsieOne-Logo.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
-  src: url("assets/fonts/MaterialIcons/MaterialIcons.woff2") format("woff2");
+  src: url("./assets/fonts/MaterialIcons/MaterialIcons.woff2") format("woff2");
 }
 
 .material-icons {
@@ -797,7 +797,7 @@ export default {
   font-style: normal;
   font-weight: normal;
   font-display: auto;
-  src: url("assets/fonts/FontAwesome/fa-brands-400.woff2") format("woff2");
+  src: url("./assets/fonts/FontAwesome/fa-brands-400.woff2") format("woff2");
 }
 
 .fab {
