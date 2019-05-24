@@ -57,6 +57,7 @@
             ref="form"
             v-model="valid"
             lazy-validation
+            @submit="addNote"
           >
             <v-card>
               <v-card-text>
