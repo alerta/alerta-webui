@@ -62,6 +62,7 @@
           <td
             v-for="col in $config.columns"
             :key="col"
+            class="text-no-wrap"
           >
             <span
               v-if="col == 'id'"
@@ -219,6 +220,7 @@
           </td>
           <td
             :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
+            class="text-no-wrap"
           >
             <div class="fixed-table">
               <div class="text-truncate">
