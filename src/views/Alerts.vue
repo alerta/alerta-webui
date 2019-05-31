@@ -261,7 +261,6 @@ export default {
       this.setSort(hashMap)
     }
     this.setKiosk(this.isKiosk)
-    this.getEnvironments()
     this.cancelTimer()
     this.refreshAlerts()
   },
@@ -308,6 +307,7 @@ export default {
       !this.isMute && this.$refs.audio.play()
     },
     refreshAlerts() {
+      this.getEnvironments()
       this.getAlerts()
         .then(() => {
           this.isNewOpenAlerts && this.playSound()
