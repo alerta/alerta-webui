@@ -108,7 +108,7 @@ export default {
     }
   },
   data: vm => ({
-    currentTab: 'tab-ALL',
+    currentTab: null,
     dialog: false,
     selectedId: null,
     selectedItem: {},
@@ -120,13 +120,13 @@ export default {
       return this.$config.audio.new || this.$store.getters.getPreference('audioURL')
     },
     defaultTab() {
-      return utils.fromHash(this.hash).environment ? `tab-${utils.fromHash(this.hash).environment}` : 'tab-ALL'
+      return this.filter.environment ? `tab-${this.filter.environment}` : 'tab-ALL'
     },
     filter() {
       return this.$store.state.alerts.filter
     },
     isActive() {
-      return this.filter.text || this.filter.status ||this.filter.customer || this.filter.service || this.filter.group || this.filter.dateRange[0] || this.filter.dateRange[1]
+      return this.filter.text || this.filter.status || this.filter.customer || this.filter.service || this.filter.group || this.filter.dateRange[0] || this.filter.dateRange[1]
     },
     alerts() {
       if (this.filter) {
@@ -253,13 +253,13 @@ export default {
     }
   },
   created() {
-    this.currentTab = this.defaultTab
     this.setSearch(this.query)
     if (this.hash) {
       let hashMap = utils.fromHash(this.hash)
       this.setFilter(hashMap)
       this.setSort(hashMap)
     }
+    this.currentTab = this.defaultTab
     this.setKiosk(this.isKiosk)
     this.cancelTimer()
     this.refreshAlerts()
