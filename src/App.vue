@@ -218,9 +218,9 @@
               size="32px"
             >
               <img
-                v-if="avatar"
+                v-if="avatar && !error"
                 :src="avatar"
-                alt="Avatar"
+                @error="error = true"
               >
               <v-icon
                 v-else
@@ -421,9 +421,9 @@
               size="32px"
             >
               <img
-                v-if="avatar"
+                v-if="avatar && !error"
                 :src="avatar"
-                alt="Avatar"
+                @error="error = true"
               >
               <v-icon
                 v-else
@@ -489,7 +489,8 @@ export default {
     drawer: false,
     navbar: {
       signin: { icon: 'account_circle', text: 'Sign In', path: '/login' }
-    }
+    },
+    error: false
   }),
   computed: {
     items() {
