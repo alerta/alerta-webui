@@ -831,7 +831,7 @@ export default {
     shelveAlert: debounce(function(id, text) {
       text = text || `shelved by ${this.username}`
       this.$store
-        .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout * 3600])
+        .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout])
         .then(() => this.getAlert(this.id))
     }, 200, {leading: true, trailing: false}),
     watchAlert: debounce(function(id) {

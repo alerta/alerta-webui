@@ -12,8 +12,8 @@ const getDefaults = () => {
       shortTime: 'LT'
     },
     rowsPerPage: 20,
-    refreshInterval: 5*1000,
-    shelveTimeout: 2*60*60
+    refreshInterval: 5*1000,  // milliseconds
+    shelveTimeout: 2*60*60  // seconds
   }
 }
 

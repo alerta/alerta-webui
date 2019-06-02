@@ -607,7 +607,7 @@ export default {
           id,
           'shelve',
           'operator shelve short-cut',
-          this.shelveTimeout * 3600
+          this.shelveTimeout
         ])
     }, 200, {leading: true, trailing: false}),
     watchAlert: debounce(function(id) {
