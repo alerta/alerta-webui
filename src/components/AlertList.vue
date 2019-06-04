@@ -62,7 +62,7 @@
           <td
             v-for="col in $config.columns"
             :key="col"
-            class="text-no-wrap"
+            :class="['text-no-wrap', textColor]"
           >
             <span
               v-if="col == 'id'"
@@ -115,13 +115,11 @@
             </span>
             <span
               v-if="col == 'value'"
-              class="text-no-wrap"
             >
               {{ props.item.value }}
             </span>
             <span
               v-if="col == 'text'"
-              class="text-no-wrap"
             >
               <span v-html="props.item.text" />
             </span>
@@ -165,7 +163,7 @@
             </span>
             <span
               v-if="col == 'timeoutLeft'"
-              class="text-xs-right text-no-wrap"
+              class="text-xs-right"
             >
               {{ timeoutLeft(props.item) | hhmmss }}
             </span>
@@ -220,7 +218,7 @@
           </td>
           <td
             :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
-            class="text-no-wrap"
+            :class="['text-no-wrap', textColor]"
           >
             <div class="fixed-table">
               <div class="text-truncate">
@@ -231,7 +229,7 @@
 
           <td
             v-show="showIcons === props.item.id && !selectableRows"
-            class="text-no-wrap"
+            :class="['text-no-wrap', textColor]"
           >
             <div
               style="display:inline-block;"
@@ -479,6 +477,9 @@ export default {
         headers.push({ text: '', value: 'id' })
       }
       return headers
+    },
+    textColor() {
+      return `${this.$store.getters.getConfig('colors').text}--text`
     },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
