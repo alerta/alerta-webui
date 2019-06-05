@@ -9,6 +9,7 @@ Vue.use(VueAxios, axios)
 
 export function vueAuth(config) {
   return new VueAuthenticate(Vue.prototype.$http, {
+    tokenPath: 'token',
     tokenName: 'token',
     tokenPrefix: '',
     registerUrl: '/auth/signup',
