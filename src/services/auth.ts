@@ -20,7 +20,7 @@ export function vueAuth(config) {
         name: 'Azure Active Directory',
         url: '/auth/azure',
         clientId: config.client_id,
-        authorizationEndpoint: `https://login.microsoftonline.com/${config.azure_tenant}/oauth2/authorize`,
+        authorizationEndpoint: `https://login.microsoftonline.com/${config.azure_tenant}/oauth2/v2.0/authorize`,
         redirectUri: window.location.origin,
         requiredUrlParams: ['scope'],
         optionalUrlParams: ['display', 'state'],
