@@ -13,7 +13,7 @@ export function makeStore(vueAuth) {
     },
 
     mutations: {
-      SET_AUTH(state, [payload, token]) {
+      SET_AUTH(state, [token, payload]) {
         state.isAuthenticated = true
         state.token = token
         state.payload = payload
@@ -41,23 +41,28 @@ export function makeStore(vueAuth) {
             password,
             text
           })
-          .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
+          .then(() => commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
           .finally(() => commit('RESET_SENDING'))
       },
       login({ commit, dispatch }, credentials) {
         return vueAuth
           .login(credentials)
-          .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
+          .then(() => commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
           .catch((error) => { throw error})
       },
       authenticate({ commit, dispatch }, provider) {
         return vueAuth
           .authenticate(provider)
-          .then(() => commit('SET_AUTH', [vueAuth.getPayload(), vueAuth.getToken()]))
+          .then(() => commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()]))
           .then(() => dispatch('getUserPrefs', {}, { root: true }))
           .catch((error) => { throw error})
+      },
+      setToken({ commit, dispatch }, token) {
+        vueAuth.setToken(token)
+        commit('SET_AUTH', [token, vueAuth.getPayload()])
+        dispatch('getUserPrefs', {}, { root: true })
       },
       confirm({ commit }, token) {
         return AuthApi.confirm(token)
