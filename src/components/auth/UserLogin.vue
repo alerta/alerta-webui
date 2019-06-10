@@ -9,35 +9,7 @@
       wrap
     >
       <v-flex
-        v-show="!isBasicAuth"
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      >
-        <div v-show="message && !error">
-          <p class="text-xs-center headline font-weight-medium">
-            Please wait! {{ message }}
-          </p>
-        </div>
-        <div v-show="error">
-          <p class="text-xs-center headline font-weight-medium">
-            Sorry, there was a problem
-            <a
-              href="#"
-              @click="authenticate"
-            >
-              Please try again
-            </a>
-          </p>
-          <p class="text-xs-center subheading font-weight-medium">
-            Error: {{ error }}
-          </p>
-        </div>
-      </v-flex>
-
-      <v-flex
-        v-show="isBasicAuth"
+        v-if="isBasicAuth"
         xs12
         sm8
         offset-xs0
@@ -90,6 +62,63 @@
           </v-btn>
         </div>
       </v-flex>
+
+      <v-flex
+        v-else-if="$config.provider == 'saml2'"
+        xs12
+        sm8
+        offset-xs0
+        offset-sm2
+      >
+        <div v-show="message && !error">
+          <p class="text-xs-center headline font-weight-medium">
+            {{ message }}
+          </p>
+        </div>
+        <div v-show="error">
+          <p class="text-xs-center headline font-weight-medium">
+            Sorry, there was a problem
+            <a
+              href="#"
+              @click="authenticateUsingSAML"
+            >
+              Please try again
+            </a>
+          </p>
+          <p class="text-xs-center subheading font-weight-medium">
+            Error: {{ error }}
+          </p>
+        </div>
+      </v-flex>
+
+      <v-flex
+        v-else
+        xs12
+        sm8
+        offset-xs0
+        offset-sm2
+      >
+        <div v-show="message && !error">
+          <p class="text-xs-center headline font-weight-medium">
+            {{ message }}
+          </p>
+        </div>
+        <div v-show="error">
+          <p class="text-xs-center headline font-weight-medium">
+            Sorry, there was a problem
+            <a
+              href="#"
+              @click="authenticate"
+            >
+              Please try again
+            </a>
+          </p>
+          <p class="text-xs-center subheading font-weight-medium">
+            Error: {{ error }}
+          </p>
+        </div>
+      </v-flex>
+
       <v-flex
         xs12
         sm8
@@ -123,7 +152,9 @@ export default {
     }
   },
   created() {
-    if (this.authProvider) {
+    if (this.$config.provider == 'saml2') {
+      this.authenticateUsingSAML()
+    } else if (this.authProvider) {
       this.authenticate()
     }
   },
@@ -149,6 +180,24 @@ export default {
         this.message = 'Sorry, it is not possile to authenticate'
         this.error = `Unknown authentication provider (${this.$config.provider})`
       }
+    },
+    authenticateUsingSAML() {
+      let auth_win
+      window.addEventListener('message', event => {
+        if (event.source === auth_win) {
+          if (event.data && event.data.status && event.data.status === 'ok' && event.data.token) {
+            this.$store
+              .dispatch('auth/setToken', event.data)
+              .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
+              .catch(error => this.error = error.response.data.message)
+          } else {
+            this.message = 'Sorry, it is not possile to authenticate'
+            this.error = event.data.message ? event.data.message : JSON.stringify(event)
+          }
+        }
+        return
+      })
+      auth_win = window.open(this.$config.endpoint + '/auth/saml', 'Authenticating...')
     }
   }
 }
