@@ -30,6 +30,20 @@ export function vueAuth(config) {
         popupOptions: { width: 1020, height: 618 },
         state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
+      cognito: {
+        name: 'Amazon Cognito',
+        url: '/auth/openid',
+        clientId: config.client_id,
+        authorizationEndpoint: `https://${config.cognito_domain}.auth.${config.aws_region}.amazoncognito.com/login`,
+        redirectUri: window.location.origin,
+        requiredUrlParams: ['scope'],
+        optionalUrlParams: ['display', 'state'],
+        scope: 'openid+profile+email',
+        display: 'popup',
+        oauthType: '2.0',
+        popupOptions: { width: 1020, height: 618 },
+        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
+      },
       github: {
         name: 'GitHub',
         url: '/auth/github',
