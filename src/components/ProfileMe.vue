@@ -199,6 +199,7 @@ export default {
       basic: { icon: 'fas fa-id-card', text: 'BasicAuth' },
       ldap: { icon: 'fas fa-id-card', text: 'LDAP' },
       azure: { icon: 'fab fa-windows', text: 'Azure OAuth2' },
+      cognito: { icon: 'fab fa-aws', text: 'Amazon Cognito' },
       github: { icon: 'fab fa-github', text: 'GitHub OAuth2' },
       gitlab: { icon: 'fab fa-gitlab', text: 'GitLab OAuth2' },
       google: { icon: 'fab fa-google', text: 'Google OAuth2' },
