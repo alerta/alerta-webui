@@ -69,6 +69,12 @@
               :items="timeFormats"
               label="Short time format"
             />
+
+            <v-select
+              v-model="timezone"
+              :items="timezoneOptions"
+              label="Display mode"
+            />
           </v-layout>
         </v-card-actions>
       </v-flex>
@@ -166,6 +172,10 @@ export default {
       {text: moment().format('HH:mm:ss'), value: 'HH:mm:ss'},
       {text: moment().format('HH:mm:ss.SSS Z'), value: 'HH:mm:ss.SSS Z'},
     ],
+    timezoneOptions: [
+      {text: 'Use local date & time', value: 'local'},
+      {text: 'Use Coordinated Universal Time (UTC)', value: 'utc'}
+    ],
     refreshOptions: [2, 5, 10, 30, 60],  // seconds
     shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
   }),
@@ -213,6 +223,16 @@ export default {
       set(value) {
         this.$store.dispatch('setUserPrefs', {
           dates: {shortTime: value}
+        })
+      }
+    },
+    timezone: {
+      get() {
+        return this.$store.state.prefs.timezone
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {
+          timezone: value
         })
       }
     },

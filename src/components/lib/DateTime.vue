@@ -4,9 +4,9 @@
       slot="activator"
       class="text-no-wrap"
     >
-      {{ value | date(formatString) }}
+      {{ value | date(displayMode, formatString) }}
     </span>
-    <span>{{ value | date('YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
+    <span>{{ value | date('utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
   </v-tooltip>
 </template>
 
@@ -17,6 +17,9 @@ export default {
     format: { type: String, default: 'mediumDate' }
   },
   computed: {
+    displayMode() {
+      return this.$store.state.prefs.timezone
+    },
     formatString() {
       return (
         this.$store.state.prefs.dates[this.format] ||
