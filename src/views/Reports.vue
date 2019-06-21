@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="reports">
     <top-offenders />
     <top-flapping />
     <top-standing />
@@ -19,5 +19,5 @@ import TopStanding from '@/components/reports/TopStanding.vue'
     TopStanding
   }
 })
-export default class About extends Vue {}
+export default class Reports extends Vue {}
 </script>

@@ -5,6 +5,29 @@
       :src="audioURL"
     />
 
+    <v-expand-transition>
+      <div
+        v-if="showPanel"
+        class="px-1"
+      >
+        <v-layout wrap>
+          <v-flex
+            v-for="(indicator, index) in indicators"
+            :key="index"
+            xs12
+            sm6
+            md3
+          >
+            <alert-indicator
+              :title="indicator.text"
+              :query="indicator.query"
+            />
+          </v-flex>
+        </v-layout>
+        <v-divider />
+      </div>
+    </v-expand-transition>
+
     <alert-detail
       v-show="dialog"
       v-if="selectedId"
@@ -43,12 +66,30 @@
       >
         <v-icon>filter_list</v-icon>
       </v-btn>
-      <v-btn
-        flat
-        icon
+
+      <v-menu
+        bottom
+        left
       >
-        <v-icon>more_vert</v-icon>
-      </v-btn>
+        <v-btn
+          slot="activator"
+          flat
+          icon
+        >
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+
+        <v-list>
+          <v-list-tile
+            @click="showPanel = !showPanel"
+          >
+            <v-list-tile-title>
+              {{ showPanel ? 'Hide' : 'Show' }} Panel
+            </v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
       <span class="pr-2" />
 
       <v-tabs-items
@@ -80,21 +121,24 @@
 import moment from 'moment'
 
 import AlertList from '@/components/AlertList.vue'
+import AlertIndicator from '@/components/AlertIndicator.vue'
 import AlertDetail from '@/components/AlertDetail.vue'
 import AlertListFilter from '@/components/AlertListFilter.vue'
+
 import utils from '@/common/utils'
 
 export default {
   components: {
     AlertList,
+    AlertIndicator,
     AlertDetail,
     AlertListFilter
   },
   props: {
     query: {
-      type: String,
+      type: Object,
       required: false,
-      default: null
+      default: () => {}
     },
     isKiosk: {
       type: String,
@@ -127,6 +171,9 @@ export default {
     },
     isActive() {
       return this.filter.text || this.filter.status || this.filter.customer || this.filter.service || this.filter.group || this.filter.dateRange[0] || this.filter.dateRange[1]
+    },
+    indicators() {
+      return this.$config.indicators.queries
     },
     alerts() {
       if (this.filter) {
@@ -228,6 +275,14 @@ export default {
     isMute() {
       return this.$store.getters.getPreference('isMute')
     },
+    showPanel: {
+      get() {
+        return this.$store.state.alerts.showPanel
+      },
+      set(value) {
+        this.$store.dispatch('alerts/toggle', ['showPanel', value])
+      }
+    },
     pagination() {
       return this.$store.state.alerts.pagination
     }
@@ -239,6 +294,7 @@ export default {
     filter: {
       handler(val) {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
+        this.currentTab = this.defaultTab
       },
       deep: true
     },
@@ -247,6 +303,9 @@ export default {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
       },
       deep: true
+    },
+    showPanel(val) {
+      history.pushState(null, null, this.$store.getters['alerts/getHash'])
     },
     refresh(val) {
       val || this.getAlerts()
@@ -258,6 +317,7 @@ export default {
       let hashMap = utils.fromHash(this.hash)
       this.setFilter(hashMap)
       this.setSort(hashMap)
+      this.setPanel(hashMap)
     }
     this.currentTab = this.defaultTab
     this.setKiosk(this.isKiosk)
@@ -269,7 +329,7 @@ export default {
   },
   methods: {
     setSearch(query) {
-      this.$store.dispatch('alerts/updateQuery', { q: query })
+      this.$store.dispatch('alerts/updateQuery', query)
     },
     setFilter(filter) {
       this.$store.dispatch('alerts/setFilter', {
@@ -288,6 +348,9 @@ export default {
         sortBy: sort.sb
       })
     },
+    setPanel(panel) {
+      this.$store.dispatch('alerts/setPanel', panel.asi == '1')
+    },
     setKiosk(isKiosk) {
       this.$store.dispatch('alerts/updateKiosk', isKiosk)
     },
@@ -297,22 +360,8 @@ export default {
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')
     },
-    cancelTimer() {
-      if (this.timer) {
-        clearTimeout(this.timer)
-        this.timer = null
-      }
-    },
     playSound() {
       !this.isMute && this.$refs.audio.play()
-    },
-    refreshAlerts() {
-      this.getEnvironments()
-      this.getAlerts()
-        .then(() => {
-          this.isNewOpenAlerts && this.playSound()
-          this.timer = setTimeout(() => this.refreshAlerts(), this.refreshInterval)
-        })
     },
     setEnv(env) {
       this.$store.dispatch('alerts/setFilter', {
@@ -324,6 +373,20 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$router.push({ path: `/alert/${item.id}` })
       this.dialog = true
+    },
+    refreshAlerts() {
+      this.getEnvironments()
+      this.getAlerts()
+        .then(() => {
+          this.isNewOpenAlerts && this.playSound()
+          this.timer = setTimeout(() => this.refreshAlerts(), this.refreshInterval)
+        })
+    },
+    cancelTimer() {
+      if (this.timer) {
+        clearTimeout(this.timer)
+        this.timer = null
+      }
     },
     close() {
       this.dialog = false
