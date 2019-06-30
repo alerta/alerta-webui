@@ -81,6 +81,7 @@
 
         <v-list>
           <v-list-tile
+            :disabled="!indicators.length"
             @click="showPanel = !showPanel"
           >
             <v-list-tile-title>
@@ -173,7 +174,7 @@ export default {
       return this.filter.text || this.filter.status || this.filter.customer || this.filter.service || this.filter.group || this.filter.dateRange[0] || this.filter.dateRange[1]
     },
     indicators() {
-      return this.$config.indicators.queries
+      return this.$config.indicators ? this.$config.indicators.queries  : []
     },
     alerts() {
       if (this.filter) {
