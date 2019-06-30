@@ -34,7 +34,7 @@ export function createRouter(basePath): VueRouter {
         name: 'alerts',
         component: Alerts,
         props: route => ({
-          query: route.query.q,
+          query: route.query,
           isKiosk: route.query.kiosk,
           hash: route.hash
         }),

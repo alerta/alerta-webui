@@ -34,9 +34,10 @@ const state = {
   // not persisted
   isWatch: false,
   isKiosk: false,
+  showPanel: false,
 
   // query, filter and pagination
-  query: {}, // 'q' query string syntax eg. {"q": "severity:critical"}
+  query: '', // URLSearchParams
   filter: {
     environment: null,
     text: null,
@@ -112,6 +113,9 @@ const mutations = {
   },
   SET_PAGINATION(state, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
+  },
+  SET_PANEL(state, panel) {
+    state.showPanel = panel
   }
 }
 
@@ -119,15 +123,14 @@ const actions = {
   getAlerts({ rootGetters, commit, state }) {
     commit('SET_LOADING')
     // get "lucene" query params and sort order
-    let query = state.query.q ? state.query : {}
+    let params = new URLSearchParams(state.query)
     let sortBy = rootGetters['getConfig']('sort_by')
-    query['sort-by'] = sortBy.replace(/^\-/,'')
+    params.append('sort-by', sortBy.replace(/^\-/,''))
     if (sortBy.startsWith('-')) {
-      query['reverse'] = 1
+      params.append('reverse', '1')
     }
 
     // append filter params to query params
-    let params = new URLSearchParams(query)
     state.filter.status && state.filter.status.map(st => params.append('status', st))
     state.filter.customer && state.filter.customer.map(c => params.append('customer', c))
     state.filter.service && state.filter.service.map(s => params.append('service', s))
@@ -247,6 +250,9 @@ const actions = {
   },
   setPagination({ commit }, pagination) {
     commit('SET_PAGINATION', pagination)
+  },
+  setPanel({ commit }, panel) {
+    commit('SET_PANEL', panel)
   }
 }
 
@@ -275,7 +281,8 @@ const getters = {
   getHash: state => {
     let filterHash = utils.toHash(state.filter)
     let paginationHash = `sb:${state.pagination.sortBy};sd:${state.pagination.descending ? 1 : 0 }`
-    return `#${filterHash};${paginationHash}`
+    let asiHash = `asi:${state.showPanel ? 1 : 0 }`
+    return `#${filterHash};${paginationHash};${asiHash}`
   }
 }
 
