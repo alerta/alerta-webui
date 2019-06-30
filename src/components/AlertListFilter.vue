@@ -129,15 +129,79 @@
           <v-flex
             xs12
           >
+            <span class="body-2">Date/Time</span>
             <v-select
               v-model="filterDateRange"
               :items="dateRanges"
               name="dateRange"
               label="Date/Time"
-              outline
-              item-text="text"
+              solo
+              flat
+              prepend-inner-icon="schedule"
               item-value="range"
+              hide-details
             />
+          </v-flex>
+
+          <v-flex
+            v-if="selectRange"
+            xs12
+          >
+            <v-menu
+              v-model="menu1"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              lazy
+              transition="scale-transition"
+              offset-y
+              full-width
+              max-width="290px"
+              min-width="290px"
+            >
+              <v-text-field
+                slot="activator"
+                v-model="startDateTime"
+                label="Start Date & Time"
+                prepend-inner-icon="event"
+                outline
+                hide-details
+              />
+              <v-date-picker
+                v-model="period.startDate"
+                no-title
+                @input="menu1 = false"
+              />
+            </v-menu>
+          </v-flex>
+          <v-flex
+            v-if="selectRange"
+            xs12
+          >
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              lazy
+              transition="scale-transition"
+              offset-y
+              full-width
+              max-width="290px"
+              min-width="290px"
+            >
+              <v-text-field
+                slot="activator"
+                v-model="endDateTime"
+                label="End Date & Time"
+                prepend-inner-icon="event"
+                outline
+                hide-details
+              />
+              <v-date-picker
+                v-model="period.endDate"
+                no-title
+                @input="menu2 = false"
+              />
+            </v-menu>
           </v-flex>
         </v-layout>
       </v-container>
@@ -147,6 +211,13 @@
         xs12
       >
         <v-card-actions>
+          <v-btn
+            v-if="selectRange"
+            color="blue darken-1"
+            @click="setDateRange"
+          >
+            Apply
+          </v-btn>
           <v-spacer />
           <v-btn
             color="blue darken-1"
@@ -162,6 +233,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   props: {
     value: {
@@ -190,8 +263,19 @@ export default {
       { text: 'Latest', range: [null, null] },
       { text: '1 hour', range: [3600, null] },
       { text: '6 hours', range: [3600 * 6, null] },
-      { text: '12 hours', range: [3600 * 12, null] }
-    ]
+      { text: '12 hours', range: [3600 * 12, null] },
+      { divider: true },
+      { text: 'Select Range', range: [-1, -1] },
+    ],
+    selectRange: false,
+    menu1: false,
+    menu2: false,
+    period: {
+      startDate: null,
+      startTime: null,
+      endDate: null,
+      endTime: null
+    },
   }),
   computed: {
     isDark() {
@@ -285,13 +369,26 @@ export default {
     },
     filterDateRange: {
       get() {
-        return this.$store.state.alerts.filter.dateRange
+        return typeof this.$store.state.alerts.filter.dateRange[0] == 'string'
+          ? [-1, -1]
+          : this.$store.state.alerts.filter.dateRange
       },
       set(value) {
-        this.$store.dispatch('alerts/setFilter', {
-          dateRange: value
-        }).then(() => this.$store.dispatch('alerts/getAlerts'))
+        if (value[0] === -1) {
+          this.selectRange = true
+        } else {
+          this.selectRange = false
+          this.$store.dispatch('alerts/setFilter', {
+            dateRange: value
+          }).then(() => this.$store.dispatch('alerts/getAlerts'))
+        }
       }
+    },
+    startDateTime() {
+      return `${this.period.startDate} ${this.period.startTime}`
+    },
+    endDateTime() {
+      return `${this.period.endDate} ${this.period.endTime}`
     },
     username() {
       return this.$store.getters['auth/getUsername']
@@ -306,8 +403,18 @@ export default {
     this.getCustomers()
     this.getServices()
     this.getGroups()
+    this.period = this.defaultTimes()
   },
   methods: {
+    defaultTimes() {
+      let now = moment().utc()
+      return {
+        startDate: now.format('YYYY-MM-DD'),
+        startTime: now.format('HH:mm'),
+        endDate: now.format('YYYY-MM-DD'),
+        endTime: now.format('HH:mm')
+      }
+    },
     getCustomers() {
       this.$store.dispatch('customers/getCustomers')
     },
@@ -317,7 +424,25 @@ export default {
     getGroups() {
       this.$store.dispatch('alerts/getGroups')
     },
+    toISODate(date, time) {
+      return new Date(date + ' ' + time).toISOString()
+    },
+    setDateRange() {
+      this.$store.dispatch('alerts/setFilter', {
+        dateRange: [
+          this.toISODate(
+            this.period.startDate,
+            this.period.startTime
+          ),
+          this.toISODate(
+            this.period.endDate,
+            this.period.endTime
+          )
+        ]
+      }).then(() => this.$store.dispatch('alerts/getAlerts'))
+    },
     reset() {
+      this.selectRange = false
       this.$store.dispatch('alerts/resetFilter')
     },
     close() {
