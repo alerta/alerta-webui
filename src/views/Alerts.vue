@@ -205,7 +205,7 @@ export default {
               : true
           )
           .filter(alert => {
-            if (this.filter.dateRange) {
+            if (this.filter.dateRange && typeof this.filter.dateRange[0] == 'number') {
               const startTime = this.filter.dateRange[0]
                 ? moment()
                   .utc()
@@ -215,6 +215,27 @@ export default {
                 ? moment()
                   .utc()
                   .subtract(this.filter.dateRange[1], 'seconds')
+                : null
+
+              const lastReceiveTime = moment(
+                String(alert.lastReceiveTime)
+              ).utc()
+              const afterStart = startTime
+                ? lastReceiveTime.isSameOrAfter(startTime)
+                : true
+              const beforeEnd = endTime
+                ? lastReceiveTime.isBefore(endTime)
+                : true
+
+              return afterStart && beforeEnd
+            } else if (this.filter.dateRange && typeof this.filter.dateRange[0] == 'string') {
+              const startTime = this.filter.dateRange[0]
+                ? moment(this.filter.dateRange[0])
+                  .utc()
+                : null
+              const endTime = this.filter.dateRange[1]
+                ? moment(this.filter.dateRange[1])
+                  .utc()
                 : null
 
               const lastReceiveTime = moment(

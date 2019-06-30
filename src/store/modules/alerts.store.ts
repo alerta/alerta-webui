@@ -137,17 +137,21 @@ const actions = {
     state.filter.group && state.filter.group.map(g => params.append('group', g))
 
     // apply any date/time filters
-    if (state.filter.dateRange[0] !== null) {
+    if (typeof state.filter.dateRange[0] == 'number') {
       params.append(
         'from-date',
         moment().utc().subtract(state.filter.dateRange[0], 'seconds').toISOString()
       )
+    } else if (typeof state.filter.dateRange[0] == 'string') {
+      params.append('from-date', state.filter.dateRange[0])
     }
-    if (state.filter.dateRange[1] !== null) {
+    if (typeof state.filter.dateRange[1] == 'number') {
       params.append(
         'to-date',
         moment().utc().subtract(state.filter.dateRange[1], 'seconds').toISOString()
       )
+    } else if (typeof state.filter.dateRange[1] == 'string') {
+      params.append('to-date', state.filter.dateRange[1])
     }
 
     return AlertsApi.getAlerts(params)
