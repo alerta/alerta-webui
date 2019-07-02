@@ -151,10 +151,37 @@
 
           <v-flex
             v-show="showDateRange"
-            xs12
-            class="pb-0"
+            xs8
+            class="pb-0 pr-0"
+          >
+            <v-text-field
+              v-model="period.startDate"
+              label="Start Date"
+              prepend-inner-icon="event"
+              outline
+              hide-details
+              @click:prepend-inner="menu1 = !menu1"
+            />
+          </v-flex>
+
+          <v-flex
+            v-show="showDateRange"
+            xs4
+            class="pb-0 pl-1"
+          >
+            <v-text-field
+              v-model="period.startTime"
+              label="Time"
+              outline
+              hide-details
+            />
+          </v-flex>
+
+          <v-flex
+            class="pa-0"
           >
             <v-menu
+              ref="menu1"
               v-model="menu1"
               :close-on-content-click="false"
               :nudge-right="40"
@@ -165,14 +192,7 @@
               max-width="290px"
               min-width="290px"
             >
-              <v-text-field
-                slot="activator"
-                v-model="startDateTime"
-                label="Start Date & Time"
-                prepend-inner-icon="event"
-                outline
-                hide-details
-              />
+              <div slot="activator"/>
               <v-date-picker
                 v-model="period.startDate"
                 no-title
@@ -182,10 +202,36 @@
           </v-flex>
           <v-flex
             v-show="showDateRange"
-            xs12
-            class="pb-0"
+            xs8
+            class="pb-0 pr-0"
+          >
+            <v-text-field
+              v-model="period.endDate"
+              label="End Date"
+              prepend-inner-icon="event"
+              outline
+              hide-details
+              @click:prepend-inner="menu2 = !menu2"
+            />
+          </v-flex>
+
+          <v-flex
+            v-show="showDateRange"
+            xs4
+            class="pb-0 pl-1"
+          >
+            <v-text-field
+              v-model="period.endTime"
+              label="Time"
+              outline
+              hide-details
+            />
+          </v-flex>
+          <v-flex
+            class="pa-0"
           >
             <v-menu
+              ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
               :nudge-right="40"
@@ -196,14 +242,7 @@
               max-width="290px"
               min-width="290px"
             >
-              <v-text-field
-                slot="activator"
-                v-model="endDateTime"
-                label="End Date & Time"
-                prepend-inner-icon="event"
-                outline
-                hide-details
-              />
+              <div slot="activator"/>
               <v-date-picker
                 v-model="period.endDate"
                 no-title
@@ -400,12 +439,6 @@ export default {
         }
       }
     },
-    startDateTime() {
-      return `${this.period.startDate} ${this.period.startTime}`
-    },
-    endDateTime() {
-      return `${this.period.endDate} ${this.period.endTime}`
-    },
     username() {
       return this.$store.getters['auth/getUsername']
     }
@@ -466,6 +499,7 @@ export default {
       }).then(() => this.$store.dispatch('alerts/getAlerts'))
     },
     reset() {
+      this.showDateRange = false
       this.$store.dispatch('alerts/resetFilter')
     },
     close() {
