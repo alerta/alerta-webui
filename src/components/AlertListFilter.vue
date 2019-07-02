@@ -466,6 +466,7 @@ export default {
       }).then(() => this.$store.dispatch('alerts/getAlerts'))
     },
     reset() {
+      this.showDateRange = false
       this.$store.dispatch('alerts/resetFilter')
     },
     close() {
