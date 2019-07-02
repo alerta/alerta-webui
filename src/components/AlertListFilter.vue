@@ -44,6 +44,7 @@
         >
           <v-flex
             xs12
+            class="pb-0"
           >
             <v-text-field
               v-model="filterText"
@@ -59,6 +60,7 @@
 
           <v-flex
             xs12
+            class="pb-0"
           >
             <v-select
               v-model="filterStatus"
@@ -77,6 +79,7 @@
           <v-flex
             v-if="$config.customer_views"
             xs12
+            class="pb-0"
           >
             <v-select
               v-model="filterCustomer"
@@ -94,6 +97,7 @@
 
           <v-flex
             xs12
+            class="pb-0"
           >
             <v-select
               v-model="filterService"
@@ -111,6 +115,7 @@
 
           <v-flex
             xs12
+            class="pb-0"
           >
             <v-select
               v-model="filterGroup"
@@ -128,6 +133,7 @@
 
           <v-flex
             xs12
+            class="pb-0"
           >
             <span class="body-2">Date/Time</span>
             <v-select
@@ -144,8 +150,9 @@
           </v-flex>
 
           <v-flex
-            v-if="selectRange"
+            v-show="showDateRange"
             xs12
+            class="pb-0"
           >
             <v-menu
               v-model="menu1"
@@ -174,8 +181,9 @@
             </v-menu>
           </v-flex>
           <v-flex
-            v-if="selectRange"
+            v-show="showDateRange"
             xs12
+            class="pb-0"
           >
             <v-menu
               v-model="menu2"
@@ -212,8 +220,8 @@
       >
         <v-card-actions>
           <v-btn
-            v-if="selectRange"
-            color="blue darken-1"
+            v-show="showDateRange"
+            color="primary"
             @click="setDateRange"
           >
             Apply
@@ -261,13 +269,13 @@ export default {
     ],
     dateRanges: [
       { text: 'Latest', range: [null, null] },
-      { text: '1 hour', range: [3600, null] },
-      { text: '6 hours', range: [3600 * 6, null] },
-      { text: '12 hours', range: [3600 * 12, null] },
+      { text: '1 hour', range: [-3600, null] },
+      { text: '6 hours', range: [-3600 * 6, null] },
+      { text: '12 hours', range: [-3600 * 12, null] },
       { divider: true },
-      { text: 'Select Range', range: [-1, -1] },
+      { text: 'Select Range', range: [0, 0] },
     ],
-    selectRange: false,
+    showDateRange: false,
     menu1: false,
     menu2: false,
     period: {
@@ -369,15 +377,23 @@ export default {
     },
     filterDateRange: {
       get() {
-        return typeof this.$store.state.alerts.filter.dateRange[0] == 'string'
-          ? [-1, -1]
+        return this.$store.state.alerts.filter.dateRange[0] > 0
+          ? [0, 0]
           : this.$store.state.alerts.filter.dateRange
       },
       set(value) {
-        if (value[0] === -1) {
-          this.selectRange = true
+        if (value[0] === 0) {
+          this.period = this.getDateRange(
+            this.$store.state.alerts.filter.dateRange[0]
+              ? this.$store.state.alerts.filter.dateRange[0]
+              : moment().unix() - 7 * 24 * 3600,  // 7 days ago
+            this.$store.state.alerts.filter.dateRange[1]
+              ? this.$store.state.alerts.filter.dateRange[1]
+              : moment().unix()
+          )
+          this.showDateRange = true
         } else {
-          this.selectRange = false
+          this.showDateRange = false
           this.$store.dispatch('alerts/setFilter', {
             dateRange: value
           }).then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -403,18 +419,16 @@ export default {
     this.getCustomers()
     this.getServices()
     this.getGroups()
-    this.period = this.defaultTimes()
+
+    if (this.filterDateRange[0] === 0) {
+      this.period = this.getDateRange(
+        this.$store.state.alerts.filter.dateRange[0],
+        this.$store.state.alerts.filter.dateRange[1]
+      )
+      this.showDateRange = true
+    }
   },
   methods: {
-    defaultTimes() {
-      let now = moment().utc()
-      return {
-        startDate: now.format('YYYY-MM-DD'),
-        startTime: now.format('HH:mm'),
-        endDate: now.format('YYYY-MM-DD'),
-        endTime: now.format('HH:mm')
-      }
-    },
     getCustomers() {
       this.$store.dispatch('customers/getCustomers')
     },
@@ -424,17 +438,27 @@ export default {
     getGroups() {
       this.$store.dispatch('alerts/getGroups')
     },
-    toISODate(date, time) {
-      return new Date(date + ' ' + time).toISOString()
+    getDateRange(from, to) {
+      let t1 = moment.unix(from).utc()
+      let t2 = moment.unix(to).utc()
+      return {
+        startDate: t1.format('YYYY-MM-DD'),
+        startTime: t1.format('HH:mm'),
+        endDate: t2.format('YYYY-MM-DD'),
+        endTime: t2.format('HH:mm')
+      }
+    },
+    toEpoch(date, time) {
+      return new Date(date + ' ' + time).getTime() / 1000
     },
     setDateRange() {
       this.$store.dispatch('alerts/setFilter', {
         dateRange: [
-          this.toISODate(
+          this.toEpoch(
             this.period.startDate,
             this.period.startTime
           ),
-          this.toISODate(
+          this.toEpoch(
             this.period.endDate,
             this.period.endTime
           )
@@ -442,7 +466,6 @@ export default {
       }).then(() => this.$store.dispatch('alerts/getAlerts'))
     },
     reset() {
-      this.selectRange = false
       this.$store.dispatch('alerts/resetFilter')
     },
     close() {

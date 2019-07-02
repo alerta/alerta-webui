@@ -137,21 +137,27 @@ const actions = {
     state.filter.group && state.filter.group.map(g => params.append('group', g))
 
     // apply any date/time filters
-    if (typeof state.filter.dateRange[0] == 'number') {
+    if (state.filter.dateRange[0] > 0) {
       params.append(
         'from-date',
-        moment().utc().subtract(state.filter.dateRange[0], 'seconds').toISOString()
+        moment.unix(state.filter.dateRange[0]).toISOString() // epoch seconds
       )
-    } else if (typeof state.filter.dateRange[0] == 'string') {
-      params.append('from-date', state.filter.dateRange[0])
+    } else if (state.filter.dateRange[0] < 0) {
+      params.append(
+        'from-date',
+        moment().utc().add(state.filter.dateRange[0], 'seconds').toISOString() // seconds offset
+      )
     }
-    if (typeof state.filter.dateRange[1] == 'number') {
+    if (state.filter.dateRange[1] > 0) {
       params.append(
         'to-date',
-        moment().utc().subtract(state.filter.dateRange[1], 'seconds').toISOString()
+        moment.unix(state.filter.dateRange[1]).toISOString() // epoch seconds
       )
-    } else if (typeof state.filter.dateRange[1] == 'string') {
-      params.append('to-date', state.filter.dateRange[1])
+    } else if (state.filter.dateRange[1] < 0) {
+      params.append(
+        'to-date',
+        moment().utc().add(state.filter.dateRange[1], 'seconds').toISOString() // seconds offset
+      )
     }
 
     return AlertsApi.getAlerts(params)
