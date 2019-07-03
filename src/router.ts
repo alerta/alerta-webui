@@ -5,22 +5,6 @@ import { store } from '@/main'
 
 import Alerts from './views/Alerts.vue'
 import Alert from './views/Alert.vue'
-import Heartbeats from './views/Heartbeats.vue'
-import Blackouts from './views/Blackouts.vue'
-import Users from './views/Users.vue'
-import Groups from './views/Groups.vue'
-import Perms from './views/Perms.vue'
-import Customers from './views/Customers.vue'
-import ApiKeys from './views/ApiKeys.vue'
-import Reports from './views/Reports.vue'
-
-import Login from './views/Login.vue'
-import Signup from './views/Signup.vue'
-import Confirm from './views/Confirm.vue'
-import Forgot from './views/Forgot.vue'
-import Reset from './views/Reset.vue'
-import Logout from './views/Logout.vue'
-import Settings from './views/Settings.vue'
 
 Vue.use(VueRouter)
 
@@ -50,55 +34,64 @@ export function createRouter(basePath): VueRouter {
       {
         path: '/heartbeats',
         name: 'heartbeats',
-        component: Heartbeats,
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/Heartbeats.vue'),
         meta: { title: 'Heartbeats', requiresAuth: true }
       },
       {
         path: '/users',
         name: 'users',
-        component: Users,
+        component: () =>
+          import(/* webpackChunkName: 'admin' */ './views/Users.vue'),
         meta: { title: 'Users', requiresAuth: true }
       },
       {
         path: '/groups',
         name: 'groups',
-        component: Groups,
+        component: () =>
+          import(/* webpackChunkName: 'admin' */ './views/Groups.vue'),
         meta: { title: 'Groups', requiresAuth: true }
       },
       {
         path: '/customers',
         name: 'customers',
-        component: Customers,
+        component: () =>
+          import(/* webpackChunkName: 'admin' */ './views/Customers.vue'),
         meta: { title: 'Customers', requiresAuth: true }
       },
       {
         path: '/blackouts',
         name: 'blackouts',
-        component: Blackouts,
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/Blackouts.vue'),
         meta: { title: 'Blackouts', requiresAuth: true }
       },
       {
         path: '/perms',
         name: 'perms',
-        component: Perms,
+        component: () =>
+          import(/* webpackChunkName: 'admin' */ './views/Perms.vue'),
         meta: { title: 'Permissions', requiresAuth: true }
       },
       {
         path: '/keys',
         name: 'apiKeys',
-        component: ApiKeys,
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/ApiKeys.vue'),
         meta: { title: 'API Keys', requiresAuth: true }
       },
       {
         path: '/reports',
         name: 'reports',
-        component: Reports,
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/Reports.vue'),
         meta: { title: 'Reports', requiresAuth: true }
       },
       {
         path: '/settings',
         name: 'settings',
-        component: Settings,
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/Settings.vue'),
         meta: { title: 'Settings', requiresAuth: true }
       },
       {
@@ -110,43 +103,49 @@ export function createRouter(basePath): VueRouter {
         path: '/about',
         name: 'about',
         component: () =>
-          import(/* webpackChunkName: 'about' */ './views/About.vue'),
+          import(/* webpackChunkName: 'user' */ './views/About.vue'),
         meta: { title: 'About', requiresAuth: true }
       },
       {
         path: '/login',
         name: 'login',
-        component: Login,
+        component: () =>
+          import(/* webpackChunkName: 'auth' */ './views/Login.vue'),
         meta: { title: 'Login' }
       },
       {
         path: '/signup',
         name: 'signup',
-        component: Signup,
+        component: () =>
+          import(/* webpackChunkName: 'auth' */ './views/Signup.vue'),
         meta: { title: 'Sign Up' }
       },
       {
         path: '/confirm/:token',
         name: 'confirm',
-        component: Confirm,
+        component: () =>
+          import(/* webpackChunkName: 'auth' */ './views/Confirm.vue'),
         meta: { title: 'Confirm Email' }
       },
       {
         path: '/forgot',
         name: 'forgot',
-        component: Forgot,
+        component: () =>
+          import(/* webpackChunkName: 'auth' */ './views/Forgot.vue'),
         meta: { title: 'Forgot Password' }
       },
       {
         path: '/reset/:token',
         name: 'reset',
-        component: Reset,
+        component: () =>
+          import(/* webpackChunkName: 'auth' */ './views/Reset.vue'),
         meta: { title: 'Reset Password' }
       },
       {
         path: '/logout',
         name: 'logout',
-        component: Logout,
+        component: () =>
+          import(/* webpackChunkName: 'auth' */ './views/Logout.vue'),
         meta: { title: 'Logout' }
       },
       {
