@@ -5,6 +5,47 @@
       :src="audioURL"
     />
 
+    <v-dialog
+      v-model="densityDialog"
+      max-width="340px"
+    >
+      <v-form ref="form">
+        <v-card>
+          <v-card-title class="justify-center">
+            <span class="title">
+              Choose a display density
+            </span>
+          </v-card-title>
+          <v-card-actions class="justify-center">
+            <v-btn
+              value="comfortable"
+              :class="{ primary: displayDensity == 'comfortable' }"
+              @click="displayDensity = 'comfortable'"
+            >
+              Comfortable
+            </v-btn>
+            <v-btn
+              value="compact"
+              :class="{ primary: displayDensity == 'compact' }"
+              @click="displayDensity = 'compact'"
+            >
+              Compact
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="ok"
+            >
+              OK
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
+
     <v-expand-transition>
       <div
         v-if="showPanel"
@@ -29,14 +70,14 @@
     </v-expand-transition>
 
     <alert-detail
-      v-show="dialog"
+      v-show="detailDialog"
       v-if="selectedId"
       :id="selectedId"
       @close="close"
     />
 
     <v-tabs
-      v-if="!dialog"
+      v-if="!detailDialog"
       v-model="currentTab"
       class="px-1"
       grow
@@ -85,8 +126,13 @@
             @click="showPanel = !showPanel"
           >
             <v-list-tile-title>
-              {{ showPanel ? 'Hide' : 'Show' }} Panel
+              {{ showPanel ? 'Hide' : 'Show' }} panel
             </v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile
+            @click="densityDialog = true"
+          >
+            Display density
           </v-list-tile>
         </v-list>
       </v-menu>
@@ -154,7 +200,8 @@ export default {
   },
   data: vm => ({
     currentTab: null,
-    dialog: false,
+    densityDialog: false,
+    detailDialog: false,
     selectedId: null,
     selectedItem: {},
     sidesheet: false,
@@ -236,12 +283,20 @@ export default {
         this.$store.dispatch('alerts/toggle', ['showPanel', value])
       }
     },
+    displayDensity: {
+      get() {
+        return this.$store.getters.getPreference('displayDensity')
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {displayDensity: value})
+      }
+    },
     pagination() {
       return this.$store.state.alerts.pagination
     }
   },
   watch: {
-    dialog(val) {
+    detailDialog(val) {
       val || this.close()
     },
     filter: {
@@ -325,7 +380,7 @@ export default {
       this.selectedId = item.id
       this.selectedItem = Object.assign({}, item)
       this.$router.push({ path: `/alert/${item.id}` })
-      this.dialog = true
+      this.detailDialog = true
     },
     refreshAlerts() {
       this.getEnvironments()
@@ -341,8 +396,11 @@ export default {
         this.timer = null
       }
     },
+    ok() {
+      this.densityDialog = false
+    },
     close() {
-      this.dialog = false
+      this.detailDialog = false
       setTimeout(() => {
         this.selectedItem = {}
         this.selectedId = null

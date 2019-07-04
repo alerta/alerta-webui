@@ -7,6 +7,7 @@
       :pagination.sync="pagination"
       :rows-per-page-items="pagination.rowsPerPageItems"
       class="alert-table"
+      :class="[ displayDensity ]"
       :search="search"
       must-sort
       :custom-sort="customSort"
@@ -239,7 +240,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'open')"
               >
                 <v-icon
@@ -254,7 +255,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="watchAlert(props.item.id)"
               >
                 <v-icon
@@ -268,7 +269,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="unwatchAlert(props.item.id)"
               >
                 <v-icon
@@ -283,7 +284,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'ack')"
               >
                 <v-icon
@@ -297,7 +298,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unack')"
               >
                 <v-icon
@@ -312,7 +313,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="shelveAlert(props.item.id)"
               >
                 <v-icon
@@ -326,7 +327,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unshelve')"
               >
                 <v-icon
@@ -341,7 +342,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'close')"
               >
                 <v-icon
@@ -354,7 +355,7 @@
                 flat
                 icon
                 small
-                class="btn--plain px-1 mx-0"
+                class="btn--plain pa-0 ma-0"
                 @click.stop="deleteAlert(props.item.id)"
               >
                 <v-icon
@@ -373,7 +374,7 @@
                   flat
                   icon
                   small
-                  class="btn--plain px-1 mx-0"
+                  class="btn--plain pa-0 ma-0"
                 >
                   <v-icon small>
                     more_vert
@@ -455,6 +456,9 @@ export default {
     timer: null
   }),
   computed: {
+    displayDensity() {
+      return this.$store.getters.getPreference('displayDensity')
+    },
     rowsPerPage() {
       return this.$store.getters.getPreference('rowsPerPage')
     },
@@ -479,7 +483,9 @@ export default {
       return headers
     },
     textColor() {
-      return `${this.$store.getters.getConfig('colors').text}--text`
+      return this.$store.getters.getConfig('colors').text
+        ? `${this.$store.getters.getConfig('colors').text}--text`
+        : ''
     },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
@@ -632,11 +638,25 @@ export default {
   padding: 0px 5px !important;
 }
 
+.comfortable table.v-table tbody td, table.v-table tbody th {
+  height: 42px !important;
+}
+
+.comfortable .v-table tbody td {
+  font-size: 14px !important;
+}
+
+.compact table.v-table tbody td, table.v-table tbody th {
+  height: 34px !important;
+}
+
+.compact .v-table tbody td {
+  font-size: 13px !important;
+}
+
 .alert-table .v-table tbody td {
   border-top: 1px solid rgb(221, 221, 221);
-  height: 42px;
   font-family: 'Sintony', sans-serif;
-  font-size: 14px;
 }
 
 .fixed-table {
