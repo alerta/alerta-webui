@@ -192,7 +192,7 @@
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator"/>
+              <div slot="activator" />
               <v-date-picker
                 v-model="period.startDate"
                 no-title
@@ -242,7 +242,7 @@
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator"/>
+              <div slot="activator" />
               <v-date-picker
                 v-model="period.endDate"
                 no-title
