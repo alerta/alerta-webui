@@ -150,7 +150,13 @@ export function createRouter(basePath): VueRouter {
       },
       {
         path: '*',
-        redirect: '/alerts'
+        redirect: to => {
+          // redirect hashbang mode links to HTML5 mode links
+          if (to.fullPath.substr(0, 3) === '/#/') {
+            return { path: to.fullPath.substr(2), hash: '' }
+          }
+          return '/alerts'
+        }
       }
     ]
   } as RouterOptions)
@@ -177,16 +183,6 @@ export function createRouter(basePath): VueRouter {
       document.title = to.meta.title + ' | Alerta'
     }
     next()
-  })
-
-  // redirect hashbang mode links to HTML5 mode links
-  router.beforeEach((to, from, next) => {
-    if (to.fullPath.substr(0, 2) === '/#') {
-      const pathMinusHashbang = to.fullPath.substr(2)
-      next(pathMinusHashbang)
-    } else {
-      next()
-    }
   })
 
   router.beforeEach((to, from, next) => {
