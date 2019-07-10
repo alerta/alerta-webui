@@ -10,7 +10,14 @@ This is the repository for the next major release of the Alerta web console.
 Installation
 -------------
 
-TBC 
+To install the web console:
+
+    $ wget https://github.com/alerta/alerta-webui/releases/latest/download/alerta-webui.tar.gz
+    $ tar zxvf alerta-webui.tar.gz
+    $ cd dist
+    $ python3 -m http.server 8000
+
+    >> browse to http://localhost:8000
 
 Configuration
 -------------
