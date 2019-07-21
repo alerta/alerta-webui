@@ -1,8 +1,26 @@
 {
+  "https_only": true,
   "root": "dist",
   "clean_urls": true,
   "routes": {
     "/**": "index.html"
+  },
+  "headers": {
+    "/": {
+      "Cache-Control": "no-cache, no-store"
+    },
+    "/js/*": {
+      "Cache-Control": "public, max-age=31536000"
+    },
+    "/css/*": {
+      "Cache-Control": "public, max-age=31536000"
+    },
+    "/fonts/*": {
+      "Cache-Control": "public, max-age=31536000"
+    },
+    "/audio/*": {
+      "Cache-Control": "public, max-age=31536000"
+    }
   }
 }
 
