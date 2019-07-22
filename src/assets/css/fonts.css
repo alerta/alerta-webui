@@ -1,21 +1,25 @@
 @font-face {
   font-family: Roboto;
+  font-display: optional;
   src: url("../fonts/Roboto/Roboto-Regular.ttf");
 }
 
 @font-face {
   font-family: Sintony;
+  font-display: fallback;
   src: url("../fonts/Sintony/Sintony-Regular.ttf");
 }
 
 @font-face {
   font-family: Sintony;
   font-weight: bold;
+  font-display: fallback;
   src: url("../fonts/Sintony/Sintony-Bold.ttf");
 }
 
 @font-face {
   font-family: "Sonsie One";
+  font-display: swap;
   src: url("../fonts/SonsieOne/SonsieOne-Logo.woff2") format("woff2");
 }
 
@@ -23,6 +27,7 @@
   font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
+  font-display: block;
   src: url("../fonts/MaterialIcons/MaterialIcons.woff2") format("woff2");
 }
 
