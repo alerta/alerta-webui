@@ -47,6 +47,9 @@ bootstrap.getConfig()
     })
     sync(store, router)
 
+    Vue.config.devtools = true
+    Vue.config.performance = true
+
     new Vue({
       router,
       store,
