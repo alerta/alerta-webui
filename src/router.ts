@@ -3,9 +3,6 @@ import VueRouter, { RouterOptions } from 'vue-router'
 
 import { store } from '@/main'
 
-import Alerts from './views/Alerts.vue'
-import Alert from './views/Alert.vue'
-
 Vue.use(VueRouter)
 
 export function createRouter(basePath): VueRouter {
@@ -16,7 +13,8 @@ export function createRouter(basePath): VueRouter {
       {
         path: '/alerts',
         name: 'alerts',
-        component: Alerts,
+        component: () =>
+          import(/* webpackChunkName: 'alerts' */ './views/Alerts.vue'),
         props: route => ({
           query: route.query,
           isKiosk: route.query.kiosk,
@@ -27,7 +25,8 @@ export function createRouter(basePath): VueRouter {
       {
         path: '/alert/:id',
         name: 'alert',
-        component: Alert,
+        component: () =>
+          import(/* webpackChunkName: 'alert' */ './views/Alert.vue'),
         props: true,
         meta: { title: 'Alert Detail', requiresAuth: true }
       },
@@ -35,63 +34,63 @@ export function createRouter(basePath): VueRouter {
         path: '/heartbeats',
         name: 'heartbeats',
         component: () =>
-          import(/* webpackChunkName: 'user' */ './views/Heartbeats.vue'),
+          import(/* webpackChunkName: 'heartbeats' */ './views/Heartbeats.vue'),
         meta: { title: 'Heartbeats', requiresAuth: true }
       },
       {
         path: '/users',
         name: 'users',
         component: () =>
-          import(/* webpackChunkName: 'admin' */ './views/Users.vue'),
+          import(/* webpackChunkName: 'users' */ './views/Users.vue'),
         meta: { title: 'Users', requiresAuth: true }
       },
       {
         path: '/groups',
         name: 'groups',
         component: () =>
-          import(/* webpackChunkName: 'admin' */ './views/Groups.vue'),
+          import(/* webpackChunkName: 'groups' */ './views/Groups.vue'),
         meta: { title: 'Groups', requiresAuth: true }
       },
       {
         path: '/customers',
         name: 'customers',
         component: () =>
-          import(/* webpackChunkName: 'admin' */ './views/Customers.vue'),
+          import(/* webpackChunkName: 'customers' */ './views/Customers.vue'),
         meta: { title: 'Customers', requiresAuth: true }
       },
       {
         path: '/blackouts',
         name: 'blackouts',
         component: () =>
-          import(/* webpackChunkName: 'user' */ './views/Blackouts.vue'),
+          import(/* webpackChunkName: 'blackouts' */ './views/Blackouts.vue'),
         meta: { title: 'Blackouts', requiresAuth: true }
       },
       {
         path: '/perms',
         name: 'perms',
         component: () =>
-          import(/* webpackChunkName: 'admin' */ './views/Perms.vue'),
+          import(/* webpackChunkName: 'perms' */ './views/Perms.vue'),
         meta: { title: 'Permissions', requiresAuth: true }
       },
       {
         path: '/keys',
         name: 'apiKeys',
         component: () =>
-          import(/* webpackChunkName: 'user' */ './views/ApiKeys.vue'),
+          import(/* webpackChunkName: 'keys' */ './views/ApiKeys.vue'),
         meta: { title: 'API Keys', requiresAuth: true }
       },
       {
         path: '/reports',
         name: 'reports',
         component: () =>
-          import(/* webpackChunkName: 'user' */ './views/Reports.vue'),
+          import(/* webpackChunkName: 'reports' */ './views/Reports.vue'),
         meta: { title: 'Reports', requiresAuth: true }
       },
       {
         path: '/settings',
         name: 'settings',
         component: () =>
-          import(/* webpackChunkName: 'user' */ './views/Settings.vue'),
+          import(/* webpackChunkName: 'settings' */ './views/Settings.vue'),
         meta: { title: 'Settings', requiresAuth: true }
       },
       {
@@ -103,7 +102,7 @@ export function createRouter(basePath): VueRouter {
         path: '/about',
         name: 'about',
         component: () =>
-          import(/* webpackChunkName: 'user' */ './views/About.vue'),
+          import(/* webpackChunkName: 'about' */ './views/About.vue'),
         meta: { title: 'About', requiresAuth: true }
       },
       {
