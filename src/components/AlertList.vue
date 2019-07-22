@@ -229,14 +229,14 @@
           </td>
 
           <td
-            v-show="showIcons === props.item.id && !selectableRows"
+            v-if="showIcons === props.item.id && !selectableRows"
             :class="['text-no-wrap', textColor]"
           >
             <div
               style="display:inline-block;"
             >
               <v-btn
-                v-show="isAcked(props.item.status) || isClosed(props.item.status)"
+                v-if="isAcked(props.item.status) || isClosed(props.item.status)"
                 flat
                 icon
                 small
@@ -251,7 +251,7 @@
               </v-btn>
 
               <v-btn
-                v-show="!isWatched(props.item.tags)"
+                v-if="!isWatched(props.item.tags)"
                 flat
                 icon
                 small
@@ -265,7 +265,7 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-show="isWatched(props.item.tags)"
+                v-if="isWatched(props.item.tags)"
                 flat
                 icon
                 small
@@ -280,7 +280,7 @@
               </v-btn>
 
               <v-btn
-                v-show="isOpen(props.item.status)"
+                v-if="isOpen(props.item.status)"
                 flat
                 icon
                 small
@@ -294,7 +294,7 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-show="isAcked(props.item.status)"
+                v-if="isAcked(props.item.status)"
                 flat
                 icon
                 small
@@ -309,7 +309,7 @@
               </v-btn>
 
               <v-btn
-                v-show="isOpen(props.item.status) || isAcked(props.item.status)"
+                v-if="isOpen(props.item.status) || isAcked(props.item.status)"
                 flat
                 icon
                 small
@@ -323,7 +323,7 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-show="isShelved(props.item.status)"
+                v-if="isShelved(props.item.status)"
                 flat
                 icon
                 small
@@ -338,7 +338,7 @@
               </v-btn>
 
               <v-btn
-                v-show="!isClosed(props.item.status)"
+                v-if="!isClosed(props.item.status)"
                 flat
                 icon
                 small
