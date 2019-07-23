@@ -34,7 +34,9 @@
               v-for="r in props.item.resources"
               :key="r.id"
             >
-              <a :href="`alert/${r.id}`">{{ r.resource }}</a>
+              <router-link :to="`/alert/${r.id}`">
+                {{ r.resource }}
+              </router-link>
             </span>
           </td>
         </template>
