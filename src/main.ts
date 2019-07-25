@@ -11,8 +11,7 @@ import { makeInterceptors } from '@/services/api/interceptors'
 import { vueAuth } from '@/services/auth'
 import GoogleAnalytics from '@/plugins/analytics'
 
-import '@/plugins/vuetify'
-import './stylus/main.styl'
+import vuetify from '@/plugins/vuetify'
 import App from './App.vue'
 
 import '@/directives/hasPerms'
@@ -50,6 +49,7 @@ bootstrap.getConfig()
     new Vue({
       router,
       store,
+      vuetify,
       render: (h: any) => h(App)
     }).$mount('#app')
   })

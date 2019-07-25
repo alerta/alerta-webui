@@ -1,14 +1,25 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
-import colors from 'vuetify/es5/util/colors'
 
-import 'vuetify/src/stylus/app.styl'
+Vue.use(Vuetify)
 
-Vue.use(Vuetify, {
+export default new Vuetify({
   theme: {
-    primary: '#3f51b5',
-    secondary: '#2196f3',
-    accent: '#ffa726'
+    dark: true,
+    themes: {
+      light: {
+        primary: '#3f51b5',
+        secondary: '#2196f3',
+        accent: '#ffa726'
+      },
+      dark: {
+        primary: '#3f51b5',
+        secondary: '#2196f3',
+        accent: '#ffa726'
+      }
+    }
   },
-  iconfont: 'md'
+  icons: {
+    iconfont: 'md',
+  },
 })
