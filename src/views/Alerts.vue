@@ -89,14 +89,7 @@
         :href="'#tab-' + env.environment"
         @click="setEnv(env.environment)"
       >
-        <v-badge color="grey darken-1">
-          <span slot="badge">
-            {{
-              environmentCounts[env.environment] || 0
-            }}
-          </span>
-          {{ env.environment }}&nbsp;
-        </v-badge>
+        {{ env.environment }}&nbsp;({{ environmentCounts[env.environment] || 0 }})
       </v-tab>
       <v-spacer />
       <v-btn
