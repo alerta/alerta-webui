@@ -63,7 +63,7 @@
               <v-card-text>
                 <v-text-field
                   v-model="text"
-                  :counter="100"
+                  :counter="this.maxNoteLength"
                   :rules="textRules"
                   label="Add Note"
                   prepend-icon="edit"
@@ -174,13 +174,14 @@ export default {
       required: true
     }
   },
-  data: () => ({
+  data: vm => ({
     showForm: false,
     valid: true,
     text: '',
+    maxNoteLength: 200,
     textRules: [
       v => !!v || 'Text is required',
-      v => (v && v.length <= 100) || 'Text must be less than 100 characters'
+      v => (v && v.length <= vm.maxNoteLength) || `Text must be less than ${vm.maxNoteLength} characters`
     ]
   }),
   computed: {
