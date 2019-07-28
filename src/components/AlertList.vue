@@ -21,8 +21,8 @@
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
           class="hover-lighten"
-          @mouseover="showIcons = props.item.id"
-          @mouseout="showIcons = null"
+          @mouseenter="showIcons = props.item.id"
+          @mouseleave="showIcons = null"
           @click="selectItem(props.item)"
         >
           <td
