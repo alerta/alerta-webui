@@ -215,7 +215,12 @@
                 format="mediumDate"
               />
             </span>
-            <!-- history not supported -->
+            <!-- only history supported is most recent note -->
+            <span
+              v-if="col == 'note'"
+            >
+              {{ lastNote(props.item) }}
+            </span>
           </td>
           <td
             :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
@@ -448,6 +453,7 @@ export default {
       receiveTime: { text: 'Receive Time', value: 'receiveTime' },
       lastReceiveId: { text: 'Last Receive Id', value: 'lastReceiveId' },
       lastReceiveTime: { text: 'Last Receive Time', value: 'lastReceiveTime' },
+      note: { text: 'Last Note', value: 'note', sortable: false }
     },
     details: false,
     selectedId: null,
@@ -518,6 +524,10 @@ export default {
       let lastModified = this.isShelved(item.status) && item.updateTime ? item.updateTime : item.lastReceiveTime
       let expireTime = moment(lastModified).add(item.timeout, 'seconds')
       return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
+    },
+    lastNote(item) {
+      const note = item.history.filter(h => h.type == 'note').pop()
+      return note ? note.text : ''
     },
     customSort(items, index, isDescending) {
       if (!index) return items
