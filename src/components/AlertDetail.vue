@@ -846,6 +846,7 @@ export default {
     deleteAlert: debounce(function(id) {
       confirm('Are you sure you want to delete this item?') &&
         this.$store.dispatch('alerts/deleteAlert', id)
+          .then(() => this.$router.push({ name: 'alerts' }))
     }, 200, {leading: true, trailing: false}),
     close() {
       this.$emit('close')
