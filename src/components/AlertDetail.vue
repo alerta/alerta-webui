@@ -222,6 +222,13 @@
             <v-card
               flat
             >
+              <v-alert
+                :value="lastNote(item)"
+                type="info"
+                class="ma-1"
+              >
+                <b>Last Note</b> {{ lastNote(item) }}
+              </v-alert>
               <v-card-text>
                 <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
@@ -561,20 +568,6 @@
                     <div class="flex xs6 text-xs-left">
                       <div>
                         {{ item.origin }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-xs-left">
-                      <div class="grey--text">
-                        Last Note
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-xs-left">
-                      <div>
-                        {{ lastNote(item) }}
                       </div>
                     </div>
                   </div>
