@@ -569,6 +569,20 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
+                        Last Note
+                      </div>
+                    </div>
+                    <div class="flex xs6 text-xs-left">
+                      <div>
+                        {{ lastNote(item) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex xs12 ma-1">
+                  <div class="d-flex align-top">
+                    <div class="flex xs3 text-xs-left">
+                      <div class="grey--text">
                         Tags
                       </div>
                     </div>
@@ -795,6 +809,10 @@ export default {
     this.getAlert(this.id)
   },
   methods: {
+    lastNote(item) {
+      const note = item.history.filter(h => h.type == 'note').pop()
+      return note ? note.text : ''
+    },
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
     },
