@@ -223,11 +223,13 @@
               flat
             >
               <v-alert
-                :value="lastNote(item)"
+                v-if="lastNote && lastNote.text"
+                :value="lastNote"
                 type="info"
                 class="ma-1"
               >
-                <b>Last Note</b> {{ lastNote(item) }}
+                <b>Last Note</b> by <b>{{ lastNote.user || 'Anonymous' }}</b> ({{ lastNote.updateTime | timeago }})<br>
+                {{ lastNote.text }}
               </v-alert>
               <v-card-text>
                 <div class="flex xs12 ma-1">
@@ -775,6 +777,9 @@ export default {
         ? this.item.history.map((h, index) => ({ index: index, ...h }))
         : []
     },
+    lastNote() {
+      return this.history.filter(h => h.type == 'note').pop()
+    },
     headersByScreenSize() {
       return this.headers.filter(
         h => !h.hide || !this.$vuetify.breakpoint[h.hide]
@@ -802,10 +807,6 @@ export default {
     this.getAlert(this.id)
   },
   methods: {
-    lastNote(item) {
-      const note = item.history.filter(h => h.type == 'note').pop()
-      return note ? note.text : ''
-    },
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
     },
