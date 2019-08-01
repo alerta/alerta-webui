@@ -231,6 +231,14 @@
                 <b>Last Note</b> by <b>{{ lastNote.user || 'Anonymous' }}</b> ({{ lastNote.updateTime | timeago }})<br>
                 {{ lastNote.text }}
               </v-alert>
+              <v-alert
+                v-show="isAcked(item.status)"
+                :value="ackReason(item)"
+                type="info"
+                class="ma-1"
+              >
+                <b>Ack reason</b> {{ ackReason(item) }}
+              </v-alert>
               <v-card-text>
                 <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
@@ -807,6 +815,10 @@ export default {
     this.getAlert(this.id)
   },
   methods: {
+    ackReason(item) {
+      const reason = item.history.filter(h => h.type == 'ack').pop()
+      return reason ? reason.text : ''
+    },
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
     },
