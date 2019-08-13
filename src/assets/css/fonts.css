@@ -31,6 +31,12 @@
   src: url("../fonts/MaterialIcons/MaterialIcons.woff2") format("woff2");
 }
 
+pre {
+  font-family: Consolas,Liberation Mono,Menlo,monospace;
+  font-weight: 500;
+  font-size: 13px;
+}
+
 .material-icons {
   font-family: "Material Icons";
   font-weight: normal;

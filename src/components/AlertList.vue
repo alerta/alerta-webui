@@ -616,14 +616,14 @@ export default {
     },
     takeAction: debounce(function(id, action) {
       this.$store
-        .dispatch('alerts/takeAction', [id, action, 'operator action short-cut'])
+        .dispatch('alerts/takeAction', [id, action, ''])
     }, 200, {leading: true, trailing: false}),
     shelveAlert: debounce(function(id) {
       this.$store
         .dispatch('alerts/takeAction', [
           id,
           'shelve',
-          'operator shelve short-cut',
+          '',
           this.shelveTimeout
         ])
     }, 200, {leading: true, trailing: false}),
