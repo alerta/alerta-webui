@@ -53,7 +53,7 @@ class Config {
   }
 
   getLocalConfig() {
-    const basePath = process.env.BASE_URL || './'
+    const basePath = process.env.BASE_URL
     return this.$http
       .get(`${basePath}config.json`)
       .then(response => response.data)
