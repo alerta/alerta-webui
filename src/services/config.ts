@@ -53,9 +53,9 @@ class Config {
   }
 
   getLocalConfig() {
-    const basePath = process.env.BASE_URL != '/' ? process.env.BASE_URL : '.'
+    const basePath = process.env.BASE_URL || './'
     return this.$http
-      .get(`${basePath}/config.json`)
+      .get(`${basePath}config.json`)
       .then(response => response.data)
       .catch((error: any) => {
         console.warn(error.message)
