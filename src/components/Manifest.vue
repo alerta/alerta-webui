@@ -10,6 +10,9 @@
       slot-scope="props"
     >
       <td>
+        {{ version }}
+      </td>
+      <td>
         <span class="hidden-sm-and-down">{{ application | capitalize }} API </span>{{ props.item.release }}
       </td>
       <td>{{ props.item.build }}</td>
@@ -71,6 +74,7 @@ export default {
   },
   data: () => ({
     headers: [
+      {text: 'Web UI', value: 'version', sortable: false},
       {text: 'API', value: 'release', sortable: false},
       {text: 'Build', value: 'build', sortable: false},
       {text: 'Date', value: 'date', sortable: false},
@@ -83,6 +87,9 @@ export default {
   computed: {
     application() {
       return this.$store.state.management.application
+    },
+    version() {
+      return process.env.VUE_APP_VERSION || 'dev'
     },
     refresh() {
       return this.$store.state.refresh
