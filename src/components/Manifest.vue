@@ -9,7 +9,7 @@
       slot="items"
       slot-scope="props"
     >
-      <td>
+      <td class="text-xs-center">
         {{ version }}
       </td>
       <td>
