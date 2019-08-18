@@ -685,7 +685,7 @@ export default {
       this.$store.dispatch('alerts/updateSelected', [])
     },
     takeBulkAction(action) {
-      this.selected.map(a => this.$store.dispatch('alerts/takeAction', [a.id, action, 'operator bulk action']))
+      this.selected.map(a => this.$store.dispatch('alerts/takeAction', [a.id, action, '']))
         .reduce(() => this.clearSelected())
     },
     bulkShelveAlert() {
@@ -694,7 +694,7 @@ export default {
           .dispatch('alerts/takeAction', [
             a.id,
             'shelve',
-            'operator shelve short-cut',
+            '',
             this.shelveTimeout
           ])
       })

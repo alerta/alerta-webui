@@ -213,7 +213,7 @@
           grow
         >
           <v-tab ripple>
-            Details
+            <v-icon>info</v-icon>&nbsp;Details
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -223,13 +223,19 @@
               flat
             >
               <v-alert
-                v-if="lastNote && lastNote.text"
-                :value="lastNote"
+                v-for="note in notes"
+                :key="note.index"
                 type="info"
                 class="ma-1"
+                :value="true"
               >
-                <b>Last Note</b> by <b>{{ lastNote.user || 'Anonymous' }}</b> ({{ lastNote.updateTime | timeago }})<br>
-                {{ lastNote.text }}
+                <b>{{ note.user || 'Anonymous' }}</b> added note on
+                <b><date-time
+                  v-if="note.updateTime"
+                  :value="note.updateTime"
+                  format="longDate"
+                /></b> ({{ note.updateTime | timeago }})<br>
+                <i>{{ note.text }}</i>
               </v-alert>
               <v-card-text>
                 <div class="flex xs12 ma-1">
@@ -241,7 +247,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        {{ item.id }}
+                        <pre>{{ item.id }}</pre>
                       </div>
                     </div>
                   </div>
@@ -255,7 +261,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        {{ item.lastReceiveId }}
+                        <pre>{{ item.lastReceiveId }}</pre>
                       </div>
                     </div>
                   </div>
@@ -452,6 +458,28 @@
                         <span class="label">
                           {{ item.status | capitalize }}
                         </span>
+                        <span
+                          v-if="statusNote && statusNote.user"
+                        >&nbsp;by <b>{{ statusNote.user }}</b> ({{ statusNote.updateTime | timeago }})
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  v-if="statusNote && statusNote.user && statusNote.text"
+                  class="flex xs12 ma-1"
+                >
+                  <div class="d-flex align-top">
+                    <div class="flex xs3 text-xs-left">
+                      <div class="grey--text" />
+                    </div>
+                    <div class="flex xs6 text-xs-left">
+                      <div>
+                        <v-icon small>
+                          error_outline
+                        </v-icon>
+                        <i>&nbsp;{{ statusNote.text }}</i>
                       </div>
                     </div>
                   </div>
@@ -620,7 +648,7 @@
           </v-tab-item>
 
           <v-tab ripple>
-            History
+            <v-icon>history</v-icon>&nbsp;History
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -638,7 +666,7 @@
                   slot-scope="props"
                 >
                   <td class="hidden-sm-and-down">
-                    {{ props.item.id | shortId }}
+                    <pre>{{ props.item.id | shortId }}</pre>
                   </td>
                   <td
                     class="hidden-sm-and-down text-no-wrap"
@@ -689,7 +717,7 @@
           </v-tab-item>
 
           <v-tab ripple>
-            Data
+            <v-icon>assessment</v-icon>&nbsp;Data
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -777,8 +805,11 @@ export default {
         ? this.item.history.map((h, index) => ({ index: index, ...h }))
         : []
     },
-    lastNote() {
-      return this.history.filter(h => h.type == 'note').pop()
+    notes() {
+      return this.history.filter(h => h.type == 'note')
+    },
+    statusNote() {
+      return this.history.filter(h => h.type != 'note' && h.status == this.item.status).pop()
     },
     headersByScreenSize() {
       return this.headers.filter(
@@ -827,13 +858,11 @@ export default {
       return status == 'closed'
     },
     takeAction: debounce(function(id, action, text) {
-      text = text || `${action} by ${this.username}`
       this.$store
         .dispatch('alerts/takeAction', [id, action, text])
         .then(() => this.getAlert(this.id))
     }, 200, {leading: true, trailing: false}),
     shelveAlert: debounce(function(id, text) {
-      text = text || `shelved by ${this.username}`
       this.$store
         .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout])
         .then(() => this.getAlert(this.id))
