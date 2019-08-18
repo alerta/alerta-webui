@@ -8,7 +8,7 @@ Version 7.0 of the Alerta web UI is a [VueJS](https://vuejs.org/) web app.
 ![webui](/docs/images/alerta-webui-v7.png?raw=true&v=1)
 
 Installation
--------------
+------------
 
 To install the web console:
 
@@ -54,14 +54,13 @@ Quick Start
 -----------
 
 A docker container that is built using the most recent master branch is
-available to download and trial the latest version of the web UI. It
-can be built locally using the `Dockerfile` in this repository.
-
-    $ docker build -t alerta/alerta-beta .
-
-or the container can be downloaded from Docker Hub.
+available for download from Docker Hub.
 
     $ docker pull alerta/alerta-beta
+
+ It can also be built locally using the `Dockerfile` in this repository.
+
+    $ docker build -t alerta/alerta-beta .
 
 To run, create a `config.json` file and mount the file into the container
 
@@ -77,22 +76,41 @@ Deployment
 ----------
 
 Since this is a static web app then a production deployment of Alerta web UI
-is simply a matter of copying the `dist` directory to the a location that can
-be served via a web server or CDN. See the [VueJS platform guide][2] for more
-information.
+is simply a matter of downloading the release tarball and copying the `dist`
+directory to the a location that can be served via a web server or CDN.
+
+See the [VueJS platform guide][2] for more information.
 
 [2]: https://cli.vuejs.org/guide/deployment.html#general-guidelines
 
 Troubleshooting
 ---------------
 
+The two main issues with deployment in production involve CORS and HTML5
+history mode.
+
+### Cross-origin Errors (CORS) ###
+
+All modern browsers restrict access of a web app running at one domain to
+resources at different origin (domain). This mechanism is known as [CORS][3].
+
+[3]: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+
+To ensure that the Alerta web app has permission to access the Alerta API
+at a different origin the web URL needs to be added to the `CORS_ORIGINS`
+settings for the API.
+
+See [API server configuration][4] for more details.
+
+[4]: https://docs.alerta.io/en/latest/configuration.html#cors-config
+
 ### HTML5 History Mode
 
-The web app uses [HTML5 history mode][3] so you must ensure to configure
+The web app uses [HTML5 history mode][4] so you must ensure to configure
 the web server or CDN correctly otherwise users will get `404` errors when
 accessing deep links such as `/alert/:id` directly in their browser.
 
-The fix is to provide a [catch-all fallback route][4] so that any URL that
+The fix is to provide a [catch-all fallback route][5] so that any URL that
 doesn't match a static asset will be handled by the web app and redirected.
 
 **Example using nginx**
@@ -102,8 +120,8 @@ location / {
 }
 ```
 
-[3]: https://router.vuejs.org/guide/essentials/history-mode.html
-[4]: https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
+[5]: https://router.vuejs.org/guide/essentials/history-mode.html
+[6]: https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
 
 Development
 -----------
