@@ -21,8 +21,6 @@
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
           class="hover-lighten"
-          @mouseenter="showIcons = props.item.id"
-          @mouseleave="showIcons = null"
           @click="selectItem(props.item)"
         >
           <td
@@ -223,7 +221,6 @@
             </span>
           </td>
           <td
-            :colspan="(showIcons === props.item.id && !selectableRows) ? '1' : '2'"
             :class="['text-no-wrap', textColor]"
           >
             <div class="fixed-table">
@@ -234,11 +231,10 @@
           </td>
 
           <td
-            v-if="showIcons === props.item.id && !selectableRows"
             :class="['text-no-wrap', textColor]"
           >
             <div
-              style="display:inline-block;"
+              class="action-buttons"
             >
               <v-btn
                 v-if="isAcked(props.item.status) || isClosed(props.item.status)"
@@ -457,7 +453,6 @@ export default {
     },
     details: false,
     selectedId: null,
-    showIcons: null,
     multiselect: false,
     timer: null
   }),
@@ -483,9 +478,6 @@ export default {
       let headers = this.$config.columns
         .map(c => this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c })
       headers.push({ text: 'Description', value: 'text' })  // 'text' must be last column
-      if (this.showIcons) {
-        headers.push({ text: '', value: 'id' })
-      }
       return headers
     },
     textColor() {
@@ -752,5 +744,13 @@ div.select-box {
 }
 .btn--plain:hover {
   opacity: 1;
+}
+
+div.action-buttons {
+  display: none;
+}
+
+tr:hover div.action-buttons {
+  display: inline-block;
 }
 </style>
