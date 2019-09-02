@@ -29,7 +29,7 @@ const actions = {
   }
 }
 
-export function createStore(): Store<State> {
+export function createStore(): Store<any> {
   return new Vuex.Store({
     state: {
       multiselect: false,
