@@ -133,7 +133,7 @@
             <span
               v-if="props.item.attributes.hasOwnProperty(col)"
             >
-              {{ props.item.attributes[col] }}
+              <span v-html="props.item.attributes[col]" />
             </span>
             <span
               v-if="col == 'origin'"
