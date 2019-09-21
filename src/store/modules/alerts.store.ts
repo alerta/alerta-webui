@@ -37,7 +37,7 @@ const state = {
   showPanel: false,
 
   // query, filter and pagination
-  query: '', // URLSearchParams
+  query: {}, // URLSearchParams
   filter: {
     environment: null,
     text: null,
