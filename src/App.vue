@@ -674,7 +674,7 @@ export default {
     },
     clearSearch() {
       this.query = null
-      this.$store.dispatch('alerts/updateQuery', null)
+      this.$store.dispatch('alerts/updateQuery', {})
       this.$router.push({
         query: { ...this.$router.query, q: undefined },
         hash: this.$store.getters['alerts/getHash']
