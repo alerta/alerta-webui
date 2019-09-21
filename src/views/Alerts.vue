@@ -229,7 +229,10 @@ export default {
       }
     },
     isNewOpenAlerts() {
-      return this.alerts.filter(x => x.status == 'open').reduce((a, v) => a || !v.repeat, false)
+      return this.alerts
+        .filter(alert => this.filter.environment ? this.filter.environment == alert.environment : true)
+        .filter(alert => alert.status == 'open')
+        .reduce((acc, alert) => acc || !alert.repeat, false)
     },
     totalCount() {
       return this.$store.state.alerts.environments
