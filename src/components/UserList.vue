@@ -166,7 +166,7 @@
                   sm6
                   md12
                 >
-                  <v-combobox
+                  <v-autocomplete
                     v-model="editedItem.roles"
                     :items="allowedRoles"
                     label="Roles"
@@ -187,7 +187,7 @@
                         <span>(role)</span>
                       </v-chip>
                     </template>
-                  </v-combobox>
+                  </v-autocomplete>
                 </v-flex>
                 <v-flex
                   xs12
@@ -232,7 +232,7 @@
           xs3
           class="mr-3 pt-3"
         >
-          <v-combobox
+          <v-autocomplete
             v-model="wantRoles"
             :items="allowedRoles"
             label="Roles"
@@ -251,7 +251,7 @@
                 <span>(role)</span>
               </v-chip>
             </template>
-          </v-combobox>
+          </v-autocomplete>
         </v-flex>
         <v-flex xs6>
           <v-text-field

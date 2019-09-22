@@ -48,7 +48,7 @@
                 <v-flex
                   xs12
                 >
-                  <v-combobox
+                  <v-autocomplete
                     v-model="editedItem.scopes"
                     :items="allowedScopes"
                     label="Scopes"
@@ -69,7 +69,7 @@
                         <span>(scope)</span>
                       </v-chip>
                     </template>
-                  </v-combobox>
+                  </v-autocomplete>
                 </v-flex>
                 <v-flex
                   xs12

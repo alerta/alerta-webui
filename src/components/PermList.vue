@@ -40,7 +40,7 @@
                   sm6
                   md12
                 >
-                  <v-combobox
+                  <v-autocomplete
                     v-model="editedItem.scopes"
                     :items="allowedScopes"
                     label="Scopes"
@@ -61,7 +61,7 @@
                         <span>(scope)</span>
                       </v-chip>
                     </template>
-                  </v-combobox>
+                  </v-autocomplete>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -96,7 +96,7 @@
           xs3
           class="mr-3 pt-3"
         >
-          <v-combobox
+          <v-autocomplete
             v-model="wantScopes"
             :items="scopes"
             label="Scopes"
@@ -115,7 +115,7 @@
                 <span>(scope)</span>
               </v-chip>
             </template>
-          </v-combobox>
+          </v-autocomplete>
         </v-flex>
         <v-flex xs6>
           <v-text-field
