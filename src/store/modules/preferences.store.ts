@@ -7,9 +7,9 @@ const getDefaults = () => {
     isMute: true,
     audioURL: './audio/alert_high-intensity.ogg',
     dates: {
-      longDate: 'ddd D MMM, YYYY HH:mm:ss.SSS Z',
-      mediumDate: 'ddd D MMM HH:mm',
-      shortTime: 'LT'
+      longDate: null,
+      mediumDate: null,
+      shortTime: null
     },
     timezone: 'local',  // 'local' or 'utc'
     displayDensity: 'comfortable',  // 'comfortable' or 'compact'

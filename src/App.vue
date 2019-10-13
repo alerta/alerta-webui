@@ -480,7 +480,7 @@ export default {
     Snackbar
   },
   props: [],
-  data: vm => ({
+  data: () => ({
     hasFocus: false,
     menu: false,
     message: false,

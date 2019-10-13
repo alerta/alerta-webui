@@ -54,19 +54,19 @@
           <v-layout column>
             <v-select
               v-model="longDate"
-              :items="dateFormats"
+              :items="computedDateFormats"
               label="Long date format"
             />
 
             <v-select
               v-model="mediumDate"
-              :items="dateFormats"
+              :items="computedDateFormats"
               label="Medium date format"
             />
 
             <v-select
               v-model="shortTime"
-              :items="timeFormats"
+              :items="computedTimeFormats"
               label="Short time format"
             />
 
@@ -151,26 +151,32 @@
 import moment from 'moment'
 
 export default {
-  data: () => ({
-    dateFormats: [
-      {text: moment().format('L'), value: 'L'},
-      {text: moment().format('l'), value: 'l'},
-      {text: moment().format('LL'), value: 'LL'},
-      {text: moment().format('ll'), value: 'll'},
-      {text: moment().format('ddd D MMM HH:mm'), value: 'ddd D MMM HH:mm'},
-      {text: moment().format('LLL'), value: 'LLL'},
-      {text: moment().format('lll'), value: 'lll'},
-      {text: moment().format('LLLL'), value: 'LLLL'},
-      {text: moment().format('llll'), value: 'llll'},
-      {text: moment().format('ddd D MMM, YYYY HH:mm:ss.SSS Z'), value: 'ddd D MMM, YYYY HH:mm:ss.SSS Z'},
-      {text: moment().format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'), value: 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'},
-
+  data: vm => ({
+    mediumDateFormats: [
+      'l',
+      'L',
+      'll',
+      'LL',
+      'ddd D MMM HH:mm',
+      'lll',
+      'llll',
+      'LLL',
+      'LLLL',
+    ],
+    longDateFormats: [
+      'ddd D MMM, YYYY HH:mm:ss.SSS Z',
+      'l hh:mm:ss.SSS A',
+      'YYYY-MM-DD HH:mm:ss.SSS Z',
+      'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]',
     ],
     timeFormats: [
-      {text: moment().format('LT'), value: 'LT'},
-      {text: moment().format('LTS'), value: 'LTS'},
-      {text: moment().format('HH:mm:ss'), value: 'HH:mm:ss'},
-      {text: moment().format('HH:mm:ss.SSS Z'), value: 'HH:mm:ss.SSS Z'},
+      'LT',
+      'LTS',
+      'hh:mm:ss.SSS A',
+      'HH:mm',
+      'HH:mm:ss',
+      'HH:mm:ss.SSS',
+      'HH:mm:ss.SSS Z',
     ],
     timezoneOptions: [
       {text: 'Use local date & time', value: 'local'},
@@ -196,9 +202,28 @@ export default {
         this.$store.dispatch('toggle', ['isMute', !value])
       }
     },
+    computedDateFormats() {
+      let allDateFormats = [...new Set([
+        this.$store.getters.getConfig('dates').mediumDate,
+        ...this.mediumDateFormats,
+        this.$store.getters.getConfig('dates').longDate,
+        ...this.longDateFormats
+      ])]
+      return allDateFormats.map(f => ({text: moment().format(f), value: f}))
+    },
+    computedTimeFormats() {
+      let allTimeFormats = [...new Set([
+        this.$store.getters.getConfig('dates').shortTime,
+        ...this.timeFormats,
+      ])]
+      return allTimeFormats.map(f => ({text: moment().format(f), value: f}))
+    },
     longDate: {
       get() {
-        return this.$store.state.prefs.dates.longDate
+        return (
+          (this.$store.getters.getPreference('dates').longDate ||
+            this.$store.getters.getConfig('dates').longDate)
+        )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {
@@ -208,7 +233,10 @@ export default {
     },
     mediumDate: {
       get() {
-        return this.$store.state.prefs.dates.mediumDate
+        return (
+          (this.$store.getters.getPreference('dates').mediumDate ||
+            this.$store.getters.getConfig('dates').mediumDate)
+        )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {
@@ -218,7 +246,10 @@ export default {
     },
     shortTime: {
       get() {
-        return this.$store.state.prefs.dates.shortTime
+        return (
+          (this.$store.getters.getPreference('dates').shortTime ||
+            this.$store.getters.getConfig('dates').shortTime)
+        )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {

@@ -191,7 +191,7 @@ export default {
       default: ''
     }
   },
-  data: vm => ({
+  data: () => ({
     currentTab: null,
     densityDialog: false,
     detailDialog: false,

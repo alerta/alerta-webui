@@ -23,8 +23,8 @@ const state = {
   colors: {},  // moved to alarm_model
 
   dates: {
-    longDate: 'd/M/YYYY h:mm:ss.SSS A',
-    mediumDate: 'ddd d MMM HH:mm',
+    longDate: 'ddd D MMM, YYYY HH:mm:ss.SSS Z',
+    mediumDate: 'ddd D MMM HH:mm',
     shortTime: 'HH:mm'
   },
   audio: {},
@@ -33,7 +33,7 @@ const state = {
   actions: [],
 
   tracking_id: null,
-  refresh_interval: 5000
+  refresh_interval: 5*1000  // milliseconds
 }
 
 const mutations = {
