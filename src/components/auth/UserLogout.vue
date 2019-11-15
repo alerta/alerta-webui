@@ -15,7 +15,7 @@
         offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
-          You have been logged out.
+          {{ $t('LoggedOut') }}
         </p>
       </v-flex>
       <v-flex

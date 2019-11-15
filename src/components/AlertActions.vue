@@ -13,7 +13,7 @@
             color="grey darken-2"
             @click="watchAlert"
           >
-            <v-icon>visibility</v-icon>&nbsp;Watch
+            <v-icon>visibility</v-icon>&nbsp;{{ $t('Watch') }}
           </v-btn>
 
           <v-btn
@@ -22,7 +22,7 @@
             color="grey darken-2"
             @click="unwatchAlert"
           >
-            <v-icon>visibility_off</v-icon>&nbsp;Unwatch
+            <v-icon>visibility_off</v-icon>&nbsp;{{ $t('UnWatch') }}
           </v-btn>
 
           <v-btn
@@ -31,7 +31,7 @@
             color="grey darken-2"
             @click="showForm = true"
           >
-            <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
+            <v-icon>note_add</v-icon>{{ $t('AddNote') }}
           </v-btn>
 
           <v-btn
@@ -39,7 +39,7 @@
             color="grey darken-2"
             @click="deleteAlert"
           >
-            <v-icon>delete_forever</v-icon>&nbsp;Delete
+            <v-icon>delete_forever</v-icon>&nbsp;{{ $t('Delete') }}
           </v-btn>
         </v-flex>
       </v-layout>
@@ -65,7 +65,7 @@
                   v-model="text"
                   :counter="this.maxNoteLength"
                   :rules="textRules"
-                  label="Add Note"
+                  :label="$t('AddNote')"
                   prepend-icon="edit"
                   required
                 />

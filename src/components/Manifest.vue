@@ -13,7 +13,7 @@
         {{ version }}
       </td>
       <td>
-        <span class="hidden-sm-and-down">{{ application | capitalize }} API </span>{{ props.item.release }}
+        <span class="hidden-sm-and-down">{{ application | capitalize }} {{ $t('API') }} </span>{{ props.item.release }}
       </td>
       <td>{{ props.item.build }}</td>
       <td>
@@ -31,7 +31,7 @@
           target="_blank"
         >
           <v-tooltip right>
-            Open in GitHub
+            {{ $t('OpenGitHub') }}
             <v-icon
               slot="activator"
               small
@@ -67,6 +67,7 @@
 
 <script>
 import DateTime from './lib/DateTime'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -74,15 +75,15 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: 'Web UI', value: 'version', sortable: false},
-      {text: 'API', value: 'release', sortable: false},
-      {text: 'Build', value: 'build', sortable: false},
-      {text: 'Date', value: 'date', sortable: false},
-      {text: 'Git Revision', value: 'revision', sortable: false},
-      {text: 'API Endpoint', value: 'endpoint', sortable: false}
+      {text: i18n.t('WebUI'), value: 'version', sortable: false},
+      {text: i18n.t('API'), value: 'release', sortable: false},
+      {text: i18n.t('Build'), value: 'build', sortable: false},
+      {text: i18n.t('Date'), value: 'date', sortable: false},
+      {text: i18n.t('GitRevision'), value: 'revision', sortable: false},
+      {text: i18n.t('APIEndpoint'), value: 'endpoint', sortable: false}
     ],
     manifest: [],
-    copyIconText: 'Copy'
+    copyIconText: i18n.t('Copy')
   }),
   computed: {
     application() {
@@ -109,7 +110,7 @@ export default {
       return this.$store.dispatch('management/getManifest')
     },
     clipboardCopy(text) {
-      this.copyIconText = 'Copied!'
+      this.copyIconText = i18n.t('Copied')
       let textarea = document.createElement('textarea')
       textarea.textContent = text
       document.body.appendChild(textarea)
@@ -117,7 +118,7 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(textarea)
       setTimeout(() => {
-        this.copyIconText = 'Copy'
+        this.copyIconText = i18n.t('Copy')
       }, 2000)
     }
   }

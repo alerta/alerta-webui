@@ -28,7 +28,7 @@
         slot="items"
         slot-scope="props"
       >
-        <td>Last Update</td>
+        <td>{{ $t('LastUpdate') }}</td>
         <td>
           <date-time
             v-if="props.item.lastTime"
@@ -36,7 +36,7 @@
             format="longDate"
           />
         </td>
-        <td>Uptime</td>
+        <td>{{ $t('Uptime') }}</td>
         <td>{{ props.item.uptime / 1000 | days }}</td>
       </template>
     </v-data-table>
@@ -46,6 +46,7 @@
 <script>
 import DateTime from './lib/DateTime'
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -53,11 +54,11 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: 'Metric', value: 'title', sortable: false},
-      {text: 'Type', value: 'type', sortable: false},
-      {text: 'Name', value: 'name', sortable: false},
-      {text: 'Value', value: 'value', sortable: false},
-      {text: 'Avg. Time', value: 'time', sortable: false},
+      {text: i18n.t('Metric'), value: 'title', sortable: false},
+      {text: i18n.t('Type'), value: 'type', sortable: false},
+      {text: i18n.t('Name'), value: 'name', sortable: false},
+      {text: i18n.t('Value'), value: 'value', sortable: false},
+      {text: i18n.t('AvgTime'), value: 'time', sortable: false},
     ]
   }),
   computed: {

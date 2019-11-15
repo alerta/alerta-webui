@@ -16,14 +16,14 @@
         offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
-          Log in to Alerta to continue
+          {{ $t('MsgLogin') }}
         </p>
         <v-form @submit.prevent="login()">
           <v-text-field
             v-model="username"
             name="login"
             type="text"
-            label="Username"
+            :label="$t('Username')"
             prepend-inner-icon="alternate_email"
             outline
           />
@@ -31,7 +31,7 @@
             v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            label="Password"
+            :label="$t('Password')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             outline
             @click:append="showPassword = !showPassword"
@@ -41,7 +41,7 @@
             color="primary"
             type="submit"
           >
-            Log In
+            {{ $t('LogIn') }}
           </v-btn>
         </v-form>
         <div class="text-xs-center">
@@ -51,14 +51,14 @@
             to="/signup"
             :disabled="!signupEnabled"
           >
-            Create Account
+            {{ $t('CreateAccount') }}
           </v-btn>
           <v-btn
             flat
             color="primary"
             to="/forgot"
           >
-            Forgot Password?
+            {{ $t('ForgotPassword') }}
           </v-btn>
         </div>
       </v-flex>
@@ -77,16 +77,16 @@
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
-            Sorry, there was a problem
+            {{ $t('SorryProblem') }}
             <a
               href="#"
               @click="authenticateUsingSAML"
             >
-              Please try again
+              {{ $t('TryAgain') }}
             </a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
-            Error: {{ error }}
+            {{ $t('Error') }} {{ error }}
           </p>
         </div>
       </v-flex>
@@ -105,16 +105,16 @@
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
-            Sorry, there was a problem
+            {{ $t('SorryProblem') }}
             <a
               href="#"
               @click="authenticate"
             >
-              Please try again
+              {{ $t('TryAgain') }}
             </a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
-            Error: {{ error }}
+            {{ $t('Error') }} {{ error }}
           </p>
         </div>
       </v-flex>
@@ -130,6 +130,8 @@
 </template>
 
 <script>
+import i18n from '@/plugins/i18n'
+
 export default {
   props: [],
   data: () => ({
@@ -177,7 +179,7 @@ export default {
           .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
           .catch(error => this.error = error.response.data.message)
       } else {
-        this.message = 'Sorry, it is not possile to authenticate'
+        this.message = i18n.t('SorryNoAuthenticate')
         this.error = `Unknown authentication provider (${this.$config.provider})`
       }
     },
@@ -191,13 +193,13 @@ export default {
               .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
               .catch(error => this.error = error.response.data.message)
           } else {
-            this.message = 'Sorry, it is not possile to authenticate'
+            this.message = i18n.t('SorryNoAuthenticate')
             this.error = event.data.message ? event.data.message : JSON.stringify(event)
           }
         }
         return
       })
-      auth_win = window.open(this.$config.endpoint + '/auth/saml', 'Authenticating...')
+      auth_win = window.open(this.$config.endpoint + '/auth/saml', i18n.t('AuthenticatingInProgress'))
     }
   }
 }

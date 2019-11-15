@@ -15,7 +15,7 @@
         dense
       >
         <v-toolbar-title>
-          Filters
+          {{ $t('Filters') }}
         </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items />
@@ -48,12 +48,12 @@
           >
             <v-text-field
               v-model="filterText"
-              label="Search"
+              :label="$t('Search')"
               prepend-inner-icon="search"
               outline
               dense
               clearable
-              hint="Filter results by text search"
+              :hint="$t('FilterDescription')"
               persistent-hint
             />
           </v-flex>
@@ -66,12 +66,12 @@
               v-model="filterStatus"
               :items="statusList"
               small-chips
-              placeholder="All statuses"
-              label="Status"
+              :placeholder="$t('AllStatuses')"
+              :label="$t('Status')"
               multiple
               outline
               dense
-              hint="Choose one or more status"
+              :hint="$t('StatusDescription')"
               persistent-hint
             />
           </v-flex>
@@ -85,12 +85,12 @@
               v-model="filterCustomer"
               :items="currentCustomers"
               :menu-props="{ maxHeight: '400' }"
-              placeholder="All customers"
-              label="Customer"
+              :placeholder="$t('AllCustomers')"
+              :label="$t('Customer')"
               multiple
               outline
               dense
-              hint="Choose one or more customer"
+              :hint="$t('CustomerDescription')"
               persistent-hint
             />
           </v-flex>
@@ -103,12 +103,12 @@
               v-model="filterService"
               :items="currentServices"
               :menu-props="{ maxHeight: '400' }"
-              placeholder="All services"
-              label="Service"
+              :placeholder="$t('AllServices')"
+              :label="$t('Service')"
               multiple
               outline
               dense
-              hint="Choose one or more service"
+              :hint="$t('ServiceDescription')"
               persistent-hint
             />
           </v-flex>
@@ -121,12 +121,12 @@
               v-model="filterGroup"
               :items="currentGroups"
               :menu-props="{ maxHeight: '400' }"
-              placeholder="All groups"
-              label="Group"
+              :placeholder="$t('AllGroups')"
+              :label="$t('Group')"
               multiple
               outline
               dense
-              hint="Choose one or more group"
+              :hint="$t('GroupDescription')"
               persistent-hint
             />
           </v-flex>
@@ -135,12 +135,12 @@
             xs12
             class="pb-0"
           >
-            <span class="body-2">Date/Time</span>
+            <span class="body-2">{{ $t('DateTime') }}</span>
             <v-select
               v-model="filterDateRange"
               :items="dateRanges"
               name="dateRange"
-              label="Date/Time"
+              :label="$t('DateTime')"
               solo
               flat
               prepend-inner-icon="schedule"
@@ -156,7 +156,7 @@
           >
             <v-text-field
               v-model="period.startDate"
-              label="Start Date"
+              :label="$t('StartDate')"
               prepend-inner-icon="event"
               outline
               hide-details
@@ -171,7 +171,7 @@
           >
             <v-text-field
               v-model="period.startTime"
-              label="Time"
+              :label="$t('Time')"
               outline
               hide-details
             />
@@ -207,7 +207,7 @@
           >
             <v-text-field
               v-model="period.endDate"
-              label="End Date"
+              :label="$t('EndDate')"
               prepend-inner-icon="event"
               outline
               hide-details
@@ -222,7 +222,7 @@
           >
             <v-text-field
               v-model="period.endTime"
-              label="Time"
+              :label="$t('Time')"
               outline
               hide-details
             />
@@ -263,7 +263,7 @@
             color="primary"
             @click="setDateRange"
           >
-            Apply
+            {{ $t('Apply') }}
           </v-btn>
           <v-spacer />
           <v-btn
@@ -271,7 +271,7 @@
             flat
             @click="reset"
           >
-            Reset
+            {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
       </v-flex>
@@ -281,6 +281,7 @@
 
 <script>
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
 
 export default {
   props: {
@@ -296,24 +297,6 @@ export default {
       rowsPerPage: 10,
       sortBy: 'updateTime'
     },
-    headers: [
-      { text: 'Alert ID', value: 'id' },
-      { text: 'Update Time', value: 'updateTime' },
-      { text: 'Severity', value: 'severity' },
-      { text: 'Status', value: 'status' },
-      { text: 'Type', value: 'type' },
-      { text: 'Event', value: 'event' },
-      { text: 'Value', value: 'value' },
-      { text: 'Text', value: 'text' }
-    ],
-    dateRanges: [
-      { text: 'Latest', range: [null, null] },
-      { text: '1 hour', range: [-3600, null] },
-      { text: '6 hours', range: [-3600 * 6, null] },
-      { text: '12 hours', range: [-3600 * 12, null] },
-      { divider: true },
-      { text: 'Select Range', range: [0, 0] },
-    ],
     showDateRange: false,
     menu1: false,
     menu2: false,
@@ -325,6 +308,28 @@ export default {
     },
   }),
   computed: {
+    headers: function() {
+      return [
+        { text: i18n.t('Alert_ID'), value: 'id' },
+        { text: i18n.t('UpdateTime'), value: 'updateTime' },
+        { text: i18n.t('Severity'), value: 'severity' },
+        { text: i18n.t('Status'), value: 'status' },
+        { text: i18n.t('Type'), value: 'type' },
+        { text: i18n.t('Event'), value: 'event' },
+        { text: i18n.t('Value'), value: 'value' },
+        { text: i18n.t('Text'), value: 'text' }
+      ]
+    },
+    dateRanges: function() {
+      return [
+        { text: i18n.t('Latest'), range: [null, null] },
+        { text: i18n.t('Hour'), range: [-3600, null] },
+        { text: i18n.t('SixHours'), range: [-3600 * 6, null] },
+        { text: i18n.t('TwelveHours'), range: [-3600 * 12, null] },
+        { divider: true },
+        { text: i18n.t('SelectRange'), range: [0, 0] },
+      ]
+    },
     isDark() {
       return this.$store.getters.getPreference('isDark')
     },

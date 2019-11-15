@@ -213,7 +213,7 @@
           grow
         >
           <v-tab ripple>
-            <v-icon>info</v-icon>&nbsp;Details
+            <v-icon>info</v-icon>{{ $t('Details') }}
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -648,7 +648,7 @@
           </v-tab-item>
 
           <v-tab ripple>
-            <v-icon>history</v-icon>&nbsp;History
+            <v-icon>history</v-icon>{{ $t('History') }}
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -717,7 +717,7 @@
           </v-tab-item>
 
           <v-tab ripple>
-            <v-icon>assessment</v-icon>&nbsp;Data
+            <v-icon>assessment</v-icon>{{ $t('Data') }}
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -757,6 +757,7 @@
 import debounce from 'lodash/debounce'
 import DateTime from './lib/DateTime'
 import AlertActions from '@/components/AlertActions'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -778,16 +779,16 @@ export default {
       sortBy: 'updateTime'
     },
     headers: [
-      { text: 'Alert ID', value: 'id', hide: 'smAndDown' },
-      { text: 'Update Time', value: 'updateTime', hide: 'smAndDown' },
-      { text: 'Updated', value: 'updateTime', hide: 'mdAndUp' },
-      { text: 'Severity', value: 'severity', hide: 'smAndDown' },
-      { text: 'Status', value: 'status', hide: 'smAndDown' },
-      { text: 'Type', value: 'type' },
-      { text: 'Event', value: 'event', hide: 'smAndDown' },
-      { text: 'Value', value: 'value', hide: 'smAndDown' },
-      { text: 'User', value: 'user' },
-      { text: 'Text', value: 'text' }
+      { text: i18n.t('Alert_ID'), value: 'id', hide: 'smAndDown' },
+      { text: i18n.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
+      { text: i18n.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
+      { text: i18n.t('Severity'), value: 'severity', hide: 'smAndDown' },
+      { text: i18n.t('Status'), value: 'status', hide: 'smAndDown' },
+      { text: i18n.t('Type'), value: 'type' },
+      { text: i18n.t('Event'), value: 'event', hide: 'smAndDown' },
+      { text: i18n.t('Value'), value: 'value', hide: 'smAndDown' },
+      { text: i18n.t('User'), value: 'user' },
+      { text: i18n.t('Text'), value: 'text' }
     ]
   }),
   computed: {

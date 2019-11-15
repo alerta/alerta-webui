@@ -16,12 +16,12 @@
       >
         <p class="text-xs-center headline font-weight-medium">
           <span v-show="signupEnabled">
-            Create your Alerta account
+            {{ $t('CreateAlertaAccount') }}
           </span>
           <span
             v-show="!signupEnabled"
           >
-            Sorry, sign up is not currently available
+            {{ $t('SignUpNotAvailable') }}
           </span>
         </p>
         <v-form ref="form">
@@ -29,7 +29,7 @@
             v-model="name"
             name="name"
             type="text"
-            label="Full Name"
+            :label="$t('FullName')"
             :disabled="!signupEnabled"
             outline
             :rules="[rules.required]"
@@ -39,7 +39,7 @@
             v-model="email"
             name="login"
             type="text"
-            label="Username"
+            :label="$t('Username')"
             prepend-inner-icon="alternate_email"
             :disabled="!signupEnabled"
             outline
@@ -50,7 +50,7 @@
             v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            label="Password"
+            :label="$t('Password')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
             outline
@@ -63,7 +63,7 @@
             name="confirm-password"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :type="showPassword ? 'text' : 'password'"
-            label="Confirm Password"
+            :label="$t('ConfirmPassword')"
             :disabled="!signupEnabled"
             outline
             :rules="[rules.passwordMatch]"
@@ -74,7 +74,7 @@
             v-model="text"
             name="text"
             type="text"
-            label="Description"
+            :label="$t('Description')"
             :disabled="!signupEnabled"
             outline
           />
@@ -85,19 +85,19 @@
             color="primary"
             @click="validate"
           >
-            Sign Up
+            {{ $t('SignUp') }}
           </v-btn>
         </v-form>
         <div class="text-xs-center">
           <span class="body-2">
-            Already have an account?
+            {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
             flat
             color="primary"
             to="/login"
           >
-            Sign In
+            {{ $t('SignIn') }}
           </v-btn>
         </div>
       </v-flex>
@@ -122,10 +122,10 @@ export default {
     showPassword: false,
     text: null,
     rules: {
-      required: v => !!v || 'Required.',
-      min: v => (v && v.length >= 6) || 'Min 6 characters',
+      required: v => !!v || i18n.t('Required'),
+      min: v => (v && v.length >= 6) || i18n.t('Min6Char'),
       passwordMatch: v =>
-        (v && v == vm.password) || 'Passwords entered don\'t match'
+        (v && v == vm.password) || i18n.t('PasswordNotMatch')
     }
   }),
   computed: {

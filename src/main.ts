@@ -1,6 +1,7 @@
 import bootstrap from './services/config'
 
 import Vue from 'vue'
+import i18n from '@/plugins/i18n'
 
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -50,6 +51,7 @@ bootstrap.getConfig()
     new Vue({
       router,
       store,
+      i18n,
       render: (h: any) => h(App)
     }).$mount('#app')
   })

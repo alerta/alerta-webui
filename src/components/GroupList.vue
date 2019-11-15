@@ -8,7 +8,7 @@
         <v-card>
           <v-card-title>
             <span class="headline">
-              Add/Remove Users
+              {{ $t('AddRemoveUsers') }}
             </span>
           </v-card-title>
 
@@ -25,7 +25,7 @@
                     autofocus
                     box
                     chips
-                    label="Add users"
+                    :label="$t('Addusers')"
                     item-text="name"
                     item-value="id"
                     @change="addUser"
@@ -66,7 +66,7 @@
               <div class="headline">
                 {{ groupName }}
               </div>
-              <span>Users in group</span>
+              <span>{{ $t('UsersGroup') }}</span>
             </div>
           </v-card-title>
 
@@ -133,12 +133,12 @@
                     @click="editedItem.name = null"
                   >
                     <strong>{{ editedItem.name }}</strong>&nbsp;
-                    <span>(group)</span>
+                    <span>({{ $t('Group') }})</span>
                   </v-chip>
                 </v-flex>
                 <v-text-field
                   v-model="editedItem.name"
-                  label="Group"
+                  :label="$t('Group')"
                   :rules="[rules.required]"
                   required
                 />
@@ -147,7 +147,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.text"
-                    label="Description"
+                    :label="$t('Description')"
                   />
                 </v-flex>
               </v-layout>
@@ -161,14 +161,14 @@
               flat
               @click="close"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
               flat
               @click="validate"
             >
-              Save
+              {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -177,12 +177,12 @@
 
     <v-card>
       <v-card-title class="title">
-        Groups
+        {{ $t('Groups') }}
         <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
-          label="Search"
+          :label="$t('Search')"
           single-line
           hide-details
         />
@@ -258,7 +258,7 @@
             color="error"
             icon="warning"
           >
-            Sorry, nothing to display here :(
+            {{ $t('NoDisplay') }}
           </v-alert>
         </template>
         <v-alert
@@ -267,7 +267,7 @@
           color="error"
           icon="warning"
         >
-          Your search for "{{ search }}" found no results.
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
@@ -282,6 +282,7 @@
 
 <script>
 import ListButtonAdd from './lib/ListButtonAdd'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -299,10 +300,10 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: 'Name', value: 'name' },
-      { text: 'Description', value: 'text' },
-      { text: 'Number of Users', value: 'count' },
-      { text: 'Actions', value: 'actions', sortable: false }
+      { text: i18n.t('Name'), value: 'name' },
+      { text: i18n.t('Description'), value: 'text' },
+      { text: i18n.t('NumberUsers'), value: 'count' },
+      { text: i18n.t('Actions'), value: 'actions', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -316,7 +317,7 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || 'Required.'
+      required: v => !!v || i18n.t('Required')
     },
     groupId: null,
     groupName: '',
@@ -340,7 +341,7 @@ export default {
       return this.$store.state.groups.isLoading
     },
     formTitle() {
-      return !this.editedId ? 'New Group' : 'Edit Group'
+      return !this.editedId ? i18n.t('NewGroup') : i18n.t('EditGroup')
     },
     refresh() {
       return this.$store.state.refresh
@@ -374,7 +375,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('groups/deleteGroup', item.id)
     },
     close() {

@@ -26,12 +26,12 @@
                     @click="editedItem.match = null"
                   >
                     <strong>{{ editedItem.match }}</strong>&nbsp;
-                    <span>(role)</span>
+                    <span>({{ $t('Role') }})</span>
                   </v-chip>
                 </v-flex>
                 <v-text-field
                   v-model="editedItem.match"
-                  label="Role"
+                  :label="$t('Role')"
                   :rules="[rules.required]"
                   required
                 />
@@ -43,7 +43,7 @@
                   <v-autocomplete
                     v-model="editedItem.scopes"
                     :items="allowedScopes"
-                    label="Scopes"
+                    :label="$t('Scopes')"
                     chips
                     clearable
                     solo
@@ -58,7 +58,7 @@
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
-                        <span>(scope)</span>
+                        <span>({{ $t('Scope') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -74,14 +74,14 @@
               flat
               @click="close"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
               flat
               @click="validate"
             >
-              Save
+              {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -90,7 +90,7 @@
 
     <v-card>
       <v-card-title class="title">
-        Permissions
+        {{ $t('Permissions') }}
         <v-spacer />
         <v-flex
           xs3
@@ -99,7 +99,7 @@
           <v-autocomplete
             v-model="wantScopes"
             :items="scopes"
-            label="Scopes"
+            :label="$t('Scopes')"
             chips
             multiple
           >
@@ -112,7 +112,7 @@
                 close
               >
                 <strong>{{ data.item }}</strong>&nbsp;
-                <span>(scope)</span>
+                <span>({{ $t('Scope') }})</span>
               </v-chip>
             </template>
           </v-autocomplete>
@@ -121,7 +121,7 @@
           <v-text-field
             v-model="search"
             append-icon="search"
-            label="Search"
+            :label="$t('Search')"
             single-line
             hide-details
           />
@@ -147,7 +147,7 @@
           <td>
             <v-chip small>
               <strong>{{ props.item.match }}</strong>&nbsp;
-              <span>(role)</span>
+              <span>({{ $t('Role') }})</span>
             </v-chip>
             <v-tooltip top>
               <v-icon
@@ -157,7 +157,7 @@
               >
                 lock
               </v-icon>
-              <span>System role</span>
+              <span>({{ $t('SystemRole') }})</span>
             </v-tooltip>
           </td>
           <td>
@@ -167,7 +167,7 @@
               small
             >
               <strong>{{ scope }}</strong>&nbsp;
-              <span>(scope)</span>
+              <span>({{ $t('Scope') }})</span>
             </v-chip>
           </td>
           <td class="text-no-wrap">
@@ -207,7 +207,7 @@
             color="error"
             icon="warning"
           >
-            Sorry, nothing to display here :(
+            {{ $t('NoDisplay') }}
           </v-alert>
         </template>
         <v-alert
@@ -216,7 +216,7 @@
           color="error"
           icon="warning"
         >
-          Your search for "{{ search }}" found no results.
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
@@ -230,7 +230,7 @@
 
 <script>
 import ListButtonAdd from './lib/ListButtonAdd'
-
+import i18n from '@/plugins/i18n'
 import utils from '@/common/utils'
 
 export default {
@@ -250,9 +250,9 @@ export default {
     wantScopes: [],
     dialog: false,
     headers: [
-      { text: 'Role', value: 'match' },
-      { text: 'Scopes', value: 'scopes' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: i18n.t('Role'), value: 'match' },
+      { text: i18n.t('Scopes'), value: 'scopes' },
+      { text: i18n.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -264,7 +264,7 @@ export default {
       scopes: []
     },
     rules: {
-      required: v => !!v || 'Required.'
+      required: v => !!v || i18n.t('Required')
     }
   }),
   computed: {
@@ -284,7 +284,7 @@ export default {
       return this.$store.state.perms.isLoading
     },
     formTitle() {
-      return !this.editedId ? 'New Permission' : 'Edit Permission'
+      return !this.editedId ? i18n.t('NewPermission') : i18n.t('EditPermission')
     },
     refresh() {
       return this.$store.state.refresh
@@ -329,7 +329,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('perms/deletePerm', item.id)
     },
     close() {

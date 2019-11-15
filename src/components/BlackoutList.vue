@@ -22,7 +22,7 @@
                   <v-select
                     v-model="editedItem.customer"
                     :items="allowedCustomers"
-                    label="Customer"
+                    :label="$t('Customer')"
                     clearable
                   />
                 </v-flex>
@@ -32,7 +32,7 @@
                   <v-select
                     v-model="editedItem.environment"
                     :items="allowedEnvironments"
-                    label="Environment"
+                    :label="$t('Environment')"
                     :rules="[rules.required]"
                     required
                   />
@@ -56,7 +56,7 @@
                     <v-text-field
                       slot="activator"
                       v-model="editedItem.period.startDate"
-                      label="Start Date"
+                      :label="$t('StartDate')"
                       prepend-icon="event"
                     />
                     <v-date-picker
@@ -101,7 +101,7 @@
                     <v-text-field
                       slot="activator"
                       v-model="editedItem.period.endDate"
-                      label="End Date"
+                      :label="$t('EndDate')"
                     />
                     <v-date-picker
                       v-model="editedItem.period.endDate"
@@ -118,9 +118,9 @@
                     v-model="editedItem.service"
                     :items="currentServices"
                     :menu-props="{ maxHeight: '400' }"
-                    label="Service"
+                    :label="$t('Service')"
                     multiple
-                    hint="Choose one or more service"
+                    :hint="$t('ChooseService')"
                     persistent-hint
                   />
                 </v-flex>
@@ -129,7 +129,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.resource"
-                    label="Resource"
+                    :label="$t('Resource')"
                   />
                 </v-flex>
                 <v-flex
@@ -137,7 +137,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.event"
-                    label="Event"
+                    :label="$t('Event')"
                   />
                 </v-flex>
                 <v-flex
@@ -145,7 +145,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.group"
-                    label="Group"
+                    :label="$t('Group')"
                   />
                 </v-flex>
 
@@ -155,7 +155,7 @@
                   <v-combobox
                     v-model="editedItem.tags"
                     :items="currentTags"
-                    label="Tags"
+                    :label="$t('Tags')"
                     multiple
                     chips
                   >
@@ -185,7 +185,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.text"
-                    label="Reason"
+                    :label="$t('Reason')"
                   />
                 </v-flex>
               </v-layout>
@@ -199,14 +199,14 @@
               flat
               @click="close"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
               flat
               @click="validate"
             >
-              Save
+              {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -215,12 +215,12 @@
 
     <v-card>
       <v-card-title class="title">
-        Blackouts
+        {{ $t('Blackouts') }}
         <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
-          label="Search"
+          :label="$t('Search')"
           single-line
           hide-details
         />
@@ -373,7 +373,7 @@
             color="error"
             icon="warning"
           >
-            Sorry, nothing to display here :(
+            {{ $t('NoDisplay') }}
           </v-alert>
         </template>
         <v-alert
@@ -382,7 +382,7 @@
           color="error"
           icon="warning"
         >
-          Your search for "{{ search }}" found no results.
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
@@ -398,6 +398,7 @@
 import DateTime from './lib/DateTime'
 import ListButtonAdd from './lib/ListButtonAdd'
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -416,21 +417,21 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: 'Customer', value: 'customer' },
-      { text: 'Environment', value: 'environment' },
-      { text: 'Service', value: 'service' },
-      { text: 'Resource', value: 'resource' },
-      { text: 'Event', value: 'event' },
-      { text: 'Group', value: 'group' },
-      { text: 'Tags', value: 'tags' },
+      { text: i18n.t('Customer'), value: 'customer' },
+      { text: i18n.t('Environment'), value: 'environment' },
+      { text: i18n.t('Service'), value: 'service' },
+      { text: i18n.t('Resource'), value: 'resource' },
+      { text: i18n.t('Event'), value: 'event' },
+      { text: i18n.t('Group'), value: 'group' },
+      { text: i18n.t('Tags'), value: 'tags' },
       { text: '', value: 'status' },
-      { text: 'Start', value: 'startTime' },
-      { text: 'End', value: 'endTime' },
-      { text: 'Expires', value: 'remaining' },
-      { text: 'User', value: 'user' },
+      { text: i18n.t('Start'), value: 'startTime' },
+      { text: i18n.t('End'), value: 'endTime' },
+      { text: i18n.t('Expires'), value: 'remaining' },
+      { text: i18n.t('User'), value: 'user' },
       // { text: 'Created', value: 'createTime' }, FIXME
-      { text: 'Reason', value: 'text' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: i18n.t('Reason'), value: 'text' },
+      { text: i18n.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -468,7 +469,7 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || 'Required.'
+      required: v => !!v || i18n.t('Required')
     }
   }),
   computed: {
@@ -505,7 +506,7 @@ export default {
       return this.$store.state.blackouts.isLoading
     },
     formTitle() {
-      return !this.editedId ? 'New Blackout' : 'Edit Blackout'
+      return !this.editedId ? i18n.t('NewBlackout') : i18n.t('EditBlackout')
     },
     times() {
       return Array.from(
@@ -594,7 +595,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('blackouts/deleteBlackout', item.id)
     },
     close() {

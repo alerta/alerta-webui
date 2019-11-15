@@ -16,14 +16,14 @@
         offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
-          <span>Enter your email and we'll send you a reset link</span>
+          <span>{{ $t('ResetLink') }}</span>
         </p>
         <v-form @submit.prevent="forgot()">
           <v-text-field
             v-model="email"
             name="login"
             type="text"
-            label="Username"
+            :label="$t('Username')"
             prepend-inner-icon="alternate_email"
             outline
           />
@@ -34,19 +34,19 @@
             color="primary"
             type="submit"
           >
-            Send
+            {{ $t('Send') }}
           </v-btn>
         </v-form>
         <div class="text-xs-center">
           <span class="body-2">
-            Already have an account?
+            {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
             flat
             color="primary"
             to="/login"
           >
-            Sign In
+            {{ $t('SignIn') }}
           </v-btn>
         </div>
       </v-flex>
@@ -71,14 +71,14 @@
         offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
-          <span>Check your email for a reset link...</span>
+          <span>{{ $t('CheckEmail') }}</span>
         </p>
         <v-form>
           <v-text-field
             v-model="email"
             name="login"
             type="text"
-            label="Username"
+            :label="$t('Username')"
             prepend-inner-icon="alternate_email"
             outline
             readonly
@@ -88,19 +88,19 @@
             color="primary"
             to="/login"
           >
-            Return to Sign In
+            {{ $t('ReturnSignIn') }}
           </v-btn>
         </v-form>
         <div class="text-xs-center">
           <span class="body-2">
-            Already have an account?
+            {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
             flat
             color="primary"
             to="/login"
           >
-            Sign In
+            {{ $t('SignIn') }}
           </v-btn>
         </div>
       </v-flex>
@@ -132,7 +132,7 @@ export default {
       this.$store.dispatch('auth/forgot', this.email).then(() => {
         this.$store.dispatch(
           'notifications/success',
-          'Reset email sent successfully!',
+          i18n.t('ResetEmailSent'),
           { root: true }
         )
         this.sent = true
