@@ -31,7 +31,7 @@
               refresh
             </v-icon>
           </v-btn>
-          <span>Open</span>
+          <span>{{ $t('Open') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -48,7 +48,7 @@
               visibility
             </v-icon>
           </v-btn>
-          <span>Watch</span>
+          <span>{{ $t('Watch') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -65,7 +65,7 @@
               visibility_off
             </v-icon>
           </v-btn>
-          <span>Unwatch</span>
+          <span>{{ $t('Unwatch') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -83,7 +83,7 @@
               check
             </v-icon>
           </v-btn>
-          <span>Ack</span>
+          <span>{{ $t('Ack') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -100,7 +100,7 @@
               undo
             </v-icon>
           </v-btn>
-          <span>Unack</span>
+          <span>{{ $t('Unack') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -118,7 +118,7 @@
               schedule
             </v-icon>
           </v-btn>
-          <span>Shelve</span>
+          <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -135,7 +135,7 @@
               restore
             </v-icon>
           </v-btn>
-          <span>Unshelve</span>
+          <span>{{ $t('Unshelve') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -152,7 +152,7 @@
               highlight_off
             </v-icon>
           </v-btn>
-          <span>Close</span>
+          <span>{{ $t('Close') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -168,7 +168,7 @@
               delete
             </v-icon>
           </v-btn>
-          <span>Delete</span>
+          <span>{{ $t('Delete') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -201,7 +201,7 @@
               </v-list-tile>
             </v-list>
           </v-menu>
-          <span>More</span>
+          <span>{{ $t('More') }}</span>
         </v-tooltip>
       </v-toolbar>
 
@@ -229,7 +229,7 @@
                 class="ma-1"
                 :value="true"
               >
-                <b>{{ note.user || 'Anonymous' }}</b> added note on
+                <b>{{ note.user || 'Anonymous' }}</b> {{ $t('addedNoteOn') }}
                 <b><date-time
                   v-if="note.updateTime"
                   :value="note.updateTime"
@@ -242,7 +242,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Alert ID
+                        {{ $t('Alert_ID') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -256,7 +256,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Last Receive Alert ID
+                        {{ $t('LastReceiveId') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -270,7 +270,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Create Time
+                        {{ $t('CreateTime') }}
                       </div>
                     </div>
                     <div class="flex xs9 text-xs-left">
@@ -289,7 +289,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Receive Time
+                        {{ $t('ReceiveTime') }}
                       </div>
                     </div>
                     <div class="flex xs9 text-xs-left">
@@ -308,7 +308,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Last Receive Time
+                        {{ $t('LastReceiveTime') }}
                       </div>
                     </div>
                     <div class="flex xs9 text-xs-left">
@@ -330,7 +330,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Customer
+                        {{ $t('Customer') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -344,7 +344,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Service
+                        {{ $t('Service') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -360,7 +360,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Environment
+                        {{ $t('Environment') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -374,7 +374,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Resource
+                        {{ $t('Resource') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -388,7 +388,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Event
+                        {{ $t('Event') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -402,7 +402,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Correlate
+                        {{ $t('Correlate') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -416,7 +416,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Group
+                        {{ $t('Group') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -430,7 +430,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Severity
+                        {{ $t('Severity') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -450,7 +450,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Status
+                        {{ $t('Status') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -460,7 +460,7 @@
                         </span>
                         <span
                           v-if="statusNote && statusNote.user"
-                        >&nbsp;by <b>{{ statusNote.user }}</b> ({{ statusNote.updateTime | timeago }})
+                        >&nbsp; {{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ statusNote.updateTime | timeago }})
                         </span>
                       </div>
                     </div>
@@ -488,7 +488,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Value
+                        {{ $t('Value') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -502,7 +502,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Text
+                        {{ $t('Text') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -516,7 +516,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Trend Indication
+                        {{ $t('TrendIndication') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -532,7 +532,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Timeout
+                        {{ $t('Timeout') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -546,7 +546,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Type
+                        {{ $t('Type') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -562,7 +562,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Duplicate Count
+                        {{ $t('DuplicateCount') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -576,7 +576,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Repeat
+                        {{ $t('Repeat') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -592,7 +592,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Origin
+                        {{ $t('Origin') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -606,7 +606,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        Tags
+                        {{ $t('Tags') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -886,7 +886,7 @@ export default {
         })
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('alerts/deleteAlert', id)
           .then(() => this.$router.push({ name: 'alerts' }))
     }, 200, {leading: true, trailing: false}),

@@ -425,7 +425,7 @@ export default {
     headers: [
       { text: i18n.t('Name'), value: 'name' },
       { text: i18n.t('Status'), value: 'status' },
-      { text: i18n.t('LogIn'), value: 'login' },
+      { text: i18n.t('LogInUser'), value: 'login' },
       { text: i18n.t('Email'), value: 'email' },
       { text: i18n.t('VerifiedOrNot'), value: 'email_verified' },
       { text: i18n.t('Roles'), value: 'roles' },

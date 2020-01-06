@@ -119,13 +119,13 @@
             @click="showPanel = !showPanel"
           >
             <v-list-tile-title>
-              {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('panel') }}
+              {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('Panel') }}
             </v-list-tile-title>
           </v-list-tile>
           <v-list-tile
             @click="densityDialog = true"
           >
-           {{ $t('DisplayDensity') }}
+            {{ $t('DisplayDensity') }}
           </v-list-tile>
         </v-list>
       </v-menu>
@@ -166,6 +166,7 @@ import AlertDetail from '@/components/AlertDetail.vue'
 import AlertListFilter from '@/components/AlertListFilter.vue'
 
 import utils from '@/common/utils'
+import i18n from '../plugins/i18n'
 
 export default {
   components: {

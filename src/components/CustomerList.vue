@@ -149,7 +149,7 @@
           color="error"
           icon="warning"
         >
-          {{ $('SearchNoResult1') }} "{{ search }}" {{ $('SearchNoResult2') }}
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>

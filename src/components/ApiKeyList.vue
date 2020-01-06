@@ -379,7 +379,7 @@ export default {
       return this.$store.state.keys.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewAPI') : i18n.t('EditAPI')
+      return !this.editedId ? i18n.t('NewApi') : i18n.t('EditApi')
     },
     refresh() {
       return this.$store.state.refresh

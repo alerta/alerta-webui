@@ -317,7 +317,7 @@
               schedule
             </v-icon>
           </v-btn>
-          <span>Shelve</span>
+          <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
