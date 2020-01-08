@@ -5,16 +5,6 @@ import utils from '@/common/utils'
 
 const namespaced = true
 
-const getDefaultFilter = () => {
-  return {
-    text: null,
-    environment: null,
-    status: ['open', 'ack'],  // FIXME
-    service: null,
-    group: null,
-    dateRange: [null, null]
-  }
-}
 const state = {
   isLoading: false,
 
@@ -38,10 +28,10 @@ const state = {
 
   // query, filter and pagination
   query: {}, // URLSearchParams
-  filter: {
+  filter: {  // local defaults
     environment: null,
     text: null,
-    status: ['open', 'ack'],  // FIXME
+    status: ['open', 'ack'],
     customer: null,
     service: null,
     group: null,
@@ -107,9 +97,6 @@ const mutations = {
   },
   SET_FILTER(state, filter): any {
     state.filter = Object.assign({}, state.filter, filter)
-  },
-  RESET_FILTER(state): any {
-    state.filter = Object.assign({}, state.filter, getDefaultFilter())
   },
   SET_PAGINATION(state, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
@@ -255,8 +242,8 @@ const actions = {
   setFilter({ commit }, filter) {
     commit('SET_FILTER', filter)
   },
-  resetFilter({ commit }) {
-    commit('RESET_FILTER')
+  resetFilter({ commit, rootState }) {
+    commit('SET_FILTER', rootState.config.filter)
   },
   setPagination({ commit }, pagination) {
     commit('SET_PAGINATION', pagination)
