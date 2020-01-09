@@ -31,6 +31,14 @@ const state = {
   columns: [],
   sort_by: 'lastReceiveTime',
   actions: [],
+  filter: {
+    text: null,
+    environment: null,
+    status: null,
+    service: null,
+    group: null,
+    dateRange: [null, null]
+  },
 
   tracking_id: null,
   refresh_interval: 5*1000  // milliseconds

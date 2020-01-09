@@ -34,6 +34,7 @@ bootstrap.getConfig()
 
     Vue.prototype.$config = config
     store.dispatch('updateConfig', config)
+    store.dispatch('alerts/setFilter', config.filter)
     store.registerModule('auth', makeStore(vueAuth(config)))
     axios.defaults.baseURL = config.endpoint
 
