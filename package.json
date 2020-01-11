@@ -1,6 +1,6 @@
 {
   "name": "alerta-webui",
-  "version": "7.4.1",
+  "version": "7.4.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 8000",
@@ -11,12 +11,12 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@alerta/vue-authenticate": "^1.4.2",
     "acorn-dynamic-import": "^4.0.0",
     "axios": "^0.18.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
-    "vue-authenticate": "^1.4.0",
     "vue-class-component": "^6.0.0",
     "vue-object-merge": "^0.1.7",
     "vue-property-decorator": "^7.3.0",

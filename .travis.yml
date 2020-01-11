@@ -1,13 +1,15 @@
 language: node_js
 node_js:
-- '8'
+  - 8
 
 cache:
   directories:
   - node_modules
 
+before_install:
+  - echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> .npmrc
 install:
-- npm install
+  - npm install
 
 stages:
   - test

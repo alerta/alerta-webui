@@ -63,7 +63,7 @@
               <v-card-text>
                 <v-text-field
                   v-model="text"
-                  :counter="this.maxNoteLength"
+                  :counter="maxNoteLength"
                   :rules="textRules"
                   label="Add Note"
                   prepend-icon="edit"
