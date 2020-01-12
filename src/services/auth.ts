@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueAxios from 'vue-axios'
-import { VueAuthenticate } from 'vue-authenticate'
+import { VueAuthenticate } from '@alerta/vue-authenticate'
 import axios from 'axios'
 
 Vue.use(Vuex)
@@ -13,6 +13,7 @@ export function vueAuth(config) {
     tokenName: 'token',
     tokenPrefix: '',
     registerUrl: '/auth/signup',
+    logoutUrl: '/auth/logout',
     storageType: 'localStorage',
     storageNamespace: 'auth',
     providers: {

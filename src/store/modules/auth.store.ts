@@ -79,7 +79,10 @@ export function makeStore(vueAuth) {
       logout({ commit }) {
         return vueAuth
           .logout()
-          .then(() => commit('RESET_AUTH'))
+          .then(response => {
+            commit('RESET_AUTH')
+            return response
+          })
       }
     },
 
