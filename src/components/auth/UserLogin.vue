@@ -70,6 +70,14 @@
         offset-xs0
         offset-sm2
       >
+        <div>
+          <p class="text-xs-center headline font-weight-medium">
+            SAML2 Authentication uses pop-up windows.
+          </p>
+          <p class="text-xs-center subheading font-weight-medium">
+            Please allow pop-ups from <kbd>{{ host }}</kbd>
+          </p>
+        </div>
         <div v-show="message && !error">
           <p class="text-xs-center headline font-weight-medium">
             {{ message }}
@@ -133,6 +141,7 @@
 export default {
   props: [],
   data: () => ({
+    host: window.location.origin,
     username: null,
     password: null,
     showPassword: false,
