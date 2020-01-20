@@ -409,6 +409,7 @@ import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import DateTime from './lib/DateTime'
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -423,33 +424,33 @@ export default {
   data: () => ({
     search: '',
     headersMap: {
-      id: { text: 'Alert ID', value: 'id' },
-      resource: { text: 'Resource', value: 'resource' },
-      event: { text: 'Event', value: 'event' },
-      environment: { text: 'Environment', value: 'environment' },
-      severity: { text: 'Severity', value: 'severity' },
-      correlate: { text: 'Correlate', value: 'correlate' },
-      status: { text: 'Status', value: 'status' },
-      service: { text: 'Service', value: 'service' },
-      group: { text: 'Group', value: 'group' },
-      value: { text: 'Value', value: 'value' },
-      text: { text: 'Description', value: 'text' },
-      tags: { text: 'Tags', value: 'tags' },
-      attributes: { text: 'Attribute', value: 'attributes' },
-      origin: { text: 'Origin', value: 'origin' },
-      type: { text: 'Type', value: 'type' },
-      createTime: { text: 'Create Time', value: 'createTime' },
-      timeout: { text: 'Timeout', value: 'timeout' },
-      timeoutLeft: { text: 'Timeout', value: 'timeoutLeft' },
-      customer: { text: 'Customer', value: 'customer' },
-      duplicateCount: { text: 'Dupl.', value: 'duplicateCount' },
-      repeat: { text: 'Repeat', value: 'repeat' },
-      previousSeverity: { text: 'Prev. Severity', value: 'previousSeverity' },
-      trendIndication: { text: 'Trend Indication', value: 'trendIndication' },
-      receiveTime: { text: 'Receive Time', value: 'receiveTime' },
-      lastReceiveId: { text: 'Last Receive Id', value: 'lastReceiveId' },
-      lastReceiveTime: { text: 'Last Receive Time', value: 'lastReceiveTime' },
-      note: { text: 'Last Note', value: 'note', sortable: false }
+      id: { text: i18n.t('Alert_ID'), value: 'id' },
+      resource: { text: i18n.t('Resource'), value: 'resource' },
+      event: { text: i18n.t('Event'), value: 'event' },
+      environment: { text: i18n.t('Environment'), value: 'environment' },
+      severity: { text: i18n.t('Severity'), value: 'severity' },
+      correlate: { text: i18n.t('Correlate'), value: 'correlate' },
+      status: { text: i18n.t('Status'), value: 'status' },
+      service: { text: i18n.t('Service'), value: 'service' },
+      group: { text: i18n.t('Group'), value: 'group' },
+      value: { text: i18n.t('Value'), value: 'value' },
+      text: { text: i18n.t('Description'), value: 'text' },
+      tags: { text: i18n.t('Tags'), value: 'tags' },
+      attributes: { text: i18n.t('Attributes'), value: 'attributes' },
+      origin: { text: i18n.t('Origin'), value: 'origin' },
+      type: { text: i18n.t('Type'), value: 'type' },
+      createTime: { text: i18n.t('CreateTime'), value: 'createTime' },
+      timeout: { text: i18n.t('Timeout'), value: 'timeout' },
+      timeoutLeft: { text: i18n.t('TimeoutLeft'), value: 'timeoutLeft' },
+      customer: { text: i18n.t('Customer'), value: 'customer' },
+      duplicateCount: { text: i18n.t('DuplicateCount'), value: 'duplicateCount' },
+      repeat: { text: i18n.t('Repeat'), value: 'repeat' },
+      previousSeverity: { text: i18n.t('PreviousSeverity'), value: 'previousSeverity' },
+      trendIndication: { text: i18n.t('TrendIndication'), value: 'trendIndication' },
+      receiveTime: { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
+      lastReceiveId: { text: i18n.t('LastReceiveId'), value: 'lastReceiveId' },
+      lastReceiveTime: { text: i18n.t('LastReceiveTime'), value: 'lastReceiveTime' },
+      note: { text: i18n.t('Note'), value: 'note', sortable: false }
     },
     details: false,
     selectedId: null,
@@ -477,7 +478,7 @@ export default {
     customHeaders() {
       let headers = this.$config.columns
         .map(c => this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c })
-      headers.push({ text: 'Description', value: 'text' })  // 'text' must be last column
+      headers.push({ text: i18n.t('Description'), value: 'text' })  // 'text' must be last column
       return headers
     },
     textColor() {
@@ -628,7 +629,7 @@ export default {
         .dispatch('alerts/unwatchAlert', id)
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('alerts/deleteAlert', id)
     }, 200, {leading: true, trailing: false}),
   }

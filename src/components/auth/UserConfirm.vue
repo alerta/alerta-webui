@@ -16,20 +16,20 @@
       >
         <div v-show="message">
           <p class="text-xs-center headline font-weight-medium">
-            Thanks! {{ message }}. You can now <a href="/login">
-              log in
+            {{ $t('Thanks') }} {{ message }}{{ $t('YouCanNow') }} <a href="/login">
+              {{ $t('LogIn') }}
             </a>
           </p>
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
-            Sorry, there was a problem confirming your email address
+            {{ $t('ProblemEmail') }}
             <a href="/">
-              Please try again
+              {{ $t('TryAgain') }}
             </a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
-            Error: {{ error }}
+            {{ $t('Error') }} {{ error }}
           </p>
         </div>
       </v-flex>

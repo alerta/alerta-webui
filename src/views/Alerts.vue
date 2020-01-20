@@ -13,7 +13,7 @@
         <v-card>
           <v-card-title class="justify-center">
             <span class="title">
-              Choose a display density
+              {{ $t('ChooseDisplayDensity') }}
             </span>
           </v-card-title>
           <v-card-actions class="justify-center">
@@ -22,14 +22,14 @@
               :class="{ primary: displayDensity == 'comfortable' }"
               @click="displayDensity = 'comfortable'"
             >
-              Comfortable
+              {{ $t('Comfortable') }}
             </v-btn>
             <v-btn
               value="compact"
               :class="{ primary: displayDensity == 'compact' }"
               @click="displayDensity = 'compact'"
             >
-              Compact
+              {{ $t('Compact') }}
             </v-btn>
           </v-card-actions>
           <v-card-actions>
@@ -39,7 +39,7 @@
               flat
               @click="ok"
             >
-              OK
+              {{ $t('OK') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -119,13 +119,13 @@
             @click="showPanel = !showPanel"
           >
             <v-list-tile-title>
-              {{ showPanel ? 'Hide' : 'Show' }} panel
+              {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('Panel') }}
             </v-list-tile-title>
           </v-list-tile>
           <v-list-tile
             @click="densityDialog = true"
           >
-            Display density
+            {{ $t('DisplayDensity') }}
           </v-list-tile>
         </v-list>
       </v-menu>
@@ -166,6 +166,7 @@ import AlertDetail from '@/components/AlertDetail.vue'
 import AlertListFilter from '@/components/AlertListFilter.vue'
 
 import utils from '@/common/utils'
+import i18n from '../plugins/i18n'
 
 export default {
   components: {

@@ -1,12 +1,12 @@
 <template>
   <v-card>
     <v-card-title class="title">
-      Heartbeats
+      {{ $t('Heartbeats') }}
       <v-spacer />
       <v-text-field
         v-model="search"
         append-icon="search"
-        label="Search"
+        :label="$t('Search')"
         single-line
         hide-details
       />
@@ -88,7 +88,7 @@
           color="error"
           icon="warning"
         >
-          Sorry, nothing to display here :(
+          {{ $t('NoDisplay') }}
         </v-alert>
       </template>
       <v-alert
@@ -97,7 +97,7 @@
         color="error"
         icon="warning"
       >
-        Your search for "{{ search }}" found no results.
+        {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
       </v-alert>
     </v-data-table>
   </v-card>
@@ -106,6 +106,7 @@
 <script>
 import DateTime from './lib/DateTime'
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -123,15 +124,15 @@ export default {
     // totalItems: number,
     search: '',
     headers: [
-      { text: 'Origin', value: 'origin' },
-      { text: 'Customer', value: 'customer' },
-      { text: 'Tags', value: 'tags' },
-      { text: 'Create Time', value: 'createTime' },
-      { text: 'Receive Time', value: 'receiveTime' },
-      { text: 'Latency', value: 'latency' },
-      { text: 'Timeout', value: 'timeout' },
-      { text: 'Since', value: 'since' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: i18n.t('Origin'), value: 'origin' },
+      { text: i18n.t('Customer'), value: 'customer' },
+      { text: i18n.t('Tags'), value: 'tags' },
+      { text: i18n.t('CreateTime'), value: 'createTime' },
+      { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
+      { text: i18n.t('Latency'), value: 'latency' },
+      { text: i18n.t('Timeout'), value: 'timeout' },
+      { text: i18n.t('Since'), value: 'since' },
+      { text: i18n.t('Actions'), value: 'name', sortable: false }
     ]
   }),
   computed: {
@@ -165,7 +166,7 @@ export default {
       this.$store.dispatch('heartbeats/getHeartbeats')
     },
     deleteItem(item) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('heartbeats/deleteHeartbeat', item.id)
     },
     diffTime(a, b) {

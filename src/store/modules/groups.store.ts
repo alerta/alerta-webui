@@ -1,4 +1,5 @@
 import GroupsApi from '@/services/api/group.service'
+import i18n from '@/plugins/i18n'
 
 const namespaced = true
 
@@ -71,14 +72,14 @@ const actions = {
       .then(response => {
         dispatch('getGroupUsers', groupId)
       })
-      .then(() => dispatch('notifications/success', 'User added to group.', { root: true }))
+      .then(() => dispatch('notifications/success', i18n.t('UserAddedGroup'), { root: true }))
   },
   removeUserFromGroup({ dispatch, commit }, [groupId, userId]) {
     return GroupsApi.removeUserFromGroup(groupId, userId)
       .then(response => {
         dispatch('getGroupUsers', groupId)
       })
-      .then(() => dispatch('notifications/success', 'User removed from group.', { root: true }))
+      .then(() => dispatch('notifications/success', i18n.t('UserRemovedGroup'), { root: true }))
   },
   deleteGroup({ dispatch, commit }, groupId) {
     return GroupsApi.deleteGroup(groupId)

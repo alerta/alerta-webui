@@ -26,7 +26,7 @@
                   <v-text-field
                     v-model="editedItem.name"
                     :disabled="!isBasicAuth"
-                    label="Name"
+                    :label="$t('Name')"
                     :rules="[rules.required]"
                     required
                   />
@@ -40,7 +40,7 @@
                     v-model="editedItem.status"
                     :true-value="'active'"
                     :false-value="'inactive'"
-                    label="Active"
+                    :label="$t('Active')"
                   />
                 </v-flex>
                 <v-flex
@@ -51,7 +51,7 @@
                   <v-text-field
                     v-model="editedItem.login"
                     :disabled="!isBasicAuth"
-                    label="Login"
+                    :label="$t('LogIn')"
                     :rules="[rules.required]"
                     required
                   />
@@ -64,7 +64,7 @@
                   <v-text-field
                     v-model="editedItem.email"
                     :disabled="!isBasicAuth"
-                    label="Email"
+                    :label="$t('Email')"
                     :rules="[rules.required]"
                     required
                   />
@@ -76,7 +76,7 @@
                 >
                   <v-checkbox
                     v-model="editedItem.email_verified"
-                    label="Verified"
+                    :label="$t('Verified')"
                   />
                 </v-flex>
 
@@ -93,7 +93,7 @@
                     :rules="isBasicAuth ? [rules.min] : []"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
-                    label="Password"
+                    :label="$t('Password')"
                     class="input-group--focused"
                     autocomplete="new-password"
                     @click:append="showPassword = !showPassword"
@@ -102,7 +102,7 @@
                     v-show="!isBasicAuth"
                     disabled
                     append-icon="visibility"
-                    label="Password"
+                    :label="$t('Password')"
                   />
                 </v-flex>
                 <v-flex
@@ -117,7 +117,7 @@
                     :rules="isBasicAuth ? [rules.passwordMatch] : []"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
-                    label="Confirm Password"
+                    :label="$t('ConfirmPassword')"
                     :value="editedItem.confirmPassword"
                     autocomplete="new-password"
                     @click:append="showPassword = !showPassword"
@@ -126,7 +126,7 @@
                     v-show="!isBasicAuth"
                     disabled
                     append-icon="visibility"
-                    label="Confirm Password"
+                    :label="$t('ConfirmPassword')"
                   />
                 </v-flex>
 
@@ -138,7 +138,7 @@
                   <v-select
                     v-model="userGroups"
                     :items="allGroups"
-                    label="Groups"
+                    :label="$t('Groups')"
                     item-text="name"
                     item-value="id"
                     chips
@@ -155,7 +155,7 @@
                         close
                       >
                         <strong>{{ data.item.name }}</strong>&nbsp;
-                        <span>(group)</span>
+                        <span>({{ $t('Group') }})</span>
                       </v-chip>
                     </template>
                   </v-select>
@@ -169,7 +169,7 @@
                   <v-autocomplete
                     v-model="editedItem.roles"
                     :items="allowedRoles"
-                    label="Roles"
+                    :label="$t('Roles')"
                     chips
                     clearable
                     solo
@@ -184,7 +184,7 @@
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
-                        <span>(role)</span>
+                        <span>({{ $t('Role') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -196,7 +196,7 @@
                 >
                   <v-text-field
                     v-model="editedItem.text"
-                    label="Comment"
+                    :label="$t('Comment')"
                   />
                 </v-flex>
               </v-layout>
@@ -210,14 +210,14 @@
               flat
               @click="close"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
               flat
               @click="validate"
             >
-              Save
+              {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -226,7 +226,7 @@
 
     <v-card>
       <v-card-title class="title">
-        Users
+        {{ $t('Users') }}
         <v-spacer />
         <v-flex
           xs3
@@ -235,7 +235,7 @@
           <v-autocomplete
             v-model="wantRoles"
             :items="allowedRoles"
-            label="Roles"
+            :label="$t('Roles')"
             chips
             multiple
           >
@@ -248,7 +248,7 @@
                 close
               >
                 <strong>{{ data.item }}</strong>&nbsp;
-                <span>(role)</span>
+                <span>({{ $t('Role') }})</span>
               </v-chip>
             </template>
           </v-autocomplete>
@@ -257,7 +257,7 @@
           <v-text-field
             v-model="search"
             append-icon="search"
-            label="Search"
+            :label="$t('Search')"
             single-line
             hide-details
           />
@@ -312,8 +312,8 @@
               <span>
                 {{
                   props.item.email_verified
-                    ? 'Email Verified'
-                    : 'Email not verified'
+                    ? $t('EmailVerified')
+                    : $t('EmailNotVerified')
                 }}
               </span>
             </v-tooltip>
@@ -324,7 +324,7 @@
               :key="role"
             >
               <strong>{{ role }}</strong>&nbsp;
-              <span>(role)</span>
+              <span>({{ $t('Role') }})</span>
             </v-chip>
           </td>
           <td class="text-xs-right">
@@ -378,7 +378,7 @@
             color="error"
             icon="warning"
           >
-            Sorry, nothing to display here :(
+            {{ $t('NoDisplay') }}
           </v-alert>
         </template>
         <v-alert
@@ -387,7 +387,7 @@
           color="error"
           icon="warning"
         >
-          Your search for "{{ search }}" found no results.
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}.
         </v-alert>
       </v-data-table>
     </v-card>
@@ -403,6 +403,7 @@
 <script>
 import DateTime from './lib/DateTime'
 import ListButtonAdd from './lib/ListButtonAdd'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -422,16 +423,16 @@ export default {
     wantRoles: [],
     dialog: false,
     headers: [
-      { text: 'Name', value: 'name' },
-      { text: 'Status', value: 'status' },
-      { text: 'Login', value: 'login' },
-      { text: 'Email', value: 'email' },
-      { text: 'Verified?', value: 'email_verified' },
-      { text: 'Roles', value: 'roles' },
-      { text: 'Created', value: 'createTime' },
-      { text: 'Last Login', value: 'lastLogin' },
-      { text: 'Comment', value: 'text' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: i18n.t('Name'), value: 'name' },
+      { text: i18n.t('Status'), value: 'status' },
+      { text: i18n.t('LogInUser'), value: 'login' },
+      { text: i18n.t('Email'), value: 'email' },
+      { text: i18n.t('VerifiedOrNot'), value: 'email_verified' },
+      { text: i18n.t('Roles'), value: 'roles' },
+      { text: i18n.t('Created'), value: 'createTime' },
+      { text: i18n.t('LastLogin'), value: 'lastLogin' },
+      { text: i18n.t('Comment'), value: 'text' },
+      { text: i18n.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -448,7 +449,7 @@ export default {
     editedGroups: null,
     defaultItem: {
       name: '',
-      status: vm.editedId ? null : 'active',
+      status: vm.editedId ? null : i18n.t('Active'),
       login: '',
       email: '',
       email_verified: false,
@@ -459,10 +460,10 @@ export default {
     },
     showPassword: false,
     rules: {
-      required: v => !!v || 'Required.',
-      min: v => (vm.editedId && v == null) || (v && v.length >= 6) || 'Min 6 characters',
+      required: v => !!v || i18n.t('Required'),
+      min: v => (vm.editedId && v == null) || (v && v.length >= 6) || i18n.t('Min6Char'),
       passwordMatch: v =>
-        (vm.editedId && v == null) || (v && v == vm.editedItem.password) || 'Passwords entered don\'t match'
+        (vm.editedId && v == null) || (v && v == vm.editedItem.password) || i18n.t('PasswordNotMatch')
     }
   }),
   computed: {
@@ -490,7 +491,7 @@ export default {
       return this.$store.state.users.isLoading
     },
     formTitle() {
-      return !this.editedId ? 'New User' : 'Edit User'
+      return !this.editedId ? i18n.t('NewUser') : i18n.t('EditUser')
     },
     refresh() {
       return this.$store.state.refresh
@@ -558,7 +559,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('users/deleteUser', item.id)
     },
     close() {

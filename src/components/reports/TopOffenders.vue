@@ -4,9 +4,9 @@
       <v-card-title primary-title>
         <div>
           <div class="headline">
-            Top 10 Offenders
+            {{ $t('TopOffenders') }}
           </div><br>
-          <span class="grey--text">Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.</span>
+          <span class="grey--text">{{ $t('TopOffendersDescription') }}</span>
         </div>
         <v-spacer />
       </v-card-title>
@@ -47,16 +47,17 @@
 
 <script>
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
 
 export default {
   data: () => ({
     headers: [
-      {text: 'Event', value: 'event', sortable: false},
-      {text: 'Count', value: 'count', sortable: false},
-      {text: 'Dupl. Count', value: 'duplicateCount', sortable: false},
-      {text: 'Environment', value: 'environment', sortable: false},
-      {text: 'Services', value: 'services', sortable: false},
-      {text: 'Resources', value: 'resources', sortable: false},
+      {text: i18n.t('Event'), value: 'event', sortable: false},
+      {text: i18n.t('Count'), value: 'count', sortable: false},
+      {text: i18n.t('DuplicateCount'), value: 'duplicateCount', sortable: false},
+      {text: i18n.t('Environment'), value: 'environment', sortable: false},
+      {text: i18n.t('Services'), value: 'services', sortable: false},
+      {text: i18n.t('Resources'), value: 'resources', sortable: false},
     ]
   }),
   computed: {

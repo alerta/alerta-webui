@@ -148,7 +148,7 @@
           v-if="$route.name === 'alerts'"
           v-model="query"
           :flat="!hasFocus"
-          label="Search"
+          :label="$t('Search')"
           prepend-inner-icon="search"
           solo
           clearable
@@ -172,7 +172,7 @@
               open-delay="3000"
               @change="toggle('isWatch', $event)"
             />
-            <span>Watch</span>
+            <span>{{ $t('Watch') }}</span>
           </v-tooltip>
         </div>
 
@@ -187,7 +187,7 @@
           >
             <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
           </v-btn>
-          <span>Full screen</span>
+          <span>{{ $t('FullScreen') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -200,7 +200,7 @@
               refresh
             </v-icon>
           </v-btn>
-          <span>Refresh</span>
+          <span>{{ $t('Refresh') }}</span>
         </v-tooltip>
 
         <v-menu
@@ -243,7 +243,7 @@
           color="primary"
           to="/signup"
         >
-          Sign Up
+          {{ $t('SignUp') }}
         </v-btn>
         <v-btn
           v-show="!isLoggedIn"
@@ -251,7 +251,7 @@
           color="primary"
           to="/login"
         >
-          Log In
+          {{ $t('LogIn') }}
         </v-btn>
       </v-toolbar>
 
@@ -273,7 +273,7 @@
         <v-spacer />
 
         <span class="subheading">
-          {{ selected.length }}<span class="hidden-xs-only"> selected</span>
+          {{ selected.length }}<span class="hidden-xs-only"> {{ $t('Selected') }}</span>
         </span>
 
         <v-spacer />
@@ -289,7 +289,7 @@
               visibility
             </v-icon>
           </v-btn>
-          <span>Watch</span>
+          <span>{{ $t('Watch') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -303,7 +303,7 @@
               check
             </v-icon>
           </v-btn>
-          <span>Ack</span>
+          <span>{{ $t('Ack') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -317,7 +317,7 @@
               schedule
             </v-icon>
           </v-btn>
-          <span>Shelve</span>
+          <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -331,7 +331,7 @@
               highlight_off
             </v-icon>
           </v-btn>
-          <span>Close</span>
+          <span>{{ $t('Close') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -345,7 +345,7 @@
               delete
             </v-icon>
           </v-btn>
-          <span>Delete</span>
+          <span>{{ $t('Delete') }}</span>
         </v-tooltip>
 
         <v-menu
@@ -390,7 +390,7 @@
           >
             <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
           </v-btn>
-          <span>Full screen</span>
+          <span>{{ $t('FullScreen') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
@@ -403,7 +403,7 @@
               refresh
             </v-icon>
           </v-btn>
-          <span>Refresh</span>
+          <span>{{ $t('Refresh') }}</span>
         </v-tooltip>
 
         <v-menu
@@ -446,7 +446,7 @@
           color="primary"
           disabled
         >
-          Sign Up
+          {{ $t('SignUp') }}
         </v-btn>
         <v-btn
           v-show="!isLoggedIn"
@@ -454,7 +454,7 @@
           color="primary"
           disabled
         >
-          Log In
+          {{ $t('LogIn') }}
         </v-btn>
       </v-toolbar>
     </div>
@@ -471,6 +471,7 @@
 import Banner from '@/components/lib/Banner.vue'
 import ProfileMe from '@/components/ProfileMe.vue'
 import Snackbar from '@/components/lib/Snackbar.vue'
+import i18n from '@/plugins/i18n'
 
 export default {
   name: 'App',
@@ -488,7 +489,7 @@ export default {
     dialog: false,
     drawer: false,
     navbar: {
-      signin: { icon: 'account_circle', text: 'Sign In', path: '/login' }
+      signin: { icon: 'account_circle', text: i18n.t('SignIn'), path: '/login' }
     },
     error: false
   }),
@@ -497,56 +498,56 @@ export default {
       return [
         {
           icon: 'list',
-          text: 'Alerts',
+          text: i18n.t('Alerts'),
           path: '/alerts',
           perms: 'read:alerts',
           show: true
         },
         {
           icon: 'timer',
-          text: 'Heartbeats',
+          text: i18n.t('Heartbeats'),
           path: '/heartbeats',
           perms: 'read:heartbeats',
           show: true
         },
         {
           icon: 'person',
-          text: 'Users',
+          text: i18n.t('Users'),
           path: '/users',
           perms: 'admin:users',
           show: true
         },
         {
           icon: 'people',
-          text: 'Groups',
+          text: i18n.t('Groups'),
           path: '/groups',
           perms: 'read:groups',
           show: this.$config.provider == 'basic'
         },
         {
           icon: 'domain',
-          text: 'Customers',
+          text: i18n.t('Customers'),
           path: '/customers',
           perms: 'read:customers',
           show: this.$config.customer_views
         },
         {
           icon: 'notifications_off',
-          text: 'Blackouts',
+          text: i18n.t('Blackouts'),
           path: '/blackouts',
           perms: 'read:blackouts',
           show: true
         },
         {
           icon: 'security',
-          text: 'Permissions',
+          text: i18n.t('Permissions'),
           path: '/perms',
           perms: 'read:perms',
           show: true
         },
         {
           icon: 'vpn_key',
-          text: 'API Keys',
+          text: i18n.t('APIKeys'),
           path: '/keys',
           perms: 'read:keys',
           show: true
@@ -554,13 +555,13 @@ export default {
         // {
         //   icon: 'keyboard_arrow_up',
         //   'icon-alt': 'keyboard_arrow_down',
-        //   text: 'Labels',
+        //   text: i18n.t('Labels'),
         //   model: true,
         //   children: [{ icon: 'add', text: 'Create label' }]
         // },
         {
           icon: 'assessment',
-          text: 'Reports',
+          text: i18n.t('Reports'),
           path: '/reports',
           perms: 'read:alerts',
           show: true
@@ -568,7 +569,7 @@ export default {
         // {
         //   icon: 'keyboard_arrow_up',
         //   'icon-alt': 'keyboard_arrow_down',
-        //   text: 'More',
+        //   text: i18n.t('More'),
         //   model: false,
         //   children: [
         //     { text: 'Import' },
@@ -581,7 +582,7 @@ export default {
         { divider: true},
         {
           icon: 'settings',
-          text: 'Settings',
+          text: i18n.t('Settings'),
           path: '/settings',
           perms: null,
           show: this.isLoggedIn
@@ -589,7 +590,7 @@ export default {
         // { icon: 'chat_bubble', text: 'Send feedback' },
         {
           icon: 'help',
-          text: 'Help',
+          text: i18n.t('Help'),
           path: '/help',
           appendIcon: 'open_in_new',
           perms: null,
@@ -597,7 +598,7 @@ export default {
         },
         {
           icon: 'info',
-          text: 'About',
+          text: i18n.t('About'),
           path: '/about',
           perms: 'read:management',
           show: true
@@ -609,6 +610,9 @@ export default {
     },
     isWatch() {
       return this.$store.state.alerts.isWatch
+    },
+    languagePref() {
+      return this.$store.getters.getPreference('languagePref')
     },
     isKiosk() {
       return this.$store.state.alerts.isKiosk
@@ -656,6 +660,9 @@ export default {
       if (val) {
         this.toggleFullScreen()
       }
+    },
+    languagePref(newValue, oldValue) {
+      i18n.locale = newValue
     }
   },
   mounted() {
@@ -720,7 +727,7 @@ export default {
       this.$store.dispatch('alerts/unwatchAlert', id)
     },
     bulkDeleteAlert() {
-      confirm('Are you sure you want to delete these items?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.selected.map(a => this.$store.dispatch('alerts/deleteAlert', a.id))
           .reduce(() => this.clearSelected())
     },

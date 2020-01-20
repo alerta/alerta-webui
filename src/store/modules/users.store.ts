@@ -1,4 +1,5 @@
 import UsersApi from '@/services/api/user.service'
+import i18n from '@/plugins/i18n'
 
 const namespaced = true
 
@@ -53,14 +54,14 @@ const actions = {
       .then(response => {
         dispatch('getUsers')
       })
-      .then(() => dispatch('notifications/success', 'User status saved.', { root: true }))
+      .then(() => dispatch('notifications/success', i18n.t('UserStatusSaved'), { root: true }))
   },
   setEmailVerified({ dispatch, commit }, [userId, emailVerified]) {
     return UsersApi.updateUser(userId, { email_verified: emailVerified })
       .then(response => {
         dispatch('getUsers')
       })
-      .then(() => dispatch('notifications/success', 'Email verified saved.', { root: true }))
+      .then(() => dispatch('notifications/success', i18n.t('EmailSaved'), { root: true }))
   },
   deleteUser({ dispatch, commit }, userId) {
     return UsersApi.deleteUser(userId)

@@ -20,8 +20,8 @@
                 >
                   <v-text-field
                     v-model="editedItem.match"
-                    label="Look Up"
-                    hint="Use login, Keycloak role, GitHub org, GitLab group or email domain"
+                    :label="$t('LookUp')"
+                    :hint="$t('LookUpDescription')"
                     persistent-hint
                     :rules="[rules.required]"
                     required
@@ -35,12 +35,12 @@
                       @click="editedItem.customer = null"
                     >
                       <strong>{{ editedItem.customer }}</strong>&nbsp;
-                      <span>(customer)</span>
+                      <span>({{ $t('Customer') }})</span>
                     </v-chip>
                   </v-flex>
                   <v-text-field
                     v-model="editedItem.customer"
-                    label="Customer"
+                    :label="$t('Customer')"
                     :rules="[rules.required]"
                     required
                   />
@@ -56,14 +56,14 @@
               flat
               @click="close"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
               flat
               @click="validate"
             >
-              Save
+              {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -72,12 +72,12 @@
 
     <v-card>
       <v-card-title class="title">
-        Customers
+        {{ $t('Customers') }}
         <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
-          label="Search"
+          :label="$t('Search')"
           single-line
           hide-details
         />
@@ -102,7 +102,7 @@
           <td>
             <v-chip>
               <strong>{{ props.item.customer }}</strong>&nbsp;
-              <span>(customer)</span>
+              <span>({{ $t('Customer') }})</span>
             </v-chip>
           </td>
           <td class="text-no-wrap">
@@ -140,7 +140,7 @@
             color="error"
             icon="warning"
           >
-            Sorry, nothing to display here :(
+            {{ $t('NoDisplay') }}
           </v-alert>
         </template>
         <v-alert
@@ -149,7 +149,7 @@
           color="error"
           icon="warning"
         >
-          Your search for "{{ search }}" found no results.
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
@@ -163,6 +163,7 @@
 
 <script>
 import ListButtonAdd from './lib/ListButtonAdd'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -180,9 +181,9 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: 'Look Up', value: 'match' },
-      { text: 'Customer', value: 'customer' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: i18n.t('LookUp'), value: 'match' },
+      { text: i18n.t('Customer'), value: 'customer' },
+      { text: i18n.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -194,7 +195,7 @@ export default {
       customer: null
     },
     rules: {
-      required: v => !!v || 'Required.'
+      required: v => !!v || i18n.t('Required')
     }
   }),
   computed: {
@@ -205,7 +206,7 @@ export default {
       return this.$store.state.customers.isLoading
     },
     formTitle() {
-      return !this.editedId ? 'New Customer' : 'Edit Customer'
+      return !this.editedId ? i18n.t('NewCustomer') : i18n.t('EditCustomer')
     },
     refresh() {
       return this.$store.state.refresh
@@ -232,7 +233,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('customers/deleteCustomer', item.id)
     },
     close() {

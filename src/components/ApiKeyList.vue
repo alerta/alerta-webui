@@ -26,7 +26,7 @@
                       v-if="editedItem.key"
                       slot="activator"
                       v-model="editedItem.key"
-                      label="API Key"
+                      :label="$t('APIKey')"
                       readonly
                       monospace
                       append-icon="content_copy"
@@ -42,7 +42,7 @@
                   <v-select
                     v-model="editedItem.customer"
                     :items="allowedCustomers"
-                    label="Customer"
+                    :label="$t('Customer')"
                   />
                 </v-flex>
                 <v-flex
@@ -51,7 +51,7 @@
                   <v-autocomplete
                     v-model="editedItem.scopes"
                     :items="allowedScopes"
-                    label="Scopes"
+                    :label="$t('Scopes')"
                     chips
                     clearable
                     solo
@@ -87,7 +87,7 @@
                     <v-text-field
                       slot="activator"
                       v-model="pickerDate"
-                      label="Expires"
+                      :label="$t('Expires')"
                       prepend-icon="event"
                       readonly
                     />
@@ -117,14 +117,14 @@
               flat
               @click="close"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
               flat
               @click="save"
             >
-              Save
+              {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -133,12 +133,12 @@
 
     <v-card>
       <v-card-title class="title">
-        API Keys
+        {{ $t('APIKeys') }}
         <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
-          label="Search"
+          :label="$t('Search')"
           single-line
           hide-details
         />
@@ -191,7 +191,7 @@
               >
                 check_circle
               </v-icon>
-              <span>Active</span>
+              <span>{{ $t('Active') }}</span>
             </v-tooltip>
             <v-tooltip
               v-if="isExpired(props.item.expires)"
@@ -203,7 +203,7 @@
               >
                 error_outline
               </v-icon>
-              <span>Expired</span>
+              <span>{{ $t('Expired') }}</span>
             </v-tooltip>
           </td>
           <td>{{ props.item.user }}</td>
@@ -214,7 +214,7 @@
               small
             >
               <strong>{{ scope }}</strong>&nbsp;
-              <span>(scope)</span>
+              <span>({{ $t('Scope') }})</span>
             </v-chip>
           </td>
           <td>{{ props.item.text }}</td>
@@ -284,7 +284,7 @@
             color="error"
             icon="warning"
           >
-            Sorry, nothing to display here :(
+            {{ $t('NoDisplay') }}
           </v-alert>
         </template>
         <v-alert
@@ -293,7 +293,7 @@
           color="error"
           icon="warning"
         >
-          Your search for "{{ search }}" found no results.
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
@@ -310,6 +310,7 @@ import DateTime from './lib/DateTime'
 import ListButtonAdd from './lib/ListButtonAdd'
 import utils from '@/common/utils'
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -327,16 +328,16 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: 'API Key', value: 'key', sortable: false },
+      { text: i18n.t('APIKey'), value: 'key', sortable: false },
       { text: '', value: 'expireTime' },
-      { text: 'User', value: 'user' },
-      { text: 'Scopes', value: 'scopes' },
-      { text: 'Description', value: 'text' },
-      { text: 'Expires', value: 'expireTime' },
-      { text: 'Count', value: 'count' },
-      { text: 'Last Used', value: 'lastUsedTime' },
-      { text: 'Customer', value: 'customer' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: i18n.t('User'), value: 'user' },
+      { text: i18n.t('Scopes'), value: 'scopes' },
+      { text: i18n.t('Description'), value: 'text' },
+      { text: i18n.t('Expires'), value: 'expireTime' },
+      { text: i18n.t('Count'), value: 'count' },
+      { text: i18n.t('LastUsed'), value: 'lastUsedTime' },
+      { text: i18n.t('Customer'), value: 'customer' },
+      { text: i18n.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -356,7 +357,7 @@ export default {
       scopes: [],
       expireTime: null
     },
-    copyIconText: 'Copy'
+    copyIconText: i18n.t('Copy')
   }),
   computed: {
     keys() {
@@ -378,7 +379,7 @@ export default {
       return this.$store.state.keys.isLoading
     },
     formTitle() {
-      return !this.editedId ? 'New API Key' : 'Edit API Key'
+      return !this.editedId ? i18n.t('NewApi') : i18n.t('EditApi')
     },
     refresh() {
       return this.$store.state.refresh
@@ -422,7 +423,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm('Are you sure you want to delete this item?') &&
+      confirm(i18n.t('ConfirmDelete')) &&
         this.$store.dispatch('keys/deleteKey', item.id)
     },
     close() {
@@ -458,7 +459,7 @@ export default {
       return new Date().getTime() > new Date(date).getTime()
     },
     clipboardCopy(text) {
-      this.copyIconText = 'Copied!'
+      this.copyIconText = i18n.t('Copied')
       let textarea = document.createElement('textarea')
       textarea.textContent = text
       document.body.appendChild(textarea)
@@ -466,7 +467,7 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(textarea)
       setTimeout(() => {
-        this.copyIconText = 'Copy'
+        this.copyIconText = i18n.t('Copy')
       }, 2000)
     },
     toData(item) {

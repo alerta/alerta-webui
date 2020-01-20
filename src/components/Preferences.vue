@@ -9,7 +9,7 @@
       >
         <div>
           <div class="headline">
-            Application settings
+            {{ $t('ApplicationSettings') }}
           </div>
         </div>
       </v-card-title>
@@ -19,13 +19,13 @@
         >
           <v-checkbox
             v-model="isDark"
-            label="Dark theme"
+            :label="$t('DarkTheme')"
             hide-details
             class="my-0"
           />
           <v-checkbox
             v-model="isPlaySounds"
-            label="Play notification sounds"
+            :label="$t('PlayNotif')"
             hide-details
             class="my-0"
           />
@@ -46,7 +46,36 @@
         >
           <div>
             <div class="headline">
-              Date and time settings
+              {{ $t('LanguagesSettings') }}
+            </div>
+          </div>       
+        </v-card-title>
+        <v-card-actions>
+          <v-layout column>
+            <v-select
+              v-model="isLanguages"
+              :items="languages"
+              :label="$t('Languages')"
+            />
+          </v-layout>
+        </v-card-actions>
+      </v-flex>
+    </v-card>
+    
+    <v-card
+      flat
+      class="pl-3"
+    >
+      <v-flex
+        sm6
+        md4
+      >
+        <v-card-title
+          class="pb-0"
+        >
+          <div>
+            <div class="headline">
+              {{ $t('DateTimeSettings') }}
             </div>
           </div>
         </v-card-title>
@@ -55,25 +84,25 @@
             <v-select
               v-model="longDate"
               :items="computedDateFormats"
-              label="Long date format"
+              :label="$t('LongDate')"
             />
 
             <v-select
               v-model="mediumDate"
               :items="computedDateFormats"
-              label="Medium date format"
+              :label="$t('MediumDate')"
             />
 
             <v-select
               v-model="shortTime"
               :items="computedTimeFormats"
-              label="Short time format"
+              :label="$t('ShortDate')"
             />
 
             <v-select
               v-model="timezone"
               :items="timezoneOptions"
-              label="Display mode"
+              :label="$t('DisplayMode')"
             />
           </v-layout>
         </v-card-actions>
@@ -93,7 +122,7 @@
         >
           <div>
             <div class="headline">
-              Alert summary settings
+              {{ $t('AlertSettings') }}
             </div>
           </div>
         </v-card-title>
@@ -102,25 +131,25 @@
             <v-combobox
               v-model.number="rowsPerPage"
               :items="rowsPerPageItems"
-              label="Rows per page"
+              :label="$t('RowsPage')"
               type="number"
-              suffix="rows"
+              :suffix="$t('Rows')"
             />
 
             <v-combobox
               v-model.number="refreshInterval"
               :items="refreshOptions"
-              label="Refresh interval"
+              :label="$t('RefreshInterval')"
               type="number"
-              suffix="seconds"
+              :suffix="$t('Seconds')"
             />
 
             <v-combobox
               v-model.number="shelveTimeout"
               :items="shelveTimeoutOptions"
-              label="Shelve timeout"
+              :label="$t('ShelveTimeout')"
               type="number"
-              suffix="hours"
+              :suffix="$t('Hours')"
             />
           </v-layout>
         </v-card-actions>
@@ -139,7 +168,7 @@
             flat
             @click="reset"
           >
-            Reset
+            {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
       </v-flex>
@@ -149,6 +178,8 @@
 
 <script>
 import moment from 'moment'
+import i18n from '@/plugins/i18n'
+
 
 export default {
   data: vm => ({
@@ -178,14 +209,30 @@ export default {
       'HH:mm:ss.SSS',
       'HH:mm:ss.SSS Z',
     ],
-    timezoneOptions: [
-      {text: 'Use local date & time', value: 'local'},
-      {text: 'Use Coordinated Universal Time (UTC)', value: 'utc'}
-    ],
     refreshOptions: [2, 5, 10, 30, 60],  // seconds
     shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
   }),
   computed: {
+    languages: function() {
+      return [
+        { text: i18n.t('English'), value: 'en' },
+        { text: i18n.t('French'), value: 'fr' }
+      ]
+    },
+    timezoneOptions: function() {
+      return [
+        { text: i18n.t('UseLocal'), value: 'local' },
+        { text: i18n.t('UseUTC'), value: 'utc' }
+      ]
+    },
+    isLanguages: {
+      get() {
+        return this.$store.getters.getPreference('languagePref')
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {languagePref: value})
+      }
+    },
     isDark: {
       get() {
         return this.$store.getters.getPreference('isDark')
@@ -203,6 +250,7 @@ export default {
       }
     },
     computedDateFormats() {
+      moment.locale(i18n.locale)
       let allDateFormats = [...new Set([
         this.$store.getters.getConfig('dates').mediumDate,
         ...this.mediumDateFormats,
@@ -212,6 +260,7 @@ export default {
       return allDateFormats.map(f => ({text: moment().format(f), value: f}))
     },
     computedTimeFormats() {
+      moment.locale(i18n.locale)
       let allTimeFormats = [...new Set([
         this.$store.getters.getConfig('dates').shortTime,
         ...this.timeFormats,

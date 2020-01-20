@@ -3,6 +3,7 @@ import ApiKeyList from '@/components/ApiKeyList.vue'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import Vuetify from 'vuetify'
+import i18n from '@/plugins/i18n'
 
 Vue.config.silent = true
 Vue.use(Vuetify)
@@ -53,6 +54,7 @@ describe('ApiKeyList', () => {
     const wrapper = shallowMount(ApiKeyList, {
       propsData: { msg },
       store,
+      i18n,
       mocks: {
         $config: () => true
       }

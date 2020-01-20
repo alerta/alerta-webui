@@ -32,7 +32,7 @@
             <v-icon slot="activator">
               verified_user
             </v-icon>
-            <span>Email verified</span>
+            <span>({{ $t('EmailVerified') }})</span>
           </v-tooltip>
           <v-tooltip
             v-else
@@ -41,7 +41,7 @@
             <v-icon slot="activator">
               fas fa-user-times
             </v-icon>
-            <span>Email not verified</span>
+            <span>({{ $t('EmailNotVerified') }})</span>
           </v-tooltip>
         </v-list-tile-action>
       </v-list-tile>
@@ -72,7 +72,7 @@
               >(+{{ profile.customers.length - 1 }} others)</span>
             </span>
           </v-list-tile-title>
-          <v-list-tile-sub-title>Customers</v-list-tile-sub-title>
+          <v-list-tile-sub-title>{{ $t('Customers') }}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -92,7 +92,7 @@
               <span
                 v-if="index === 3"
                 class="grey--text caption"
-              >(+{{ profile.orgs.length - 1 }} others)</span>
+              >(+{{ profile.orgs.length - 1 }} {{ $t('Others') }})</span>
             </span>
           </v-list-tile-title>
           <v-list-tile-sub-title>Organizations</v-list-tile-sub-title>
@@ -114,10 +114,10 @@
               <span
                 v-if="index === 3"
                 class="grey--text caption"
-              >(+{{ profile.groups.length - 1 }} others)</span>
+              >(+{{ profile.groups.length - 1 }} {{ $t('Others') }})</span>
             </span>
           </v-list-tile-title>
-          <v-list-tile-sub-title>Groups</v-list-tile-sub-title>
+          <v-list-tile-sub-title>{{ $t('Groups') }}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile v-if="profile.roles">
@@ -136,10 +136,10 @@
               <span
                 v-if="index === 3"
                 class="grey--text caption"
-              >(+{{ profile.roles.length - 1 }} others)</span>
+              >(+{{ profile.roles.length - 1 }} {{ $t('Others') }})</span>
             </span>
           </v-list-tile-title>
-          <v-list-tile-sub-title>Roles</v-list-tile-sub-title>
+          <v-list-tile-sub-title>{{ $t('Roles') }}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile>
@@ -158,10 +158,10 @@
               <span
                 v-if="index === 3"
                 class="grey--text caption"
-              >(+{{ scopes.length - 1 }} others)</span>
+              >(+{{ scopes.length - 1 }} {{ $t('Others') }})</span>
             </span>
           </v-list-tile-title>
-          <v-list-tile-sub-title>Scopes</v-list-tile-sub-title>
+          <v-list-tile-sub-title>{{ $t('Scopes') }}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -173,20 +173,22 @@
         flat
         @click="close"
       >
-        Cancel
+        {{ $t('Cancel') }}
       </v-btn>
       <v-btn
         color="primary"
         flat
         @click="logout()"
       >
-        Log Out
+        {{ $t('LogOut') }}
       </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import i18n from '@/plugins/i18n'
+
 export default {
   props: {
     profile: {
@@ -196,17 +198,17 @@ export default {
   },
   data: () => ({
     provider: {
-      basic: { icon: 'fas fa-id-card', text: 'BasicAuth' },
-      ldap: { icon: 'fas fa-id-card', text: 'LDAP' },
-      azure: { icon: 'fab fa-windows', text: 'Azure OAuth2' },
-      cognito: { icon: 'fab fa-aws', text: 'Amazon Cognito' },
-      github: { icon: 'fab fa-github', text: 'GitHub OAuth2' },
-      gitlab: { icon: 'fab fa-gitlab', text: 'GitLab OAuth2' },
-      google: { icon: 'fab fa-google', text: 'Google OAuth2' },
-      keycloak: { icon: 'fas fa-key', text: 'Keycloak' },
-      openid: { icon: 'fab fa-openid', text: 'OpenID Connect' },
-      pingfederate: { icon: 'fas fa-id-badge', text: 'PingFederate' },
-      saml2: { icon: 'fas fa-id-badge', text: 'SAML2' }
+      basic: { icon: 'fas fa-id-card', text: i18n.t('BasicAuth') },
+      ldap: { icon: 'fas fa-id-card', text: i18n.t('LDAP') },
+      azure: { icon: 'fab fa-windows', text: i18n.t('AzureOAuth2') },
+      cognito: { icon: 'fab fa-aws', text: i18n.t('AmazonCognito') },
+      github: { icon: 'fab fa-github', text: i18n.t('GitHubOAuth2') },
+      gitlab: { icon: 'fab fa-gitlab', text: i18n.t('GitLabOAuth2') },
+      google: { icon: 'fab fa-google', text: i18n.t('GoogleOAuth2') },
+      keycloak: { icon: 'fas fa-key', text: i18n.t('Keycloak') },
+      openid: { icon: 'fab fa-openid', text: i18n.t('OpenIDConnect') },
+      pingfederate: { icon: 'fas fa-id-badge', text: i18n.t('PingFederate') },
+      saml2: { icon: 'fas fa-id-badge', text: i18n.t('SAML2') }
     }
   }),
   computed: {
