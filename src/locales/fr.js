@@ -95,6 +95,7 @@ export const fr = {
   Search: 'Rechercher',
   Active: 'Actif',
   Expired: 'Expiré',
+  Slow: 'Lent',
   Scope: 'Périmètre',
   NoDisplay: 'Désolé, rien à afficher ici :(',
   SearchNoResult1: 'Votre recherche pour ',
