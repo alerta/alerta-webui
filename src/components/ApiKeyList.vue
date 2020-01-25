@@ -36,6 +36,26 @@
                   </v-tooltip>
                 </v-flex>
                 <v-flex
+                  v-if="!isAdmin"
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.user"
+                    :label="$t('User')"
+                    readonly
+                  />
+                </v-flex>
+                <v-flex
+                  v-if="isAdmin"
+                  xs12
+                >
+                  <v-select
+                    v-model="editedItem.user"
+                    :items="users"
+                    :label="$t('User')"
+                  />
+                </v-flex>
+                <v-flex
                   v-if="$config.customer_views"
                   xs12
                 >
@@ -342,7 +362,7 @@ export default {
     editedId: null,
     editedItem: {
       key: '',
-      user: '',
+      user: vm.editedId ? null : vm.username(),
       text: '',
       customer: null,
       scopes: [],
@@ -351,7 +371,7 @@ export default {
     menu: false,
     pickerDate: vm.defaultExpireTime(),
     defaultItem: {
-      user: '',
+      user: vm.editedId ? null : vm.username(),
       text: '',
       customer: null,
       scopes: [],
@@ -360,11 +380,14 @@ export default {
     copyIconText: i18n.t('Copy')
   }),
   computed: {
+    computedHeaders() {
+      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+    },
     keys() {
       return this.$store.state.keys.keys
     },
-    computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+    users() {
+      return this.$store.state.users.users.map(u => u.login)
     },
     allowedScopes() {
       return utils.getAllowedScopes(
@@ -375,11 +398,14 @@ export default {
     allowedCustomers() {
       return this.$store.getters['customers/customers']
     },
+    isAdmin() {
+      return this.$store.getters['auth/isAdmin']
+    },
     isLoading() {
       return this.$store.state.keys.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewApi') : i18n.t('EditApi')
+      return !this.editedId ? i18n.t('NewApiKey') : i18n.t('EditApiKey')
     },
     refresh() {
       return this.$store.state.refresh
@@ -395,12 +421,16 @@ export default {
   },
   created() {
     this.getApiKeys()
+    this.getUsers()
     this.getScopes()
     this.getCustomers()
   },
   methods: {
     getApiKeys() {
       this.$store.dispatch('keys/getKeys')
+    },
+    getUsers() {
+      this.$store.dispatch('users/getUsers')
     },
     getScopes() {
       this.$store.dispatch('perms/getScopes')
@@ -410,6 +440,9 @@ export default {
     },
     defaultExpireTime() {
       return moment().add(1, 'Year').endOf('day').toISOString().slice(0, 10)
+    },
+    username() {
+      return this.$store.getters['auth/getUsername']
     },
     endOfDay(date) {
       let endOfDay = new Date(date)
@@ -439,6 +472,7 @@ export default {
         this.$store.dispatch('keys/updateKey', [
           this.editedId,
           {
+            user: this.editedItem.user,
             scopes: this.editedItem.scopes,
             text: this.editedItem.text,
             expireTime: this.endOfDay(this.pickerDate),
