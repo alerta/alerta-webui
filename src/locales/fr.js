@@ -236,5 +236,6 @@ export const fr = {
   UserAddedGroup: 'Utilisateur ajouté au groupe.',
   UserRemovedGroup: 'Utilisateur supprimé du groupe.',
   UserStatusSaved: 'Statut utilisateur enregistré.',
-  EmailSaved: 'Email vérifié enregistré.'
+  EmailSaved: 'Email vérifié enregistré.',
+  DownloadAsCsv: 'Télécharger comme csv'
 }

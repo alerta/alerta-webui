@@ -14,6 +14,7 @@
     "@alerta/vue-authenticate": "^1.4.2",
     "acorn-dynamic-import": "^4.0.0",
     "axios": "^0.18.1",
+    "export-to-csv": "^0.2.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
