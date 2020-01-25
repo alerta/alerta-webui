@@ -36,12 +36,23 @@
                   </v-tooltip>
                 </v-flex>
                 <v-flex
+                  v-if="!isAdmin"
                   xs12
                 >
                   <v-text-field
                     v-model="editedItem.user"
                     :label="$t('User')"
-                    :readonly="!isAdmin"
+                    readonly
+                  />
+                </v-flex>
+                <v-flex
+                  v-if="isAdmin"
+                  xs12
+                >
+                  <v-select
+                    v-model="editedItem.user"
+                    :items="users"
+                    :label="$t('User')"
                   />
                 </v-flex>
                 <v-flex
@@ -369,14 +380,14 @@ export default {
     copyIconText: i18n.t('Copy')
   }),
   computed: {
-    keys() {
-      return this.$store.state.keys.keys
-    },
     computedHeaders() {
       return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
     },
-    isAdmin() {
-      return this.$store.getters['auth/isAdmin']
+    keys() {
+      return this.$store.state.keys.keys
+    },
+    users() {
+      return this.$store.state.users.users.map(u => u.login)
     },
     allowedScopes() {
       return utils.getAllowedScopes(
@@ -386,6 +397,9 @@ export default {
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']
+    },
+    isAdmin() {
+      return this.$store.getters['auth/isAdmin']
     },
     isLoading() {
       return this.$store.state.keys.isLoading
@@ -407,12 +421,16 @@ export default {
   },
   created() {
     this.getApiKeys()
+    this.getUsers()
     this.getScopes()
     this.getCustomers()
   },
   methods: {
     getApiKeys() {
       this.$store.dispatch('keys/getKeys')
+    },
+    getUsers() {
+      this.$store.dispatch('users/getUsers')
     },
     getScopes() {
       this.$store.dispatch('perms/getScopes')
