@@ -362,7 +362,7 @@ export default {
     editedId: null,
     editedItem: {
       key: '',
-      user: '',
+      user: vm.editedId ? null : vm.username(),
       text: '',
       customer: null,
       scopes: [],
@@ -371,7 +371,7 @@ export default {
     menu: false,
     pickerDate: vm.defaultExpireTime(),
     defaultItem: {
-      user: '',
+      user: vm.editedId ? null : vm.username(),
       text: '',
       customer: null,
       scopes: [],
@@ -440,6 +440,9 @@ export default {
     },
     defaultExpireTime() {
       return moment().add(1, 'Year').endOf('day').toISOString().slice(0, 10)
+    },
+    username() {
+      return this.$store.getters['auth/getUsername']
     },
     endOfDay(date) {
       let endOfDay = new Date(date)
