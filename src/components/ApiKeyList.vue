@@ -36,6 +36,15 @@
                   </v-tooltip>
                 </v-flex>
                 <v-flex
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.user"
+                    :label="$t('User')"
+                    :readonly="!isAdmin"
+                  />
+                </v-flex>
+                <v-flex
                   v-if="$config.customer_views"
                   xs12
                 >
@@ -366,6 +375,9 @@ export default {
     computedHeaders() {
       return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
     },
+    isAdmin() {
+      return this.$store.getters['auth/isAdmin']
+    },
     allowedScopes() {
       return utils.getAllowedScopes(
         this.$store.getters['auth/scopes'],
@@ -379,7 +391,7 @@ export default {
       return this.$store.state.keys.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewApi') : i18n.t('EditApi')
+      return !this.editedId ? i18n.t('NewApiKey') : i18n.t('EditApiKey')
     },
     refresh() {
       return this.$store.state.refresh
@@ -439,6 +451,7 @@ export default {
         this.$store.dispatch('keys/updateKey', [
           this.editedId,
           {
+            user: this.editedItem.user,
             scopes: this.editedItem.scopes,
             text: this.editedItem.text,
             expireTime: this.endOfDay(this.pickerDate),
