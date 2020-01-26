@@ -127,6 +127,11 @@
           >
             {{ $t('DisplayDensity') }}
           </v-list-tile>
+          <v-list-tile
+            @click="toCsv(alertsByEnvironment)"
+          >
+            {{ $t('DownloadAsCsv') }}
+          </v-list-tile>
         </v-list>
       </v-menu>
 
@@ -159,6 +164,7 @@
 
 <script>
 import moment from 'moment'
+import { ExportToCsv } from 'export-to-csv'
 
 import AlertList from '@/components/AlertList.vue'
 import AlertIndicator from '@/components/AlertIndicator.vue'
@@ -402,6 +408,20 @@ export default {
         this.selectedItem = {}
         this.selectedId = null
       }, 300)
+    },
+    toCsv(data) {
+      const options = {
+        fieldSeparator: ',',
+        filename: `Alerts_${this.filter.environment ||  'ALL'}`,
+        quoteStrings: '"',
+        decimalSeparator: 'locale',
+        showLabels: true,
+        useTextFile: false,
+        useBom: true,
+        useKeysAsHeaders: true,
+      }
+      const csvExporter = new ExportToCsv(options)
+      csvExporter.generateCsv(data.map(({history, ...item}) => item))
     }
   }
 }
