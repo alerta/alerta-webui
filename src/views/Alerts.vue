@@ -412,7 +412,7 @@ export default {
     toCsv(data) {
       const options = {
         fieldSeparator: ',',
-        filename: `Alerts_${this.filter.environment ||  'ALL'}`,
+        filename: `Alerts_${this.filter.environment || 'ALL'}`,
         quoteStrings: '"',
         decimalSeparator: 'locale',
         showLabels: true,
