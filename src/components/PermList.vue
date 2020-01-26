@@ -26,7 +26,7 @@
                     @click="editedItem.match = null"
                   >
                     <strong>{{ editedItem.match }}</strong>&nbsp;
-                    <span>({{ $t('Role') }})</span>
+                    <span>({{ $t('role') }})</span>
                   </v-chip>
                 </v-flex>
                 <v-text-field
@@ -58,7 +58,7 @@
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
-                        <span>({{ $t('Scope') }})</span>
+                        <span>({{ $t('scope') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -112,7 +112,7 @@
                 close
               >
                 <strong>{{ data.item }}</strong>&nbsp;
-                <span>({{ $t('Scope') }})</span>
+                <span>({{ $t('scope') }})</span>
               </v-chip>
             </template>
           </v-autocomplete>
@@ -147,7 +147,7 @@
           <td>
             <v-chip small>
               <strong>{{ props.item.match }}</strong>&nbsp;
-              <span>({{ $t('Role') }})</span>
+              <span>({{ $t('role') }})</span>
             </v-chip>
             <v-tooltip top>
               <v-icon
@@ -157,7 +157,7 @@
               >
                 lock
               </v-icon>
-              <span>({{ $t('SystemRole') }})</span>
+              <span>{{ $t('SystemRole') }}</span>
             </v-tooltip>
           </td>
           <td>
@@ -167,7 +167,7 @@
               small
             >
               <strong>{{ scope }}</strong>&nbsp;
-              <span>({{ $t('Scope') }})</span>
+              <span>({{ $t('scope') }})</span>
             </v-chip>
           </td>
           <td class="text-no-wrap">

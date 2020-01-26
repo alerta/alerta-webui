@@ -449,7 +449,7 @@ export default {
     editedGroups: null,
     defaultItem: {
       name: '',
-      status: vm.editedId ? null : i18n.t('Active'),
+      status: vm.editedId ? null : 'active',
       login: '',
       email: '',
       email_verified: false,

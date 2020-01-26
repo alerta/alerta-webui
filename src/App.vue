@@ -661,8 +661,8 @@ export default {
         this.toggleFullScreen()
       }
     },
-    languagePref(newValue, oldValue) {
-      i18n.locale = newValue
+    languagePref(val) {
+      i18n.locale = val
     }
   },
   mounted() {

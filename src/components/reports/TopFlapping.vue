@@ -54,7 +54,7 @@ export default {
     headers: [
       {text: i18n.t('Event'), value: 'event', sortable: false},
       {text: i18n.t('Count'), value: 'count', sortable: false},
-      {text: i18n.t('DuplicateCount'), value: 'duplicateCount', sortable: false},
+      {text: i18n.t('DuplCount'), value: 'duplicateCount', sortable: false},
       {text: i18n.t('Environment'), value: 'environment', sortable: false},
       {text: i18n.t('Services'), value: 'services', sortable: false},
       {text: i18n.t('Resources'), value: 'resources', sortable: false},

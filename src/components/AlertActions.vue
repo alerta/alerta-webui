@@ -22,7 +22,7 @@
             color="grey darken-2"
             @click="unwatchAlert"
           >
-            <v-icon>visibility_off</v-icon>&nbsp;{{ $t('UnWatch') }}
+            <v-icon>visibility_off</v-icon>&nbsp;{{ $t('Unwatch') }}
           </v-btn>
 
           <v-btn
@@ -31,7 +31,7 @@
             color="grey darken-2"
             @click="showForm = true"
           >
-            <v-icon>note_add</v-icon>{{ $t('AddNote') }}
+            <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
           </v-btn>
 
           <v-btn
@@ -77,7 +77,7 @@
                   class="white--text"
                   @click="takeAction('open')"
                 >
-                  <v-icon>refresh</v-icon>&nbsp;Open
+                  <v-icon>refresh</v-icon>&nbsp;{{ $t('Open') }}
                 </v-btn>
 
                 <v-btn
@@ -87,7 +87,7 @@
                   class="white--text"
                   @click="takeAction('ack')"
                 >
-                  <v-icon>check_circle_outline</v-icon>&nbsp;Ack
+                  <v-icon>check_circle_outline</v-icon>&nbsp;{{ $t('Ack') }}
                 </v-btn>
 
                 <v-btn
@@ -96,7 +96,7 @@
                   class="white--text"
                   @click="takeAction('unack')"
                 >
-                  <v-icon>check_circle_outline</v-icon>&nbsp;Unack
+                  <v-icon>check_circle_outline</v-icon>&nbsp;{{ $t('Unack') }}
                 </v-btn>
 
                 <v-btn
@@ -106,7 +106,7 @@
                   class="white--text"
                   @click="shelveAlert()"
                 >
-                  <v-icon>schedule</v-icon>&nbsp;Shelve
+                  <v-icon>schedule</v-icon>&nbsp;{{ $t('Shelve') }}
                 </v-btn>
 
                 <v-btn
@@ -115,7 +115,7 @@
                   class="white--text"
                   @click="takeAction('unshelve')"
                 >
-                  <v-icon>schedule</v-icon>&nbsp;Unshelve
+                  <v-icon>schedule</v-icon>&nbsp;{{ $t('Unshelve') }}
                 </v-btn>
 
                 <v-btn
@@ -124,7 +124,7 @@
                   class="white--text"
                   @click="takeAction('close')"
                 >
-                  <v-icon>highlight_off</v-icon>&nbsp;Close
+                  <v-icon>highlight_off</v-icon>&nbsp;{{ $t('Close') }}
                 </v-btn>
 
                 <v-btn
@@ -132,7 +132,7 @@
                   :class="{'black--text': isDark}"
                   @click="addNote"
                 >
-                  <v-icon>note_add</v-icon>&nbsp;Add&nbsp;note
+                  <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
                 </v-btn>
 
                 <v-spacer />
@@ -158,6 +158,7 @@
 
 <script>
 import debounce from 'lodash/debounce'
+import i18n from '@/plugins/i18n'
 
 export default {
   props: {
@@ -180,8 +181,8 @@ export default {
     text: '',
     maxNoteLength: 200,
     textRules: [
-      v => !!v || 'Text is required',
-      v => (v && v.length <= vm.maxNoteLength) || `Text must be less than ${vm.maxNoteLength} characters`
+      v => !!v || i18n.t('TextIsRequired'),
+      v => (v && v.length <= vm.maxNoteLength) || `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t('characters')}`
     ]
   }),
   computed: {

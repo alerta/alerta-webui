@@ -1,7 +1,6 @@
 import bootstrap from './services/config'
 
 import Vue from 'vue'
-import i18n from '@/plugins/i18n'
 
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -11,6 +10,7 @@ import { makeStore } from '@/store/modules/auth.store'
 import { makeInterceptors } from '@/services/api/interceptors'
 import { vueAuth } from '@/services/auth'
 import GoogleAnalytics from '@/plugins/analytics'
+import i18n from '@/plugins/i18n'
 
 import '@/plugins/vuetify'
 import './stylus/main.styl'

@@ -16,7 +16,7 @@
         offset-sm2
       >
         <p class="text-xs-center headline font-weight-medium">
-          {{ $t('MsgLogin') }}
+          {{ $t('LoginToContinue') }}
         </p>
         <v-form @submit.prevent="login()">
           <v-text-field
@@ -85,7 +85,7 @@
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
-            {{ $t('SorryProblem') }}
+            {{ $t('UnspecifiedProblem') }}
             <a
               href="#"
               @click="authenticateUsingSAML"
@@ -94,7 +94,7 @@
             </a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
-            {{ $t('Error') }} {{ error }}
+            {{ $t('Error') }}: {{ error }}
           </p>
         </div>
       </v-flex>
@@ -113,7 +113,7 @@
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
-            {{ $t('SorryProblem') }}
+            {{ $t('UnspecifiedProblem') }}
             <a
               href="#"
               @click="authenticate"
@@ -122,7 +122,7 @@
             </a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
-            {{ $t('Error') }} {{ error }}
+            {{ $t('Error') }}: {{ error }}
           </p>
         </div>
       </v-flex>
@@ -188,7 +188,7 @@ export default {
           .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
           .catch(error => this.error = error.response.data.message)
       } else {
-        this.message = i18n.t('SorryNoAuthenticate')
+        this.message = i18n.t('AuthNotPossible')
         this.error = `Unknown authentication provider (${this.$config.provider})`
       }
     },
@@ -202,13 +202,13 @@ export default {
               .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
               .catch(error => this.error = error.response.data.message)
           } else {
-            this.message = i18n.t('SorryNoAuthenticate')
+            this.message = i18n.t('AuthNotPossible')
             this.error = event.data.message ? event.data.message : JSON.stringify(event)
           }
         }
         return
       })
-      auth_win = window.open(this.$config.endpoint + '/auth/saml', i18n.t('AuthenticatingInProgress'))
+      auth_win = window.open(this.$config.endpoint + '/auth/saml', i18n.t('AuthInProgress'))
     }
   }
 }
