@@ -151,7 +151,7 @@
             </v-chip>
             <v-tooltip top>
               <v-icon
-                v-if="['admin', 'user'].includes(props.item.match)"
+                v-if="systemRoles.includes(props.item.match)"
                 slot="activator"
                 small
               >
@@ -175,7 +175,7 @@
               v-has-perms.disable="'admin:perms'"
               icon
               class="btn--plain mr-0"
-              :disabled="['admin', 'user'].includes(props.item.match)"
+              :disabled="systemRoles.includes(props.item.match)"
               @click="editItem(props.item)"
             >
               <v-icon
@@ -189,7 +189,7 @@
               v-has-perms.disable="'admin:perms'"
               icon
               class="btn--plain mx-0"
-              :disabled="['admin', 'user'].includes(props.item.match)"
+              :disabled="systemRoles.includes(props.item.match)"
               @click="deleteItem(props.item)"
             >
               <v-icon
@@ -247,6 +247,7 @@ export default {
     },
     // totalItems: number,
     search: '',
+    systemRoles: ['admin', 'user', 'guest'],
     wantScopes: [],
     dialog: false,
     headers: [
