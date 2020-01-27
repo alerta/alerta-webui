@@ -420,8 +420,17 @@ export default {
         useBom: true,
         useKeysAsHeaders: true,
       }
+      let attrs = {}
+      data.map(d => Object.keys(d.attributes).forEach((attr) => attrs['attributes.'+attr] = d.attributes[attr]))
+
       const csvExporter = new ExportToCsv(options)
-      csvExporter.generateCsv(data.map(({history, ...item}) => item))
+      csvExporter.generateCsv(data.map(({ correlate, service, tags, attributes, history, ...item }) => ({
+        correlate: correlate.join(','),
+        service: service.join(','),
+        tags: tags.join(','),
+        ...attrs,
+        ...item
+      })))
     }
   }
 }
