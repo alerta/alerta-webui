@@ -16,20 +16,20 @@
       >
         <div v-show="message">
           <p class="text-xs-center headline font-weight-medium">
-            {{ $t('Thanks') }} {{ message }}{{ $t('YouCanNow') }} <a href="/login">
-              {{ $t('LogIn') }}
+            {{ $t('Thanks') }} {{ message }}{{ $t('YouCanNowLogin1') }} <a href="/login">
+              {{ $t('YouCanNowLogin2') }}
             </a>
           </p>
         </div>
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
-            {{ $t('ProblemEmail') }}
+            {{ $t('EmailConfirmFailed') }}
             <a href="/">
               {{ $t('TryAgain') }}
             </a>
           </p>
           <p class="text-xs-center subheading font-weight-medium">
-            {{ $t('Error') }} {{ error }}
+            {{ $t('Error') }}: {{ error }}
           </p>
         </div>
       </v-flex>

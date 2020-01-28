@@ -66,7 +66,7 @@
               <div class="headline">
                 {{ groupName }}
               </div>
-              <span>{{ $t('UsersGroup') }}</span>
+              <span>{{ $t('UsersInGroup') }}</span>
             </div>
           </v-card-title>
 
@@ -133,7 +133,7 @@
                     @click="editedItem.name = null"
                   >
                     <strong>{{ editedItem.name }}</strong>&nbsp;
-                    <span>({{ $t('Group') }})</span>
+                    <span>({{ $t('group') }})</span>
                   </v-chip>
                 </v-flex>
                 <v-text-field

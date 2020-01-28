@@ -213,7 +213,7 @@
           grow
         >
           <v-tab ripple>
-            <v-icon>info</v-icon>{{ $t('Details') }}
+            <v-icon>info</v-icon>&nbsp;{{ $t('Details') }}
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -242,7 +242,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        {{ $t('Alert_ID') }}
+                        {{ $t('AlertId') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -256,7 +256,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        {{ $t('LastReceiveId') }}
+                        {{ $t('LastReceiveAlertId') }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -460,7 +460,7 @@
                         </span>
                         <span
                           v-if="statusNote && statusNote.user"
-                        >&nbsp; {{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ statusNote.updateTime | timeago }})
+                        >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ statusNote.updateTime | timeago }})
                         </span>
                       </div>
                     </div>
@@ -648,7 +648,7 @@
           </v-tab-item>
 
           <v-tab ripple>
-            <v-icon>history</v-icon>{{ $t('History') }}
+            <v-icon>history</v-icon>&nbsp;{{ $t('History') }}
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -717,7 +717,7 @@
           </v-tab-item>
 
           <v-tab ripple>
-            <v-icon>assessment</v-icon>{{ $t('Data') }}
+            <v-icon>assessment</v-icon>&nbsp;{{ $t('Data') }}
           </v-tab>
           <v-tab-item
             :transition="false"
@@ -779,7 +779,7 @@ export default {
       sortBy: 'updateTime'
     },
     headers: [
-      { text: i18n.t('Alert_ID'), value: 'id', hide: 'smAndDown' },
+      { text: i18n.t('AlertId'), value: 'id', hide: 'smAndDown' },
       { text: i18n.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
       { text: i18n.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
       { text: i18n.t('Severity'), value: 'severity', hide: 'smAndDown' },

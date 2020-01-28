@@ -54,7 +54,7 @@ const actions = {
   resetUserPrefs({ dispatch, commit }) {
     return UsersApi.updateMeAttributes({ prefs: null })
       .then(response => commit('RESET_PREFS'))
-      .then(() => dispatch('notifications/success', i18n.t('SettingsSaved'), { root: true }))
+      .then(() => dispatch('notifications/success', i18n.t('SettingsReset'), { root: true }))
   }
 
 }

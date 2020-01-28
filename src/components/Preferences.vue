@@ -25,7 +25,7 @@
           />
           <v-checkbox
             v-model="isPlaySounds"
-            :label="$t('PlayNotif')"
+            :label="$t('PlaySounds')"
             hide-details
             class="my-0"
           />
@@ -46,7 +46,7 @@
         >
           <div>
             <div class="headline">
-              {{ $t('LanguagesSettings') }}
+              {{ $t('LanguageSettings') }}
             </div>
           </div>       
         </v-card-title>
@@ -131,9 +131,9 @@
             <v-combobox
               v-model.number="rowsPerPage"
               :items="rowsPerPageItems"
-              :label="$t('RowsPage')"
+              :label="$t('PageRows')"
               type="number"
-              :suffix="$t('Rows')"
+              :suffix="$t('rows')"
             />
 
             <v-combobox
@@ -141,7 +141,7 @@
               :items="refreshOptions"
               :label="$t('RefreshInterval')"
               type="number"
-              :suffix="$t('Seconds')"
+              :suffix="$t('seconds')"
             />
 
             <v-combobox
@@ -149,7 +149,7 @@
               :items="shelveTimeoutOptions"
               :label="$t('ShelveTimeout')"
               type="number"
-              :suffix="$t('Hours')"
+              :suffix="$t('hours')"
             />
           </v-layout>
         </v-card-actions>
@@ -213,13 +213,13 @@ export default {
     shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
   }),
   computed: {
-    languages: function() {
+    languages() {
       return [
         { text: i18n.t('English'), value: 'en' },
         { text: i18n.t('French'), value: 'fr' }
       ]
     },
-    timezoneOptions: function() {
+    timezoneOptions() {
       return [
         { text: i18n.t('UseLocal'), value: 'local' },
         { text: i18n.t('UseUTC'), value: 'utc' }

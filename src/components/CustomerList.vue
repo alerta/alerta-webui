@@ -35,7 +35,7 @@
                       @click="editedItem.customer = null"
                     >
                       <strong>{{ editedItem.customer }}</strong>&nbsp;
-                      <span>({{ $t('Customer') }})</span>
+                      <span>({{ $t('customer') }})</span>
                     </v-chip>
                   </v-flex>
                   <v-text-field
@@ -102,7 +102,7 @@
           <td>
             <v-chip>
               <strong>{{ props.item.customer }}</strong>&nbsp;
-              <span>({{ $t('Customer') }})</span>
+              <span>({{ $t('customer') }})</span>
             </v-chip>
           </td>
           <td class="text-no-wrap">

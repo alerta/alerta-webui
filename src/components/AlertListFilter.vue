@@ -308,19 +308,7 @@ export default {
     },
   }),
   computed: {
-    headers: function() {
-      return [
-        { text: i18n.t('Alert_ID'), value: 'id' },
-        { text: i18n.t('UpdateTime'), value: 'updateTime' },
-        { text: i18n.t('Severity'), value: 'severity' },
-        { text: i18n.t('Status'), value: 'status' },
-        { text: i18n.t('Type'), value: 'type' },
-        { text: i18n.t('Event'), value: 'event' },
-        { text: i18n.t('Value'), value: 'value' },
-        { text: i18n.t('Text'), value: 'text' }
-      ]
-    },
-    dateRanges: function() {
+    dateRanges() {
       return [
         { text: i18n.t('Latest'), range: [null, null] },
         { text: i18n.t('Hour'), range: [-3600, null] },

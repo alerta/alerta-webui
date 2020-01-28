@@ -86,7 +86,7 @@
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
-                        <span>(scope)</span>
+                        <span>({{ $t('scope') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -234,7 +234,7 @@
               small
             >
               <strong>{{ scope }}</strong>&nbsp;
-              <span>({{ $t('Scope') }})</span>
+              <span>({{ $t('scope') }})</span>
             </v-chip>
           </td>
           <td>{{ props.item.text }}</td>
