@@ -442,7 +442,9 @@ export default {
     }
   },
   created() {
-    this.getCustomers()
+    if (this.$config.customer_views) {
+      this.getCustomers()
+    }
     this.getServices()
     this.getGroups()
 
