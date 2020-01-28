@@ -424,12 +424,13 @@ export default {
       data.map(d => Object.keys(d.attributes).forEach((attr) => attrs['attributes.'+attr] = d.attributes[attr]))
 
       const csvExporter = new ExportToCsv(options)
-      csvExporter.generateCsv(data.map(({ correlate, service, tags, attributes, history, ...item }) => ({
+      csvExporter.generateCsv(data.map(({ correlate, service, tags, attributes, rawData, history, ...item }) => ({
         correlate: correlate.join(','),
         service: service.join(','),
         tags: tags.join(','),
         ...attrs,
-        ...item
+        ...item,
+        rawData: rawData.toString()
       })))
     }
   }
