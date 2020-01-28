@@ -184,7 +184,7 @@
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
-                        <span>({{ $t('Role') }})</span>
+                        <span>({{ $t('role') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
@@ -248,7 +248,7 @@
                 close
               >
                 <strong>{{ data.item }}</strong>&nbsp;
-                <span>({{ $t('Role') }})</span>
+                <span>({{ $t('role') }})</span>
               </v-chip>
             </template>
           </v-autocomplete>
@@ -324,7 +324,7 @@
               :key="role"
             >
               <strong>{{ role }}</strong>&nbsp;
-              <span>({{ $t('Role') }})</span>
+              <span>({{ $t('role') }})</span>
             </v-chip>
           </td>
           <td class="text-xs-right">
