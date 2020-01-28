@@ -70,7 +70,7 @@ export const en = {
   Close: 'Close',
   Watch: 'Watch',
   Unwatch: 'Unwatch',
-  AddNote: 'Add&nbsp;note',
+  AddNote: 'Add note',
   Delete: 'Delete',
 
   // Alert actions

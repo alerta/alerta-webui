@@ -69,7 +69,7 @@ export const fr = {
   Close: 'Close', //'Fermé',
   Watch: 'Watch', //'Surveiller',
   Unwatch: 'Unwatch', //'Ne plus surveiller',
-  AddNote: 'Add&nbsp;note', //'Ajouter Note',
+  AddNote: 'Add note', //'Ajouter Note',
   Delete: 'Delete', //'Supprimer',
 
   // Alert actions
