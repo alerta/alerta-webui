@@ -11,7 +11,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@alerta/vue-authenticate": "github:alerta/vue-authenticate@^1.4.1",
+    "@alerta/vue-authenticate": "github:alerta/vue-authenticate",
     "acorn-dynamic-import": "^4.0.0",
     "axios": "^0.18.1",
     "export-to-csv": "^0.2.1",
