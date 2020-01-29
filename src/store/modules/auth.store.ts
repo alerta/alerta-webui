@@ -80,9 +80,9 @@ export function makeStore(vueAuth) {
         return vueAuth
           .logout()
           .then(response => {
-            commit('RESET_AUTH')
             return response
           })
+          .finally(() => commit('RESET_AUTH'))
       }
     },
 
