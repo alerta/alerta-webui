@@ -115,6 +115,7 @@ export const fr = {
   User: 'Utilisateur',
 
   // Alert list
+  Loading: 'Chargement en cours',
   ALL: 'Toutes les alertes',
   Description: 'Description',
   Attribute: 'Attribut',

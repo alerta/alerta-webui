@@ -400,6 +400,11 @@
           </td>
         </tr>
       </template>
+      <template slot="no-data">
+        <div class="text-xs-center">
+          {{ $t('Loading') }}...
+        </div>
+      </template>
     </v-data-table>
   </div>
 </template>
