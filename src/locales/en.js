@@ -116,6 +116,8 @@ export const en = {
   User: 'User',
 
   // Alert list
+  Loading: 'Loading',
+  NoDataAvailable: 'No data available',
   ALL: 'ALL',
   Description: 'Description',
   Attribute: 'Attribute',

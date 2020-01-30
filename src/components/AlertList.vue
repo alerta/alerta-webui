@@ -400,6 +400,12 @@
           </td>
         </tr>
       </template>
+      <template slot="no-data">
+        <div class="text-xs-center">
+          <span v-if="isLoading">{{ $t('Loading') }}...</span>
+          <span v-if="!isLoading">{{ $t('NoDataAvailable') }}</span>
+        </div>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -460,6 +466,9 @@ export default {
   computed: {
     displayDensity() {
       return this.$store.getters.getPreference('displayDensity')
+    },
+    isLoading() {
+      return this.$store.state.alerts.isLoading
     },
     rowsPerPage() {
       return this.$store.getters.getPreference('rowsPerPage')
