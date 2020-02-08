@@ -423,7 +423,7 @@ export default {
         tags: tags.join(','),
         ...attrs,
         ...item,
-        rawData: rawData.toString()
+        rawData: rawData ? rawData.toString() : ''
       })))
     }
   }
