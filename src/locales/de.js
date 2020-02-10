@@ -58,7 +58,7 @@ export const de = {
   Closed: 'Geschlossen',
   Expired: 'Abgelaufen',
   Unknown: 'Unbekannt',
-  NotValid: 'Not Valid',
+  NotValid: 'Nicht gültig',
 
   // operator actions
   Open: 'Öffen',
