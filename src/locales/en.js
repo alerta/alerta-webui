@@ -222,6 +222,7 @@ export const en = {
   Languages: 'Languages',
   English: 'English',
   French: 'French',
+  German: 'German',
   DateTimeSettings: 'Date and time settings',
   LongDate: 'Long date format',
   MediumDate: 'Medium date format',
