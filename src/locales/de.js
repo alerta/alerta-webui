@@ -1,4 +1,4 @@
-export const en = {
+export const de = {
   // topnav
   Search: 'Suche',
   FullScreen: 'Vollbild',
@@ -27,10 +27,10 @@ export const en = {
   About: 'Über',
 
   // more
-  ChooseDisplayDensity: 'Choose a display density',
-  DisplayDensity: 'Display density',
-  Comfortable: 'Comfortable',
-  Compact: 'Compact',
+  ChooseDisplayDensity: 'Wähle Anzeigedichte',
+  DisplayDensity: 'Anzeigedichte',
+  Comfortable: 'Komfortabel',
+  Compact: 'Kompakt',
   Panel: 'Panel',
   Hide: 'Verstecken',
   Show: 'Zeigen',
@@ -42,12 +42,12 @@ export const en = {
 
   // Preferences store
   SettingsSaved: 'Einstellungen gespeichert.',
-  SettingsReset: 'Settings reset to defaults.',
-  SettingsError: 'Could not retrieve user preferences.',
+  SettingsReset: 'Einstellungen zurückgesetzt.',
+  SettingsError: 'Konnte Nutzereinstellungn nicht empfangen.',
 
   // Users store
-  UserStatusSaved: 'User status saved.',
-  EmailSaved: 'Email verified saved.',
+  UserStatusSaved: 'Nutzerstatus gespeichert.',
+  EmailSaved: 'E-Mail verifiziert.',
 
   // statuses
   Open: 'Offen',
@@ -69,36 +69,36 @@ export const en = {
   Unshelve: 'Unshelve',
   Close: 'Schließen',
   Watch: 'Beobachten',
-  Unwatch: 'Unwatch',
+  Unwatch: 'Nicht beobachten',
   AddNote: 'Notiz hinzufügen',
   Delete: 'Löschen',
 
   // Alert actions
-  TextIsRequired: 'Text is required',
-  TextMustBeLessThan: 'Text must be less than',
-  characters: 'characters',
+  TextIsRequired: 'Text ist erforderlich',
+  TextMustBeLessThan: 'Text muss mindestens',
+  characters: 'Zeichen lang sein',
 
   // Alert detail
   AlertId: 'Alarm ID',
-  LastReceiveAlertId: 'Last Receive Alert ID',
+  LastReceiveAlertId: 'Letzte empfangene Alert ID',
   CreateTime: 'Erstellzeit',
   ReceiveTime: 'Empfangszeit',
-  LastReceiveTime: 'Last Receive Time',
+  LastReceiveTime: 'Letzte Empfangszeit',
   Customer: 'Kunde',
   Service: 'Service',
   Environment: 'Umgebung',
   Resource: 'Ressource',
   Event: 'Ereignis',
-  Correlate: 'Correlate',
+  Correlate: 'Korrelation',
   Group: 'Gruppe',
-  Severity: 'Severity',
+  Severity: 'Schweregrad',
   Status: 'Status',
   Value: 'Wert',
   Text: 'Text',
-  TrendIndication: 'Trend Indication',
+  TrendIndication: 'Trendindikator',
   Timeout: 'Zeitüberschreitung',
   Type: 'Typ',
-  DuplicateCount: 'Duplicate count',
+  DuplicateCount: 'Duplikatzähler',
   Repeat: 'Widerholung',
   Origin: 'Herkunft',
   Tags: 'Tags',
@@ -107,8 +107,8 @@ export const en = {
   Data: 'Daten',
 
   Details: 'Details',
-  addedNoteOn: 'added note on',
-  by: 'by',
+  addedNoteOn: 'Notiz hinzugefügt an',
+  by: 'von',
 
   // Alert history
   UpdateTime: 'Aktualisierungszeit',
@@ -123,9 +123,9 @@ export const en = {
   Attribute: 'Attribut',
   TimeoutLeft: 'Timeout',
   Dupl: 'Dupl.',
-  PrevSeverity: 'Prev. Severity',
-  LastReceiveId: 'Last Receive ID',
-  LastNote: 'Last Note',
+  PrevSeverity: 'Vorh. Schweregrad',
+  LastReceiveId: 'Letze empf. ID',
+  LastNote: 'Letzte Notiz',
 
   // Alert list filter
   Filters: 'Filter',
