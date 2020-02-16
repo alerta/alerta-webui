@@ -226,7 +226,7 @@ export const de = {
   DateTimeSettings: 'Datums- und Zeiteinstellungen',
   LongDate: 'Langes Datumsformat',
   MediumDate: 'Mittleres Datumsformat',
-  ShortDate: 'Kurzes Datumsformat',
+  ShortTime: 'Kurzes Zeitformat',
   DisplayMode: 'Anzeigemodus',
   UseLocal: 'Nutze lokales Datum & Zeit',
   UseUTC: 'Nutze Coordinated Universal Time (UTC)',
