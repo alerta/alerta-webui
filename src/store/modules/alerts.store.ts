@@ -266,10 +266,6 @@ const getters = {
   environments: state => {
     return state.environments.map(e => e.environment).sort()
   },
-  environmentCounts: state => {
-    return state.environments.map(({environment, count}) => ({environment, count}))
-      .sort((a, b) => a.environment.localeCompare(b.environment))
-  },
   services: state => {
     return state.services.map(s => s.service).sort()
   },

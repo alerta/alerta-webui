@@ -85,11 +85,11 @@
       <v-tabs-slider />
       <v-tab
         v-for="env in environments"
-        :key="env.environment"
-        :href="'#tab-' + env.environment"
-        @click="setEnv(env.environment)"
+        :key="env"
+        :href="'#tab-' + env"
+        @click="setEnv(env)"
       >
-        {{ env.environment }}&nbsp;({{ env.count || 0 }})
+        {{ env }}&nbsp;({{ environmentCounts[env] || 0 }})
       </v-tab>
       <v-spacer />
       <v-btn
@@ -142,8 +142,8 @@
       >
         <v-tab-item
           v-for="env in environments"
-          :key="env.environment"
-          :value="'tab-' + env.environment"
+          :key="env"
+          :value="'tab-' + env"
           :transition="false"
           :reverse-transition="false"
         >
@@ -241,13 +241,15 @@ export default {
         .filter(alert => alert.status == 'open')
         .reduce((acc, alert) => acc || !alert.repeat, false)
     },
-    totalCount() {
-      return this.$store.state.alerts.environments
-        .map(e => e.count).reduce((a, b) => a + b, 0)
-    },
     environments() {
-      return [{ environment: 'ALL', count: this.totalCount }]
-        .concat(this.$store.getters['alerts/environmentCounts'])
+      return ['ALL'].concat(this.$store.getters['alerts/environments'])
+    },
+    environmentCounts() {
+      return this.alerts.reduce((grp, a) => {
+        grp[a.environment] = grp[a.environment] + 1 || 1
+        grp['ALL'] = grp['ALL'] + 1 || 1
+        return grp
+      }, {})
     },
     alertsByEnvironment() {
       return this.alerts.filter(alert =>
