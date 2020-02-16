@@ -225,7 +225,7 @@ export const fr = {
   DateTimeSettings: 'Paramétrage date et heure',
   LongDate: 'Format de date longue',
   MediumDate: 'Format de date moyenne',
-  ShortDate: 'Format de date courte',
+  ShortTime: 'Format de temps courte',
   DisplayMode: 'Mode d\'affichage',
   UseLocal: 'Date et heure locale',
   UseUTC: 'Utiliser le temps universel (UTC)',

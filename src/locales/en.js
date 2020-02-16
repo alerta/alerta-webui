@@ -226,7 +226,7 @@ export const en = {
   DateTimeSettings: 'Date and time settings',
   LongDate: 'Long date format',
   MediumDate: 'Medium date format',
-  ShortDate: 'Short date format',
+  ShortTime: 'Short time format',
   DisplayMode: 'Display mode',
   UseLocal: 'Use local date & time',
   UseUTC: 'Use Coordinated Universal Time (UTC)',

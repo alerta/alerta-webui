@@ -96,7 +96,7 @@
             <v-select
               v-model="shortTime"
               :items="computedTimeFormats"
-              :label="$t('ShortDate')"
+              :label="$t('ShortTime')"
             />
 
             <v-select
