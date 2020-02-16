@@ -3,12 +3,14 @@ import VueI18n from 'vue-i18n'
 
 // import file language from @/locales
 import { en } from '@/locales/en'
+import { de } from '@/locales/de'
 import { fr } from '@/locales/fr'
 
 Vue.use(VueI18n)
 
 const loadLocaleMessages = {
   en,
+  de,
   fr
 }
 

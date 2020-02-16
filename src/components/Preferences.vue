@@ -216,7 +216,8 @@ export default {
     languages() {
       return [
         { text: i18n.t('English'), value: 'en' },
-        { text: i18n.t('French'), value: 'fr' }
+        { text: i18n.t('French'), value: 'fr' },
+        { text: i18n.t('German'), value: 'de' }
       ]
     },
     timezoneOptions() {
