@@ -223,19 +223,11 @@
           <td
             :class="['text-no-wrap', textColor]"
           >
-            <div class="fixed-table">
-              <div class="text-truncate">
-                <span v-html="props.item.text" />
-              </div>
-            </div>
-          </td>
-
-          <td
-            :class="['text-no-wrap', textColor]"
-          >
             <div
               class="action-buttons"
+              :style="{ 'background-color': severityColor(props.item.severity) }"
             >
+              ...&nbsp;
               <v-btn
                 v-if="isAcked(props.item.status) || isClosed(props.item.status)"
                 flat
@@ -485,10 +477,9 @@ export default {
       return this.$config.actions
     },
     customHeaders() {
-      let headers = this.$config.columns
-        .map(c => this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c })
-      headers.push({ text: i18n.t('Description'), value: 'text' })  // 'text' must be last column
-      return headers
+      return this.$config.columns.map(c =>
+        this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c }
+      )
     },
     textColor() {
       return this.$store.getters.getConfig('colors').text
@@ -596,7 +587,7 @@ export default {
       })
     },
     severityColor(severity) {
-      return this.$store.getters.getConfig('colors').severity[severity]
+      return this.$store.getters.getConfig('colors').severity[severity] || 'white'
     },
     selectItem(item) {
       this.$emit('set-alert', item)
@@ -757,10 +748,14 @@ div.select-box {
 }
 
 div.action-buttons {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  right: 0;
+  top: 0.5em;
+  height: 2em;
 }
 
 tr:hover div.action-buttons {
-  display: inline-block;
+  opacity: 1;
 }
 </style>
