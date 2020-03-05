@@ -43,16 +43,16 @@
                     </template>
                     <template v-slot:item="data">
                       <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content v-text="data.item" />
+                        <v-list-item-content v-text="data.item" />
                       </template>
                       <template v-else>
-                        <v-list-tile-avatar>
+                        <v-list-item-avatar>
                           <v-icon>person</v-icon>
-                        </v-list-tile-avatar>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name" />
-                          <v-list-tile-sub-title v-html="data.item.email" />
-                        </v-list-tile-content>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                          <v-list-item-title v-html="data.item.name" />
+                          <v-list-item-sub-title v-html="data.item.email" />
+                        </v-list-item-content>
                       </template>
                     </template>
                   </v-autocomplete>
@@ -71,26 +71,26 @@
           </v-card-title>
 
           <v-list>
-            <v-list-tile
+            <v-list-item
               v-for="item in groupUsers"
               :key="item.id"
               avatar
               @click="removeUser(item.id)"
             >
-              <v-list-tile-avatar>
+              <v-list-item-avatar>
                 <v-icon>person</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-html="item.name" />
-                <v-list-tile-sub-title v-html="item.login" />
-              </v-list-tile-content>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="item.name" />
+                <v-list-item-sub-title v-html="item.login" />
+              </v-list-item-content>
 
-              <v-list-tile-action>
+              <v-list-item-action>
                 <v-icon>
                   {{ item.status == 'active' ? 'remove_circle' : 'remove_circle_outline' }}
                 </v-icon>
-              </v-list-tile-action>
-            </v-list-tile>
+              </v-list-item-action>
+            </v-list-item>
           </v-list>
 
           <v-card-actions>

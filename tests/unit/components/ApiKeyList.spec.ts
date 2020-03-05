@@ -39,7 +39,8 @@ describe('ApiKeyList', () => {
       actions: {
         ['customers/getCustomers'](){ },
         ['perms/getScopes'](){ },
-        ['keys/getKeys'](){ }
+        ['keys/getKeys'](){ },
+        ['users/getUsers'](){ }
       },
       getters: {
         ['auth/scopes']() {
