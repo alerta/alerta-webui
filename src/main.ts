@@ -11,9 +11,8 @@ import { makeInterceptors } from '@/services/api/interceptors'
 import { vueAuth } from '@/services/auth'
 import GoogleAnalytics from '@/plugins/analytics'
 import i18n from '@/plugins/i18n'
+import vuetify from '@/plugins/vuetify'
 
-import '@/plugins/vuetify'
-import './stylus/main.styl'
 import App from './App.vue'
 
 import '@/directives/hasPerms'
@@ -26,6 +25,8 @@ import '@/filters/shortId'
 import '@/filters/splitCaps'
 import '@/filters/timeago'
 import '@/filters/until'
+
+Vue.config.productionTip = false
 
 export const store = createStore()
 
@@ -53,6 +54,7 @@ bootstrap.getConfig()
       router,
       store,
       i18n,
+      vuetify,
       render: (h: any) => h(App)
     }).$mount('#app')
   })
