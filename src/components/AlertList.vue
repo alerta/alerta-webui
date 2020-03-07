@@ -12,7 +12,7 @@
       must-sort
       :custom-sort="customSort"
       sort-icon="arrow_drop_down"
-      select-all
+      show-select
     >
       <template
         slot="items"
@@ -379,13 +379,13 @@
                 >
                   <v-subheader>Actions</v-subheader>
                   <v-divider />
-                  <v-list-tile
+                  <v-list-item
                     v-for="(action, i) in actions"
                     :key="i"
                     @click.stop="takeAction(props.item.id, action)"
                   >
-                    <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
-                  </v-list-tile>
+                    <v-list-item-title>{{ action | splitCaps }}</v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </div>

@@ -1,1 +1,1 @@
-declare module 'vue-authenticate'
+declare module '@alerta/vue-authenticate'

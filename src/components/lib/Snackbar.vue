@@ -1,13 +1,12 @@
 <template>
   <v-snackbar
     v-model="show"
-    auto-height
     :color="snackbar.type"
     :timeout="snackbar.timeout"
   >
     {{ snackbar.text | capitalize }}
     <v-btn
-      flat
+      text
       @click="close"
     >
       {{ snackbar.action }}

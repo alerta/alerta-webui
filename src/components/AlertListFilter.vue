@@ -185,10 +185,8 @@
               v-model="menu1"
               :close-on-content-click="false"
               :nudge-right="40"
-              lazy
               transition="scale-transition"
               offset-y
-              full-width
               max-width="290px"
               min-width="290px"
             >
@@ -235,10 +233,8 @@
               v-model="menu2"
               :close-on-content-click="false"
               :nudge-right="40"
-              lazy
               transition="scale-transition"
               offset-y
-              full-width
               max-width="290px"
               min-width="290px"
             >
@@ -268,7 +264,7 @@
           <v-spacer />
           <v-btn
             color="blue darken-1"
-            flat
+            text
             @click="reset"
           >
             {{ $t('Reset') }}
