@@ -692,11 +692,13 @@ export default {
       this.$store.dispatch('alerts/updateSelected', [])
     },
     takeBulkAction(action) {
-      this.selected.map(a => this.$store.dispatch('alerts/takeAction', [a.id, action, '']))
-        .reduce(() => this.clearSelected())
+      Promise.all(this.selected.map(a => this.$store.dispatch('alerts/takeAction', [a.id, action, '']))).then(() => {
+        this.clearSelected()
+        this.$store.dispatch('alerts/getAlerts')
+      })
     },
     bulkShelveAlert() {
-      this.selected.map(a => {
+      Promise.All(this.selected.map(a => {
         this.$store
           .dispatch('alerts/takeAction', [
             a.id,
@@ -704,21 +706,27 @@ export default {
             '',
             this.shelveTimeout
           ])
+      })).then(() => {
+        this.clearSelected()
+        this.$store.dispatch('alerts/getAlerts')
       })
-        .reduce(() => this.clearSelected())
     },
     isWatched(tags) {
       const tag = `watch:${this.username}`
       return tags ? tags.indexOf(tag) > -1 : false
     },
     toggleWatch() {
+      var map
       if (this.selected.some(x => !this.isWatched(x.tags))) {
-        this.selected.map(a => this.watchAlert(a.id))
-          .reduce(() => this.clearSelected())
+        map = this.selected.map(a => this.watchAlert(a.id))
       } else {
-        this.selected.map(a => this.unwatchAlert(a.id))
-          .reduce(() => this.clearSelected())
+        map = this.selected.map(a => this.unwatchAlert(a.id))
       }
+    
+      Promise.All(map).then(() => {
+        this.clearSelected()
+        this.$store.dispatch('alerts/getAlerts')
+      })
     },
     watchAlert(id) {
       this.$store.dispatch('alerts/watchAlert', id)
@@ -728,8 +736,10 @@ export default {
     },
     bulkDeleteAlert() {
       confirm(i18n.t('ConfirmDelete')) &&
-        this.selected.map(a => this.$store.dispatch('alerts/deleteAlert', a.id))
-          .reduce(() => this.clearSelected())
+        Promise.all(this.selected.map(a => this.$store.dispatch('alerts/deleteAlert', a.id, false))).then(() => {
+          this.clearSelected()
+          this.$store.dispatch('alerts/getAlerts')
+        })
     },
     toggle(sw, value) {
       this.$store.dispatch('alerts/toggle', [sw, value])

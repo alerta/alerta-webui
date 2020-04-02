@@ -170,33 +170,25 @@ const actions = {
   watchAlert({ commit, dispatch, rootState}, alertId) {
     const username = rootState.auth.payload.preferred_username
     const tag = `watch:${username}`
-    return AlertsApi.tagAlert(alertId, {tags: [tag]}).then(response =>
-      dispatch('getAlerts')
-    )
+    return AlertsApi.tagAlert(alertId, {tags: [tag]})
   },
   unwatchAlert({ commit, dispatch, rootState}, alertId) {
     const username = rootState.auth.payload.preferred_username
     const tag = `watch:${username}`
-    return AlertsApi.untagAlert(alertId, {tags: [tag]}).then(response =>
-      dispatch('getAlerts')
-    )
+    return AlertsApi.untagAlert(alertId, {tags: [tag]})
   },
   takeAction({ commit, dispatch }, [alertId, action, text, timeout]) {
     return AlertsApi.actionAlert(alertId, {
       action: action,
       text: text,
       timeout: timeout
-    }).then(response => dispatch('getAlerts'))
+    })
   },
   tagAlert({ commit, dispatch }, [alertId, tags]) {
-    return AlertsApi.tagAlert(alertId, tags).then(response =>
-      dispatch('getAlerts')
-    )
+    return AlertsApi.tagAlert(alertId, tags)
   },
   untagAlert({ commit, dispatch }, [alertId, tags]) {
-    return AlertsApi.untagAlert(alertId, tags).then(response =>
-      dispatch('getAlerts')
-    )
+    return AlertsApi.untagAlert(alertId, tags)
   },
   addNote({ commit, dispatch }, [alertId, note]) {
     return AlertsApi.addNote(alertId, {
@@ -204,9 +196,7 @@ const actions = {
     }).then(response => dispatch('getAlerts'))
   },
   deleteAlert({ commit, dispatch }, alertId) {
-    return AlertsApi.deleteAlert(alertId).then(response =>
-      dispatch('getAlerts')
-    )
+    return AlertsApi.deleteAlert(alertId)
   },
 
   getEnvironments({ commit }) {
