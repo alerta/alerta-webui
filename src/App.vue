@@ -698,7 +698,7 @@ export default {
       })
     },
     bulkShelveAlert() {
-      Promise.All(this.selected.map(a => {
+      Promise.all(this.selected.map(a => {
         this.$store
           .dispatch('alerts/takeAction', [
             a.id,
@@ -723,7 +723,7 @@ export default {
         map = this.selected.map(a => this.unwatchAlert(a.id))
       }
     
-      Promise.All(map).then(() => {
+      Promise.all(map).then(() => {
         this.clearSelected()
         this.$store.dispatch('alerts/getAlerts')
       })
