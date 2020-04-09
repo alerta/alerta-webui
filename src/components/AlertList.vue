@@ -158,7 +158,7 @@
             <span
               v-if="col == 'timeout'"
             >
-              {{ props.item.timeout }}
+              {{ props.item.timeout | hhmmss }}
             </span>
             <span
               v-if="col == 'timeoutLeft'"
