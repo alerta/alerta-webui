@@ -75,7 +75,7 @@
             :disabled="!isOpen(item.status)"
             icon
             class="btn--plain px-1 mx-0"
-            @click="takeAction(item.id, 'ack')"
+            @click="ackAlert(item.id)"
           >
             <v-icon
               size="20px"
@@ -743,6 +743,7 @@
         :status="item.status"
         :is-watched="isWatched(item.tags)"
         @take-action="takeAction"
+        @ack-alert="ackAlert"
         @shelve-alert="shelveAlert"
         @watch-alert="watchAlert"
         @unwatch-alert="unwatchAlert"
@@ -817,6 +818,9 @@ export default {
         h => !h.hide || !this.$vuetify.breakpoint[h.hide]
       )
     },
+    ackTimeout() {
+      return this.$store.getters.getPreference('ackTimeout')
+    },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
     },
@@ -861,6 +865,11 @@ export default {
     takeAction: debounce(function(id, action, text) {
       this.$store
         .dispatch('alerts/takeAction', [id, action, text])
+        .then(() => this.getAlert(this.id))
+    }, 200, {leading: true, trailing: false}),
+    ackAlert: debounce(function(id, text) {
+      this.$store
+        .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
         .then(() => this.getAlert(this.id))
     }, 200, {leading: true, trailing: false}),
     shelveAlert: debounce(function(id, text) {

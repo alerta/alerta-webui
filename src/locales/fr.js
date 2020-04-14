@@ -234,6 +234,7 @@ export const fr = {
   rows: 'lignes',
   RefreshInterval: 'Intervalle de rafraîchissement',
   seconds: 'secondes',
+  AckTimeout: 'Durée de mise en affecter',
   ShelveTimeout: 'Durée de mise en attente',
   hours: 'heures',
 

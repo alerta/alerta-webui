@@ -235,6 +235,7 @@ export const en = {
   rows: 'rows',
   RefreshInterval: 'Refresh interval',
   seconds: 'seconds',
+  AckTimeout: 'Ack Timeout',
   ShelveTimeout: 'Shelve timeout',
   hours: 'hours',
 
