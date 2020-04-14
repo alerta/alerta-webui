@@ -278,7 +278,7 @@
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'ack')"
+                @click.stop="ackAlert(props.item.id)"
               >
                 <v-icon
                   size="20px"
@@ -500,6 +500,9 @@ export default {
         this.$store.dispatch('alerts/updateSelected', value)
       }
     },
+    ackTimeout() {
+      return this.$store.getters.getPreference('ackTimeout')
+    },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
     },
@@ -514,7 +517,8 @@ export default {
   },
   methods: {
     timeoutLeft(item) {
-      let lastModified = this.isShelved(item.status) && item.updateTime ? item.updateTime : item.lastReceiveTime
+      let ackedOrShelved = this.isShelved(item.status) || this.isAcked(item.status)
+      let lastModified = ackedOrShelved && item.updateTime ? item.updateTime : item.lastReceiveTime
       let expireTime = moment(lastModified).add(item.timeout, 'seconds')
       return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
     },
@@ -610,6 +614,15 @@ export default {
     takeAction: debounce(function(id, action) {
       this.$store
         .dispatch('alerts/takeAction', [id, action, ''])
+    }, 200, {leading: true, trailing: false}),
+    ackAlert: debounce(function(id) {
+      this.$store
+        .dispatch('alerts/takeAction', [
+          id,
+          'ack',
+          '',
+          this.ackTimeout
+        ])
     }, 200, {leading: true, trailing: false}),
     shelveAlert: debounce(function(id) {
       this.$store

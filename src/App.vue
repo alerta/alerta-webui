@@ -297,7 +297,7 @@
             slot="activator"
             icon
             class="btn--plain"
-            @click="takeBulkAction('ack')"
+            @click="bulkAckAlert()"
           >
             <v-icon>
               check
@@ -645,6 +645,9 @@ export default {
     selected() {
       return this.$store.state.alerts.selected
     },
+    ackTimeout() {
+      return this.$store.getters.getPreference('ackTimeout')
+    },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
     },
@@ -693,6 +696,18 @@ export default {
     },
     takeBulkAction(action) {
       this.selected.map(a => this.$store.dispatch('alerts/takeAction', [a.id, action, '']))
+        .reduce(() => this.clearSelected())
+    },
+    bulkAckAlert() {
+      this.selected.map(a => {
+        this.$store
+          .dispatch('alerts/takeAction', [
+            a.id,
+            'ack',
+            '',
+            this.ackTimeout
+          ])
+      })
         .reduce(() => this.clearSelected())
     },
     bulkShelveAlert() {

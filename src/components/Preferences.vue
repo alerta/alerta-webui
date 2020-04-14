@@ -145,6 +145,14 @@
             />
 
             <v-combobox
+              v-model.number="ackTimeout"
+              :items="ackTimeoutOptions"
+              :label="$t('AckTimeout')"
+              type="number"
+              :suffix="$t('hours')"
+            />
+
+            <v-combobox
               v-model.number="shelveTimeout"
               :items="shelveTimeoutOptions"
               :label="$t('ShelveTimeout')"
@@ -210,6 +218,7 @@ export default {
       'HH:mm:ss.SSS Z',
     ],
     refreshOptions: [2, 5, 10, 30, 60],  // seconds
+    ackTimeoutOptions: [0, 1, 2, 4, 8, 24],  // hours
     shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
   }),
   computed: {
@@ -337,6 +346,14 @@ export default {
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {refreshInterval: value * 1000})
+      }
+    },
+    ackTimeout: {
+      get() {
+        return this.$store.getters.getPreference('ackTimeout') / 60 / 60
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {ackTimeout: value * 60 * 60})
       }
     },
     shelveTimeout: {

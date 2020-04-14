@@ -324,9 +324,6 @@ export default {
     history() {
       return this.item.history.map((h, index) => ({ index: index, ...h }))
     },
-    shelveTimeout() {
-      return this.$store.getters.getPreference('shelveTimeout')
-    },
     isWatched() {
       const tag = `watch:${this.username}`
       return this.item.tags.indexOf(tag) > -1
