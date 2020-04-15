@@ -225,6 +225,32 @@
               <v-alert
                 v-for="note in notes"
                 :key="note.index"
+                :value="true"
+                dismissible
+                type="info"
+                class="ma-1"
+                @input="deleteNote(item.id, note.id)"
+              >
+                <b>{{ note.user || 'Anonymous' }}</b> {{ $t('addedNoteOn') }}
+                <span v-if="note.updateTime">
+                  <b><date-time
+                    :value="note.updateTime"
+                    format="longDate"
+                  /></b> ({{ note.updateTime | timeago }})<br>
+                </span>
+                <span v-else>
+                  <b><date-time
+                    :value="note.createTime"
+                    format="longDate"
+                  /></b> ({{ note.createTime | timeago }})<br>
+                </span>
+                <i>{{ note.text }}</i>
+              </v-alert>
+
+              <!-- DEPRECATED -->
+              <v-alert
+                v-for="note in historyNotes"
+                :key="note.index"
                 type="info"
                 class="ma-1"
                 :value="true"
@@ -237,6 +263,8 @@
                 /></b> ({{ note.updateTime | timeago }})<br>
                 <i>{{ note.text }}</i>
               </v-alert>
+              <!-- DEPRECATED -->
+
               <v-card-text>
                 <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
@@ -808,7 +836,12 @@ export default {
         : []
     },
     notes() {
-      return this.history.filter(h => h.type == 'note')
+      return this.$store.state.alerts.notes
+    },
+    // DEPRECATED: notes stored in alert history are deprecated and will be removed in version 8
+    historyNotes() {
+      return this.history
+        .filter(h => h.type == 'note' && h.id == this.id)  // get notes from alert history
     },
     statusNote() {
       return this.history.filter(h => h.type != 'note' && h.status == this.item.status).pop()
@@ -836,15 +869,22 @@ export default {
       val || this.close()
     },
     refresh(val) {
-      val || this.getAlert(this.id)
+      if (val) {
+        this.getAlert(this.id)
+        this.getNotes(this.id)
+      }
     }
   },
   created() {
     this.getAlert(this.id)
+    this.getNotes(this.id)
   },
   methods: {
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
+    },
+    getNotes() {
+      this.$store.dispatch('alerts/getNotes', this.id)
     },
     isOpen(status) {
       return status == 'open' || status == 'NORM'
@@ -861,6 +901,9 @@ export default {
     },
     isClosed(status) {
       return status == 'closed'
+    },
+    deleteNote(alertId, noteId) {
+      this.$store.dispatch('alerts/deleteNote', [alertId, noteId])
     },
     takeAction: debounce(function(id, action, text) {
       this.$store
@@ -891,7 +934,7 @@ export default {
       this.$store
         .dispatch('alerts/addNote', [id, text])
         .then(() => {
-          this.getAlert(this.id)
+          this.getNotes(this.id)
         })
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
@@ -950,5 +993,9 @@ export default {
 
 .label-inverse {
   background-color: #333333;
+}
+
+.v-alert__dismissible {
+  margin-top: 8px;
 }
 </style>

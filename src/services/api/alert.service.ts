@@ -28,6 +28,15 @@ export default {
   addNote(alertId: string, data: object) {
     return api.put(`/alert/${alertId}/note`, data)
   },
+  getNotes(alertId: string) {
+    return api.get(`/alert/${alertId}/notes`)
+  },
+  updateNote(alertId: string, noteId: string, data: object) {
+    return api.put(`/alert/${alertId}/note/${noteId}`, data)
+  },
+  deleteNote(alertId: string, noteId: string) {
+    return api.delete(`/alert/${alertId}/note/${noteId}`)
+  },
   getAlerts(query: object) {
     if (query && queryInProgress) {
       queryInProgress.cancel('Too many search requests. Cancelling current query.')

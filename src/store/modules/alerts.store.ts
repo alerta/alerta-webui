@@ -16,6 +16,7 @@ const state = {
   tags: [],
 
   alert: {},
+  notes: [],
 
   offenders: [],
   flapping: [],
@@ -70,6 +71,9 @@ const mutations = {
   },
   SET_ALERT(state, alert): any {
     state.alert = alert
+  },
+  SET_NOTES(state, notes): any {
+    state.notes = notes
   },
   SET_ENVIRONMENTS(state, environments): any {
     state.environments = environments
@@ -198,11 +202,28 @@ const actions = {
       dispatch('getAlerts')
     )
   },
+
   addNote({ commit, dispatch }, [alertId, note]) {
     return AlertsApi.addNote(alertId, {
       note: note
     }).then(response => dispatch('getAlerts'))
   },
+  getNotes({ commit }, alertId) {
+    return AlertsApi.getNotes(alertId).then(({ notes }) => {
+      commit('SET_NOTES', notes)
+    })
+  },
+  updateNote({ commit, dispatch }, [alertId, noteId, note]) {
+    return AlertsApi.updateNote(alertId, noteId, {
+      note: note
+    }).then(response => dispatch('getNotes'))
+  },
+  deleteNote({ commit, dispatch }, [alertId, noteId]) {
+    return AlertsApi.deleteNote(alertId, noteId).then(response => 
+      dispatch('getNotes', [alertId])
+    )
+  },
+
   deleteAlert({ commit, dispatch }, alertId) {
     return AlertsApi.deleteAlert(alertId).then(response =>
       dispatch('getAlerts')
