@@ -805,10 +805,11 @@ export default {
     active: null,
     pagination: {
       rowsPerPage: 10,
-      sortBy: 'updateTime'
+      sortBy: 'updateTime',
+      descending: true
     },
     headers: [
-      { text: i18n.t('AlertId'), value: 'id', hide: 'smAndDown' },
+      { text: i18n.t('Alert/Note Id'), value: 'id', hide: 'smAndDown' },
       { text: i18n.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
       { text: i18n.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
       { text: i18n.t('Severity'), value: 'severity', hide: 'smAndDown' },
