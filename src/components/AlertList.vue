@@ -9,6 +9,7 @@
       class="alert-table"
       :class="[ displayDensity ]"
       :search="search"
+      :loading="isSearching"
       must-sort
       :custom-sort="customSort"
       sort-icon="arrow_drop_down"
@@ -461,6 +462,9 @@ export default {
     },
     isLoading() {
       return this.$store.state.alerts.isLoading
+    },
+    isSearching() {
+      return this.$store.state.alerts.isSearching ? 'primary' : false
     },
     rowsPerPage() {
       return this.$store.getters.getPreference('rowsPerPage')

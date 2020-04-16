@@ -7,6 +7,7 @@ const namespaced = true
 
 const state = {
   isLoading: false,
+  isSearching: false,
 
   alerts: [],
   selected: [], // used by multi-select checkboxes
@@ -50,18 +51,21 @@ const state = {
 }
 
 const mutations = {
-  SET_LOADING(state) {
+  SET_LOADING(state): any {
     state.isLoading = true
+  },
+  SET_SEARCH_QUERY(state, query): any {
+    state.isSearching = true
+    state.query = query
   },
   SET_ALERTS(state, alerts): any {
     state.isLoading = false
+    state.isSearching = false
     state.alerts = alerts
   },
-  RESET_LOADING(state) {
+  RESET_LOADING(state): any {
     state.isLoading = false
-  },
-  SET_SEARCH_QUERY(state, query): any {
-    state.query = query
+    state.isSearching = false
   },
   SET_KIOSK(state, isKiosk): any {
     state.isKiosk = isKiosk
