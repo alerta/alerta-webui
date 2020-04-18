@@ -199,9 +199,9 @@ const actions = {
     return AlertsApi.untagAlert(alertId, tags)
   },
 
-  addNote({ commit, dispatch }, [alertId, note]) {
+  addNote({ commit, dispatch }, [alertId, text]) {
     return AlertsApi.addNote(alertId, {
-      note: note
+      text: text
     }).then(response => dispatch('getAlerts'))
   },
   getNotes({ commit }, alertId) {
