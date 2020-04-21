@@ -13,6 +13,14 @@ jobs:
       REPOSITORY_URL: docker.pkg.github.com
       IMAGE_NAME: ${{ github.repository }}/alerta-beta
     steps:
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
       - name: Checkout
         uses: actions/checkout@v2
       - name: Variables
