@@ -32,11 +32,9 @@ jobs:
       - name: Publish Image
         run: docker push $REPOSITORY_URL/$IMAGE_NAME
       - name: Notify Slack
-        uses: alerta/action-slack@v3
+        uses: alerta/actions/slacky@master
         with:
           status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
