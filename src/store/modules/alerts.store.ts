@@ -58,10 +58,11 @@ const mutations = {
     state.isSearching = true
     state.query = query
   },
-  SET_ALERTS(state, alerts): any {
+  SET_ALERTS(state, result): any {
     state.isLoading = false
     state.isSearching = false
-    state.alerts = alerts
+    state.alerts = result.alerts
+    state.pagination.totalItems = result.total
   },
   RESET_LOADING(state): any {
     state.isLoading = false
@@ -155,9 +156,13 @@ const actions = {
       )
     }
 
+    // support pagination
+    params.append('page', state.pagination.page)
+    params.append('page-size', state.pagination.rowsPerPage)
+
     return AlertsApi.getAlerts(params)
-      .then(({ alerts }) => commit('SET_ALERTS', alerts))
-      .catch(() => commit('RESET_LOADING'))
+    .then(result => commit('SET_ALERTS', result))
+    .catch(() => commit('RESET_LOADING'))
   },
   updateQuery({ commit }, query) {
     commit('SET_SEARCH_QUERY', query)

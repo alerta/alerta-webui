@@ -6,9 +6,9 @@
       :items="alerts"
       :pagination.sync="pagination"
       :rows-per-page-items="pagination.rowsPerPageItems"
+      :total-items="pagination.totalItems"
       class="alert-table"
       :class="[ displayDensity ]"
-      :search="search"
       :loading="isSearching"
       must-sort
       :custom-sort="customSort"
