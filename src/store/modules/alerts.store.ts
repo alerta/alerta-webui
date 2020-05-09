@@ -161,8 +161,8 @@ const actions = {
     params.append('page-size', state.pagination.rowsPerPage)
 
     return AlertsApi.getAlerts(params)
-    .then(result => commit('SET_ALERTS', result))
-    .catch(() => commit('RESET_LOADING'))
+      .then(result => commit('SET_ALERTS', result))
+      .catch(() => commit('RESET_LOADING'))
   },
   updateQuery({ commit }, query) {
     commit('SET_SEARCH_QUERY', query)
