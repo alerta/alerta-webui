@@ -99,7 +99,7 @@ export const de = {
   Timeout: 'Zeitüberschreitung',
   Type: 'Typ',
   DuplicateCount: 'Duplikatzähler',
-  Repeat: 'Widerholung',
+  Repeat: 'Wiederholung',
   Origin: 'Herkunft',
   Tags: 'Tags',
   Attributes: 'Attribute',
