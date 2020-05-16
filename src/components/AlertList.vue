@@ -121,7 +121,11 @@
             <span
               v-if="col == 'text'"
             >
-              <span v-html="props.item.text" />
+              <div class="fixed-table">
+                <div class="text-truncate">
+                  <span v-html="props.item.text" />
+                </div>
+              </div>
             </span>
             <span
               v-if="col == 'tags'"
