@@ -124,6 +124,7 @@ export const en = {
   TimeoutLeft: 'Timeout',
   Dupl: 'Dupl.',
   PrevSeverity: 'Prev. Severity',
+  Duration: 'Duration',
   LastReceiveId: 'Last Receive ID',
   LastNote: 'Last Note',
 

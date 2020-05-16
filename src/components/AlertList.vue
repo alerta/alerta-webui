@@ -206,6 +206,12 @@
               />
             </span>
             <span
+              v-if="col == 'duration'"
+              class="text-xs-right"
+            >
+              {{ duration(props.item) | hhmmss }}
+            </span>
+            <span
               v-if="col == 'lastReceiveId'"
             >
               {{ props.item.lastReceiveId | shortId }}
@@ -451,6 +457,7 @@ export default {
       previousSeverity: { text: i18n.t('PrevSeverity'), value: 'previousSeverity' },
       trendIndication: { text: i18n.t('TrendIndication'), value: 'trendIndication' },
       receiveTime: { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
+      duration: { text: i18n.t('Duration'), value: 'duration' },
       lastReceiveId: { text: i18n.t('LastReceiveId'), value: 'lastReceiveId' },
       lastReceiveTime: { text: i18n.t('LastReceiveTime'), value: 'lastReceiveTime' },
       note: { text: i18n.t('LastNote'), value: 'note', sortable: false }
@@ -524,6 +531,9 @@ export default {
     }
   },
   methods: {
+    duration(item) {
+      return moment.duration(moment().diff(moment(item.receiveTime)))
+    },
     timeoutLeft(item) {
       let ackedOrShelved = this.isShelved(item.status) || this.isAcked(item.status)
       let lastModified = ackedOrShelved && item.updateTime ? item.updateTime : item.lastReceiveTime
