@@ -124,6 +124,7 @@ export const de = {
   TimeoutLeft: 'Timeout',
   Dupl: 'Dupl.',
   PrevSeverity: 'Vorh. Schweregrad',
+  Duration: 'Duration',
   LastReceiveId: 'Letze empf. ID',
   LastNote: 'Letzte Notiz',
 

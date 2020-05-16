@@ -123,6 +123,7 @@ export const fr = {
   TimeoutLeft: 'Délai restant',
   Dupl: 'Doublons',
   PrevSeverity: 'Gravité Prec.',
+  Duration: 'Durée',
   LastReceiveId: 'Dernier Id reçu',
   LastNote: 'Dernière Note',
 
