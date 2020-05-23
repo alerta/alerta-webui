@@ -6,6 +6,7 @@ const getDefaults = () => {
   return {
     isDark: false,
     isMute: true,
+    useBrowserNotifications: false,
     languagePref: i18n.locale,
     audioURL: './audio/alert_high-intensity.ogg',
     dates: {

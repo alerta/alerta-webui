@@ -219,6 +219,7 @@ export const en = {
   ApplicationSettings: 'Application Settings',
   DarkTheme: 'Dark Theme',
   PlaySounds: 'Play notification sounds',
+  UseBrowserNotifications: 'Use browser notifications',
   LanguageSettings: 'Language settings',
   Languages: 'Languages',
   English: 'English',
@@ -342,6 +343,10 @@ export const en = {
   SearchNoResult1: 'Your search for ',
   SearchNoResult2: 'found no results.',
   OK: 'OK',
+
+  // Browser Notifications
+  NotificationError: 'Browser didn\'t grant notification permission.',
+  NotificationTitle: 'New alert'
 
   // ENDS.
 }

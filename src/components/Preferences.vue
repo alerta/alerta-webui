@@ -29,6 +29,12 @@
             hide-details
             class="my-0"
           />
+          <v-checkbox
+            v-model="useBrowserNotifications"
+            :label="$t('UseBrowserNotifications')"
+            hide-details
+            class="my-0"
+          />
         </v-radio-group>
       </v-card-actions>
     </v-card>
@@ -257,6 +263,19 @@ export default {
       },
       set(value) {
         this.$store.dispatch('toggle', ['isMute', !value])
+      }
+    },
+    useBrowserNotifications: {
+      get() {
+        return this.$store.getters.getPreference('useBrowserNotifications')
+      },
+      set(value) {
+        if (value)
+          Notification.requestPermission().then((permission) => {
+            if (permission !== 'granted')
+              this.$store.dispatch('notifications/error', Error('' + i18n.t('NotificationError')), { root: true })
+          })
+        this.$store.dispatch('toggle', ['useBrowserNotifications', value])
       }
     },
     computedDateFormats() {

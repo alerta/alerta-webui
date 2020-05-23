@@ -273,6 +273,9 @@ export default {
     isMute() {
       return this.$store.getters.getPreference('isMute')
     },
+    useBrowserNotifications() {
+      return this.$store.getters.getPreference('useBrowserNotifications')
+    },
     showPanel: {
       get() {
         return this.$store.state.alerts.showPanel
@@ -369,6 +372,9 @@ export default {
     playSound() {
       !this.isMute && this.$refs.audio.play()
     },
+    showNotification() {
+      this.useBrowserNotifications && new Notification(i18n.t('NotificationTitle'))
+    },
     setEnv(env) {
       this.$store.dispatch('alerts/setFilter', {
         environment: env === 'ALL' ? null : env
@@ -384,7 +390,10 @@ export default {
       this.getEnvironments()
       this.getAlerts()
         .then(() => {
-          this.isNewOpenAlerts && this.playSound()
+          if (this.isNewOpenAlerts) {
+            this.playSound()
+            this.showNotification()
+          }
           this.timer = setTimeout(() => this.refreshAlerts(), this.refreshInterval)
         })
     },
