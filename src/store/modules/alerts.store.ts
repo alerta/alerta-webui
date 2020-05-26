@@ -201,7 +201,7 @@ const actions = {
 
   addNote({ commit, dispatch }, [alertId, text]) {
     return AlertsApi.addNote(alertId, {
-      text: text
+      note: text
     }).then(response => dispatch('getAlerts'))
   },
   getNotes({ commit }, alertId) {
