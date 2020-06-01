@@ -22,6 +22,8 @@ const state = {
   severity: {},  // moved to alarm_model
   colors: {},  // moved to alarm_model
 
+  timeouts: {}, // includes alert, heartbeat, ack and shelve timeouts
+
   dates: {
     longDate: 'ddd D MMM, YYYY HH:mm:ss.SSS Z',
     mediumDate: 'ddd D MMM HH:mm',
