@@ -19,6 +19,7 @@
     "moment": "^2.24.0",
     "typescript-eslint-parser": "^22.0.0",
     "vue": "^2.6.11",
+    "vue-authenticate": "github:alerta/vue-authenticate",
     "vue-class-component": "^6.0.0",
     "vue-i18n": "^8.15.4",
     "vue-object-merge": "^0.1.8",

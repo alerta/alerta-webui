@@ -222,7 +222,12 @@ export default {
         .dispatch('auth/logout')
         .then(response => {
           if (response.data.logoutUrl) {
-            let redirectUrl = 'post_logout_redirect_url=' + window.location.origin + '/logout'
+            let redirectUrl =
+              (this.$config.provider == 'keycloak'
+                ? 'redirect_uri='
+                : 'post_logout_redirect_url=') +
+              window.location.origin +
+              '/logout'
             window.location.href = response.data.logoutUrl + '?' + redirectUrl
           } else {
             this.$router.push({ name: 'logout' })
