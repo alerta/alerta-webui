@@ -350,7 +350,10 @@ export default {
     },
     ackTimeout: {
       get() {
-        return this.$store.getters.getPreference('ackTimeout') / 60 / 60
+        return (
+          (this.$store.getters.getPreference('ackTimeout') ||
+            this.$store.getters.getConfig('timeouts').ack) / 60 / 60
+        )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {ackTimeout: value * 60 * 60})
@@ -358,7 +361,10 @@ export default {
     },
     shelveTimeout: {
       get() {
-        return this.$store.getters.getPreference('shelveTimeout') / 60 / 60
+        return (
+          (this.$store.getters.getPreference('shelveTimeout') ||
+            this.$store.getters.getConfig('timeouts').shelve) / 60 / 60
+        )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {shelveTimeout: value * 60 * 60})

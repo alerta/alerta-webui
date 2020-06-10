@@ -57,7 +57,6 @@ const actions = {
       .then(response => commit('RESET_PREFS'))
       .then(() => dispatch('notifications/success', i18n.t('SettingsReset'), { root: true }))
   }
-
 }
 
 const getters = {
