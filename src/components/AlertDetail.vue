@@ -934,9 +934,7 @@ export default {
     addNote: debounce(function(id, text) {
       this.$store
         .dispatch('alerts/addNote', [id, text])
-        .then(() => {
-          this.getNotes(this.id)
-        })
+        .then(() => this.getNotes(this.id))
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
       confirm(i18n.t('ConfirmDelete')) &&
