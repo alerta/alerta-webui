@@ -631,45 +631,33 @@ export default {
     },
     takeAction: debounce(function(id, action) {
       this.$store
-        .dispatch('alerts/takeAction', [id, action, '']).then(() => {
-          this.$store.dispatch('alerts/getAlerts')
-        })
+        .dispatch('alerts/takeAction', [id, action, ''])
+        .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
     ackAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/takeAction', [
-          id,
-          'ack',
-          '',
-          this.ackTimeout
-        ])
+        .dispatch('alerts/takeAction', [id, 'ack', '', this.ackTimeout])
+        .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
     shelveAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/takeAction', [
-          id,
-          'shelve',
-          '',
-          this.shelveTimeout
-        ])
+        .dispatch('alerts/takeAction', [id, 'shelve', '', this.shelveTimeout])
+        .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
     watchAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/watchAlert', id).then(() => {
-          this.$store.dispatch('alerts/getAlerts')
-        })
+        .dispatch('alerts/watchAlert', id)
+        .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
     unwatchAlert: debounce(function(id) {
       this.$store
-        .dispatch('alerts/unwatchAlert', id).then(() => {
-          this.$store.dispatch('alerts/getAlerts')
-        })
+        .dispatch('alerts/unwatchAlert', id)
+        .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
       confirm(i18n.t('ConfirmDelete')) &&
-        this.$store.dispatch('alerts/deleteAlert', id).then(() => {
-          this.$store.dispatch('alerts/getAlerts')
-        })
+        this.$store.dispatch('alerts/deleteAlert', id)
+          .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
   }
 }

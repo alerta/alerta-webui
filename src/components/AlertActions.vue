@@ -85,7 +85,7 @@
                   :disabled="!isOpen"
                   color="blue darken-2"
                   class="white--text"
-                  @click="takeAction('ack')"
+                  @click="ackAlert()"
                 >
                   <v-icon>check_circle_outline</v-icon>&nbsp;{{ $t('Ack') }}
                 </v-btn>
@@ -207,7 +207,11 @@ export default {
       this.$emit('take-action', this.id, action, this.text)
       this.close()
     }, 200, {leading: true, trailing: false}),
-    shelveAlert: debounce(function(action) {
+    ackAlert: debounce(function() {
+      this.$emit('ack-alert', this.id, this.text)
+      this.close()
+    }, 200, {leading: true, trailing: false}),
+    shelveAlert: debounce(function() {
       this.$emit('shelve-alert', this.id, this.text)
       this.close()
     }, 200, {leading: true, trailing: false}),
