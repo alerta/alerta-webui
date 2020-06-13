@@ -125,12 +125,13 @@ export default {
 
       AlertsApi.getCounts(paramsWithOpenStatus)
         .then(response => {
-          this.maxSeverity = 'normal'
-          if (response.severityCounts.informational > 0) this.maxSeverity = 'informational'
-          if (response.severityCounts.warning > 0) this.maxSeverity = 'warning'
-          if (response.severityCounts.minor > 0) this.maxSeverity = 'minor'
-          if (response.severityCounts.major > 0) this.maxSeverity = 'major'
-          if (response.severityCounts.critical > 0) this.maxSeverity = 'critical'
+          this.maxSeverity = this.$config.alarm_model.defaults.normal_severity
+          for (let sev of this.$config.indicators.severity) {
+            if (response.severityCounts[sev] > 0) {
+              this.maxSeverity = sev
+              break
+            }
+          }
         })
     },
     refreshCounts() {
