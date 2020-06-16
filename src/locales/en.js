@@ -180,6 +180,9 @@ export const en = {
   Reason: 'Reason',
   NewBlackout: 'New Blackout',
   EditBlackout: 'Edit Blackout',
+  Active: 'Active',
+  Pending: 'Pending',
+  Expired: 'Expired',
 
   // Customers
   LookUp: 'Look Up',
