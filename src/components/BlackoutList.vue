@@ -217,6 +217,46 @@
       <v-card-title class="title">
         {{ $t('Blackouts') }}
         <v-spacer />
+        <v-btn-toggle
+          v-model="status"
+          class="transparent"
+          multiple
+        >
+          <v-btn
+            value="active"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                notifications_paused
+              </v-icon>
+              <span>{{ $t('Active') }}</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn
+            value="pending"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                schedule
+              </v-icon>
+              <span>{{ $t('Pending') }}</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn
+            value="expired"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                block
+              </v-icon>
+              <span>{{ $t('Expired') }}</span>
+            </v-tooltip>
+          </v-btn>
+        </v-btn-toggle>
+        <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
@@ -414,6 +454,7 @@ export default {
       rowsPerPage: 20
     },
     // totalItems: number,
+    status: ['active', 'pending', 'expired'],
     search: '',
     dialog: false,
     headers: [
@@ -474,18 +515,20 @@ export default {
   }),
   computed: {
     blackouts() {
-      return this.$store.state.blackouts.blackouts.map(b => {
-        let s = moment(b.startTime)
-        let e = moment(b.endTime)
-        return Object.assign(b, {
-          period: {
-            startDate: s.format('YYYY-MM-DD'),
-            startTime: s.format('HH:mm'),
-            endDate: e.format('YYYY-MM-DD'),
-            endTime: e.format('HH:mm')
-          }
+      return this.$store.state.blackouts.blackouts
+        .filter(b => !this.status || this.status.includes(b.status))
+        .map(b => {
+          let s = moment(b.startTime)
+          let e = moment(b.endTime)
+          return Object.assign(b, {
+            period: {
+              startDate: s.format('YYYY-MM-DD'),
+              startTime: s.format('HH:mm'),
+              endDate: e.format('YYYY-MM-DD'),
+              endTime: e.format('HH:mm')
+            }
+          })
         })
-      })
     },
     computedHeaders() {
       return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)

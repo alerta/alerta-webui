@@ -179,6 +179,9 @@ export const fr = {
   Reason: 'Raison',
   NewBlackout: 'Nouvel incident',
   EditBlackout: 'Modifier incident',
+  Active: 'Actif',
+  Pending: 'En Attente',
+  Expired: 'Expiré',
 
   // Customers
   LookUp: 'Chercher',

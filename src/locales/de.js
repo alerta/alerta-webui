@@ -180,6 +180,9 @@ export const de = {
   Reason: 'Ursache',
   NewBlackout: 'Neuer Blackout',
   EditBlackout: 'Bearbeite Blackout',
+  Active: 'Aktiv',
+  Pending: 'Offener',
+  Expired: 'Abgelaufen',
 
   // Customers
   LookUp: 'Nachschlagen',
