@@ -33,4 +33,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.v-icon {
+  display: inline-flex !important;
+}
+</style>
