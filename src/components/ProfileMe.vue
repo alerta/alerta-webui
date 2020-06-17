@@ -55,6 +55,14 @@
       >
         <v-list-tile-content>
           <v-list-tile-title>
+            <span v-if="profile.customers.length == 0">
+              <v-chip
+                outline
+                small
+              >
+                <span>ALL (*)</span>
+              </v-chip>
+            </span>
             <span
               v-for="(customer, index) in profile.customers"
               :key="index"
