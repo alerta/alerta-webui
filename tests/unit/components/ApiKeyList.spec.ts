@@ -14,36 +14,72 @@ describe('ApiKeyList', () => {
 
   beforeEach(() => {
     store = new Vuex.Store({
-      state: {
-        keys: [
-          {
-            count: 0,
-            customer: 'Google',
-            expireTime: '2020-01-11T17:37:48.569Z',
-            href:
-              'http://api.local.alerta.io:8080/key/vj50CYx04fpviPlyhQiz-l_XVOPZsWzSR9PIzRHH',
-            id: '4429e9bf-f7b7-4a9d-b1bd-7252ee84635d',
-            key: 'vj50CYx04fpviPlyhQiz-l_XVOPZsWzSR9PIzRHH',
-            lastUsedTime: null,
-            scopes: ['write', 'read'],
-            text: '',
-            type: 'read-write',
-            user: 'nfsatterly@gmail.com'
+      modules: {
+        keys: {
+          namespaced: true,
+          state: {
+            keys: [
+              {
+                count: 0,
+                customer: 'Google',
+                expireTime: '2020-01-11T17:37:48.569Z',
+                href:
+                  'http://api.local.alerta.io:8080/key/vj50CYx04fpviPlyhQiz-l_XVOPZsWzSR9PIzRHH',
+                id: '4429e9bf-f7b7-4a9d-b1bd-7252ee84635d',
+                key: 'vj50CYx04fpviPlyhQiz-l_XVOPZsWzSR9PIzRHH',
+                lastUsedTime: null,
+                scopes: ['write', 'read'],
+                text: '',
+                type: 'read-write',
+                user: 'nfsatterly@gmail.com'
+              }
+            ]
+          },
+          actions: {
+            getKeys() { }
           }
-        ],
+        },
         perms: {
-          permissions: [],
-          scopes: []
-        }
-      },
-      actions: {
-        ['customers/getCustomers'](){ },
-        ['perms/getScopes'](){ },
-        ['keys/getKeys'](){ }
-      },
-      getters: {
-        ['auth/scopes']() {
-          return ['read', 'write'] // default user scopes
+          namespaced: true,
+          state: {
+            permissions: [],
+            scopes: []
+          },
+          actions: {
+            getScopes() {
+              console.log('getScopes')
+              return ['read', 'write'] // default user scopes
+            }
+          }
+        },
+        users: {
+          namespaced: true,
+          state: {
+            domains: [],
+            users: [],
+            groups: []
+          },
+          actions: {
+            getUsers() { }
+          }
+        },
+        customers: {
+          namespaced: true,
+          state: {
+            customers: []
+          },
+          actions: {
+            getCustomers() { }
+          }
+        },
+        auth: {
+          namespaced: true,
+          state: {
+            isAuthenticated: true
+          },
+          getters: {
+            scopes() { return [] }
+          }
         }
       }
     })

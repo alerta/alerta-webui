@@ -155,6 +155,35 @@
       <v-card-title class="title">
         {{ $t('APIKeys') }}
         <v-spacer />
+        <v-btn-toggle
+          v-model="status"
+          class="transparent"
+          multiple
+        >
+          <v-btn
+            value="active"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                check_circle
+              </v-icon>
+              <span>{{ $t('Active') }}</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn
+            value="expired"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                error_outline
+              </v-icon>
+              <span>{{ $t('Expired') }}</span>
+            </v-tooltip>
+          </v-btn>
+        </v-btn-toggle>
+        <v-spacer />
         <v-text-field
           v-model="search"
           append-icon="search"
@@ -201,7 +230,7 @@
           </td>
           <td>
             <v-tooltip
-              v-if="!isExpired(props.item.expires)"
+              v-if="!isExpired(props.item.expireTime)"
               top
             >
               <v-icon
@@ -214,11 +243,12 @@
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
             <v-tooltip
-              v-if="isExpired(props.item.expires)"
+              v-if="isExpired(props.item.expireTime)"
               top
             >
               <v-icon
                 slot="activator"
+                color="error"
                 small
               >
                 error_outline
@@ -345,6 +375,7 @@ export default {
       sortBy: 'lastUsedTime',
       rowsPerPage: 20
     },
+    status: ['active', 'expired'],
     search: '',
     dialog: false,
     headers: [
@@ -384,7 +415,7 @@ export default {
       return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
     },
     keys() {
-      return this.$store.state.keys.keys
+      return this.$store.state.keys.keys.filter(k => !this.status || this.status.includes(this.statusFromExpireTime(k)))
     },
     users() {
       return this.$store.state.users.users.map(u => u.login)
@@ -491,6 +522,9 @@ export default {
     },
     isExpired(date) {
       return new Date().getTime() > new Date(date).getTime()
+    },
+    statusFromExpireTime(key) {
+      return this.isExpired(key.expireTime) ? 'expired' : 'active'
     },
     clipboardCopy(text) {
       this.copyIconText = i18n.t('Copied')
