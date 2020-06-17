@@ -469,7 +469,7 @@
 
 <script>
 import Banner from '@/components/lib/Banner.vue'
-import ProfileMe from '@/components/ProfileMe.vue'
+import ProfileMe from '@/components/auth/ProfileMe.vue'
 import Snackbar from '@/components/lib/Snackbar.vue'
 import i18n from '@/plugins/i18n'
 
@@ -580,6 +580,13 @@ export default {
         //   ]
         // },
         { divider: true},
+        {
+          icon: 'account_circle',
+          text: i18n.t('Profile'),
+          path: '/profile',
+          perms: null,
+          show: this.isLoggedIn
+        },
         {
           icon: 'settings',
           text: i18n.t('Settings'),
