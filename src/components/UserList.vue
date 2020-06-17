@@ -228,6 +228,35 @@
       <v-card-title class="title">
         {{ $t('Users') }}
         <v-spacer />
+        <v-btn-toggle
+          v-model="status"
+          class="transparent"
+          multiple
+        >
+          <v-btn
+            value="active"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                check_circle
+              </v-icon>
+              <span>{{ $t('Active') }}</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn
+            value="inactive"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                block
+              </v-icon>
+              <span>{{ $t('Inactive') }}</span>
+            </v-tooltip>
+          </v-btn>
+        </v-btn-toggle>
+        <v-spacer />
         <v-flex
           xs3
           class="mr-3 pt-3"
@@ -419,6 +448,7 @@ export default {
       rowsPerPage: 20
     },
     // totalItems: number,
+    status: ['active', 'inactive'],
     search: '',
     wantRoles: [],
     dialog: false,
@@ -471,7 +501,7 @@ export default {
       return this.$config.provider == 'basic'
     },
     users() {
-      return this.$store.state.users.users
+      return this.$store.state.users.users.filter(u => !this.status || this.status.includes(u.status))
     },
     allGroups() {
       return this.$store.state.groups.groups
