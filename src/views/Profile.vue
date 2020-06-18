@@ -36,7 +36,9 @@
                   v-else
                   size="148"
                   color="grey lighten-2"
-                >account_circle</v-icon>
+                >
+                  account_circle
+                </v-icon>
               </v-avatar>
             </v-flex>
           </v-layout>
