@@ -88,6 +88,13 @@ export function createRouter(basePath): VueRouter {
         meta: { title: 'Reports', requiresAuth: true }
       },
       {
+        path: '/profile',
+        name: 'profile',
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/Profile.vue'),
+        meta: { title: 'Profile', requiresAuth: true }
+      },
+      {
         path: '/settings',
         name: 'settings',
         component: () =>

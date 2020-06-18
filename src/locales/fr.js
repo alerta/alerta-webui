@@ -242,7 +242,10 @@ export const fr = {
   ShelveTimeout: 'Durée de mise en attente',
   hours: 'heures',
 
-  // Profile Me
+  // Profile
+  Profile: 'Profil',
+  UserID: 'User ID',
+  Provider: 'Provider',
   EmailVerified: 'Email verifié',
   EmailNotVerified: 'Email non verifié',
   Customers: 'Clients',

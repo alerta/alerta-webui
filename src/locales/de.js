@@ -243,7 +243,10 @@ export const de = {
   ShelveTimeout: 'Shelve timeout',
   hours: 'Stunden',
 
-  // Profile Me
+  // Profile
+  Profile: 'Profil',
+  UserID: 'User ID',
+  Provider: 'Provider',
   EmailVerified: 'E-Mail verifiziert',
   EmailNotVerified: 'E-Mail nicht verifiziert',
   Customers: 'Kunden',
