@@ -31,7 +31,7 @@ const state = {
   },
   audio: {},
   columns: [],
-  sort_by: 'lastReceiveTime',
+  sort_by: ['severity', 'lastReceiveTime'],
   actions: [],
   filter: {
     text: null,

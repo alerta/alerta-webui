@@ -5,13 +5,11 @@
       :headers="customHeaders"
       :items="alerts"
       :pagination.sync="pagination"
+      :total-items="pagination.totalItems"
       :rows-per-page-items="pagination.rowsPerPageItems"
+      :loading="isSearching"
       class="alert-table"
       :class="[ displayDensity ]"
-      :search="search"
-      :loading="isSearching"
-      must-sort
-      :custom-sort="customSort"
       sort-icon="arrow_drop_down"
       select-all
     >
@@ -543,70 +541,6 @@ export default {
     lastNote(item) {
       const note = item.history.filter(h => h.type == 'note').pop()
       return note ? note.text : ''
-    },
-    customSort(items, index, isDescending) {
-      if (!index) return items
-
-      const reverseSort = isDescending ? -1 : 1
-
-      // sort by severity then lastReceiveTime (default)
-      if (index == 'default') {
-        return items.sort((a, b) => {
-          if (a.severity == b.severity) {
-            const sortBy = this.$config.sort_by.replace(/^\-/,'')
-            const reverseTime = this.$config.sort_by.startsWith('-') ? -1 : 1
-            return (b[sortBy] - a[sortBy]) * reverseTime
-          }
-          const severityCodeA = this.$config.severity[a.severity]
-          const severityCodeB = this.$config.severity[b.severity]
-          if (severityCodeA < severityCodeB) return reverseSort * 1
-          if (severityCodeA > severityCodeB) return reverseSort * -1
-          return 0
-        })
-      }
-
-      // sort by severity code
-      if (index == 'severity') {
-        return items.sort((a, b) => {
-          const severityCodeA = this.$config.severity[a.severity]
-          const severityCodeB = this.$config.severity[b.severity]
-          if (severityCodeA > severityCodeB) return reverseSort * 1
-          if (severityCodeA < severityCodeB) return reverseSort * -1
-          return 0
-        })
-      }
-
-      // sort by timeout time remaining
-      if (index == 'timeout') {
-        return items.sort((a, b) => {
-          const timeLeftA = this.timeoutLeft(a)
-          const timeLeftB = this.timeoutLeft(b)
-          if (timeLeftA > timeLeftB) return reverseSort * 1
-          if (timeLeftA < timeLeftB) return reverseSort * -1
-          return 0
-        })
-      }
-
-      // use default sort
-      return items.sort((a, b) => {
-        const aValue = get(a, index)
-        const bValue = get(b, index)
-        if (aValue === bValue) {
-          return 0
-        } else if (aValue == null) {
-          return 1
-        } else if (bValue == null) {
-          return -1
-        } else if (typeof aValue == 'string') {
-          return aValue.localeCompare(bValue) * reverseSort
-        } else if (typeof aValue == 'number') {
-          return (aValue - bValue) * reverseSort
-        } else {
-          return (
-            aValue.join('').localeCompare(bValue.join('')) * reverseSort
-          )
-        }
-      })
     },
     severityColor(severity) {
       return this.$store.getters.getConfig('colors').severity[severity] || 'white'

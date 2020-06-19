@@ -47,7 +47,6 @@ describe('ApiKeyList', () => {
           },
           actions: {
             getScopes() {
-              console.log('getScopes')
               return ['read', 'write'] // default user scopes
             }
           }

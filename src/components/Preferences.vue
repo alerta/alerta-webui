@@ -331,7 +331,9 @@ export default {
     },
     rowsPerPage: {
       get() {
-        return (this.$store.getters.getPreference('rowsPerPage') || this.$store.state.alerts.pagination.rowsPerPage)
+        return (
+          (this.$store.getters.getPreference('rowsPerPage') ||
+            this.$store.state.alerts.pagination.rowsPerPage))
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {rowsPerPage: value})
