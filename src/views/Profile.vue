@@ -78,6 +78,7 @@
                   <v-text-field
                     v-model="profile.name"
                     :label="$t('FullName')"
+                    readonly
                   />
                 </v-flex>
                 <v-flex
@@ -86,6 +87,7 @@
                   <v-text-field
                     v-model="profile.preferred_username"
                     :label="$t('Username')"
+                    readonly
                   />
                 </v-flex>
 
@@ -95,6 +97,7 @@
                   <v-text-field
                     v-model="provider[profile.provider].text"
                     :label="$t('Provider')"
+                    readonly
                   />
                 </v-flex>
 
@@ -104,6 +107,7 @@
                   <v-text-field
                     v-model="profile.sub"
                     :label="$t('UserID')"
+                    readonly
                   />
                 </v-flex>
 
@@ -114,8 +118,25 @@
                     v-model="profile.email"
                     :label="$t('Email')"
                     monospace
-                    :append-icon="profile.email_verified ? 'check' : 'clear'"
-                  />
+                    readonly
+                  >
+                    <template v-if="profile.email_verified">
+                      <v-icon
+                        slot="append"
+                        color="success"
+                      >
+                        check
+                      </v-icon>
+                    </template>
+                    <template v-else>
+                      <v-icon
+                        slot="append"
+                        color="error"
+                      >
+                        clear
+                      </v-icon>
+                    </template>
+                  </v-text-field>
                 </v-flex>
 
                 <v-flex
