@@ -120,6 +120,9 @@ const actions = {
     // get "lucene" query params and sort order
     let params = new URLSearchParams(state.query)
     let sortBy = rootGetters['getConfig']('sort_by')
+    if (typeof sortBy === 'object') {
+      sortBy = sortBy[0]
+    }
     params.append('sort-by', sortBy.replace(/^\-/,''))
     if (sortBy.startsWith('-')) {
       params.append('reverse', '1')
