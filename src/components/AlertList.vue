@@ -553,8 +553,12 @@ export default {
       if (index == 'default') {
         return items.sort((a, b) => {
           if (a.severity == b.severity) {
-            const sortBy = this.$config.sort_by.replace(/^\-/,'')
-            const reverseTime = this.$config.sort_by.startsWith('-') ? -1 : 1
+            let sortBy = this.$config.sort_by
+            if (typeof sortBy === 'object') {
+              sortBy = sortBy[0]
+            }
+            const reverseTime = sortBy.startsWith('-') ? -1 : 1
+            sortBy = sortBy.replace(/^\-/,'')
             return (b[sortBy] - a[sortBy]) * reverseTime
           }
           const severityCodeA = this.$config.severity[a.severity]
