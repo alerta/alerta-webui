@@ -245,11 +245,7 @@ export default {
       return ['ALL'].concat(this.$store.getters['alerts/environments'])
     },
     environmentCounts() {
-      return this.alerts.reduce((grp, a) => {
-        grp[a.environment] = grp[a.environment] + 1 || 1
-        grp['ALL'] = grp['ALL'] + 1 || 1
-        return grp
-      }, {})
+      return this.$store.getters['alerts/counts']
     },
     alertsByEnvironment() {
       return this.alerts.filter(alert =>
@@ -294,27 +290,39 @@ export default {
     }
   },
   watch: {
-    detailDialog(val) {
-      val || this.close()
+    currentTab(val) {
+      this.setPage(1)
     },
     filter: {
       handler(val) {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
         this.currentTab = this.defaultTab
+        this.getAlerts()
+        this.getEnvironments()
       },
       deep: true
     },
     pagination: {
-      handler(val) {
+      handler(newVal, oldVal) {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
-      },
-      deep: true
+        if (oldVal.page != newVal.page ||
+          oldVal.rowsPerPage != newVal.rowsPerPage ||
+          oldVal.sortBy != newVal.sortBy ||
+          oldVal.descending != newVal.descending
+        ) {
+          this.getAlerts()
+          this.getEnvironments()
+        }
+      }
+    },
+    refresh(val) {
+      val || this.getAlerts() && this.getEnvironments()
     },
     showPanel(val) {
       history.pushState(null, null, this.$store.getters['alerts/getHash'])
     },
-    refresh(val) {
-      val || this.getAlerts()
+    detailDialog(val) {
+      val || this.close()
     }
   },
   created() {
@@ -353,6 +361,9 @@ export default {
         descending: sort.sd == '1',
         sortBy: sort.sb
       })
+    },
+    setPage(page) {
+      this.$store.dispatch('alerts/setPagination', {page: page})
     },
     setPanel(panel) {
       this.$store.dispatch('alerts/setPanel', panel.asi == '1')

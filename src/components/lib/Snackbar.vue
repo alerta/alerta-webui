@@ -26,7 +26,7 @@ export default {
     }
   },
   watch: {
-    snackbar(newVal, oldVal) {
+    snackbar() {
       if (this.$store.getters['notifications/hasSnackbar']) {
         this.$nextTick(() => (this.show = true))
       }
