@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.14",
-    "@vue/cli-plugin-babel": "^3.12.1",
+    "@vue/cli-plugin-babel": "^4.4.5",
     "@vue/cli-plugin-e2e-cypress": "^3.12.1",
     "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-plugin-typescript": "^3.12.1",
@@ -41,6 +41,7 @@
     "@vue/test-utils": "^1.0.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
+    "core-js": "^3.6.5",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
     "node-sass": "^4.14.1",
