@@ -80,7 +80,8 @@ export const de = {
 
   // Alert detail
   AlertId: 'Alarm ID',
-  LastReceiveAlertId: 'Letzte empfangene Alert ID',
+  AlertOrNoteId: 'Alarm/Notiz ID',
+  LastReceiveAlertId: 'Letzte empfangene Alarm ID',
   CreateTime: 'Erstellzeit',
   ReceiveTime: 'Empfangszeit',
   LastReceiveTime: 'Letzte Empfangszeit',

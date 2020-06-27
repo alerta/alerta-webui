@@ -79,6 +79,7 @@ export const fr = {
 
   // Alert detail
   AlertId: 'Id alerte',
+  AlertOrNoteId: 'Id alerte ou note',
   LastReceiveAlertId: 'Dernier Id reçu',
   CreateTime: 'Date de création',
   ReceiveTime: 'Date de réception',

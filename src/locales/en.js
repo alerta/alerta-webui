@@ -80,6 +80,7 @@ export const en = {
 
   // Alert detail
   AlertId: 'Alert ID',
+  AlertOrNoteId: 'Alert/Note ID',
   LastReceiveAlertId: 'Last Receive Alert ID',
   CreateTime: 'Create Time',
   ReceiveTime: 'Receive Time',
