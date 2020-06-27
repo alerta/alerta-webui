@@ -809,7 +809,7 @@ export default {
       descending: true
     },
     headers: [
-      { text: i18n.t('Alert/Note Id'), value: 'id', hide: 'smAndDown' },
+      { text: i18n.t('AlertOrNoteId'), value: 'id', hide: 'smAndDown' },
       { text: i18n.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
       { text: i18n.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
       { text: i18n.t('Severity'), value: 'severity', hide: 'smAndDown' },
