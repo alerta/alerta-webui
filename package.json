@@ -30,7 +30,7 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.14",
+    "@types/jest": "^26.0.3",
     "@vue/cli-plugin-babel": "^4.4.5",
     "@vue/cli-plugin-e2e-cypress": "^3.12.1",
     "@vue/cli-plugin-eslint": "^3.12.1",
