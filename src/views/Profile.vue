@@ -117,8 +117,8 @@
                   <v-text-field
                     v-model="profile.email"
                     :label="$t('Email')"
-                    monospace
                     readonly
+                    prepend-icon="email"
                   >
                     <template v-if="profile.email_verified">
                       <v-icon
@@ -143,7 +143,7 @@
                   xs12
                 >
                   <v-combobox
-                    v-model="profile.customers"
+                    v-model="customers"
                     :label="$t('Customers')"
                     chips
                     multiple
@@ -285,6 +285,9 @@ export default {
     },
     scopes() {
       return this.$store.getters['auth/scopes']
+    },
+    customers() {
+      return this.$store.getters['auth/customers']
     }
   },
   mounted() {
