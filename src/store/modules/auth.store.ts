@@ -105,6 +105,9 @@ export function makeStore(vueAuth) {
       scopes(state) {
         return state.payload && state.payload.scope ? state.payload.scope.split(' ') : []
       },
+      customers(state) {
+        return state.payload.customers.length == 0 ? ['ALL (*)'] : state.payload.customers
+      },
       isAdmin(state, getters) {
         if (getters.isLoggedIn) {
           return getters.scopes.includes('admin')

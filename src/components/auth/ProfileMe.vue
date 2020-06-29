@@ -55,16 +55,8 @@
       >
         <v-list-tile-content>
           <v-list-tile-title>
-            <span v-if="profile.customers.length == 0">
-              <v-chip
-                outline
-                small
-              >
-                <span>ALL (*)</span>
-              </v-chip>
-            </span>
             <span
-              v-for="(customer, index) in profile.customers"
+              v-for="(customer, index) in customers"
               :key="index"
             >
               <v-chip
@@ -77,7 +69,7 @@
               <span
                 v-if="index === 3"
                 class="grey--text caption"
-              >(+{{ profile.customers.length - 1 }} {{ $t('others') }})</span>
+              >(+{{ customers.length - 1 }} {{ $t('others') }})</span>
             </span>
           </v-list-tile-title>
           <v-list-tile-sub-title>{{ $t('Customers') }}</v-list-tile-sub-title>
@@ -222,6 +214,9 @@ export default {
   computed: {
     scopes() {
       return this.$store.getters['auth/scopes']
+    },
+    customers() {
+      return this.$store.getters['auth/customers']
     }
   },
   methods: {
