@@ -255,7 +255,6 @@
           </td>
           <td
             :class="['text-no-wrap', textColor]"
-            :style="fontStyle"
           >
             <div
               class="action-buttons"
@@ -271,7 +270,7 @@
                 @click.stop="takeAction(props.item.id, 'open')"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   refresh
                 </v-icon>
@@ -286,7 +285,7 @@
                 @click.stop="watchAlert(props.item.id)"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   visibility
                 </v-icon>
@@ -300,7 +299,7 @@
                 @click.stop="unwatchAlert(props.item.id)"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   visibility_off
                 </v-icon>
@@ -315,7 +314,7 @@
                 @click.stop="ackAlert(props.item.id)"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   check
                 </v-icon>
@@ -329,7 +328,7 @@
                 @click.stop="takeAction(props.item.id, 'unack')"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   undo
                 </v-icon>
@@ -344,7 +343,7 @@
                 @click.stop="shelveAlert(props.item.id)"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   schedule
                 </v-icon>
@@ -358,7 +357,7 @@
                 @click.stop="takeAction(props.item.id, 'unshelve')"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   restore
                 </v-icon>
@@ -373,7 +372,7 @@
                 @click.stop="takeAction(props.item.id, 'close')"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   highlight_off
                 </v-icon>
@@ -386,7 +385,7 @@
                 @click.stop="deleteAlert(props.item.id)"
               >
                 <v-icon
-                  size="20px"
+                  :size="fontSize"
                 >
                   delete
                 </v-icon>
@@ -657,12 +656,10 @@ export default {
 }
 
 i.trend-arrow {
-  font-size: 20px;
   width: 24px !important;
 }
 
 div.select-box {
-  font-size: 20px;
   width: 24px !important;
 }
 
