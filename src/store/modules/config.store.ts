@@ -29,6 +29,11 @@ const state = {
     mediumDate: 'ddd D MMM HH:mm',
     shortTime: 'HH:mm'
   },
+  font: {
+    'font-family': '"Sintony", Arial, sans-serif',
+    'font-size': '13px',
+    'font-weight': 500
+  },
   audio: {},
   columns: [],
   sort_by: ['severity', 'lastReceiveTime'],

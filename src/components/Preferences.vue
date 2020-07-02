@@ -128,6 +128,36 @@
         </v-card-title>
         <v-card-actions>
           <v-layout column>
+            <v-select
+              v-model="fontFamily"
+              :items="computedFontFamilies"
+              :label="$t('Font')"
+            />
+            <v-slider
+              v-model="fontSize"
+              min="10"
+              max="30"
+              step="1"
+              always-dirty
+              ticks="always"
+              thumb-label
+              :label="$t('FontSize')"
+              :tick-labels="fontSizeLabels"
+            />
+
+            <v-slider
+              v-model="fontWeight"
+              min="100"
+              max="900"
+              step="100"
+              always-dirty
+              ticks="always"
+              tick-size="2"
+              thumb-label
+              :label="$t('FontWeight')"
+              :tick-labels="fontWeightLabels"
+            />
+
             <v-combobox
               v-model.number="rowsPerPage"
               :items="rowsPerPageItems"
@@ -187,7 +217,7 @@
 <script>
 import moment from 'moment'
 import i18n from '@/plugins/i18n'
-
+import debounce from 'lodash/debounce'
 
 export default {
   data: vm => ({
@@ -217,6 +247,17 @@ export default {
       'HH:mm:ss.SSS',
       'HH:mm:ss.SSS Z',
     ],
+    webSafeFontFamilies: [
+      {text: 'Sintony', value: '"Sintony", Arial, sans-serif'},
+      {text: 'Helvetica', value: '"Helvetica", Arial, sans-serif'},
+      {text: 'Verdana', value: '"Verdana", Arial, sans-serif'},
+      {text: 'Courier New', value: '"Courier New", Courier, monospace'},
+      {text: 'Consolas', value: '"Consolas", Courier, monospace'},
+      {text: 'Lucida Console', value: '"Lucida Console", Monaco, monospace'},
+      {text: 'Andale Mono', value: '"Andale Mono", Courier, monospace'}
+    ],
+    fontSizeLabels: ['tiny', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'huge'],
+    fontWeightLabels: [ 'thin', '', '', 'normal', '', '', 'bold', '', 'heavy'],
     refreshOptions: [2, 5, 10, 30, 60],  // seconds
     ackTimeoutOptions: [0, 1, 2, 4, 8, 24],  // hours
     shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
@@ -325,6 +366,52 @@ export default {
           timezone: value
         })
       }
+    },
+    computedFontFamilies() {
+      const defaultFontFamily = this.$store.getters.getConfig('font')['font-family']
+      return [
+        {text: defaultFontFamily.split(',')[0].replace(/"/g, ''), value: defaultFontFamily},
+        ...this.webSafeFontFamilies
+      ]
+    },
+    fontFamily: {
+      get() {
+        return (
+          (this.$store.getters.getPreference('font')['font-family'] ||
+            this.$store.getters.getConfig('font')['font-family'])
+        )
+      },
+      set (value) {
+        this.$store.dispatch('setUserPrefs', {
+          font: {'font-family': value}
+        })
+      }
+    },
+    fontSize: {
+      get() {
+        return (
+          (this.$store.getters.getPreference('font')['font-size'] ||
+            this.$store.getters.getConfig('font')['font-size']).replace('px', '')
+        )
+      },
+      set: debounce(function (value) {
+        this.$store.dispatch('setUserPrefs', {
+          font: {'font-size': value + 'px'}
+        })
+      }, 2000)
+    },
+    fontWeight: {
+      get() {
+        return (
+          (this.$store.getters.getPreference('font')['font-weight'] ||
+            this.$store.getters.getConfig('font')['font-weight'])
+        )
+      },
+      set: debounce(function (value) {
+        this.$store.dispatch('setUserPrefs', {
+          font: {'font-weight': value}
+        })
+      }, 2000)
     },
     rowsPerPageItems() {
       return this.$store.state.alerts.pagination.rowsPerPageItems

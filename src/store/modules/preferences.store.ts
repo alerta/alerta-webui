@@ -15,6 +15,11 @@ const getDefaults = () => {
     },
     timezone: 'local',  // 'local' or 'utc'
     displayDensity: 'comfortable',  // 'comfortable' or 'compact'
+    font: {
+      'font-family': null,
+      'font-size': null,
+      'font-weight': null
+    },
     rowsPerPage: 20,
     refreshInterval: 5*1000,  // milliseconds
     ackTimeout: 0,  // do not auto-unack, by default

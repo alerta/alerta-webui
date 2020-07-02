@@ -24,6 +24,7 @@
         >
           <td
             class="text-no-wrap"
+            :style="fontStyle"
           >
             <v-checkbox
               v-if="selectableRows"
@@ -33,11 +34,13 @@
               color="gray"
               class="select-box"
               :ripple="false"
+              :size="fontSize"
               @click.stop
             />
             <v-icon
               v-else-if="props.item.trendIndication == 'moreSevere'"
               class="trend-arrow"
+              :size="fontSize"
               @click.stop="multiselect = true; props.selected = true"
             >
               arrow_upward
@@ -45,6 +48,7 @@
             <v-icon
               v-else-if="props.item.trendIndication == 'lessSevere'"
               class="trend-arrow"
+              :size="fontSize"
               @click.stop="multiselect = true; props.selected = true"
             >
               arrow_downward
@@ -52,6 +56,7 @@
             <v-icon
               v-else
               class="trend-arrow"
+              :size="fontSize"
               @click.stop="multiselect = true; props.selected = true"
             >
               remove
@@ -61,6 +66,7 @@
             v-for="col in $config.columns"
             :key="col"
             :class="['text-no-wrap', textColor]"
+            :style="fontStyle"
           >
             <span
               v-if="col == 'id'"
@@ -85,7 +91,10 @@
             <span
               v-if="col == 'severity'"
             >
-              <span :class="['label', 'label-' + props.item.severity.toLowerCase()]">
+              <span
+                :class="['label', 'label-' + props.item.severity.toLowerCase()]"
+                :style="fontStyle"
+              >
                 {{ props.item.severity | capitalize }}
               </span>
             </span>
@@ -97,7 +106,10 @@
             <span
               v-if="col == 'status'"
             >
-              <span class="label">
+              <span
+                class="label"
+                :style="fontStyle"
+              >
                 {{ props.item.status | capitalize }}
               </span>
             </span>
@@ -131,7 +143,10 @@
               <span
                 v-for="tag in props.item.tags"
                 :key="tag"
-              ><span class="label">{{ tag }}</span>&nbsp;</span>
+              ><span
+                class="label"
+                :style="fontStyle"
+              >{{ tag }}</span>&nbsp;</span>
             </span>
             <span
               v-if="props.item.attributes.hasOwnProperty(col)"
@@ -146,7 +161,10 @@
             <span
               v-if="col == 'type'"
             >
-              <span class="label">
+              <span
+                class="label"
+                :style="fontStyle"
+              >
                 {{ props.item.type | splitCaps }}
               </span>
             </span>
@@ -183,14 +201,20 @@
             <span
               v-if="col == 'repeat'"
             >
-              <span class="label">
+              <span
+                class="label"
+                :style="fontStyle"
+              >
                 {{ props.item.repeat | capitalize }}
               </span>
             </span>
             <span
               v-if="col == 'previousSeverity'"
             >
-              <span :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]">
+              <span
+                :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]"
+                :style="fontStyle"
+              >
                 {{ props.item.previousSeverity | capitalize }}
               </span>
             </span>
@@ -231,6 +255,7 @@
           </td>
           <td
             :class="['text-no-wrap', textColor]"
+            :style="fontStyle"
           >
             <div
               class="action-buttons"
@@ -469,6 +494,17 @@ export default {
     displayDensity() {
       return this.$store.getters.getPreference('displayDensity')
     },
+    fontStyle() {
+      const font = this.$store.getters.getPreference('font')
+      return {
+        'font-family': font['font-family'],
+        'font-size': font['font-size'],
+        'font-weight': font['font-weight']
+      }
+    },
+    fontSize() {
+      return this.$store.getters.getPreference('font')['font-size']
+    },
     isLoading() {
       return this.$store.state.alerts.isLoading
     },
@@ -606,21 +642,12 @@ export default {
   height: 42px !important;
 }
 
-.comfortable .v-table tbody td {
-  font-size: 14px !important;
-}
-
 .compact table.v-table tbody td, table.v-table tbody th {
   height: 34px !important;
 }
 
-.compact .v-table tbody td {
-  font-size: 13px !important;
-}
-
 .alert-table .v-table tbody td {
   border-top: 1px solid rgb(221, 221, 221);
-  font-family: 'Sintony', sans-serif;
 }
 
 .fixed-table {
@@ -640,7 +667,6 @@ div.select-box {
 }
 
 .label {
-  font-size: 13px;
   font-weight: bold;
   line-height: 14px;
   color: #ffffff;
