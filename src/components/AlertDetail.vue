@@ -688,6 +688,7 @@
                 :items="history"
                 item-key="index"
                 :pagination.sync="pagination"
+                sort-icon="arrow_drop_down"
               >
                 <template
                   slot="items"
@@ -721,6 +722,9 @@
                     <span class="label">
                       {{ props.item.status | capitalize }}
                     </span>
+                  </td>
+                  <td class="hidden-sm-and-down">
+                    {{ props.item.timeout | hhmmss }}
                   </td>
                   <td>
                     <span class="label">
@@ -814,6 +818,7 @@ export default {
       { text: i18n.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
       { text: i18n.t('Severity'), value: 'severity', hide: 'smAndDown' },
       { text: i18n.t('Status'), value: 'status', hide: 'smAndDown' },
+      { text: i18n.t('Timeout'), value: 'timeout', hide: 'smAndDown' },
       { text: i18n.t('Type'), value: 'type' },
       { text: i18n.t('Event'), value: 'event', hide: 'smAndDown' },
       { text: i18n.t('Value'), value: 'value', hide: 'smAndDown' },
