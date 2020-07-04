@@ -179,7 +179,7 @@
               :items="ackTimeoutOptions"
               :label="$t('AckTimeout')"
               type="number"
-              :suffix="$t('hours')"
+              :suffix="$t('minutes')"
             />
 
             <v-combobox
@@ -187,7 +187,7 @@
               :items="shelveTimeoutOptions"
               :label="$t('ShelveTimeout')"
               type="number"
-              :suffix="$t('hours')"
+              :suffix="$t('minutes')"
             />
           </v-layout>
         </v-card-actions>
@@ -259,8 +259,8 @@ export default {
     fontSizeLabels: ['tiny', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'huge'],
     fontWeightLabels: [ 'thin', '', '', 'normal', '', '', 'bold', '', 'heavy'],
     refreshOptions: [2, 5, 10, 30, 60],  // seconds
-    ackTimeoutOptions: [0, 1, 2, 4, 8, 24],  // hours
-    shelveTimeoutOptions: [1, 2, 4, 8, 24]  // hours
+    ackTimeoutOptions: [0, 60, 120, 240, 480, 1440],  // minutes
+    shelveTimeoutOptions: [60, 120, 240, 480, 1440],  // minutes
   }),
   computed: {
     languages() {
@@ -441,22 +441,22 @@ export default {
       get() {
         return (
           (this.$store.getters.getPreference('ackTimeout') ||
-            this.$store.getters.getConfig('timeouts').ack) / 60 / 60
+            this.$store.getters.getConfig('timeouts').ack) / 60
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {ackTimeout: value * 60 * 60})
+        this.$store.dispatch('setUserPrefs', {ackTimeout: value * 60})
       }
     },
     shelveTimeout: {
       get() {
         return (
           (this.$store.getters.getPreference('shelveTimeout') ||
-            this.$store.getters.getConfig('timeouts').shelve) / 60 / 60
+            this.$store.getters.getConfig('timeouts').shelve) / 60
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {shelveTimeout: value * 60 * 60})
+        this.$store.dispatch('setUserPrefs', {shelveTimeout: value * 60})
       }
     }
   },

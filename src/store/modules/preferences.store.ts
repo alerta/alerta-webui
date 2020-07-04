@@ -22,8 +22,8 @@ const getDefaults = () => {
     },
     rowsPerPage: 20,
     refreshInterval: 5*1000,  // milliseconds
-    ackTimeout: 0,  // do not auto-unack, by default
-    shelveTimeout: 2*60*60  // seconds
+    ackTimeout: null,
+    shelveTimeout: null
   }
 }
 
