@@ -236,23 +236,25 @@
           />
         </v-menu>
 
-        <v-btn
-          v-show="!isLoggedIn && isSignupEnabled"
-          round
-          outline
-          color="primary"
-          to="/signup"
-        >
-          {{ $t('SignUp') }}
-        </v-btn>
-        <v-btn
-          v-show="!isLoggedIn"
-          round
-          color="primary"
-          to="/login"
-        >
-          {{ $t('LogIn') }}
-        </v-btn>
+        <span class="hidden-xs-only">
+          <v-btn
+            v-show="!isLoggedIn && isSignupEnabled"
+            round
+            outline
+            color="primary"
+            to="/signup"
+          >
+            {{ $t('SignUp') }}
+          </v-btn>
+          <v-btn
+            v-show="!isLoggedIn"
+            round
+            color="primary"
+            to="/login"
+          >
+            {{ $t('LogIn') }}
+          </v-btn>
+        </span>
       </v-toolbar>
 
       <v-toolbar
@@ -266,14 +268,15 @@
         >
           <v-icon>arrow_back</v-icon>
         </v-btn>
-        <v-toolbar-title>
-          Back
-        </v-toolbar-title>
-
+        <span class="hidden-sm-and-down">
+          <v-toolbar-title>
+            Back
+          </v-toolbar-title>
+        </span>
         <v-spacer />
 
         <span class="subheading">
-          {{ selected.length }}<span class="hidden-xs-only"> {{ $t('Selected') }}</span>
+          {{ selected.length }}<span class="hidden-sm-and-down"> {{ $t('Selected') }}</span>
         </span>
 
         <v-spacer />
@@ -439,23 +442,25 @@
           />
         </v-menu>
 
-        <v-btn
-          v-show="!isLoggedIn && isSignupEnabled"
-          round
-          outline
-          color="primary"
-          disabled
-        >
-          {{ $t('SignUp') }}
-        </v-btn>
-        <v-btn
-          v-show="!isLoggedIn"
-          round
-          color="primary"
-          disabled
-        >
-          {{ $t('LogIn') }}
-        </v-btn>
+        <span class="hidden-xs-only">
+          <v-btn
+            v-show="!isLoggedIn && isSignupEnabled"
+            round
+            outline
+            color="primary"
+            disabled
+          >
+            {{ $t('SignUp') }}
+          </v-btn>
+          <v-btn
+            v-show="!isLoggedIn"
+            round
+            color="primary"
+            disabled
+          >
+            {{ $t('LogIn') }}
+          </v-btn>
+        </span>
       </v-toolbar>
     </div>
 
@@ -464,6 +469,32 @@
       <router-view />
       <snackbar />
     </v-content>
+
+    <div v-if="!isKiosk">
+      <span class="hidden-sm-and-up">
+        <v-btn
+          v-show="!isLoggedIn && isSignupEnabled"
+          block
+          round
+          outline
+          color="primary"
+          to="/signup"
+          :disabled="selected.length > 0"
+        >
+          {{ $t('SignUp') }}
+        </v-btn>
+        <v-btn
+          v-show="!isLoggedIn"
+          block
+          round
+          color="primary"
+          to="/login"
+          :disabled="selected.length > 0"
+        >
+          {{ $t('LogIn') }}
+        </v-btn>
+      </span>
+    </div>
   </v-app>
 </template>
 
