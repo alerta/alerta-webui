@@ -7,7 +7,12 @@ import axios from 'axios'
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 
+function getRedirectUri(path: string) {
+  return window.location.origin + (path || '')
+}
+
 export function vueAuth(config) {
+  let basePath = config.base_path || process.env.BASE_URL
   return new VueAuthenticate(Vue.prototype.$http, {
     tokenPath: 'token',
     tokenName: 'token',
@@ -22,7 +27,7 @@ export function vueAuth(config) {
         url: '/auth/azure',
         clientId: config.client_id,
         authorizationEndpoint: `https://login.microsoftonline.com/${config.azure_tenant}/oauth2/v2.0/authorize`,
-        redirectUri: window.location.origin,
+        redirectUri: getRedirectUri(basePath),
         requiredUrlParams: ['scope'],
         optionalUrlParams: ['display', 'state'],
         scope: 'openid+profile+email',
@@ -36,7 +41,7 @@ export function vueAuth(config) {
         url: '/auth/openid',
         clientId: config.client_id,
         authorizationEndpoint: `https://${config.cognito_domain}.auth.${config.aws_region}.amazoncognito.com/login`,
-        redirectUri: window.location.origin,
+        redirectUri: getRedirectUri(basePath),
         requiredUrlParams: ['scope'],
         optionalUrlParams: ['display', 'state'],
         scope: 'openid+profile+email',
@@ -50,6 +55,7 @@ export function vueAuth(config) {
         url: '/auth/github',
         clientId: config.client_id,
         authorizationEndpoint: `${config.github_url}/login/oauth/authorize`,
+        redirectUri: getRedirectUri(basePath),
         scope: ['user:email', 'read:org']
       },
       gitlab: {
@@ -57,7 +63,7 @@ export function vueAuth(config) {
         url: '/auth/gitlab',
         clientId: config.client_id,
         authorizationEndpoint: `${config.gitlab_url}/oauth/authorize`,
-        redirectUri: window.location.origin,
+        redirectUri: getRedirectUri(basePath),
         requiredUrlParams: ['scope'],
         optionalUrlParams: ['display', 'state'],
         scope: ['openid'],
@@ -69,7 +75,8 @@ export function vueAuth(config) {
       google: {
         name: 'Google',
         url: '/auth/google',
-        clientId: config.client_id
+        clientId: config.client_id,
+        redirectUri: getRedirectUri(basePath)
       },
       keycloak: {
         name: 'Keycloak',
@@ -78,7 +85,7 @@ export function vueAuth(config) {
         authorizationEndpoint: `${config.keycloak_url}/auth/realms/${
           config.keycloak_realm
         }/protocol/openid-connect/auth`,
-        redirectUri: window.location.origin,
+        redirectUri: getRedirectUri(basePath),
         requiredUrlParams: ['scope'],
         optionalUrlParams: ['display', 'state'],
         scope: 'openid+profile+email',
@@ -92,7 +99,7 @@ export function vueAuth(config) {
         url: '/auth/openid',
         clientId: config.client_id,
         authorizationEndpoint: config.oidc_auth_url,
-        redirectUri: window.location.origin,
+        redirectUri: getRedirectUri(basePath),
         requiredUrlParams: ['scope'],
         optionalUrlParams: ['display', 'state'],
         scope: 'openid+profile+email',
@@ -106,7 +113,7 @@ export function vueAuth(config) {
         url: '/auth/pingfederate',
         clientId: config.client_id,
         authorizationEndpoint: config.pingfederate_url,
-        redirectUri: window.location.origin + '/',
+        redirectUri: getRedirectUri(basePath || '/'),
         requiredUrlParams: ['pfidpadapterid', 'scope'],
         scope: 'openid+profile+email',
         pfidpadapterid: 'kerberos',
