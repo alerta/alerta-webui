@@ -635,6 +635,8 @@ export default {
     },
     copyItem(item) {
       this.editedItem = Object.assign({}, item)
+      this.editedItem.period = this.defaultTimes()
+      this.editedId = null
       this.dialog = true
     },
     deleteItem(item) {
@@ -683,6 +685,7 @@ export default {
         this.$store.dispatch(
           'blackouts/createBlackout',
           Object.assign(this.editedItem, {
+            id: null,
             startTime: this.toISODate(
               this.editedItem.period.startDate,
               this.editedItem.period.startTime
