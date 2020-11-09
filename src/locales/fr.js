@@ -249,6 +249,7 @@ export const fr = {
   // Profile
   Profile: 'Profil',
   UserID: 'User ID',
+  PrimaryUserID: 'Principal User ID',
   Provider: 'Provider',
   EmailVerified: 'Email verifié',
   EmailNotVerified: 'Email non verifié',

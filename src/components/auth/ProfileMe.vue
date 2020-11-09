@@ -7,9 +7,11 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ profile.name }}</v-list-tile-title>
           <v-list-tile-sub-title>
-            {{
-              profile.preferred_username
-            }}
+            <span>
+              <span
+                v-if="profile.preferred_username && !profile.preferred_username.includes('@')"
+              >@</span>{{ profile.preferred_username }}
+            </span>
           </v-list-tile-sub-title>
         </v-list-tile-content>
 
