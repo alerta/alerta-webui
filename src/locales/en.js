@@ -250,6 +250,7 @@ export const en = {
   // Profile
   Profile: 'Profile',
   UserID: 'User ID',
+  PrimaryUserID: 'Primary User ID',
   Provider: 'Provider',
   EmailVerified: 'Email verified',
   EmailNotVerified: 'Email not verified',

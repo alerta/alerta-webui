@@ -250,6 +250,7 @@ export const de = {
   // Profile
   Profile: 'Profil',
   UserID: 'User ID',
+  PrimaryUserID: 'Primäre User ID',
   Provider: 'Provider',
   EmailVerified: 'E-Mail verifiziert',
   EmailNotVerified: 'E-Mail nicht verifiziert',

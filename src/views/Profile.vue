@@ -65,7 +65,10 @@
               layout
               text-xs-center
             >
-              <span v-if="!profile.preferred_username.includes('@')">@</span>{{ profile.preferred_username }}
+              <span
+                v-if="profile.preferred_username && !profile.preferred_username.includes('@')"
+              >@</span>
+              {{ profile.preferred_username }}
             </v-flex>
           </v-layout>
 
@@ -82,7 +85,7 @@
                   />
                 </v-flex>
                 <v-flex
-                  xs10
+                  xs9
                 >
                   <v-text-field
                     v-model="profile.preferred_username"
@@ -92,7 +95,8 @@
                 </v-flex>
 
                 <v-flex
-                  xs2
+                  xs3
+                  v-if="provider[profile.provider]"
                 >
                   <v-text-field
                     v-model="provider[profile.provider].text"
@@ -107,6 +111,17 @@
                   <v-text-field
                     v-model="profile.sub"
                     :label="$t('UserID')"
+                    readonly
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs12
+                >
+                  <v-text-field
+                    v-if="profile.oid"
+                    v-model="profile.oid"
+                    :label="$t('PrimaryUserID')"
                     readonly
                   />
                 </v-flex>
@@ -140,6 +155,7 @@
                 </v-flex>
 
                 <v-flex
+                  v-if="$config.customer_views"
                   xs12
                 >
                   <v-combobox
