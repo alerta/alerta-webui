@@ -99,7 +99,7 @@
             xs12
             class="pb-0"
           >
-            <v-select
+            <v-autocomplete
               v-model="filterService"
               :items="currentServices"
               :menu-props="{ maxHeight: '400' }"
