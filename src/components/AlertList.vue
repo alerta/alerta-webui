@@ -452,7 +452,7 @@ export default {
       default: () => []
     }
   },
-  data: () => ({
+  data: vm => ({
     search: '',
     headersMap: {
       id: { text: i18n.t('AlertId'), value: 'id' },
@@ -465,7 +465,7 @@ export default {
       service: { text: i18n.t('Service'), value: 'service' },
       group: { text: i18n.t('Group'), value: 'group' },
       value: { text: i18n.t('Value'), value: 'value' },
-      text: { text: i18n.t('Description'), value: 'text' },
+      text: { text: i18n.t('Description'), value: 'text', width: vm.textWidth() },
       tags: { text: i18n.t('Tags'), value: 'tags' },
       attributes: { text: i18n.t('Attribute'), value: 'attributes' },
       origin: { text: i18n.t('Origin'), value: 'origin' },
@@ -576,6 +576,9 @@ export default {
     lastNote(item) {
       const note = item.history.filter(h => h.type == 'note').pop()
       return note ? note.text : ''
+    },
+    textWidth() {
+      return this.$store.getters.getPreference('textWidth')
     },
     severityColor(severity) {
       return this.$store.getters.getConfig('colors').severity[severity] || 'white'
