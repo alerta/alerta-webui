@@ -122,7 +122,7 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="editedItem.text"
+                    v-model.trim="editedItem.text"
                     label="Comment"
                   />
                 </v-flex>

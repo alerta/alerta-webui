@@ -26,7 +26,7 @@
         </p>
         <v-form ref="form">
           <v-text-field
-            v-model="name"
+            v-model.trim="name"
             name="name"
             type="text"
             :label="$t('FullName')"
@@ -36,7 +36,7 @@
             required
           />
           <v-text-field
-            v-model="email"
+            v-model.trim="email"
             name="login"
             type="text"
             :label="$t('Username')"
@@ -71,7 +71,7 @@
             @click:append="showPassword = !showPassword"
           />
           <v-text-field
-            v-model="text"
+            v-model.trim="text"
             name="text"
             type="text"
             :label="$t('Description')"
