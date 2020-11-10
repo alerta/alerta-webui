@@ -128,7 +128,7 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="editedItem.resource"
+                    v-model.trim="editedItem.resource"
                     :label="$t('Resource')"
                   />
                 </v-flex>
@@ -136,7 +136,7 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="editedItem.event"
+                    v-model.trim="editedItem.event"
                     :label="$t('Event')"
                   />
                 </v-flex>
@@ -144,7 +144,7 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="editedItem.group"
+                    v-model.trim="editedItem.group"
                     :label="$t('Group')"
                   />
                 </v-flex>
@@ -184,7 +184,7 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="editedItem.text"
+                    v-model.trim="editedItem.text"
                     :label="$t('Reason')"
                   />
                 </v-flex>

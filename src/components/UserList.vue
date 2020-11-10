@@ -24,7 +24,7 @@
                   md9
                 >
                   <v-text-field
-                    v-model="editedItem.name"
+                    v-model.trim="editedItem.name"
                     :disabled="!isBasicAuth"
                     :label="$t('Name')"
                     :rules="[rules.required]"
@@ -49,7 +49,7 @@
                   md9
                 >
                   <v-text-field
-                    v-model="editedItem.login"
+                    v-model.trim="editedItem.login"
                     :disabled="!isBasicAuth"
                     :label="$t('Login')"
                     :rules="[rules.required]"
@@ -62,7 +62,7 @@
                   md9
                 >
                   <v-text-field
-                    v-model="editedItem.email"
+                    v-model.trim="editedItem.email"
                     :disabled="!isBasicAuth"
                     :label="$t('Email')"
                     :rules="[rules.required]"
@@ -195,7 +195,7 @@
                   md12
                 >
                   <v-text-field
-                    v-model="editedItem.text"
+                    v-model.trim="editedItem.text"
                     :label="$t('Comment')"
                   />
                 </v-flex>

@@ -62,7 +62,7 @@
             <v-card>
               <v-card-text>
                 <v-text-field
-                  v-model="text"
+                  v-model.trim="text"
                   :counter="maxNoteLength"
                   :rules="textRules"
                   :label="$t('AddNote')"

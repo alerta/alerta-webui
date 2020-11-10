@@ -19,7 +19,7 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="editedItem.match"
+                    v-model.trim="editedItem.match"
                     :label="$t('LookUp')"
                     :hint="$t('LookUpDescription')"
                     persistent-hint
@@ -39,7 +39,7 @@
                     </v-chip>
                   </v-flex>
                   <v-text-field
-                    v-model="editedItem.customer"
+                    v-model.trim="editedItem.customer"
                     :label="$t('Customer')"
                     :rules="[rules.required]"
                     required

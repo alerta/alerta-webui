@@ -137,7 +137,7 @@
                   </v-chip>
                 </v-flex>
                 <v-text-field
-                  v-model="editedItem.name"
+                  v-model.trim="editedItem.name"
                   :label="$t('Group')"
                   :rules="[rules.required]"
                   required
@@ -146,7 +146,7 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="editedItem.text"
+                    v-model.trim="editedItem.text"
                     :label="$t('Description')"
                   />
                 </v-flex>

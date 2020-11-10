@@ -20,7 +20,7 @@
         </p>
         <v-form @submit.prevent="login()">
           <v-text-field
-            v-model="username"
+            v-model.trim="username"
             name="login"
             type="text"
             :label="$t('Username')"

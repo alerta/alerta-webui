@@ -20,7 +20,7 @@
         </p>
         <v-form @submit.prevent="forgot()">
           <v-text-field
-            v-model="email"
+            v-model.trim="email"
             name="login"
             type="text"
             :label="$t('Username')"
@@ -75,7 +75,7 @@
         </p>
         <v-form>
           <v-text-field
-            v-model="email"
+            v-model.trim="email"
             name="login"
             type="text"
             :label="$t('Username')"

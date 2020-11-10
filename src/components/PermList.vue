@@ -30,7 +30,7 @@
                   </v-chip>
                 </v-flex>
                 <v-text-field
-                  v-model="editedItem.match"
+                  v-model.trim="editedItem.match"
                   :label="$t('Role')"
                   :rules="[rules.required]"
                   required
