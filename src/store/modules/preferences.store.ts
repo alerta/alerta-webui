@@ -21,6 +21,7 @@ const getDefaults = () => {
       'font-weight': null
     },
     rowsPerPage: 20,
+    textWidth: 400,  // px
     refreshInterval: 5*1000,  // milliseconds
     ackTimeout: null,
     shelveTimeout: null
