@@ -171,6 +171,25 @@
           <span>{{ $t('Delete') }}</span>
         </v-tooltip>
 
+        <v-tooltip
+          :key="copyIconText"
+          bottom
+        >
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain px-1 mx-0"
+            @click="clipboardCopy(JSON.stringify(item, null, 4))"
+          >
+            <v-icon
+              size="20px"
+            >
+              content_copy
+            </v-icon>
+          </v-btn>
+          <span>{{ copyIconText }}</span>
+        </v-tooltip>
+
         <v-tooltip bottom>
           <v-menu
             slot="activator"
@@ -824,7 +843,8 @@ export default {
       { text: i18n.t('Value'), value: 'value', hide: 'smAndDown' },
       { text: i18n.t('User'), value: 'user' },
       { text: i18n.t('Text'), value: 'text' }
-    ]
+    ],
+    copyIconText: i18n.t('Copy')
   }),
   computed: {
     isDark() {
@@ -948,6 +968,18 @@ export default {
     }, 200, {leading: true, trailing: false}),
     close() {
       this.$emit('close')
+    },
+    clipboardCopy(text) {
+      this.copyIconText = i18n.t('Copied')
+      let textarea = document.createElement('textarea')
+      textarea.textContent = text
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+      setTimeout(() => {
+        this.copyIconText = i18n.t('Copy')
+      }, 2000)
     }
   }
 }

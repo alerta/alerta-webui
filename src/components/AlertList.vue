@@ -390,6 +390,19 @@
                   delete
                 </v-icon>
               </v-btn>
+              <v-btn
+                flat
+                icon
+                small
+                class="btn--plain pa-0 ma-0"
+                @click.stop="clipboardCopy(JSON.stringify(props.item, null, 4))"
+              >
+                <v-icon
+                  :size="fontSize"
+                >
+                  content_copy
+                </v-icon>
+              </v-btn>
 
               <v-menu
                 bottom
@@ -631,6 +644,14 @@ export default {
         this.$store.dispatch('alerts/deleteAlert', id)
           .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
+    clipboardCopy(text) {
+      let textarea = document.createElement('textarea')
+      textarea.textContent = text
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
   }
 }
 </script>
