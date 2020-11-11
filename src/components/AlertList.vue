@@ -126,7 +126,11 @@
             <span
               v-if="col == 'value'"
             >
-              {{ props.item.value }}
+              <div class="fixed-table">
+                <div class="text-truncate">
+                  <span v-html="props.item.value" />
+                </div>
+              </div>
             </span>
             <span
               v-if="col == 'text'"
@@ -477,7 +481,7 @@ export default {
       status: { text: i18n.t('Status'), value: 'status' },
       service: { text: i18n.t('Service'), value: 'service' },
       group: { text: i18n.t('Group'), value: 'group' },
-      value: { text: i18n.t('Value'), value: 'value' },
+      value: { text: i18n.t('Value'), value: 'value', width: vm.valueWidth() },
       text: { text: i18n.t('Description'), value: 'text', width: vm.textWidth() },
       tags: { text: i18n.t('Tags'), value: 'tags' },
       attributes: { text: i18n.t('Attribute'), value: 'attributes' },
@@ -589,6 +593,9 @@ export default {
     lastNote(item) {
       const note = item.history.filter(h => h.type == 'note').pop()
       return note ? note.text : ''
+    },
+    valueWidth() {
+      return this.$store.getters.getPreference('valueWidth')
     },
     textWidth() {
       return this.$store.getters.getPreference('textWidth')

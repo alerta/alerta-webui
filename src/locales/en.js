@@ -241,6 +241,7 @@ export const en = {
   FontWeight: 'Font Weight',
   PageRows: 'Rows per page',
   rows: 'rows',
+  ValueWidth: 'Value Width',
   DescriptionWidth: 'Description Text Width',
   RefreshInterval: 'Refresh interval',
   seconds: 'seconds',
