@@ -241,6 +241,7 @@ export const de = {
   FontWeight: 'Stärke',
   PageRows: 'Zeilen pro Seite',
   rows: 'Zeilen',
+  ValueWidth: 'Value Width',
   DescriptionWidth: 'Description Text Width',
   RefreshInterval: 'Aktualisierungsinterval',
   seconds: 'Sekunden',

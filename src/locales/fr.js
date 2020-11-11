@@ -240,6 +240,7 @@ export const fr = {
   FontWeight: 'Niveaux de graisse',
   PageRows: 'Lignes par page',
   rows: 'lignes',
+  ValueWidth: 'Value Width',
   DescriptionWidth: 'Description Text Width',
   RefreshInterval: 'Intervalle de rafraîchissement',
   seconds: 'secondes',
