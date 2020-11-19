@@ -394,7 +394,7 @@
                   delete
                 </v-icon>
               </v-btn>
-              <v-btn
+              <!-- <v-btn
                 flat
                 icon
                 small
@@ -406,7 +406,7 @@
                 >
                   content_copy
                 </v-icon>
-              </v-btn>
+              </v-btn> -->
 
               <v-menu
                 bottom
