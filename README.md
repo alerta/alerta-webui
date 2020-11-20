@@ -3,7 +3,7 @@ Alerta Web UI 7.0
 
 Version 7.0 of the Alerta web UI is a [VueJS](https://vuejs.org/) web app.
 
-[![Gitter chat](https://badges.gitter.im/alerta/chat.png)](https://gitter.im/alerta/chat)
+[![Slack chat](https://img.shields.io/badge/chat-on%20slack-blue?logo=slack)](https://slack.alerta.dev)
 
 ![webui](/docs/images/alerta-webui-v7.png?raw=true&v=1)
 
@@ -168,7 +168,7 @@ License
 -------
 
     Alerta monitoring system and console
-    Copyright 2019 Nick Satterly
+    Copyright 2019-2020 Nick Satterly
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
