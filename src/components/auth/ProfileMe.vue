@@ -231,7 +231,7 @@ export default {
               (this.$config.provider == 'keycloak'
                 ? 'redirect_uri='
                 : 'post_logout_redirect_url=') +
-              window.location.origin +
+              this.$store.getters['auth/getOptions']['providers'][this.$config.provider]['redirectUri'] +
               '/logout'
             window.location.href = response.data.logoutUrl + '?' + redirectUrl
           } else {
