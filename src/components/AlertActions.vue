@@ -64,6 +64,8 @@
                 <v-text-field
                   v-model.trim="text"
                   :counter="maxNoteLength"
+                  :maxlength="maxNoteLength"
+                  :minlength="minNoteLength"
                   :rules="textRules"
                   :label="$t('AddNote')"
                   prepend-icon="edit"
@@ -180,6 +182,7 @@ export default {
     valid: true,
     text: '',
     maxNoteLength: 200,
+    minNoteLength: 0,
     textRules: [
       v => !!v || i18n.t('TextIsRequired'),
       v => (v && v.length <= vm.maxNoteLength) || `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t('characters')}`
