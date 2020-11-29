@@ -22,13 +22,17 @@ const state = {
 
 const mutations = {
   ADD_SNACKBAR(state, snackbar) {
-    state.snackbars.push(snackbar)
+    if (!state.snackbars.map(s => s.text).includes(snackbar.text)) {
+      state.snackbars.push(snackbar)
+    }
   },
   REMOVE_SNACKBAR(state) {
     state.snackbars.shift()
   },
   ADD_BANNER(state, banner) {
-    state.banners.push(banner)
+    if (!state.banners.map(b => b.text).includes(banner.text)) {
+      state.banners.push(banner)
+    }
   },
   REMOVE_BANNER(state) {
     state.banners.shift()
