@@ -276,7 +276,7 @@
         <v-spacer />
 
         <span class="subheading">
-          {{ selected.length }}<span class="hidden-sm-and-down"> {{ $t('Selected') }}</span>
+          {{ selected.length }}<span class="hidden-sm-and-down"> {{ $t('selected') }}</span>
         </span>
 
         <v-spacer />
