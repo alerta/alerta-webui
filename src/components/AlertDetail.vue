@@ -294,7 +294,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <pre>{{ item.id }}</pre>
+                        <span class="console-text">{{ item.id }}</span>
                       </div>
                     </div>
                   </div>
@@ -308,7 +308,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <pre>{{ item.lastReceiveId }}</pre>
+                        <span class="console-text">{{ item.lastReceiveId }}</span>
                       </div>
                     </div>
                   </div>
@@ -714,7 +714,7 @@
                   slot-scope="props"
                 >
                   <td class="hidden-sm-and-down">
-                    <pre>{{ props.item.id | shortId }}</pre>
+                    <span class="console-text">{{ props.item.id | shortId }}</span>
                   </td>
                   <td
                     class="hidden-sm-and-down text-no-wrap"
@@ -781,7 +781,7 @@
               flat
             >
               <v-card-text>
-                <pre>{{ item.rawData || 'no raw data' }}</pre>
+                <span class="console-text">{{ item.rawData || 'no raw data' }}</span>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -1033,5 +1033,10 @@ export default {
 
 .v-alert__dismissible {
   margin-top: 8px;
+}
+
+.console-text {
+  font-size: 14px;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 </style>
