@@ -243,7 +243,7 @@
             >
               <v-alert
                 v-for="note in notes"
-                :key="note.index"
+                :key="note.id"
                 :value="true"
                 dismissible
                 type="info"
