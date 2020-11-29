@@ -604,7 +604,9 @@ export default {
       return this.$store.getters.getConfig('colors').severity[severity] || 'white'
     },
     selectItem(item) {
-      this.$emit('set-alert', item)
+      if (!this.selected.length) {
+        this.$emit('set-alert', item)
+      }
     },
     isOpen(status) {
       return status == 'open' || status == 'NORM'
