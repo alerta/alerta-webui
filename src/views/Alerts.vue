@@ -82,7 +82,6 @@
       class="px-1"
       grow
     >
-      <v-tabs-slider />
       <v-tab
         v-for="env in environments"
         :key="env"
