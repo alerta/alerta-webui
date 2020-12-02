@@ -1039,5 +1039,6 @@ export default {
   font-size: 14px;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   white-space: pre;
+  line-height: 1;
 }
 </style>
