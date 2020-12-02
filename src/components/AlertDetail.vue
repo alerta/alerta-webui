@@ -1038,5 +1038,6 @@ export default {
 .console-text {
   font-size: 14px;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  white-space: pre;
 }
 </style>
