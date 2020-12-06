@@ -381,7 +381,10 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="queryBy('customer', item.customer)"
+                      >
                         {{ item.customer }}
                       </div>
                     </div>
@@ -395,10 +398,14 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div
-                        v-if="item.service"
-                      >
-                        {{ item.service.join(', ') }}
+                      <div>
+                        <span
+                          v-for="service in item.service"
+                          :key="service"
+                          @click="queryBy('service', service)"
+                        >
+                          <span class="clickable">{{ service }}</span>&nbsp;
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -411,7 +418,10 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="queryBy('environment', item.environment)"
+                      >
                         {{ item.environment }}
                       </div>
                     </div>
@@ -425,7 +435,10 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="queryBy('resource', item.resource)"
+                      >
                         {{ item.resource }}
                       </div>
                     </div>
@@ -439,7 +452,10 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="queryBy('event', item.event)"
+                      >
                         {{ item.event }}
                       </div>
                     </div>
@@ -454,7 +470,13 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        {{ item.correlate && item.correlate.join(', ') }}
+                        <span
+                          v-for="event in item.correlate"
+                          :key="event"
+                          @click="queryBy('event', event)"
+                        >
+                          <span class="clickable">{{ event }}</span>&nbsp;
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -467,7 +489,10 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="queryBy('group', item.group)"
+                      >
                         {{ item.group }}
                       </div>
                     </div>
@@ -643,7 +668,10 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div>
+                      <div
+                        class="clickable"
+                        @click="queryBy('origin', item.origin)"
+                      >
                         {{ item.origin }}
                       </div>
                     </div>
@@ -663,6 +691,7 @@
                           :key="tag"
                           label
                           small
+                          @click="queryBy('tags', tag)"
                         >
                           <v-icon left>
                             label
@@ -685,8 +714,16 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div
+                        v-if="value.includes('<a href')"
                         v-html="value"
                       />
+                      <div
+                        v-else
+                        class="clickable"
+                        @click="queryBy(`_.${attr}`, value)"
+                      >
+                        {{ value }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -966,6 +1003,9 @@ export default {
         this.$store.dispatch('alerts/deleteAlert', id)
           .then(() => this.$router.push({ name: 'alerts' }))
     }, 200, {leading: true, trailing: false}),
+    queryBy(attribute, value) {
+      this.$router.push({ path: `/alerts?q=${attribute}:${value}`})
+    },
     close() {
       this.$emit('close')
     },
@@ -1040,5 +1080,21 @@ export default {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   white-space: pre;
   line-height: 1;
+}
+
+div.clickable, span.clickable {
+  cursor: pointer;
+  color: blue;
+  font-weight: 400;
+  text-decoration: underline;
+
+}
+
+div.clickable:hover, span.clickable:hover {
+  text-decoration: none;
+}
+
+#alerta .v-chip__content {
+  cursor: pointer;
 }
 </style>
