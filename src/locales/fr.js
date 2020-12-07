@@ -19,6 +19,8 @@ export const fr = {
   Blackouts: 'Gestion des temps d\'arrêts',
   Permissions: 'Permissions',
   APIKeys: 'Clés API',
+  Searches: 'Searches',
+  Labels: 'Labels',
   Reports: 'Rapports',
   More: 'Plus',
   Settings: 'Paramètres',

@@ -19,6 +19,7 @@ export const de = {
   Blackouts: 'Blackouts',
   Permissions: 'Berechtigungen',
   APIKeys: 'API Keys',
+  Searches: 'Searches',
   Labels: 'Labels',
   Reports: 'Berichte',
   More: 'Mehr',

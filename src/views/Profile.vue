@@ -95,8 +95,8 @@
                 </v-flex>
 
                 <v-flex
-                  xs3
                   v-if="provider[profile.provider]"
+                  xs3
                 >
                   <v-text-field
                     v-model="provider[profile.provider].text"
