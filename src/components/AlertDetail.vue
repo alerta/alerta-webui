@@ -714,7 +714,18 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div
-                        v-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
+                        v-if="typeof value === 'object'"
+                      >
+                        <span
+                          v-for="v in value"
+                          :key="v"
+                          @click="queryBy(`_.${attr}`, v)"
+                        >
+                          <span class="clickable">{{ v }}</span>&nbsp;
+                        </span>
+                      </div>
+                      <div
+                        v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
                         v-html="value"
                       />
                       <div
@@ -1004,7 +1015,7 @@ export default {
           .then(() => this.$router.push({ name: 'alerts' }))
     }, 200, {leading: true, trailing: false}),
     queryBy(attribute, value) {
-      this.$router.push({ path: `/alerts?q=${attribute}:${value}`})
+      this.$router.push({ path: `/alerts?q=${attribute}:"${value}"` })  // double-quotes (") around value mean exact match
     },
     close() {
       this.$emit('close')
