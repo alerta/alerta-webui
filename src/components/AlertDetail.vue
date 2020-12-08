@@ -714,7 +714,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div
-                        v-if="value.includes('<a href')"
+                        v-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
                         v-html="value"
                       />
                       <div
