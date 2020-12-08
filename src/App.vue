@@ -39,55 +39,8 @@
         <v-divider />
         <v-list dense>
           <template v-for="(item, index) in items">
-            <v-layout
-              v-if="item.heading"
-              :key="item.heading"
-              row
-              align-center
-            >
-              <v-flex xs6>
-                <v-subheader v-if="item.heading">
-                  {{ item.heading }}
-                </v-subheader>
-              </v-flex>
-              <v-flex
-                xs6
-                class="text-xs-center"
-              >
-                <a
-                  href="#!"
-                  class="body-2 black--text"
-                >
-                  EDIT
-                </a>
-              </v-flex>
-            </v-layout>
-            <v-list-group
-              v-else-if="item.children"
-              :key="item.text"
-              v-model="item.model"
-              :prepend-icon="item.model ? item.icon : item['icon-alt']"
-              append-icon
-            >
-              <v-list-tile slot="activator">
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <v-list-tile
-                v-for="(child, i) in item.children"
-                :key="i"
-              >
-                <v-list-tile-action v-if="child.icon">
-                  <v-icon>{{ child.icon }}</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ child.text }}</v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list-group>
             <v-list-tile
-              v-else-if="item.icon && item.show"
+              v-if="item.icon && item.show"
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
@@ -107,6 +60,37 @@
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+
+            <v-list-group
+              v-else-if="item.children && item.children.length > 0"
+              :key="item.text"
+              :prepend-icon="item.model ? item.icon : item['icon-alt']"
+              sub-group
+              no-action
+            >
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-title>
+                    {{ item.text }}
+                  </v-list-tile-title>
+                </v-list-tile>
+              </template>
+              <v-list-tile
+                v-for="(child, i) in item.children"
+                :key="i"
+                @click="submitSearch(child.query)"
+              >
+                <v-list-tile-title v-text="child.text" />
+                <v-list-tile-action>
+                  <v-icon
+                    small
+                    @click.stop="deleteSearch(child.query)"
+                    v-text="child.icon"
+                  />
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-list-group>
+
             <v-divider
               v-else-if="item.divider"
               :key="index"
@@ -158,7 +142,23 @@
           @blur="hasFocus = false"
           @change="submitSearch"
           @click:clear="clearSearch"
-        />
+        >
+          <template v-slot:append-outer>
+            <v-tooltip
+              bottom
+            >
+              <template v-slot:activator="{ on }">
+                <v-icon
+                  v-on="on"
+                  @click="saveSearch"
+                >
+                  push_pin
+                </v-icon>
+              </template>
+              <span>{{ $t('Save') }}</span>
+            </v-tooltip>
+          </template>
+        </v-text-field>
 
         <div
           v-if="$route.name === 'alerts'"
@@ -535,6 +535,13 @@ export default {
           show: true
         },
         {
+          icon: 'expand_less',
+          'icon-alt': 'expand_more',
+          text: i18n.t('Searches'),
+          model: false,
+          children: this.searches
+        },
+        {
           icon: 'timer',
           text: i18n.t('Heartbeats'),
           path: '/heartbeats',
@@ -583,13 +590,6 @@ export default {
           perms: 'read:keys',
           show: true
         },
-        // {
-        //   icon: 'keyboard_arrow_up',
-        //   'icon-alt': 'keyboard_arrow_down',
-        //   text: i18n.t('Labels'),
-        //   model: true,
-        //   children: [{ icon: 'add', text: 'Create label' }]
-        // },
         {
           icon: 'assessment',
           text: i18n.t('Reports'),
@@ -597,19 +597,6 @@ export default {
           perms: 'read:alerts',
           show: true
         },
-        // {
-        //   icon: 'keyboard_arrow_up',
-        //   'icon-alt': 'keyboard_arrow_down',
-        //   text: i18n.t('More'),
-        //   model: false,
-        //   children: [
-        //     { text: 'Import' },
-        //     { text: 'Export' },
-        //     { text: 'Print' },
-        //     { text: 'Undo changes' },
-        //     { text: 'Other contacts' }
-        //   ]
-        // },
         { divider: true},
         {
           icon: 'account_circle',
@@ -677,6 +664,17 @@ export default {
         // FIXME: offer query suggestions to user here, in future
       }
     },
+    searches() {
+      return this.$store.getters.getUserQueries.map(query => (
+        {
+          icon: 'push_pin',
+          text: query.text,
+          path: '/alerts',
+          query: query.q,
+          perms: 'read:alerts',
+          show: true
+        }))
+    },
     actions() {
       return this.$config.actions
     },
@@ -709,6 +707,7 @@ export default {
   mounted() {
     if (this.isLoggedIn) {
       this.$store.dispatch('getUserPrefs')
+      this.$store.dispatch('getUserQueries')
     }
   },
   methods: {
@@ -731,6 +730,17 @@ export default {
     },
     clearSelected() {
       this.$store.dispatch('alerts/updateSelected', [])
+    },
+    saveSearch() {
+      if (this.query) {
+        this.$store.dispatch('addUserQuery', {
+          text: this.query,
+          q: this.query
+        })
+      }
+    },
+    deleteSearch(query) {
+      this.$store.dispatch('removeUserQuery', query)
     },
     takeBulkAction(action) {
       Promise.all(this.selected.map(a => this.$store.dispatch('alerts/takeAction', [a.id, action, '']))).then(() => {

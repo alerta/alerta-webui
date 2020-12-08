@@ -20,6 +20,7 @@ export const en = {
   Permissions: 'Permissions',
   APIKeys: 'API Keys',
   Labels: 'Labels',
+  Searches: 'Searches',
   Reports: 'Reports',
   More: 'More',
   Settings: 'Settings',
