@@ -79,13 +79,13 @@ const actions = {
       .catch((error) => dispatch('notifications/error', Error('' + i18n.t('SettingsError')), { root: true }))
   },
   addUserQuery({ dispatch, state }, query) {
-    let qlist = state.queries.filter(q => q.query != query.q).concat([query])
+    let qlist = state.queries.filter(q => q.text != query.text).concat([query])
     return UsersApi.updateMeAttributes({ queries: qlist })
       .then(response => dispatch('getUserQueries'))
       .then(() => dispatch('notifications/success', i18n.t('SettingsSaved'), { root: true }))
   },
   removeUserQuery({ dispatch, state }, query) {
-    let qlist = state.queries.filter(q => q.q != query)
+    let qlist = state.queries.filter(q => q.text != query.text)
     return UsersApi.updateMeAttributes({ queries: qlist })
       .then(response => dispatch('getUserQueries'))
       .then(() => dispatch('notifications/success', i18n.t('SettingsSaved'), { root: true }))

@@ -62,7 +62,7 @@
             </v-list-tile>
 
             <v-list-group
-              v-else-if="item.children && item.children.length > 0"
+              v-else-if="item.queries && item.queries.length > 0"
               :key="item.text"
               :prepend-icon="item.model ? item.icon : item['icon-alt']"
               sub-group
@@ -76,16 +76,16 @@
                 </v-list-tile>
               </template>
               <v-list-tile
-                v-for="(child, i) in item.children"
+                v-for="(q, i) in item.queries"
                 :key="i"
-                @click="submitSearch(child.query)"
+                @click="submitSearch(q.query)"
               >
-                <v-list-tile-title v-text="child.text" />
+                <v-list-tile-title v-text="q.text" />
                 <v-list-tile-action>
                   <v-icon
                     small
-                    @click.stop="deleteSearch(child.query)"
-                    v-text="child.icon"
+                    @click.stop="deleteSearch(q)"
+                    v-text="q.icon"
                   />
                 </v-list-tile-action>
               </v-list-tile>
@@ -539,7 +539,7 @@ export default {
           'icon-alt': 'expand_more',
           text: i18n.t('Searches'),
           model: false,
-          children: this.searches
+          queries: this.queries
         },
         {
           icon: 'timer',
@@ -664,7 +664,7 @@ export default {
         // FIXME: offer query suggestions to user here, in future
       }
     },
-    searches() {
+    queries() {
       return this.$store.getters.getUserQueries.map(query => (
         {
           icon: 'push_pin',
