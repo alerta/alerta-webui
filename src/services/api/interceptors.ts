@@ -1,8 +1,15 @@
 import { store } from '@/main'
+import { v4 as uuidv4 } from 'uuid'
 
 export function makeInterceptors(router) {
   return {
-  // response handlers
+    // add requestId
+    requestIdHeader(config) {
+      config.headers['X-Request-ID'] = uuidv4()
+      return config
+    },
+
+    // response handlers
     interceptErrors(error) {
       if (error.response) {
         store.dispatch('notifications/error', error.response.data)

@@ -40,6 +40,7 @@ bootstrap.getConfig()
     axios.defaults.baseURL = config.endpoint
 
     const interceptors = makeInterceptors(router)
+    axios.interceptors.request.use(interceptors.requestIdHeader, undefined)
     axios.interceptors.response.use(undefined, interceptors.interceptErrors)
     axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
 
