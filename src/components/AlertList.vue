@@ -18,7 +18,7 @@
         slot-scope="props"
       >
         <tr
-          :style="{ 'background-color': severityColor(props.item.severity) }"
+          :style="{ 'background-color': rowColor(props.item.severity, props.item.status) }"
           class="hover-lighten"
           @click="selectItem(props.item)"
         >
@@ -262,7 +262,7 @@
           >
             <div
               class="action-buttons"
-              :style="{ 'background-color': severityColor(props.item.severity) }"
+              :style="{ 'background-color': rowColor(props.item.severity, props.item.status) }"
             >
               ...&nbsp;
               <v-btn
@@ -600,7 +600,13 @@ export default {
     textWidth() {
       return this.$store.getters.getPreference('textWidth')
     },
-    severityColor(severity) {
+    colorByStatus() {
+      return this.$store.getters.getPreference('colorByStatus')
+    },
+    rowColor(severity, status) {
+      if (this.colorByStatus()) {
+        return this.$store.getters.getConfig('colors').status[status] || this.$store.getters.getConfig('colors').severity[severity] || 'white'
+      }
       return this.$store.getters.getConfig('colors').severity[severity] || 'white'
     },
     selectItem(item) {

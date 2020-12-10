@@ -190,6 +190,17 @@
               :suffix="$t('seconds')"
             />
 
+            <v-radio-group
+              class="mt-0"
+            >
+              <v-checkbox
+                v-model="colorByStatus"
+                :label="$t('De-emphasize Ack and Shelve alerts')"
+                hide-details
+                class="my-0"
+              />
+            </v-radio-group>
+
             <v-combobox
               v-model.number="ackTimeout"
               :items="ackTimeoutOptions"
@@ -383,6 +394,14 @@ export default {
         this.$store.dispatch('setUserPrefs', {
           timezone: value
         })
+      }
+    },
+    colorByStatus: {
+      get() {
+        return this.$store.getters.getPreference('colorByStatus')
+      },
+      set(value) {
+        this.$store.dispatch('toggle', ['colorByStatus', value])
       }
     },
     computedFontFamilies() {

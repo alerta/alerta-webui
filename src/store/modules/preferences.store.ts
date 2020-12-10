@@ -14,6 +14,7 @@ const getDefaults = () => {
       shortTime: null
     },
     timezone: 'local',  // 'local' or 'utc'
+    colorByStatus: true,
     displayDensity: 'comfortable',  // 'comfortable' or 'compact'
     font: {
       'font-family': null,
