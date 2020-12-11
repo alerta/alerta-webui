@@ -667,7 +667,7 @@ export default {
     queries() {
       return this.$store.getters.getUserQueries.map(query => (
         {
-          icon: 'push_pin',
+          icon: 'remove_circle_outline',
           text: query.text,
           path: '/alerts',
           query: query.q,

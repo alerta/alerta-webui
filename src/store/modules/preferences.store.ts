@@ -26,7 +26,8 @@ const getDefaults = () => {
     textWidth: 400,  // px
     refreshInterval: 5*1000,  // milliseconds
     ackTimeout: null,
-    shelveTimeout: null
+    shelveTimeout: null,
+    queries: []
   }
 }
 
