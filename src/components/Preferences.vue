@@ -128,6 +128,12 @@
         </v-card-title>
         <v-card-actions>
           <v-layout column>
+            <v-checkbox
+              v-model="showAllowedEnvs"
+              :label="$t('ShowAllowedEnvs')"
+              class="pa-0 mb-1"
+            />
+
             <v-select
               v-model="fontFamily"
               :items="computedFontFamilies"
@@ -383,6 +389,14 @@ export default {
         this.$store.dispatch('setUserPrefs', {
           timezone: value
         })
+      }
+    },
+    showAllowedEnvs: {
+      get() {
+        return this.$store.getters.getPreference('showAllowedEnvs')
+      },
+      set(value) {
+        this.$store.dispatch('toggle', ['showAllowedEnvs', value])
       }
     },
     computedFontFamilies() {

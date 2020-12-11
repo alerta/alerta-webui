@@ -237,6 +237,7 @@ export const de = {
   UseLocal: 'Nutze lokales Datum & Zeit',
   UseUTC: 'Nutze Coordinated Universal Time (UTC)',
   AlertSettings: 'Meldungseinstellungen',
+  ShowAllowedEnvs: 'Zeigen Sie immer zulässige Umgebungen an',
   Font: 'Schrift',
   FontSize: 'Schriftgröße',
   FontWeight: 'Stärke',

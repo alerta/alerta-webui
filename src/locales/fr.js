@@ -237,6 +237,7 @@ export const fr = {
   UseLocal: 'Date et heure locale',
   UseUTC: 'Utiliser le temps universel (UTC)',
   AlertSettings: 'Paramétrage des alertes',
+  ShowAllowedEnvs: 'Toujours afficher les environnements autorisés',
   Font: 'Texte',
   FontSize: 'Taille de la police',
   FontWeight: 'Niveaux de graisse',
