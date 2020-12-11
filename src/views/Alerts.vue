@@ -241,6 +241,10 @@ export default {
         .reduce((acc, alert) => acc || !alert.repeat, false)
     },
     environments() {
+      if (this.showAllowedEnvs) {
+        let envs = [...new Set([...this.$config.environments || [],...this.$store.getters['alerts/environments']])].sort()
+        return ['ALL'].concat(envs)
+      } 
       return ['ALL'].concat(this.$store.getters['alerts/environments'])
     },
     environmentCounts() {
@@ -264,6 +268,9 @@ export default {
     },
     refresh() {
       return this.$store.state.refresh
+    },
+    showAllowedEnvs() {
+      return this.$store.getters.getPreference('showAllowedEnvs')
     },
     isMute() {
       return this.$store.getters.getPreference('isMute')
