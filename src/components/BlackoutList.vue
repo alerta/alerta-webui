@@ -537,7 +537,7 @@ export default {
       return this.$store.getters['customers/customers']
     },
     allowedEnvironments() {
-      return this.$store.getters['alerts/environments']
+      return this.$store.getters['alerts/environments']()
     },
     currentServices() {
       return this.$store.getters['alerts/services']
