@@ -19,17 +19,6 @@ export function makeInterceptors(router) {
 
     // redirect to login if API rejects auth token
     redirectToLogin(error) {
-      if (typeof error.response === 'undefined') {
-        alert(
-          'ERROR: A network error occurred. This could be a CORS issue or a ' +
-          'dropped internet connection.\n\n' +
-          'Check the browser javascript console and if the HTTP request has ' +
-          'been blocked by CORS then ensure that the "X-Request-ID" ' +
-          'header is in the "CORS_ALLOW_HEADERS" list in the Alerta API ' +
-          'configuration, or upgrade the Alerta API server to version 8.3.0 or ' +
-          'later.'
-        )
-      }
       if (error.response && error.response.status === 401) {
         if (store.getters['auth/isLoggedIn']) {
           store.dispatch('auth/logout')
