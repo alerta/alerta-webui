@@ -323,7 +323,10 @@ const getters = {
       return state.alerts
     }
   },
-  environments: state => {
+  environments: (state, getters, rootState) => (showAllowedEnvs = true) => {
+    if (showAllowedEnvs) {
+      return [...new Set([...rootState.config.environments || [],...state.environments.map(e => e.environment)])].sort()
+    }
     return state.environments.map(e => e.environment).sort()
   },
   counts: state => {
