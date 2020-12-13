@@ -560,7 +560,7 @@ export default {
           text: i18n.t('Groups'),
           path: '/groups',
           perms: 'read:groups',
-          show: this.$config.provider == 'basic'
+          show: this.$store.getters.getProviders.includes('basic')
         },
         {
           icon: 'domain',

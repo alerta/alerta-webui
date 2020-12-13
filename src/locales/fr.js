@@ -317,6 +317,7 @@ export const fr = {
   ResetEmailSent: 'Réinitialiser l\'email envoyé avec succès!',
  
   // User Login
+  SignInWithProvider: 'Se connecter à Alerta à l\'aide de votre fournisseur d\'identité',
   LoginToContinue: 'Se connecter à Alerta pour continuer',
   Username: 'Identifiant',
   Password: 'Mot de passe',

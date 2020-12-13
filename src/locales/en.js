@@ -317,6 +317,7 @@ export const en = {
   ResetEmailSent: 'Reset email sent successfully!',
 
   // User Login
+  SignInWithProvider: 'Sign in to Alerta using your Identity Provider',
   LoginToContinue: 'Log in to Alerta to continue',
   Username: 'Username',
   Password: 'Password',

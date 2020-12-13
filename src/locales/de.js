@@ -317,6 +317,7 @@ export const de = {
   ResetEmailSent: 'Rücksetzungs-Mail erfolgreich gesendet!',
 
   // User Login
+  SignInWithProvider: 'Bei Alerta anmelden mit Ihrem Identitätsanbieter',
   LoginToContinue: 'Bei Alerta anmelden um fortzufahren',
   Username: 'Nutzername',
   Password: 'Passwort',

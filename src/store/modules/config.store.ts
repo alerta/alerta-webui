@@ -5,7 +5,7 @@ const state = {
   alarm_model: {},  // includes severity, colors and status maps
 
   auth_required: true,
-  provider: 'basic',
+  provider: null, // String or Array
   customer_views: false,
   signup_enabled: true,
   email_verification: false,
@@ -67,6 +67,9 @@ const actions = {
 const getters = {
   getConfig: state => setting => {
     return state[setting]
+  },
+  getProviders: state => {
+    return [].concat(state.provider)
   }
 }
 

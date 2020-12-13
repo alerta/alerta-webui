@@ -222,17 +222,17 @@ export default {
     }
   },
   methods: {
-    logout() {
+    logout(provider) {
       this.$store.dispatch('resetUserPrefs')
       this.$store
         .dispatch('auth/logout')
         .then(response => {
           if (response.data.logoutUrl) {
             let redirectUrl =
-              (this.$config.provider == 'keycloak'
+              (this.$store.getters.getProviders.includes('keycloak')
                 ? 'redirect_uri='
                 : 'post_logout_redirect_url=') +
-              this.$store.getters['auth/getOptions']['providers'][this.$config.provider]['redirectUri'] +
+              this.$store.getters['auth/getOptions']['providers'][provider]['redirectUri'] +
               '/logout'
             window.location.href = response.data.logoutUrl + '?' + redirectUrl
           } else {

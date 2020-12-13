@@ -498,7 +498,7 @@ export default {
   }),
   computed: {
     isBasicAuth() {
-      return this.$config.provider == 'basic'
+      return this.$store.getters.getProviders.includes('basic')
     },
     users() {
       return this.$store.state.users.users.filter(u => !this.status || this.status.includes(u.status))
