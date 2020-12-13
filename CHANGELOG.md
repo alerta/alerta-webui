@@ -1,3 +1,15 @@
+## 8.3.2 (2020-12-13)
+
+### Fix
+
+- add helpful error message if susupected CORS issue (#420)
+
+## 8.3.1 (2020-12-12)
+
+### Fix
+
+- add helpful error message if susupected CORS issue (#419)
+
 ## v8.3.0 (2020-12-12)
 
 ### Fix
