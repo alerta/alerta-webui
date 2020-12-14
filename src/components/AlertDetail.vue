@@ -1098,7 +1098,10 @@ div.clickable, span.clickable {
   color: blue;
   font-weight: 400;
   text-decoration: underline;
+}
 
+.theme--dark div.clickable, .theme--dark span.clickable {
+  color: orange;
 }
 
 div.clickable:hover, span.clickable:hover {
