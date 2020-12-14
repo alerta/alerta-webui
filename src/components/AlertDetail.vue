@@ -727,6 +727,7 @@
                       <div
                         v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
                         v-html="value"
+                        class="link-text"
                       />
                       <div
                         v-else
@@ -1095,13 +1096,16 @@ export default {
 
 div.clickable, span.clickable {
   cursor: pointer;
-  color: blue;
+  color: #3f51b5;
   font-weight: 400;
   text-decoration: underline;
-
 }
 
-div.clickable:hover, span.clickable:hover {
+.theme--dark div.clickable, .theme--dark span.clickable, .theme--dark div.link-text a {
+  color: orange;
+}
+
+div.clickable:hover, span.clickable:hover, div.link-text a:hover {
   text-decoration: none;
 }
 
