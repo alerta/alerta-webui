@@ -127,13 +127,26 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-layout column>
+          <v-radio-group
+            class="mt-0"
+          >
             <v-checkbox
               v-model="showAllowedEnvs"
               :label="$t('ShowAllowedEnvs')"
-              class="pa-0 mb-1"
+              hide-details
+              class="my-0"
             />
-
+            <v-checkbox
+              v-model="showNotesIcon"
+              :label="$t('ShowNotesIcon')"
+              :hint="$t('ShowNotesHint')"
+              persistent-hint
+              class="my-0"
+            />
+          </v-radio-group>
+        </v-card-actions>
+        <v-card-actions>
+          <v-layout column>
             <v-select
               v-model="fontFamily"
               :items="computedFontFamilies"
@@ -397,6 +410,14 @@ export default {
       },
       set(value) {
         this.$store.dispatch('toggle', ['showAllowedEnvs', value])
+      }
+    },
+    showNotesIcon: {
+      get() {
+        return this.$store.getters.getPreference('showNotesIcon')
+      },
+      set(value) {
+        this.$store.dispatch('toggle', ['showNotesIcon', value])
       }
     },
     computedFontFamilies() {

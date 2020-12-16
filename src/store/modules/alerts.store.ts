@@ -140,6 +140,11 @@ const actions = {
       sortBy.map(sb => params.append('sort-by', sb))
     }
 
+    // need notes from alert history if showing notes icons
+    if (rootGetters.getPreference('showNotesIcon')) {
+      params.append('show-history', 'true')
+    }
+
     // add server-side paging
     params.append('page', state.pagination.page)
     params.append('page-size', state.pagination.rowsPerPage)

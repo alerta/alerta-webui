@@ -238,6 +238,8 @@ export const de = {
   UseUTC: 'Nutze Coordinated Universal Time (UTC)',
   AlertSettings: 'Meldungseinstellungen',
   ShowAllowedEnvs: 'Zeigen Sie immer zulässige Umgebungen an',
+  ShowNotesIcon: 'Notizen-Symbol anzeigen',
+  ShowNotesHint: 'Symbol neben Alarmstatus anzeigen, um eine Bedienernotiz anzuzeigen',
   Font: 'Schrift',
   FontSize: 'Schriftgröße',
   FontWeight: 'Stärke',
