@@ -114,11 +114,12 @@
                 <v-flex
                   xs12
                 >
-                  <v-select
+                  <v-combobox
                     v-model="editedItem.service"
                     :items="currentServices"
                     :menu-props="{ maxHeight: '400' }"
                     :label="$t('Service')"
+                    chips
                     multiple
                     :hint="$t('ChooseService')"
                     persistent-hint
