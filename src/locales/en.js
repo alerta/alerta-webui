@@ -238,6 +238,8 @@ export const en = {
   UseUTC: 'Use Coordinated Universal Time (UTC)',
   AlertSettings: 'Alert summary settings',
   ShowAllowedEnvs: 'Always show allowed environments',
+  ShowNotesIcon: 'Show notes icon',
+  ShowNotesHint: 'Show icon next to alert status to indicate an operator note',
   Font: 'Font',
   FontSize: 'Font Size',
   FontWeight: 'Font Weight',

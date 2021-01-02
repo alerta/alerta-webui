@@ -238,6 +238,8 @@ export const fr = {
   UseUTC: 'Utiliser le temps universel (UTC)',
   AlertSettings: 'Paramétrage des alertes',
   ShowAllowedEnvs: 'Toujours afficher les environnements autorisés',
+  ShowNotesIcon: 'Afficher l\'icône des notes',
+  ShowNotesHint: 'Afficher l\'icône à côté de l\'état de l\'alerte pour indiquer une note d\'opérateur',
   Font: 'Texte',
   FontSize: 'Taille de la police',
   FontWeight: 'Niveaux de graisse',
