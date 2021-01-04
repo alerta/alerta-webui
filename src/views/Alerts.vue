@@ -147,6 +147,7 @@
           :reverse-transition="false"
         >
           <alert-list
+            v-if="env == filter.environment || env == 'ALL'"
             :alerts="alertsByEnvironment"
             @set-alert="setAlert"
           />
