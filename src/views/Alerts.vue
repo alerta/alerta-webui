@@ -70,8 +70,7 @@
     </v-expand-transition>
 
     <alert-detail
-      v-show="detailDialog"
-      v-if="selectedId"
+      v-if="detailDialog"
       :id="selectedId"
       @close="close"
     />
@@ -177,8 +176,8 @@ import i18n from '../plugins/i18n'
 export default {
   components: {
     AlertList,
-    AlertIndicator,
-    AlertDetail,
+    AlertIndicator: () => import('../components/AlertIndicator.vue'),
+    AlertDetail: () => import('../components/AlertDetail.vue'),
     AlertListFilter
   },
   props: {
