@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { AxiosRequestConfig } from 'axios'
+import { AxiosRequestConfig, Method } from 'axios'
 
 const api = {
   get(url: string, config?: AxiosRequestConfig) {
@@ -28,7 +28,7 @@ const api = {
   },
 
   request(
-    method: string,
+    method: Method,
     url: string,
     data?: any,
     config?: AxiosRequestConfig
