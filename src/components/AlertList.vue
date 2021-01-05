@@ -125,8 +125,8 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
                         v-bind="attrs"
-                        v-on="on"
                         small
+                        v-on="on"
                       >text_snippet</v-icon>
                     </template>
                     <span>{{ lastNote(props.item) }}</span>
