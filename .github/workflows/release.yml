@@ -1,0 +1,77 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - name: Lint
+        id: lint
+        run: npm run lint:nofix
+      - name: Unit Test
+        id: unit-test
+        run: npm run test:unit
+
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: failure()
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - name: Build artifacts
+        id: build
+        run: |
+          npm run build
+          zip alerta-webui.zip -r dist/*
+          tar cvfz alerta-webui.tar.gz dist/*
+      - name: Create Release
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Zip File
+        id: upload-zip-file
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }} 
+          asset_path: ./alerta-webui.zip
+          asset_name: alerta-webui.zip
+          asset_content_type: application/zip
+      - name: Upload Compressed TAR File
+        id: upload-tarball
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }} 
+          asset_path: ./alerta-webui.tar.gz
+          asset_name: alerta-webui.tar.gz
+          asset_content_type: application/gzip
+
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        # if: failure()
