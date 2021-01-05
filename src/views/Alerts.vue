@@ -166,8 +166,6 @@ import moment from 'moment'
 import { ExportToCsv } from 'export-to-csv'
 
 import AlertList from '@/components/AlertList.vue'
-import AlertIndicator from '@/components/AlertIndicator.vue'
-import AlertDetail from '@/components/AlertDetail.vue'
 import AlertListFilter from '@/components/AlertListFilter.vue'
 
 import utils from '@/common/utils'
@@ -176,8 +174,8 @@ import i18n from '../plugins/i18n'
 export default {
   components: {
     AlertList,
-    AlertIndicator: () => import('../components/AlertIndicator.vue'),
-    AlertDetail: () => import('../components/AlertDetail.vue'),
+    AlertIndicator: () => import('@/components/AlertIndicator.vue'),
+    AlertDetail: () => import('@/components/AlertDetail.vue'),
     AlertListFilter
   },
   props: {
