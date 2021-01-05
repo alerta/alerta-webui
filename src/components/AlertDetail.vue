@@ -951,6 +951,7 @@ export default {
     }
   },
   created() {
+    // if (!this.id) return
     this.getAlert(this.id)
     this.getNotes(this.id)
   },

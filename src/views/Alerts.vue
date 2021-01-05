@@ -69,6 +69,12 @@
       </div>
     </v-expand-transition>
 
+    <!--
+      AlertDetail Component will load a "null" alert
+      and throw errors in console after code change.
+      Maybe should revert code or check id is not null
+      in "created()" method of AlertDetail?
+    -->
     <alert-detail
       v-if="detailDialog"
       :id="selectedId"
@@ -168,7 +174,6 @@ import moment from 'moment'
 import { ExportToCsv } from 'export-to-csv'
 
 import AlertList from '@/components/AlertList.vue'
-import AlertListFilter from '@/components/AlertListFilter.vue'
 
 import utils from '@/common/utils'
 import i18n from '../plugins/i18n'
@@ -178,7 +183,8 @@ export default {
     AlertList,
     AlertIndicator: () => import('@/components/AlertIndicator.vue'),
     AlertDetail: () => import('@/components/AlertDetail.vue'),
-    AlertListFilter
+    // Maybe the filter can also be lazy loaded?
+    AlertListFilter: () => import('@/components/AlertListFilter.vue')
   },
   props: {
     query: {
@@ -383,6 +389,8 @@ export default {
       !this.isMute && this.$refs.audio.play()
     },
     setEnv(env) {
+      // Should clear the timer before "leaving" a list?
+      this.cancelTimer()
       this.$store.dispatch('alerts/setFilter', {
         environment: env === 'ALL' ? null : env
       })
