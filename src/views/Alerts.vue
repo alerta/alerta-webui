@@ -69,14 +69,7 @@
       </div>
     </v-expand-transition>
 
-    <alert-detail
-      v-if="detailDialog"
-      :id="selectedId"
-      @close="close"
-    />
-
     <v-tabs
-      v-if="!detailDialog"
       v-model="currentTab"
       class="px-1"
       grow
@@ -168,7 +161,6 @@ import moment from 'moment'
 import { ExportToCsv } from 'export-to-csv'
 
 import AlertList from '@/components/AlertList.vue'
-import AlertListFilter from '@/components/AlertListFilter.vue'
 
 import utils from '@/common/utils'
 import i18n from '../plugins/i18n'
@@ -177,8 +169,7 @@ export default {
   components: {
     AlertList,
     AlertIndicator: () => import('@/components/AlertIndicator.vue'),
-    AlertDetail: () => import('@/components/AlertDetail.vue'),
-    AlertListFilter
+    AlertListFilter: () => import('@/components/AlertListFilter.vue')
   },
   props: {
     query: {
@@ -200,7 +191,6 @@ export default {
   data: () => ({
     currentTab: null,
     densityDialog: false,
-    detailDialog: false,
     selectedId: null,
     selectedItem: {},
     sidesheet: false,
@@ -322,9 +312,6 @@ export default {
     },
     showPanel(val) {
       history.pushState(null, null, this.$store.getters['alerts/getHash'])
-    },
-    detailDialog(val) {
-      val || this.close()
     }
   },
   created() {
@@ -388,10 +375,7 @@ export default {
       })
     },
     setAlert(item) {
-      this.selectedId = item.id
-      this.selectedItem = Object.assign({}, item)
       this.$router.push({ path: `/alert/${item.id}` })
-      this.detailDialog = true
     },
     refreshAlerts() {
       this.getEnvironments()
@@ -409,13 +393,6 @@ export default {
     },
     ok() {
       this.densityDialog = false
-    },
-    close() {
-      this.detailDialog = false
-      setTimeout(() => {
-        this.selectedItem = {}
-        this.selectedId = null
-      }, 300)
     },
     toCsv(data) {
       const options = {
