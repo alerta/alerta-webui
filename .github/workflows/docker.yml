@@ -3,8 +3,9 @@ name: Docker Build and Push
 on:
   push:
     branches: [ master, release/* ]
-  pull_request:
-    branches: [ master ]
+
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
   build:
@@ -12,7 +13,6 @@ jobs:
     env:
       REPOSITORY_URL: docker.pkg.github.com
       IMAGE_NAME: ${{ github.repository }}/alerta-beta
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

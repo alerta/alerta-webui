@@ -4,6 +4,9 @@ on:
   push:
     branches: [ master, release/* ]
 
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -11,8 +14,10 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - name: Lint
+        id: lint
         run: npm run lint:nofix
       - name: Unit Test
+        id: unit-test
         run: npm run test:unit
 
       - uses: act10ns/slack@v1
@@ -27,9 +32,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
+      - run: |
+          echo BASE_URL=./ > .env
+          echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com >> .env
+          echo VUE_APP_TRACKING_ID=UA-44644195-7 >> .env
       - name: Build
+        id: build
         run: npm run build
       - name: Deploy
+        id: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,4 +50,4 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-        # if: failure()
+        if: failure()
