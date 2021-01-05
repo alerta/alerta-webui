@@ -145,11 +145,13 @@
           :transition="false"
           :reverse-transition="false"
         >
-          <alert-list
-            v-if="env == filter.environment || env == 'ALL'"
-            :alerts="alertsByEnvironment"
-            @set-alert="setAlert"
-          />
+          <keep-alive max="1">
+            <alert-list
+              v-if="env == filter.environment || env == 'ALL'"
+              :alerts="alertsByEnvironment"
+              @set-alert="setAlert"
+            />
+          </keep-alive>
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
