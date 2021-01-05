@@ -4,6 +4,7 @@
       v-model="selected"
       :headers="customHeaders"
       :items="alerts"
+      item-key="id"
       :pagination.sync="pagination"
       :total-items="pagination.totalItems"
       :rows-per-page-items="pagination.rowsPerPageItems"
