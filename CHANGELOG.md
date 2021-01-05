@@ -1,3 +1,32 @@
+## v8.4.0 (2021-01-05)
+
+### Fix
+
+- cancel timer and refresh alerts when env tab changes (#439)
+- axios method type no longer string (#437)
+
+### Refactor
+
+- alert detail navigation was confusing (#438)
+
+### Perf
+
+- only keep alive 1 environment tab (#433)
+- lazy load alert details and indicators components, again (#432)
+- lazy load alert details and indicators components (#431)
+- conditionally render environment tab contents (#430)
+
+## v8.3.3 (2021-01-02)
+
+### Fix
+
+- use better link color for dark mode (#422)
+
+### Feat
+
+- add icon in alert summary if note added to alert (#428)
+- blackout service drop-down and new values (#425)
+
 ## 8.3.2 (2020-12-13)
 
 ### Fix
