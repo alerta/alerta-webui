@@ -289,8 +289,8 @@ export default {
       handler(val) {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
         this.currentTab = this.defaultTab
-        this.getAlerts()
-        this.getEnvironments()
+        this.cancelTimer()
+        this.refreshAlerts()
       },
       deep: true
     },
