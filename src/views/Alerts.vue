@@ -258,6 +258,9 @@ export default {
     refresh() {
       return this.$store.state.refresh
     },
+    isLoggedIn() {
+      return this.$store.getters['auth/isLoggedIn']
+    },
     isMute() {
       return this.$store.getters.getPreference('isMute')
     },
@@ -271,10 +274,17 @@ export default {
     },
     displayDensity: {
       get() {
-        return this.$store.getters.getPreference('displayDensity')
+        return (
+          this.$store.getters.getPreference('displayDensity') ||
+          this.$store.state.alerts.displayDensity
+        )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {displayDensity: value})
+        if (this.isLoggedIn) {
+          this.$store.dispatch('setUserPrefs', {displayDensity: value})
+        } else {
+          this.$store.dispatch('alerts/set', ['displayDensity', value])
+        }
       }
     },
     pagination() {

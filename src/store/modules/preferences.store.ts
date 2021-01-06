@@ -14,7 +14,7 @@ const getDefaults = () => {
       shortTime: null
     },
     timezone: 'local',  // 'local' or 'utc'
-    displayDensity: 'comfortable',  // 'comfortable' or 'compact'
+    displayDensity: null,  // 'comfortable' or 'compact'
     showAllowedEnvs: false,
     showNotesIcon: false,
     font: {

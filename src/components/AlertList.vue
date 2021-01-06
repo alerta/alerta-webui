@@ -529,7 +529,10 @@ export default {
   }),
   computed: {
     displayDensity() {
-      return this.$store.getters.getPreference('displayDensity')
+      return (
+        this.$store.getters.getPreference('displayDensity') ||
+        this.$store.state.alerts.displayDensity
+      )
     },
     fontStyle() {
       const font = this.$store.getters.getPreference('font')

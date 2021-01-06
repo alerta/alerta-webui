@@ -27,6 +27,7 @@ const state = {
   isWatch: false,
   isKiosk: false,
   showPanel: false,
+  displayDensity: 'comfortable',  // 'comfortable' or 'compact'
 
   // query, filter and pagination
   query: {}, // URLSearchParams
@@ -302,6 +303,9 @@ const actions = {
   },
 
   toggle({ commit }, [s, v]) {
+    commit('SET_SETTING', { s, v })
+  },
+  set({ commit }, [s, v]) {
     commit('SET_SETTING', { s, v })
   },
   setFilter({ commit }, filter) {
