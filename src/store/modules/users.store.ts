@@ -8,16 +8,26 @@ const state = {
 
   domains: [],
   users: [],
-  groups: []
+  groups: [],
+
+  pagination: {
+    page: 1,
+    rowsPerPage: 20,
+    sortBy: 'name',
+    descending: false,
+    rowsPerPageItems: [10, 20, 50, 100, 200]
+  }
 }
 
 const mutations = {
   SET_LOADING(state) {
     state.isLoading = true
   },
-  SET_USERS(state, users) {
+  SET_USERS(state, [users, total, pageSize]) {
     state.isLoading = false
     state.users = users
+    state.pagination.totalItems = total
+    state.pagination.rowsPerPage = pageSize
   },
   SET_USER_GROUPS(state, groups) {
     state.groups = groups
@@ -27,14 +37,27 @@ const mutations = {
   },
   RESET_LOADING(state) {
     state.isLoading = false
+  },
+  SET_PAGINATION(state, pagination) {
+    state.pagination = Object.assign({}, state.pagination, pagination)
   }
 }
 
 const actions = {
-  getUsers({ commit }) {
+  getUsers({ commit, state }) {
     commit('SET_LOADING')
-    return UsersApi.getUsers({})
-      .then(({ users }) => commit('SET_USERS', users))
+
+    let params = new URLSearchParams(state.query)
+
+    // add server-side paging
+    params.append('page', state.pagination.page)
+    params.append('page-size', state.pagination.rowsPerPage)
+
+    // add server-side sort
+    params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
+
+    return UsersApi.getUsers(params)
+      .then(({ users, total, pageSize }) => commit('SET_USERS', [users, total, pageSize]))
       .catch(() => commit('RESET_LOADING'))
   },
   createUser({ dispatch, commit }, user) {
@@ -75,11 +98,16 @@ const actions = {
   },
   resetUserGroups({ commit }) {
     commit('RESET_USER_GROUPS')
+  },
+  setPagination({ commit }, pagination) {
+    commit('SET_PAGINATION', pagination)
   }
 }
 
 const getters = {
-  //
+  pagination: state => {
+    return state.pagination
+  }
 }
 
 export default {

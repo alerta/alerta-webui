@@ -5,7 +5,15 @@ const namespaced = true
 const state = {
   isLoading: false,
 
-  keys: []
+  keys: [],
+
+  pagination: {
+    page: 1,
+    rowsPerPage: 20,
+    sortBy: 'lastUsedTime',
+    descending: true,
+    rowsPerPageItems: [10, 20, 50, 100, 200]
+  }
 }
 
 const mutations = {
@@ -16,20 +24,35 @@ const mutations = {
     state.isLoading = false
     state.users = users
   },
-  SET_KEYS(state, keys) {
+  SET_KEYS(state, [keys, total, pageSize]) {
     state.isLoading = false
     state.keys = keys
+    state.pagination.totalItems = total
+    state.pagination.rowsPerPage = pageSize
   },
   RESET_LOADING(state) {
     state.isLoading = false
+  },
+  SET_PAGINATION(state, pagination) {
+    state.pagination = Object.assign({}, state.pagination, pagination)
   }
 }
 
 const actions = {
-  getKeys({ commit, dispatch }) {
+  getKeys({ commit, state }) {
     commit('SET_LOADING')
-    return KeysApi.getKeys({})
-      .then(({ keys }) => commit('SET_KEYS', keys))
+
+    let params = new URLSearchParams(state.query)
+
+    // add server-side paging
+    params.append('page', state.pagination.page)
+    params.append('page-size', state.pagination.rowsPerPage)
+
+    // add server-side sort
+    params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
+
+    return KeysApi.getKeys(params)
+      .then(({ keys, total, pageSize }) => commit('SET_KEYS', [keys, total, pageSize]))
       .catch(() => commit('RESET_LOADING'))
   },
   createKey({ dispatch, commit }, key) {
@@ -49,11 +72,16 @@ const actions = {
       .then(response => {
         dispatch('getKeys')
       })
+  },
+  setPagination({ commit }, pagination) {
+    commit('SET_PAGINATION', pagination)
   }
 }
 
 const getters = {
-  //
+  pagination: state => {
+    return state.pagination
+  }
 }
 
 export default {
