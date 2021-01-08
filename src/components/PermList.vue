@@ -131,11 +131,10 @@
       <v-data-table
         :headers="headers"
         :items="perms"
-        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
+        :total-items="pagination.totalItems"
+        :rows-per-page-items="pagination.rowsPerPageItems"
         class="px-2"
-        :search="search"
-        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -238,16 +237,8 @@ export default {
     ListButtonAdd
   },
   data: () => ({
-    descending: true,
-    page: 1,
-    rowsPerPageItems: [10, 20, 30, 40, 50],
-    pagination: {
-      sortBy: 'match',
-      rowsPerPage: 20
-    },
-    // totalItems: number,
-    search: '',
     systemRoles: ['admin', 'user', 'guest'],
+    search: '',
     wantScopes: [],
     dialog: false,
     headers: [
@@ -271,9 +262,19 @@ export default {
   computed: {
     perms() {
       return this.$store.state.perms.permissions
+        .filter(p => this.wantScopes.length > 0 ? p.scopes.some(x => this.wantScopes.includes(x)) : true)
+        .filter(p => this.search ? (Object.keys(p).some(k => p[k] && p[k].toString().includes(this.search))) : true)
     },
     scopes() {
       return this.$store.state.perms.scopes
+    },
+    pagination: {
+      get() {
+        return this.$store.getters['perms/pagination']
+      },
+      set(value) {
+        this.$store.dispatch('perms/setPagination', value)
+      }
     },
     allowedScopes() {
       return utils.getAllowedScopes(
@@ -297,6 +298,12 @@ export default {
     },
     refresh(val) {
       val || this.getPerms()
+    },
+    pagination: {
+      handler () {
+        this.getPerms()
+      },
+      deep: true
     }
   },
   created() {
@@ -309,20 +316,6 @@ export default {
     },
     getScopes() {
       this.$store.dispatch('perms/getScopes')
-    },
-    filterByScopes(scopes) {
-      this.wantScopes = scopes
-    },
-    customFilter(items, search, filter) {
-      items = items.filter(item =>
-        this.wantScopes.length > 0 ? item.scopes.some(x => this.wantScopes.includes(x)) : item
-      )
-
-      if (search.trim() === '') return items
-
-      return items.filter(i => (
-        Object.keys(i).some(j => filter(i[j], search))
-      ))
     },
     editItem(item) {
       this.editedId = item.id

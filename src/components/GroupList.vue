@@ -191,10 +191,10 @@
       <v-data-table
         :headers="headers"
         :items="groups"
-        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
+        :total-items="pagination.totalItems"
+        :rows-per-page-items="pagination.rowsPerPageItems"
         class="px-2"
-        :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -289,14 +289,6 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    descending: true,
-    page: 1,
-    rowsPerPageItems: [10, 20, 30, 40, 50],
-    pagination: {
-      sortBy: 'name',
-      rowsPerPage: 20
-    },
-    // totalItems: number,
     search: '',
     dialog: false,
     headers: [
@@ -330,6 +322,15 @@ export default {
     },
     groups() {
       return this.$store.state.groups.groups
+        .filter(g => this.search ? (Object.keys(g).some(k => g[k] && g[k].toString().includes(this.search))) : true)
+    },
+    pagination: {
+      get() {
+        return this.$store.getters['groups/pagination']
+      },
+      set(value) {
+        this.$store.dispatch('groups/setPagination', value)
+      }
     },
     groupUsers() {
       return this.$store.state.groups.users
@@ -353,6 +354,12 @@ export default {
     },
     refresh(val) {
       val || this.getGroups()
+    },
+    pagination: {
+      handler () {
+        this.getGroups()
+      },
+      deep: true
     }
   },
   created() {
