@@ -33,10 +33,22 @@ describe('ApiKeyList', () => {
                 type: 'read-write',
                 user: 'nfsatterly@gmail.com'
               }
-            ]
+            ],
+
+            pagination: {
+              page: 1,
+              rowsPerPage: 20,
+              totalItems: 1,
+              sortBy: 'lastUsedTime',
+              descending: true,
+              rowsPerPageItems: [10, 20, 50, 100, 200]
+            }
           },
           actions: {
             getKeys() { }
+          },
+          getters: {
+            pagination: state => { return state.pagination }
           }
         },
         perms: {
