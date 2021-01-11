@@ -9,6 +9,7 @@ export default {
     for (let scope of scopes) {
       derivedScopes.push(...expandScope(scope))
       if (scope.startsWith('admin')) {
+        derivedScopes.push(...expandScope(scope.replace('admin', 'delete')))
         derivedScopes.push(...expandScope(scope.replace('admin', 'write')))
         derivedScopes.push(...expandScope(scope.replace('admin', 'read')))
       }
