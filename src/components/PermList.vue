@@ -239,7 +239,7 @@ export default {
   data: () => ({
     systemRoles: ['admin', 'user', 'guest'],
     search: '',
-    wantScopes: [],
+    // wantScopes: [],
     dialog: false,
     headers: [
       { text: i18n.t('Role'), value: 'match' },
@@ -262,11 +262,20 @@ export default {
   computed: {
     perms() {
       return this.$store.state.perms.permissions
-        .filter(p => this.wantScopes.length > 0 ? p.scopes.some(x => this.wantScopes.includes(x)) : true)
         .filter(p => this.search ? (Object.keys(p).some(k => p[k] && p[k].toString().includes(this.search))) : true)
     },
     scopes() {
       return this.$store.state.perms.scopes
+    },
+    wantScopes: {
+      get() {
+        return this.$store.getters['perms/filterScopes']
+      },
+      set(value) {
+        this.$store.dispatch('perms/setFilter', {
+          scopes: value
+        })
+      }
     },
     pagination: {
       get() {
@@ -298,6 +307,9 @@ export default {
     },
     refresh(val) {
       val || this.getPerms()
+    },
+    wantScopes(val) {
+      this.getPerms()
     },
     pagination: {
       handler () {

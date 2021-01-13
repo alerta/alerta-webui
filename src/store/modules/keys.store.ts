@@ -7,6 +7,11 @@ const state = {
 
   keys: [],
 
+  // filter and pagination
+  filter: {
+    status: ['active', 'expired'],
+  },
+
   pagination: {
     page: 1,
     rowsPerPage: 20,
@@ -33,6 +38,9 @@ const mutations = {
   RESET_LOADING(state) {
     state.isLoading = false
   },
+  SET_FILTER(state, filter): any {
+    state.filter = Object.assign({}, state.filter, filter)
+  },
   SET_PAGINATION(state, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
   }
@@ -43,6 +51,8 @@ const actions = {
     commit('SET_LOADING')
 
     let params = new URLSearchParams(state.query)
+
+    state.filter.status && state.filter.status.map(st => params.append('status', st))
 
     // add server-side paging
     params.append('page', state.pagination.page)
@@ -73,12 +83,19 @@ const actions = {
         dispatch('getKeys')
       })
   },
+
+  setFilter({ commit }, filter) {
+    commit('SET_FILTER', filter)
+  },
   setPagination({ commit }, pagination) {
     commit('SET_PAGINATION', pagination)
   }
 }
 
 const getters = {
+  filterStatus: state => {
+    return state.filter.status
+  },
   pagination: state => {
     return state.pagination
   }

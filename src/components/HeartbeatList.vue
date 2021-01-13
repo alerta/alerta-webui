@@ -163,7 +163,7 @@ export default {
     DateTime
   },
   data: () => ({
-    status: ['ok', 'slow', 'expired'],
+    // status: ['ok', 'slow', 'expired'],
     search: '',
     headers: [
       { text: i18n.t('Origin'), value: 'origin' },
@@ -182,8 +182,18 @@ export default {
   computed: {
     heartbeats() {
       return this.$store.state.heartbeats.heartbeats
-        .filter(hb => !this.status || this.status.includes(hb.status))
+        // .filter(hb => !this.status || this.status.includes(hb.status))
         .filter(hb => this.search ? (Object.keys(hb).some(k => hb[k] && hb[k].toString().includes(this.search))) : true)
+    },
+    status: {
+      get() {
+        return this.$store.getters['heartbeats/filterStatus']
+      },
+      set(value) {
+        this.$store.dispatch('heartbeats/setFilter', {
+          status: value
+        })
+      }
     },
     pagination: {
       get() {
@@ -206,6 +216,9 @@ export default {
   watch: {
     refresh(val) {
       val || this.getHeartbeats()
+    },
+    status(val) {
+      this.getHeartbeats()
     },
     pagination: {
       handler () {

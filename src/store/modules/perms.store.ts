@@ -8,6 +8,11 @@ const state = {
   permissions: [],
   scopes: [],
 
+  // filter and pagination
+  filter: {
+    scopes: [],
+  },
+
   pagination: {
     page: 1,
     rowsPerPage: 20,
@@ -34,6 +39,9 @@ const mutations = {
   RESET_LOADING(state) {
     state.isLoading = false
   },
+  SET_FILTER(state, filter): any {
+    state.filter = Object.assign({}, state.filter, filter)
+  },
   SET_PAGINATION(state, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
   }
@@ -44,6 +52,8 @@ const actions = {
     commit('SET_LOADING')
 
     let params = new URLSearchParams(state.query)
+
+    state.filter.scopes && state.filter.scopes.map(s => params.append('scope', s))
 
     // add server-side paging
     params.append('page', state.pagination.page)
@@ -80,6 +90,10 @@ const actions = {
     return PermsApi.getScopes()
       .then(({ scopes }) => commit('SET_SCOPES', scopes))
   },
+
+  setFilter({ commit }, filter) {
+    commit('SET_FILTER', filter)
+  },
   setPagination({ commit }, pagination) {
     commit('SET_PAGINATION', pagination)
   }
@@ -88,6 +102,9 @@ const actions = {
 const getters = {
   roles: state => {
     return state.permissions.map(p => p.match)
+  },
+  filterScopes: state => {
+    return state.filter.scopes
   },
   pagination: state => {
     return state.pagination

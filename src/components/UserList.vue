@@ -439,9 +439,9 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    status: ['active', 'inactive'],
+    // status: ['active', 'inactive'],
     search: '',
-    wantRoles: [],
+    // wantRoles: [],
     dialog: false,
     headers: [
       { text: i18n.t('Name'), value: 'name' },
@@ -493,9 +493,28 @@ export default {
     },
     users() {
       return this.$store.state.users.users
-        .filter(u => !this.status || this.status.includes(u.status))
-        .filter(u => this.wantRoles.length > 0 ? u.roles.some(x => this.wantRoles.includes(x)) : true)
+        .filter(u => this.status.length > 0)
         .filter(u => this.search ? (Object.keys(u).some(k => u[k] && u[k].toString().includes(this.search))) : true)
+    },
+    status: {
+      get() {
+        return this.$store.getters['users/filterStatus']
+      },
+      set(value) {
+        this.$store.dispatch('users/setFilter', {
+          status: value
+        })
+      }
+    },
+    wantRoles: {
+      get() {
+        return this.$store.getters['users/filterRoles']
+      },
+      set(value) {
+        this.$store.dispatch('users/setFilter', {
+          roles: value
+        })
+      }
     },
     pagination: {
       get() {
@@ -535,6 +554,12 @@ export default {
     },
     refresh(val) {
       val || this.getUsers()
+    },
+    status(val) {
+      this.getUsers()
+    },
+    wantRoles(val) {
+      this.getUsers()
     },
     pagination: {
       handler () {

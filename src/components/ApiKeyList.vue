@@ -368,7 +368,7 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    status: ['active', 'expired'],
+    // status: ['active', 'expired'],
     search: '',
     dialog: false,
     headers: [
@@ -409,8 +409,18 @@ export default {
     },
     keys() {
       return this.$store.state.keys.keys
-        .filter(a => !this.status || this.status.includes(this.statusFromExpireTime(a)))
+        .filter(a => this.status.length > 0)
         .filter(a => this.search ? (Object.keys(a).some(k => a[k] && a[k].toString().includes(this.search))) : true)
+    },
+    status: {
+      get() {
+        return this.$store.getters['keys/filterStatus']
+      },
+      set(value) {
+        this.$store.dispatch('keys/setFilter', {
+          status: value
+        })
+      }
     },
     pagination: {
       get() {
@@ -451,6 +461,9 @@ export default {
     },
     refresh(val) {
       val || this.getApiKeys()
+    },
+    status(val) {
+      this.getApiKeys()
     },
     pagination: {
       handler () {
