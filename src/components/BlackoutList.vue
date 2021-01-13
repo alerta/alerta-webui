@@ -447,7 +447,7 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    status: ['active', 'pending', 'expired'],
+    // status: ['active', 'pending', 'expired'],
     search: '',
     dialog: false,
     headers: [
@@ -509,7 +509,7 @@ export default {
   computed: {
     blackouts() {
       return this.$store.state.blackouts.blackouts
-        .filter(b => !this.status || this.status.includes(b.status))
+        .filter(b => this.status.length > 0)
         .filter(b => this.search ? (Object.keys(b).some(k => b[k] && b[k].toString().includes(this.search))) : true)
         .map(b => {
           let s = moment(b.startTime)
@@ -523,6 +523,16 @@ export default {
             }
           })
         })
+    },
+    status: {
+      get() {
+        return this.$store.getters['blackouts/filterStatus']
+      },
+      set(value) {
+        this.$store.dispatch('blackouts/setFilter', {
+          status: value
+        })
+      }
     },
     pagination: {
       get() {
@@ -580,6 +590,9 @@ export default {
       this.getEnvironments()
       this.getServices()
       this.getTags()
+    },
+    status(val) {
+      this.getBlackouts()
     },
     pagination: {
       handler () {
