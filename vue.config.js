@@ -1,7 +1,7 @@
 process.env.VUE_APP_VERSION = require('./package.json').version
 
 module.exports = {
-  publicPath: process.env.BASE_URL,
+  publicPath: '',  // process.env.BASE_URL,
   chainWebpack: config => {
     config.module
       .rule('fonts')

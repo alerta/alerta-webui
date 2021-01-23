@@ -1,0 +1,172 @@
+version: '3.7'
+
+services:
+  front:
+    image: envoyproxy/envoy:v1.13.1
+    volumes:
+      - ./proxy/front-proxy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "8000:80"
+      - "8001:8001"
+    networks:
+      - envoymesh
+
+  webui0:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    volumes:
+      - ${PWD}/config.json:/usr/share/nginx/html/config.json
+    ports:
+      - "9000:80"
+    networks:
+      envoymesh:
+        aliases:
+          - web0
+
+  webui1:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+      args:
+        BASE_URL: /alerta/ui1
+    volumes:
+      - ${PWD}/config.json:/usr/share/nginx/html/config.json
+    ports:
+      - "9001:80"
+    networks:
+      envoymesh:
+        aliases:
+          - web1
+
+  webui2:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    environment:
+      BASE_URL: /alerta/ui2
+    volumes:
+      - ${PWD}/config.json:/usr/share/nginx/html/config.json
+    ports:
+      - "9002:80"
+    networks:
+      envoymesh:
+        aliases:
+          - web2
+
+  api:
+    image: alerta/alerta-web  # use API in "alerta-web" image
+    depends_on:
+      - db
+    environment:
+      DEBUG: 1  # remove this line to turn DEBUG off
+      DATABASE_URL: postgres://postgres:postgres@db:5432/monitoring
+    networks:
+      envoymesh:
+        aliases:
+          - api
+
+  db:
+    image: postgres
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: monitoring
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      envoymesh:
+        aliases:
+          - db
+    restart: always
+
+networks:
+  envoymesh: {}
+
+# services:
+#   proxy:
+#     image: envoyproxy/envoy:v1.13.1
+#     volumes:
+#       - ./proxy/front-proxy.yaml:/etc/envoy/envoy.yaml
+#     ports:
+#       - "9000:9000"
+#       - "9001:9001"
+#     networks:
+#       - envoymesh
+
+#   webui0:
+#     build:
+#       context: ../..
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8000:80"
+#     networks:
+#       envoymesh:
+#         aliases:
+#           - web0
+
+#   webui1:
+#     build:
+#       context: ../..
+#       dockerfile: Dockerfile
+#       args:
+#         BASE_URL: /alerta/ui1
+#     ports:
+#       - "8001:80"
+#     networks:
+#       envoymesh:
+#         aliases:
+#           - web1
+
+#   webui2:
+#     build: ../..
+#     environment:
+#       BASE_URL: /alerta/ui2
+#     ports:
+#       - "8002:80"
+#     networks:
+#       envoymesh:
+#         aliases:
+#           - web2
+
+#   api:
+#     image: alerta/alerta-web  # use API in "alerta-web" image
+#     depends_on:
+#       - db
+#     environment:
+#       DEBUG: 1  # remove this line to turn DEBUG off
+#       DATABASE_URL: postgres://postgres:postgres@db:5432/monitoring
+#     networks:
+#       envoymesh:
+#         aliases:
+#           - api
+
+#   db:
+#     image: postgres
+#     volumes:
+#       - ./pg-data:/var/lib/postgresql/data
+#     environment:
+#       POSTGRES_DB: monitoring
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#     networks:
+#       envoymesh:
+#         aliases:
+#           - db
+#     restart: always
+  
+#   tester:
+#     image:  alpine
+#     networks:
+#       envoymesh:
+#         aliases:
+#           - web2
+#     depends_on:
+#       - proxy
+#       - webui1
+#       - webui2
+#       - api
+#       - db
+
+# networks:
+#   envoymesh: {}
