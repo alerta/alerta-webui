@@ -4,6 +4,7 @@ import config from './modules/config.store'
 import alerts from './modules/alerts.store'
 import heartbeats from './modules/heartbeats.store'
 import blackouts from './modules/blackouts.store'
+import twilioRule from './modules/twilioRule.store'
 import users from './modules/users.store'
 import groups from './modules/groups.store'
 import perms from './modules/perms.store'
@@ -44,6 +45,7 @@ export function createStore(): Store<any> {
       alerts,
       heartbeats,
       blackouts,
+      twilioRule,
       users,
       groups,
       perms,

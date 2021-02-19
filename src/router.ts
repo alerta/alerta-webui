@@ -62,6 +62,13 @@ export function createRouter(basePath): VueRouter {
         meta: {title: 'Blackouts', requiresAuth: true}
       },
       {
+        path: '/twiliorules',
+        name: 'twiliorules',
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/TwilioRule.vue'),
+        meta: { title: 'TwilioRules', requiresAuth: true }
+      },
+      {
         path: '/perms',
         name: 'perms',
         component: () => import(/* webpackChunkName: 'admin' */ './views/Perms.vue'),
