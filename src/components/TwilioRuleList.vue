@@ -193,7 +193,7 @@
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
-                    :label="$t('Reason')"
+                    :label="$t('Text')"
                   />
                 </v-flex>
               </v-layout>
@@ -476,7 +476,7 @@ export default {
       { text: i18n.t('Tags'), value: 'tags' },
       { text: '', value: 'status' },
       { text: i18n.t('User'), value: 'user' },
-      // { text: 'Created', value: 'createTime' }, FIXME
+      { text: 'Text', value: 'text' },
       { text: i18n.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
@@ -547,8 +547,9 @@ export default {
             period.endTime = `${("0" + eTime.getHours()).slice(-2)}:${('0' + eTime.getMinutes()).slice(-2)}`
           }
 
-          return Object.assign(b, {
-            period: period
+          return Object.assign({...b}, {
+            period: period,
+            text: b.text.replace(/%\((\w*)\)s/g, "{$1}")
           })
         })
     },
@@ -702,7 +703,7 @@ export default {
             tags: this.editedItem.tags,
             startTime: sTimeStr,
             endTime: eTimeStr,
-            text: this.editedItem.text,
+            text: this.editedItem.text.replace(/\{(\w*)\}/g, "%($1)s"),
             days: this.editedItem.days,
             severity: this.editedItem.severity
           }
@@ -713,7 +714,8 @@ export default {
           Object.assign(this.editedItem, {
             id: null,
             startTime: sTimeStr,
-            endTime: eTimeStr
+            endTime: eTimeStr,
+            text: this.editedItem.text.replace(/\{(\w*)\}/g, "%($1)s")
           })
         )
       }
