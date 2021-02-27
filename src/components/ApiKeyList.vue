@@ -196,10 +196,10 @@
       <v-data-table
         :headers="computedHeaders"
         :items="keys"
+        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
-        :total-items="pagination.totalItems"
-        :rows-per-page-items="pagination.rowsPerPageItems"
         class="px-2"
+        :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -368,6 +368,13 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40, 50],
+    pagination: {
+      sortBy: 'lastUsedTime',
+      rowsPerPage: 20
+    },
     status: ['active', 'expired'],
     search: '',
     dialog: false,
@@ -408,17 +415,7 @@ export default {
       return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
     },
     keys() {
-      return this.$store.state.keys.keys
-        .filter(a => !this.status || this.status.includes(this.statusFromExpireTime(a)))
-        .filter(a => this.search ? (Object.keys(a).some(k => a[k] && a[k].toString().includes(this.search))) : true)
-    },
-    pagination: {
-      get() {
-        return this.$store.getters['keys/pagination']
-      },
-      set(value) {
-        this.$store.dispatch('keys/setPagination', value)
-      }
+      return this.$store.state.keys.keys.filter(k => !this.status || this.status.includes(this.statusFromExpireTime(k)))
     },
     users() {
       return this.$store.state.users.users.map(u => u.login)
@@ -451,12 +448,6 @@ export default {
     },
     refresh(val) {
       val || this.getApiKeys()
-    },
-    pagination: {
-      handler () {
-        this.getApiKeys()
-      },
-      deep: true
     }
   },
   created() {

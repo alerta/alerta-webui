@@ -5,50 +5,27 @@ const namespaced = true
 const state = {
   isLoading: false,
 
-  blackouts: [],
-
-  pagination: {
-    page: 1,
-    rowsPerPage: 20,
-    sortBy: 'startTime',
-    descending: true,
-    rowsPerPageItems: [10, 20, 50, 100, 200]
-  }
+  blackouts: []
 }
 
 const mutations = {
   SET_LOADING(state) {
     state.isLoading = true
   },
-  SET_BLACKOUTS(state, [blackouts, total, pageSize]) {
+  SET_BLACKOUTS(state, blackouts) {
     state.isLoading = false
     state.blackouts = blackouts
-    state.pagination.totalItems = total
-    state.pagination.rowsPerPage = pageSize
   },
   RESET_LOADING(state) {
     state.isLoading = false
-  },
-  SET_PAGINATION(state, pagination) {
-    state.pagination = Object.assign({}, state.pagination, pagination)
   }
 }
 
 const actions = {
-  getBlackouts({ commit, state }) {
+  getBlackouts({ commit }) {
     commit('SET_LOADING')
-
-    let params = new URLSearchParams(state.query)
-
-    // add server-side paging
-    params.append('page', state.pagination.page)
-    params.append('page-size', state.pagination.rowsPerPage)
-
-    // add server-side sort
-    params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
-
-    return BlackoutsApi.getBlackouts(params)
-      .then(({ blackouts, total, pageSize }) => commit('SET_BLACKOUTS', [blackouts, total, pageSize]))
+    return BlackoutsApi.getBlackouts({})
+      .then(({ blackouts }) => commit('SET_BLACKOUTS', blackouts))
       .catch(() => commit('RESET_LOADING'))
   },
   createBlackout({ dispatch, commit }, blackout) {
@@ -68,16 +45,11 @@ const actions = {
       .then(response => {
         dispatch('getBlackouts')
       })
-  },
-  setPagination({ commit }, pagination) {
-    commit('SET_PAGINATION', pagination)
   }
 }
 
 const getters = {
-  pagination: state => {
-    return state.pagination
-  }
+  //
 }
 
 export default {

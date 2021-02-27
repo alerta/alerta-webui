@@ -270,10 +270,10 @@
       <v-data-table
         :headers="computedHeaders"
         :items="blackouts"
+        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
-        :total-items="pagination.totalItems"
-        :rows-per-page-items="pagination.rowsPerPageItems"
         class="px-2"
+        :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -447,6 +447,14 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40, 50],
+    pagination: {
+      sortBy: 'startTime',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
     status: ['active', 'pending', 'expired'],
     search: '',
     dialog: false,
@@ -510,7 +518,6 @@ export default {
     blackouts() {
       return this.$store.state.blackouts.blackouts
         .filter(b => !this.status || this.status.includes(b.status))
-        .filter(b => this.search ? (Object.keys(b).some(k => b[k] && b[k].toString().includes(this.search))) : true)
         .map(b => {
           let s = moment(b.startTime)
           let e = moment(b.endTime)
@@ -523,14 +530,6 @@ export default {
             }
           })
         })
-    },
-    pagination: {
-      get() {
-        return this.$store.getters['blackouts/pagination']
-      },
-      set(value) {
-        this.$store.dispatch('blackouts/setPagination', value)
-      }
     },
     computedHeaders() {
       return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
@@ -580,12 +579,6 @@ export default {
       this.getEnvironments()
       this.getServices()
       this.getTags()
-    },
-    pagination: {
-      handler () {
-        this.getBlackouts()
-      },
-      deep: true
     }
   },
   created() {

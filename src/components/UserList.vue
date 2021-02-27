@@ -296,10 +296,11 @@
       <v-data-table
         :headers="headers"
         :items="users"
+        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
-        :total-items="pagination.totalItems"
-        :rows-per-page-items="pagination.rowsPerPageItems"
         class="px-2"
+        :search="search"
+        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -439,6 +440,14 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40, 50],
+    pagination: {
+      sortBy: 'name',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
     status: ['active', 'inactive'],
     search: '',
     wantRoles: [],
@@ -492,18 +501,7 @@ export default {
       return this.$config.provider == 'basic'
     },
     users() {
-      return this.$store.state.users.users
-        .filter(u => !this.status || this.status.includes(u.status))
-        .filter(u => this.wantRoles.length > 0 ? u.roles.some(x => this.wantRoles.includes(x)) : true)
-        .filter(u => this.search ? (Object.keys(u).some(k => u[k] && u[k].toString().includes(this.search))) : true)
-    },
-    pagination: {
-      get() {
-        return this.$store.getters['users/pagination']
-      },
-      set(value) {
-        this.$store.dispatch('users/setPagination', value)
-      }
+      return this.$store.state.users.users.filter(u => !this.status || this.status.includes(u.status))
     },
     allGroups() {
       return this.$store.state.groups.groups
@@ -535,12 +533,6 @@ export default {
     },
     refresh(val) {
       val || this.getUsers()
-    },
-    pagination: {
-      handler () {
-        this.getUsers()
-      },
-      deep: true
     }
   },
   created() {
@@ -561,6 +553,20 @@ export default {
     },
     getPerms() {
       this.$store.dispatch('perms/getPerms')
+    },
+    filterByRoles(roles) {
+      this.wantRoles = roles
+    },
+    customFilter(items, search, filter) {
+      items = items.filter(item =>
+        this.wantRoles.length > 0 ? item.roles.some(x => this.wantRoles.includes(x)) : item
+      )
+
+      if (search.trim() === '') return items
+
+      return items.filter(i => (
+        Object.keys(i).some(j => filter(i[j], search))
+      ))
     },
     toggleUserStatus(item) {
       this.$store.dispatch('users/setUserStatus', [
