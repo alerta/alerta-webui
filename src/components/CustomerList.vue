@@ -86,10 +86,10 @@
       <v-data-table
         :headers="headers"
         :items="customers"
+        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
-        :total-items="pagination.totalItems"
-        :rows-per-page-items="pagination.rowsPerPageItems"
         class="px-2"
+        :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -170,6 +170,14 @@ export default {
     ListButtonAdd
   },
   data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40, 50],
+    pagination: {
+      sortBy: 'match',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
     search: '',
     dialog: false,
     headers: [
@@ -193,15 +201,6 @@ export default {
   computed: {
     customers() {
       return this.$store.state.customers.customers
-        .filter(c => this.search ? (Object.keys(c).some(k => c[k] && c[k].toString().includes(this.search))) : true)
-    },
-    pagination: {
-      get() {
-        return this.$store.getters['customers/pagination']
-      },
-      set(value) {
-        this.$store.dispatch('customers/setPagination', value)
-      }
     },
     isLoading() {
       return this.$store.state.customers.isLoading
@@ -219,12 +218,6 @@ export default {
     },
     refresh(val) {
       val || this.getCustomers()
-    },
-    pagination: {
-      handler () {
-        this.getCustomers()
-      },
-      deep: true
     }
   },
   created() {

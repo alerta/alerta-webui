@@ -6,26 +6,16 @@ const state = {
   isLoading: false,
 
   permissions: [],
-  scopes: [],
-
-  pagination: {
-    page: 1,
-    rowsPerPage: 20,
-    sortBy: 'match',  // role
-    descending: false,
-    rowsPerPageItems: [10, 20, 50, 100, 200]
-  }
+  scopes: []
 }
 
 const mutations = {
   SET_LOADING(state) {
     state.isLoading = true
   },
-  SET_PERMS(state, [permissions, total, pageSize]) {
+  SET_PERMS(state, permissions) {
     state.isLoading = false
     state.permissions = permissions
-    state.pagination.totalItems = total
-    state.pagination.rowsPerPage = pageSize
   },
   SET_SCOPES(state, scopes) {
     state.isLoading = false
@@ -33,27 +23,14 @@ const mutations = {
   },
   RESET_LOADING(state) {
     state.isLoading = false
-  },
-  SET_PAGINATION(state, pagination) {
-    state.pagination = Object.assign({}, state.pagination, pagination)
   }
 }
 
 const actions = {
-  getPerms({ commit, state }) {
+  getPerms({ commit }) {
     commit('SET_LOADING')
-
-    let params = new URLSearchParams(state.query)
-
-    // add server-side paging
-    params.append('page', state.pagination.page)
-    params.append('page-size', state.pagination.rowsPerPage)
-
-    // add server-side sort
-    params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
-
-    return PermsApi.getPerms(params)
-      .then(({ permissions, total, pageSize }) => commit('SET_PERMS', [permissions, total, pageSize]))
+    return PermsApi.getPerms({})
+      .then(({ permissions }) => commit('SET_PERMS', permissions))
       .catch(() => commit('RESET_LOADING'))
   },
   createPerm({ dispatch, commit }, perm) {
@@ -79,18 +56,12 @@ const actions = {
     commit('SET_LOADING')
     return PermsApi.getScopes()
       .then(({ scopes }) => commit('SET_SCOPES', scopes))
-  },
-  setPagination({ commit }, pagination) {
-    commit('SET_PAGINATION', pagination)
   }
 }
 
 const getters = {
   roles: state => {
     return state.permissions.map(p => p.match)
-  },
-  pagination: state => {
-    return state.pagination
   }
 }
 
