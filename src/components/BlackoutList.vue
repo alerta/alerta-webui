@@ -185,6 +185,15 @@
                   xs12
                 >
                   <v-text-field
+                    v-model.trim="editedItem.origin"
+                    :label="$t('Origin')"
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs12
+                >
+                  <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Reason')"
                   />
@@ -313,6 +322,7 @@
               </v-icon>{{ tag }}
             </v-chip>
           </td>
+          <td>{{ props.item.origin }}</td>
           <td class="text-xs-right">
             <v-tooltip top>
               {{ props.item.status | capitalize }}
@@ -466,6 +476,7 @@ export default {
       { text: i18n.t('Event'), value: 'event' },
       { text: i18n.t('Group'), value: 'group' },
       { text: i18n.t('Tags'), value: 'tags' },
+      { text: i18n.t('Origin'), value: 'origin' },
       { text: '', value: 'status' },
       { text: i18n.t('Start'), value: 'startTime' },
       { text: i18n.t('End'), value: 'endTime' },
@@ -484,6 +495,7 @@ export default {
       event: null,
       group: null,
       tags: [],
+      origin: null,
       period: {
         startDate: null,
         startTime: null,
@@ -502,6 +514,7 @@ export default {
       event: null,
       group: null,
       tags: [],
+      origin: null,
       period: {
         startDate: null,
         startTime: null,
@@ -671,6 +684,7 @@ export default {
             event: this.editedItem.event,
             group: this.editedItem.group,
             tags: this.editedItem.tags,
+            origin: this.editItem.origin,
             startTime: this.toISODate(
               this.editedItem.period.startDate,
               this.editedItem.period.startTime
