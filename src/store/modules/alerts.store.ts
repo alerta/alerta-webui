@@ -19,10 +19,6 @@ const state = {
   alert: {},
   notes: [],
 
-  offenders: [],
-  flapping: [],
-  standing: [],
-
   // not persisted
   isWatch: false,
   isKiosk: false,
@@ -92,15 +88,6 @@ const mutations = {
   },
   SET_TAGS(state, tags): any {
     state.tags = tags
-  },
-  SET_TOP_OFFENDERS(state, top10): any {
-    state.offenders = top10
-  },
-  SET_TOP_FLAPPING(state, top10): any {
-    state.flapping = top10
-  },
-  SET_TOP_STANDING(state, top10): any {
-    state.standing = top10
   },
   SET_SETTING(state, { s, v }) {
     state[s] = v
@@ -290,16 +277,6 @@ const actions = {
   },
   getTags({ commit }) {
     return AlertsApi.getTags({}).then(({ tags }) => commit('SET_TAGS', tags))
-  },
-
-  getTopOffenders({ commit }) {
-    return AlertsApi.getTop10Count({}).then(({ top10 }) => commit('SET_TOP_OFFENDERS', top10))
-  },
-  getTopFlapping({ commit }) {
-    return AlertsApi.getTop10Flapping({}).then(({ top10 }) => commit('SET_TOP_FLAPPING', top10))
-  },
-  getTopStanding({ commit }) {
-    return AlertsApi.getTop10Standing({}).then(({ top10 }) => commit('SET_TOP_STANDING', top10))
   },
 
   toggle({ commit }, [s, v]) {
