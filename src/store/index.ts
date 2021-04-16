@@ -9,6 +9,7 @@ import groups from './modules/groups.store'
 import perms from './modules/perms.store'
 import customers from './modules/customers.store'
 import keys from './modules/keys.store'
+import reports from './modules/reports.store'
 import prefs from './modules/preferences.store'
 import management from './modules/management.store'
 import notifications from './modules/notifications.store'
@@ -48,6 +49,7 @@ export function createStore(): Store<any> {
       perms,
       customers,
       keys,
+      reports,
       prefs,
       management,
       notifications

@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import i18n from '@/plugins/i18n'
 
 export default {
@@ -62,13 +61,31 @@ export default {
   }),
   computed: {
     top10() {
-      return this.$store.state.alerts.flapping
+      if (this.filter) {
+        return this.$store.state.reports.flapping
+          .filter(alert =>
+            this.filter.text
+              ? Object.keys(alert).some(k => alert[k] && alert[k].toString().toLowerCase().includes(this.filter.text.toLowerCase()))
+              : true
+          )
+      } else {
+        return this.$store.state.reports.flapping
+      }
+    },
+    filter() {
+      return this.$store.state.reports.filter
     },
     refresh() {
       return this.$store.state.refresh
     }
   },
   watch: {
+    filter: {
+      handler(val) {
+        this.getTopFlapping()
+      },
+      deep: true
+    },
     refresh(val) {
       val || this.getTopFlapping()
     }
@@ -78,7 +95,7 @@ export default {
   },
   methods: {
     getTopFlapping() {
-      return this.$store.dispatch('alerts/getTopFlapping')
+      return this.$store.dispatch('reports/getTopFlapping')
     }
   }
 }

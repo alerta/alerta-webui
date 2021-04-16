@@ -133,6 +133,10 @@ export const de = {
   // Alert list filter
   Filters: 'Filter',
   FilterDescription: 'Ergebnisse durch Textsuche filtern',
+  AllEnvironments: 'Alle Umgebung',
+  EnvironmentDescription: 'Wähle einen oder mehrere Umgebung',
+  AllSeverities: 'Alle Schweregrad',
+  SeverityDescription: 'Wähle einen oder mehrere Schweregrad',
   AllStatuses: 'Alle Status',
   StatusDescription: 'Wähle einen oder mehrere Status',
   AllCustomers: 'Alle Kunden',
