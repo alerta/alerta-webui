@@ -17,6 +17,11 @@ const state = {
     service: null,
     group: null,
     dateRange: [null, null]
+  },
+
+  pagination: {
+    page: 1,
+    rowsPerPage: 10
   }
 }
 
@@ -32,6 +37,9 @@ const mutations = {
   },
   SET_FILTER(state, filter): any {
     state.filter = Object.assign({}, state.filter, filter)
+  },
+  SET_PAGE_SIZE(state, rowsPerPage) {
+    state.pagination.rowsPerPage = rowsPerPage
   }
 }
 
@@ -46,6 +54,10 @@ function getParams(state) {
   state.filter.customer && state.filter.customer.map(c => params.append('customer', c))
   state.filter.service && state.filter.service.map(s => params.append('service', s))
   state.filter.group && state.filter.group.map(g => params.append('group', g))
+
+  // add server-side paging
+  params.append('page', state.pagination.page)
+  params.append('page-size', state.pagination.rowsPerPage)
 
   // apply any date/time filters
   if (state.filter.dateRange[0] > 0) {
@@ -95,6 +107,9 @@ const actions = {
   },
   resetFilter({ commit, rootState }) {
     commit('SET_FILTER', rootState.config.filter)
+  },
+  setPageSize({ commit }, rowsPerPage) {
+    commit('SET_PAGE_SIZE', rowsPerPage)
   }
 }
 

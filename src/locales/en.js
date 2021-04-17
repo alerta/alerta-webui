@@ -294,11 +294,12 @@ export const en = {
   EditUser: 'Edit user',
 
   // Reports
-  TopFlapping: 'Top 10 Flapping',
+  Top: 'Top',
+  Flapping: 'Flapping',
+  Offenders: 'Offenders',
+  Standing: 'Standing',
   TopFlappingDescription: 'Chattering and fleeting alert sources that have generated the most number of alert severity changes.',
-  TopOffenders: 'Top 10 Offenders',
   TopOffendersDescription: 'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
-  TopStanding: 'Top 10 Standing',
   TopStandingDescription: 'Stale alert sources that have active alerts for a prolonged duration.',
   
   Count: 'Count',
