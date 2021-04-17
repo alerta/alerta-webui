@@ -4,7 +4,7 @@
       <v-card-title primary-title>
         <div>
           <div class="headline">
-            {{ $t('TopStanding') }}
+            {{ $t('Top') }} {{ rowsPerPage }} {{ $t('Standing') }}
           </div><br>
           <span class="grey--text">{{ $t('TopStandingDescription') }}</span>
         </div>
@@ -75,6 +75,9 @@ export default {
     filter() {
       return this.$store.state.reports.filter
     },
+    rowsPerPage() {
+      return this.$store.state.reports.pagination.rowsPerPage
+    },
     refresh() {
       return this.$store.state.refresh
     }
@@ -85,6 +88,9 @@ export default {
         this.getTopStanding()
       },
       deep: true
+    },
+    rowsPerPage(val) {
+      this.getTopStanding()
     },
     refresh(val) {
       val || this.getTopStanding()

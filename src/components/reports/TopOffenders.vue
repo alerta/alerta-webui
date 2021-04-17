@@ -4,7 +4,7 @@
       <v-card-title primary-title>
         <div>
           <div class="headline">
-            {{ $t('TopOffenders') }}
+            {{ $t('Top') }} {{ rowsPerPage }} {{ $t('Offenders') }}
           </div><br>
           <span class="grey--text">{{ $t('TopOffendersDescription') }}</span>
         </div>
@@ -75,6 +75,9 @@ export default {
     filter() {
       return this.$store.state.reports.filter
     },
+    rowsPerPage() {
+      return this.$store.state.reports.pagination.rowsPerPage
+    },
     refresh() {
       return this.$store.state.refresh
     }
@@ -85,6 +88,9 @@ export default {
         this.getTopOffenders()
       },
       deep: true
+    },
+    rowsPerPage(val) {
+      this.getTopOffenders()
     },
     refresh(val) {
       val || this.getTopOffenders()

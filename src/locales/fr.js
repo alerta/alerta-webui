@@ -294,11 +294,12 @@ export const fr = {
   EditUser: 'Modifier utilisateur',
   
   // Reports
-  TopFlapping: 'Top 10 des signaux de présence',
+  Top: 'Top',
+  Flapping: 'des signaux de présence',
+  Offenders: 'du nombres d\'alerte',
+  Standing: 'des alertes constantes',
   TopFlappingDescription: 'Sources d\'alerte ayant généré le plus grand nombre de changements de gravité d\'alerte.',
-  TopOffenders: 'Top 10 du nombres d\'alerte',
   TopOffendersDescription: 'Sources d’alerte fréquentes ayant généré le plus grand nombre d’alertes et de doublons d’alerte.',
-  TopStanding: 'Top 10 des alertes constantes',
   TopStandingDescription: 'Sources d\'alertes obsolètes ayant des alertes actives pendant une durée prolongée.',
   
   Count: 'Compteur',
