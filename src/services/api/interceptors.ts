@@ -13,14 +13,12 @@ export function makeInterceptors(router) {
     // response handlers
     interceptErrors(error) {
       if (!error.response && !axios.isCancel(error)) {
-        alert(
+        console.warn(
           'ERROR: A network error occurred. This could be a CORS issue or a ' +
-          'dropped internet connection.\n\n' +
-          'Check the browser javascript console and if the HTTP request has ' +
-          'been blocked by CORS then ensure that the "X-Request-ID" ' +
-          'header is in the "CORS_ALLOW_HEADERS" list in the Alerta API ' +
-          'configuration, or upgrade the Alerta API server to version 8.3.0 or ' +
-          'later.'
+          'dropped internet connection. Check to see if the HTTP request has ' +
+          'been blocked by CORS then ensure that the "X-Request-ID" header is ' +
+          'in the "CORS_ALLOW_HEADERS" list in the Alerta API configuration, or ' +
+          'upgrade the Alerta API server to version 8.3.0 or later.'
         )
       }
 
