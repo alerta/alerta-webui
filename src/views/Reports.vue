@@ -37,7 +37,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import TopOffenders from '@/components/reports/TopOffenders.vue'
 import TopFlapping from '@/components/reports/TopFlapping.vue'
 import TopStanding from '@/components/reports/TopStanding.vue'

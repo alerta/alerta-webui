@@ -157,13 +157,12 @@
 </template>
 
 <script>
-import moment from 'moment'
-import { ExportToCsv } from 'export-to-csv'
-
 import AlertList from '@/components/AlertList.vue'
 
+import moment from 'moment'
+import { ExportToCsv } from 'export-to-csv'
 import utils from '@/common/utils'
-import i18n from '../plugins/i18n'
+import i18n from '@/plugins/i18n'
 
 export default {
   components: {

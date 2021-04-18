@@ -502,6 +502,7 @@
 import Banner from '@/components/lib/Banner.vue'
 import ProfileMe from '@/components/auth/ProfileMe.vue'
 import Snackbar from '@/components/lib/Snackbar.vue'
+
 import i18n from '@/plugins/i18n'
 
 export default {
