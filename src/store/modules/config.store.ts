@@ -5,6 +5,8 @@ const state = {
   alarm_model: {},  // includes severity, colors and status maps
 
   auth_required: true,
+  allow_readonly: false,
+  readonly_scopes: ['read'],
   provider: 'basic',
   customer_views: false,
   signup_enabled: true,

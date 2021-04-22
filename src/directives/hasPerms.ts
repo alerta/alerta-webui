@@ -7,10 +7,15 @@ import { store } from '@/main'
 
 export default Vue.directive('has-perms', function(el, binding) {
   let authRequired = store.getters.getConfig('auth_required')
+  let allowReadonly = store.getters.getConfig('allow_readonly')
+  let readonlyScopes = store.getters.getConfig('readonly_scopes')
   let authenticated = store.state.auth.isAuthenticated
 
   if (!authRequired) {
     return true
+  }
+  if (allowReadonly) {
+    authenticated = true
   }
   if (!authenticated) {
     return false
@@ -29,7 +34,7 @@ export default Vue.directive('has-perms', function(el, binding) {
   }
 
   let perm = binding.value
-  let scopes = store.getters['auth/scopes']
+  let scopes = allowReadonly ? readonlyScopes : store.getters['auth/scopes']
   let action = binding.modifiers.disable ? 'disable' : 'hide'
 
   if (!perm) {
