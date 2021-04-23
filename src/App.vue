@@ -5,7 +5,7 @@
   >
     <div v-if="!isKiosk">
       <v-navigation-drawer
-        v-if="isLoggedIn || !isAuthRequired"
+        v-if="isLoggedIn || !isAuthRequired || isAllowReadonly"
         v-model="drawer"
         :clipped="$vuetify.breakpoint.lgAndUp"
         disable-resize-watcher
@@ -180,7 +180,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn || !isAuthRequired"
+            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
             slot="activator"
             icon
             @click="toggleFullScreen"
@@ -192,7 +192,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn || !isAuthRequired"
+            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
             slot="activator"
             icon
           >
@@ -386,7 +386,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn || !isAuthRequired"
+            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
             slot="activator"
             icon
             @click="toggleFullScreen"
@@ -398,7 +398,7 @@
 
         <v-tooltip bottom>
           <v-btn
-            v-show="isLoggedIn || !isAuthRequired"
+            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
             slot="activator"
             icon
           >
@@ -589,7 +589,7 @@ export default {
           text: i18n.t('APIKeys'),
           path: '/keys',
           perms: 'read:keys',
-          show: true
+          show: this.isLoggedIn || !this.isAuthRequired
         },
         {
           icon: 'assessment',
@@ -648,6 +648,9 @@ export default {
     },
     isAuthRequired() {
       return this.$config.auth_required
+    },
+    isAllowReadonly() {
+      return this.$config.allow_readonly
     },
     isSignupEnabled() {
       return this.$config.signup_enabled
