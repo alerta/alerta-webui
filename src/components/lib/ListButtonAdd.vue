@@ -9,6 +9,7 @@
       bottom
       right
       @click="addToList"
+      class="mb-5"
     >
       <v-icon color="white">
         add

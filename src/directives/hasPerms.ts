@@ -34,7 +34,7 @@ export default Vue.directive('has-perms', function(el, binding) {
   }
 
   let perm = binding.value
-  let scopes = allowReadonly ? readonlyScopes : store.getters['auth/scopes']
+  let scopes = authenticated ? store.getters['auth/scopes'] : readonlyScopes
   let action = binding.modifiers.disable ? 'disable' : 'hide'
 
   if (!perm) {
