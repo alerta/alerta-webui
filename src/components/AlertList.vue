@@ -11,6 +11,7 @@
       :loading="isSearching"
       class="alert-table"
       :class="[ displayDensity ]"
+      :style="columnWidths"
       sort-icon="arrow_drop_down"
       select-all
     >
@@ -502,8 +503,8 @@ export default {
       status: { text: i18n.t('Status'), value: 'status' },
       service: { text: i18n.t('Service'), value: 'service' },
       group: { text: i18n.t('Group'), value: 'group' },
-      value: { text: i18n.t('Value'), value: 'value', width: vm.valueWidth() },
-      text: { text: i18n.t('Description'), value: 'text', width: vm.textWidth() },
+      value: { text: i18n.t('Value'), value: 'value', class: 'value-header' },
+      text: { text: i18n.t('Description'), value: 'text', class: 'text-header' },
       tags: { text: i18n.t('Tags'), value: 'tags' },
       attributes: { text: i18n.t('Attribute'), value: 'attributes' },
       origin: { text: i18n.t('Origin'), value: 'origin' },
@@ -544,6 +545,12 @@ export default {
     },
     fontSize() {
       return this.$store.getters.getPreference('font')['font-size']
+    },
+    columnWidths() {
+      return {
+        '--value-width': this.valueWidth() + 'px',
+        '--text-width': this.textWidth() + 'px'
+      }
     },
     isLoading() {
       return this.$store.state.alerts.isLoading
@@ -695,6 +702,16 @@ export default {
 <style>
 .alert-table .v-table th, td {
   padding: 0px 5px !important;
+}
+
+.value-header {
+  width: var(--value-width);
+  min-width: var(--value-width);
+}
+
+.text-header {
+  width: var(--text-width);
+  min-width: var(--text-width);
 }
 
 .comfortable table.v-table tbody td, table.v-table tbody th {
