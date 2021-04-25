@@ -625,8 +625,8 @@ export default {
       return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
     },
     lastNote(item) {
-      const note = item.history.filter(h => h.type == 'note').pop()
-      return note ? note.text : ''
+      const note = item.history.filter(h => h.type == 'note' || h.type == 'dismiss').pop()
+      return note && note.type == 'note' ? note.text : ''
     },
     valueWidth() {
       return this.$store.getters.getPreference('valueWidth')
