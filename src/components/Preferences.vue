@@ -229,6 +229,49 @@
       </v-flex>
     </v-card>
 
+    <v-card
+      flat
+      class="pl-3"
+    >
+      <v-flex
+        sm6
+        md4
+      >
+        <v-card-title
+          class="pb-0"
+        >
+          <div>
+            <div class="headline">
+              {{ $t('BlackoutSettings') }}
+            </div>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-radio-group
+            class="mt-0"
+          >
+            <v-checkbox
+              v-model="blackoutStartNow"
+              :label="$t('BlackoutStartNow')"
+              hide-details
+              class="my-0"
+            />
+          </v-radio-group>
+        </v-card-actions>
+        <v-card-actions>
+          <v-layout column>
+            <v-combobox
+              v-model.number="blackoutPeriod"
+              :items="blackoutPeriodOptions"
+              :label="$t('BlackoutPeriod')"
+              type="number"
+              :suffix="$t('hours')"
+            />
+          </v-layout>
+        </v-card-actions>
+      </v-flex>
+    </v-card>
+
     <v-card flat>
       <v-flex
         sm6
@@ -298,6 +341,7 @@ export default {
     refreshOptions: [2, 5, 10, 30, 60],  // seconds
     ackTimeoutOptions: [0, 60, 120, 240, 480, 1440],  // minutes
     shelveTimeoutOptions: [60, 120, 240, 480, 1440],  // minutes
+    blackoutPeriodOptions: [1, 2, 8, 24, 48],  // hours
   }),
   computed: {
     languages() {
@@ -534,6 +578,25 @@ export default {
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {shelveTimeout: value * 60})
+      }
+    },
+    blackoutStartNow: {
+      get() {
+        return this.$store.getters.getPreference('blackoutStartNow')
+      },
+      set(value) {
+        this.$store.dispatch('toggle', ['blackoutStartNow', value])
+      }
+    },
+    blackoutPeriod: {
+      get() {
+        return (
+          (this.$store.getters.getPreference('blackoutPeriod') ||
+            this.$store.getters.getConfig('blackouts').duration) / 60 / 60
+        )
+      },
+      set(value) {
+        this.$store.dispatch('setUserPrefs', {blackoutPeriod: value * 60 * 60})
       }
     }
   },

@@ -26,6 +26,8 @@ const state = {
 
   timeouts: {}, // includes alert, heartbeat, ack and shelve timeouts
 
+  blackouts: {}, // include default duration
+
   dates: {
     longDate: 'ddd D MMM, YYYY HH:mm:ss.SSS Z',
     mediumDate: 'ddd D MMM HH:mm',

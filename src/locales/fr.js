@@ -256,6 +256,9 @@ export const fr = {
   minutes: 'minutes',
   AckTimeout: 'Durée de mise en affecter',
   ShelveTimeout: 'Durée de mise en attente',
+  BlackoutSettings: 'Paramètres de blackout',
+  BlackoutStartNow: 'Commencer immédiatement la période d\'incident',
+  BlackoutPeriod: 'Durée de la période d\'incident',
   hours: 'heures',
 
   // Profile
