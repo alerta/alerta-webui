@@ -565,6 +565,15 @@ export default {
     formTitle() {
       return !this.editedId ? i18n.t('NewBlackout') : i18n.t('EditBlackout')
     },
+    blackoutStartNow() {
+      return this.$store.getters.getPreference('blackoutStartNow')
+    },
+    blackoutPeriod() {
+      return (
+        (this.$store.getters.getPreference('blackoutPeriod') ||
+          this.$store.getters.getConfig('blackouts').duration)
+      )
+    },
     times() {
       return Array.from(
         {
@@ -619,7 +628,11 @@ export default {
     getTags() {
       this.$store.dispatch('alerts/getTags')
     },
-    getNext15mins(date) {
+    getBlackoutTime(date) {
+      if (this.blackoutStartNow) {
+        return moment(date)
+      }
+      // return soonest 15 minute interval
       return moment(
         new Date(
           Math.ceil(date.getTime() / 1000 / 60 / 15) * 1000 * 60 * 15
@@ -628,9 +641,9 @@ export default {
     },
     defaultTimes() {
       let now = new Date()
-      let start = this.getNext15mins(now)
-      now.setTime(now.getTime() + 1 * 60 * 60 * 1000) // plus 1 hour
-      let end = this.getNext15mins(now)
+      let start = this.getBlackoutTime(now)
+      now.setTime(now.getTime() + this.blackoutPeriod * 1000)
+      let end = this.getBlackoutTime(now)
 
       return {
         startDate: start.format('YYYY-MM-DD'),

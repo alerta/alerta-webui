@@ -256,6 +256,9 @@ export const de = {
   minutes: 'Minuten',
   AckTimeout: 'Ack timeout',
   ShelveTimeout: 'Shelve timeout',
+  BlackoutSettings: 'Blackoutseinstellungen',
+  BlackoutStartNow: 'Starten Sie den Zeitraum sofort',
+  BlackoutPeriod: 'Blackout Zeitraum',
   hours: 'Stunden',
 
   // Profile

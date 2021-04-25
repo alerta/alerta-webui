@@ -28,6 +28,8 @@ const getDefaults = () => {
     refreshInterval: 5*1000,  // milliseconds
     ackTimeout: null,
     shelveTimeout: null,
+    blackoutStartNow: true,
+    blackoutPeriod: null,
     queries: []
   }
 }
