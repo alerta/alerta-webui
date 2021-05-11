@@ -63,7 +63,7 @@ const actions = {
         dispatch('getNotificationChannels')
       })
   },
-  deleteNotificationChannels({ dispatch, commit }, notificationChannelId) {
+  deleteNotificationChannel({ dispatch, commit }, notificationChannelId) {
     return NotificationChannelApi.deleteNotificationChannel(notificationChannelId)
       .then(response => {
         dispatch('getNotificationChannels')

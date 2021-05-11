@@ -61,8 +61,7 @@
                     :label="$t('Receivers')"
                     multiple
                     chips
-                  >
-                  </v-combobox>
+                  />
                 </v-flex>
 
                 <v-flex
@@ -305,8 +304,12 @@
               {{ day }}
             </v-chip>
           </td>
-          <td class="text-xs-left">{{ props.item.period.startTime }}</td>
-          <td class="text-xs-left">{{ props.item.period.endTime }}</td>
+          <td class="text-xs-left">
+            {{ props.item.period.startTime }}
+          </td>
+          <td class="text-xs-left">
+            {{ props.item.period.endTime }}
+          </td>
           <td>
             <v-chip
               v-for="service in props.item.service"
@@ -352,7 +355,7 @@
                 block
               </v-icon>
             </v-tooltip>
-          <td class="text-xs-left">
+          </td><td class="text-xs-left">
             {{ props.item.user }}
           </td>
           <td class="text-xs-left">
@@ -522,13 +525,13 @@ export default {
             let eTime = new Date()
             sTime.setUTCHours(parseInt(b.startTime.substr(0,2)), parseInt(b.startTime.substr(3)))
             eTime.setUTCHours(parseInt(b.endTime.substr(0,2)), parseInt(b.endTime.substr(3)))
-            period.startTime = `${("0" + sTime.getHours()).slice(-2)}:${('0' + sTime.getMinutes()).slice(-2)}`
-            period.endTime = `${("0" + eTime.getHours()).slice(-2)}:${('0' + eTime.getMinutes()).slice(-2)}`
+            period.startTime = `${('0' + sTime.getHours()).slice(-2)}:${('0' + sTime.getMinutes()).slice(-2)}`
+            period.endTime = `${('0' + eTime.getHours()).slice(-2)}:${('0' + eTime.getMinutes()).slice(-2)}`
           }
 
           return Object.assign({...b}, {
             period: period,
-            text: b.text === null ? '' : b.text.replace(/%\((\w*)\)s/g, "{$1}")
+            text: b.text === null ? '' : b.text.replace(/%\((\w*)\)s/g, '{$1}')
           })
         })
     },
@@ -566,7 +569,7 @@ export default {
       return !this.editedId ? i18n.t('NewNotificationRule') : i18n.t('EditNotificationRule')
     },
     severities() {
-      return Object.keys(this.$store.getters.getConfig("alarm_model").severity)
+      return Object.keys(this.$store.getters.getConfig('alarm_model').severity)
     },
     times() {
       return Array.from(
@@ -672,8 +675,8 @@ export default {
         let eTime = new Date()
         sTime.setHours(this.editedItem.period.startTime.substr(0,2), this.editedItem.period.startTime.substr(3))
         eTime.setHours(this.editedItem.period.endTime.substr(0,2), this.editedItem.period.endTime.substr(3))
-        sTimeStr = `${("0" + sTime.getUTCHours()).slice(-2)}:${('0' + sTime.getUTCMinutes()).slice(-2)}`
-        eTimeStr = `${("0" + eTime.getUTCHours()).slice(-2)}:${('0' + eTime.getUTCMinutes()).slice(-2)}`
+        sTimeStr = `${('0' + sTime.getUTCHours()).slice(-2)}:${('0' + sTime.getUTCMinutes()).slice(-2)}`
+        eTimeStr = `${('0' + eTime.getUTCHours()).slice(-2)}:${('0' + eTime.getUTCMinutes()).slice(-2)}`
       }
       if (this.editedId) {
         this.$store.dispatch('notificationRules/updateNotificationRule', [
@@ -689,7 +692,7 @@ export default {
             tags: this.editedItem.tags,
             startTime: sTimeStr,
             endTime: eTimeStr,
-            text: this.editedItem.text.replace(/\{(\w*)\}/g, "%($1)s"),
+            text: this.editedItem.text.replace(/\{(\w*)\}/g, '%($1)s'),
             days: this.editedItem.days,
             severity: this.editedItem.severity,
             channelId: this.editedItem.channelId
@@ -702,7 +705,7 @@ export default {
             id: null,
             startTime: sTimeStr,
             endTime: eTimeStr,
-            text: this.editedItem.text.replace(/\{(\w*)\}/g, "%($1)s")
+            text: this.editedItem.text.replace(/\{(\w*)\}/g, '%($1)s')
           })
         )
       }

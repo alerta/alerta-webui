@@ -585,6 +585,20 @@ export default {
           show: true
         },
         {
+          icon: 'notifications',
+          text: i18n.t('NotificationChannels'),
+          path: '/notificationchannels',
+          perms: 'read:notification_channels',
+          show: true
+        },
+        {
+          icon: 'notifications',
+          text: i18n.t('NotificationRules'),
+          path: '/notificationrules',
+          perms: 'read:notification_rules',
+          show: true
+        },
+        {
           icon: 'security',
           text: i18n.t('Permissions'),
           path: '/perms',

@@ -8,8 +8,8 @@
       fixed
       bottom
       right
-      @click="addToList"
       class="mb-5"
+      @click="addToList"
     >
       <v-icon color="white">
         add

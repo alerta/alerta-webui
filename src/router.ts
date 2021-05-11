@@ -69,6 +69,20 @@ export function createRouter(basePath): VueRouter {
         meta: { title: 'TwilioRules', requiresAuth: true }
       },
       {
+        path: '/notificationrules',
+        name: 'notificationrules',
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/NotificationRule.vue'),
+        meta: { title: 'NotificationRules', requiresAuth: true }
+      },
+      {
+        path: '/notificationchannels',
+        name: 'notificationchannels',
+        component: () =>
+          import(/* webpackChunkName: 'user' */ './views/NotificationChannel.vue'),
+        meta: { title: 'NotificationChannels', requiresAuth: true }
+      },
+      {
         path: '/perms',
         name: 'perms',
         component: () => import(/* webpackChunkName: 'admin' */ './views/Perms.vue'),

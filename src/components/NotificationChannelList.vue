@@ -84,7 +84,6 @@
                     required
                   />
                 </v-flex>
-
               </v-layout>
             </v-container>
           </v-card-text>
