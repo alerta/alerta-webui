@@ -1,5 +1,5 @@
 <template>
-  <div class="twiliorule">
+  <div class="notificationrule">
     <notification-rule-list />
   </div>
 </template>

@@ -62,13 +62,6 @@ export function createRouter(basePath): VueRouter {
         meta: {title: 'Blackouts', requiresAuth: true}
       },
       {
-        path: '/twiliorules',
-        name: 'twiliorules',
-        component: () =>
-          import(/* webpackChunkName: 'user' */ './views/TwilioRule.vue'),
-        meta: { title: 'TwilioRules', requiresAuth: true }
-      },
-      {
         path: '/notificationrules',
         name: 'notificationrules',
         component: () =>

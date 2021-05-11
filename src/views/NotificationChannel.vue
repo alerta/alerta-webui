@@ -1,5 +1,5 @@
 <template>
-  <div class="twiliorule">
+  <div class="notificationchannel">
     <notification-channel-list />
   </div>
 </template>

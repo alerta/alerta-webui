@@ -578,13 +578,6 @@ export default {
           show: true
         },
         {
-          icon: 'phone',
-          text: i18n.t('TwilioRules'),
-          path: '/twiliorules',
-          perms: 'read:twilio_rules',
-          show: true
-        },
-        {
           icon: 'notifications',
           text: i18n.t('NotificationChannels'),
           path: '/notificationchannels',

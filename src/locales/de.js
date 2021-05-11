@@ -17,7 +17,6 @@ export const de = {
   Groups: 'Gruppen',
   Customers: 'Kunden',
   Blackouts: 'Blackouts',
-  TwilioRules: 'Twilio Regeln',
   Permissions: 'Berechtigungen',
   APIKeys: 'API Keys',
   Searches: 'Searches',
@@ -193,11 +192,8 @@ export const de = {
   WholeEnvironment: 'Whole Environment',
   AllOrigin: 'All from Origin',
 
-  // Twilio Rules
-  TwilioRules: 'Twilio Regeln',
+
   Deactivated: 'Deaktiviert',
-  NewTwilioRule: 'Neuer Twilio Regel',
-  EditTwilioRule: 'Bearbeite Twilio Regel',
   FromNumber: 'Von Nummer',
   ToNumber: 'Zu Nummer',
   StartTime: 'Startzeit',
