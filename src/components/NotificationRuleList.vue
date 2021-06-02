@@ -531,7 +531,7 @@ export default {
 
           return Object.assign({...b}, {
             period: period,
-            text: b.text === null ? '' : b.text.replace(/%\((\w*)\)s/g, '{$1}')
+            text: b.text === null ? '' : b.text.replace(/%\(([\w\.]*)\)s/g, '{$1}')
           })
         })
     },
@@ -692,7 +692,7 @@ export default {
             tags: this.editedItem.tags,
             startTime: sTimeStr,
             endTime: eTimeStr,
-            text: this.editedItem.text.replace(/\{(\w*)\}/g, '%($1)s'),
+            text: this.editedItem.text.replace(/\{([\w\.]*)\}/g, '%($1)s'),
             days: this.editedItem.days,
             severity: this.editedItem.severity,
             channelId: this.editedItem.channelId
