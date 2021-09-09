@@ -6,6 +6,7 @@ import heartbeats from './modules/heartbeats.store'
 import blackouts from './modules/blackouts.store'
 import notificationRules from './modules/notificationRule.store'
 import notificationChannels from './modules/notificationChannel.store'
+import onCalls from './modules/onCall.store'
 import users from './modules/users.store'
 import groups from './modules/groups.store'
 import perms from './modules/perms.store'
@@ -48,6 +49,7 @@ export function createStore(): Store<any> {
       blackouts,
       notificationRules,
       notificationChannels,
+      onCalls,
       users,
       groups,
       perms,

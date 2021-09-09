@@ -83,6 +83,29 @@
                 <v-flex
                   xs12
                   sm6
+                  md3
+                >
+                  <v-autocomplete
+                    v-model="editedItem.country"
+                    :items="countryCodes"
+                    :label="$t('Code')"
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs12
+                  sm6
+                  md9
+                >
+                  <v-text-field
+                    v-model.trim="editedItem.phoneNumber"
+                    :label="$t('Phone Number')"
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs12
+                  sm6
                 >
                   <v-text-field
                     v-show="isBasicAuth"
@@ -326,6 +349,7 @@
           </td>
           <td>{{ props.item.login }}</td>
           <td>{{ props.item.email }}</td>
+          <td>{{ props.item.phoneNumber }}</td>
           <td class="text-xs-center">
             <v-tooltip top>
               <v-icon
@@ -457,6 +481,7 @@ export default {
       { text: i18n.t('Status'), value: 'status' },
       { text: i18n.t('Login'), value: 'login' },
       { text: i18n.t('Email'), value: 'email' },
+      { text: i18n.t('Phone'), value: 'phone_number' },
       { text: i18n.t('VerifiedOrNot'), value: 'email_verified' },
       { text: i18n.t('Roles'), value: 'roles' },
       { text: i18n.t('Created'), value: 'createTime' },
@@ -471,6 +496,8 @@ export default {
       login: '',
       email: '',
       email_verified: false,
+      country: '',
+      phoneNumber: '',
       password: '',
       confirmPassword: '',
       roles: [],
@@ -483,6 +510,8 @@ export default {
       login: '',
       email: '',
       email_verified: false,
+      country: '',
+      phoneNumber: '',
       password: '',
       confirmPassword: '',
       roles: [],
@@ -502,6 +531,9 @@ export default {
     },
     users() {
       return this.$store.state.users.users.filter(u => !this.status || this.status.includes(u.status))
+    },
+    countryCodes() {
+      return this.$store.getters['users/countryCodes']
     },
     allGroups() {
       return this.$store.state.groups.groups
@@ -614,6 +646,8 @@ export default {
             name: this.editedItem.name,
             email: this.editedItem.email,
             password: this.editedItem.password,
+            phoneNumber: this.editedItem.phoneNumber,
+            country: this.editedItem.country,
             status: this.editedItem.status,
             roles: this.editedItem.roles,
             text: this.editedItem.text,
@@ -627,7 +661,7 @@ export default {
           removedGroups.map(groupId => this.$store.dispatch('groups/removeUserFromGroup', [groupId, this.editedId]))
         }
       } else {
-        this.$store.dispatch('users/createUser', this.editedItem)
+        this.$store.dispatch('users/createUser', {...this.editedItem})
       }
       this.close()
     }

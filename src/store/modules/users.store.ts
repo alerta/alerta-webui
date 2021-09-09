@@ -1,10 +1,11 @@
 import UsersApi from '@/services/api/user.service'
 import i18n from '@/plugins/i18n'
-
+import codes from 'country-calling-code'
 const namespaced = true
 
 const state = {
   isLoading: false,
+  countryCodes: Array.from(codes, x => `${x.country} (+${x.countryCodes[0]})`),
 
   domains: [],
   users: [],
@@ -79,7 +80,7 @@ const actions = {
 }
 
 const getters = {
-  //
+  countryCodes: state => {return state.countryCodes}
 }
 
 export default {

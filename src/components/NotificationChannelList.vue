@@ -226,7 +226,7 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    types: ['sendgrid', 'twiliosms', 'twiliocall'],
+    types: [{text: 'sendgrid (mail)', value: 'sendgrid'}, {text: 'twilio (sms)', value: 'twilio_sms'},{text: 'twilio (call + sms)', value: 'twilio_call'}],
     search: '',
     dialog: false,
     headers: [

@@ -592,6 +592,13 @@ export default {
           show: true
         },
         {
+          icon: 'notifications',
+          text: i18n.t('OnCall'),
+          path: '/oncall',
+          perms: 'read:notification_rules',
+          show: true
+        },
+        {
           icon: 'security',
           text: i18n.t('Permissions'),
           path: '/perms',

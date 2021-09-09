@@ -39,7 +39,6 @@
                   />
                 </v-flex>
 
-                
 
                 <v-flex
                   xs12
@@ -55,12 +54,25 @@
 
                 <v-flex
                   xs12
+                  sm6
+                  md9
                 >
                   <v-combobox
                     v-model="editedItem.receivers"
                     :label="$t('Receivers')"
                     multiple
                     chips
+                  />
+                </v-flex>
+                
+                <v-flex
+                  xs12
+                  sm6
+                  md3
+                >
+                  <v-checkbox
+                    v-model="editedItem.useOnCall"
+                    :label="$t('UseOncall')"
                   />
                 </v-flex>
 
@@ -284,6 +296,7 @@
               {{ number }}
             </v-chip>
           </td>
+          <td>{{ props.item.useOnCall }}</td>
           <td>
             <v-chip
               v-for="severity in props.item.severity"
@@ -449,6 +462,7 @@ export default {
       { text: i18n.t('Environment'), value: 'environment' },
       { text: i18n.t('Channel'), value: 'channel' },
       { text: i18n.t('Receivers'), value: 'receivers' },
+      { text: i18n.t('OnCallOrNot'), value: 'useOnCall' },
       { text: i18n.t('Severity'), value: 'severity' },
       { text: i18n.t('Days'), value: 'days' },
       { text: i18n.t('Start'), value: 'startTime' },
@@ -468,6 +482,7 @@ export default {
       customer: null,
       environment: null,
       receivers: [],
+      useOnCall: false,
       service: [],
       resource: null,
       event: null,
@@ -490,6 +505,7 @@ export default {
       customer: null,
       environment: null,
       receivers: [],
+      useOnCall: false,
       service: [],
       resource: null,
       event: null,
@@ -668,6 +684,7 @@ export default {
       }
     },
     save() {
+      console.log( this.editedItem.useOnCall)
       let sTimeStr = null
       let eTimeStr = null
       if (this.editedItem.period.startTime !== '' && this.editedItem.period.endTime !== '') {
@@ -685,6 +702,7 @@ export default {
             customer: this.editedItem.customer,
             environment: this.editedItem.environment,
             receivers: this.editedItem.receivers,
+            useOnCall: this.editedItem.useOnCall,
             service: this.editedItem.service,
             resource: this.editedItem.resource,
             event: this.editedItem.event,

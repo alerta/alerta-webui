@@ -29,6 +29,7 @@
     "@alerta/vue-authenticate": "github:alerta/vue-authenticate",
     "acorn-dynamic-import": "^4.0.0",
     "axios": "^0.28.1",
+    "country-calling-code": "^0.0.3",
     "export-to-csv": "^0.2.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
