@@ -711,7 +711,8 @@ export default {
     fix_time(time, toUTC = false) {
       if (time === null) return null
       const [hour, minute] = time.split(':')
-      const date = new Date(null, null, null, hour, minute)
+      const date = new Date()
+      date.setHours(hour, minute)
       if (toUTC) return `${date.getUTCHours()}:${date.getUTCMinutes()}`
       date.setUTCHours(hour)
       return `${date.getHours()}:${date.getMinutes()}`

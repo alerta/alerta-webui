@@ -27,9 +27,7 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model="editedItem.id"
                     :label="$t('Id')"
@@ -38,9 +36,7 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model="editedItem.sender"
                     :label="$t('Sender')"
@@ -49,13 +45,36 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-select
                     v-model="editedItem.type"
                     :items="types"
                     :label="$t('Type')"
+                    :rules="[rules.required]"
+                    required
+                  />
+                </v-flex>
+                <v-flex
+                  v-if="editedId === null && editedItem.type === 'smtp'"
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.host"
+                    :label="$t('Host')"
+                    :rules="[rules.required]"
+                    required
+                  />
+                </v-flex>
+                <v-flex
+                  v-if="editedId === null && editedItem.type !== 'sendgrid'"
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.apiSid"
+                    :type="editedItem.type !== 'smtp' ? 'password' : 'text'"
+                    :label="
+                      editedItem.type !== 'smtp' ? $t('ApiSid') : $t('Username')
+                    "
                     :rules="[rules.required]"
                     required
                   />
@@ -67,19 +86,11 @@
                   <v-text-field
                     v-model="editedItem.apiToken"
                     :type="'password'"
-                    :label="$t('ApiToken')"
-                    :rules="[rules.required]"
-                    required
-                  />
-                </v-flex>
-                <v-flex
-                  v-if="editedId === null && editedItem.type !== 'sendgrid'"
-                  xs12
-                >
-                  <v-text-field
-                    v-model="editedItem.apiSid"
-                    :type="'password'"
-                    :label="$t('ApiSid')"
+                    :label="
+                      editedItem.type !== 'smtp'
+                        ? $t('ApiToken')
+                        : $t('Password')
+                    "
                     :rules="[rules.required]"
                     required
                   />
@@ -138,15 +149,13 @@
           slot="items"
           slot-scope="props"
         >
-          <td
-            v-if="$config.customer_views"
-          >
+          <td v-if="$config.customer_views">
             {{ props.item.customer }}
           </td>
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.sender }}</td>
           <td>{{ props.item.type }}</td>
-          
+
           <td class="text-no-wrap">
             <v-btn
               v-has-perms.disable="'write:notification_channels'"
@@ -226,7 +235,12 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    types: [{text: 'sendgrid (mail)', value: 'sendgrid'}, {text: 'twilio (sms)', value: 'twilio_sms'},{text: 'twilio (call + sms)', value: 'twilio_call'}],
+    types: [
+      { text: 'sendgrid (mail)', value: 'sendgrid' },
+      { text: 'smtp (mail)', value: 'smtp' },
+      { text: 'twilio (sms)', value: 'twilio_sms' },
+      { text: 'twilio (call + sms)', value: 'twilio_call' }
+    ],
     search: '',
     dialog: false,
     headers: [
@@ -242,8 +256,9 @@ export default {
       id: null,
       sender: null,
       type: null,
+      host: null,
       apiToken: null,
-      apiSid: null,
+      apiSid: null
     },
     menu1: false,
     menu2: false,
@@ -252,6 +267,7 @@ export default {
       id: null,
       sender: null,
       type: 'sendgrid',
+      host: null,
       apiToken: null,
       apiSid: null
     },
@@ -262,9 +278,15 @@ export default {
   computed: {
     notification_channels() {
       return this.$store.state.notificationChannels.notification_channels
-        .filter(b => this.search ? (Object.keys(b).some(k => b[k] && b[k].toString().includes(this.search))) : true)
+        .filter(b =>
+          this.search
+            ? Object.keys(b).some(
+              k => b[k] && b[k].toString().includes(this.search)
+            )
+            : true
+        )
         .map(b => {
-          return {...b}
+          return { ...b }
         })
     },
     pagination: {
@@ -276,7 +298,9 @@ export default {
       }
     },
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter(h =>
+        !this.$config.customer_views ? h.value != 'customer' : true
+      )
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']
@@ -285,7 +309,9 @@ export default {
       return this.$store.state.notificationChannels.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewNotificationChannel') : i18n.t('EditNotificationChannel')
+      return !this.editedId
+        ? i18n.t('NewNotificationChannel')
+        : i18n.t('EditNotificationChannel')
     },
     refresh() {
       return this.$store.state.refresh
@@ -301,7 +327,7 @@ export default {
       this.getCustomers()
     },
     pagination: {
-      handler () {
+      handler() {
         this.getNotificationChannels()
       },
       deep: true
@@ -331,7 +357,10 @@ export default {
     },
     deleteItem(item) {
       confirm(i18n.t('ConfirmDelete')) &&
-        this.$store.dispatch('notificationChannels/deleteNotificationChannel', item.id)
+        this.$store.dispatch(
+          'notificationChannels/deleteNotificationChannel',
+          item.id
+        )
     },
     close() {
       this.dialog = false
@@ -358,8 +387,9 @@ export default {
             id: this.editedItem.id,
             sender: this.editedItem.sender,
             type: this.editedItem.type,
+            host: this.editedItem.host,
             apiToken: this.editedItem.apiToken,
-            apiSid: this.editedItem.apiSid,
+            apiSid: this.editedItem.apiSid
           }
         ])
       } else {
