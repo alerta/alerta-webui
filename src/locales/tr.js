@@ -307,17 +307,17 @@ export const en = {
   TopOffendersDescription: 'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
   TopStandingDescription: 'Stale alert sources that have active alerts for a prolonged duration.',
   
-  Count: 'Count',
-  DuplCount: 'Dupl. Count',
-  Services: 'Services',
-  Resources: 'Resources',
+  Count: 'Sayı',
+  DuplCount: 'Mükerrer Sayısı',
+  Services: 'Servisler',
+  Resources: 'Kaynaklar',
 
   // User Confirm
-  Thanks: 'Thanks!',
-  YouCanNowLogin1: 'You can now',
-  YouCanNowLogin2: 'login.',
-  EmailConfirmFailed: 'Sorry, there was a problem confirming your email address',
-  TryAgain: 'Please try again',
+  Thanks: 'Teşekkürler!',
+  YouCanNowLogin1: 'Şimdi',
+  YouCanNowLogin2: 'oturum açabilirsiniz.',
+  EmailConfirmFailed: 'Üzgünüz, e-posta adresinizi teyit ederken bir hata oluştu.',
+  TryAgain: 'Lütfen tekrar deneyin',
 
   // User Forgot
   ResetLink: 'Enter your email and we\'ll send you a reset link',
