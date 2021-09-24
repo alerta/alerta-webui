@@ -321,23 +321,23 @@ export const en = {
   TryAgain: 'Lütfen tekrar deneyin',
 
   // User Forgot
-  ResetLink: 'Enter your email and we\'ll send you a reset link',
-  AlreadyHaveAccount: 'Already have an account?',
-  CheckEmail: 'Check your email for a reset link...',
-  ReturnSignIn: 'Return to Sign In',
-  ResetEmailSent: 'Reset email sent successfully!',
+  ResetLink: 'Girdiğiniz e-posta adresine bir yenileme linki göndereceğiz',
+  AlreadyHaveAccount: 'Zaten bir hesabınız var mı?',
+  CheckEmail: 'Yenileme linkini e-postanızda bulacaksınız...',
+  ReturnSignIn: 'Oturum açmaya geri dön',
+  ResetEmailSent: 'Yenileme e-postası başarıyla gönderildi!',
 
   // User Login
-  LoginToContinue: 'Log in to Alerta to continue',
-  Username: 'Username',
-  Password: 'Password',
-  CreateAccount: 'Create Account',
-  ForgotPassword: 'Forgot Password?',
-  UnspecifiedProblem: 'Sorry, there was a problem',
-  AuthWith: 'Authenticating with',
-  AuthInProgress: 'Authenticating...',
-  AuthNotPossible: 'Sorry, it is not possible to authenticate',
-  AuthProviderUnknown: 'Unknown authentication provider',
+  LoginToContinue: 'Devam etmek için Alerta\'da oturum aç',
+  Username: 'Kullanıcı Adı:',
+  Password: 'Parola',
+  CreateAccount: 'Hesap Oluştur',
+  ForgotPassword: 'Parolayı mı unuttunuz?',
+  UnspecifiedProblem: 'Üzgünüz, bir sorun oluştu',
+  AuthWith: 'Kimlik denetleniyor',
+  AuthInProgress: 'Kimlik denetleniyor...',
+  AuthNotPossible: 'Üzgünüz, Kimlik denetlemesi yapılamıyor',
+  AuthProviderUnknown: 'Bilinmeyen kimlik denetleme sağlayıcı',
 
   // User Logout
   LoggedOut: 'Oturumunuz sonlandırıldı.',
