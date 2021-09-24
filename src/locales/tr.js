@@ -53,7 +53,7 @@ export const en = {
   // statuses
   Open: 'Aç',
   Assign: 'Ata',
-  Ack: 'Teyit',
+  Ack: 'Teyid',
   Shelved: 'Rafta',
   Blackout: 'Karartma',
   Closed: 'Kapalı',
