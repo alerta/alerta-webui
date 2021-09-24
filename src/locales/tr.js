@@ -360,7 +360,7 @@ export const en = {
   group: 'grup',
 
   // General
-  ConfirmDelete: 'Bu kalemi silmek istediğinizden emin misiniz?,
+  ConfirmDelete: 'Bu kalemi silmek istediğinizden emin misiniz?',
   Error: 'Hata',
   Send: 'Gönder',
   Required: 'Zorunlu',
