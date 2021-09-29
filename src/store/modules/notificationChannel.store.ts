@@ -6,6 +6,7 @@ const state = {
   isLoading: false,
 
   notification_channels: [],
+  encryptionKey: '',
 
   pagination: {
     page: 1,
@@ -17,6 +18,9 @@ const state = {
 }
 
 const mutations = {
+  SET_ENCRYPTION_KEY(state, key) {
+    state.encryptionKey = key
+  },
   SET_LOADING(state) {
     state.isLoading = true
   },
@@ -35,6 +39,9 @@ const mutations = {
 }
 
 const actions = {
+  getEncryptionKey({ commit, state }){
+    return NotificationChannelApi.getEncryptionKey().then(({key})=>commit('SET_ENCRYPTION_KEY', key))
+  },
   getNotificationChannels({ commit, state }) {
     commit('SET_LOADING')
 

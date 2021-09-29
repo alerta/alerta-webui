@@ -7,6 +7,9 @@ export default {
   getNotificationChannel(id: string) {
     return api.get(`/notificationchannels/${id}`)
   },
+  getEncryptionKey() {
+    return api.get('notificationchannels/keygen')
+  },
   getNotificationChannels(query: object) {
     let config = {
       params: query

@@ -124,6 +124,26 @@
       <v-card-title class="title">
         {{ $t('notificationChannels') }}
         <v-spacer />
+        <v-tooltip bottom>
+          <v-template slot="activator">
+            <v-btn @click="copyEncryptionKey">
+              Get New Encryption Key
+              <!-- <v-icon slot="activator">
+                notifications_paused
+              </v-icon> -->
+            </v-btn>
+          </v-template>
+          <span>{{
+            $t('Genereates New Encryption Key And Copies It To Clipboard')
+          }}</span>
+          <br>
+          <span>{{
+            $t(
+              'Set NOTIFICATION_KEY="{New Key}" In Config To Use Generated Key'
+            )
+          }}</span>
+        </v-tooltip>
+        <v-spacer />
         <v-spacer />
         <v-text-field
           v-model="search"
@@ -324,6 +344,7 @@ export default {
     refresh(val) {
       if (!val) return
       this.getNotificationChannels()
+      this.getEncryptionKey()
       this.getCustomers()
     },
     pagination: {
@@ -335,10 +356,20 @@ export default {
   },
   created() {
     this.getNotificationChannels()
+    this.getEncryptionKey()
     this.getCustomers()
     this.editedItem = Object.assign({}, this.defaultItem)
   },
   methods: {
+    getEncryptionKey() {
+      this.$store.dispatch('notificationChannels/getEncryptionKey')
+    },
+    copyEncryptionKey() {
+      this.getEncryptionKey()
+      navigator.clipboard.writeText(
+        this.$store.state.notificationChannels.encryptionKey
+      )
+    },
     getNotificationChannels() {
       this.$store.dispatch('notificationChannels/getNotificationChannels')
     },
