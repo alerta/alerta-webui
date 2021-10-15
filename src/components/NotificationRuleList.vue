@@ -27,9 +27,7 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-select
                     v-model="editedItem.environment"
                     :items="allowedEnvironments"
@@ -39,10 +37,7 @@
                   />
                 </v-flex>
 
-
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-select
                     v-model="editedItem.channelId"
                     :items="currentChannelsIds"
@@ -64,7 +59,7 @@
                     chips
                   />
                 </v-flex>
-                
+
                 <v-flex
                   xs12
                   sm6
@@ -75,9 +70,76 @@
                     :label="$t('UseOncall')"
                   />
                 </v-flex>
+                <v-flex xs12>
+                  <v-card v-if="editedItem.useAdvancedSeverity">
+                    <v-toolbar>
+                      <v-toolbar-title>Advanced Severity</v-toolbar-title>
 
+                      <v-spacer />
+
+                      <v-btn
+                        icon
+                        @click="
+                          editedItem.advancedSeverity.push({ from: [], to: [] })
+                        "
+                      >
+                        add
+                        <v-icon>add</v-icon>
+                      </v-btn>
+                      <v-spacer />
+
+                      <v-btn
+                        icon
+                        @click="editedItem.advancedSeverity = []"
+                      >
+                        clear
+                        <v-icon>
+                          clear
+                        </v-icon>
+                      </v-btn>
+                    </v-toolbar>
+                    <v-container>
+                      <v-layout
+                        v-for="(item, index) in editedItem.advancedSeverity"
+                        :key="index"
+                        wrap
+                        xs12
+                      >
+                        <v-flex xs5>
+                          <v-select
+                            v-model="item.from"
+                            :items="severities"
+                            :label="$t('From')"
+                            chips
+                            multiple
+                          />
+                        </v-flex>
+                        <v-flex xs5>
+                          <v-select
+                            v-model="item.to"
+                            :items="severities"
+                            :label="$t('To')"
+                            chips
+                            multiple
+                          />
+                        </v-flex>
+                        <v-flex xs2>
+                          <v-btn
+                            icon
+                            @click="
+                              editedItem.advancedSeverity.splice(index, 1)
+                            "
+                          >
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </v-card>
+                </v-flex>
                 <v-flex
-                  xs12
+                  v-if="!editedItem.useAdvancedSeverity"
+                  xs10
                 >
                   <v-select
                     v-model="editedItem.severity"
@@ -88,9 +150,14 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs2>
+                  <v-checkbox
+                    v-model="editedItem.useAdvancedSeverity"
+                    :label="$t('Advanced Severity')"
+                  />
+                </v-flex>
+
+                <v-flex xs12>
                   <v-select
                     v-model="editedItem.days"
                     :items="days"
@@ -100,18 +167,14 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs6
-                >
+                <v-flex xs6>
                   <v-combobox
                     v-model="editedItem.period.startTime"
                     :items="times"
                     :label="$t('StartTime')"
                   />
                 </v-flex>
-                <v-flex
-                  xs6
-                >
+                <v-flex xs6>
                   <v-combobox
                     v-model="editedItem.period.endTime"
                     :items="times"
@@ -119,9 +182,7 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-combobox
                     v-model="editedItem.service"
                     :items="currentServices"
@@ -133,34 +194,26 @@
                     persistent-hint
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.resource"
                     :label="$t('Resource')"
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.event"
                     :label="$t('Event')"
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.group"
                     :label="$t('Group')"
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-combobox
                     v-model="editedItem.tags"
                     :items="currentTags"
@@ -189,9 +242,7 @@
                   </v-combobox>
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Text')"
@@ -279,9 +330,7 @@
           slot="items"
           slot-scope="props"
         >
-          <td
-            v-if="$config.customer_views"
-          >
+          <td v-if="$config.customer_views">
             {{ props.item.customer }}
           </td>
           <td>{{ props.item.environment }}</td>
@@ -368,7 +417,8 @@
                 block
               </v-icon>
             </v-tooltip>
-          </td><td class="text-xs-left">
+          </td>
+          <td class="text-xs-left">
             {{ props.item.user }}
           </td>
           <td class="text-xs-left">
@@ -495,8 +545,10 @@ export default {
       startTime: '',
       endTime: '',
       text: '',
-      days:[],
-      severity:[],
+      days: [],
+      severity: [],
+      advancedSeverity: [],
+      useAdvancedSeverity: false,
       channelId: null
     },
     menu1: false,
@@ -518,8 +570,10 @@ export default {
       startTime: '',
       endTime: '',
       text: '',
-      days:[],
-      severity:[],
+      days: [],
+      severity: [],
+      advancedSeverity: [],
+      useAdvancedSeverity: false,
       channelId: null
     },
     rules: {
@@ -528,27 +582,48 @@ export default {
   }),
   computed: {
     notification_rules() {
-      console.log(this.$store.getters)
       return this.$store.state.notificationRules.notification_rules
-        .filter(b => this.search ? (Object.keys(b).some(k => b[k] && b[k].toString().includes(this.search))) : true)
+        .filter(b =>
+          this.search
+            ? Object.keys(b).some(
+              k => b[k] && b[k].toString().includes(this.search)
+            )
+            : true
+        )
         .map(b => {
           let period = {
             startTime: '',
             endTime: ''
           }
-          if(b.startTime !== null && b.endTime !== null) {
+          if (b.startTime !== null && b.endTime !== null) {
             let sTime = new Date()
             let eTime = new Date()
-            sTime.setUTCHours(parseInt(b.startTime.substr(0,2)), parseInt(b.startTime.substr(3)))
-            eTime.setUTCHours(parseInt(b.endTime.substr(0,2)), parseInt(b.endTime.substr(3)))
-            period.startTime = `${('0' + sTime.getHours()).slice(-2)}:${('0' + sTime.getMinutes()).slice(-2)}`
-            period.endTime = `${('0' + eTime.getHours()).slice(-2)}:${('0' + eTime.getMinutes()).slice(-2)}`
+            sTime.setUTCHours(
+              parseInt(b.startTime.substr(0, 2)),
+              parseInt(b.startTime.substr(3))
+            )
+            eTime.setUTCHours(
+              parseInt(b.endTime.substr(0, 2)),
+              parseInt(b.endTime.substr(3))
+            )
+            period.startTime = `${('0' + sTime.getHours()).slice(-2)}:${(
+              '0' + sTime.getMinutes()
+            ).slice(-2)}`
+            period.endTime = `${('0' + eTime.getHours()).slice(-2)}:${(
+              '0' + eTime.getMinutes()
+            ).slice(-2)}`
           }
 
-          return Object.assign({...b}, {
-            period: period,
-            text: b.text === null ? '' : b.text.replace(/%\(([\w\.]*)\)s/g, '{$1}')
-          })
+          return Object.assign(
+            { ...b },
+            {
+              period: period,
+              text:
+                b.text === null
+                  ? ''
+                  : b.text.replace(/%\(([\w\.]*)\)s/g, '{$1}')
+            }
+          )
         })
     },
     pagination: {
@@ -560,7 +635,9 @@ export default {
       }
     },
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter(h =>
+        !this.$config.customer_views ? h.value != 'customer' : true
+      )
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']
@@ -572,7 +649,6 @@ export default {
       return this.$store.getters['alerts/services']
     },
     currentChannelsIds() {
-      console.log(this.$store.getters)
       return this.$store.getters['notificationChannels/ids']
     },
     currentTags() {
@@ -582,7 +658,9 @@ export default {
       return this.$store.state.notificationRules.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewNotificationRule') : i18n.t('EditNotificationRule')
+      return !this.editedId
+        ? i18n.t('NewNotificationRule')
+        : i18n.t('EditNotificationRule')
     },
     severities() {
       return Object.keys(this.$store.getters.getConfig('alarm_model').severity)
@@ -596,8 +674,8 @@ export default {
           if (i == 0) {
             return ''
           } else {
-            let h = Math.floor(((i-1) * 15) / 60)
-            let m = (i-1) * 15 - h * 60
+            let h = Math.floor(((i - 1) * 15) / 60)
+            let m = (i - 1) * 15 - h * 60
             return ('0' + h).slice(-2) + ':' + ('0' + m).slice(-2)
           }
         }
@@ -621,7 +699,7 @@ export default {
       this.getTags()
     },
     pagination: {
-      handler () {
+      handler() {
         this.getNotificationRules()
       },
       deep: true
@@ -655,6 +733,7 @@ export default {
     getTags() {
       this.$store.dispatch('alerts/getTags')
     },
+
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
@@ -667,7 +746,10 @@ export default {
     },
     deleteItem(item) {
       confirm(i18n.t('ConfirmDelete')) &&
-        this.$store.dispatch('notificationRules/deleteNotificationRule', item.id)
+        this.$store.dispatch(
+          'notificationRules/deleteNotificationRule',
+          item.id
+        )
     },
     close() {
       this.dialog = false
@@ -684,16 +766,28 @@ export default {
       }
     },
     save() {
-      console.log( this.editedItem.useOnCall)
       let sTimeStr = null
       let eTimeStr = null
-      if (this.editedItem.period.startTime !== '' && this.editedItem.period.endTime !== '') {
+      if (
+        this.editedItem.period.startTime !== '' &&
+        this.editedItem.period.endTime !== ''
+      ) {
         let sTime = new Date()
         let eTime = new Date()
-        sTime.setHours(this.editedItem.period.startTime.substr(0,2), this.editedItem.period.startTime.substr(3))
-        eTime.setHours(this.editedItem.period.endTime.substr(0,2), this.editedItem.period.endTime.substr(3))
-        sTimeStr = `${('0' + sTime.getUTCHours()).slice(-2)}:${('0' + sTime.getUTCMinutes()).slice(-2)}`
-        eTimeStr = `${('0' + eTime.getUTCHours()).slice(-2)}:${('0' + eTime.getUTCMinutes()).slice(-2)}`
+        sTime.setHours(
+          this.editedItem.period.startTime.substr(0, 2),
+          this.editedItem.period.startTime.substr(3)
+        )
+        eTime.setHours(
+          this.editedItem.period.endTime.substr(0, 2),
+          this.editedItem.period.endTime.substr(3)
+        )
+        sTimeStr = `${('0' + sTime.getUTCHours()).slice(-2)}:${(
+          '0' + sTime.getUTCMinutes()
+        ).slice(-2)}`
+        eTimeStr = `${('0' + eTime.getUTCHours()).slice(-2)}:${(
+          '0' + eTime.getUTCMinutes()
+        ).slice(-2)}`
       }
       if (this.editedId) {
         this.$store.dispatch('notificationRules/updateNotificationRule', [

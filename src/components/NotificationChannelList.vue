@@ -405,8 +405,6 @@ export default {
       if (this.$refs.form.validate()) {
         this.$refs.form.resetValidation()
         this.save()
-      } else {
-        console.log('Validation Failed')
       }
     },
     save() {
