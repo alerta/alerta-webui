@@ -233,6 +233,7 @@ export const fr = {
   English: 'Anglais',
   French: 'Français',
   German: 'Allemand',
+  Turkish: 'Turque',
   DateTimeSettings: 'Paramétrage date et heure',
   LongDate: 'Format de date longue',
   MediumDate: 'Format de date moyenne',
