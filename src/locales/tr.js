@@ -1,4 +1,4 @@
-export const en = {
+export const tr = {
   // topnav
   Search: 'Arama',
   FullScreen: 'Tam Ekran',
