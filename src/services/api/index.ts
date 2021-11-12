@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { AxiosRequestConfig, Method } from 'axios'
+import {AxiosRequestConfig, Method} from 'axios'
 
 const api = {
   get(url: string, config?: AxiosRequestConfig) {
@@ -27,14 +27,9 @@ const api = {
     return this.request('PATCH', url, data, config)
   },
 
-  request(
-    method: Method,
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ) {
+  request(method: Method, url: string, data?: any, config?: AxiosRequestConfig) {
     let t0 = performance.now()
-    return axios.request({ ...config, url, method, data }).then(response => {
+    return axios.request({...config, url, method, data}).then(response => {
       let t1 = performance.now()
       Vue.prototype.$track('timing_complete', {
         name: method,
