@@ -35,57 +35,62 @@ const mutations = {
 }
 
 const actions = {
-  getGroups({ commit }) {
+  getGroups({commit}) {
     commit('SET_LOADING')
     return GroupsApi.getGroups({})
-      .then(({ groups }) => commit('SET_GROUPS', groups))
+      .then(({groups}) => commit('SET_GROUPS', groups))
       .catch(() => commit('RESET_LOADING'))
   },
-  getGroup({ commit }, groupId) {
-    return GroupsApi.getGroup(groupId).then(({ group }) => {
+  getGroup({commit}, groupId) {
+    return GroupsApi.getGroup(groupId).then(({group}) => {
       commit('SET_GROUP', group)
     })
   },
-  getGroupUsers({ commit }, groupId) {
+  getGroupUsers({commit}, groupId) {
     commit('SET_LOADING')
     return GroupsApi.getGroupUsers(groupId)
-      .then(({ users }) => commit('SET_GROUP_USERS', users))
+      .then(({users}) => commit('SET_GROUP_USERS', users))
       .catch(() => commit('RESET_LOADING'))
   },
-  clearGroupUsers({ commit }) {
+  clearGroupUsers({commit}) {
     commit('RESET_GROUP_USERS')
   },
-  createGroup({ dispatch, commit }, group) {
-    return GroupsApi.createGroup(group)
-      .then(response => {
-        dispatch('getGroups')
-      })
+  createGroup({dispatch, commit}, group) {
+    return GroupsApi.createGroup(group).then(response => {
+      dispatch('getGroups')
+    })
   },
-  updateGroup({ dispatch, commit }, [groupId, update]) {
-    return GroupsApi.updateGroup(groupId, update)
-      .then(response => {
-        dispatch('getGroups')
-      })
+  updateGroup({dispatch, commit}, [groupId, update]) {
+    return GroupsApi.updateGroup(groupId, update).then(response => {
+      dispatch('getGroups')
+    })
   },
-  addUserToGroup({ dispatch, commit }, [groupId, userId]) {
+  addUserToGroup({dispatch, commit}, [groupId, userId]) {
     return GroupsApi.addUserToGroup(groupId, userId)
       .then(response => {
         dispatch('getGroupUsers', groupId)
       })
-      .then(() => dispatch('notifications/success', i18n.t('UserAddedGroup'), { root: true }))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('UserAddedGroup'), {
+          root: true
+        })
+      )
   },
-  removeUserFromGroup({ dispatch, commit }, [groupId, userId]) {
+  removeUserFromGroup({dispatch, commit}, [groupId, userId]) {
     return GroupsApi.removeUserFromGroup(groupId, userId)
       .then(response => {
         dispatch('getGroupUsers', groupId)
       })
-      .then(() => dispatch('notifications/success', i18n.t('UserRemovedGroup'), { root: true }))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('UserRemovedGroup'), {
+          root: true
+        })
+      )
   },
-  deleteGroup({ dispatch, commit }, groupId) {
-    return GroupsApi.deleteGroup(groupId)
-      .then(response => {
-        dispatch('getGroups')
-      })
+  deleteGroup({dispatch, commit}, groupId) {
+    return GroupsApi.deleteGroup(groupId).then(response => {
+      dispatch('getGroups')
+    })
   }
 }
 

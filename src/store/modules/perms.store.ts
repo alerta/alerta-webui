@@ -27,35 +27,31 @@ const mutations = {
 }
 
 const actions = {
-  getPerms({ commit }) {
+  getPerms({commit}) {
     commit('SET_LOADING')
     return PermsApi.getPerms({})
-      .then(({ permissions }) => commit('SET_PERMS', permissions))
+      .then(({permissions}) => commit('SET_PERMS', permissions))
       .catch(() => commit('RESET_LOADING'))
   },
-  createPerm({ dispatch, commit }, perm) {
-    return PermsApi.createPerm(perm)
-      .then(response => {
-        dispatch('getPerms')
-      })
+  createPerm({dispatch, commit}, perm) {
+    return PermsApi.createPerm(perm).then(response => {
+      dispatch('getPerms')
+    })
   },
-  updatePerm({ dispatch, commit }, [permId, update]) {
-    return PermsApi.updatePerm(permId, update)
-      .then(response => {
-        dispatch('getPerms')
-      })
+  updatePerm({dispatch, commit}, [permId, update]) {
+    return PermsApi.updatePerm(permId, update).then(response => {
+      dispatch('getPerms')
+    })
   },
-  deletePerm({ dispatch, commit }, permId) {
-    return PermsApi.deletePerm(permId)
-      .then(response => {
-        dispatch('getPerms')
-      })
+  deletePerm({dispatch, commit}, permId) {
+    return PermsApi.deletePerm(permId).then(response => {
+      dispatch('getPerms')
+    })
   },
 
-  getScopes({ commit }) {
+  getScopes({commit}) {
     commit('SET_LOADING')
-    return PermsApi.getScopes()
-      .then(({ scopes }) => commit('SET_SCOPES', scopes))
+    return PermsApi.getScopes().then(({scopes}) => commit('SET_SCOPES', scopes))
   }
 }
 

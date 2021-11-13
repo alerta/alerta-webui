@@ -40,20 +40,20 @@ const mutations = {
 }
 
 const actions = {
-  showSnackbar({ commit }, snackbar) {
+  showSnackbar({commit}, snackbar) {
     commit('ADD_SNACKBAR', snackbar)
   },
-  closeSnackbar({ commit }) {
+  closeSnackbar({commit}) {
     commit('REMOVE_SNACKBAR')
   },
-  showBanner({ commit }, banner) {
+  showBanner({commit}, banner) {
     commit('ADD_BANNER', banner)
   },
-  closeBanner({ commit }) {
+  closeBanner({commit}) {
     commit('REMOVE_BANNER')
   },
 
-  success({ commit }, message) {
+  success({commit}, message) {
     commit('ADD_SNACKBAR', {
       type: 'success',
       text: message,
@@ -62,7 +62,7 @@ const actions = {
     })
   },
 
-  error({ commit }, error) {
+  error({commit}, error) {
     // HTTP error with status, code, message and errors.
     if (error.hasOwnProperty('code')) {
       commit('ADD_SNACKBAR', {

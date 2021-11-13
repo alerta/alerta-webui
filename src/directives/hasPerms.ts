@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
-import { store } from '@/main'
+import {store} from '@/main'
 
 // v-has-perms.disable="write:keys"
 // v-has-perms="admin:users" (hide is default)
 
-export default Vue.directive('has-perms', function(el, binding) {
+export default Vue.directive('has-perms', function (el, binding) {
   let authRequired = store.getters.getConfig('auth_required')
   let allowReadonly = store.getters.getConfig('allow_readonly')
   let readonlyScopes = store.getters.getConfig('readonly_scopes')

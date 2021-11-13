@@ -2,14 +2,29 @@
   "name": "alerta-webui",
   "version": "8.5.0",
   "private": true,
+  "description": "Alerta web UI",
   "scripts": {
     "serve": "vue-cli-service serve --port 8000",
     "build": "vue-cli-service build",
+    "format": "prettier --write '**/*.ts'",
+    "format-check": "prettier --check '**/*.ts'",
     "lint": "vue-cli-service lint src tests",
     "lint:nofix": "vue-cli-service lint --no-fix src tests",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "all": "npm run build && npm run format && npm run lint && npm run test:unit"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alerta/alerta-webui.git"
+  },
+  "keywords": [
+    "alerta",
+    "monitoring",
+    "webui"
+  ],
+  "author": "satterly",
+  "license": "Apache-2.0",
   "dependencies": {
     "@alerta/vue-authenticate": "github:alerta/vue-authenticate",
     "acorn-dynamic-import": "^4.0.0",
@@ -44,6 +59,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
     "node-sass": "^4.14.1",
+    "prettier": "^2.4.1",
     "sass-loader": "^7.3.1",
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.1",

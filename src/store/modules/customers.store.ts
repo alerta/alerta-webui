@@ -22,29 +22,26 @@ const mutations = {
 }
 
 const actions = {
-  getCustomers({ commit }) {
+  getCustomers({commit}) {
     commit('SET_LOADING')
     return CustomersApi.getCustomers({})
-      .then(({ customers }) => commit('SET_CUSTOMERS', customers))
+      .then(({customers}) => commit('SET_CUSTOMERS', customers))
       .catch(() => commit('RESET_LOADING'))
   },
-  createCustomer({ dispatch, commit }, customer) {
-    return CustomersApi.createCustomer(customer)
-      .then(response => {
-        dispatch('getCustomers')
-      })
+  createCustomer({dispatch, commit}, customer) {
+    return CustomersApi.createCustomer(customer).then(response => {
+      dispatch('getCustomers')
+    })
   },
-  updateCustomer({ dispatch, commit }, [customerId, update]) {
-    return CustomersApi.updateCustomer(customerId, update)
-      .then(response => {
-        dispatch('getCustomers')
-      })
+  updateCustomer({dispatch, commit}, [customerId, update]) {
+    return CustomersApi.updateCustomer(customerId, update).then(response => {
+      dispatch('getCustomers')
+    })
   },
-  deleteCustomer({ dispatch, commit }, customerId) {
-    return CustomersApi.deleteCustomer(customerId)
-      .then(response => {
-        dispatch('getCustomers')
-      })
+  deleteCustomer({dispatch, commit}, customerId) {
+    return CustomersApi.deleteCustomer(customerId).then(response => {
+      dispatch('getCustomers')
+    })
   }
 }
 

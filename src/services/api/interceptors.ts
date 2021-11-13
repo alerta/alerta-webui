@@ -1,5 +1,5 @@
-import { store } from '@/main'
-import { v4 as uuidv4 } from 'uuid'
+import {store} from '@/main'
+import {v4 as uuidv4} from 'uuid'
 import axios from 'axios'
 
 export function makeInterceptors(router) {
@@ -31,7 +31,7 @@ export function makeInterceptors(router) {
         if (router.currentRoute.path != '/login') {
           router.replace({
             path: '/login',
-            query: { redirect: router.currentRoute.fullPath }
+            query: {redirect: router.currentRoute.fullPath}
           })
         }
       }

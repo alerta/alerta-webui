@@ -13,8 +13,8 @@ const getDefaults = () => {
       mediumDate: null,
       shortTime: null
     },
-    timezone: 'local',  // 'local' or 'utc'
-    displayDensity: null,  // 'comfortable' or 'compact'
+    timezone: 'local', // 'local' or 'utc'
+    displayDensity: null, // 'comfortable' or 'compact'
     showAllowedEnvs: false,
     showNotesIcon: false,
     font: {
@@ -23,9 +23,9 @@ const getDefaults = () => {
       'font-weight': null
     },
     rowsPerPage: 20,
-    valueWidth: 50,  // px
-    textWidth: 400,  // px
-    refreshInterval: 5*1000,  // milliseconds
+    valueWidth: 50, // px
+    textWidth: 400, // px
+    refreshInterval: 5 * 1000, // milliseconds
     ackTimeout: null,
     shelveTimeout: null,
     blackoutStartNow: true,
@@ -50,56 +50,88 @@ const mutations = {
   },
   RESET_QUERIES(state) {
     Object.assign(state, {queries: []})
-  },
+  }
 }
 
 const actions = {
-  getUserPrefs({ dispatch, commit }) {
+  getUserPrefs({dispatch, commit}) {
     return UsersApi.getMeAttributes()
-      .then(({ attributes }) =>  {
+      .then(({attributes}) => {
         commit('SET_PREFS', attributes.prefs)
       })
-      .catch((error) => dispatch('notifications/error', Error('' + i18n.t('SettingsError')), { root: true }))
+      .catch(error =>
+        dispatch('notifications/error', Error('' + i18n.t('SettingsError')), {
+          root: true
+        })
+      )
   },
-  toggle({ dispatch, commit }, [s, v]) {
-    return UsersApi.updateMeAttributes({ prefs: { [s]: v } })
+  toggle({dispatch, commit}, [s, v]) {
+    return UsersApi.updateMeAttributes({prefs: {[s]: v}})
       .then(response => dispatch('getUserPrefs'))
-      .then(() => dispatch('notifications/success', i18n.t('SettingsSaved'), { root: true }))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+          root: true
+        })
+      )
   },
-  setUserPrefs({ dispatch, commit }, prefs) {
-    return UsersApi.updateMeAttributes({ prefs: prefs })
+  setUserPrefs({dispatch, commit}, prefs) {
+    return UsersApi.updateMeAttributes({prefs: prefs})
       .then(response => dispatch('getUserPrefs'))
-      .then(() => dispatch('notifications/success', i18n.t('SettingsSaved'), { root: true }))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+          root: true
+        })
+      )
   },
-  resetUserPrefs({ dispatch, commit }) {
-    return UsersApi.updateMeAttributes({ prefs: null })
+  resetUserPrefs({dispatch, commit}) {
+    return UsersApi.updateMeAttributes({prefs: null})
       .then(response => commit('RESET_PREFS'))
-      .then(() => dispatch('notifications/success', i18n.t('SettingsReset'), { root: true }))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('SettingsReset'), {
+          root: true
+        })
+      )
   },
-  getUserQueries({ dispatch, commit }) {
+  getUserQueries({dispatch, commit}) {
     return UsersApi.getMeAttributes()
-      .then(({ attributes }) =>  {
+      .then(({attributes}) => {
         commit('SET_QUERIES', attributes.queries)
       })
-      .catch((error) => dispatch('notifications/error', Error('' + i18n.t('SettingsError')), { root: true }))
+      .catch(error =>
+        dispatch('notifications/error', Error('' + i18n.t('SettingsError')), {
+          root: true
+        })
+      )
   },
-  addUserQuery({ dispatch, state }, query) {
+  addUserQuery({dispatch, state}, query) {
     let qlist = state.queries.filter(q => q.text != query.text).concat([query])
-    return UsersApi.updateMeAttributes({ queries: qlist })
+    return UsersApi.updateMeAttributes({queries: qlist})
       .then(response => dispatch('getUserQueries'))
-      .then(() => dispatch('notifications/success', i18n.t('SettingsSaved'), { root: true }))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+          root: true
+        })
+      )
   },
-  removeUserQuery({ dispatch, state }, query) {
+  removeUserQuery({dispatch, state}, query) {
     let qlist = state.queries.filter(q => q.text != query.text)
-    return UsersApi.updateMeAttributes({ queries: qlist })
+    return UsersApi.updateMeAttributes({queries: qlist})
       .then(response => dispatch('getUserQueries'))
-      .then(() => dispatch('notifications/success', i18n.t('SettingsSaved'), { root: true }))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+          root: true
+        })
+      )
   },
-  resetUserQueries({ dispatch, commit }) {
-    return UsersApi.updateMeAttributes({ queries: null })
+  resetUserQueries({dispatch, commit}) {
+    return UsersApi.updateMeAttributes({queries: null})
       .then(response => commit('RESET_QUERIES'))
-      .then(() => dispatch('notifications/success', i18n.t('SettingsReset'), { root: true }))
-  },
+      .then(() =>
+        dispatch('notifications/success', i18n.t('SettingsReset'), {
+          root: true
+        })
+      )
+  }
 }
 
 const getters = {

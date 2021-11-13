@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
+import Vuex, {Store} from 'vuex'
 import config from './modules/config.store'
 import alerts from './modules/alerts.store'
 import heartbeats from './modules/heartbeats.store'
@@ -19,14 +19,14 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 const mutations = {
-  SET_SETTING(state, { s, v }) {
+  SET_SETTING(state, {s, v}) {
     state[s] = v
   }
 }
 
 const actions = {
-  set({ commit }, [s, v]) {
-    commit('SET_SETTING', { s, v })
+  set({commit}, [s, v]) {
+    commit('SET_SETTING', {s, v})
   }
 }
 

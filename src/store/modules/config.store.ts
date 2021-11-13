@@ -2,7 +2,7 @@ import stateMerge from 'vue-object-merge'
 
 const state = {
   endpoint: 'http://local.alerta.io:8080',
-  alarm_model: {},  // includes severity, colors and status maps
+  alarm_model: {}, // includes severity, colors and status maps
 
   auth_required: true,
   allow_readonly: false,
@@ -21,8 +21,8 @@ const state = {
 
   site_logo_url: '',
 
-  severity: {},  // moved to alarm_model
-  colors: {},  // moved to alarm_model
+  severity: {}, // moved to alarm_model
+  colors: {}, // moved to alarm_model
 
   timeouts: {}, // includes alert, heartbeat, ack and shelve timeouts
 
@@ -52,7 +52,7 @@ const state = {
   },
 
   tracking_id: null,
-  refresh_interval: 5*1000,  // milliseconds
+  refresh_interval: 5 * 1000, // milliseconds
   environments: []
 }
 
@@ -63,7 +63,7 @@ const mutations = {
 }
 
 const actions = {
-  updateConfig({ commit }, config) {
+  updateConfig({commit}, config) {
     commit('SET_CONFIG', config)
   }
 }

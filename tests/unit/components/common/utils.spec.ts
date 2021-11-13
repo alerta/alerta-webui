@@ -31,10 +31,7 @@ describe('Utils', () => {
   ]
 
   it('derives full scopes from assigned scopes', () => {
-    let result = utils.getAllowedScopes(
-      ['admin:perms', 'read', 'write:keys'],
-      allScopes
-    )
+    let result = utils.getAllowedScopes(['admin:perms', 'read', 'write:keys'], allScopes)
     let expected = [
       'admin:perms',
       'read:perms',

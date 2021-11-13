@@ -22,17 +22,16 @@ const mutations = {
 }
 
 const actions = {
-  getHeartbeats({ commit }) {
+  getHeartbeats({commit}) {
     commit('SET_LOADING')
     return HeartbeatsApi.getHeartbeats({})
-      .then(({ heartbeats }) => commit('SET_HEARTBEATS', heartbeats))
+      .then(({heartbeats}) => commit('SET_HEARTBEATS', heartbeats))
       .catch(() => commit('RESET_LOADING'))
   },
-  deleteHeartbeat({ dispatch, commit }, heartbeatId) {
-    return HeartbeatsApi.deleteHeartbeat(heartbeatId)
-      .then(response => {
-        dispatch('getHeartbeats')
-      })
+  deleteHeartbeat({dispatch, commit}, heartbeatId) {
+    return HeartbeatsApi.deleteHeartbeat(heartbeatId).then(response => {
+      dispatch('getHeartbeats')
+    })
   }
 }
 

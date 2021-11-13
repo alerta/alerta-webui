@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: github-pages
 
 on:
   push:
-    branches: [ master, release/* ]
+    branches: [master, release/*]
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -19,7 +19,6 @@ jobs:
       - name: Unit Test
         id: unit-test
         run: npm run test:unit
-
       - uses: act10ns/slack@v1
         with:
           status: ${{ job.status }}
@@ -45,9 +44,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-
       - uses: act10ns/slack@v1
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-        if: failure()
