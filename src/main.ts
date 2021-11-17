@@ -13,7 +13,6 @@ import GoogleAnalytics from '@/plugins/analytics'
 import i18n from '@/plugins/i18n'
 
 import vuetify from '@/plugins/vuetify'
-import './stylus/main.styl'
 import App from './App.vue'
 
 import '@/directives/hasPerms'
