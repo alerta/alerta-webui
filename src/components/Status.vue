@@ -4,7 +4,7 @@
       :headers="headers"
       :items="metrics"
       class="px-2"
-      hide-actions
+      hide-default-footer
     >
       <template
         slot="items"
@@ -22,7 +22,7 @@
       :headers="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
       :items="uptime"
       class="px-2"
-      hide-actions
+      hide-default-footer
     >
       <template
         slot="items"

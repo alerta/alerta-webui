@@ -7,7 +7,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
@@ -82,7 +82,7 @@
                       slot-scope="data"
                     >
                       <v-chip
-                        :selected="data.selected"
+                        :value="data.selected"
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
@@ -134,14 +134,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="save"
             >
               {{ $t('Save') }}
@@ -152,7 +152,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('APIKeys') }}
         <v-spacer />
         <v-btn-toggle
@@ -162,7 +162,7 @@
         >
           <v-btn
             value="active"
-            flat
+            text
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -173,7 +173,7 @@
           </v-btn>
           <v-btn
             value="expired"
-            flat
+            text
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -197,7 +197,7 @@
         :headers="computedHeaders"
         :items="keys"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
@@ -275,7 +275,7 @@
             />
           </td>
           <td
-            class="text-xs-center"
+            class="text-center"
           >
             {{ props.item.count }}
           </td>

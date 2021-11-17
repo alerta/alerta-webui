@@ -3,13 +3,13 @@
     :headers="headers"
     :items="manifest"
     class="px-2"
-    hide-actions
+    hide-default-footer
   >
     <template
       slot="items"
       slot-scope="props"
     >
-      <td class="text-xs-center">
+      <td class="text-center">
         {{ version }}
       </td>
       <td>

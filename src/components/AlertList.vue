@@ -5,15 +5,15 @@
       :headers="customHeaders"
       :items="alerts"
       item-key="id"
-      :pagination.sync="pagination"
-      :total-items="pagination.totalItems"
+      :options.sync="pagination"
+      :server-items-length="pagination.totalItems"
       :rows-per-page-items="pagination.rowsPerPageItems"
       :loading="isSearching"
       class="alert-table"
       :class="[ displayDensity ]"
       :style="columnWidths"
       sort-icon="arrow_drop_down"
-      select-all
+      show-select
     >
       <template
         slot="items"
@@ -123,7 +123,7 @@
                   class="pl-2"
                 >
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
+                    <template #activator="{ on, attrs }">
                       <v-icon
                         v-bind="attrs"
                         small
@@ -209,7 +209,7 @@
             </span>
             <span
               v-if="col == 'timeoutLeft'"
-              class="text-xs-right"
+              class="text-right"
             >
               {{ timeoutLeft(props.item) | hhmmss }}
             </span>
@@ -255,7 +255,7 @@
             </span>
             <span
               v-if="col == 'duration'"
-              class="text-xs-right"
+              class="text-right"
             >
               {{ duration(props.item) | hhmmss }}
             </span>
@@ -289,7 +289,7 @@
               ...&nbsp;
               <v-btn
                 v-if="isAcked(props.item.status) || isClosed(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -304,7 +304,7 @@
 
               <v-btn
                 v-if="!isWatched(props.item.tags)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -318,7 +318,7 @@
               </v-btn>
               <v-btn
                 v-if="isWatched(props.item.tags)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -333,7 +333,7 @@
 
               <v-btn
                 v-if="isOpen(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -347,7 +347,7 @@
               </v-btn>
               <v-btn
                 v-if="isAcked(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -362,7 +362,7 @@
 
               <v-btn
                 v-if="isOpen(props.item.status) || isAcked(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -376,7 +376,7 @@
               </v-btn>
               <v-btn
                 v-if="isShelved(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -391,7 +391,7 @@
 
               <v-btn
                 v-if="!isClosed(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -404,7 +404,7 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
@@ -436,7 +436,7 @@
               >
                 <v-btn
                   slot="activator"
-                  flat
+                  text
                   icon
                   small
                   class="btn--plain pa-0 ma-0"
@@ -451,13 +451,13 @@
                 >
                   <v-subheader>Actions</v-subheader>
                   <v-divider />
-                  <v-list-tile
+                  <v-list-item
                     v-for="(action, i) in actions"
                     :key="i"
                     @click.stop="takeAction(props.item.id, action)"
                   >
-                    <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
-                  </v-list-tile>
+                    <v-list-item-title>{{ action | splitCaps }}</v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </div>
@@ -465,7 +465,7 @@
         </tr>
       </template>
       <template slot="no-data">
-        <div class="text-xs-center">
+        <div class="text-center">
           <span v-if="isLoading">{{ $t('Loading') }}...</span>
           <span v-if="!isLoading">{{ $t('NoDataAvailable') }}</span>
         </div>

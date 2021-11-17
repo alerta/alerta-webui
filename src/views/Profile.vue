@@ -8,20 +8,19 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               Profile
             </span>
           </v-card-title>
 
           <v-layout
-            row
             wrap
           >
             <v-flex
               align-center
               justify-center
               layout
-              text-xs-center
+              text-center
             >
               <v-avatar
                 size="128"
@@ -43,27 +42,25 @@
             </v-flex>
           </v-layout>
           <v-layout
-            row
             spacer
           >
             <v-flex
               align-center
               justify-center
               layout
-              text-xs-center
+              text-center
             >
               <b>{{ profile.name }}</b>
             </v-flex>
           </v-layout>
           <v-layout
-            row
             spacer
           >
             <v-flex
               align-center
               justify-center
               layout
-              text-xs-center
+              text-center
             >
               <span
                 v-if="profile.preferred_username && !profile.preferred_username.includes('@')"
@@ -166,7 +163,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(customer)
                       </v-chip>
@@ -184,7 +181,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(org)
                       </v-chip>
@@ -202,7 +199,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(group)
                       </v-chip>
@@ -220,7 +217,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(role)
                       </v-chip>
@@ -238,7 +235,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(scope)
                       </v-chip>
@@ -253,14 +250,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               disabled
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              text
               disabled
             >
               {{ $t('Save') }}

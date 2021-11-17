@@ -7,7 +7,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
@@ -53,14 +53,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="validate"
             >
               {{ $t('Save') }}
@@ -71,7 +71,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Customers') }}
         <v-spacer />
         <v-text-field
@@ -87,7 +87,7 @@
         :headers="headers"
         :items="customers"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"

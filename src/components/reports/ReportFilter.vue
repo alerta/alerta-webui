@@ -11,7 +11,7 @@
     <v-card tile>
       <v-toolbar
         :color="isDark ? '#616161' : '#eeeeee'"
-        card
+        flat
         dense
       >
         <v-toolbar-title>
@@ -50,7 +50,7 @@
               v-model="filterText"
               :label="$t('Search')"
               prepend-inner-icon="search"
-              outline
+              outlined
               dense
               clearable
               :hint="$t('FilterDescription')"
@@ -69,7 +69,7 @@
               :placeholder="$t('AllEnvironments')"
               :label="$t('Environment')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('EnvironmentDescription')"
               persistent-hint
@@ -87,7 +87,7 @@
               :placeholder="$t('AllSeverities')"
               :label="$t('Severity')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('SeverityDescription')"
               persistent-hint
@@ -105,7 +105,7 @@
               :placeholder="$t('AllStatuses')"
               :label="$t('Status')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('StatusDescription')"
               persistent-hint
@@ -124,7 +124,7 @@
               :placeholder="$t('AllCustomers')"
               :label="$t('Customer')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('CustomerDescription')"
               persistent-hint
@@ -142,7 +142,7 @@
               :placeholder="$t('AllServices')"
               :label="$t('Service')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('ServiceDescription')"
               persistent-hint
@@ -160,7 +160,7 @@
               :placeholder="$t('AllGroups')"
               :label="$t('Group')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('GroupDescription')"
               persistent-hint
@@ -171,7 +171,7 @@
             xs12
             class="pb-0"
           >
-            <span class="body-2">{{ $t('DateTime') }}</span>
+            <span class="text-body-2">{{ $t('DateTime') }}</span>
             <v-select
               v-model="filterDateRange"
               :items="dateRanges"
@@ -194,7 +194,7 @@
               v-model="period.startDate"
               :label="$t('StartDate')"
               prepend-inner-icon="event"
-              outline
+              outlined
               hide-details
               @click:prepend-inner="menu1 = !menu1"
             />
@@ -208,7 +208,7 @@
             <v-text-field
               v-model="period.startTime"
               :label="$t('Time')"
-              outline
+              outlined
               hide-details
             />
           </v-flex>
@@ -245,7 +245,7 @@
               v-model="period.endDate"
               :label="$t('EndDate')"
               prepend-inner-icon="event"
-              outline
+              outlined
               hide-details
               @click:prepend-inner="menu2 = !menu2"
             />
@@ -259,7 +259,7 @@
             <v-text-field
               v-model="period.endTime"
               :label="$t('Time')"
-              outline
+              outlined
               hide-details
             />
           </v-flex>
@@ -304,7 +304,7 @@
           <v-spacer />
           <v-btn
             color="blue darken-1"
-            flat
+            text
             @click="reset"
           >
             {{ $t('Reset') }}

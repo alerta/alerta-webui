@@ -7,7 +7,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
@@ -54,7 +54,7 @@
                       slot-scope="data"
                     >
                       <v-chip
-                        :selected="data.selected"
+                        :value="data.selected"
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
@@ -71,14 +71,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="validate"
             >
               {{ $t('Save') }}
@@ -89,7 +89,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Permissions') }}
         <v-spacer />
         <v-flex
@@ -108,7 +108,7 @@
               slot-scope="data"
             >
               <v-chip
-                :selected="data.selected"
+                :value="data.selected"
                 close
               >
                 <strong>{{ data.item }}</strong>&nbsp;
@@ -132,7 +132,7 @@
         :headers="headers"
         :items="perms"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :custom-filter="customFilter"

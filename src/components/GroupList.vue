@@ -7,7 +7,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ $t('AddRemoveUsers') }}
             </span>
           </v-card-title>
@@ -23,16 +23,16 @@
                     :disabled="isLoading"
                     :items="allUsers"
                     autofocus
-                    box
+                    filled
                     chips
                     :label="$t('Addusers')"
                     item-text="name"
                     item-value="id"
                     @change="addUser"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip
-                        :selected="data.selected"
+                        :value="data.selected"
                         close
                         class="chip--select-multi"
                         @input="removeUser(data.item)"
@@ -41,18 +41,18 @@
                         {{ data.item.name }}
                       </v-chip>
                     </template>
-                    <template v-slot:item="data">
+                    <template #item="data">
                       <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content v-text="data.item" />
+                        <v-list-item-content v-text="data.item" />
                       </template>
                       <template v-else>
-                        <v-list-tile-avatar>
+                        <v-list-item-avatar>
                           <v-icon>person</v-icon>
-                        </v-list-tile-avatar>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name" />
-                          <v-list-tile-sub-title v-html="data.item.email" />
-                        </v-list-tile-content>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                          <v-list-item-title v-html="data.item.name" />
+                          <v-list-item-subtitle v-html="data.item.email" />
+                        </v-list-item-content>
                       </template>
                     </template>
                   </v-autocomplete>
@@ -63,7 +63,7 @@
 
           <v-card-title primary-title>
             <div>
-              <div class="headline">
+              <div class="text-h5">
                 {{ groupName }}
               </div>
               <span>{{ $t('UsersInGroup') }}</span>
@@ -71,33 +71,33 @@
           </v-card-title>
 
           <v-list>
-            <v-list-tile
+            <v-list-item
               v-for="item in groupUsers"
               :key="item.id"
               avatar
               @click="removeUser(item.id)"
             >
-              <v-list-tile-avatar>
+              <v-list-item-avatar>
                 <v-icon>person</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-html="item.name" />
-                <v-list-tile-sub-title v-html="item.login" />
-              </v-list-tile-content>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="item.name" />
+                <v-list-item-subtitle v-html="item.login" />
+              </v-list-item-content>
 
-              <v-list-tile-action>
+              <v-list-item-action>
                 <v-icon>
                   {{ item.status == 'active' ? 'remove_circle' : 'remove_circle_outline' }}
                 </v-icon>
-              </v-list-tile-action>
-            </v-list-tile>
+              </v-list-item-action>
+            </v-list-item>
           </v-list>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="close"
             >
               Close
@@ -114,7 +114,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
@@ -158,14 +158,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="validate"
             >
               {{ $t('Save') }}
@@ -176,7 +176,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Groups') }}
         <v-spacer />
         <v-text-field
@@ -192,7 +192,7 @@
         :headers="headers"
         :items="groups"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
@@ -204,7 +204,7 @@
           slot-scope="props"
         >
           <td>{{ props.item.name }}</td>
-          <td class="text-xs-left">
+          <td class="text-left">
             {{ props.item.text }}
           </td>
           <td>

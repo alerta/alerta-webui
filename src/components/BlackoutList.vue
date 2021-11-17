@@ -7,7 +7,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
@@ -166,7 +166,7 @@
                     >
                       <v-chip
                         :key="JSON.stringify(data.item)"
-                        :selected="data.selected"
+                        :value="data.selected"
                         :disabled="data.disabled"
                         class="v-chip--select-multi"
                         label
@@ -206,14 +206,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="validate"
             >
               {{ $t('Save') }}
@@ -224,7 +224,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Blackouts') }}
         <v-spacer />
         <v-btn-toggle
@@ -234,7 +234,7 @@
         >
           <v-btn
             value="active"
-            flat
+            text
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -245,7 +245,7 @@
           </v-btn>
           <v-btn
             value="pending"
-            flat
+            text
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -256,7 +256,7 @@
           </v-btn>
           <v-btn
             value="expired"
-            flat
+            text
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -280,7 +280,7 @@
         :headers="computedHeaders"
         :items="blackouts"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
@@ -301,7 +301,7 @@
             <v-chip
               v-for="service in props.item.service"
               :key="service"
-              outline
+              outlined
               small
             >
               {{ service }}
@@ -323,7 +323,7 @@
             </v-chip>
           </td>
           <td>{{ props.item.origin }}</td>
-          <td class="text-xs-right">
+          <td class="text-right">
             <v-tooltip top>
               {{ props.item.status | capitalize }}
               <v-icon
@@ -353,27 +353,27 @@
               </v-icon>
             </v-tooltip>
           </td>
-          <td class="text-xs-left">
+          <td class="text-left">
             <date-time
               :value="props.item.startTime"
               format="mediumDate"
             />
           </td>
-          <td class="text-xs-left">
+          <td class="text-left">
             <date-time
               :value="props.item.endTime"
               format="mediumDate"
             />
           </td>
           <td
-            class="text-xs-left text-no-wrap"
+            class="text-left text-no-wrap"
           >
             {{ props.item.endTime | until }}
           </td>
-          <td class="text-xs-left">
+          <td class="text-left">
             {{ props.item.user }}
           </td>
-          <td class="text-xs-left">
+          <td class="text-left">
             {{ props.item.text }}
           </td>
           <td class="text-no-wrap">

@@ -16,7 +16,7 @@
           :color="isDark ? '#616161' : '#eeeeee'"
           flat
         >
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
           <router-link
             to="/"
@@ -39,17 +39,17 @@
         <v-divider />
         <v-list dense>
           <template v-for="(item, index) in items">
-            <v-list-tile
+            <v-list-item
               v-if="item.icon && item.show"
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
             >
-              <v-list-tile-action>
+              <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
                   {{ item.text }}
                   <v-icon
                     v-if="item.appendIcon"
@@ -57,9 +57,9 @@
                   >
                     {{ item.appendIcon }}
                   </v-icon>
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
 
             <v-list-group
               v-else-if="item.queries && item.queries.length > 0"
@@ -68,27 +68,27 @@
               sub-group
               no-action
             >
-              <template v-slot:activator>
-                <v-list-tile>
-                  <v-list-tile-title>
+              <template #activator>
+                <v-list-item>
+                  <v-list-item-title>
                     {{ item.text }}
-                  </v-list-tile-title>
-                </v-list-tile>
+                  </v-list-item-title>
+                </v-list-item>
               </template>
-              <v-list-tile
+              <v-list-item
                 v-for="(q, i) in item.queries"
                 :key="i"
                 @click="submitSearch(q.query)"
               >
-                <v-list-tile-title v-text="q.text" />
-                <v-list-tile-action>
+                <v-list-item-title v-text="q.text" />
+                <v-list-item-action>
                   <v-icon
                     small
                     @click.stop="deleteSearch(q)"
                     v-text="q.icon"
                   />
-                </v-list-tile-action>
-              </v-list-tile>
+                </v-list-item-action>
+              </v-list-item>
             </v-list-group>
 
             <v-divider
@@ -105,7 +105,7 @@
         flat
         class="mb-1"
       >
-        <v-toolbar-side-icon
+        <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
         />
 
@@ -143,11 +143,11 @@
           @change="submitSearch"
           @click:clear="clearSearch"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-tooltip
               bottom
             >
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <v-icon
                   v-on="on"
                   @click="saveSearch"
@@ -239,8 +239,8 @@
         <span class="hidden-xs-only">
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
-            round
-            outline
+            rounded
+            outlined
             color="primary"
             to="/signup"
           >
@@ -248,7 +248,7 @@
           </v-btn>
           <v-btn
             v-show="!isLoggedIn"
-            round
+            rounded
             color="primary"
             to="/login"
           >
@@ -357,7 +357,7 @@
         >
           <v-btn
             slot="activator"
-            flat
+            text
             icon
             small
             class="btn--plain px-1 mx-0"
@@ -372,13 +372,13 @@
           >
             <v-subheader>Actions</v-subheader>
             <v-divider />
-            <v-list-tile
+            <v-list-item
               v-for="(action, i) in actions"
               :key="i"
               @click="takeBulkAction(action)"
             >
-              <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
-            </v-list-tile>
+              <v-list-item-title>{{ action | splitCaps }}</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
 
@@ -445,8 +445,8 @@
         <span class="hidden-xs-only">
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
-            round
-            outline
+            rounded
+            outlined
             color="primary"
             disabled
           >
@@ -454,7 +454,7 @@
           </v-btn>
           <v-btn
             v-show="!isLoggedIn"
-            round
+            rounded
             color="primary"
             disabled
           >
@@ -464,19 +464,19 @@
       </v-toolbar>
     </div>
 
-    <v-content>
+    <v-main>
       <banner />
       <router-view />
       <snackbar />
-    </v-content>
+    </v-main>
 
     <div v-if="!isKiosk">
       <span class="hidden-sm-and-up">
         <v-btn
           v-show="!isLoggedIn && isSignupEnabled"
           block
-          round
-          outline
+          rounded
+          outlined
           color="primary"
           to="/signup"
           :disabled="selected.length > 0"
@@ -486,7 +486,7 @@
         <v-btn
           v-show="!isLoggedIn"
           block
-          round
+          rounded
           color="primary"
           to="/login"
           :disabled="selected.length > 0"

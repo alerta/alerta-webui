@@ -10,7 +10,7 @@
       >
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
@@ -151,7 +151,7 @@
                       slot-scope="data"
                     >
                       <v-chip
-                        :selected="data.selected"
+                        :value="data.selected"
                         close
                       >
                         <strong>{{ data.item.name }}</strong>&nbsp;
@@ -180,7 +180,7 @@
                       slot-scope="data"
                     >
                       <v-chip
-                        :selected="data.selected"
+                        :value="data.selected"
                         close
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
@@ -207,14 +207,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="validate"
             >
               {{ $t('Save') }}
@@ -225,7 +225,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Users') }}
         <v-spacer />
         <v-btn-toggle
@@ -235,7 +235,7 @@
         >
           <v-btn
             value="active"
-            flat
+            text
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -246,7 +246,7 @@
           </v-btn>
           <v-btn
             value="inactive"
-            flat
+            text
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -273,7 +273,7 @@
               slot-scope="data"
             >
               <v-chip
-                :selected="data.selected"
+                :value="data.selected"
                 close
               >
                 <strong>{{ data.item }}</strong>&nbsp;
@@ -297,7 +297,7 @@
         :headers="headers"
         :items="users"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :custom-filter="customFilter"
@@ -310,7 +310,7 @@
           slot-scope="props"
         >
           <td>{{ props.item.name }}</td>
-          <td class="text-xs-center">
+          <td class="text-center">
             <v-tooltip top>
               <v-icon
                 slot="activator"
@@ -326,7 +326,7 @@
           </td>
           <td>{{ props.item.login }}</td>
           <td>{{ props.item.email }}</td>
-          <td class="text-xs-center">
+          <td class="text-center">
             <v-tooltip top>
               <v-icon
                 slot="activator"
@@ -356,20 +356,20 @@
               <span>({{ $t('role') }})</span>
             </v-chip>
           </td>
-          <td class="text-xs-right">
+          <td class="text-right">
             <date-time
               :value="props.item.createTime"
               format="mediumDate"
             />
           </td>
-          <td class="text-xs-right">
+          <td class="text-right">
             <date-time
               v-if="props.item.lastLogin"
               :value="props.item.lastLogin"
               format="mediumDate"
             />
           </td>
-          <td class="text-xs-right">
+          <td class="text-right">
             {{ props.item.text }}
           </td>
           <td class="text-no-wrap">

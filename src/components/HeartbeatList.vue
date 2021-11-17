@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="title">
+    <v-card-title class="text-h6">
       {{ $t('Heartbeats') }}
       <v-spacer />
       <v-btn-toggle
@@ -10,7 +10,7 @@
       >
         <v-btn
           value="ok"
-          flat
+          text
         >
           <v-tooltip bottom>
             <v-icon slot="activator">
@@ -21,7 +21,7 @@
         </v-btn>
         <v-btn
           value="slow"
-          flat
+          text
         >
           <v-tooltip bottom>
             <v-icon slot="activator">
@@ -32,7 +32,7 @@
         </v-btn>
         <v-btn
           value="expired"
-          flat
+          text
         >
           <v-tooltip bottom>
             <v-icon slot="activator">
@@ -56,7 +56,7 @@
       :headers="computedHeaders"
       :items="heartbeats"
       :rows-per-page-items="rowsPerPageItems"
-      :pagination.sync="pagination"
+      :options.sync="pagination"
       class="px-2"
       :search="search"
       :loading="isLoading"
@@ -104,7 +104,7 @@
           {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
         </td>
         <td
-          class="text-xs-center text-no-wrap"
+          class="text-center text-no-wrap"
         >
           {{ timeoutLeft(props.item) | hhmmss }}
         </td>

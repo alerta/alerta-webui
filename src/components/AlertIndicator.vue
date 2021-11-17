@@ -8,7 +8,7 @@
       :style="{ 'background-color': severityColor(maxSeverity) }"
     >
       <div
-        class="text-uppercase text-xs-center py-2"
+        class="text-uppercase text-center py-2"
       >
         {{ title }}
       </div>
@@ -31,7 +31,7 @@
               <div
                 v-for="severity in $config.indicators.severity"
                 :key="severity"
-                class="count text-xs-center py-2"
+                class="count text-center py-2"
                 :style="{ 'background-color': severityColor(severity) }"
               >
                 {{ counts[severity] || 0 }}

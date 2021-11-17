@@ -6,7 +6,6 @@
     <v-layout
       v-show="!sent"
       align-center
-      row
       wrap
     >
       <v-flex
@@ -15,7 +14,7 @@
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           <span>{{ $t('ResetLink') }}</span>
         </p>
         <v-form @submit.prevent="forgot()">
@@ -25,7 +24,7 @@
             type="text"
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
-            outline
+            outlined
           />
           <v-btn
             :loading="isSending"
@@ -37,12 +36,12 @@
             {{ $t('Send') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
-          <span class="body-2">
+        <div class="text-center">
+          <span class="text-body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
-            flat
+            text
             color="primary"
             to="/login"
           >
@@ -61,7 +60,6 @@
     <v-layout
       v-show="sent"
       align-center
-      row
       wrap
     >
       <v-flex
@@ -70,7 +68,7 @@
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           <span>{{ $t('CheckEmail') }}</span>
         </p>
         <v-form>
@@ -80,7 +78,7 @@
             type="text"
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
-            outline
+            outlined
             readonly
           />
           <v-btn
@@ -91,12 +89,12 @@
             {{ $t('ReturnSignIn') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
-          <span class="body-2">
+        <div class="text-center">
+          <span class="text-body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
-            flat
+            text
             color="primary"
             to="/login"
           >

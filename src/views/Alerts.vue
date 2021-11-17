@@ -12,7 +12,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title class="justify-center">
-            <span class="title">
+            <span class="text-h6">
               {{ $t('ChooseDisplayDensity') }}
             </span>
           </v-card-title>
@@ -36,7 +36,7 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              text
               @click="ok"
             >
               {{ $t('OK') }}
@@ -84,7 +84,7 @@
       </v-tab>
       <v-spacer />
       <v-btn
-        flat
+        text
         icon
         :class="{ 'filter-active': isActive }"
         @click="sidesheet = !sidesheet"
@@ -98,31 +98,31 @@
       >
         <v-btn
           slot="activator"
-          flat
+          text
           icon
         >
           <v-icon>more_vert</v-icon>
         </v-btn>
 
         <v-list>
-          <v-list-tile
+          <v-list-item
             :disabled="!indicators.length"
             @click="showPanel = !showPanel"
           >
-            <v-list-tile-title>
+            <v-list-item-title>
               {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('Panel') }}
-            </v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
             @click="densityDialog = true"
           >
             {{ $t('DisplayDensity') }}
-          </v-list-tile>
-          <v-list-tile
+          </v-list-item>
+          <v-list-item
             @click="toCsv(alertsByEnvironment)"
           >
             {{ $t('DownloadAsCsv') }}
-          </v-list-tile>
+          </v-list-item>
         </v-list>
       </v-menu>
 

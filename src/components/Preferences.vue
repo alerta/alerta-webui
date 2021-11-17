@@ -8,7 +8,7 @@
         class="pb-0"
       >
         <div>
-          <div class="headline">
+          <div class="text-h5">
             {{ $t('ApplicationSettings') }}
           </div>
         </div>
@@ -45,7 +45,7 @@
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('LanguageSettings') }}
             </div>
           </div>       
@@ -74,7 +74,7 @@
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('DateTimeSettings') }}
             </div>
           </div>
@@ -121,7 +121,7 @@
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('AlertSettings') }}
             </div>
           </div>
@@ -241,7 +241,7 @@
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('BlackoutSettings') }}
             </div>
           </div>
@@ -281,7 +281,7 @@
           <v-spacer />
           <v-btn
             color="blue darken-1"
-            flat
+            text
             @click="reset"
           >
             {{ $t('Reset') }}

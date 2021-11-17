@@ -12,7 +12,7 @@ import {vueAuth} from '@/services/auth'
 import GoogleAnalytics from '@/plugins/analytics'
 import i18n from '@/plugins/i18n'
 
-import '@/plugins/vuetify'
+import vuetify from '@/plugins/vuetify'
 import './stylus/main.styl'
 import App from './App.vue'
 
@@ -53,6 +53,7 @@ bootstrap.getConfig().then(config => {
     router,
     store,
     i18n,
+    vuetify,
     render: (h: any) => h(App)
   }).$mount('#app')
 })

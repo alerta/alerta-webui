@@ -5,7 +5,6 @@
   >
     <v-layout
       align-center
-      row
       wrap
     >
       <v-flex
@@ -14,7 +13,7 @@
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           <span v-show="signupEnabled">
             {{ $t('CreateAlertaAccount') }}
           </span>
@@ -31,7 +30,7 @@
             type="text"
             :label="$t('FullName')"
             :disabled="!signupEnabled"
-            outline
+            outlined
             :rules="[rules.required]"
             required
           />
@@ -42,7 +41,7 @@
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
             :disabled="!signupEnabled"
-            outline
+            outlined
             :rules="[rules.required]"
             required
           />
@@ -53,7 +52,7 @@
             :label="$t('Password')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
-            outline
+            outlined
             :rules="[rules.min]"
             required
             @click:append="showPassword = !showPassword"
@@ -65,7 +64,7 @@
             :type="showPassword ? 'text' : 'password'"
             :label="$t('ConfirmPassword')"
             :disabled="!signupEnabled"
-            outline
+            outlined
             :rules="[rules.passwordMatch]"
             required
             @click:append="showPassword = !showPassword"
@@ -76,7 +75,7 @@
             type="text"
             :label="$t('Description')"
             :disabled="!signupEnabled"
-            outline
+            outlined
           />
           <v-btn
             :loading="isSending"
@@ -88,12 +87,12 @@
             {{ $t('SignUp') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
-          <span class="body-2">
+        <div class="text-center">
+          <span class="text-body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
-            flat
+            text
             color="primary"
             to="/login"
           >

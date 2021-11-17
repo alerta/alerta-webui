@@ -5,7 +5,6 @@
   >
     <v-layout
       align-center
-      row
       wrap
     >
       <v-flex
@@ -14,7 +13,7 @@
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           {{ $t('LoggedOut') }}
         </p>
       </v-flex>
