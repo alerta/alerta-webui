@@ -756,7 +756,9 @@
                 :items="history"
                 item-key="index"
                 :options.sync="pagination"
-                sort-icon="arrow_drop_down"
+                :header-props="{
+                  sortIcon: 'arrow_drop_down'
+                }"
               >
                 <template
                   slot="items"

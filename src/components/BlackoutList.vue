@@ -279,13 +279,17 @@
       <v-data-table
         :headers="computedHeaders"
         :items="blackouts"
-        :rows-per-page-items="rowsPerPageItems"
         :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
-        sort-icon="arrow_drop_down"
+        :header-props="{
+          sortIcon: 'arrow_drop_down'
+        }"
+        :footer-props="{
+          itemsPerPageOptions: rowsPerPageItems
+        }"
       >
         <template
           slot="items"

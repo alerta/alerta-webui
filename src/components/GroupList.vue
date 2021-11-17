@@ -74,7 +74,6 @@
             <v-list-item
               v-for="item in groupUsers"
               :key="item.id"
-              avatar
               @click="removeUser(item.id)"
             >
               <v-list-item-avatar>
@@ -191,13 +190,17 @@
       <v-data-table
         :headers="headers"
         :items="groups"
-        :rows-per-page-items="rowsPerPageItems"
         :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
-        sort-icon="arrow_drop_down"
+        :header-props="{
+          sortIcon: 'arrow_drop_down'
+        }"
+        :footer-props="{
+          itemsPerPageOptions: rowsPerPageItems
+        }"
       >
         <template
           slot="items"

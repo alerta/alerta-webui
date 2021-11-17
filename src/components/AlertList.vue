@@ -7,12 +7,16 @@
       item-key="id"
       :options.sync="pagination"
       :server-items-length="pagination.totalItems"
-      :rows-per-page-items="pagination.rowsPerPageItems"
       :loading="isSearching"
       class="alert-table"
       :class="[ displayDensity ]"
       :style="columnWidths"
-      sort-icon="arrow_drop_down"
+      :header-props="{
+        sortIcon: 'arrow_drop_down'
+      }"
+      :footer-props="{
+        itemsPerPageOptions: pagination.rowsPerPageItems
+      }"
       show-select
     >
       <template
