@@ -92,6 +92,9 @@ const actions = {
         })
       )
   },
+  clearUserPrefs({commit}) {
+    commit('RESET_PREFS')
+  },
   getUserQueries({dispatch, commit}) {
     return UsersApi.getMeAttributes()
       .then(({attributes}) => {
