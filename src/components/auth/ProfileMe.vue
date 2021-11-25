@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('resetUserPrefs')
+      this.$store.dispatch('clearUserPrefs')
       this.$store
         .dispatch('auth/logout')
         .then(response => {
