@@ -41,7 +41,7 @@
             />
             <v-icon
               v-else-if="props.item.trendIndication == 'moreSevere'"
-              class="trend-arrow"
+              :class="['trend-arrow', textColor(props.item.severity)]"
               :size="fontSize"
               @click.stop="multiselect = true; props.selected = true"
             >
@@ -49,7 +49,7 @@
             </v-icon>
             <v-icon
               v-else-if="props.item.trendIndication == 'lessSevere'"
-              class="trend-arrow"
+              :class="['trend-arrow', textColor(props.item.severity)]"
               :size="fontSize"
               @click.stop="multiselect = true; props.selected = true"
             >
@@ -57,7 +57,7 @@
             </v-icon>
             <v-icon
               v-else
-              class="trend-arrow"
+              :class="['trend-arrow', textColor(props.item.severity)]"
               :size="fontSize"
               @click.stop="multiselect = true; props.selected = true"
             >
@@ -67,7 +67,7 @@
           <td
             v-for="col in $config.columns"
             :key="col"
-            :class="['text-no-wrap', textColor]"
+            :class="['text-no-wrap', textColor(props.item.severity)]"
             :style="fontStyle"
           >
             <span
@@ -280,7 +280,7 @@
             </span>
           </td>
           <td
-            :class="['text-no-wrap', textColor]"
+            :class="['text-no-wrap', textColor(props.item.severity)]"
           >
             <div
               class="action-buttons"
@@ -580,11 +580,6 @@ export default {
         this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c }
       )
     },
-    textColor() {
-      return this.$store.getters.getConfig('colors').text
-        ? `${this.$store.getters.getConfig('colors').text}--text`
-        : ''
-    },
     selectedItem() {
       return this.alerts.filter(a => a.id == this.selectedId)[0]
     },
@@ -633,6 +628,14 @@ export default {
     },
     textWidth() {
       return this.$store.getters.getPreference('textWidth')
+    },
+    textColor(severity) {
+      if (this.severityColor(severity) === 'black' || this.severityColor(severity) === '#000000') {
+        return 'white--text'
+      }
+      return this.$store.getters.getConfig('colors').text
+        ? `${this.$store.getters.getConfig('colors').text}--text`
+        : ''
     },
     severityColor(severity) {
       return this.$store.getters.getConfig('colors').severity[severity] || 'white'
