@@ -693,11 +693,11 @@ export default {
             customer: this.editedItem.customer,
             environment: this.editedItem.environment,
             service: this.editedItem.service,
-            resource: this.editedItem.resource,
-            event: this.editedItem.event,
-            group: this.editedItem.group,
+            resource: this.editedItem.resource ? this.editedItem.resource : null,
+            event: this.editedItem.event ? this.editedItem.event : null,
+            group: this.editedItem.group ? this.editedItem.group : null,
             tags: this.editedItem.tags,
-            origin: this.editItem.origin,
+            origin: this.editedItem.origin ? this.editedItem.origin : null,
             startTime: this.toISODate(
               this.editedItem.period.startDate,
               this.editedItem.period.startTime
