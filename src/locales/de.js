@@ -189,6 +189,8 @@ export const de = {
   Active: 'Aktiv',
   Pending: 'Offener',
   Expired: 'Abgelaufen',
+  WholeEnvironment: 'Whole Environment',
+  AllOrigin: 'All from Origin',
 
   // Customers
   LookUp: 'Nachschlagen',

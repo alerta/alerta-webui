@@ -291,6 +291,30 @@
           slot="items"
           slot-scope="props"
         >
+          <td>
+            <v-tooltip top>
+              {{ $t('WholeEnvironment') }}
+              <v-icon
+                v-if="onlyEnvironment(props.item)"
+                slot="activator"
+                color="red"
+                small
+              >
+                report_problem
+              </v-icon>
+            </v-tooltip>
+            <v-tooltip top>
+              {{ $t('AllOrigin') }}
+              <v-icon
+                v-if="onlyOrigin(props.item)"
+                slot="activator"
+                color="red"
+                small
+              >
+                report_problem
+              </v-icon>
+            </v-tooltip>
+          </td>
           <td
             v-if="$config.customer_views"
           >
@@ -469,6 +493,7 @@ export default {
     search: '',
     dialog: false,
     headers: [
+      { text: '', value: 'icons' },
       { text: i18n.t('Customer'), value: 'customer' },
       { text: i18n.t('Environment'), value: 'environment' },
       { text: i18n.t('Service'), value: 'service' },
@@ -654,6 +679,19 @@ export default {
     },
     toISODate(date, time) {
       return new Date(date + ' ' + time).toISOString()
+    },
+    blackoutAttributes(blackout) {
+      const alertAttr = ['environment', 'service', 'resource', 'event', 'group', 'tags', 'origin']
+      return Object.entries(blackout)
+        .filter(([_, v]) => (!Array.isArray(v) && !!v) || (Array.isArray(v) && v.length))
+        .filter(b => alertAttr.includes(b[0]))
+        .reduce((a, [k, _]) => a.concat(k), [])
+    },
+    onlyEnvironment(blackout) {
+      return JSON.stringify(this.blackoutAttributes(blackout)) === JSON.stringify(['environment'])
+    },
+    onlyOrigin(blackout) {
+      return JSON.stringify(this.blackoutAttributes(blackout)) === JSON.stringify(['environment', 'origin'])
     },
     editItem(item) {
       this.editedId = item.id
