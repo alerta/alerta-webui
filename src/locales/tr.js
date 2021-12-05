@@ -191,6 +191,8 @@ export const tr = {
   Active: 'Etkin',
   Pending: 'Bekleyen',
   Expired: 'Süresi Geçmiş',
+  WholeEnvironment: 'Whole Environment',
+  AllOrigin: 'All from Origin',
 
   // Customers
   LookUp: 'Ara',

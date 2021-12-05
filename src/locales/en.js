@@ -189,6 +189,8 @@ export const en = {
   Active: 'Active',
   Pending: 'Pending',
   Expired: 'Expired',
+  WholeEnvironment: 'Whole Environment',
+  AllOrigin: 'All from Origin',
 
   // Customers
   LookUp: 'Look Up',
