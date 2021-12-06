@@ -1,6 +1,6 @@
 {
   "name": "alerta-webui",
-  "version": "8.7.0-rc1",
+  "version": "8.7.0",
   "private": true,
   "description": "Alerta web UI",
   "scripts": {
