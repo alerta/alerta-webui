@@ -31,7 +31,7 @@ class Config {
         return this.setRemoteConfig(response)
       })
       .catch((error: any) => {
-        console.log(error)
+        console.error(error)
         throw error
       })
   }

@@ -1,3 +1,9 @@
+## v8.8.0 (2022-01-07)
+
+### Feat
+
+- Added support for generic plugable "filters" (#511)
+
 ## v8.4.0 (2021-01-05)
 
 ### Fix
