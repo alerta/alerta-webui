@@ -1,4 +1,4 @@
-import Axios, {AxiosResponse, AxiosInstance} from 'axios'
+import Axios, {AxiosInstance} from 'axios'
 
 class Config {
   private config: any = {}
