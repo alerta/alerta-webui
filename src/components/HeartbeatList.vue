@@ -4,21 +4,27 @@
       {{ $t('Heartbeats') }}
       <v-spacer />
       <v-btn-toggle v-model="status" class="transparent" multiple>
-        <v-btn value="ok" flat>
+        <v-btn value="ok" text>
           <v-tooltip bottom>
-            <v-icon slot="activator"> check_circle </v-icon>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">mdi-check-circle</v-icon>
+            </template>
             <span>{{ $t('OK') }}</span>
           </v-tooltip>
         </v-btn>
-        <v-btn value="slow" flat>
+        <v-btn value="slow" text>
           <v-tooltip bottom>
-            <v-icon slot="activator"> access_time </v-icon>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">mdi-clock-outline</v-icon>
+            </template>
             <span>{{ $t('Slow') }}</span>
           </v-tooltip>
         </v-btn>
-        <v-btn value="expired" flat>
+        <v-btn value="expired" text>
           <v-tooltip bottom>
-            <v-icon slot="activator"> timer_off </v-icon>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">mdi-timer-off-outline</v-icon>
+            </template>
             <span>{{ $t('Expired') }}</span>
           </v-tooltip>
         </v-btn>
@@ -26,7 +32,7 @@
       <v-spacer />
       <v-text-field
         v-model="search"
-        append-icon="search"
+        append-icon="mdi-magnify"
         :label="$t('Search')"
         single-line
         hide-details
@@ -36,13 +42,13 @@
     <v-data-table
       :headers="computedHeaders"
       :items="heartbeats"
-      :rows-per-page-items="itemsPerPageOptions"
-      :pagination.sync="pagination"
+      :footer-props="{ itemsPerPageOptions }"
+      :options.sync="pagination"
       class="px-2"
       :search="search"
       :loading="isLoading"
       must-sort
-      sort-icon="arrow_drop_down"
+      header-props:sort-icon="arrow_drop_down"
     >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.origin }}</td>
@@ -51,7 +57,7 @@
         </td>
         <td>
           <v-chip v-for="tag in props.item.tags" :key="tag" label small>
-            <v-icon left> label </v-icon>{{ tag }}
+            <v-icon left>label</v-icon>{{ tag }}
           </v-chip>
         </td>
         <td>
@@ -84,16 +90,16 @@
             class="btn--plain mr-0"
             @click="deleteItem(props.item)"
           >
-            <v-icon small color="grey darken-3"> delete </v-icon>
+            <v-icon small color="grey darken-3">mdi-delete</v-icon>
           </v-btn>
         </td>
       </template>
       <template slot="no-data">
-        <v-alert :value="true" color="error" icon="warning">
+        <v-alert :value="true" color="error" icon="mdi-alert">
           {{ $t('NoDisplay') }}
         </v-alert>
       </template>
-      <v-alert slot="no-results" :value="true" color="error" icon="warning">
+      <v-alert slot="no-results" :value="true" color="error" icon="mdi-alert">
         {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
       </v-alert>
     </v-data-table>
@@ -110,15 +116,13 @@ export default {
     DateTime
   },
   data: () => ({
-    descending: true,
-    page: 1,
     itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
-      sortBy: 'receiveTime',
-      descending: true,
-      rowsPerPage: 20
+      page: 1,
+      sortBy: ['receiveTime'],
+      sortDesc: [true],
+      itemsPerPage: 20
     },
-    // totalItems: number,
     status: ['ok', 'slow', 'expired'],
     search: '',
     headers: [

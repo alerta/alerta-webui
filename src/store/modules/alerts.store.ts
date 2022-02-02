@@ -1,7 +1,7 @@
 import utils from '@/common/utils'
 import AlertsApi from '@/services/api/alert.service'
 import moment from 'moment'
-import { DataPagination } from 'vuetify'
+import { DataOptions } from 'vuetify'
 
 const namespaced = true
 
@@ -13,7 +13,11 @@ interface AlertsState {
   selected: any[]
   environments: any[]
   services: any[]
-  groups: any[]
+  groups: {
+    count: number
+    environment: string
+    group: string
+  }[]
   tags: any[]
 
   alert: any
@@ -24,10 +28,13 @@ interface AlertsState {
   showPanel: boolean
   displayDensity: 'comfortable' | 'compact'
 
-  query: any // URLSearchParams
+  query: URLSearchParams
   filter: any
 
-  pagination: DataPagination
+  pagination: DataOptions & {
+    itemsPerPageOptions: number[]
+    totalItems: number
+  }
 }
 
 const state: AlertsState = {
@@ -51,7 +58,7 @@ const state: AlertsState = {
   displayDensity: 'comfortable', // 'comfortable' or 'compact'
 
   // query, filter and pagination
-  query: {}, // URLSearchParams
+  query: new URLSearchParams(), // URLSearchParams
   filter: {
     // local defaults
     environment: null,
@@ -66,71 +73,84 @@ const state: AlertsState = {
   pagination: {
     itemsPerPage: 20,
     page: 1,
-    sortBy: 'default',
-    sortDesc: [false],
-    itemsPerPageOptions: [5, 10, 20, 50, 100, 200]
+    sortBy: [],
+    sortDesc: [],
+    mustSort: false,
+    groupBy: [],
+    groupDesc: [],
+    multiSort: false,
+    itemsPerPageOptions: [5, 10, 20, 50, 100, 200],
+    totalItems: 0
   }
 }
 
 const mutations = {
-  SET_LOADING(state) {
+  SET_LOADING(state: AlertsState) {
     state.isLoading = true
   },
-  SET_SEARCH_QUERY(state, query) {
+  SET_SEARCH_QUERY(state: AlertsState, query) {
     state.isSearching = true
     state.query = query
   },
-  SET_ALERTS(state, [alerts, total, pageSize]) {
+  SET_ALERTS(state: AlertsState, [alerts, total, pageSize]) {
     state.isLoading = false
     state.isSearching = false
     state.alerts = alerts
     state.pagination.totalItems = total
-    state.pagination.rowsPerPage = pageSize
+    state.pagination.itemsPerPage = pageSize
   },
-  RESET_LOADING(state) {
+  RESET_LOADING(state: AlertsState) {
     state.isLoading = false
     state.isSearching = false
   },
-  SET_KIOSK(state, isKiosk) {
+  SET_KIOSK(state: AlertsState, isKiosk) {
     state.isKiosk = isKiosk
   },
-  SET_SELECTED(state, selected) {
+  SET_SELECTED(state: AlertsState, selected) {
     state.selected = selected
   },
-  SET_ALERT(state, alert) {
+  SET_ALERT(state: AlertsState, alert) {
     state.alert = alert
   },
-  SET_NOTES(state, notes) {
+  SET_NOTES(state: AlertsState, notes) {
     state.notes = notes
   },
-  SET_ENVIRONMENTS(state, environments) {
+  SET_ENVIRONMENTS(state: AlertsState, environments) {
     state.environments = environments
   },
-  SET_SERVICES(state, services) {
+  SET_SERVICES(state: AlertsState, services) {
     state.services = services
   },
-  SET_GROUPS(state, groups) {
+  SET_GROUPS(state: AlertsState, groups) {
     state.groups = groups
   },
-  SET_TAGS(state, tags) {
+  SET_TAGS(state: AlertsState, tags) {
     state.tags = tags
   },
-  SET_SETTING(state, { s, v }) {
+  SET_SETTING(state: AlertsState, { s, v }) {
     state[s] = v
   },
-  SET_FILTER(state, filter) {
+  SET_FILTER(state: AlertsState, filter) {
     state.filter = Object.assign({}, state.filter, filter)
   },
-  SET_PAGINATION(state, pagination) {
+  SET_PAGINATION(state: AlertsState, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
   },
-  SET_PANEL(state, panel) {
+  SET_PANEL(state: AlertsState, panel) {
     state.showPanel = panel
   }
 }
 
 const actions = {
-  async getAlerts({ rootGetters, commit, state }) {
+  async getAlerts({
+    rootGetters,
+    commit,
+    state
+  }: {
+    state: AlertsState
+    commit: any
+    rootGetters: any
+  }) {
     commit('SET_LOADING')
     // get "lucene" query params (?q=)
     const params = new URLSearchParams(state.query)
@@ -149,17 +169,15 @@ const actions = {
 
     // add server-side sorting
     let sortBy = state.pagination.sortBy
-    if (sortBy === 'default' || !sortBy) {
-      sortBy = rootGetters['getConfig']('sort_by')
-    }
+    if (sortBy.length === 0) sortBy = [rootGetters.getConfig('sort_by')]
 
-    if (typeof sortBy === 'string') {
+    if (sortBy.length === 1) {
       params.append(
         'sort-by',
-        (state.pagination.descending ? '-' : '') + sortBy
+        (state.pagination.sortDesc.length ? '-' : '') + sortBy
       )
     } else {
-      sortBy.map((sb) => params.append('sort-by', sb))
+      sortBy.forEach((sb) => params.append('sort-by', sb))
     }
 
     // need notes from alert history if showing notes icons
@@ -168,8 +186,8 @@ const actions = {
     }
 
     // add server-side paging
-    params.append('page', state.pagination.page)
-    params.append('page-size', state.pagination.rowsPerPage)
+    params.append('page', String(state.pagination.page))
+    params.append('page-size', String(state.pagination.itemsPerPage))
 
     // apply any date/time filters
     if (state.filter.dateRange[0] > 0) {
@@ -343,7 +361,7 @@ const actions = {
 }
 
 const getters = {
-  alerts: (state, _getters, rootState) => {
+  alerts: (state: AlertsState, _getters, rootState) => {
     if (state.isWatch) {
       const username = rootState.auth.payload.preferred_username
       const tag = `watch:${username}`
@@ -353,7 +371,7 @@ const getters = {
     }
   },
   environments:
-    (state, _getters, rootState) =>
+    (state: AlertsState, _getters, rootState) =>
     (showAllowedEnvs = true) => {
       if (showAllowedEnvs) {
         return [
@@ -365,7 +383,7 @@ const getters = {
       }
       return state.environments.map((e) => e.environment).sort()
     },
-  counts: (state) => {
+  counts: (state: AlertsState) => {
     return state.environments.reduce(
       (grp, e) => {
         grp[e.environment] = e.count
@@ -375,19 +393,22 @@ const getters = {
       { ALL: 0 }
     )
   },
-  services: (state) => {
+  services: (state: AlertsState) => {
     return state.services.map((s) => s.service).sort()
   },
-  groups: (state) => {
+  groups: (state: AlertsState) => {
     return state.groups.map((g) => g.group).sort()
   },
-  tags: (state) => {
+  tags: (state: AlertsState) => {
     return state.tags.map((t) => t.tag).sort()
   },
-  getHash: (state) => {
+  getHash: (state: AlertsState) => {
     const filterHash = utils.toHash(state.filter)
-    const sortBy = state.pagination.sortBy ? state.pagination.sortBy : 'default'
-    const descending = state.pagination.descending ? 1 : 0
+    const sortBy = state.pagination.sortBy.length
+      ? state.pagination.sortBy[0]
+      : 'default'
+
+    const descending = state.pagination.sortDesc[0] ? 1 : 0
     const paginationHash = `sb:${sortBy};sd:${descending}`
     const asiHash = `asi:${state.showPanel ? 1 : 0}`
     return `#${filterHash};${paginationHash};${asiHash}`

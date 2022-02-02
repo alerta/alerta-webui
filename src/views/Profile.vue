@@ -4,7 +4,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline"> Profile </span>
+            <span class="headline">Profile</span>
           </v-card-title>
 
           <v-layout row wrap>
@@ -90,10 +90,10 @@
                     prepend-icon="email"
                   >
                     <template v-if="profile.email_verified">
-                      <v-icon slot="append" color="success"> check </v-icon>
+                      <v-icon slot="append" color="success">mdi-check</v-icon>
                     </template>
                     <template v-else>
-                      <v-icon slot="append" color="error"> clear </v-icon>
+                      <v-icon slot="append" color="error">clear</v-icon>
                     </template>
                   </v-text-field>
                 </v-flex>
@@ -143,8 +143,8 @@
                   >
                     <template v-slot:selection="data">
                       <v-chip>
-                        <strong>{{ data.item }}</strong
-                        >&nbsp;(group)
+                        <strong>{{ data.item }}</strong>
+                        &nbsp;(group)
                       </v-chip>
                     </template>
                   </v-combobox>
@@ -189,10 +189,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="blue darken-1" flat disabled>
+            <v-btn color="blue darken-1" text disabled>
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn color="blue darken-1" flat disabled>
+            <v-btn color="blue darken-1" text disabled>
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>

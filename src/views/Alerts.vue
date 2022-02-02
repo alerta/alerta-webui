@@ -69,13 +69,13 @@
         :class="{ 'filter-active': isActive }"
         @click="sidesheet = !sidesheet"
       >
-        <v-icon>filter_list</v-icon>
+        <v-icon>mdi-filter-variant</v-icon>
       </v-btn>
 
       <v-menu bottom left>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" text icon>
-            <v-icon>more_vert</v-icon>
+            <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
 
@@ -296,7 +296,7 @@ export default {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
         if (
           oldVal.page != newVal.page ||
-          oldVal.rowsPerPage != newVal.rowsPerPage ||
+          oldVal.itemsPerPage != newVal.itemsPerPage ||
           oldVal.sortBy != newVal.sortBy ||
           oldVal.descending != newVal.descending
         ) {
@@ -347,8 +347,8 @@ export default {
     },
     setSort(sort) {
       this.$store.dispatch('alerts/setPagination', {
-        descending: sort.sd == '1',
-        sortBy: sort.sb
+        sortDesc: [sort.sd == '1'],
+        sortBy: sort.sb === 'default' ? [] : [sort.sb]
       })
     },
     setPage(page) {

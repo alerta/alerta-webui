@@ -18,7 +18,7 @@
               :src="$config.site_logo_url"
               height="48"
             />
-            <v-toolbar-title v-else class="logo"> alerta </v-toolbar-title>
+            <v-toolbar-title v-else class="logo">alerta</v-toolbar-title>
           </router-link>
         </v-toolbar>
 
@@ -99,7 +99,7 @@
           v-model="query"
           :flat="!hasFocus"
           :label="$t('Search')"
-          prepend-inner-icon="search"
+          prepend-inner-icon="mdi-magnify"
           solo
           clearable
           dense
@@ -113,7 +113,7 @@
           <template v-slot:append-outer>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon v-on="on" @click="saveSearch"> push_pin </v-icon>
+                <v-icon v-on="on" @click="saveSearch">mdi-pin</v-icon>
               </template>
               <span>{{ $t('Save') }}</span>
             </v-tooltip>
@@ -146,7 +146,7 @@
               @click="toggleFullScreen"
             >
               <v-icon>{{
-                isFullscreen() ? 'fullscreen_exit' : 'fullscreen'
+                isFullscreen() ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'
               }}</v-icon>
             </v-btn>
           </template>
@@ -160,7 +160,7 @@
               v-on="on"
               icon
             >
-              <v-icon @click="refresh"> refresh </v-icon>
+              <v-icon @click="refresh">mdi-refresh</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Refresh') }}</span>
@@ -211,16 +211,17 @@
         class="mb-1"
       >
         <v-btn icon @click="clearSelected">
-          <v-icon>arrow_back</v-icon>
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <span class="hidden-sm-and-down">
-          <v-toolbar-title> Back </v-toolbar-title>
+          <v-toolbar-title>Back</v-toolbar-title>
         </span>
         <v-spacer />
 
         <span class="subheading">
-          {{ selected.length
-          }}<span class="hidden-sm-and-down"> {{ $t('selected') }}</span>
+          {{ selected.length }}&nbsp;<span class="hidden-sm-and-down">{{
+            $t('selected')
+          }}</span>
         </span>
 
         <v-spacer />
@@ -228,7 +229,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon class="btn--plain" @click="toggleWatch()">
-              <v-icon> visibility </v-icon>
+              <v-icon>mdi-eye</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Watch') }}</span>
@@ -237,7 +238,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon class="btn--plain" @click="bulkAckAlert()">
-              <v-icon> check </v-icon>
+              <v-icon>mdi-check</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Ack') }}</span>
@@ -246,7 +247,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon class="btn--plain" @click="bulkShelveAlert()">
-              <v-icon> schedule </v-icon>
+              <v-icon>mdi-clock-outline</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Shelve') }}</span>
@@ -255,7 +256,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon class="btn--plain">
-              <v-icon>group</v-icon>
+              <v-icon>mdi-group</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Group') }}</span>
@@ -269,7 +270,7 @@
               class="btn--plain"
               @click="takeBulkAction('close')"
             >
-              <v-icon> highlight_off </v-icon>
+              <v-icon>mdi-close-circle-outline</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Close') }}</span>
@@ -278,7 +279,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon class="btn--plain" @click="bulkDeleteAlert()">
-              <v-icon> delete </v-icon>
+              <v-icon>mdi-delete</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Delete') }}</span>
@@ -287,7 +288,7 @@
         <v-menu bottom left>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" flat icon small class="btn--plain px-1 mx-0">
-              <v-icon small> more_vert </v-icon>
+              <v-icon small>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list subheader>
@@ -314,7 +315,7 @@
               @click="toggleFullScreen"
             >
               <v-icon>{{
-                isFullscreen() ? 'fullscreen_exit' : 'fullscreen'
+                isFullscreen() ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'
               }}</v-icon>
             </v-btn>
           </template>
@@ -328,7 +329,7 @@
               v-on="on"
               icon
             >
-              <v-icon @click="refresh"> refresh </v-icon>
+              <v-icon @click="refresh">mdi-refresh</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Refresh') }}</span>
@@ -414,7 +415,6 @@ import Banner from '@/components/lib/Banner.vue'
 import Snackbar from '@/components/lib/Snackbar.vue'
 import i18n from '@/plugins/i18n'
 
-
 export default {
   name: 'App',
   components: {
@@ -431,7 +431,11 @@ export default {
     dialog: false,
     drawer: false,
     navbar: {
-      signin: { icon: 'account_circle', text: i18n.t('SignIn'), path: '/login' }
+      signin: {
+        icon: 'mdi-account-circle',
+        text: i18n.t('SignIn'),
+        path: '/login'
+      }
     },
     error: false
   }),
@@ -439,7 +443,7 @@ export default {
     items() {
       return [
         {
-          icon: 'list',
+          icon: 'mdi-format-list-bulleted',
           text: i18n.t('Alerts'),
           path: '/alerts',
           perms: 'read:alerts',
@@ -447,62 +451,62 @@ export default {
         },
         {
           icon: 'expand_less',
-          'icon-alt': 'expand_more',
+          'icon-alt': 'mdi-expand-all',
           text: i18n.t('Searches'),
           model: false,
           queries: this.queries
         },
         {
-          icon: 'timer',
+          icon: 'mdi-timer',
           text: i18n.t('Heartbeats'),
           path: '/heartbeats',
           perms: 'read:heartbeats',
           show: true
         },
         {
-          icon: 'person',
+          icon: 'mdi-account',
           text: i18n.t('Users'),
           path: '/users',
           perms: 'admin:users',
           show: true
         },
         {
-          icon: 'people',
+          icon: 'mdi-account-multiple',
           text: i18n.t('Groups'),
           path: '/groups',
           perms: 'read:groups',
           show: this.$config.provider == 'basic'
         },
         {
-          icon: 'domain',
+          icon: 'mdi-domain',
           text: i18n.t('Customers'),
           path: '/customers',
           perms: 'read:customers',
           show: this.$config.customer_views
         },
         {
-          icon: 'notifications_off',
+          icon: 'mdi-bell-off',
           text: i18n.t('Blackouts'),
           path: '/blackouts',
           perms: 'read:blackouts',
           show: true
         },
         {
-          icon: 'security',
+          icon: 'mdi-security',
           text: i18n.t('Permissions'),
           path: '/perms',
           perms: 'read:perms',
           show: true
         },
         {
-          icon: 'vpn_key',
+          icon: 'mdi-key',
           text: i18n.t('APIKeys'),
           path: '/keys',
           perms: 'read:keys',
           show: this.isLoggedIn || !this.isAuthRequired
         },
         {
-          icon: 'assessment',
+          icon: 'mdi-chart-box',
           text: i18n.t('Reports'),
           path: '/reports',
           perms: 'read:alerts',
@@ -510,14 +514,14 @@ export default {
         },
         { divider: true },
         {
-          icon: 'account_circle',
+          icon: 'mdi-account-circle',
           text: i18n.t('Profile'),
           path: '/profile',
           perms: null,
           show: this.isLoggedIn
         },
         {
-          icon: 'settings',
+          icon: 'mdi-cog',
           text: i18n.t('Settings'),
           path: '/settings',
           perms: null,
@@ -525,15 +529,15 @@ export default {
         },
         // { icon: 'chat_bubble', text: 'Send feedback' },
         {
-          icon: 'help',
+          icon: 'mdi-help-circle',
           text: i18n.t('Help'),
           path: '/help',
-          appendIcon: 'open_in_new',
+          appendIcon: 'mdi-open-in-new',
           perms: null,
           show: true
         },
         {
-          icon: 'info',
+          icon: 'mdi-information',
           text: i18n.t('About'),
           path: '/about',
           perms: 'read:management',
@@ -751,8 +755,6 @@ export default {
 </script>
 
 <style>
-@import './assets/css/fonts.css';
-
 .toolbar-title {
   color: inherit;
   text-decoration: inherit;

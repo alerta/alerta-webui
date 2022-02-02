@@ -1,12 +1,17 @@
 <template>
-  <v-data-table :headers="headers" :items="manifest" class="px-2" hide-actions>
+  <v-data-table
+    :headers="headers"
+    :items="manifest"
+    class="px-2"
+    hide-default-footer
+  >
     <template slot="items" slot-scope="props">
       <td class="text-xs-center">
         {{ version }}
       </td>
       <td>
         <span class="hidden-sm-and-down"
-          >{{ application | capitalize }} {{ $t('API') }} </span
+          >{{ application | capitalize }} {{ $t('API') }}</span
         >{{ props.item.release }}
       </td>
       <td>{{ props.item.build }}</td>
@@ -98,13 +103,10 @@ export default {
       return this.$store.dispatch('management/getManifest')
     },
     clipboardCopy(text) {
+      if (!window.isSecureContext || !navigator.clipboard) return
+      navigator.clipboard.writeText(text)
+
       this.copyIconText = i18n.t('Copied')
-      let textarea = document.createElement('textarea')
-      textarea.textContent = text
-      document.body.appendChild(textarea)
-      textarea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
       setTimeout(() => {
         this.copyIconText = i18n.t('Copy')
       }, 2000)

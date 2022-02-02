@@ -94,7 +94,7 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="blue darken-1" flat @click="close"> Close </v-btn>
+            <v-btn color="blue darken-1" flat @click="close">Close</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -158,7 +158,7 @@
         <v-spacer />
         <v-text-field
           v-model="search"
-          append-icon="search"
+          append-icon="mdi-magnify"
           :label="$t('Search')"
           single-line
           hide-details
@@ -168,13 +168,13 @@
       <v-data-table
         :headers="headers"
         :items="groups"
-        :rows-per-page-items="itemsPerPageOptions"
-        :pagination.sync="pagination"
+        :footer-props="{ itemsPerPageOptions }"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
-        sort-icon="arrow_drop_down"
+        header-props:sort-icon="arrow_drop_down"
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
@@ -191,7 +191,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> edit </v-icon>
+              <v-icon small color="grey darken-3">edit</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:groups'"
@@ -199,7 +199,7 @@
               class="btn--plain mr-0"
               @click="addRemoveUsers(props.item)"
             >
-              <v-icon small color="grey darken-3"> person_add </v-icon>
+              <v-icon small color="grey darken-3">person_add</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:groups'"
@@ -207,16 +207,16 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> delete </v-icon>
+              <v-icon small color="grey darken-3">mdi-delete</v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert :value="true" color="error" icon="mdi-alert">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert slot="no-results" :value="true" color="error" icon="mdi-alert">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
@@ -238,13 +238,13 @@ export default {
   components: {
     ListButtonAdd
   },
-  data: (vm) => ({
-    descending: true,
-    page: 1,
+  data: () => ({
     itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
-      sortBy: 'name',
-      rowsPerPage: 20
+      page: 1,
+      sortBy: ['name'],
+      sortDesc: [true],
+      itemsPerPage: 20
     },
     // totalItems: number,
     search: '',

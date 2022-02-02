@@ -5,92 +5,51 @@
       :headers="customHeaders"
       :items="alerts"
       item-key="id"
-      :sort-by="pagination.sortBy"
+      :options.sync="pagination"
       :server-items-length="pagination.totalItems"
-      :footer-props="{
-        itemsPerPageOptions: pagination.itemsPerPageOptions
-      }"
+      :footer-props="pagination"
       :loading="isSearching"
       class="alert-table"
       :class="[displayDensity]"
       :style="columnWidths"
-      header-props.sort-icon="arrow_drop_down"
+      header-props.sort-icon="mdi-chevron-down"
       show-select
+      :loading-text="$t('Loading')"
     >
-      <template slot="items" slot-scope="props">
+      <template v-slot:item="props">
         <tr
-          :style="{ 'background-color': severityColor(props.item.severity) }"
+          :style="{
+            'background-color': severityColor(props.item.severity),
+            ...fontStyle
+          }"
           class="hover-lighten"
           @click="selectItem(props.item)"
         >
-          <td class="text-no-wrap" :style="fontStyle">
+          <td class="text-no-wrap center">
             <v-checkbox
-              v-if="selectableRows"
               v-model="props.selected"
               primary
               hide-details
               color="gray"
               class="select-box"
               :ripple="false"
-              :size="fontSize"
               @click.stop
             />
-            <v-icon
-              v-else-if="props.item.trendIndication == 'moreSevere'"
-              :class="['trend-arrow', textColor(props.item.severity)]"
-              :size="fontSize"
-              @click.stop="
-                multiselect = true
-                props.selected = true
-              "
-            >
-              arrow_upward
-            </v-icon>
-            <v-icon
-              v-else-if="props.item.trendIndication == 'lessSevere'"
-              :class="['trend-arrow', textColor(props.item.severity)]"
-              :size="fontSize"
-              @click.stop="
-                multiselect = true
-                props.selected = true
-              "
-            >
-              arrow_downward
-            </v-icon>
-            <v-icon
-              v-else
-              :class="['trend-arrow', textColor(props.item.severity)]"
-              :size="fontSize"
-              @click.stop="
-                multiselect = true
-                props.selected = true
-              "
-            >
-              remove
-            </v-icon>
           </td>
           <td
             v-for="col in $config.columns"
             :key="col"
             :class="['text-no-wrap', textColor(props.item.severity)]"
-            :style="fontStyle"
           >
-            <span v-if="col == 'id'">
-              {{ props.item.id | shortId }}
-            </span>
-            <span v-if="col == 'resource'">
-              {{ props.item.resource }}
-            </span>
-            <span v-if="col == 'event'">
-              {{ props.item.event }}
-            </span>
+            <span v-if="col == 'id'"> {{ props.item.id | shortId }} </span>
+            <span v-if="col == 'resource'"> {{ props.item.resource }} </span>
+            <span v-if="col == 'event'"> {{ props.item.event }} </span>
             <span v-if="col == 'environment'">
               {{ props.item.environment }}
             </span>
             <span v-if="col == 'severity'">
               <span
                 :class="['label', 'label-' + props.item.severity.toLowerCase()]"
-                :style="fontStyle"
               >
                 {{ props.item.severity | capitalize }}
               </span>
@@ -99,16 +58,14 @@
               {{ props.item.correlate.join(', ') }}
             </span>
             <span v-if="col == 'status'">
-              <span class="label" :style="fontStyle">
+              <span class="label">
                 {{ props.item.status | capitalize }}
               </span>
               <span v-if="showNotesIcon">
                 <span v-if="lastNote(props.item)" class="pl-2">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-bind="attrs" small v-on="on"
-                        >text_snippet</v-icon
-                      >
+                      <v-icon v-bind="attrs" small v-on="on">mdi-note</v-icon>
                     </template>
                     <span>{{ lastNote(props.item) }}</span>
                   </v-tooltip>
@@ -118,9 +75,7 @@
             <span v-if="col == 'service'">
               {{ props.item.service.join(', ') }}
             </span>
-            <span v-if="col == 'group'">
-              {{ props.item.group }}
-            </span>
+            <span v-if="col == 'group'"> {{ props.item.group }} </span>
             <span v-if="col == 'value'">
               <div class="fixed-table">
                 <div class="text-truncate">
@@ -137,18 +92,16 @@
             </span>
             <span v-if="col == 'tags'">
               <span v-for="tag in props.item.tags" :key="tag"
-                ><span class="label" :style="fontStyle">{{ tag }}</span
+                ><span class="label">{{ tag }}</span
                 >&nbsp;</span
               >
             </span>
             <span v-if="props.item.attributes.hasOwnProperty(col)">
               <span v-html="props.item.attributes[col]" />
             </span>
-            <span v-if="col == 'origin'">
-              {{ props.item.origin }}
-            </span>
+            <span v-if="col == 'origin'"> {{ props.item.origin }} </span>
             <span v-if="col == 'type'">
-              <span class="label" :style="fontStyle">
+              <span class="label">
                 {{ props.item.type | splitCaps }}
               </span>
             </span>
@@ -169,7 +122,7 @@
               {{ props.item.duplicateCount }}
             </span>
             <span v-if="col == 'repeat'">
-              <span class="label" :style="fontStyle">
+              <span class="label">
                 {{ props.item.repeat | capitalize }}
               </span>
             </span>
@@ -179,7 +132,6 @@
                   'label',
                   'label-' + props.item.previousSeverity.toLowerCase()
                 ]"
-                :style="fontStyle"
               >
                 {{ props.item.previousSeverity | capitalize }}
               </span>
@@ -201,9 +153,7 @@
               />
             </span>
             <!-- only history supported is most recent note -->
-            <span v-if="col == 'note'">
-              {{ lastNote(props.item) }}
-            </span>
+            <span v-if="col == 'note'"> {{ lastNote(props.item) }} </span>
           </td>
           <td :class="['text-no-wrap', textColor(props.item.severity)]">
             <div
@@ -215,121 +165,104 @@
               ...&nbsp;
               <v-btn
                 v-if="isAcked(props.item.status) || isClosed(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'open')"
               >
-                <v-icon :size="fontSize"> refresh </v-icon>
+                <v-icon :size="fontSize">mdi-refresh</v-icon>
               </v-btn>
 
               <v-btn
                 v-if="!isWatched(props.item.tags)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="watchAlert(props.item.id)"
               >
-                <v-icon :size="fontSize"> visibility </v-icon>
+                <v-icon :size="fontSize">mdi-eye</v-icon>
               </v-btn>
               <v-btn
                 v-if="isWatched(props.item.tags)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="unwatchAlert(props.item.id)"
               >
-                <v-icon :size="fontSize"> visibility_off </v-icon>
+                <v-icon :size="fontSize">mdi-eye-off</v-icon>
               </v-btn>
 
               <v-btn
                 v-if="isOpen(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="ackAlert(props.item.id)"
               >
-                <v-icon :size="fontSize"> check </v-icon>
+                <v-icon :size="fontSize">mdi-check</v-icon>
               </v-btn>
               <v-btn
                 v-if="isAcked(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unack')"
               >
-                <v-icon :size="fontSize"> undo </v-icon>
+                <v-icon :size="fontSize">mdi-undo</v-icon>
               </v-btn>
 
               <v-btn
                 v-if="isOpen(props.item.status) || isAcked(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="shelveAlert(props.item.id)"
               >
-                <v-icon :size="fontSize"> schedule </v-icon>
+                <v-icon :size="fontSize">mdi-clock-outline</v-icon>
               </v-btn>
               <v-btn
                 v-if="isShelved(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unshelve')"
               >
-                <v-icon :size="fontSize"> restore </v-icon>
+                <v-icon :size="fontSize">mdi-restore</v-icon>
               </v-btn>
 
               <v-btn
                 v-if="!isClosed(props.item.status)"
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'close')"
               >
-                <v-icon :size="fontSize"> highlight_off </v-icon>
+                <v-icon :size="fontSize">mdi-close-circle-outline</v-icon>
               </v-btn>
               <v-btn
-                flat
+                text
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
                 @click.stop="deleteAlert(props.item.id)"
               >
-                <v-icon :size="fontSize"> delete </v-icon>
+                <v-icon :size="fontSize">mdi-delete</v-icon>
               </v-btn>
-              <!-- <v-btn
-                flat
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="clipboardCopy(JSON.stringify(props.item, null, 4))"
-              >
-                <v-icon
-                  :size="fontSize"
-                >
-                  content_copy
-                </v-icon>
-              </v-btn> -->
 
               <v-menu bottom left>
-                <v-btn
-                  slot="activator"
-                  flat
-                  icon
-                  small
-                  class="btn--plain pa-0 ma-0"
-                >
-                  <v-icon small> more_vert </v-icon>
-                </v-btn>
+                <template v-slot:activator="{ on }">
+                  <v-btn v-on="on" text icon small class="btn--plain pa-0 ma-0">
+                    <v-icon small>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
 
                 <v-list subheader>
                   <v-subheader>Actions</v-subheader>
@@ -354,17 +287,16 @@
           <span v-if="isLoading">{{ $t('Loading') }}...</span>
           <span v-if="!isLoading">{{ $t('NoDataAvailable') }}</span>
         </div>
-      </template>
-    </v-data-table>
+      </template></v-data-table
+    >
   </div>
 </template>
 
 <script>
-import debounce from 'lodash/debounce'
-import get from 'lodash/get'
-import DateTime from './lib/DateTime'
-import moment from 'moment'
 import i18n from '@/plugins/i18n'
+import debounce from 'lodash/debounce'
+import moment from 'moment'
+import DateTime from '@/components//lib/DateTime'
 
 export default {
   components: {
@@ -376,7 +308,7 @@ export default {
       default: () => []
     }
   },
-  data: (vm) => ({
+  data: () => ({
     search: '',
     headersMap: {
       id: { text: i18n.t('AlertId'), value: 'id' },
@@ -459,8 +391,8 @@ export default {
     showNotesIcon() {
       return this.$store.getters.getPreference('showNotesIcon')
     },
-    rowsPerPage() {
-      return this.$store.getters.getPreference('rowsPerPage')
+    itemsPerPage() {
+      return this.$store.getters.getPreference('itemsPerPage')
     },
     pagination: {
       get() {
@@ -507,8 +439,10 @@ export default {
     }
   },
   watch: {
-    rowsPerPage(val) {
-      this.pagination = Object.assign({}, this.pagination, { rowsPerPage: val })
+    itemsPerPage(val) {
+      this.pagination = Object.assign({}, this.pagination, {
+        itemsPerPage: val
+      })
     }
   },
   methods: {
@@ -631,18 +565,20 @@ export default {
       { leading: true, trailing: false }
     ),
     clipboardCopy(text) {
-      let textarea = document.createElement('textarea')
-      textarea.textContent = text
-      document.body.appendChild(textarea)
-      textarea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
+      if (!window.isSecureContext || !navigator.clipboard) return
+      navigator.clipboard.writeText(text)
     }
   }
 }
 </script>
 
 <style>
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .alert-table .v-table th,
 td {
   padding: 0px 5px !important;
@@ -684,6 +620,7 @@ i.trend-arrow {
 
 div.select-box {
   width: 24px !important;
+  margin: 0;
 }
 
 .label {
@@ -730,6 +667,7 @@ div.select-box {
 
 .hover-lighten:hover {
   filter: brightness(0.87);
+  cursor: pointer;
 }
 
 .btn--plain {

@@ -19,7 +19,7 @@
             name="password"
             :type="showPassword ? 'text' : 'password'"
             :label="$t('Password')"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
             outlined
             @click:append="showPassword = !showPassword"
           />

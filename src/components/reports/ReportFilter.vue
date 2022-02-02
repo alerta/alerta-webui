@@ -9,18 +9,20 @@
     right
   >
     <v-card tile>
-      <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" card dense>
-        <v-toolbar-title>
+      <v-app-bar :color="isDark ? '#616161' : '#eeeeee'" flat dense>
+        <v-app-bar-title>
           {{ $t('Filters') }}
-        </v-toolbar-title>
+        </v-app-bar-title>
         <v-spacer />
         <v-toolbar-items />
         <v-menu bottom right offset-y>
-          <v-btn slot="activator" icon @click="close">
-            <v-icon>close</v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon @click="close">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </template>
         </v-menu>
-      </v-toolbar>
+      </v-app-bar>
 
       <v-container fluid grid-list-xl>
         <v-layout align-center wrap>
@@ -28,7 +30,7 @@
             <v-text-field
               v-model="filterText"
               :label="$t('Search')"
-              prepend-inner-icon="search"
+              prepend-inner-icon="mdi-magnify"
               outlined
               dense
               clearable
@@ -136,7 +138,7 @@
               :label="$t('DateTime')"
               solo
               flat
-              prepend-inner-icon="schedule"
+              prepend-inner-icon="mdi-clock-outline"
               item-value="range"
               hide-details
             />
@@ -170,11 +172,12 @@
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
+              <template v-slot:activator="{ on }">
+                <div v-on="on" />
+              </template>
               <v-date-picker
                 v-model="period.startDate"
                 no-title
@@ -209,11 +212,12 @@
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
+              <template v-slot:activator="{ on }">
+                <div v-on="on" />
+              </template>
               <v-date-picker
                 v-model="period.endDate"
                 no-title
@@ -231,7 +235,7 @@
             {{ $t('Apply') }}
           </v-btn>
           <v-spacer />
-          <v-btn color="blue darken-1" flat @click="reset">
+          <v-btn color="blue darken-1" text @click="reset">
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
@@ -255,7 +259,7 @@ export default {
     sidesheet: vm.value,
     active: null,
     pagination: {
-      rowsPerPage: 10,
+      itemsPerPage: 10,
       sortBy: 'updateTime'
     },
     showDateRange: false,

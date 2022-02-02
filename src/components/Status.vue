@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="metrics" class="px-2" hide-actions>
+    <v-data-table
+      :headers="headers"
+      :items="metrics"
+      class="px-2"
+      hide-default-footer
+    >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.title }}</td>
         <td>{{ props.item.type | capitalize }}</td>
@@ -19,7 +24,7 @@
       ]"
       :items="uptime"
       class="px-2"
-      hide-actions
+      hide-default-footer
     >
       <template slot="items" slot-scope="props">
         <td>{{ $t('LastUpdate') }}</td>

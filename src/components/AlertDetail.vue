@@ -3,164 +3,188 @@
     <v-card tile flat>
       <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" dense>
         <v-btn icon @click="dialog = false">
-          <v-icon>arrow_back</v-icon>
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            :disabled="!isAcked(item.status) && !isClosed(item.status)"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="takeAction(item.id, 'open')"
-          >
-            <v-icon size="20px"> refresh </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              :disabled="!isAcked(item.status) && !isClosed(item.status)"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="takeAction(item.id, 'open')"
+            >
+              <v-icon size="20px">refresh</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Open') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="!isWatched(item.tags)"
-            slot="activator"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="watchAlert(item.id)"
-          >
-            <v-icon size="20px"> visibility </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="!isWatched(item.tags)"
+              v-on="on"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="watchAlert(item.id)"
+            >
+              <v-icon size="20px">mdi-eye</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Watch') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="isWatched(item.tags)"
-            slot="activator"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="unwatchAlert(item.id)"
-          >
-            <v-icon size="20px"> visibility_off </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isWatched(item.tags)"
+              v-on="on"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="unwatchAlert(item.id)"
+            >
+              <v-icon size="20px">mdi-eye-off</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Unwatch') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="!isAcked(item.status)"
-            slot="activator"
-            :disabled="!isOpen(item.status)"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="ackAlert(item.id)"
-          >
-            <v-icon size="20px"> check </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="!isAcked(item.status)"
+              v-on="on"
+              :disabled="!isOpen(item.status)"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="ackAlert(item.id)"
+            >
+              <v-icon size="20px">mdi-check</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Ack') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="isAcked(item.status)"
-            slot="activator"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="takeAction(item.id, 'unack')"
-          >
-            <v-icon size="20px"> undo </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isAcked(item.status)"
+              v-on="on"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="takeAction(item.id, 'unack')"
+            >
+              <v-icon size="20px">undo</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Unack') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="!isShelved(item.status)"
-            slot="activator"
-            :disabled="!isOpen(item.status) && !isAcked(item.status)"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="shelveAlert(item.id)"
-          >
-            <v-icon size="20px"> schedule </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="!isShelved(item.status)"
+              v-on="on"
+              :disabled="!isOpen(item.status) && !isAcked(item.status)"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="shelveAlert(item.id)"
+            >
+              <v-icon size="20px">mdi-clock-outline</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="isShelved(item.status)"
-            slot="activator"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="takeAction(item.id, 'unshelve')"
-          >
-            <v-icon size="20px"> restore </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isShelved(item.status)"
+              v-on="on"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="takeAction(item.id, 'unshelve')"
+            >
+              <v-icon size="20px">restore</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Unshelve') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            :disabled="isClosed(item.status)"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="takeAction(item.id, 'close')"
-          >
-            <v-icon size="20px"> highlight_off </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              :disabled="isClosed(item.status)"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="takeAction(item.id, 'close')"
+            >
+              <v-icon size="20px">mdi-close-circle-outline</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Close') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="deleteAlert(item.id)"
-          >
-            <v-icon size="20px"> delete </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="deleteAlert(item.id)"
+            >
+              <v-icon size="20px">mdi-delete</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Delete') }}</span>
         </v-tooltip>
 
         <v-tooltip :key="copyIconText" bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain px-1 mx-0"
-            @click="clipboardCopy(JSON.stringify(item, null, 4))"
-          >
-            <v-icon size="20px"> content_copy </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              icon
+              class="btn--plain px-1 mx-0"
+              @click="clipboardCopy(JSON.stringify(item, null, 4))"
+            >
+              <v-icon size="20px">content_copy</v-icon>
+            </v-btn>
+          </template>
           <span>{{ copyIconText }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-menu slot="activator" bottom left>
-            <v-btn slot="activator" icon class="btn--plain px-1 mx-0">
-              <v-icon> more_vert </v-icon>
-            </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-menu v-on="on" bottom left>
+              <v-btn v-on="on" icon class="btn--plain px-1 mx-0">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
 
-            <v-list subheader>
-              <v-subheader>Actions</v-subheader>
-              <v-divider />
-              <v-list-item
-                v-for="(action, i) in actions"
-                :key="i"
-                @click="takeAction(item.id, action)"
-              >
-                <v-list-item-title>{{ action | splitCaps }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+              <v-list subheader>
+                <v-subheader>Actions</v-subheader>
+                <v-divider />
+                <v-list-item
+                  v-for="(action, i) in actions"
+                  :key="i"
+                  @click="takeAction(item.id, action)"
+                >
+                  <v-list-item-title>{{
+                    action | splitCaps
+                  }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
           <span>{{ $t('More') }}</span>
         </v-tooltip>
       </v-toolbar>
 
       <v-card flat>
         <v-tabs v-model="active" grow>
-          <v-tab ripple> <v-icon>info</v-icon>&nbsp;{{ $t('Details') }} </v-tab>
+          <v-tab ripple><v-icon>info</v-icon>&nbsp;{{ $t('Details') }}</v-tab>
           <v-tab-item :transition="false" :reverse-transition="false">
             <v-card flat>
               <v-alert
@@ -172,7 +196,8 @@
                 class="ma-1"
                 @input="deleteNote(item.id, note.id)"
               >
-                <b>{{ note.user || 'Anonymous' }}</b> {{ $t('addedNoteOn') }}
+                <b>{{ note.user || 'Anonymous' }}</b
+                >{{ $t('addedNoteOn') }}
                 <span v-if="note.updateTime">
                   <b
                     ><date-time :value="note.updateTime" format="longDate"
@@ -196,7 +221,8 @@
                 class="ma-1"
                 :value="true"
               >
-                <b>{{ note.user || 'Anonymous' }}</b> {{ $t('addedNoteOn') }}
+                <b>{{ note.user || 'Anonymous' }}</b
+                >{{ $t('addedNoteOn') }}
                 <b
                   ><date-time
                     v-if="note.updateTime"
@@ -435,7 +461,7 @@
                         <span
                           :class="['label', 'label-' + item.previousSeverity]"
                         >
-                          {{ item.previousSeverity | capitalize }} </span
+                          {{ item.previousSeverity | capitalize }}</span
                         >&nbsp;&rarr;&nbsp;
                         <span :class="['label', 'label-' + item.severity]">
                           {{ item.severity | capitalize }}
@@ -458,9 +484,8 @@
                           {{ item.status | capitalize }}
                         </span>
                         <span v-if="statusNote && statusNote.user"
-                          >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{
-                            statusNote.updateTime | timeago
-                          }})
+                          >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b
+                          >({{ statusNote.updateTime | timeago }})
                         </span>
                       </div>
                     </div>
@@ -476,7 +501,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <v-icon small> error_outline </v-icon>
+                        <v-icon small>mdi-alert-circle-outline</v-icon>
                         <i>&nbsp;{{ statusNote.text }}</i>
                       </div>
                     </div>
@@ -619,7 +644,7 @@
                           small
                           @click="queryBy('tags', tag)"
                         >
-                          <v-icon left> label </v-icon>{{ tag }}
+                          <v-icon left>label</v-icon>{{ tag }}
                         </v-chip>
                       </div>
                     </div>
@@ -679,8 +704,8 @@
                 :headers="headersByScreenSize"
                 :items="history"
                 item-key="index"
-                :pagination.sync="pagination"
-                sort-icon="arrow_drop_down"
+                :options.sync="pagination"
+                header-props:sort-icon="arrow_drop_down"
               >
                 <template slot="items" slot-scope="props">
                   <td class="hidden-sm-and-down">
@@ -773,10 +798,10 @@
 </template>
 
 <script>
-import AlertActions from '@/components/AlertActions'
+import AlertActions from '@/components/AlertActions.vue'
+import DateTime from '@/components/lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
-import DateTime from './lib/DateTime'
 
 export default {
   components: {
@@ -794,9 +819,9 @@ export default {
     sheet: false,
     active: null,
     pagination: {
-      rowsPerPage: 10,
-      sortBy: 'updateTime',
-      descending: true
+      itemsPerPage: 10,
+      sortBy: ['updateTime'],
+      sortDesc: [true]
     },
     headers: [
       { text: i18n.t('AlertOrNoteId'), value: 'id', hide: 'smAndDown' },
@@ -975,13 +1000,9 @@ export default {
       this.$emit('close')
     },
     clipboardCopy(text) {
+      if (!window.isSecureContext || !navigator.clipboard) return
+      navigator.clipboard.writeText(text)
       this.copyIconText = i18n.t('Copied')
-      let textarea = document.createElement('textarea')
-      textarea.textContent = text
-      document.body.appendChild(textarea)
-      textarea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
       setTimeout(() => {
         this.copyIconText = i18n.t('Copy')
       }, 2000)

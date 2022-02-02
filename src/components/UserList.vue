@@ -58,9 +58,7 @@
                   <v-text-field
                     v-show="isBasicAuth"
                     v-model="editedItem.password"
-                    :append-icon="
-                      showPassword ? 'visibility_off' : 'visibility'
-                    "
+                    :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                     :rules="isBasicAuth ? [rules.min] : []"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
@@ -72,16 +70,14 @@
                   <v-text-field
                     v-show="!isBasicAuth"
                     disabled
-                    append-icon="visibility"
+                    append-icon="mdi-eye"
                     :label="$t('Password')"
                   />
                 </v-flex>
                 <v-flex xs12 sm6>
                   <v-text-field
                     v-show="isBasicAuth"
-                    :append-icon="
-                      showPassword ? 'visibility_off' : 'visibility'
-                    "
+                    :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                     :rules="isBasicAuth ? [rules.passwordMatch] : []"
                     :type="showPassword ? 'text' : 'password'"
                     name="input-10-2"
@@ -93,7 +89,7 @@
                   <v-text-field
                     v-show="!isBasicAuth"
                     disabled
-                    append-icon="visibility"
+                    append-icon="mdi-eye"
                     :label="$t('ConfirmPassword')"
                   />
                 </v-flex>
@@ -151,10 +147,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="blue darken-1" flat @click="close">
+            <v-btn color="blue darken-1" text @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn color="blue darken-1" flat @click="validate">
+            <v-btn color="blue darken-1" text @click="validate">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -167,15 +163,19 @@
         {{ $t('Users') }}
         <v-spacer />
         <v-btn-toggle v-model="status" class="transparent" multiple>
-          <v-btn value="active" flat>
+          <v-btn value="active" text>
             <v-tooltip bottom>
-              <v-icon slot="activator"> check_circle </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-check-circle</v-icon>
+              </template>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn value="inactive" flat>
+          <v-btn value="inactive" text>
             <v-tooltip bottom>
-              <v-icon slot="activator"> block </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-cancel</v-icon>
+              </template>
               <span>{{ $t('Inactive') }}</span>
             </v-tooltip>
           </v-btn>
@@ -201,7 +201,7 @@
         <v-flex xs6>
           <v-text-field
             v-model="search"
-            append-icon="search"
+            append-icon="mdi-magnify"
             :label="$t('Search')"
             single-line
             hide-details
@@ -212,28 +212,30 @@
       <v-data-table
         :headers="headers"
         :items="users"
-        :rows-per-page-items="itemsPerPageOptions"
-        :pagination.sync="pagination"
+        :footer-props="{ itemsPerPageOptions }"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
-        sort-icon="arrow_drop_down"
+        header-props:sort-icon="arrow_drop_down"
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
           <td class="text-xs-center">
             <v-tooltip top>
-              <v-icon
-                slot="activator"
-                :color="props.item.status == 'active' ? 'primary' : ''"
-                @click="toggleUserStatus(props.item)"
-              >
-                {{
-                  props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
-                }}
-              </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon
+                  v-on="on"
+                  :color="props.item.status == 'active' ? 'primary' : ''"
+                  @click="toggleUserStatus(props.item)"
+                >
+                  {{
+                    props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
+                  }}
+                </v-icon>
+              </template>
               <span>{{ props.item.status | capitalize }}</span>
             </v-tooltip>
           </td>
@@ -241,13 +243,15 @@
           <td>{{ props.item.email }}</td>
           <td class="text-xs-center">
             <v-tooltip top>
-              <v-icon slot="activator" @click="toggleEmailVerified(props.item)">
-                {{
-                  props.item.email_verified
-                    ? 'check_box'
-                    : 'check_box_outline_blank'
-                }}
-              </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on" @click="toggleEmailVerified(props.item)">
+                  {{
+                    props.item.email_verified
+                      ? 'check_box'
+                      : 'check_box_outline_blank'
+                  }}
+                </v-icon>
+              </template>
               <span>
                 {{
                   props.item.email_verified
@@ -284,7 +288,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> edit </v-icon>
+              <v-icon small color="grey darken-3">edit</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:users'"
@@ -292,16 +296,16 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> delete </v-icon>
+              <v-icon small color="grey darken-3">mdi-delete</v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert :value="true" color="error" icon="mdi-alert">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert slot="no-results" :value="true" color="error" icon="mdi-alert">
           {{ $t('SearchNoResult1') }} "{{ search }}"
           {{ $t('SearchNoResult2') }}.
         </v-alert>
@@ -327,12 +331,12 @@ export default {
     ListButtonAdd
   },
   data: (vm) => ({
-    descending: true,
-    page: 1,
     itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
-      sortBy: 'name',
-      rowsPerPage: 20
+      page: 1,
+      sortBy: ['name'],
+      sortDesc: [true],
+      itemsPerPage: 20
     },
     // totalItems: number,
     status: ['active', 'inactive'],

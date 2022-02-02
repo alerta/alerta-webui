@@ -25,11 +25,11 @@
             <span>{{ provider[profile.provider].text }}</span>
           </v-tooltip>
           <v-tooltip v-else-if="profile.email_verified" top>
-            <v-icon slot="activator"> verified_user </v-icon>
+            <v-icon slot="activator">verified_user</v-icon>
             <span>({{ $t('EmailVerified') }})</span>
           </v-tooltip>
           <v-tooltip v-else top>
-            <v-icon slot="activator"> fas fa-user-times </v-icon>
+            <v-icon slot="activator">fas fa-user-times</v-icon>
             <span>{{ $t('EmailNotVerified') }}</span>
           </v-tooltip>
         </v-list-item-action>

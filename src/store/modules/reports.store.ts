@@ -20,7 +20,7 @@ const state = {
 
   pagination: {
     page: 1,
-    rowsPerPage: 10
+    itemsPerPage: 10
   }
 }
 
@@ -37,8 +37,8 @@ const mutations = {
   SET_FILTER(state, filter) {
     state.filter = Object.assign({}, state.filter, filter)
   },
-  SET_PAGE_SIZE(state, rowsPerPage) {
-    state.pagination.rowsPerPage = rowsPerPage
+  SET_PAGE_SIZE(state, itemsPerPage) {
+    state.pagination.itemsPerPage = itemsPerPage
   }
 }
 
@@ -61,7 +61,7 @@ const getParams = (state) => {
 
   // add server-side paging
   params.append('page', state.pagination.page)
-  params.append('page-size', state.pagination.rowsPerPage)
+  params.append('page-size', state.pagination.itemsPerPage)
 
   // apply any date/time filters
   if (state.filter.dateRange[0] > 0) {
@@ -115,8 +115,8 @@ const actions = {
   resetFilter({ commit, rootState }) {
     commit('SET_FILTER', rootState.config.filter)
   },
-  setPageSize({ commit }, rowsPerPage) {
-    commit('SET_PAGE_SIZE', rowsPerPage)
+  setPageSize({ commit }, itemsPerPage) {
+    commit('SET_PAGE_SIZE', itemsPerPage)
   }
 }
 

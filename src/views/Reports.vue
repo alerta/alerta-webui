@@ -6,7 +6,7 @@
         <v-spacer />
         <v-flex xs1>
           <v-select
-            v-model.number="rowsPerPage"
+            v-model.number="itemsPerPage"
             :items="itemsPerPageOptions"
             :prefix="$t('Top')"
             type="number"
@@ -14,12 +14,12 @@
         </v-flex>
 
         <v-btn
-          flat
+          text
           icon
           :class="{ 'filter-active': isActive }"
           @click="sidesheet = !sidesheet"
         >
-          <v-icon>filter_list</v-icon>
+          <v-icon>mdi-filter-variant</v-icon>
         </v-btn>
       </v-card-title>
 
@@ -65,9 +65,9 @@ export default {
         this.filter.dateRange[1]
       )
     },
-    rowsPerPage: {
+    itemsPerPage: {
       get() {
-        return this.$store.state.reports.pagination.rowsPerPage
+        return this.$store.state.reports.pagination.itemsPerPage
       },
       set(value) {
         this.$store.dispatch('reports/setPageSize', value)

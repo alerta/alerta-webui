@@ -4,14 +4,19 @@
       <v-card-title primary-title>
         <div>
           <div class="headline">
-            {{ $t('Top') }} {{ rowsPerPage }} {{ $t('Standing') }}
+            {{ $t('Top') }} {{ itemsPerPage }} {{ $t('Standing') }}
           </div>
           <br />
           <span class="grey--text">{{ $t('TopStandingDescription') }}</span>
         </div>
         <v-spacer />
       </v-card-title>
-      <v-data-table :headers="headers" :items="top10" class="px-2" hide-actions>
+      <v-data-table
+        :headers="headers"
+        :items="top10"
+        class="px-2"
+        hide-default-footer
+      >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.event }}</td>
           <td class="text-xs-center">
@@ -71,8 +76,8 @@ export default {
     filter() {
       return this.$store.state.reports.filter
     },
-    rowsPerPage() {
-      return this.$store.state.reports.pagination.rowsPerPage
+    itemsPerPage() {
+      return this.$store.state.reports.pagination.itemsPerPage
     },
     refresh() {
       return this.$store.state.refresh
@@ -85,7 +90,7 @@ export default {
       },
       deep: true
     },
-    rowsPerPage(val) {
+    itemsPerPage(val) {
       this.getTopStanding()
     },
     refresh(val) {

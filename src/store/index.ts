@@ -18,26 +18,23 @@ Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
-const mutations = {
-  SET_SETTING(state, { s, v }) {
-    state[s] = v
-  }
-}
-
-const actions = {
-  set({ commit }, [s, v]) {
-    commit('SET_SETTING', { s, v })
-  }
-}
-
-export const createStore = (): Store<any> => {
-  return new Vuex.Store({
+export const createStore = () =>
+  new Store({
     state: {
       multiselect: false,
-      refresh: false
+      refresh: false,
+      auth: { isAuthenticated: true }
     },
-    mutations,
-    actions,
+    mutations: {
+      SET_SETTING(state, { s, v }) {
+        state[s] = v
+      }
+    },
+    actions: {
+      set({ commit }, [s, v]) {
+        commit('SET_SETTING', { s, v })
+      }
+    },
     strict: debug,
     modules: {
       config,
@@ -55,7 +52,6 @@ export const createStore = (): Store<any> => {
       notifications
     }
   })
-}
 
 // FIXME: types...
 export interface State {

@@ -18,7 +18,7 @@
         <v-menu bottom right offset-y>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon @click="close">
-              <v-icon>close</v-icon>
+              <v-icon>mdi-close</v-icon>
             </v-btn>
           </template>
         </v-menu>
@@ -30,7 +30,7 @@
             <v-text-field
               v-model="filterText"
               :label="$t('Search')"
-              prepend-inner-icon="search"
+              prepend-inner-icon="mdi-magnify"
               outlined
               dense
               clearable
@@ -108,7 +108,7 @@
               :label="$t('DateTime')"
               solo
               flat
-              prepend-inner-icon="schedule"
+              prepend-inner-icon="mdi-clock-outline"
               item-value="range"
               hide-details
             />
@@ -229,8 +229,8 @@ export default {
     sidesheet: vm.value,
     active: null,
     pagination: {
-      rowsPerPage: 10,
-      sortBy: 'updateTime'
+      itemsPerPage: 10,
+      sortBy: ['updateTime']
     },
     showDateRange: false,
     menu1: false,

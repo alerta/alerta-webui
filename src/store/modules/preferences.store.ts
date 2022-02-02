@@ -22,7 +22,7 @@ const getDefaults = () => {
       'font-size': null,
       'font-weight': null
     },
-    rowsPerPage: 20,
+    itemsPerPage: 20,
     valueWidth: 50, // px
     textWidth: 400, // px
     refreshInterval: 5 * 1000, // milliseconds

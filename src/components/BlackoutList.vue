@@ -38,16 +38,17 @@
                     :nudge-right="40"
                     transition="scale-transition"
                     offset-y
-                    full-width
                     max-width="290px"
                     min-width="290px"
                   >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.period.startDate"
-                      :label="$t('StartDate')"
-                      prepend-icon="event"
-                    />
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-on="on"
+                        v-model="editedItem.period.startDate"
+                        :label="$t('StartDate')"
+                        prepend-icon="event"
+                      />
+                    </template>
                     <v-date-picker
                       v-model="editedItem.period.startDate"
                       no-title
@@ -76,15 +77,16 @@
                     :nudge-right="40"
                     transition="scale-transition"
                     offset-y
-                    full-width
                     max-width="290px"
                     min-width="290px"
                   >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.period.endDate"
-                      :label="$t('EndDate')"
-                    />
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-on="on"
+                        v-model="editedItem.period.endDate"
+                        :label="$t('EndDate')"
+                      />
+                    </template>
                     <v-date-picker
                       v-model="editedItem.period.endDate"
                       no-title
@@ -142,7 +144,7 @@
                         small
                         @input="data.parent.selectItem(data.item)"
                       >
-                        <v-icon left> label </v-icon>{{ data.item }}
+                        <v-icon left>label</v-icon>{{ data.item }}
                       </v-chip>
                     </template>
                   </v-combobox>
@@ -167,10 +169,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="blue darken-1" flat @click="close">
+            <v-btn color="blue darken-1" text @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn color="blue darken-1" flat @click="validate">
+            <v-btn color="blue darken-1" text @click="validate">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -183,21 +185,28 @@
         {{ $t('Blackouts') }}
         <v-spacer />
         <v-btn-toggle v-model="status" class="transparent" multiple>
-          <v-btn value="active" flat>
+          <v-btn value="active" text>
             <v-tooltip bottom>
-              <v-icon slot="activator"> notifications_paused </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-bell-sleep</v-icon>
+              </template>
+
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn value="pending" flat>
+          <v-btn value="pending" text>
             <v-tooltip bottom>
-              <v-icon slot="activator"> schedule </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-clock-outline</v-icon>
+              </template>
               <span>{{ $t('Pending') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn value="expired" flat>
+          <v-btn value="expired" text>
             <v-tooltip bottom>
-              <v-icon slot="activator"> block </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-timer-off-outline</v-icon>
+              </template>
               <span>{{ $t('Expired') }}</span>
             </v-tooltip>
           </v-btn>
@@ -205,7 +214,7 @@
         <v-spacer />
         <v-text-field
           v-model="search"
-          append-icon="search"
+          append-icon="mdi-magnify"
           :label="$t('Search')"
           single-line
           hide-details
@@ -215,35 +224,32 @@
       <v-data-table
         :headers="computedHeaders"
         :items="blackouts"
-        :rows-per-page-items="itemsPerPageOptions"
-        :pagination.sync="pagination"
+        :footer-props="{ itemsPerPageOptions }"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
-        sort-icon="arrow_drop_down"
+        header-props:sort-icon="arrow_drop_down"
       >
         <template slot="items" slot-scope="props">
           <td>
             <v-tooltip top>
               {{ $t('WholeEnvironment') }}
-              <v-icon
-                v-if="onlyEnvironment(props.item)"
-                slot="activator"
-                color="red"
-                small
-              >
-                report_problem
-              </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon
+                  v-if="onlyEnvironment(props.item)"
+                  v-on="on"
+                  color="red"
+                  small
+                >
+                  report_problem
+                </v-icon>
+              </template>
             </v-tooltip>
             <v-tooltip top>
               {{ $t('AllOrigin') }}
-              <v-icon
-                v-if="onlyOrigin(props.item)"
-                slot="activator"
-                color="red"
-                small
-              >
+              <v-icon v-if="onlyOrigin(props.item)" v-on="on" color="red" small>
                 report_problem
               </v-icon>
             </v-tooltip>
@@ -267,38 +273,36 @@
           <td>{{ props.item.group }}</td>
           <td>
             <v-chip v-for="tag in props.item.tags" :key="tag" label small>
-              <v-icon left> label </v-icon>{{ tag }}
+              <v-icon left>label</v-icon>{{ tag }}
             </v-chip>
           </td>
           <td>{{ props.item.origin }}</td>
           <td class="text-xs-right">
             <v-tooltip top>
               {{ props.item.status | capitalize }}
-              <v-icon
-                v-if="props.item.status == 'pending'"
-                slot="activator"
-                light
-                small
-              >
-                schedule
-              </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon
+                  v-if="props.item.status == 'pending'"
+                  v-on="on"
+                  light
+                  small
+                >
+                  mdi-clock-outline
+                </v-icon>
 
-              <v-icon
-                v-if="props.item.status == 'active'"
-                slot="activator"
-                color="primary"
-                small
-              >
-                notifications_paused
-              </v-icon>
+                <v-icon
+                  v-if="props.item.status == 'active'"
+                  v-on="on"
+                  color="primary"
+                  small
+                >
+                  mdi-bell-sleep
+                </v-icon>
 
-              <v-icon
-                v-if="props.item.status == 'expired'"
-                slot="activator"
-                small
-              >
-                block
-              </v-icon>
+                <v-icon v-if="props.item.status == 'expired'" v-on="on" small>
+                  mdi-cancel
+                </v-icon>
+              </template>
             </v-tooltip>
           </td>
           <td class="text-xs-left">
@@ -323,7 +327,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> edit </v-icon>
+              <v-icon small color="grey darken-3">edit</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'write:blackouts'"
@@ -331,7 +335,7 @@
               class="btn--plain mx-0"
               @click="copyItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> content_copy </v-icon>
+              <v-icon small color="grey darken-3">content_copy</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'write:blackouts'"
@@ -339,16 +343,16 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> delete </v-icon>
+              <v-icon small color="grey darken-3">mdi-delete</v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert :value="true" color="error" icon="mdi-alert">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert slot="no-results" :value="true" color="error" icon="mdi-alert">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
@@ -369,13 +373,13 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data: (vm) => ({
-    descending: true,
-    page: 1,
+  data: () => ({
     itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
-      sortBy: 'startTime',
-      rowsPerPage: 20
+      page: 1,
+      sortBy: ['startTime'],
+      sortDesc: [true],
+      itemsPerPage: 20
     },
     // totalItems: number,
     status: ['active', 'pending', 'expired'],

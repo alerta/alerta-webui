@@ -145,7 +145,7 @@
             />
 
             <v-combobox
-              v-model.number="rowsPerPage"
+              v-model.number="itemsPerPage"
               :items="itemsPerPageOptions"
               :label="$t('PageRows')"
               type="number"
@@ -233,7 +233,7 @@
       <v-flex sm6 md4>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" flat @click="reset">
+          <v-btn color="blue darken-1" text @click="reset">
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
@@ -494,15 +494,15 @@ export default {
     itemsPerPageOptions() {
       return this.$store.state.alerts.pagination.itemsPerPageOptions
     },
-    rowsPerPage: {
+    itemsPerPage: {
       get() {
         return (
-          this.$store.getters.getPreference('rowsPerPage') ||
-          this.$store.state.alerts.pagination.rowsPerPage
+          this.$store.getters.getPreference('itemsPerPage') ||
+          this.$store.state.alerts.pagination.itemsPerPage
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', { rowsPerPage: value })
+        this.$store.dispatch('setUserPrefs', { itemsPerPage: value })
       }
     },
     valueWidth: {

@@ -23,7 +23,7 @@ class Config {
       .then((response) => {
         return this.setLocalConfig(response)
       })
-      .then(async (response) => {
+      .then(async () => {
         const endpoint = this.config.endpoint
           ? this.config.endpoint
           : 'http://localhost:8080'
@@ -32,7 +32,7 @@ class Config {
       .then((response) => {
         return this.setRemoteConfig(response)
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.log(error)
         throw error
       })
@@ -59,7 +59,7 @@ class Config {
     return this.$http
       .get(`${basePath}config.json`)
       .then((response) => response.data)
-      .catch((error: any) => {
+      .catch((error) => {
         console.warn(error.message)
       })
   }
@@ -68,7 +68,7 @@ class Config {
     return this.$http
       .get(`${endpoint}/config`)
       .then((response) => response.data)
-      .catch((error: any) => {
+      .catch((error) => {
         alert(
           `ERROR: Failed to retrieve client config from Alerta API endpoint ${endpoint}/config.\n\n` +
             'This could be due to the API not being available, or to a missing or invalid ' +
@@ -87,17 +87,17 @@ class Config {
     })
   }
 
-  setEnvConfig(data: any) {
+  setEnvConfig(data) {
     this.envConfig = data
     return this.mergeConfig()
   }
 
-  setLocalConfig(data: any) {
+  setLocalConfig(data) {
     this.localConfig = data
     return this.mergeConfig()
   }
 
-  setRemoteConfig(data: any) {
+  setRemoteConfig(data) {
     this.remoteConfig = data
     return this.mergeConfig()
   }

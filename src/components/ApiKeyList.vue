@@ -14,16 +14,18 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-tooltip :key="copyIconText" right>
-                    <v-text-field
-                      v-if="editedItem.key"
-                      slot="activator"
-                      v-model="editedItem.key"
-                      :label="$t('APIKey')"
-                      readonly
-                      monospace
-                      append-icon="content_copy"
-                      @click:append="clipboardCopy(editedItem.key)"
-                    />
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-if="editedItem.key"
+                        v-on="on"
+                        v-model="editedItem.key"
+                        :label="$t('APIKey')"
+                        readonly
+                        monospace
+                        append-icon="content_copy"
+                        @click:append="clipboardCopy(editedItem.key)"
+                      />
+                    </template>
                     <span>{{ copyIconText }}</span>
                   </v-tooltip>
                 </v-flex>
@@ -74,16 +76,17 @@
                     :nudge-right="40"
                     transition="scale-transition"
                     offset-y
-                    full-width
                     min-width="290px"
                   >
-                    <v-text-field
-                      slot="activator"
-                      v-model="pickerDate"
-                      :label="$t('Expires')"
-                      prepend-icon="event"
-                      readonly
-                    />
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-on="on"
+                        v-model="pickerDate"
+                        :label="$t('Expires')"
+                        prepend-icon="event"
+                        readonly
+                      />
+                    </template>
                     <v-date-picker
                       v-model="pickerDate"
                       :min="new Date().toISOString().slice(0, 10)"
@@ -103,10 +106,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="blue darken-1" flat @click="close">
+            <v-btn color="blue darken-1" text @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn color="blue darken-1" flat @click="save">
+            <v-btn color="blue darken-1" text @click="save">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -119,15 +122,19 @@
         {{ $t('APIKeys') }}
         <v-spacer />
         <v-btn-toggle v-model="status" class="transparent" multiple>
-          <v-btn value="active" flat>
+          <v-btn value="active" text>
             <v-tooltip bottom>
-              <v-icon slot="activator"> check_circle </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-check-circle</v-icon>
+              </template>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn value="expired" flat>
+          <v-btn value="expired" text>
             <v-tooltip bottom>
-              <v-icon slot="activator"> error_outline </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">mdi-alert-circle-outline</v-icon>
+              </template>
               <span>{{ $t('Expired') }}</span>
             </v-tooltip>
           </v-btn>
@@ -135,7 +142,7 @@
         <v-spacer />
         <v-text-field
           v-model="search"
-          append-icon="search"
+          append-icon="mdi-magnify"
           :label="$t('Search')"
           single-line
           hide-details
@@ -145,40 +152,46 @@
       <v-data-table
         :headers="computedHeaders"
         :items="keys"
-        :rows-per-page-items="itemsPerPageOptions"
-        :pagination.sync="pagination"
+        :footer-props="{ itemsPerPageOptions }"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
-        sort-icon="arrow_drop_down"
+        header-props.sort-icon="arrow_drop_down"
       >
         <template slot="items" slot-scope="props">
           <td class="text-no-wrap" monospace>
             {{ props.item.key }}
             <v-tooltip :key="copyIconText" top>
-              <v-icon
-                slot="activator"
-                :value="props.item.key"
-                style="font-size: 16px"
-                @click="clipboardCopy(props.item.key)"
-              >
-                content_copy
-              </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon
+                  v-on="on"
+                  :value="props.item.key"
+                  style="font-size: 16px"
+                  @click="clipboardCopy(props.item.key)"
+                >
+                  content_copy
+                </v-icon>
+              </template>
               <span>{{ copyIconText }}</span>
             </v-tooltip>
           </td>
           <td>
             <v-tooltip v-if="!isExpired(props.item.expireTime)" top>
-              <v-icon slot="activator" color="primary" small>
-                check_circle
-              </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on" color="primary" small
+                  >mdi-check-circle</v-icon
+                >
+              </template>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
             <v-tooltip v-if="isExpired(props.item.expireTime)" top>
-              <v-icon slot="activator" color="error" small>
-                error_outline
-              </v-icon>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on" color="error" small
+                  >mdi-alert-circle-outline</v-icon
+                >
+              </template>
               <span>{{ $t('Expired') }}</span>
             </v-tooltip>
           </td>
@@ -208,7 +221,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> edit </v-icon>
+              <v-icon small color="grey darken-3">edit</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:keys'"
@@ -216,7 +229,7 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> delete </v-icon>
+              <v-icon small color="grey darken-3">mdi-delete</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:keys'"
@@ -225,16 +238,16 @@
               icon
               class="btn--plain mx-0"
             >
-              <v-icon small color="grey darken-3"> get_app </v-icon>
+              <v-icon small color="grey darken-3">get_app</v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert :value="true" color="error" icon="mdi-alert">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert slot="no-results" :value="true" color="error" icon="mdi-alert">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
@@ -257,12 +270,12 @@ export default {
     ListButtonAdd
   },
   data: (vm) => ({
-    descending: true,
-    page: 1,
     itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
-      sortBy: 'lastUsedTime',
-      rowsPerPage: 20
+      page: 1,
+      sortBy: ['lastUsedTime'],
+      sortDesc: [true],
+      itemsPerPage: 20
     },
     status: ['active', 'expired'],
     search: '',
@@ -421,13 +434,10 @@ export default {
       return this.isExpired(key.expireTime) ? 'expired' : 'active'
     },
     clipboardCopy(text) {
+      if (!window.isSecureContext || !navigator.clipboard) return
+      navigator.clipboard.writeText(text)
+
       this.copyIconText = i18n.t('Copied')
-      let textarea = document.createElement('textarea')
-      textarea.textContent = text
-      document.body.appendChild(textarea)
-      textarea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
       setTimeout(() => {
         this.copyIconText = i18n.t('Copy')
       }, 2000)

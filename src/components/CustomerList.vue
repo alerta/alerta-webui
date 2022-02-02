@@ -62,7 +62,7 @@
         <v-spacer />
         <v-text-field
           v-model="search"
-          append-icon="search"
+          append-icon="mdi-magnify"
           :label="$t('Search')"
           single-line
           hide-details
@@ -72,13 +72,13 @@
       <v-data-table
         :headers="headers"
         :items="customers"
-        :rows-per-page-items="itemsPerPageOptions"
-        :pagination.sync="pagination"
+        :footer-props="{ itemsPerPageOptions }"
+        :options.sync="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
-        sort-icon="arrow_drop_down"
+        header-props:sort-icon="arrow_drop_down"
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.match }}</td>
@@ -96,7 +96,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> edit </v-icon>
+              <v-icon small color="grey darken-3">edit</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:customers'"
@@ -104,16 +104,16 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon small color="grey darken-3"> delete </v-icon>
+              <v-icon small color="grey darken-3">mdi-delete</v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert :value="true" color="error" icon="warning">
+          <v-alert :value="true" color="error" icon="mdi-alert">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        <v-alert slot="no-results" :value="true" color="error" icon="mdi-alert">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
@@ -132,12 +132,12 @@ export default {
     ListButtonAdd
   },
   data: () => ({
-    descending: true,
-    page: 1,
     itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
-      sortBy: 'match',
-      rowsPerPage: 20
+      page: 1,
+      sortBy: ['match'],
+      sortDesc: [true],
+      itemsPerPage: 20
     },
     // totalItems: number,
     search: '',

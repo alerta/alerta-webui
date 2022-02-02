@@ -1,17 +1,15 @@
 <template>
   <v-tooltip top>
-    <span
-      slot="activator"
-      class="text-no-wrap"
-    >
-      {{ value | date(displayMode, formatString) }}
-    </span>
+    <template v-slot:activator="{ on }">
+      <span v-on="on" class="text-no-wrap">
+        {{ value | date(displayMode, formatString) }}
+      </span>
+    </template>
     <span>{{ value | date('utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
   </v-tooltip>
 </template>
 
 <script>
-
 import moment from 'moment'
 import i18n from '@/plugins/i18n'
 moment.locale(i18n.locale)

@@ -9,7 +9,7 @@
             color="grey darken-2"
             @click="watchAlert"
           >
-            <v-icon>visibility</v-icon>&nbsp;{{ $t('Watch') }}
+            <v-icon>mdi-eye</v-icon>&nbsp;{{ $t('Watch') }}
           </v-btn>
 
           <v-btn
@@ -18,7 +18,7 @@
             color="grey darken-2"
             @click="unwatchAlert"
           >
-            <v-icon>visibility_off</v-icon>&nbsp;{{ $t('Unwatch') }}
+            <v-icon>mdi-eye-off</v-icon>&nbsp;{{ $t('Unwatch') }}
           </v-btn>
 
           <v-btn
@@ -90,7 +90,7 @@
                   class="white--text"
                   @click="shelveAlert()"
                 >
-                  <v-icon>schedule</v-icon>&nbsp;{{ $t('Shelve') }}
+                  <v-icon>mdi-clock-outline</v-icon>&nbsp;{{ $t('Shelve') }}
                 </v-btn>
 
                 <v-btn
@@ -99,7 +99,7 @@
                   class="white--text"
                   @click="takeAction('unshelve')"
                 >
-                  <v-icon>schedule</v-icon>&nbsp;{{ $t('Unshelve') }}
+                  <v-icon>mdi-clock-outline</v-icon>&nbsp;{{ $t('Unshelve') }}
                 </v-btn>
 
                 <v-btn
@@ -108,7 +108,9 @@
                   class="white--text"
                   @click="takeAction('close')"
                 >
-                  <v-icon>highlight_off</v-icon>&nbsp;{{ $t('Close') }}
+                  <v-icon>mdi-close-circle-outline</v-icon>&nbsp;{{
+                    $t('Close')
+                  }}
                 </v-btn>
 
                 <v-btn
@@ -122,7 +124,7 @@
                 <v-spacer />
 
                 <v-btn icon @click="close">
-                  <v-icon color="grey darken-1"> delete </v-icon>
+                  <v-icon color="grey darken-1">mdi-delete</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>

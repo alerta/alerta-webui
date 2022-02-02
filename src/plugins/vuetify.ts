@@ -1,8 +1,11 @@
+import '@mdi/font/css/materialdesignicons.min.css'
 import Vue from 'vue'
-import Vuetify, { UserVuetifyPreset } from 'vuetify'
+import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
-const opts: Partial<UserVuetifyPreset> = {
+Vue.use(Vuetify)
+
+export default new Vuetify({
   themes: {
     light: {
       primary: '#3f51b5',
@@ -11,10 +14,6 @@ const opts: Partial<UserVuetifyPreset> = {
     }
   },
   icons: {
-    iconfont: 'md'
+    iconfont: 'mdi'
   }
-}
-
-Vue.use(Vuetify)
-
-export default new Vuetify(opts)
+})

@@ -37,7 +37,7 @@
             name="password"
             :type="showPassword ? 'text' : 'password'"
             :label="$t('Password')"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
             :disabled="!signupEnabled"
             outlined
             :rules="[rules.min]"
@@ -47,7 +47,7 @@
           <v-text-field
             v-model="confirmPassword"
             name="confirm-password"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
             :type="showPassword ? 'text' : 'password'"
             :label="$t('ConfirmPassword')"
             :disabled="!signupEnabled"
