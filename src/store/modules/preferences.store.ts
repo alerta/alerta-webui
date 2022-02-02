@@ -1,6 +1,6 @@
+import i18n from '@/plugins/i18n'
 import UsersApi from '@/services/api/user.service'
 import stateMerge from 'vue-object-merge'
-import i18n from '@/plugins/i18n'
 
 const getDefaults = () => {
   return {
@@ -41,94 +41,96 @@ const mutations = {
     stateMerge(state, prefs)
   },
   RESET_PREFS(state) {
-    let q = state.queries
+    const q = state.queries
     Object.assign(state, getDefaults())
-    stateMerge(state, {queries: q})
+    stateMerge(state, { queries: q })
   },
   SET_QUERIES(state, queries) {
-    stateMerge(state, {queries: queries || []})
+    stateMerge(state, { queries: queries || [] })
   },
   RESET_QUERIES(state) {
-    Object.assign(state, {queries: []})
+    Object.assign(state, { queries: [] })
   }
 }
 
 const actions = {
-  getUserPrefs({dispatch, commit}) {
+  async getUserPrefs({ dispatch, commit }) {
     return UsersApi.getMeAttributes()
-      .then(({attributes}) => {
+      .then(({ attributes }) => {
         commit('SET_PREFS', attributes.prefs)
       })
-      .catch(error =>
-        dispatch('notifications/error', Error('' + i18n.t('SettingsError')), {
+      .catch((error) =>
+        dispatch('notifications/error', Error(`${i18n.t('SettingsError')}`), {
           root: true
         })
       )
   },
-  toggle({dispatch, commit}, [s, v]) {
-    return UsersApi.updateMeAttributes({prefs: {[s]: v}})
-      .then(response => dispatch('getUserPrefs'))
+  async toggle({ dispatch }, [s, v]) {
+    return UsersApi.updateMeAttributes({ prefs: { [s]: v } })
+      .then((response) => dispatch('getUserPrefs'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
         })
       )
   },
-  setUserPrefs({dispatch, commit}, prefs) {
-    return UsersApi.updateMeAttributes({prefs: prefs})
-      .then(response => dispatch('getUserPrefs'))
+  async setUserPrefs({ dispatch }, prefs) {
+    return UsersApi.updateMeAttributes({ prefs })
+      .then((response) => dispatch('getUserPrefs'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
         })
       )
   },
-  resetUserPrefs({dispatch, commit}) {
-    return UsersApi.updateMeAttributes({prefs: null})
-      .then(response => commit('RESET_PREFS'))
+  async resetUserPrefs({ dispatch, commit }) {
+    return UsersApi.updateMeAttributes({ prefs: null })
+      .then((response) => commit('RESET_PREFS'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsReset'), {
           root: true
         })
       )
   },
-  clearUserPrefs({commit}) {
+  clearUserPrefs({ commit }) {
     commit('RESET_PREFS')
   },
-  getUserQueries({dispatch, commit}) {
+  async getUserQueries({ dispatch, commit }) {
     return UsersApi.getMeAttributes()
-      .then(({attributes}) => {
+      .then(({ attributes }) => {
         commit('SET_QUERIES', attributes.queries)
       })
-      .catch(error =>
-        dispatch('notifications/error', Error('' + i18n.t('SettingsError')), {
+      .catch((error) =>
+        dispatch('notifications/error', Error(`${i18n.t('SettingsError')}`), {
           root: true
         })
       )
   },
-  addUserQuery({dispatch, state}, query) {
-    let qlist = state.queries.filter(q => q.text != query.text).concat([query])
-    return UsersApi.updateMeAttributes({queries: qlist})
-      .then(response => dispatch('getUserQueries'))
+  async addUserQuery({ dispatch, state }, query) {
+    const qlist = state.queries
+      .filter((q) => q.text != query.text)
+      .concat([query])
+    return UsersApi.updateMeAttributes({ queries: qlist })
+      .then((response) => dispatch('getUserQueries'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
         })
       )
   },
-  removeUserQuery({dispatch, state}, query) {
-    let qlist = state.queries.filter(q => q.text != query.text)
-    return UsersApi.updateMeAttributes({queries: qlist})
-      .then(response => dispatch('getUserQueries'))
+  async removeUserQuery({ dispatch, state }, query) {
+    const qlist = state.queries.filter((q) => q.text != query.text)
+    return UsersApi.updateMeAttributes({ queries: qlist })
+      .then((response) => dispatch('getUserQueries'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
         })
       )
   },
-  resetUserQueries({dispatch, commit}) {
-    return UsersApi.updateMeAttributes({queries: null})
-      .then(response => commit('RESET_QUERIES'))
+  async resetUserQueries({ dispatch, commit }) {
+    return UsersApi.updateMeAttributes({ queries: null })
+      .then((response) => commit('RESET_QUERIES'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsReset'), {
           root: true
@@ -138,10 +140,10 @@ const actions = {
 }
 
 const getters = {
-  getPreference: state => pref => {
+  getPreference: (state) => (pref) => {
     return state[pref]
   },
-  getUserQueries: state => {
+  getUserQueries: (state) => {
     return state.queries ? state.queries : []
   }
 }

@@ -1,22 +1,22 @@
 import api from './index'
 
 export default {
-  createBlackout(data: object) {
+  async createBlackout(data: object) {
     return api.post('/blackout', data)
   },
-  getBlackout(id: string) {
+  async getBlackout(id: string) {
     return api.get(`/blackout/${id}`)
   },
-  getBlackouts(query: object) {
-    let config = {
+  async getBlackouts(query: object) {
+    const config = {
       params: query
     }
     return api.get('/blackouts', config)
   },
-  updateBlackout(id: string, data: object) {
+  async updateBlackout(id: string, data: object) {
     return api.put(`/blackout/${id}`, data)
   },
-  deleteBlackout(id: string) {
+  async deleteBlackout(id: string) {
     return api.delete(`/blackout/${id}`)
   }
 }

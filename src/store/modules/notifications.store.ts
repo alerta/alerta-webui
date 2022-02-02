@@ -22,7 +22,7 @@ const state = {
 
 const mutations = {
   ADD_SNACKBAR(state, snackbar) {
-    if (!state.snackbars.map(s => s.text).includes(snackbar.text)) {
+    if (!state.snackbars.map((s) => s.text).includes(snackbar.text)) {
       state.snackbars.push(snackbar)
     }
   },
@@ -30,7 +30,7 @@ const mutations = {
     state.snackbars.shift()
   },
   ADD_BANNER(state, banner) {
-    if (!state.banners.map(b => b.text).includes(banner.text)) {
+    if (!state.banners.map((b) => b.text).includes(banner.text)) {
       state.banners.push(banner)
     }
   },
@@ -40,20 +40,20 @@ const mutations = {
 }
 
 const actions = {
-  showSnackbar({commit}, snackbar) {
+  showSnackbar({ commit }, snackbar) {
     commit('ADD_SNACKBAR', snackbar)
   },
-  closeSnackbar({commit}) {
+  closeSnackbar({ commit }) {
     commit('REMOVE_SNACKBAR')
   },
-  showBanner({commit}, banner) {
+  showBanner({ commit }, banner) {
     commit('ADD_BANNER', banner)
   },
-  closeBanner({commit}) {
+  closeBanner({ commit }) {
     commit('REMOVE_BANNER')
   },
 
-  success({commit}, message) {
+  success({ commit }, message) {
     commit('ADD_SNACKBAR', {
       type: 'success',
       text: message,
@@ -62,7 +62,7 @@ const actions = {
     })
   },
 
-  error({commit}, error) {
+  error({ commit }, error) {
     // HTTP error with status, code, message and errors.
     if (error.hasOwnProperty('code')) {
       commit('ADD_SNACKBAR', {
@@ -83,10 +83,10 @@ const actions = {
 }
 
 const getters = {
-  hasSnackbar: state => {
+  hasSnackbar: (state) => {
     return state.snackbars.length > 0
   },
-  hasBanners: state => {
+  hasBanners: (state) => {
     return state.banners.length > 0
   }
 }

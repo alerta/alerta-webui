@@ -1,4 +1,4 @@
-import Axios, {AxiosInstance} from 'axios'
+import Axios, { AxiosInstance } from 'axios'
 
 class Config {
   private config: any = {}
@@ -12,22 +12,24 @@ class Config {
     this.$http = Axios.create()
   }
 
-  getConfig(): Promise<any> {
+  async getConfig(): Promise<any> {
     return this.getEnvConfig()
-      .then(response => {
+      .then((response) => {
         return this.setEnvConfig(response)
       })
-      .then(() => {
+      .then(async () => {
         return this.getLocalConfig()
       })
-      .then(response => {
+      .then((response) => {
         return this.setLocalConfig(response)
       })
-      .then(response => {
-        let endpoint = this.config.endpoint ? this.config.endpoint : 'http://localhost:8080'
+      .then(async (response) => {
+        const endpoint = this.config.endpoint
+          ? this.config.endpoint
+          : 'http://localhost:8080'
         return this.getRemoteConfig(endpoint)
       })
-      .then(response => {
+      .then((response) => {
         return this.setRemoteConfig(response)
       })
       .catch((error: any) => {
@@ -36,9 +38,9 @@ class Config {
       })
   }
 
-  getEnvConfig() {
+  async getEnvConfig() {
     return new Promise((resolve, reject) => {
-      let envConfig = {}
+      const envConfig = {}
       if (process.env.VUE_APP_ALERTA_ENDPOINT) {
         envConfig['endpoint'] = process.env.VUE_APP_ALERTA_ENDPOINT
       }
@@ -52,20 +54,20 @@ class Config {
     })
   }
 
-  getLocalConfig() {
+  async getLocalConfig() {
     const basePath = process.env.BASE_URL
     return this.$http
       .get(`${basePath}config.json`)
-      .then(response => response.data)
+      .then((response) => response.data)
       .catch((error: any) => {
         console.warn(error.message)
       })
   }
 
-  getRemoteConfig(endpoint: string) {
+  async getRemoteConfig(endpoint: string) {
     return this.$http
       .get(`${endpoint}/config`)
-      .then(response => response.data)
+      .then((response) => response.data)
       .catch((error: any) => {
         alert(
           `ERROR: Failed to retrieve client config from Alerta API endpoint ${endpoint}/config.\n\n` +

@@ -10,24 +10,18 @@
       :rows-per-page-items="pagination.rowsPerPageItems"
       :loading="isSearching"
       class="alert-table"
-      :class="[ displayDensity ]"
+      :class="[displayDensity]"
       :style="columnWidths"
       sort-icon="arrow_drop_down"
       select-all
     >
-      <template
-        slot="items"
-        slot-scope="props"
-      >
+      <template slot="items" slot-scope="props">
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
           class="hover-lighten"
           @click="selectItem(props.item)"
         >
-          <td
-            class="text-no-wrap"
-            :style="fontStyle"
-          >
+          <td class="text-no-wrap" :style="fontStyle">
             <v-checkbox
               v-if="selectableRows"
               v-model="props.selected"
@@ -43,7 +37,10 @@
               v-else-if="props.item.trendIndication == 'moreSevere'"
               :class="['trend-arrow', textColor(props.item.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="
+                multiselect = true
+                props.selected = true
+              "
             >
               arrow_upward
             </v-icon>
@@ -51,7 +48,10 @@
               v-else-if="props.item.trendIndication == 'lessSevere'"
               :class="['trend-arrow', textColor(props.item.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="
+                multiselect = true
+                props.selected = true
+              "
             >
               arrow_downward
             </v-icon>
@@ -59,7 +59,10 @@
               v-else
               :class="['trend-arrow', textColor(props.item.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="
+                multiselect = true
+                props.selected = true
+              "
             >
               remove
             </v-icon>
@@ -70,29 +73,19 @@
             :class="['text-no-wrap', textColor(props.item.severity)]"
             :style="fontStyle"
           >
-            <span
-              v-if="col == 'id'"
-            >
+            <span v-if="col == 'id'">
               {{ props.item.id | shortId }}
             </span>
-            <span
-              v-if="col == 'resource'"
-            >
+            <span v-if="col == 'resource'">
               {{ props.item.resource }}
             </span>
-            <span
-              v-if="col == 'event'"
-            >
+            <span v-if="col == 'event'">
               {{ props.item.event }}
             </span>
-            <span
-              v-if="col == 'environment'"
-            >
+            <span v-if="col == 'environment'">
               {{ props.item.environment }}
             </span>
-            <span
-              v-if="col == 'severity'"
-            >
+            <span v-if="col == 'severity'">
               <span
                 :class="['label', 'label-' + props.item.severity.toLowerCase()]"
                 :style="fontStyle"
@@ -100,191 +93,122 @@
                 {{ props.item.severity | capitalize }}
               </span>
             </span>
-            <span
-              v-if="col == 'correlate'"
-            >
+            <span v-if="col == 'correlate'">
               {{ props.item.correlate.join(', ') }}
             </span>
-            <span
-              v-if="col == 'status'"
-            >
-              <span
-                class="label"
-                :style="fontStyle"
-              >
+            <span v-if="col == 'status'">
+              <span class="label" :style="fontStyle">
                 {{ props.item.status | capitalize }}
-
               </span>
-              <span
-                v-if="showNotesIcon"
-              >
-                <span
-                  v-if="lastNote(props.item)"
-                  class="pl-2"
-                >
+              <span v-if="showNotesIcon">
+                <span v-if="lastNote(props.item)" class="pl-2">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon
-                        v-bind="attrs"
-                        small
-                        v-on="on"
-                      >text_snippet</v-icon>
+                      <v-icon v-bind="attrs" small v-on="on"
+                        >text_snippet</v-icon
+                      >
                     </template>
                     <span>{{ lastNote(props.item) }}</span>
                   </v-tooltip>
                 </span>
               </span>
             </span>
-            <span
-              v-if="col == 'service'"
-            >
+            <span v-if="col == 'service'">
               {{ props.item.service.join(', ') }}
             </span>
-            <span
-              v-if="col == 'group'"
-            >
+            <span v-if="col == 'group'">
               {{ props.item.group }}
             </span>
-            <span
-              v-if="col == 'value'"
-            >
+            <span v-if="col == 'value'">
               <div class="fixed-table">
                 <div class="text-truncate">
                   <span v-html="props.item.value" />
                 </div>
               </div>
             </span>
-            <span
-              v-if="col == 'text'"
-            >
+            <span v-if="col == 'text'">
               <div class="fixed-table">
                 <div class="text-truncate">
                   <span v-html="props.item.text" />
                 </div>
               </div>
             </span>
-            <span
-              v-if="col == 'tags'"
-            >
-              <span
-                v-for="tag in props.item.tags"
-                :key="tag"
-              ><span
-                class="label"
-                :style="fontStyle"
-              >{{ tag }}</span>&nbsp;</span>
+            <span v-if="col == 'tags'">
+              <span v-for="tag in props.item.tags" :key="tag"
+                ><span class="label" :style="fontStyle">{{ tag }}</span
+                >&nbsp;</span
+              >
             </span>
-            <span
-              v-if="props.item.attributes.hasOwnProperty(col)"
-            >
+            <span v-if="props.item.attributes.hasOwnProperty(col)">
               <span v-html="props.item.attributes[col]" />
             </span>
-            <span
-              v-if="col == 'origin'"
-            >
+            <span v-if="col == 'origin'">
               {{ props.item.origin }}
             </span>
-            <span
-              v-if="col == 'type'"
-            >
-              <span
-                class="label"
-                :style="fontStyle"
-              >
+            <span v-if="col == 'type'">
+              <span class="label" :style="fontStyle">
                 {{ props.item.type | splitCaps }}
               </span>
             </span>
-            <span
-              v-if="col == 'createTime'"
-            >
-              <date-time
-                :value="props.item.createTime"
-                format="mediumDate"
-              />
+            <span v-if="col == 'createTime'">
+              <date-time :value="props.item.createTime" format="mediumDate" />
             </span>
-            <span
-              v-if="col == 'timeout'"
-            >
+            <span v-if="col == 'timeout'">
               {{ props.item.timeout | hhmmss }}
             </span>
-            <span
-              v-if="col == 'timeoutLeft'"
-              class="text-xs-right"
-            >
+            <span v-if="col == 'timeoutLeft'" class="text-xs-right">
               {{ timeoutLeft(props.item) | hhmmss }}
             </span>
             <!-- rawData not supported -->
-            <span
-              v-if="col == 'customer' && $config.customer_views"
-            >
+            <span v-if="col == 'customer' && $config.customer_views">
               {{ props.item.customer }}
             </span>
-            <span
-              v-if="col == 'duplicateCount'"
-            >
+            <span v-if="col == 'duplicateCount'">
               {{ props.item.duplicateCount }}
             </span>
-            <span
-              v-if="col == 'repeat'"
-            >
-              <span
-                class="label"
-                :style="fontStyle"
-              >
+            <span v-if="col == 'repeat'">
+              <span class="label" :style="fontStyle">
                 {{ props.item.repeat | capitalize }}
               </span>
             </span>
-            <span
-              v-if="col == 'previousSeverity'"
-            >
+            <span v-if="col == 'previousSeverity'">
               <span
-                :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]"
+                :class="[
+                  'label',
+                  'label-' + props.item.previousSeverity.toLowerCase()
+                ]"
                 :style="fontStyle"
               >
                 {{ props.item.previousSeverity | capitalize }}
               </span>
             </span>
             <!-- trendIndication not supported -->
-            <span
-              v-if="col == 'receiveTime'"
-            >
-              <date-time
-                :value="props.item.receiveTime"
-                format="mediumDate"
-              />
+            <span v-if="col == 'receiveTime'">
+              <date-time :value="props.item.receiveTime" format="mediumDate" />
             </span>
-            <span
-              v-if="col == 'duration'"
-              class="text-xs-right"
-            >
+            <span v-if="col == 'duration'" class="text-xs-right">
               {{ duration(props.item) | hhmmss }}
             </span>
-            <span
-              v-if="col == 'lastReceiveId'"
-            >
+            <span v-if="col == 'lastReceiveId'">
               {{ props.item.lastReceiveId | shortId }}
             </span>
-            <span
-              v-if="col == 'lastReceiveTime'"
-            >
+            <span v-if="col == 'lastReceiveTime'">
               <date-time
                 :value="props.item.lastReceiveTime"
                 format="mediumDate"
               />
             </span>
             <!-- only history supported is most recent note -->
-            <span
-              v-if="col == 'note'"
-            >
+            <span v-if="col == 'note'">
               {{ lastNote(props.item) }}
             </span>
           </td>
-          <td
-            :class="['text-no-wrap', textColor(props.item.severity)]"
-          >
+          <td :class="['text-no-wrap', textColor(props.item.severity)]">
             <div
               class="action-buttons"
-              :style="{ 'background-color': severityColor(props.item.severity) }"
+              :style="{
+                'background-color': severityColor(props.item.severity)
+              }"
             >
               ...&nbsp;
               <v-btn
@@ -295,11 +219,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'open')"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  refresh
-                </v-icon>
+                <v-icon :size="fontSize"> refresh </v-icon>
               </v-btn>
 
               <v-btn
@@ -310,11 +230,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="watchAlert(props.item.id)"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  visibility
-                </v-icon>
+                <v-icon :size="fontSize"> visibility </v-icon>
               </v-btn>
               <v-btn
                 v-if="isWatched(props.item.tags)"
@@ -324,11 +240,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="unwatchAlert(props.item.id)"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  visibility_off
-                </v-icon>
+                <v-icon :size="fontSize"> visibility_off </v-icon>
               </v-btn>
 
               <v-btn
@@ -339,11 +251,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="ackAlert(props.item.id)"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  check
-                </v-icon>
+                <v-icon :size="fontSize"> check </v-icon>
               </v-btn>
               <v-btn
                 v-if="isAcked(props.item.status)"
@@ -353,11 +261,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unack')"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  undo
-                </v-icon>
+                <v-icon :size="fontSize"> undo </v-icon>
               </v-btn>
 
               <v-btn
@@ -368,11 +272,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="shelveAlert(props.item.id)"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  schedule
-                </v-icon>
+                <v-icon :size="fontSize"> schedule </v-icon>
               </v-btn>
               <v-btn
                 v-if="isShelved(props.item.status)"
@@ -382,11 +282,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unshelve')"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  restore
-                </v-icon>
+                <v-icon :size="fontSize"> restore </v-icon>
               </v-btn>
 
               <v-btn
@@ -397,11 +293,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'close')"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  highlight_off
-                </v-icon>
+                <v-icon :size="fontSize"> highlight_off </v-icon>
               </v-btn>
               <v-btn
                 flat
@@ -410,11 +302,7 @@
                 class="btn--plain pa-0 ma-0"
                 @click.stop="deleteAlert(props.item.id)"
               >
-                <v-icon
-                  :size="fontSize"
-                >
-                  delete
-                </v-icon>
+                <v-icon :size="fontSize"> delete </v-icon>
               </v-btn>
               <!-- <v-btn
                 flat
@@ -430,10 +318,7 @@
                 </v-icon>
               </v-btn> -->
 
-              <v-menu
-                bottom
-                left
-              >
+              <v-menu bottom left>
                 <v-btn
                   slot="activator"
                   flat
@@ -441,14 +326,10 @@
                   small
                   class="btn--plain pa-0 ma-0"
                 >
-                  <v-icon small>
-                    more_vert
-                  </v-icon>
+                  <v-icon small> more_vert </v-icon>
                 </v-btn>
 
-                <v-list
-                  subheader
-                >
+                <v-list subheader>
                   <v-subheader>Actions</v-subheader>
                   <v-divider />
                   <v-list-tile
@@ -456,7 +337,9 @@
                     :key="i"
                     @click.stop="takeAction(props.item.id, action)"
                   >
-                    <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
+                    <v-list-tile-title>{{
+                      action | splitCaps
+                    }}</v-list-tile-title>
                   </v-list-tile>
                 </v-list>
               </v-menu>
@@ -491,7 +374,7 @@ export default {
       default: () => []
     }
   },
-  data: vm => ({
+  data: (vm) => ({
     search: '',
     headersMap: {
       id: { text: i18n.t('AlertId'), value: 'id' },
@@ -504,7 +387,11 @@ export default {
       service: { text: i18n.t('Service'), value: 'service' },
       group: { text: i18n.t('Group'), value: 'group' },
       value: { text: i18n.t('Value'), value: 'value', class: 'value-header' },
-      text: { text: i18n.t('Description'), value: 'text', class: 'text-header' },
+      text: {
+        text: i18n.t('Description'),
+        value: 'text',
+        class: 'text-header'
+      },
       tags: { text: i18n.t('Tags'), value: 'tags' },
       attributes: { text: i18n.t('Attribute'), value: 'attributes' },
       origin: { text: i18n.t('Origin'), value: 'origin' },
@@ -515,12 +402,21 @@ export default {
       customer: { text: i18n.t('Customer'), value: 'customer' },
       duplicateCount: { text: i18n.t('Dupl'), value: 'duplicateCount' },
       repeat: { text: i18n.t('Repeat'), value: 'repeat' },
-      previousSeverity: { text: i18n.t('PrevSeverity'), value: 'previousSeverity' },
-      trendIndication: { text: i18n.t('TrendIndication'), value: 'trendIndication' },
+      previousSeverity: {
+        text: i18n.t('PrevSeverity'),
+        value: 'previousSeverity'
+      },
+      trendIndication: {
+        text: i18n.t('TrendIndication'),
+        value: 'trendIndication'
+      },
       receiveTime: { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
       duration: { text: i18n.t('Duration'), value: 'duration' },
       lastReceiveId: { text: i18n.t('LastReceiveId'), value: 'lastReceiveId' },
-      lastReceiveTime: { text: i18n.t('LastReceiveTime'), value: 'lastReceiveTime' },
+      lastReceiveTime: {
+        text: i18n.t('LastReceiveTime'),
+        value: 'lastReceiveTime'
+      },
       note: { text: i18n.t('LastNote'), value: 'note', sortable: false }
     },
     details: false,
@@ -576,12 +472,16 @@ export default {
       return this.$config.actions
     },
     customHeaders() {
-      return this.$config.columns.map(c =>
-        this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c }
+      return this.$config.columns.map(
+        (c) =>
+          this.headersMap[c] || {
+            text: this.$options.filters.capitalize(c),
+            value: 'attributes.' + c
+          }
       )
     },
     selectedItem() {
-      return this.alerts.filter(a => a.id == this.selectedId)[0]
+      return this.alerts.filter((a) => a.id == this.selectedId)[0]
     },
     selectableRows() {
       return this.selected.length > 0
@@ -606,7 +506,7 @@ export default {
   },
   watch: {
     rowsPerPage(val) {
-      this.pagination = Object.assign({}, this.pagination, {rowsPerPage: val})
+      this.pagination = Object.assign({}, this.pagination, { rowsPerPage: val })
     }
   },
   methods: {
@@ -614,13 +514,21 @@ export default {
       return moment.duration(moment().diff(moment(item.receiveTime)))
     },
     timeoutLeft(item) {
-      let ackedOrShelved = this.isShelved(item.status) || this.isAcked(item.status)
-      let lastModified = ackedOrShelved && item.updateTime ? item.updateTime : item.lastReceiveTime
+      let ackedOrShelved =
+        this.isShelved(item.status) || this.isAcked(item.status)
+      let lastModified =
+        ackedOrShelved && item.updateTime
+          ? item.updateTime
+          : item.lastReceiveTime
       let expireTime = moment(lastModified).add(item.timeout, 'seconds')
-      return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
+      return expireTime.isAfter()
+        ? expireTime.diff(moment(), 'seconds')
+        : moment.duration()
     },
     lastNote(item) {
-      const note = item.history.filter(h => h.type == 'note' || h.type == 'dismiss').pop()
+      const note = item.history
+        .filter((h) => h.type == 'note' || h.type == 'dismiss')
+        .pop()
       return note && note.type == 'note' ? note.text : ''
     },
     valueWidth() {
@@ -630,7 +538,10 @@ export default {
       return this.$store.getters.getPreference('textWidth')
     },
     textColor(severity) {
-      if (this.severityColor(severity) === 'black' || this.severityColor(severity) === '#000000') {
+      if (
+        this.severityColor(severity) === 'black' ||
+        this.severityColor(severity) === '#000000'
+      ) {
         return 'white--text'
       }
       return this.$store.getters.getConfig('colors').text
@@ -638,7 +549,9 @@ export default {
         : ''
     },
     severityColor(severity) {
-      return this.$store.getters.getConfig('colors').severity[severity] || 'white'
+      return (
+        this.$store.getters.getConfig('colors').severity[severity] || 'white'
+      )
     },
     selectItem(item) {
       if (!this.selected.length) {
@@ -660,36 +573,61 @@ export default {
     isClosed(status) {
       return status == 'closed'
     },
-    takeAction: debounce(function(id, action) {
-      this.$store
-        .dispatch('alerts/takeAction', [id, action, ''])
-        .then(() => this.$store.dispatch('alerts/getAlerts'))
-    }, 200, {leading: true, trailing: false}),
-    ackAlert: debounce(function(id) {
-      this.$store
-        .dispatch('alerts/takeAction', [id, 'ack', '', this.ackTimeout])
-        .then(() => this.$store.dispatch('alerts/getAlerts'))
-    }, 200, {leading: true, trailing: false}),
-    shelveAlert: debounce(function(id) {
-      this.$store
-        .dispatch('alerts/takeAction', [id, 'shelve', '', this.shelveTimeout])
-        .then(() => this.$store.dispatch('alerts/getAlerts'))
-    }, 200, {leading: true, trailing: false}),
-    watchAlert: debounce(function(id) {
-      this.$store
-        .dispatch('alerts/watchAlert', id)
-        .then(() => this.$store.dispatch('alerts/getAlerts'))
-    }, 200, {leading: true, trailing: false}),
-    unwatchAlert: debounce(function(id) {
-      this.$store
-        .dispatch('alerts/unwatchAlert', id)
-        .then(() => this.$store.dispatch('alerts/getAlerts'))
-    }, 200, {leading: true, trailing: false}),
-    deleteAlert: debounce(function(id) {
-      confirm(i18n.t('ConfirmDelete')) &&
-        this.$store.dispatch('alerts/deleteAlert', id)
+    takeAction: debounce(
+      function (id, action) {
+        this.$store
+          .dispatch('alerts/takeAction', [id, action, ''])
           .then(() => this.$store.dispatch('alerts/getAlerts'))
-    }, 200, {leading: true, trailing: false}),
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    ackAlert: debounce(
+      function (id) {
+        this.$store
+          .dispatch('alerts/takeAction', [id, 'ack', '', this.ackTimeout])
+          .then(() => this.$store.dispatch('alerts/getAlerts'))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    shelveAlert: debounce(
+      function (id) {
+        this.$store
+          .dispatch('alerts/takeAction', [id, 'shelve', '', this.shelveTimeout])
+          .then(() => this.$store.dispatch('alerts/getAlerts'))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    watchAlert: debounce(
+      function (id) {
+        this.$store
+          .dispatch('alerts/watchAlert', id)
+          .then(() => this.$store.dispatch('alerts/getAlerts'))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    unwatchAlert: debounce(
+      function (id) {
+        this.$store
+          .dispatch('alerts/unwatchAlert', id)
+          .then(() => this.$store.dispatch('alerts/getAlerts'))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    deleteAlert: debounce(
+      function (id) {
+        confirm(i18n.t('ConfirmDelete')) &&
+          this.$store
+            .dispatch('alerts/deleteAlert', id)
+            .then(() => this.$store.dispatch('alerts/getAlerts'))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
     clipboardCopy(text) {
       let textarea = document.createElement('textarea')
       textarea.textContent = text
@@ -703,7 +641,8 @@ export default {
 </script>
 
 <style>
-.alert-table .v-table th, td {
+.alert-table .v-table th,
+td {
   padding: 0px 5px !important;
 }
 
@@ -717,11 +656,13 @@ export default {
   min-width: var(--text-width);
 }
 
-.comfortable table.v-table tbody td, table.v-table tbody th {
+.comfortable table.v-table tbody td,
+table.v-table tbody th {
   height: 42px !important;
 }
 
-.compact table.v-table tbody td, table.v-table tbody th {
+.compact table.v-table tbody td,
+table.v-table tbody th {
   height: 34px !important;
 }
 
@@ -755,8 +696,6 @@ div.select-box {
 
 .label {
   padding: 1px 4px 2px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
 }
 

@@ -1,12 +1,7 @@
 <template>
   <v-form ref="form">
-    <v-card
-      flat
-      class="pl-3"
-    >
-      <v-card-title
-        class="pb-0"
-      >
+    <v-card flat class="pl-3">
+      <v-card-title class="pb-0">
         <div>
           <div class="headline">
             {{ $t('ApplicationSettings') }}
@@ -14,9 +9,7 @@
         </div>
       </v-card-title>
       <v-card-actions>
-        <v-radio-group
-          class="mt-0"
-        >
+        <v-radio-group class="mt-0">
           <v-checkbox
             v-model="isDark"
             :label="$t('DarkTheme')"
@@ -33,22 +26,14 @@
       </v-card-actions>
     </v-card>
 
-    <v-card
-      flat
-      class="pl-3"
-    >
-      <v-flex
-        sm6
-        md4
-      >
-        <v-card-title
-          class="pb-0"
-        >
+    <v-card flat class="pl-3">
+      <v-flex sm6 md4>
+        <v-card-title class="pb-0">
           <div>
             <div class="headline">
               {{ $t('LanguageSettings') }}
             </div>
-          </div>       
+          </div>
         </v-card-title>
         <v-card-actions>
           <v-layout column>
@@ -61,18 +46,10 @@
         </v-card-actions>
       </v-flex>
     </v-card>
-    
-    <v-card
-      flat
-      class="pl-3"
-    >
-      <v-flex
-        sm6
-        md4
-      >
-        <v-card-title
-          class="pb-0"
-        >
+
+    <v-card flat class="pl-3">
+      <v-flex sm6 md4>
+        <v-card-title class="pb-0">
           <div>
             <div class="headline">
               {{ $t('DateTimeSettings') }}
@@ -109,17 +86,9 @@
       </v-flex>
     </v-card>
 
-    <v-card
-      flat
-      class="pl-3"
-    >
-      <v-flex
-        sm6
-        md4
-      >
-        <v-card-title
-          class="pb-0"
-        >
+    <v-card flat class="pl-3">
+      <v-flex sm6 md4>
+        <v-card-title class="pb-0">
           <div>
             <div class="headline">
               {{ $t('AlertSettings') }}
@@ -127,9 +96,7 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-radio-group
-            class="mt-0"
-          >
+          <v-radio-group class="mt-0">
             <v-checkbox
               v-model="showAllowedEnvs"
               :label="$t('ShowAllowedEnvs')"
@@ -229,17 +196,9 @@
       </v-flex>
     </v-card>
 
-    <v-card
-      flat
-      class="pl-3"
-    >
-      <v-flex
-        sm6
-        md4
-      >
-        <v-card-title
-          class="pb-0"
-        >
+    <v-card flat class="pl-3">
+      <v-flex sm6 md4>
+        <v-card-title class="pb-0">
           <div>
             <div class="headline">
               {{ $t('BlackoutSettings') }}
@@ -247,9 +206,7 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-radio-group
-            class="mt-0"
-          >
+          <v-radio-group class="mt-0">
             <v-checkbox
               v-model="blackoutStartNow"
               :label="$t('BlackoutStartNow')"
@@ -273,17 +230,10 @@
     </v-card>
 
     <v-card flat>
-      <v-flex
-        sm6
-        md4
-      >
+      <v-flex sm6 md4>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="reset"
-          >
+          <v-btn color="blue darken-1" flat @click="reset">
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
@@ -298,7 +248,7 @@ import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
 
 export default {
-  data: vm => ({
+  data: (vm) => ({
     mediumDateFormats: [
       'l',
       'L',
@@ -308,13 +258,13 @@ export default {
       'lll',
       'llll',
       'LLL',
-      'LLLL',
+      'LLLL'
     ],
     longDateFormats: [
       'ddd D MMM, YYYY HH:mm:ss.SSS Z',
       'l hh:mm:ss.SSS A',
       'YYYY-MM-DD HH:mm:ss.SSS Z',
-      'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]',
+      'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'
     ],
     timeFormats: [
       'LT',
@@ -323,25 +273,47 @@ export default {
       'HH:mm',
       'HH:mm:ss',
       'HH:mm:ss.SSS',
-      'HH:mm:ss.SSS Z',
+      'HH:mm:ss.SSS Z'
     ],
     webSafeFontFamilies: [
-      {text: 'Sintony', value: '"Sintony", Arial, sans-serif'},
-      {text: 'Helvetica', value: '"Helvetica", Arial, sans-serif'},
-      {text: 'Verdana', value: '"Verdana", Arial, sans-serif'},
-      {text: 'Courier New', value: '"Courier New", Courier, monospace'},
-      {text: 'Consolas', value: '"Consolas", Courier, monospace'},
-      {text: 'Lucida Console', value: '"Lucida Console", Monaco, monospace'},
-      {text: 'Andale Mono', value: '"Andale Mono", Courier, monospace'}
+      { text: 'Sintony', value: '"Sintony", Arial, sans-serif' },
+      { text: 'Helvetica', value: '"Helvetica", Arial, sans-serif' },
+      { text: 'Verdana', value: '"Verdana", Arial, sans-serif' },
+      { text: 'Courier New', value: '"Courier New", Courier, monospace' },
+      { text: 'Consolas', value: '"Consolas", Courier, monospace' },
+      { text: 'Lucida Console', value: '"Lucida Console", Monaco, monospace' },
+      { text: 'Andale Mono', value: '"Andale Mono", Courier, monospace' }
     ],
-    fontSizeLabels: ['tiny', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'huge'],
-    fontWeightLabels: [ 'thin', '', '', 'normal', '', '', 'bold', '', 'heavy'],
-    valueWidthOptions: [50, 100, 150, 200],  // px
-    textWidthOptions: [200, 400, 600, 800],  // px
-    refreshOptions: [2, 5, 10, 30, 60],  // seconds
-    ackTimeoutOptions: [0, 60, 120, 240, 480, 1440],  // minutes
-    shelveTimeoutOptions: [60, 120, 240, 480, 1440],  // minutes
-    blackoutPeriodOptions: [1, 2, 8, 24, 48],  // hours
+    fontSizeLabels: [
+      'tiny',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      'huge'
+    ],
+    fontWeightLabels: ['thin', '', '', 'normal', '', '', 'bold', '', 'heavy'],
+    valueWidthOptions: [50, 100, 150, 200], // px
+    textWidthOptions: [200, 400, 600, 800], // px
+    refreshOptions: [2, 5, 10, 30, 60], // seconds
+    ackTimeoutOptions: [0, 60, 120, 240, 480, 1440], // minutes
+    shelveTimeoutOptions: [60, 120, 240, 480, 1440], // minutes
+    blackoutPeriodOptions: [1, 2, 8, 24, 48] // hours
   }),
   computed: {
     languages() {
@@ -363,7 +335,7 @@ export default {
         return this.$store.getters.getPreference('languagePref')
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {languagePref: value})
+        this.$store.dispatch('setUserPrefs', { languagePref: value })
       }
     },
     isDark: {
@@ -384,58 +356,62 @@ export default {
     },
     computedDateFormats() {
       moment.locale(i18n.locale)
-      let allDateFormats = [...new Set([
-        this.$store.getters.getConfig('dates').mediumDate,
-        ...this.mediumDateFormats,
-        this.$store.getters.getConfig('dates').longDate,
-        ...this.longDateFormats
-      ])]
-      return allDateFormats.map(f => ({text: moment().format(f), value: f}))
+      let allDateFormats = [
+        ...new Set([
+          this.$store.getters.getConfig('dates').mediumDate,
+          ...this.mediumDateFormats,
+          this.$store.getters.getConfig('dates').longDate,
+          ...this.longDateFormats
+        ])
+      ]
+      return allDateFormats.map((f) => ({ text: moment().format(f), value: f }))
     },
     computedTimeFormats() {
       moment.locale(i18n.locale)
-      let allTimeFormats = [...new Set([
-        this.$store.getters.getConfig('dates').shortTime,
-        ...this.timeFormats,
-      ])]
-      return allTimeFormats.map(f => ({text: moment().format(f), value: f}))
+      let allTimeFormats = [
+        ...new Set([
+          this.$store.getters.getConfig('dates').shortTime,
+          ...this.timeFormats
+        ])
+      ]
+      return allTimeFormats.map((f) => ({ text: moment().format(f), value: f }))
     },
     longDate: {
       get() {
         return (
-          (this.$store.getters.getPreference('dates').longDate ||
-            this.$store.getters.getConfig('dates').longDate)
+          this.$store.getters.getPreference('dates').longDate ||
+          this.$store.getters.getConfig('dates').longDate
         )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {
-          dates: {longDate: value}
+          dates: { longDate: value }
         })
       }
     },
     mediumDate: {
       get() {
         return (
-          (this.$store.getters.getPreference('dates').mediumDate ||
-            this.$store.getters.getConfig('dates').mediumDate)
+          this.$store.getters.getPreference('dates').mediumDate ||
+          this.$store.getters.getConfig('dates').mediumDate
         )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {
-          dates: {mediumDate: value}
+          dates: { mediumDate: value }
         })
       }
     },
     shortTime: {
       get() {
         return (
-          (this.$store.getters.getPreference('dates').shortTime ||
-            this.$store.getters.getConfig('dates').shortTime)
+          this.$store.getters.getPreference('dates').shortTime ||
+          this.$store.getters.getConfig('dates').shortTime
         )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {
-          dates: {shortTime: value}
+          dates: { shortTime: value }
         })
       }
     },
@@ -466,48 +442,52 @@ export default {
       }
     },
     computedFontFamilies() {
-      const defaultFontFamily = this.$store.getters.getConfig('font')['font-family']
+      const defaultFontFamily =
+        this.$store.getters.getConfig('font')['font-family']
       return [
-        {text: defaultFontFamily.split(',')[0].replace(/"/g, ''), value: defaultFontFamily},
+        {
+          text: defaultFontFamily.split(',')[0].replace(/"/g, ''),
+          value: defaultFontFamily
+        },
         ...this.webSafeFontFamilies
       ]
     },
     fontFamily: {
       get() {
         return (
-          (this.$store.getters.getPreference('font')['font-family'] ||
-            this.$store.getters.getConfig('font')['font-family'])
+          this.$store.getters.getPreference('font')['font-family'] ||
+          this.$store.getters.getConfig('font')['font-family']
         )
       },
-      set (value) {
+      set(value) {
         this.$store.dispatch('setUserPrefs', {
-          font: {'font-family': value}
+          font: { 'font-family': value }
         })
       }
     },
     fontSize: {
       get() {
         return (
-          (this.$store.getters.getPreference('font')['font-size'] ||
-            this.$store.getters.getConfig('font')['font-size']).replace('px', '')
-        )
+          this.$store.getters.getPreference('font')['font-size'] ||
+          this.$store.getters.getConfig('font')['font-size']
+        ).replace('px', '')
       },
       set: debounce(function (value) {
         this.$store.dispatch('setUserPrefs', {
-          font: {'font-size': value + 'px'}
+          font: { 'font-size': value + 'px' }
         })
       }, 2000)
     },
     fontWeight: {
       get() {
         return (
-          (this.$store.getters.getPreference('font')['font-weight'] ||
-            this.$store.getters.getConfig('font')['font-weight'])
+          this.$store.getters.getPreference('font')['font-weight'] ||
+          this.$store.getters.getConfig('font')['font-weight']
         )
       },
       set: debounce(function (value) {
         this.$store.dispatch('setUserPrefs', {
-          font: {'font-weight': value}
+          font: { 'font-weight': value }
         })
       }, 2000)
     },
@@ -517,18 +497,20 @@ export default {
     rowsPerPage: {
       get() {
         return (
-          (this.$store.getters.getPreference('rowsPerPage') ||
-            this.$store.state.alerts.pagination.rowsPerPage))
+          this.$store.getters.getPreference('rowsPerPage') ||
+          this.$store.state.alerts.pagination.rowsPerPage
+        )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {rowsPerPage: value})
+        this.$store.dispatch('setUserPrefs', { rowsPerPage: value })
       }
     },
     valueWidth: {
       get() {
         return (
-          (this.$store.getters.getPreference('valueWidth') ||
-            this.$store.getters.getConfig('value_Width')))
+          this.$store.getters.getPreference('valueWidth') ||
+          this.$store.getters.getConfig('value_Width')
+        )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {
@@ -539,8 +521,9 @@ export default {
     textWidth: {
       get() {
         return (
-          (this.$store.getters.getPreference('textWidth') ||
-            this.$store.getters.getConfig('text_Width')))
+          this.$store.getters.getPreference('textWidth') ||
+          this.$store.getters.getConfig('text_Width')
+        )
       },
       set(value) {
         this.$store.dispatch('setUserPrefs', {
@@ -556,7 +539,7 @@ export default {
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {refreshInterval: value * 1000})
+        this.$store.dispatch('setUserPrefs', { refreshInterval: value * 1000 })
       }
     },
     ackTimeout: {
@@ -567,7 +550,7 @@ export default {
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {ackTimeout: value * 60})
+        this.$store.dispatch('setUserPrefs', { ackTimeout: value * 60 })
       }
     },
     shelveTimeout: {
@@ -578,7 +561,7 @@ export default {
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {shelveTimeout: value * 60})
+        this.$store.dispatch('setUserPrefs', { shelveTimeout: value * 60 })
       }
     },
     blackoutStartNow: {
@@ -593,11 +576,15 @@ export default {
       get() {
         return (
           (this.$store.getters.getPreference('blackoutPeriod') ||
-            this.$store.getters.getConfig('blackouts').duration) / 60 / 60
+            this.$store.getters.getConfig('blackouts').duration) /
+          60 /
+          60
         )
       },
       set(value) {
-        this.$store.dispatch('setUserPrefs', {blackoutPeriod: value * 60 * 60})
+        this.$store.dispatch('setUserPrefs', {
+          blackoutPeriod: value * 60 * 60
+        })
       }
     }
   },

@@ -5,9 +5,9 @@ export const fr = {
   Refresh: 'Rafraichir',
   selected: 'sélectionné',
 
-  LogIn: 'S\'identifier',
+  LogIn: "S'identifier",
   LogOut: 'Se déconnecter',
-  SignUp: 'S\'enregistrer',
+  SignUp: "S'enregistrer",
   SignIn: 'Se connecter',
 
   // sidenav
@@ -16,7 +16,7 @@ export const fr = {
   Users: 'Utilisateurs',
   Groups: 'Groupes',
   Customers: 'Clients',
-  Blackouts: 'Gestion des temps d\'arrêts',
+  Blackouts: "Gestion des temps d'arrêts",
   Permissions: 'Permissions',
   APIKeys: 'Clés API',
   Searches: 'Searches',
@@ -28,8 +28,8 @@ export const fr = {
   About: 'A propos',
 
   // more
-  ChooseDisplayDensity: 'Choisir le format d\'affichage',
-  DisplayDensity: 'Format d\'affichage',
+  ChooseDisplayDensity: "Choisir le format d'affichage",
+  DisplayDensity: "Format d'affichage",
   Comfortable: 'Confortable',
   Compact: 'Compact',
   Panel: 'Panneau',
@@ -44,7 +44,7 @@ export const fr = {
   // Preferences store
   SettingsSaved: 'Paramétrage sauvegardé.',
   SettingsReset: 'Paramètres réinitialisés aux valeurs par défaut.',
-  SettingsError: 'Impossible de récupérer les préférences de l\'utilisateur.',
+  SettingsError: "Impossible de récupérer les préférences de l'utilisateur.",
 
   // Users store
   UserStatusSaved: 'Statut utilisateur enregistré.',
@@ -194,7 +194,8 @@ export const fr = {
 
   // Customers
   LookUp: 'Chercher',
-  LookUpDescription: 'Utiliser l\'identifiant, le rôle Keycloak, l\'organisation GitHub, le groupe GitLab ou le domaine de messagerie',
+  LookUpDescription:
+    "Utiliser l'identifiant, le rôle Keycloak, l'organisation GitHub, le groupe GitLab ou le domaine de messagerie",
   NewCustomer: 'Nouveau client',
   EditCustomer: 'Modifier client',
 
@@ -202,7 +203,7 @@ export const fr = {
   AddRemoveUsers: 'Ajouter/Modifier utilisateurs',
   Addusers: 'Ajouter utilisateurs',
   UsersInGroup: 'Utilisateurs du groupe',
-  NumberUsers: 'Nombre d\'utilisateurs',
+  NumberUsers: "Nombre d'utilisateurs",
   NewGroup: 'Nouveau groupe',
   EditGroup: 'Modifier groupe',
 
@@ -227,7 +228,7 @@ export const fr = {
   EditPermission: 'Modifier permission',
 
   // Preferences
-  ApplicationSettings: 'Paramètres d\'application',
+  ApplicationSettings: "Paramètres d'application",
   DarkTheme: 'Thème sombre',
   PlaySounds: 'Son notifications',
   LanguageSettings: 'Paramétrage de la langue',
@@ -240,13 +241,14 @@ export const fr = {
   LongDate: 'Format de date longue',
   MediumDate: 'Format de date moyenne',
   ShortTime: 'Format de temps courte',
-  DisplayMode: 'Mode d\'affichage',
+  DisplayMode: "Mode d'affichage",
   UseLocal: 'Date et heure locale',
   UseUTC: 'Utiliser le temps universel (UTC)',
   AlertSettings: 'Paramétrage des alertes',
   ShowAllowedEnvs: 'Toujours afficher les environnements autorisés',
-  ShowNotesIcon: 'Afficher l\'icône des notes',
-  ShowNotesHint: 'Afficher l\'icône à côté de l\'état de l\'alerte pour indiquer une note d\'opérateur',
+  ShowNotesIcon: "Afficher l'icône des notes",
+  ShowNotesHint:
+    "Afficher l'icône à côté de l'état de l'alerte pour indiquer une note d'opérateur",
   Font: 'Texte',
   FontSize: 'Taille de la police',
   FontWeight: 'Niveaux de graisse',
@@ -260,8 +262,8 @@ export const fr = {
   AckTimeout: 'Durée de mise en affecter',
   ShelveTimeout: 'Durée de mise en attente',
   BlackoutSettings: 'Paramètres de blackout',
-  BlackoutStartNow: 'Commencer immédiatement la période d\'incident',
-  BlackoutPeriod: 'Durée de la période d\'incident',
+  BlackoutStartNow: "Commencer immédiatement la période d'incident",
+  BlackoutPeriod: "Durée de la période d'incident",
   hours: 'heures',
 
   // Profile
@@ -286,7 +288,7 @@ export const fr = {
   Name: 'Nom',
   Value: 'Valeur',
   AvgTime: 'Temps Moyen',
-  
+
   // Users
   Active: 'Actif',
   Inactive: 'Inactif',
@@ -298,16 +300,19 @@ export const fr = {
   LastLogin: 'Dernière connexion',
   NewUser: 'Nouvel utilisateur',
   EditUser: 'Modifier utilisateur',
-  
+
   // Reports
   Top: 'Top',
   Flapping: 'des signaux de présence',
-  Offenders: 'du nombres d\'alerte',
+  Offenders: "du nombres d'alerte",
   Standing: 'des alertes constantes',
-  TopFlappingDescription: 'Sources d\'alerte ayant généré le plus grand nombre de changements de gravité d\'alerte.',
-  TopOffendersDescription: 'Sources d’alerte fréquentes ayant généré le plus grand nombre d’alertes et de doublons d’alerte.',
-  TopStandingDescription: 'Sources d\'alertes obsolètes ayant des alertes actives pendant une durée prolongée.',
-  
+  TopFlappingDescription:
+    "Sources d'alerte ayant généré le plus grand nombre de changements de gravité d'alerte.",
+  TopOffendersDescription:
+    'Sources d’alerte fréquentes ayant généré le plus grand nombre d’alertes et de doublons d’alerte.',
+  TopStandingDescription:
+    "Sources d'alertes obsolètes ayant des alertes actives pendant une durée prolongée.",
+
   Count: 'Compteur',
   DuplCount: 'Doublons',
   Services: 'Services',
@@ -317,16 +322,18 @@ export const fr = {
   Thanks: 'Merci !',
   YouCanNowLogin1: 'Vous pouvez maintenant',
   YouCanNowLogin2: 'login.',
-  EmailConfirmFailed: 'Désolé, un problème est survenu lors de la confirmation de votre email.',
+  EmailConfirmFailed:
+    'Désolé, un problème est survenu lors de la confirmation de votre email.',
   TryAgain: 'Veuillez réessayer',
 
   // User Forgot
-  ResetLink: 'Entrez votre email et nous vous enverrons un lien de réinitialisation',
+  ResetLink:
+    'Entrez votre email et nous vous enverrons un lien de réinitialisation',
   AlreadyHaveAccount: 'Vous avez déjà un compte?',
   CheckEmail: 'Vérifiez votre email pour un lien de réinitialisation...',
   ReturnSignIn: 'Retour à la connexion',
-  ResetEmailSent: 'Réinitialiser l\'email envoyé avec succès!',
- 
+  ResetEmailSent: "Réinitialiser l'email envoyé avec succès!",
+
   // User Login
   LoginToContinue: 'Se connecter à Alerta pour continuer',
   Username: 'Identifiant',
@@ -336,8 +343,8 @@ export const fr = {
   UnspecifiedProblem: 'Désolé, il y a eu un problème',
   AuthWith: 'Authentification avec',
   AuthInProgress: 'Authentification en cours...',
-  AuthNotPossible: 'Désolé, il n\'est pas possible de vous authentifier',
-  AuthProviderUnknown: 'Fournisseur d\'authentification inconnu',
+  AuthNotPossible: "Désolé, il n'est pas possible de vous authentifier",
+  AuthProviderUnknown: "Fournisseur d'authentification inconnu",
 
   // User Logout
   LoggedOut: 'Vous avez été déconnecté.',
@@ -349,7 +356,7 @@ export const fr = {
 
   // User Signup
   CreateAlertaAccount: 'Créez votre compte Alerta',
-  SignUpNotAvailable: 'Désolé, l\'inscription n\'est pas disponible actuellement',
+  SignUpNotAvailable: "Désolé, l'inscription n'est pas disponible actuellement",
   FullName: 'Nom complet',
   Min6Char: '6 caractère minimum',
   PasswordNotMatch: 'Le mot de passe entré ne correspond pas',
@@ -369,8 +376,8 @@ export const fr = {
   Save: 'Sauvegarder',
   NoDisplay: 'Désolé, rien à afficher ici :(',
   SearchNoResult1: 'Votre recherche pour ',
-  SearchNoResult2:  'n\'a trouvée aucun résultat.',
-  OK: 'OK',
+  SearchNoResult2: "n'a trouvée aucun résultat.",
+  OK: 'OK'
 
   // ENDS.
 }

@@ -1,26 +1,12 @@
 <template>
-  <v-container
-    grid-list-sm
-    fill-height
-  >
-    <v-layout
-      align-center
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      >
+  <v-container grid-list-sm fill-height>
+    <v-layout align-center row wrap>
+      <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-xs-center headline font-weight-medium">
           <span v-show="signupEnabled">
             {{ $t('CreateAlertaAccount') }}
           </span>
-          <span
-            v-show="!signupEnabled"
-          >
+          <span v-show="!signupEnabled">
             {{ $t('SignUpNotAvailable') }}
           </span>
         </p>
@@ -92,21 +78,12 @@
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
-          <v-btn
-            flat
-            color="primary"
-            to="/login"
-          >
+          <v-btn flat color="primary" to="/login">
             {{ $t('SignIn') }}
           </v-btn>
         </div>
       </v-flex>
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      />
+      <v-flex xs12 sm8 offset-xs0 offset-sm2 />
     </v-layout>
   </v-container>
 </template>
@@ -116,7 +93,7 @@ import i18n from '@/plugins/i18n'
 
 export default {
   props: [],
-  data: vm => ({
+  data: (vm) => ({
     name: null,
     email: null,
     password: '',
@@ -124,9 +101,9 @@ export default {
     showPassword: false,
     text: null,
     rules: {
-      required: v => !!v || i18n.t('Required'),
-      min: v => (v && v.length >= 6) || i18n.t('Min6Char'),
-      passwordMatch: v =>
+      required: (v) => !!v || i18n.t('Required'),
+      min: (v) => (v && v.length >= 6) || i18n.t('Min6Char'),
+      passwordMatch: (v) =>
         (v && v == vm.password) || i18n.t('PasswordNotMatch')
     }
   }),
@@ -157,8 +134,10 @@ export default {
       }
       this.$store
         .dispatch('auth/signup', credentials)
-        .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
-        .catch(error => {
+        .then(() =>
+          this.$router.push({ path: this.$route.query.redirect || '/' })
+        )
+        .catch((error) => {
           if (error.response.status === 403 && this.emailVerification) {
             this.$router.push({ name: 'login' })
           }

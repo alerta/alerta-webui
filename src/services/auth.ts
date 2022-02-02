@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueAxios from 'vue-axios'
-import {VueAuthenticate} from '@alerta/vue-authenticate'
+import { VueAuthenticate } from '@alerta/vue-authenticate'
 import axios from 'axios'
 
 Vue.use(Vuex)
@@ -12,7 +12,7 @@ function getRedirectUri(path: string) {
 }
 
 export function vueAuth(config) {
-  let basePath = config.base_path || process.env.BASE_URL
+  const basePath = config.base_path || process.env.BASE_URL
   return new VueAuthenticate(Vue.prototype.$http, {
     tokenPath: 'token',
     tokenName: 'token',
@@ -33,7 +33,7 @@ export function vueAuth(config) {
         scope: 'openid+profile+email',
         display: 'popup',
         oauthType: '2.0',
-        popupOptions: {width: 1020, height: 618},
+        popupOptions: { width: 1020, height: 618 },
         state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       cognito: {
@@ -47,7 +47,7 @@ export function vueAuth(config) {
         scope: 'openid+profile+email',
         display: 'popup',
         oauthType: '2.0',
-        popupOptions: {width: 1020, height: 618},
+        popupOptions: { width: 1020, height: 618 },
         state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       github: {
@@ -69,7 +69,7 @@ export function vueAuth(config) {
         scope: ['openid'],
         display: 'popup',
         oauthType: '2.0',
-        popupOptions: {width: 1020, height: 618},
+        popupOptions: { width: 1020, height: 618 },
         state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       google: {
@@ -89,7 +89,7 @@ export function vueAuth(config) {
         scope: 'openid+profile+email',
         display: 'popup',
         oauthType: '2.0',
-        popupOptions: {width: 1020, height: 618},
+        popupOptions: { width: 1020, height: 618 },
         state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       openid: {
@@ -103,7 +103,7 @@ export function vueAuth(config) {
         scope: 'openid+profile+email',
         display: 'popup',
         oauthType: '2.0',
-        popupOptions: {width: 1020, height: 618},
+        popupOptions: { width: 1020, height: 618 },
         state: () => encodeURIComponent(Math.random().toString(36).substr(2))
       },
       pingfederate: {

@@ -27,37 +27,39 @@ const mutations = {
 }
 
 const actions = {
-  getPerms({commit}) {
+  async getPerms({ commit }) {
     commit('SET_LOADING')
     return PermsApi.getPerms({})
-      .then(({permissions}) => commit('SET_PERMS', permissions))
+      .then(({ permissions }) => commit('SET_PERMS', permissions))
       .catch(() => commit('RESET_LOADING'))
   },
-  createPerm({dispatch, commit}, perm) {
-    return PermsApi.createPerm(perm).then(response => {
+  async createPerm({ dispatch, commit }, perm) {
+    return PermsApi.createPerm(perm).then((response) => {
       dispatch('getPerms')
     })
   },
-  updatePerm({dispatch, commit}, [permId, update]) {
-    return PermsApi.updatePerm(permId, update).then(response => {
+  async updatePerm({ dispatch, commit }, [permId, update]) {
+    return PermsApi.updatePerm(permId, update).then((response) => {
       dispatch('getPerms')
     })
   },
-  deletePerm({dispatch, commit}, permId) {
-    return PermsApi.deletePerm(permId).then(response => {
+  async deletePerm({ dispatch, commit }, permId) {
+    return PermsApi.deletePerm(permId).then((response) => {
       dispatch('getPerms')
     })
   },
 
-  getScopes({commit}) {
+  async getScopes({ commit }) {
     commit('SET_LOADING')
-    return PermsApi.getScopes().then(({scopes}) => commit('SET_SCOPES', scopes))
+    return PermsApi.getScopes().then(({ scopes }) =>
+      commit('SET_SCOPES', scopes)
+    )
   }
 }
 
 const getters = {
-  roles: state => {
-    return state.permissions.map(p => p.match)
+  roles: (state) => {
+    return state.permissions.map((p) => p.match)
   }
 }
 

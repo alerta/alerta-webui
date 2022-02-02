@@ -1,15 +1,7 @@
 <template>
   <div>
-    <v-data-table
-      :headers="headers"
-      :items="metrics"
-      class="px-2"
-      hide-actions
-    >
-      <template
-        slot="items"
-        slot-scope="props"
-      >
+    <v-data-table :headers="headers" :items="metrics" class="px-2" hide-actions>
+      <template slot="items" slot-scope="props">
         <td>{{ props.item.title }}</td>
         <td>{{ props.item.type | capitalize }}</td>
         <td>{{ props.item.group }}.{{ props.item.name }}</td>
@@ -19,15 +11,17 @@
     </v-data-table>
 
     <v-data-table
-      :headers="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
+      :headers="[
+        { sortable: false },
+        { sortable: false },
+        { sortable: false },
+        { sortable: false }
+      ]"
       :items="uptime"
       class="px-2"
       hide-actions
     >
-      <template
-        slot="items"
-        slot-scope="props"
-      >
+      <template slot="items" slot-scope="props">
         <td>{{ $t('LastUpdate') }}</td>
         <td>
           <date-time
@@ -37,7 +31,7 @@
           />
         </td>
         <td>{{ $t('Uptime') }}</td>
-        <td>{{ props.item.uptime / 1000 | days }}</td>
+        <td>{{ (props.item.uptime / 1000) | days }}</td>
       </template>
     </v-data-table>
   </div>
@@ -54,11 +48,11 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: i18n.t('Metric'), value: 'title', sortable: false},
-      {text: i18n.t('Type'), value: 'type', sortable: false},
-      {text: i18n.t('Name'), value: 'name', sortable: false},
-      {text: i18n.t('Value'), value: 'value', sortable: false},
-      {text: i18n.t('AvgTime'), value: 'time', sortable: false},
+      { text: i18n.t('Metric'), value: 'title', sortable: false },
+      { text: i18n.t('Type'), value: 'type', sortable: false },
+      { text: i18n.t('Name'), value: 'name', sortable: false },
+      { text: i18n.t('Value'), value: 'value', sortable: false },
+      { text: i18n.t('AvgTime'), value: 'time', sortable: false }
     ]
   }),
   computed: {
@@ -66,10 +60,14 @@ export default {
       return this.$store.state.management.metrics
     },
     uptime() {
-      return [{
-        lastTime: moment(this.$store.state.management.time).utc().toISOString(),
-        uptime: this.$store.state.management.uptime
-      }]
+      return [
+        {
+          lastTime: moment(this.$store.state.management.time)
+            .utc()
+            .toISOString(),
+          uptime: this.$store.state.management.uptime
+        }
+      ]
     },
     refresh() {
       return this.$store.state.refresh

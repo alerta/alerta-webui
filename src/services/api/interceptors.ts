@@ -1,5 +1,5 @@
-import {store} from '@/main'
-import {v4 as uuidv4} from 'uuid'
+import { store } from '@/main'
+import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 
 export function makeInterceptors(router) {
@@ -11,9 +11,12 @@ export function makeInterceptors(router) {
     },
 
     // response handlers
-    interceptErrors(error) {
+    async interceptErrors(error) {
       if (!error.response && !axios.isCancel(error)) {
-        store.dispatch('notifications/error', Error('Problem connecting to Alerta API, retrying...'))
+        store.dispatch(
+          'notifications/error',
+          Error('Problem connecting to Alerta API, retrying...')
+        )
       }
 
       if (error.response) {
@@ -23,7 +26,7 @@ export function makeInterceptors(router) {
     },
 
     // redirect to login if API rejects auth token
-    redirectToLogin(error) {
+    async redirectToLogin(error) {
       if (error.response && error.response.status === 401) {
         if (store.getters['auth/isLoggedIn']) {
           store.dispatch('auth/logout')
@@ -31,7 +34,7 @@ export function makeInterceptors(router) {
         if (router.currentRoute.path != '/login') {
           router.replace({
             path: '/login',
-            query: {redirect: router.currentRoute.fullPath}
+            query: { redirect: router.currentRoute.fullPath }
           })
         }
       }

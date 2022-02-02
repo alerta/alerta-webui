@@ -1,7 +1,7 @@
 import api from './index'
 
 export default {
-  userInfo() {
+  async userInfo() {
     return api.get('/userinfo')
   }
 }

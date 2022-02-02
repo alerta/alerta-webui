@@ -4,9 +4,7 @@
       <v-card-title class="title">
         {{ $t('Reports') }}
         <v-spacer />
-        <v-flex
-          xs1
-        >
+        <v-flex xs1>
           <v-select
             v-model.number="rowsPerPage"
             :items="rowsPerPageItems"
@@ -30,10 +28,7 @@
       <top-standing />
     </v-card>
 
-    <report-filter
-      :value="sidesheet"
-      @close="sidesheet = false"
-    />
+    <report-filter :value="sidesheet" @close="sidesheet = false" />
   </div>
 </template>
 
@@ -60,9 +55,17 @@ export default {
       return this.$store.state.reports.filter
     },
     isActive() {
-      return this.filter.text || this.filter.environment || this.filter.severity
-        || this.filter.status || this.filter.customer || this.filter.service
-        || this.filter.group || this.filter.dateRange[0] || this.filter.dateRange[1]
+      return (
+        this.filter.text ||
+        this.filter.environment ||
+        this.filter.severity ||
+        this.filter.status ||
+        this.filter.customer ||
+        this.filter.service ||
+        this.filter.group ||
+        this.filter.dateRange[0] ||
+        this.filter.dateRange[1]
+      )
     },
     rowsPerPage: {
       get() {
@@ -71,7 +74,7 @@ export default {
       set(value) {
         this.$store.dispatch('reports/setPageSize', value)
       }
-    },
+    }
   }
 }
 </script>

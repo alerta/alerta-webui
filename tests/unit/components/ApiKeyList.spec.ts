@@ -1,9 +1,9 @@
-import {shallowMount} from '@vue/test-utils'
 import ApiKeyList from '@/components/ApiKeyList.vue'
-import Vue from 'vue'
-import Vuex, {Store} from 'vuex'
-import Vuetify from 'vuetify'
 import i18n from '@/plugins/i18n'
+import { shallowMount } from '@vue/test-utils'
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+import Vuex, { Store } from 'vuex'
 
 Vue.config.silent = true
 Vue.use(Vuetify)
@@ -13,7 +13,7 @@ describe('ApiKeyList', () => {
   let store: Store<any>
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = new Store({
       modules: {
         keys: {
           namespaced: true,
@@ -47,7 +47,7 @@ describe('ApiKeyList', () => {
             getKeys() {}
           },
           getters: {
-            pagination: state => {
+            pagination: (state) => {
               return state.pagination
             }
           }
@@ -102,7 +102,7 @@ describe('ApiKeyList', () => {
   it('renders props.msg when passed', () => {
     const msg = 'Sorry, nothing to display here :('
     const wrapper = shallowMount(ApiKeyList, {
-      propsData: {msg},
+      propsData: { msg },
       store,
       i18n,
       mocks: {

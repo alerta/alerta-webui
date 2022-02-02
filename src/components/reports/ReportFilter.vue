@@ -9,43 +9,22 @@
     right
   >
     <v-card tile>
-      <v-toolbar
-        :color="isDark ? '#616161' : '#eeeeee'"
-        card
-        dense
-      >
+      <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" card dense>
         <v-toolbar-title>
           {{ $t('Filters') }}
         </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items />
-        <v-menu
-          bottom
-          right
-          offset-y
-        >
-          <v-btn
-            slot="activator"
-            icon
-            @click="close"
-          >
+        <v-menu bottom right offset-y>
+          <v-btn slot="activator" icon @click="close">
             <v-icon>close</v-icon>
           </v-btn>
         </v-menu>
       </v-toolbar>
 
-      <v-container
-        fluid
-        grid-list-xl
-      >
-        <v-layout
-          align-center
-          wrap
-        >
-          <v-flex
-            xs12
-            class="pb-0"
-          >
+      <v-container fluid grid-list-xl>
+        <v-layout align-center wrap>
+          <v-flex xs12 class="pb-0">
             <v-text-field
               v-model="filterText"
               :label="$t('Search')"
@@ -58,10 +37,7 @@
             />
           </v-flex>
 
-          <v-flex
-            xs12
-            class="pb-0"
-          >
+          <v-flex xs12 class="pb-0">
             <v-autocomplete
               v-model="filterEnvironment"
               :items="allowedEnvironments"
@@ -76,10 +52,7 @@
             />
           </v-flex>
 
-          <v-flex
-            xs12
-            class="pb-0"
-          >
+          <v-flex xs12 class="pb-0">
             <v-select
               v-model="filterSeverity"
               :items="severityList"
@@ -94,10 +67,7 @@
             />
           </v-flex>
 
-          <v-flex
-            xs12
-            class="pb-0"
-          >
+          <v-flex xs12 class="pb-0">
             <v-select
               v-model="filterStatus"
               :items="statusList"
@@ -112,11 +82,7 @@
             />
           </v-flex>
 
-          <v-flex
-            v-if="$config.customer_views"
-            xs12
-            class="pb-0"
-          >
+          <v-flex v-if="$config.customer_views" xs12 class="pb-0">
             <v-select
               v-model="filterCustomer"
               :items="currentCustomers"
@@ -131,10 +97,7 @@
             />
           </v-flex>
 
-          <v-flex
-            xs12
-            class="pb-0"
-          >
+          <v-flex xs12 class="pb-0">
             <v-autocomplete
               v-model="filterService"
               :items="currentServices"
@@ -149,10 +112,7 @@
             />
           </v-flex>
 
-          <v-flex
-            xs12
-            class="pb-0"
-          >
+          <v-flex xs12 class="pb-0">
             <v-select
               v-model="filterGroup"
               :items="currentGroups"
@@ -167,10 +127,7 @@
             />
           </v-flex>
 
-          <v-flex
-            xs12
-            class="pb-0"
-          >
+          <v-flex xs12 class="pb-0">
             <span class="body-2">{{ $t('DateTime') }}</span>
             <v-select
               v-model="filterDateRange"
@@ -185,11 +142,7 @@
             />
           </v-flex>
 
-          <v-flex
-            v-show="showDateRange"
-            xs8
-            class="pb-0 pr-0"
-          >
+          <v-flex v-show="showDateRange" xs8 class="pb-0 pr-0">
             <v-text-field
               v-model="period.startDate"
               :label="$t('StartDate')"
@@ -200,11 +153,7 @@
             />
           </v-flex>
 
-          <v-flex
-            v-show="showDateRange"
-            xs4
-            class="pb-0 pl-1"
-          >
+          <v-flex v-show="showDateRange" xs4 class="pb-0 pl-1">
             <v-text-field
               v-model="period.startTime"
               :label="$t('Time')"
@@ -213,9 +162,7 @@
             />
           </v-flex>
 
-          <v-flex
-            class="pa-0"
-          >
+          <v-flex class="pa-0">
             <v-menu
               ref="menu1"
               v-model="menu1"
@@ -236,11 +183,7 @@
               />
             </v-menu>
           </v-flex>
-          <v-flex
-            v-show="showDateRange"
-            xs8
-            class="pb-0 pr-0"
-          >
+          <v-flex v-show="showDateRange" xs8 class="pb-0 pr-0">
             <v-text-field
               v-model="period.endDate"
               :label="$t('EndDate')"
@@ -251,11 +194,7 @@
             />
           </v-flex>
 
-          <v-flex
-            v-show="showDateRange"
-            xs4
-            class="pb-0 pl-1"
-          >
+          <v-flex v-show="showDateRange" xs4 class="pb-0 pl-1">
             <v-text-field
               v-model="period.endTime"
               :label="$t('Time')"
@@ -263,9 +202,7 @@
               hide-details
             />
           </v-flex>
-          <v-flex
-            class="pa-0"
-          >
+          <v-flex class="pa-0">
             <v-menu
               ref="menu2"
               v-model="menu2"
@@ -290,23 +227,13 @@
       </v-container>
     </v-card>
     <v-card flat>
-      <v-flex
-        xs12
-      >
+      <v-flex xs12>
         <v-card-actions>
-          <v-btn
-            v-show="showDateRange"
-            color="primary"
-            @click="setDateRange"
-          >
+          <v-btn v-show="showDateRange" color="primary" @click="setDateRange">
             {{ $t('Apply') }}
           </v-btn>
           <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            flat
-            @click="reset"
-          >
+          <v-btn color="blue darken-1" flat @click="reset">
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
@@ -326,7 +253,7 @@ export default {
       default: false
     }
   },
-  data: vm => ({
+  data: (vm) => ({
     sidesheet: vm.value,
     active: null,
     pagination: {
@@ -341,7 +268,7 @@ export default {
       startTime: null,
       endDate: null,
       endTime: null
-    },
+    }
   }),
   computed: {
     dateRanges() {
@@ -351,7 +278,7 @@ export default {
         { text: i18n.t('SixHours'), range: [-3600 * 6, null] },
         { text: i18n.t('TwelveHours'), range: [-3600 * 12, null] },
         { divider: true },
-        { text: i18n.t('SelectRange'), range: [0, 0] },
+        { text: i18n.t('SelectRange'), range: [0, 0] }
       ]
     },
     isDark() {
@@ -372,14 +299,14 @@ export default {
     statusList() {
       // FIXME - remove defaultStatusMap from v7.0 onwards
       let defaultStatusMap = {
-        'open': 'A',
-        'assign': 'B',
-        'ack': 'C',
-        'shelved': 'D',
-        'blackout': 'E',
-        'closed': 'F',
-        'expired': 'G',
-        'unknown': 'H'
+        open: 'A',
+        assign: 'B',
+        ack: 'C',
+        shelved: 'D',
+        blackout: 'E',
+        closed: 'F',
+        expired: 'G',
+        unknown: 'H'
       }
       let statusMap = this.$config.alarm_model.status || defaultStatusMap
       return Object.keys(statusMap).sort((a, b) => {
@@ -476,7 +403,7 @@ export default {
           this.period = this.getDateRange(
             this.$store.state.reports.filter.dateRange[0]
               ? this.$store.state.reports.filter.dateRange[0]
-              : moment().unix() - 7 * 24 * 3600,  // 7 days ago
+              : moment().unix() - 7 * 24 * 3600, // 7 days ago
             this.$store.state.reports.filter.dateRange[1]
               ? this.$store.state.reports.filter.dateRange[1]
               : moment().unix()
@@ -541,14 +468,8 @@ export default {
     setDateRange() {
       this.$store.dispatch('reports/setFilter', {
         dateRange: [
-          this.toEpoch(
-            this.period.startDate,
-            this.period.startTime
-          ),
-          this.toEpoch(
-            this.period.endDate,
-            this.period.endTime
-          )
+          this.toEpoch(this.period.startDate, this.period.startTime),
+          this.toEpoch(this.period.endDate, this.period.endTime)
         ]
       })
     },

@@ -90,7 +90,7 @@ const mutations = {
   SET_TAGS(state, tags): any {
     state.tags = tags
   },
-  SET_SETTING(state, {s, v}) {
+  SET_SETTING(state, { s, v }) {
     state[s] = v
   },
   SET_FILTER(state, filter): any {
@@ -105,17 +105,22 @@ const mutations = {
 }
 
 const actions = {
-  getAlerts({rootGetters, commit, state}) {
+  async getAlerts({ rootGetters, commit, state }) {
     commit('SET_LOADING')
     // get "lucene" query params (?q=)
-    let params = new URLSearchParams(state.query)
+    const params = new URLSearchParams(state.query)
 
     // append filter params to query params
-    state.filter.environment && params.append('environment', state.filter.environment)
-    state.filter.status && state.filter.status.map(st => params.append('status', st))
-    state.filter.customer && state.filter.customer.map(c => params.append('customer', c))
-    state.filter.service && state.filter.service.map(s => params.append('service', s))
-    state.filter.group && state.filter.group.map(g => params.append('group', g))
+    state.filter.environment &&
+      params.append('environment', state.filter.environment)
+    state.filter.status &&
+      state.filter.status.map((st) => params.append('status', st))
+    state.filter.customer &&
+      state.filter.customer.map((c) => params.append('customer', c))
+    state.filter.service &&
+      state.filter.service.map((s) => params.append('service', s))
+    state.filter.group &&
+      state.filter.group.map((g) => params.append('group', g))
 
     // add server-side sorting
     let sortBy = state.pagination.sortBy
@@ -124,9 +129,12 @@ const actions = {
     }
 
     if (typeof sortBy === 'string') {
-      params.append('sort-by', (state.pagination.descending ? '-' : '') + sortBy)
+      params.append(
+        'sort-by',
+        (state.pagination.descending ? '-' : '') + sortBy
+      )
     } else {
-      sortBy.map(sb => params.append('sort-by', sb))
+      sortBy.map((sb) => params.append('sort-by', sb))
     }
 
     // need notes from alert history if showing notes icons
@@ -163,81 +171,89 @@ const actions = {
     }
 
     return AlertsApi.getAlerts(params)
-      .then(({alerts, total, pageSize}) => commit('SET_ALERTS', [alerts, total, pageSize]))
+      .then(({ alerts, total, pageSize }) =>
+        commit('SET_ALERTS', [alerts, total, pageSize])
+      )
       .catch(() => commit('RESET_LOADING'))
   },
-  updateQuery({commit}, query) {
+  updateQuery({ commit }, query) {
     commit('SET_SEARCH_QUERY', query)
   },
-  updateKiosk({commit}, isKiosk) {
+  updateKiosk({ commit }, isKiosk) {
     commit('SET_KIOSK', isKiosk)
   },
-  updateSelected({commit}, selected) {
+  updateSelected({ commit }, selected) {
     commit('SET_SELECTED', selected)
   },
 
-  getAlert({commit}, alertId) {
-    return AlertsApi.getAlert(alertId).then(({alert}) => {
+  async getAlert({ commit }, alertId) {
+    return AlertsApi.getAlert(alertId).then(({ alert }) => {
       commit('SET_ALERT', alert)
     })
   },
 
-  watchAlert({commit, dispatch, rootState}, alertId) {
+  async watchAlert({ commit, dispatch, rootState }, alertId) {
     const username = rootState.auth.payload.preferred_username
     const tag = `watch:${username}`
-    return AlertsApi.tagAlert(alertId, {tags: [tag]})
+    return AlertsApi.tagAlert(alertId, { tags: [tag] })
   },
-  unwatchAlert({commit, dispatch, rootState}, alertId) {
+  async unwatchAlert({ commit, dispatch, rootState }, alertId) {
     const username = rootState.auth.payload.preferred_username
     const tag = `watch:${username}`
-    return AlertsApi.untagAlert(alertId, {tags: [tag]})
+    return AlertsApi.untagAlert(alertId, { tags: [tag] })
   },
-  takeAction({commit, dispatch}, [alertId, action, text, timeout]) {
+  async takeAction({ commit, dispatch }, [alertId, action, text, timeout]) {
     return AlertsApi.actionAlert(alertId, {
-      action: action,
-      text: text,
-      timeout: timeout
+      action,
+      text,
+      timeout
     })
   },
-  tagAlert({commit, dispatch}, [alertId, tags]) {
+  async tagAlert({ commit, dispatch }, [alertId, tags]) {
     return AlertsApi.tagAlert(alertId, tags)
   },
-  untagAlert({commit, dispatch}, [alertId, tags]) {
+  async untagAlert({ commit, dispatch }, [alertId, tags]) {
     return AlertsApi.untagAlert(alertId, tags)
   },
 
-  addNote({commit, dispatch}, [alertId, text]) {
+  async addNote({ commit, dispatch }, [alertId, text]) {
     return AlertsApi.addNote(alertId, {
-      text: text
-    }).then(response => dispatch('getAlerts'))
+      text
+    }).then((response) => dispatch('getAlerts'))
   },
-  getNotes({commit}, alertId) {
-    return AlertsApi.getNotes(alertId).then(({notes}) => {
+  async getNotes({ commit }, alertId) {
+    return AlertsApi.getNotes(alertId).then(({ notes }) => {
       commit('SET_NOTES', notes)
     })
   },
-  updateNote({commit, dispatch}, [alertId, noteId, note]) {
+  async updateNote({ commit, dispatch }, [alertId, noteId, note]) {
     return AlertsApi.updateNote(alertId, noteId, {
-      note: note
-    }).then(response => dispatch('getNotes'))
+      note
+    }).then((response) => dispatch('getNotes'))
   },
-  deleteNote({commit, dispatch}, [alertId, noteId]) {
-    return AlertsApi.deleteNote(alertId, noteId).then(response => dispatch('getNotes', [alertId]))
+  async deleteNote({ commit, dispatch }, [alertId, noteId]) {
+    return AlertsApi.deleteNote(alertId, noteId).then((response) =>
+      dispatch('getNotes', [alertId])
+    )
   },
 
-  deleteAlert({commit, dispatch}, alertId) {
+  async deleteAlert({ commit, dispatch }, alertId) {
     return AlertsApi.deleteAlert(alertId)
   },
 
-  getEnvironments({commit, state}) {
+  async getEnvironments({ commit, state }) {
     // get "lucene" query params (?q=)
-    let params = new URLSearchParams(state.query)
+    const params = new URLSearchParams(state.query)
 
     // append filter params to query params
-    state.filter.status && state.filter.status.map(st => params.append('status', st))
-    state.filter.customer && state.filter.customer.map(c => params.append('customer', c))
-    state.filter.service && state.filter.service.map(s => params.append('service', s))
-    state.filter.group && state.filter.group.map(g => params.append('group', g))
+    state.filter.status &&
+      state.filter.status.map((st) => params.append('status', st))
+    state.filter.customer &&
+      state.filter.customer.map((c) => params.append('customer', c))
+    state.filter.service &&
+      state.filter.service.map((s) => params.append('service', s))
+    state.filter.group &&
+      state.filter.group.map((g) => params.append('group', g))
 
     // apply any date/time filters
     if (state.filter.dateRange[0] > 0) {
@@ -263,34 +279,40 @@ const actions = {
       )
     }
 
-    return AlertsApi.getEnvironments(params).then(({environments}) => commit('SET_ENVIRONMENTS', environments))
+    return AlertsApi.getEnvironments(params).then(({ environments }) =>
+      commit('SET_ENVIRONMENTS', environments)
+    )
   },
-  getServices({commit}) {
-    return AlertsApi.getServices({}).then(({services}) => commit('SET_SERVICES', services))
+  async getServices({ commit }) {
+    return AlertsApi.getServices({}).then(({ services }) =>
+      commit('SET_SERVICES', services)
+    )
   },
-  getGroups({commit}) {
-    return AlertsApi.getGroups({}).then(({groups}) => commit('SET_GROUPS', groups))
+  async getGroups({ commit }) {
+    return AlertsApi.getGroups({}).then(({ groups }) =>
+      commit('SET_GROUPS', groups)
+    )
   },
-  getTags({commit}) {
-    return AlertsApi.getTags({}).then(({tags}) => commit('SET_TAGS', tags))
+  async getTags({ commit }) {
+    return AlertsApi.getTags({}).then(({ tags }) => commit('SET_TAGS', tags))
   },
 
-  toggle({commit}, [s, v]) {
-    commit('SET_SETTING', {s, v})
+  toggle({ commit }, [s, v]) {
+    commit('SET_SETTING', { s, v })
   },
-  set({commit}, [s, v]) {
-    commit('SET_SETTING', {s, v})
+  set({ commit }, [s, v]) {
+    commit('SET_SETTING', { s, v })
   },
-  setFilter({commit}, filter) {
+  setFilter({ commit }, filter) {
     commit('SET_FILTER', filter)
   },
-  resetFilter({commit, rootState}) {
+  resetFilter({ commit, rootState }) {
     commit('SET_FILTER', rootState.config.filter)
   },
-  setPagination({commit}, pagination) {
+  setPagination({ commit }, pagination) {
     commit('SET_PAGINATION', pagination)
   },
-  setPanel({commit}, panel) {
+  setPanel({ commit }, panel) {
     commit('SET_PANEL', panel)
   }
 }
@@ -300,7 +322,7 @@ const getters = {
     if (state.isWatch) {
       const username = rootState.auth.payload.preferred_username
       const tag = `watch:${username}`
-      return state.alerts.filter(a => a.tags.includes(tag))
+      return state.alerts.filter((a) => a.tags.includes(tag))
     } else {
       return state.alerts
     }
@@ -310,36 +332,39 @@ const getters = {
     (showAllowedEnvs = true) => {
       if (showAllowedEnvs) {
         return [
-          ...new Set([...(rootState.config.environments || []), ...state.environments.map(e => e.environment)])
+          ...new Set([
+            ...(rootState.config.environments || []),
+            ...state.environments.map((e) => e.environment)
+          ])
         ].sort()
       }
-      return state.environments.map(e => e.environment).sort()
+      return state.environments.map((e) => e.environment).sort()
     },
-  counts: state => {
+  counts: (state) => {
     return state.environments.reduce(
       (grp, e) => {
         grp[e.environment] = e.count
         grp['ALL'] = grp['ALL'] + e.count
         return grp
       },
-      {ALL: 0}
+      { ALL: 0 }
     )
   },
-  services: state => {
-    return state.services.map(s => s.service).sort()
+  services: (state) => {
+    return state.services.map((s) => s.service).sort()
   },
-  groups: state => {
-    return state.groups.map(g => g.group).sort()
+  groups: (state) => {
+    return state.groups.map((g) => g.group).sort()
   },
-  tags: state => {
-    return state.tags.map(t => t.tag).sort()
+  tags: (state) => {
+    return state.tags.map((t) => t.tag).sort()
   },
-  getHash: state => {
-    let filterHash = utils.toHash(state.filter)
-    let sortBy = state.pagination.sortBy ? state.pagination.sortBy : 'default'
-    let descending = state.pagination.descending ? 1 : 0
-    let paginationHash = `sb:${sortBy};sd:${descending}`
-    let asiHash = `asi:${state.showPanel ? 1 : 0}`
+  getHash: (state) => {
+    const filterHash = utils.toHash(state.filter)
+    const sortBy = state.pagination.sortBy ? state.pagination.sortBy : 'default'
+    const descending = state.pagination.descending ? 1 : 0
+    const paginationHash = `sb:${sortBy};sd:${descending}`
+    const asiHash = `asi:${state.showPanel ? 1 : 0}`
     return `#${filterHash};${paginationHash};${asiHash}`
   }
 }

@@ -1,19 +1,13 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="manifest"
-    class="px-2"
-    hide-actions
-  >
-    <template
-      slot="items"
-      slot-scope="props"
-    >
+  <v-data-table :headers="headers" :items="manifest" class="px-2" hide-actions>
+    <template slot="items" slot-scope="props">
       <td class="text-xs-center">
         {{ version }}
       </td>
       <td>
-        <span class="hidden-sm-and-down">{{ application | capitalize }} {{ $t('API') }} </span>{{ props.item.release }}
+        <span class="hidden-sm-and-down"
+          >{{ application | capitalize }} {{ $t('API') }} </span
+        >{{ props.item.release }}
       </td>
       <td>{{ props.item.build }}</td>
       <td>
@@ -25,31 +19,24 @@
       </td>
       <td>
         <span class="hidden-sm-and-down">{{ props.item.revision }}</span>
-        <span class="show-md-and-up">{{ props.item.revision.substring(0, 7) }}</span>
+        <span class="show-md-and-up">{{
+          props.item.revision.substring(0, 7)
+        }}</span>
         <a
           :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
           target="_blank"
         >
           <v-tooltip right>
             {{ $t('OpenGitHub') }}
-            <v-icon
-              slot="activator"
-              small
-            >launch</v-icon>
+            <v-icon slot="activator" small>launch</v-icon>
           </v-tooltip>
         </a>
       </td>
       <td>
-        <a
-          :href="$config.endpoint"
-          target="_blank"
-        >
+        <a :href="$config.endpoint" target="_blank">
           <span class="monospace">{{ $config.endpoint }}</span>
         </a>
-        <v-tooltip
-          :key="copyIconText"
-          top
-        >
+        <v-tooltip :key="copyIconText" top>
           <v-icon
             slot="activator"
             small
@@ -75,12 +62,12 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: i18n.t('WebUI'), value: 'version', sortable: false},
-      {text: i18n.t('API'), value: 'release', sortable: false},
-      {text: i18n.t('Build'), value: 'build', sortable: false},
-      {text: i18n.t('Date'), value: 'date', sortable: false},
-      {text: i18n.t('GitRevision'), value: 'revision', sortable: false},
-      {text: i18n.t('APIEndpoint'), value: 'endpoint', sortable: false}
+      { text: i18n.t('WebUI'), value: 'version', sortable: false },
+      { text: i18n.t('API'), value: 'release', sortable: false },
+      { text: i18n.t('Build'), value: 'build', sortable: false },
+      { text: i18n.t('Date'), value: 'date', sortable: false },
+      { text: i18n.t('GitRevision'), value: 'revision', sortable: false },
+      { text: i18n.t('APIEndpoint'), value: 'endpoint', sortable: false }
     ],
     manifest: [],
     copyIconText: i18n.t('Copy')
@@ -102,8 +89,9 @@ export default {
     }
   },
   created() {
-    this.getManifest()
-      .then(() => this.manifest = Array.of(this.$store.state.management.manifest))
+    this.getManifest().then(
+      () => (this.manifest = Array.of(this.$store.state.management.manifest))
+    )
   },
   methods: {
     getManifest() {

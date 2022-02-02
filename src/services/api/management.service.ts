@@ -1,13 +1,13 @@
 import api from './index'
 
 export default {
-  manifest() {
+  async manifest() {
     return api.get('/management/manifest')
   },
-  healthcheck() {
+  async healthcheck() {
     return api.get('/management/healthcheck')
   },
-  status() {
+  async status() {
     return api.get('/management/status')
   }
 }

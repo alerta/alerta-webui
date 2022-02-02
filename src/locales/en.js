@@ -194,7 +194,8 @@ export const en = {
 
   // Customers
   LookUp: 'Look Up',
-  LookUpDescription: 'Use login, Keycloak role, GitHub org, GitLab group or email domain',
+  LookUpDescription:
+    'Use login, Keycloak role, GitHub org, GitLab group or email domain',
   NewCustomer: 'New Customer',
   EditCustomer: 'Edit Customer',
 
@@ -304,10 +305,13 @@ export const en = {
   Flapping: 'Flapping',
   Offenders: 'Offenders',
   Standing: 'Standing',
-  TopFlappingDescription: 'Chattering and fleeting alert sources that have generated the most number of alert severity changes.',
-  TopOffendersDescription: 'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
-  TopStandingDescription: 'Stale alert sources that have active alerts for a prolonged duration.',
-  
+  TopFlappingDescription:
+    'Chattering and fleeting alert sources that have generated the most number of alert severity changes.',
+  TopOffendersDescription:
+    'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
+  TopStandingDescription:
+    'Stale alert sources that have active alerts for a prolonged duration.',
+
   Count: 'Count',
   DuplCount: 'Dupl. Count',
   Services: 'Services',
@@ -317,11 +321,12 @@ export const en = {
   Thanks: 'Thanks!',
   YouCanNowLogin1: 'You can now',
   YouCanNowLogin2: 'login.',
-  EmailConfirmFailed: 'Sorry, there was a problem confirming your email address',
+  EmailConfirmFailed:
+    'Sorry, there was a problem confirming your email address',
   TryAgain: 'Please try again',
 
   // User Forgot
-  ResetLink: 'Enter your email and we\'ll send you a reset link',
+  ResetLink: "Enter your email and we'll send you a reset link",
   AlreadyHaveAccount: 'Already have an account?',
   CheckEmail: 'Check your email for a reset link...',
   ReturnSignIn: 'Return to Sign In',
@@ -352,7 +357,7 @@ export const en = {
   SignUpNotAvailable: 'Sorry, sign up is not currently available',
   FullName: 'Full Name',
   Min6Char: 'Min 6 characters',
-  PasswordNotMatch: 'Passwords entered don\'t match',
+  PasswordNotMatch: "Passwords entered don't match",
 
   // Labels
   scope: 'scope',
@@ -370,7 +375,7 @@ export const en = {
   NoDisplay: 'Sorry, nothing to display here :(',
   SearchNoResult1: 'Your search for ',
   SearchNoResult2: 'found no results.',
-  OK: 'OK',
+  OK: 'OK'
 
   // ENDS.
 }

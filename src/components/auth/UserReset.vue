@@ -1,19 +1,7 @@
 <template>
-  <v-container
-    grid-list-sm
-    fill-height
-  >
-    <v-layout
-      align-center
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      >
+  <v-container grid-list-sm fill-height>
+    <v-layout align-center row wrap>
+      <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-xs-center headline font-weight-medium">
           <span>{{ $t('ChooseNewPassword') }}</span>
         </p>
@@ -36,11 +24,7 @@
             outline
             @click:append="showPassword = !showPassword"
           />
-          <v-btn
-            block
-            color="primary"
-            type="submit"
-          >
+          <v-btn block color="primary" type="submit">
             {{ $t('ResetPassword') }}
           </v-btn>
         </v-form>
@@ -48,21 +32,12 @@
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
-          <v-btn
-            flat
-            color="primary"
-            to="/login"
-          >
+          <v-btn flat color="primary" to="/login">
             {{ $t('SignIn') }}
           </v-btn>
         </div>
       </v-flex>
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      />
+      <v-flex xs12 sm8 offset-xs0 offset-sm2 />
     </v-layout>
   </v-container>
 </template>

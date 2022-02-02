@@ -2,10 +2,10 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 
 // import file language from @/locales
-import {en} from '@/locales/en'
-import {fr} from '@/locales/fr'
-import {de} from '@/locales/de'
-import {tr} from '@/locales/tr'
+import { en } from '@/locales/en'
+import { fr } from '@/locales/fr'
+import { de } from '@/locales/de'
+import { tr } from '@/locales/tr'
 
 Vue.use(VueI18n)
 
@@ -17,7 +17,8 @@ const loadLocaleMessages = {
 }
 
 // variable navigator language
-let language = (navigator.languages && navigator.languages[0]) || navigator.language
+let language =
+  (navigator.languages && navigator.languages[0]) || navigator.language
 
 if (language.length > 2) {
   language = language.split('-')[0]

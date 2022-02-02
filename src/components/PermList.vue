@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      max-width="500px"
-    >
+    <v-dialog v-model="dialog" max-width="500px">
       <v-form ref="form">
         <v-card>
           <v-card-title>
@@ -15,17 +12,14 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
-                  xs12
-                  sm6
-                  md12
-                >
+                <v-flex xs12 sm6 md12>
                   <v-chip
                     v-show="editedItem.match"
                     close
                     @click="editedItem.match = null"
                   >
-                    <strong>{{ editedItem.match }}</strong>&nbsp;
+                    <strong>{{ editedItem.match }}</strong
+                    >&nbsp;
                     <span>({{ $t('role') }})</span>
                   </v-chip>
                 </v-flex>
@@ -35,11 +29,7 @@
                   :rules="[rules.required]"
                   required
                 />
-                <v-flex
-                  xs12
-                  sm6
-                  md12
-                >
+                <v-flex xs12 sm6 md12>
                   <v-autocomplete
                     v-model="editedItem.scopes"
                     :items="allowedScopes"
@@ -49,15 +39,10 @@
                     solo
                     multiple
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                      >
-                        <strong>{{ data.item }}</strong>&nbsp;
+                    <template slot="selection" slot-scope="data">
+                      <v-chip :selected="data.selected" close>
+                        <strong>{{ data.item }}</strong
+                        >&nbsp;
                         <span>({{ $t('scope') }})</span>
                       </v-chip>
                     </template>
@@ -69,18 +54,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="close"
-            >
+            <v-btn color="blue darken-1" flat @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="validate"
-            >
+            <v-btn color="blue darken-1" flat @click="validate">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -92,10 +69,7 @@
       <v-card-title class="title">
         {{ $t('Permissions') }}
         <v-spacer />
-        <v-flex
-          xs3
-          class="mr-3 pt-3"
-        >
+        <v-flex xs3 class="mr-3 pt-3">
           <v-autocomplete
             v-model="wantScopes"
             :items="scopes"
@@ -103,15 +77,10 @@
             chips
             multiple
           >
-            <template
-              slot="selection"
-              slot-scope="data"
-            >
-              <v-chip
-                :selected="data.selected"
-                close
-              >
-                <strong>{{ data.item }}</strong>&nbsp;
+            <template slot="selection" slot-scope="data">
+              <v-chip :selected="data.selected" close>
+                <strong>{{ data.item }}</strong
+                >&nbsp;
                 <span>({{ $t('scope') }})</span>
               </v-chip>
             </template>
@@ -140,13 +109,11 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
+        <template slot="items" slot-scope="props">
           <td>
             <v-chip small>
-              <strong>{{ props.item.match }}</strong>&nbsp;
+              <strong>{{ props.item.match }}</strong
+              >&nbsp;
               <span>({{ $t('role') }})</span>
             </v-chip>
             <v-tooltip top>
@@ -161,12 +128,9 @@
             </v-tooltip>
           </td>
           <td>
-            <v-chip
-              v-for="scope in props.item.scopes"
-              :key="scope"
-              small
-            >
-              <strong>{{ scope }}</strong>&nbsp;
+            <v-chip v-for="scope in props.item.scopes" :key="scope" small>
+              <strong>{{ scope }}</strong
+              >&nbsp;
               <span>({{ $t('scope') }})</span>
             </v-chip>
           </td>
@@ -178,12 +142,7 @@
               :disabled="systemRoles.includes(props.item.match)"
               @click="editItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                edit
-              </v-icon>
+              <v-icon small color="grey darken-3"> edit </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:perms'"
@@ -192,39 +151,22 @@
               :disabled="systemRoles.includes(props.item.match)"
               @click="deleteItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                delete
-              </v-icon>
+              <v-icon small color="grey darken-3"> delete </v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
+          <v-alert :value="true" color="error" icon="warning">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
 
-    <list-button-add
-      perms="admin:perms"
-      @add-to-list="dialog = true"
-    />
+    <list-button-add perms="admin:perms" @add-to-list="dialog = true" />
   </div>
 </template>
 
@@ -265,7 +207,7 @@ export default {
       scopes: []
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: (v) => !!v || i18n.t('Required')
     }
   }),
   computed: {
@@ -314,15 +256,17 @@ export default {
       this.wantScopes = scopes
     },
     customFilter(items, search, filter) {
-      items = items.filter(item =>
-        this.wantScopes.length > 0 ? item.scopes.some(x => this.wantScopes.includes(x)) : item
+      items = items.filter((item) =>
+        this.wantScopes.length > 0
+          ? item.scopes.some((x) => this.wantScopes.includes(x))
+          : item
       )
 
       if (search.trim() === '') return items
 
-      return items.filter(i => (
-        Object.keys(i).some(j => filter(i[j], search))
-      ))
+      return items.filter((i) =>
+        Object.keys(i).some((j) => filter(i[j], search))
+      )
     },
     editItem(item) {
       this.editedId = item.id

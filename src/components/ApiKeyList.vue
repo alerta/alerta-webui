@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      max-width="500px"
-    >
+    <v-dialog v-model="dialog" max-width="500px">
       <v-form ref="form">
         <v-card>
           <v-card-title>
@@ -15,13 +12,8 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
-                  xs12
-                >
-                  <v-tooltip
-                    :key="copyIconText"
-                    right
-                  >
+                <v-flex xs12>
+                  <v-tooltip :key="copyIconText" right>
                     <v-text-field
                       v-if="editedItem.key"
                       slot="activator"
@@ -35,39 +27,28 @@
                     <span>{{ copyIconText }}</span>
                   </v-tooltip>
                 </v-flex>
-                <v-flex
-                  v-if="!isAdmin"
-                  xs12
-                >
+                <v-flex v-if="!isAdmin" xs12>
                   <v-text-field
                     v-model="editedItem.user"
                     :label="$t('User')"
                     readonly
                   />
                 </v-flex>
-                <v-flex
-                  v-if="isAdmin"
-                  xs12
-                >
+                <v-flex v-if="isAdmin" xs12>
                   <v-select
                     v-model="editedItem.user"
                     :items="users"
                     :label="$t('User')"
                   />
                 </v-flex>
-                <v-flex
-                  v-if="$config.customer_views"
-                  xs12
-                >
+                <v-flex v-if="$config.customer_views" xs12>
                   <v-select
                     v-model="editedItem.customer"
                     :items="allowedCustomers"
                     :label="$t('Customer')"
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-autocomplete
                     v-model="editedItem.scopes"
                     :items="allowedScopes"
@@ -77,23 +58,16 @@
                     solo
                     multiple
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                      >
-                        <strong>{{ data.item }}</strong>&nbsp;
+                    <template slot="selection" slot-scope="data">
+                      <v-chip :selected="data.selected" close>
+                        <strong>{{ data.item }}</strong
+                        >&nbsp;
                         <span>({{ $t('scope') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-menu
                     v-model="menu"
                     :close-on-content-click="false"
@@ -118,9 +92,7 @@
                     />
                   </v-menu>
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.text"
                     label="Comment"
@@ -132,18 +104,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="close"
-            >
+            <v-btn color="blue darken-1" flat @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="save"
-            >
+            <v-btn color="blue darken-1" flat @click="save">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -155,30 +119,16 @@
       <v-card-title class="title">
         {{ $t('APIKeys') }}
         <v-spacer />
-        <v-btn-toggle
-          v-model="status"
-          class="transparent"
-          multiple
-        >
-          <v-btn
-            value="active"
-            flat
-          >
+        <v-btn-toggle v-model="status" class="transparent" multiple>
+          <v-btn value="active" flat>
             <v-tooltip bottom>
-              <v-icon slot="activator">
-                check_circle
-              </v-icon>
+              <v-icon slot="activator"> check_circle </v-icon>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn
-            value="expired"
-            flat
-          >
+          <v-btn value="expired" flat>
             <v-tooltip bottom>
-              <v-icon slot="activator">
-                error_outline
-              </v-icon>
+              <v-icon slot="activator"> error_outline </v-icon>
               <span>{{ $t('Expired') }}</span>
             </v-tooltip>
           </v-btn>
@@ -204,23 +154,14 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
-          <td
-            class="text-no-wrap"
-            monospace
-          >
+        <template slot="items" slot-scope="props">
+          <td class="text-no-wrap" monospace>
             {{ props.item.key }}
-            <v-tooltip
-              :key="copyIconText"
-              top
-            >
+            <v-tooltip :key="copyIconText" top>
               <v-icon
                 slot="activator"
                 :value="props.item.key"
-                style="font-size: 16px;"
+                style="font-size: 16px"
                 @click="clipboardCopy(props.item.key)"
               >
                 content_copy
@@ -229,28 +170,14 @@
             </v-tooltip>
           </td>
           <td>
-            <v-tooltip
-              v-if="!isExpired(props.item.expireTime)"
-              top
-            >
-              <v-icon
-                slot="activator"
-                color="primary"
-                small
-              >
+            <v-tooltip v-if="!isExpired(props.item.expireTime)" top>
+              <v-icon slot="activator" color="primary" small>
                 check_circle
               </v-icon>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
-            <v-tooltip
-              v-if="isExpired(props.item.expireTime)"
-              top
-            >
-              <v-icon
-                slot="activator"
-                color="error"
-                small
-              >
+            <v-tooltip v-if="isExpired(props.item.expireTime)" top>
+              <v-icon slot="activator" color="error" small>
                 error_outline
               </v-icon>
               <span>{{ $t('Expired') }}</span>
@@ -258,31 +185,21 @@
           </td>
           <td>{{ props.item.user }}</td>
           <td>
-            <v-chip
-              v-for="scope in props.item.scopes"
-              :key="scope"
-              small
-            >
-              <strong>{{ scope }}</strong>&nbsp;
+            <v-chip v-for="scope in props.item.scopes" :key="scope" small>
+              <strong>{{ scope }}</strong
+              >&nbsp;
               <span>({{ $t('scope') }})</span>
             </v-chip>
           </td>
           <td>{{ props.item.text }}</td>
           <td>
-            <date-time
-              :value="props.item.expireTime"
-              format="mediumDate"
-            />
+            <date-time :value="props.item.expireTime" format="mediumDate" />
           </td>
-          <td
-            class="text-xs-center"
-          >
+          <td class="text-xs-center">
             {{ props.item.count }}
           </td>
           <td>{{ props.item.lastUsedTime | timeago }}</td>
-          <td
-            v-if="$config.customer_views"
-          >
+          <td v-if="$config.customer_views">
             {{ props.item.customer }}
           </td>
           <td class="text-no-wrap">
@@ -292,12 +209,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                edit
-              </v-icon>
+              <v-icon small color="grey darken-3"> edit </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:keys'"
@@ -305,12 +217,7 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                delete
-              </v-icon>
+              <v-icon small color="grey darken-3"> delete </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:keys'"
@@ -319,39 +226,22 @@
               icon
               class="btn--plain mx-0"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                get_app
-              </v-icon>
+              <v-icon small color="grey darken-3"> get_app </v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
+          <v-alert :value="true" color="error" icon="warning">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
 
-    <list-button-add
-      perms="write:keys"
-      @add-to-list="dialog = true"
-    />
+    <list-button-add perms="write:keys" @add-to-list="dialog = true" />
   </div>
 </template>
 
@@ -367,7 +257,7 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data: vm => ({
+  data: (vm) => ({
     descending: true,
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40, 50],
@@ -412,13 +302,18 @@ export default {
   }),
   computed: {
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter((h) =>
+        !this.$config.customer_views ? h.value != 'customer' : true
+      )
     },
     keys() {
-      return this.$store.state.keys.keys.filter(k => !this.status || this.status.includes(this.statusFromExpireTime(k)))
+      return this.$store.state.keys.keys.filter(
+        (k) =>
+          !this.status || this.status.includes(this.statusFromExpireTime(k))
+      )
     },
     users() {
-      return this.$store.state.users.users.map(u => u.login)
+      return this.$store.state.users.users.map((u) => u.login)
     },
     allowedScopes() {
       return utils.getAllowedScopes(

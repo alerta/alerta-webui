@@ -2,13 +2,13 @@ import bootstrap from './services/config'
 
 import Vue from 'vue'
 
-import {createStore} from './store'
-import {createRouter} from './router'
-import {sync} from 'vuex-router-sync'
+import { createStore } from './store'
+import { createRouter } from './router'
+import { sync } from 'vuex-router-sync'
 import axios from 'axios'
-import {makeStore} from '@/store/modules/auth.store'
-import {makeInterceptors} from '@/services/api/interceptors'
-import {vueAuth} from '@/services/auth'
+import { makeStore } from '@/store/modules/auth.store'
+import { makeInterceptors } from '@/services/api/interceptors'
+import { vueAuth } from '@/services/auth'
 import GoogleAnalytics from '@/plugins/analytics'
 import i18n from '@/plugins/i18n'
 
@@ -28,7 +28,7 @@ import '@/filters/until'
 
 export const store = createStore()
 
-bootstrap.getConfig().then(config => {
+bootstrap.getConfig().then((config) => {
   const router = createRouter(config.base_path)
 
   Vue.prototype.$config = config

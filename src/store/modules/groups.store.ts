@@ -35,39 +35,39 @@ const mutations = {
 }
 
 const actions = {
-  getGroups({commit}) {
+  async getGroups({ commit }) {
     commit('SET_LOADING')
     return GroupsApi.getGroups({})
-      .then(({groups}) => commit('SET_GROUPS', groups))
+      .then(({ groups }) => commit('SET_GROUPS', groups))
       .catch(() => commit('RESET_LOADING'))
   },
-  getGroup({commit}, groupId) {
-    return GroupsApi.getGroup(groupId).then(({group}) => {
+  async getGroup({ commit }, groupId) {
+    return GroupsApi.getGroup(groupId).then(({ group }) => {
       commit('SET_GROUP', group)
     })
   },
-  getGroupUsers({commit}, groupId) {
+  async getGroupUsers({ commit }, groupId) {
     commit('SET_LOADING')
     return GroupsApi.getGroupUsers(groupId)
-      .then(({users}) => commit('SET_GROUP_USERS', users))
+      .then(({ users }) => commit('SET_GROUP_USERS', users))
       .catch(() => commit('RESET_LOADING'))
   },
-  clearGroupUsers({commit}) {
+  clearGroupUsers({ commit }) {
     commit('RESET_GROUP_USERS')
   },
-  createGroup({dispatch, commit}, group) {
-    return GroupsApi.createGroup(group).then(response => {
+  async createGroup({ dispatch, commit }, group) {
+    return GroupsApi.createGroup(group).then((response) => {
       dispatch('getGroups')
     })
   },
-  updateGroup({dispatch, commit}, [groupId, update]) {
-    return GroupsApi.updateGroup(groupId, update).then(response => {
+  async updateGroup({ dispatch, commit }, [groupId, update]) {
+    return GroupsApi.updateGroup(groupId, update).then((response) => {
       dispatch('getGroups')
     })
   },
-  addUserToGroup({dispatch, commit}, [groupId, userId]) {
+  async addUserToGroup({ dispatch, commit }, [groupId, userId]) {
     return GroupsApi.addUserToGroup(groupId, userId)
-      .then(response => {
+      .then((response) => {
         dispatch('getGroupUsers', groupId)
       })
       .then(() =>
@@ -76,9 +76,9 @@ const actions = {
         })
       )
   },
-  removeUserFromGroup({dispatch, commit}, [groupId, userId]) {
+  async removeUserFromGroup({ dispatch, commit }, [groupId, userId]) {
     return GroupsApi.removeUserFromGroup(groupId, userId)
-      .then(response => {
+      .then((response) => {
         dispatch('getGroupUsers', groupId)
       })
       .then(() =>
@@ -87,8 +87,8 @@ const actions = {
         })
       )
   },
-  deleteGroup({dispatch, commit}, groupId) {
-    return GroupsApi.deleteGroup(groupId).then(response => {
+  async deleteGroup({ dispatch, commit }, groupId) {
+    return GroupsApi.deleteGroup(groupId).then((response) => {
       dispatch('getGroups')
     })
   }

@@ -31,25 +31,25 @@ const mutations = {
 }
 
 const actions = {
-  getUsers({commit}) {
+  async getUsers({ commit }) {
     commit('SET_LOADING')
     return UsersApi.getUsers({})
-      .then(({users}) => commit('SET_USERS', users))
+      .then(({ users }) => commit('SET_USERS', users))
       .catch(() => commit('RESET_LOADING'))
   },
-  createUser({dispatch, commit}, user) {
-    return UsersApi.createUser(user).then(response => {
+  async createUser({ dispatch, commit }, user) {
+    return UsersApi.createUser(user).then((response) => {
       dispatch('getUsers')
     })
   },
-  updateUser({dispatch, commit}, [userId, update]) {
-    return UsersApi.updateUser(userId, update).then(response => {
+  async updateUser({ dispatch, commit }, [userId, update]) {
+    return UsersApi.updateUser(userId, update).then((response) => {
       dispatch('getUsers')
     })
   },
-  setUserStatus({dispatch, commit}, [userId, status]) {
-    return UsersApi.updateUser(userId, {status: status})
-      .then(response => {
+  async setUserStatus({ dispatch, commit }, [userId, status]) {
+    return UsersApi.updateUser(userId, { status })
+      .then((response) => {
         dispatch('getUsers')
       })
       .then(() =>
@@ -58,22 +58,26 @@ const actions = {
         })
       )
   },
-  setEmailVerified({dispatch, commit}, [userId, emailVerified]) {
-    return UsersApi.updateUser(userId, {email_verified: emailVerified})
-      .then(response => {
+  async setEmailVerified({ dispatch, commit }, [userId, emailVerified]) {
+    return UsersApi.updateUser(userId, { email_verified: emailVerified })
+      .then((response) => {
         dispatch('getUsers')
       })
-      .then(() => dispatch('notifications/success', i18n.t('EmailSaved'), {root: true}))
+      .then(() =>
+        dispatch('notifications/success', i18n.t('EmailSaved'), { root: true })
+      )
   },
-  deleteUser({dispatch, commit}, userId) {
-    return UsersApi.deleteUser(userId).then(response => {
+  async deleteUser({ dispatch, commit }, userId) {
+    return UsersApi.deleteUser(userId).then((response) => {
       dispatch('getUsers')
     })
   },
-  getUserGroups({dispatch, commit}, userId) {
-    return UsersApi.getGroups(userId).then(({groups}) => commit('SET_USER_GROUPS', groups))
+  async getUserGroups({ dispatch, commit }, userId) {
+    return UsersApi.getGroups(userId).then(({ groups }) =>
+      commit('SET_USER_GROUPS', groups)
+    )
   },
-  resetUserGroups({commit}) {
+  resetUserGroups({ commit }) {
     commit('RESET_USER_GROUPS')
   }
 }

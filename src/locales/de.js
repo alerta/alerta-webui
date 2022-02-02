@@ -194,7 +194,8 @@ export const de = {
 
   // Customers
   LookUp: 'Nachschlagen',
-  LookUpDescription: 'Nutze Login, Keycloak Rolle, GitHub org, GitLab Gruppe oder E-Mail-Domain',
+  LookUpDescription:
+    'Nutze Login, Keycloak Rolle, GitHub org, GitLab Gruppe oder E-Mail-Domain',
   NewCustomer: 'Neuer Kunde',
   EditCustomer: 'Bearbeite Kunde',
 
@@ -246,7 +247,8 @@ export const de = {
   AlertSettings: 'Meldungseinstellungen',
   ShowAllowedEnvs: 'Zeigen Sie immer zulässige Umgebungen an',
   ShowNotesIcon: 'Notizen-Symbol anzeigen',
-  ShowNotesHint: 'Symbol neben Alarmstatus anzeigen, um eine Bedienernotiz anzuzeigen',
+  ShowNotesHint:
+    'Symbol neben Alarmstatus anzeigen, um eine Bedienernotiz anzuzeigen',
   Font: 'Schrift',
   FontSize: 'Schriftgröße',
   FontWeight: 'Stärke',
@@ -304,10 +306,13 @@ export const de = {
   Flapping: 'Flapping',
   Offenders: 'Offenders',
   Standing: 'Standing',
-  TopFlappingDescription: 'Chattering and fleeting alert sources that have generated the most number of alert severity changes.',
-  TopOffendersDescription: 'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
-  TopStandingDescription: 'Stale alert sources that have active alerts for a prolonged duration.',
-  
+  TopFlappingDescription:
+    'Chattering and fleeting alert sources that have generated the most number of alert severity changes.',
+  TopOffendersDescription:
+    'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
+  TopStandingDescription:
+    'Stale alert sources that have active alerts for a prolonged duration.',
+
   Count: 'Anzahl',
   DuplCount: 'Dupl. Anzahl',
   Services: 'Services',
@@ -317,7 +322,8 @@ export const de = {
   Thanks: 'Danke!',
   YouCanNowLogin1: 'Sie können sich jetzt',
   YouCanNowLogin2: 'anmelden.',
-  EmailConfirmFailed: 'Entschuldigung, es gab ein Problem bei der Verifizierung Ihrer E-Mail-Adresse',
+  EmailConfirmFailed:
+    'Entschuldigung, es gab ein Problem bei der Verifizierung Ihrer E-Mail-Adresse',
   TryAgain: 'Bitte erneut versuchen',
 
   // User Forgot
@@ -370,7 +376,7 @@ export const de = {
   NoDisplay: 'Entschuldigung, hier gibt es nichts zu sehen :(',
   SearchNoResult1: 'Ihre Suche nach ',
   SearchNoResult2: 'hat nichts gefunden.',
-  OK: 'OK',
+  OK: 'OK'
 
   // ENDS.
 }

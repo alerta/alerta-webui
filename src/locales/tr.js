@@ -196,7 +196,8 @@ export const tr = {
 
   // Customers
   LookUp: 'Ara',
-  LookUpDescription: 'Use login, Keycloak role, GitHub org, GitLab group or email domain',
+  LookUpDescription:
+    'Use login, Keycloak role, GitHub org, GitLab group or email domain',
   NewCustomer: 'Yeni Müşteri',
   EditCustomer: 'Müşteri Düzenle',
   // Groups
@@ -214,7 +215,7 @@ export const tr = {
 
   // Manifest
   API: 'API',
-  OpenGitHub: 'GitHub\'da Aç',
+  OpenGitHub: "GitHub'da Aç",
   WebUI: 'Web Arayüzü',
   Build: 'Build',
   Date: 'Tarih',
@@ -248,7 +249,8 @@ export const tr = {
   AlertSettings: 'Uyarı özet ayarları',
   ShowAllowedEnvs: 'İzin verilen ortamları her zaman göster',
   ShowNotesIcon: 'Notlar ikonunu göster',
-  ShowNotesHint: 'Operatör notu olduğunu göstermek için uyarı durumu yanında ikon kullan',
+  ShowNotesHint:
+    'Operatör notu olduğunu göstermek için uyarı durumu yanında ikon kullan',
   Font: 'Font',
   FontSize: 'Font Boyu',
   FontWeight: 'Font Ağırlığı',
@@ -306,10 +308,13 @@ export const tr = {
   Flapping: 'Flapping',
   Offenders: 'Offenders',
   Standing: 'Standing',
-  TopFlappingDescription: 'Chattering and fleeting alert sources that have generated the most number of alert severity changes.',
-  TopOffendersDescription: 'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
-  TopStandingDescription: 'Stale alert sources that have active alerts for a prolonged duration.',
-  
+  TopFlappingDescription:
+    'Chattering and fleeting alert sources that have generated the most number of alert severity changes.',
+  TopOffendersDescription:
+    'Frequently occurring alert sources that have generated the most number of alerts and alert duplicates.',
+  TopStandingDescription:
+    'Stale alert sources that have active alerts for a prolonged duration.',
+
   Count: 'Sayı',
   DuplCount: 'Mükerrer Sayısı',
   Services: 'Servisler',
@@ -319,7 +324,8 @@ export const tr = {
   Thanks: 'Teşekkürler!',
   YouCanNowLogin1: 'Şimdi',
   YouCanNowLogin2: 'oturum açabilirsiniz.',
-  EmailConfirmFailed: 'Üzgünüz, e-posta adresinizi teyit ederken bir hata oluştu.',
+  EmailConfirmFailed:
+    'Üzgünüz, e-posta adresinizi teyit ederken bir hata oluştu.',
   TryAgain: 'Lütfen tekrar deneyin',
 
   // User Forgot
@@ -330,7 +336,7 @@ export const tr = {
   ResetEmailSent: 'Yenileme e-postası başarıyla gönderildi!',
 
   // User Login
-  LoginToContinue: 'Devam etmek için Alerta\'da oturum aç',
+  LoginToContinue: "Devam etmek için Alerta'da oturum aç",
   Username: 'Kullanıcı Adı:',
   Password: 'Parola',
   CreateAccount: 'Hesap Oluştur',
@@ -373,7 +379,7 @@ export const tr = {
   SearchNoResult1: 'Arama yaptığınız terim ',
   SearchNoResult2: 'için sonuç bulunamadı.',
   // two above paraphrased together to break at the right place. sounds awkward of course
-  OK: 'OK',
+  OK: 'OK'
 
   // ENDS.
 }

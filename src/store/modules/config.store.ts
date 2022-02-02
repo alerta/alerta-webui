@@ -63,13 +63,13 @@ const mutations = {
 }
 
 const actions = {
-  updateConfig({commit}, config) {
+  updateConfig({ commit }, config) {
     commit('SET_CONFIG', config)
   }
 }
 
 const getters = {
-  getConfig: state => setting => {
+  getConfig: (state) => (setting) => {
     return state[setting]
   }
 }

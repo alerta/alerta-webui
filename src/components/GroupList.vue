@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      v-model="listbox"
-      max-width="500px"
-    >
+    <v-dialog v-model="listbox" max-width="500px">
       <v-form ref="form">
         <v-card>
           <v-card-title>
@@ -15,9 +12,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
-                  xs9
-                >
+                <v-flex xs9>
                   <v-autocomplete
                     v-model="selected"
                     :disabled="isLoading"
@@ -87,7 +82,11 @@
 
               <v-list-tile-action>
                 <v-icon>
-                  {{ item.status == 'active' ? 'remove_circle' : 'remove_circle_outline' }}
+                  {{
+                    item.status == 'active'
+                      ? 'remove_circle'
+                      : 'remove_circle_outline'
+                  }}
                 </v-icon>
               </v-list-tile-action>
             </v-list-tile>
@@ -95,22 +94,13 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="close"
-            >
-              Close
-            </v-btn>
+            <v-btn color="blue darken-1" flat @click="close"> Close </v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
     </v-dialog>
 
-    <v-dialog
-      v-model="dialog"
-      max-width="500px"
-    >
+    <v-dialog v-model="dialog" max-width="500px">
       <v-form ref="form">
         <v-card>
           <v-card-title>
@@ -122,17 +112,14 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
-                  xs12
-                  sm6
-                  md12
-                >
+                <v-flex xs12 sm6 md12>
                   <v-chip
                     v-show="editedItem.name"
                     close
                     @click="editedItem.name = null"
                   >
-                    <strong>{{ editedItem.name }}</strong>&nbsp;
+                    <strong>{{ editedItem.name }}</strong
+                    >&nbsp;
                     <span>({{ $t('group') }})</span>
                   </v-chip>
                 </v-flex>
@@ -142,9 +129,7 @@
                   :rules="[rules.required]"
                   required
                 />
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Description')"
@@ -156,18 +141,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="close"
-            >
+            <v-btn color="blue darken-1" flat @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="validate"
-            >
+            <v-btn color="blue darken-1" flat @click="validate">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -199,10 +176,7 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
+        <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
           <td class="text-xs-left">
             {{ props.item.text }}
@@ -217,12 +191,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                edit
-              </v-icon>
+              <v-icon small color="grey darken-3"> edit </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:groups'"
@@ -230,12 +199,7 @@
               class="btn--plain mr-0"
               @click="addRemoveUsers(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                person_add
-              </v-icon>
+              <v-icon small color="grey darken-3"> person_add </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:groups'"
@@ -243,30 +207,16 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                delete
-              </v-icon>
+              <v-icon small color="grey darken-3"> delete </v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
+          <v-alert :value="true" color="error" icon="warning">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
@@ -288,7 +238,7 @@ export default {
   components: {
     ListButtonAdd
   },
-  data: vm => ({
+  data: (vm) => ({
     descending: true,
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40, 50],
@@ -317,7 +267,7 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: (v) => !!v || i18n.t('Required')
     },
     groupId: null,
     groupName: '',

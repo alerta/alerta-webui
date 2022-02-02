@@ -32,7 +32,7 @@ export function makeStore(vueAuth) {
     },
 
     actions: {
-      signup({commit, dispatch}, {name, email, password, text}) {
+      signup({ commit, dispatch }, { name, email, password, text }) {
         commit('SET_SENDING')
         return vueAuth
           .register({
@@ -41,47 +41,53 @@ export function makeStore(vueAuth) {
             password,
             text
           })
-          .then(() => commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()]))
-          .then(() => dispatch('getUserPrefs', {}, {root: true}))
+          .then(() =>
+            commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()])
+          )
+          .then(() => dispatch('getUserPrefs', {}, { root: true }))
           .finally(() => commit('RESET_SENDING'))
       },
-      login({commit, dispatch}, credentials) {
+      login({ commit, dispatch }, credentials) {
         return vueAuth
           .login(credentials)
-          .then(() => commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()]))
-          .then(() => dispatch('getUserPrefs', {}, {root: true}))
-          .catch(error => {
+          .then(() =>
+            commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()])
+          )
+          .then(() => dispatch('getUserPrefs', {}, { root: true }))
+          .catch((error) => {
             throw error
           })
       },
-      authenticate({commit, dispatch}, provider) {
+      authenticate({ commit, dispatch }, provider) {
         return vueAuth
           .authenticate(provider)
-          .then(() => commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()]))
-          .then(() => dispatch('getUserPrefs', {}, {root: true}))
-          .catch(error => {
+          .then(() =>
+            commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()])
+          )
+          .then(() => dispatch('getUserPrefs', {}, { root: true }))
+          .catch((error) => {
             throw error
           })
       },
-      setToken({commit, dispatch}, token) {
+      setToken({ commit, dispatch }, token) {
         vueAuth.setToken(token)
         commit('SET_AUTH', [token, vueAuth.getPayload()])
-        dispatch('getUserPrefs', {}, {root: true})
+        dispatch('getUserPrefs', {}, { root: true })
       },
-      confirm({commit}, token) {
+      async confirm({ commit }, token) {
         return AuthApi.confirm(token)
       },
-      forgot({commit}, email) {
+      async forgot({ commit }, email) {
         commit('SET_SENDING')
         return AuthApi.forgot(email).finally(() => commit('RESET_SENDING'))
       },
-      reset({commit}, [token, password]) {
+      async reset({ commit }, [token, password]) {
         return AuthApi.reset(token, password)
       },
-      logout({commit}) {
+      logout({ commit }) {
         return vueAuth
           .logout()
-          .then(response => {
+          .then((response) => {
             return response
           })
           .finally(() => commit('RESET_AUTH'))
@@ -105,10 +111,14 @@ export function makeStore(vueAuth) {
         return state.payload && state.payload.picture
       },
       scopes(state) {
-        return state.payload && state.payload.scope ? state.payload.scope.split(' ') : []
+        return state.payload && state.payload.scope
+          ? state.payload.scope.split(' ')
+          : []
       },
       customers(state) {
-        return state.payload.customers && state.payload.customers.length == 0 ? ['ALL (*)'] : state.payload.customers
+        return state.payload.customers && state.payload.customers.length == 0
+          ? ['ALL (*)']
+          : state.payload.customers
       },
       isAdmin(state, getters) {
         if (getters.isLoggedIn) {

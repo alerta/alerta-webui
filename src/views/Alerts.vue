@@ -1,14 +1,8 @@
 <template>
   <div class="alerts">
-    <audio
-      ref="audio"
-      :src="audioURL"
-    />
+    <audio ref="audio" :src="audioURL" />
 
-    <v-dialog
-      v-model="densityDialog"
-      max-width="340px"
-    >
+    <v-dialog v-model="densityDialog" max-width="340px">
       <v-form ref="form">
         <v-card>
           <v-card-title class="justify-center">
@@ -34,11 +28,7 @@
           </v-card-actions>
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="ok"
-            >
+            <v-btn color="blue darken-1" flat @click="ok">
               {{ $t('OK') }}
             </v-btn>
           </v-card-actions>
@@ -47,10 +37,7 @@
     </v-dialog>
 
     <v-expand-transition>
-      <div
-        v-if="showPanel"
-        class="px-1"
-      >
+      <div v-if="showPanel" class="px-1">
         <v-layout wrap>
           <v-flex
             v-for="(indicator, index) in indicators"
@@ -59,21 +46,14 @@
             sm6
             md3
           >
-            <alert-indicator
-              :title="indicator.text"
-              :query="indicator.query"
-            />
+            <alert-indicator :title="indicator.text" :query="indicator.query" />
           </v-flex>
         </v-layout>
         <v-divider />
       </div>
     </v-expand-transition>
 
-    <v-tabs
-      v-model="currentTab"
-      class="px-1"
-      grow
-    >
+    <v-tabs v-model="currentTab" class="px-1" grow>
       <v-tab
         v-for="env in environments"
         :key="env"
@@ -92,15 +72,8 @@
         <v-icon>filter_list</v-icon>
       </v-btn>
 
-      <v-menu
-        bottom
-        left
-      >
-        <v-btn
-          slot="activator"
-          flat
-          icon
-        >
+      <v-menu bottom left>
+        <v-btn slot="activator" flat icon>
           <v-icon>more_vert</v-icon>
         </v-btn>
 
@@ -113,14 +86,10 @@
               {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('Panel') }}
             </v-list-tile-title>
           </v-list-tile>
-          <v-list-tile
-            @click="densityDialog = true"
-          >
+          <v-list-tile @click="densityDialog = true">
             {{ $t('DisplayDensity') }}
           </v-list-tile>
-          <v-list-tile
-            @click="toCsv(alertsByEnvironment)"
-          >
+          <v-list-tile @click="toCsv(alertsByEnvironment)">
             {{ $t('DownloadAsCsv') }}
           </v-list-tile>
         </v-list>
@@ -128,9 +97,7 @@
 
       <span class="pr-2" />
 
-      <v-tabs-items
-        v-model="currentTab"
-      >
+      <v-tabs-items v-model="currentTab">
         <v-tab-item
           v-for="env in environments"
           :key="env"
@@ -149,10 +116,7 @@
       </v-tabs-items>
     </v-tabs>
 
-    <alert-list-filter
-      :value="sidesheet"
-      @close="sidesheet = false"
-    />
+    <alert-list-filter :value="sidesheet" @close="sidesheet = false" />
   </div>
 </template>
 
@@ -197,49 +161,73 @@ export default {
   }),
   computed: {
     audioURL() {
-      return this.$config.audio.new || this.$store.getters.getPreference('audioURL')
+      return (
+        this.$config.audio.new || this.$store.getters.getPreference('audioURL')
+      )
     },
     defaultTab() {
-      return this.filter.environment ? `tab-${this.filter.environment}` : 'tab-ALL'
+      return this.filter.environment
+        ? `tab-${this.filter.environment}`
+        : 'tab-ALL'
     },
     filter() {
       return this.$store.state.alerts.filter
     },
     isActive() {
-      return this.filter.text || this.filter.status || this.filter.customer || this.filter.service || this.filter.group || this.filter.dateRange[0] || this.filter.dateRange[1]
+      return (
+        this.filter.text ||
+        this.filter.status ||
+        this.filter.customer ||
+        this.filter.service ||
+        this.filter.group ||
+        this.filter.dateRange[0] ||
+        this.filter.dateRange[1]
+      )
     },
     indicators() {
-      return this.$config.indicators ? this.$config.indicators.queries  : []
+      return this.$config.indicators ? this.$config.indicators.queries : []
     },
     alerts() {
       if (this.filter) {
-        return this.$store.getters['alerts/alerts']
-          .filter(alert =>
-            this.filter.text
-              ? Object.keys(alert).some(k => alert[k] && alert[k].toString().toLowerCase().includes(this.filter.text.toLowerCase()))
-              : true
-          )
+        return this.$store.getters['alerts/alerts'].filter((alert) =>
+          this.filter.text
+            ? Object.keys(alert).some(
+                (k) =>
+                  alert[k] &&
+                  alert[k]
+                    .toString()
+                    .toLowerCase()
+                    .includes(this.filter.text.toLowerCase())
+              )
+            : true
+        )
       } else {
         return this.$store.getters['alerts/alerts']
       }
     },
     isNewOpenAlerts() {
       return this.alerts
-        .filter(alert => this.filter.environment ? this.filter.environment == alert.environment : true)
-        .filter(alert => alert.status == 'open')
+        .filter((alert) =>
+          this.filter.environment
+            ? this.filter.environment == alert.environment
+            : true
+        )
+        .filter((alert) => alert.status == 'open')
         .reduce((acc, alert) => acc || !alert.repeat, false)
     },
     showAllowedEnvs() {
       return this.$store.getters.getPreference('showAllowedEnvs')
     },
     environments() {
-      return ['ALL'].concat(this.$store.getters['alerts/environments'](this.showAllowedEnvs))
+      return ['ALL'].concat(
+        this.$store.getters['alerts/environments'](this.showAllowedEnvs)
+      )
     },
     environmentCounts() {
       return this.$store.getters['alerts/counts']
     },
     alertsByEnvironment() {
-      return this.alerts.filter(alert =>
+      return this.alerts.filter((alert) =>
         this.filter.environment
           ? alert.environment === this.filter.environment
           : true
@@ -280,7 +268,7 @@ export default {
       },
       set(value) {
         if (this.isLoggedIn) {
-          this.$store.dispatch('setUserPrefs', {displayDensity: value})
+          this.$store.dispatch('setUserPrefs', { displayDensity: value })
         } else {
           this.$store.dispatch('alerts/set', ['displayDensity', value])
         }
@@ -306,7 +294,8 @@ export default {
     pagination: {
       handler(newVal, oldVal) {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
-        if (oldVal.page != newVal.page ||
+        if (
+          oldVal.page != newVal.page ||
           oldVal.rowsPerPage != newVal.rowsPerPage ||
           oldVal.sortBy != newVal.sortBy ||
           oldVal.descending != newVal.descending
@@ -317,7 +306,7 @@ export default {
       }
     },
     refresh(val) {
-      val || this.getAlerts() && this.getEnvironments()
+      val || (this.getAlerts() && this.getEnvironments())
     },
     showPanel(val) {
       history.pushState(null, null, this.$store.getters['alerts/getHash'])
@@ -351,7 +340,9 @@ export default {
         customer: filter.customer ? filter.customer.split(',') : null,
         service: filter.service ? filter.service.split(',') : null,
         group: filter.group ? filter.group.split(',') : null,
-        dateRange: filter.dateRange ? filter.dateRange.split(',').map(n => n ? parseInt(n) : null) : [null, null]
+        dateRange: filter.dateRange
+          ? filter.dateRange.split(',').map((n) => (n ? parseInt(n) : null))
+          : [null, null]
       })
     },
     setSort(sort) {
@@ -361,7 +352,7 @@ export default {
       })
     },
     setPage(page) {
-      this.$store.dispatch('alerts/setPagination', {page: page})
+      this.$store.dispatch('alerts/setPagination', { page: page })
     },
     setPanel(panel) {
       this.$store.dispatch('alerts/setPanel', panel.asi == '1')
@@ -388,11 +379,13 @@ export default {
     },
     refreshAlerts() {
       this.getEnvironments()
-      this.getAlerts()
-        .then(() => {
-          this.isNewOpenAlerts && this.playSound()
-          this.timer = setTimeout(() => this.refreshAlerts(), this.refreshInterval)
-        })
+      this.getAlerts().then(() => {
+        this.isNewOpenAlerts && this.playSound()
+        this.timer = setTimeout(
+          () => this.refreshAlerts(),
+          this.refreshInterval
+        )
+      })
     },
     cancelTimer() {
       if (this.timer) {
@@ -412,20 +405,36 @@ export default {
         showLabels: true,
         useTextFile: false,
         useBom: true,
-        useKeysAsHeaders: true,
+        useKeysAsHeaders: true
       }
       let attrs = {}
-      data.map(d => Object.keys(d.attributes).forEach((attr) => attrs['attributes.'+attr] = d.attributes[attr]))
+      data.map((d) =>
+        Object.keys(d.attributes).forEach(
+          (attr) => (attrs['attributes.' + attr] = d.attributes[attr])
+        )
+      )
 
       const csvExporter = new ExportToCsv(options)
-      csvExporter.generateCsv(data.map(({ correlate, service, tags, attributes, rawData, history, ...item }) => ({
-        correlate: correlate.join(','),
-        service: service.join(','),
-        tags: tags.join(','),
-        ...attrs,
-        ...item,
-        rawData: rawData ? rawData.toString() : ''
-      })))
+      csvExporter.generateCsv(
+        data.map(
+          ({
+            correlate,
+            service,
+            tags,
+            attributes,
+            rawData,
+            history,
+            ...item
+          }) => ({
+            correlate: correlate.join(','),
+            service: service.join(','),
+            tags: tags.join(','),
+            ...attrs,
+            ...item,
+            rawData: rawData ? rawData.toString() : ''
+          })
+        )
+      )
     }
   }
 }
@@ -436,7 +445,7 @@ export default {
   background-color: rgb(255, 82, 82);
   border-radius: 50%;
   box-sizing: border-box;
-  content: " ";
+  content: ' ';
   height: 8px;
   position: absolute;
   right: 7px;

@@ -3,41 +3,22 @@
     <v-card-title class="title">
       {{ $t('Heartbeats') }}
       <v-spacer />
-      <v-btn-toggle
-        v-model="status"
-        class="transparent"
-        multiple
-      >
-        <v-btn
-          value="ok"
-          flat
-        >
+      <v-btn-toggle v-model="status" class="transparent" multiple>
+        <v-btn value="ok" flat>
           <v-tooltip bottom>
-            <v-icon slot="activator">
-              check_circle
-            </v-icon>
+            <v-icon slot="activator"> check_circle </v-icon>
             <span>{{ $t('OK') }}</span>
           </v-tooltip>
         </v-btn>
-        <v-btn
-          value="slow"
-          flat
-        >
+        <v-btn value="slow" flat>
           <v-tooltip bottom>
-            <v-icon slot="activator">
-              access_time
-            </v-icon>
+            <v-icon slot="activator"> access_time </v-icon>
             <span>{{ $t('Slow') }}</span>
           </v-tooltip>
         </v-btn>
-        <v-btn
-          value="expired"
-          flat
-        >
+        <v-btn value="expired" flat>
           <v-tooltip bottom>
-            <v-icon slot="activator">
-              timer_off
-            </v-icon>
+            <v-icon slot="activator"> timer_off </v-icon>
             <span>{{ $t('Expired') }}</span>
           </v-tooltip>
         </v-btn>
@@ -63,49 +44,29 @@
       must-sort
       sort-icon="arrow_drop_down"
     >
-      <template
-        slot="items"
-        slot-scope="props"
-      >
+      <template slot="items" slot-scope="props">
         <td>{{ props.item.origin }}</td>
-        <td
-          v-if="$config.customer_views"
-        >
+        <td v-if="$config.customer_views">
           {{ props.item.customer }}
         </td>
         <td>
-          <v-chip
-            v-for="tag in props.item.tags"
-            :key="tag"
-            label
-            small
-          >
-            <v-icon left>
-              label
-            </v-icon>{{ tag }}
+          <v-chip v-for="tag in props.item.tags" :key="tag" label small>
+            <v-icon left> label </v-icon>{{ tag }}
           </v-chip>
         </td>
         <td>
           {{ props.item.attributes }}
         </td>
         <td>
-          <date-time
-            :value="props.item.createTime"
-            format="mediumDate"
-          />
+          <date-time :value="props.item.createTime" format="mediumDate" />
         </td>
         <td>
-          <date-time
-            :value="props.item.receiveTime"
-            format="mediumDate"
-          />
+          <date-time :value="props.item.receiveTime" format="mediumDate" />
         </td>
         <td>
           {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
         </td>
-        <td
-          class="text-xs-center text-no-wrap"
-        >
+        <td class="text-xs-center text-no-wrap">
           {{ timeoutLeft(props.item) | hhmmss }}
         </td>
         <td>
@@ -123,30 +84,16 @@
             class="btn--plain mr-0"
             @click="deleteItem(props.item)"
           >
-            <v-icon
-              small
-              color="grey darken-3"
-            >
-              delete
-            </v-icon>
+            <v-icon small color="grey darken-3"> delete </v-icon>
           </v-btn>
         </td>
       </template>
       <template slot="no-data">
-        <v-alert
-          :value="true"
-          color="error"
-          icon="warning"
-        >
+        <v-alert :value="true" color="error" icon="warning">
           {{ $t('NoDisplay') }}
         </v-alert>
       </template>
-      <v-alert
-        slot="no-results"
-        :value="true"
-        color="error"
-        icon="warning"
-      >
+      <v-alert slot="no-results" :value="true" color="error" icon="warning">
         {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
       </v-alert>
     </v-data-table>
@@ -190,10 +137,14 @@ export default {
   }),
   computed: {
     heartbeats() {
-      return this.$store.state.heartbeats.heartbeats.filter(hb => !this.status || this.status.includes(hb.status))
+      return this.$store.state.heartbeats.heartbeats.filter(
+        (hb) => !this.status || this.status.includes(hb.status)
+      )
     },
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter((h) =>
+        !this.$config.customer_views ? h.value != 'customer' : true
+      )
     },
     isLoading() {
       return this.$store.state.heartbeats.isLoading
@@ -213,7 +164,9 @@ export default {
   methods: {
     timeoutLeft(item) {
       let expireTime = moment(item.createTime).add(item.timeout, 'seconds')
-      return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
+      return expireTime.isAfter()
+        ? expireTime.diff(moment(), 'seconds')
+        : moment.duration()
     },
     getHeartbeats() {
       this.$store.dispatch('heartbeats/getHeartbeats')

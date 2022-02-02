@@ -1,15 +1,10 @@
 <template>
-  <v-card
-    class="alert-indicator"
-    @click="selectAsi()"
-  >
+  <v-card class="alert-indicator" @click="selectAsi()">
     <v-card-text
       class="pa-0"
       :style="{ 'background-color': severityColor(maxSeverity) }"
     >
-      <div
-        class="text-uppercase text-xs-center py-2"
-      >
+      <div class="text-uppercase text-xs-center py-2">
         {{ title }}
       </div>
     </v-card-text>
@@ -20,14 +15,8 @@
     >
       <v-layout>
         <v-flex>
-          <div
-            class="counts-container"
-          >
-            <v-layout
-              v-if="counts"
-              align-start
-              justify-space-between
-            >
+          <div class="counts-container">
+            <v-layout v-if="counts" align-start justify-space-between>
               <div
                 v-for="severity in $config.indicators.severity"
                 :key="severity"
@@ -54,7 +43,7 @@ export default {
       default: ''
     },
     query: {
-      type: [ String, Array, Object ],  // URLSearchParams
+      type: [String, Array, Object], // URLSearchParams
       default: ''
     }
   },
@@ -113,31 +102,38 @@ export default {
       })
     },
     severityColor(severity) {
-      return this.counts && this.counts[severity] > 0 ? this.$store.getters.getConfig('colors').severity[severity] : 'transparent'
+      return this.counts && this.counts[severity] > 0
+        ? this.$store.getters.getConfig('colors').severity[severity]
+        : 'transparent'
     },
     getCounts() {
-      return AlertsApi.getCounts(new URLSearchParams(this.query))
-        .then(response => (this.counts = response.severityCounts))
+      return AlertsApi.getCounts(new URLSearchParams(this.query)).then(
+        (response) => (this.counts = response.severityCounts)
+      )
     },
     getMostSevere() {
       let paramsWithOpenStatus = new URLSearchParams(this.query)
       paramsWithOpenStatus.append('status', 'open')
 
-      AlertsApi.getCounts(paramsWithOpenStatus)
-        .then(response => {
-          this.maxSeverity = this.$config.alarm_model.defaults.normal_severity
-          for (let sev of this.$config.indicators.severity) {
-            if (response.severityCounts[sev] > 0) {
-              this.maxSeverity = sev
-              break
-            }
+      AlertsApi.getCounts(paramsWithOpenStatus).then((response) => {
+        this.maxSeverity = this.$config.alarm_model.defaults.normal_severity
+        for (let sev of this.$config.indicators.severity) {
+          if (response.severityCounts[sev] > 0) {
+            this.maxSeverity = sev
+            break
           }
-        })
+        }
+      })
     },
     refreshCounts() {
       this.getMostSevere()
-      this.getCounts()
-        .then(() => this.timer = setTimeout(() => this.refreshCounts(), this.refreshInterval))
+      this.getCounts().then(
+        () =>
+          (this.timer = setTimeout(
+            () => this.refreshCounts(),
+            this.refreshInterval
+          ))
+      )
     },
     refreshList() {
       this.$store.dispatch('set', ['refresh', true])

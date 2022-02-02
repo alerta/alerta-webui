@@ -1,19 +1,8 @@
 <template>
-  <v-card
-    flat
-  >
-    <v-card
-      tile
-      flat
-    >
-      <v-toolbar
-        :color="isDark ? '#616161' : '#eeeeee'"
-        dense
-      >
-        <v-btn
-          icon
-          @click="dialog = false"
-        >
+  <v-card flat>
+    <v-card tile flat>
+      <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" dense>
+        <v-btn icon @click="dialog = false">
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
@@ -25,11 +14,7 @@
             class="btn--plain px-1 mx-0"
             @click="takeAction(item.id, 'open')"
           >
-            <v-icon
-              size="20px"
-            >
-              refresh
-            </v-icon>
+            <v-icon size="20px"> refresh </v-icon>
           </v-btn>
           <span>{{ $t('Open') }}</span>
         </v-tooltip>
@@ -42,11 +27,7 @@
             class="btn--plain px-1 mx-0"
             @click="watchAlert(item.id)"
           >
-            <v-icon
-              size="20px"
-            >
-              visibility
-            </v-icon>
+            <v-icon size="20px"> visibility </v-icon>
           </v-btn>
           <span>{{ $t('Watch') }}</span>
         </v-tooltip>
@@ -59,11 +40,7 @@
             class="btn--plain px-1 mx-0"
             @click="unwatchAlert(item.id)"
           >
-            <v-icon
-              size="20px"
-            >
-              visibility_off
-            </v-icon>
+            <v-icon size="20px"> visibility_off </v-icon>
           </v-btn>
           <span>{{ $t('Unwatch') }}</span>
         </v-tooltip>
@@ -77,11 +54,7 @@
             class="btn--plain px-1 mx-0"
             @click="ackAlert(item.id)"
           >
-            <v-icon
-              size="20px"
-            >
-              check
-            </v-icon>
+            <v-icon size="20px"> check </v-icon>
           </v-btn>
           <span>{{ $t('Ack') }}</span>
         </v-tooltip>
@@ -94,11 +67,7 @@
             class="btn--plain px-1 mx-0"
             @click="takeAction(item.id, 'unack')"
           >
-            <v-icon
-              size="20px"
-            >
-              undo
-            </v-icon>
+            <v-icon size="20px"> undo </v-icon>
           </v-btn>
           <span>{{ $t('Unack') }}</span>
         </v-tooltip>
@@ -112,11 +81,7 @@
             class="btn--plain px-1 mx-0"
             @click="shelveAlert(item.id)"
           >
-            <v-icon
-              size="20px"
-            >
-              schedule
-            </v-icon>
+            <v-icon size="20px"> schedule </v-icon>
           </v-btn>
           <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
@@ -129,11 +94,7 @@
             class="btn--plain px-1 mx-0"
             @click="takeAction(item.id, 'unshelve')"
           >
-            <v-icon
-              size="20px"
-            >
-              restore
-            </v-icon>
+            <v-icon size="20px"> restore </v-icon>
           </v-btn>
           <span>{{ $t('Unshelve') }}</span>
         </v-tooltip>
@@ -146,11 +107,7 @@
             class="btn--plain px-1 mx-0"
             @click="takeAction(item.id, 'close')"
           >
-            <v-icon
-              size="20px"
-            >
-              highlight_off
-            </v-icon>
+            <v-icon size="20px"> highlight_off </v-icon>
           </v-btn>
           <span>{{ $t('Close') }}</span>
         </v-tooltip>
@@ -162,53 +119,30 @@
             class="btn--plain px-1 mx-0"
             @click="deleteAlert(item.id)"
           >
-            <v-icon
-              size="20px"
-            >
-              delete
-            </v-icon>
+            <v-icon size="20px"> delete </v-icon>
           </v-btn>
           <span>{{ $t('Delete') }}</span>
         </v-tooltip>
 
-        <v-tooltip
-          :key="copyIconText"
-          bottom
-        >
+        <v-tooltip :key="copyIconText" bottom>
           <v-btn
             slot="activator"
             icon
             class="btn--plain px-1 mx-0"
             @click="clipboardCopy(JSON.stringify(item, null, 4))"
           >
-            <v-icon
-              size="20px"
-            >
-              content_copy
-            </v-icon>
+            <v-icon size="20px"> content_copy </v-icon>
           </v-btn>
           <span>{{ copyIconText }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-menu
-            slot="activator"
-            bottom
-            left
-          >
-            <v-btn
-              slot="activator"
-              icon
-              class="btn--plain px-1 mx-0"
-            >
-              <v-icon>
-                more_vert
-              </v-icon>
+          <v-menu slot="activator" bottom left>
+            <v-btn slot="activator" icon class="btn--plain px-1 mx-0">
+              <v-icon> more_vert </v-icon>
             </v-btn>
 
-            <v-list
-              subheader
-            >
+            <v-list subheader>
               <v-subheader>Actions</v-subheader>
               <v-divider />
               <v-list-tile
@@ -224,23 +158,11 @@
         </v-tooltip>
       </v-toolbar>
 
-      <v-card
-        flat
-      >
-        <v-tabs
-          v-model="active"
-          grow
-        >
-          <v-tab ripple>
-            <v-icon>info</v-icon>&nbsp;{{ $t('Details') }}
-          </v-tab>
-          <v-tab-item
-            :transition="false"
-            :reverse-transition="false"
-          >
-            <v-card
-              flat
-            >
+      <v-card flat>
+        <v-tabs v-model="active" grow>
+          <v-tab ripple> <v-icon>info</v-icon>&nbsp;{{ $t('Details') }} </v-tab>
+          <v-tab-item :transition="false" :reverse-transition="false">
+            <v-card flat>
               <v-alert
                 v-for="note in notes"
                 :key="note.id"
@@ -252,16 +174,16 @@
               >
                 <b>{{ note.user || 'Anonymous' }}</b> {{ $t('addedNoteOn') }}
                 <span v-if="note.updateTime">
-                  <b><date-time
-                    :value="note.updateTime"
-                    format="longDate"
-                  /></b> ({{ note.updateTime | timeago }})<br>
+                  <b
+                    ><date-time :value="note.updateTime" format="longDate"
+                  /></b>
+                  ({{ note.updateTime | timeago }})<br />
                 </span>
                 <span v-else>
-                  <b><date-time
-                    :value="note.createTime"
-                    format="longDate"
-                  /></b> ({{ note.createTime | timeago }})<br>
+                  <b
+                    ><date-time :value="note.createTime" format="longDate"
+                  /></b>
+                  ({{ note.createTime | timeago }})<br />
                 </span>
                 <i>{{ note.text }}</i>
               </v-alert>
@@ -275,11 +197,13 @@
                 :value="true"
               >
                 <b>{{ note.user || 'Anonymous' }}</b> {{ $t('addedNoteOn') }}
-                <b><date-time
-                  v-if="note.updateTime"
-                  :value="note.updateTime"
-                  format="longDate"
-                /></b> ({{ note.updateTime | timeago }})<br>
+                <b
+                  ><date-time
+                    v-if="note.updateTime"
+                    :value="note.updateTime"
+                    format="longDate"
+                /></b>
+                ({{ note.updateTime | timeago }})<br />
                 <i>{{ note.text }}</i>
               </v-alert>
               <!-- DEPRECATED -->
@@ -308,7 +232,9 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <span class="console-text">{{ item.lastReceiveId }}</span>
+                        <span class="console-text">{{
+                          item.lastReceiveId
+                        }}</span>
                       </div>
                     </div>
                   </div>
@@ -370,10 +296,7 @@
                     </div>
                   </div>
                 </div>
-                <div
-                  v-if="$config.customer_views"
-                  class="flex xs12 ma-1"
-                >
+                <div v-if="$config.customer_views" class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
@@ -404,7 +327,8 @@
                           :key="service"
                           @click="queryBy('service', service)"
                         >
-                          <span class="clickable">{{ service }}</span>&nbsp;
+                          <span class="clickable">{{ service }}</span
+                          >&nbsp;
                         </span>
                       </div>
                     </div>
@@ -475,7 +399,8 @@
                           :key="event"
                           @click="queryBy('event', event)"
                         >
-                          <span class="clickable">{{ event }}</span>&nbsp;
+                          <span class="clickable">{{ event }}</span
+                          >&nbsp;
                         </span>
                       </div>
                     </div>
@@ -507,9 +432,11 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <span :class="['label', 'label-' + item.previousSeverity]">
-                          {{ item.previousSeverity | capitalize }}
-                        </span>&nbsp;&rarr;&nbsp;
+                        <span
+                          :class="['label', 'label-' + item.previousSeverity]"
+                        >
+                          {{ item.previousSeverity | capitalize }} </span
+                        >&nbsp;&rarr;&nbsp;
                         <span :class="['label', 'label-' + item.severity]">
                           {{ item.severity | capitalize }}
                         </span>
@@ -530,9 +457,10 @@
                         <span class="label">
                           {{ item.status | capitalize }}
                         </span>
-                        <span
-                          v-if="statusNote && statusNote.user"
-                        >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ statusNote.updateTime | timeago }})
+                        <span v-if="statusNote && statusNote.user"
+                          >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{
+                            statusNote.updateTime | timeago
+                          }})
                         </span>
                       </div>
                     </div>
@@ -548,9 +476,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <v-icon small>
-                          error_outline
-                        </v-icon>
+                        <v-icon small> error_outline </v-icon>
                         <i>&nbsp;{{ statusNote.text }}</i>
                       </div>
                     </div>
@@ -693,9 +619,7 @@
                           small
                           @click="queryBy('tags', tag)"
                         >
-                          <v-icon left>
-                            label
-                          </v-icon>{{ tag }}
+                          <v-icon left> label </v-icon>{{ tag }}
                         </v-chip>
                       </div>
                     </div>
@@ -713,19 +637,22 @@
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
-                      <div
-                        v-if="typeof value === 'object'"
-                      >
+                      <div v-if="typeof value === 'object'">
                         <span
                           v-for="v in value"
                           :key="v"
                           @click="queryBy(`_.${attr}`, v)"
                         >
-                          <span class="clickable">{{ v }}</span>&nbsp;
+                          <span class="clickable">{{ v }}</span
+                          >&nbsp;
                         </span>
                       </div>
                       <div
-                        v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
+                        v-else-if="
+                          typeof value === 'string' &&
+                          (value.includes('http://') ||
+                            value.includes('https://'))
+                        "
                         class="link-text"
                         v-html="value"
                       />
@@ -746,10 +673,7 @@
           <v-tab ripple>
             <v-icon>history</v-icon>&nbsp;{{ $t('History') }}
           </v-tab>
-          <v-tab-item
-            :transition="false"
-            :reverse-transition="false"
-          >
+          <v-tab-item :transition="false" :reverse-transition="false">
             <div class="tab-item-wrapper">
               <v-data-table
                 :headers="headersByScreenSize"
@@ -758,24 +682,19 @@
                 :pagination.sync="pagination"
                 sort-icon="arrow_drop_down"
               >
-                <template
-                  slot="items"
-                  slot-scope="props"
-                >
+                <template slot="items" slot-scope="props">
                   <td class="hidden-sm-and-down">
-                    <span class="console-text">{{ props.item.id | shortId }}</span>
+                    <span class="console-text">{{
+                      props.item.id | shortId
+                    }}</span>
                   </td>
-                  <td
-                    class="hidden-sm-and-down text-no-wrap"
-                  >
+                  <td class="hidden-sm-and-down text-no-wrap">
                     <date-time
                       :value="props.item.updateTime"
                       format="mediumDate"
                     />
                   </td>
-                  <td
-                    class="hidden-md-and-up text-no-wrap"
-                  >
+                  <td class="hidden-md-and-up text-no-wrap">
                     <date-time
                       :value="props.item.updateTime"
                       format="shortTime"
@@ -819,18 +738,17 @@
           <v-tab ripple>
             <v-icon>assessment</v-icon>&nbsp;{{ $t('Data') }}
           </v-tab>
-          <v-tab-item
-            :transition="false"
-            :reverse-transition="false"
-          >
+          <v-tab-item :transition="false" :reverse-transition="false">
             <v-card
               :color="isDark ? 'grey darken-1' : 'grey lighten-3'"
               class="mx-1"
-              style="overflow-x: auto;"
+              style="overflow-x: auto"
               flat
             >
               <v-card-text>
-                <span class="console-text">{{ item.rawData || 'no raw data' }}</span>
+                <span class="console-text">{{
+                  item.rawData || 'no raw data'
+                }}</span>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -915,15 +833,16 @@ export default {
     },
     // DEPRECATED: notes stored in alert history are deprecated and will be removed in version 8
     historyNotes() {
-      return this.history
-        .filter(h => h.type == 'note' && h.id == this.id)  // get notes from alert history
+      return this.history.filter((h) => h.type == 'note' && h.id == this.id) // get notes from alert history
     },
     statusNote() {
-      return this.history.filter(h => h.type != 'note' && h.status == this.item.status).pop()
+      return this.history
+        .filter((h) => h.type != 'note' && h.status == this.item.status)
+        .pop()
     },
     headersByScreenSize() {
       return this.headers.filter(
-        h => !h.hide || !this.$vuetify.breakpoint[h.hide]
+        (h) => !h.hide || !this.$vuetify.breakpoint[h.hide]
       )
     },
     ackTimeout() {
@@ -980,43 +899,77 @@ export default {
     deleteNote(alertId, noteId) {
       this.$store.dispatch('alerts/deleteNote', [alertId, noteId])
     },
-    takeAction: debounce(function(id, action, text) {
-      this.$store
-        .dispatch('alerts/takeAction', [id, action, text])
-        .then(() => this.getAlert(this.id))
-    }, 200, {leading: true, trailing: false}),
-    ackAlert: debounce(function(id, text) {
-      this.$store
-        .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
-        .then(() => this.getAlert(this.id))
-    }, 200, {leading: true, trailing: false}),
-    shelveAlert: debounce(function(id, text) {
-      this.$store
-        .dispatch('alerts/takeAction', [id, 'shelve', text, this.shelveTimeout])
-        .then(() => this.getAlert(this.id))
-    }, 200, {leading: true, trailing: false}),
-    watchAlert: debounce(function(id) {
-      this.$store
-        .dispatch('alerts/watchAlert', id)
-        .then(() => this.getAlert(this.id))
-    }, 200, {leading: true, trailing: false}),
-    unwatchAlert: debounce(function(id) {
-      this.$store
-        .dispatch('alerts/unwatchAlert', id)
-        .then(() => this.getAlert(this.id))
-    }, 200, {leading: true, trailing: false}),
-    addNote: debounce(function(id, text) {
-      this.$store
-        .dispatch('alerts/addNote', [id, text])
-        .then(() => this.getNotes(this.id))
-    }, 200, {leading: true, trailing: false}),
-    deleteAlert: debounce(function(id) {
-      confirm(i18n.t('ConfirmDelete')) &&
-        this.$store.dispatch('alerts/deleteAlert', id)
-          .then(() => this.$router.push({ name: 'alerts' }))
-    }, 200, {leading: true, trailing: false}),
+    takeAction: debounce(
+      function (id, action, text) {
+        this.$store
+          .dispatch('alerts/takeAction', [id, action, text])
+          .then(() => this.getAlert(this.id))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    ackAlert: debounce(
+      function (id, text) {
+        this.$store
+          .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
+          .then(() => this.getAlert(this.id))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    shelveAlert: debounce(
+      function (id, text) {
+        this.$store
+          .dispatch('alerts/takeAction', [
+            id,
+            'shelve',
+            text,
+            this.shelveTimeout
+          ])
+          .then(() => this.getAlert(this.id))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    watchAlert: debounce(
+      function (id) {
+        this.$store
+          .dispatch('alerts/watchAlert', id)
+          .then(() => this.getAlert(this.id))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    unwatchAlert: debounce(
+      function (id) {
+        this.$store
+          .dispatch('alerts/unwatchAlert', id)
+          .then(() => this.getAlert(this.id))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    addNote: debounce(
+      function (id, text) {
+        this.$store
+          .dispatch('alerts/addNote', [id, text])
+          .then(() => this.getNotes(this.id))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    deleteAlert: debounce(
+      function (id) {
+        confirm(i18n.t('ConfirmDelete')) &&
+          this.$store
+            .dispatch('alerts/deleteAlert', id)
+            .then(() => this.$router.push({ name: 'alerts' }))
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
     queryBy(attribute, value) {
-      this.$router.push({ path: `/alerts?q=${attribute}:"${value}"` })  // double-quotes (") around value mean exact match
+      this.$router.push({ path: `/alerts?q=${attribute}:"${value}"` }) // double-quotes (") around value mean exact match
     },
     close() {
       this.$emit('close')
@@ -1089,23 +1042,28 @@ export default {
 
 .console-text {
   font-size: 14px;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   white-space: pre;
   line-height: 1;
 }
 
-div.clickable, span.clickable {
+div.clickable,
+span.clickable {
   cursor: pointer;
   color: #3f51b5;
   font-weight: 400;
   text-decoration: underline;
 }
 
-.theme--dark div.clickable, .theme--dark span.clickable, .theme--dark div.link-text a {
+.theme--dark div.clickable,
+.theme--dark span.clickable,
+.theme--dark div.link-text a {
   color: orange;
 }
 
-div.clickable:hover, span.clickable:hover, div.link-text a:hover {
+div.clickable:hover,
+span.clickable:hover,
+div.link-text a:hover {
   text-decoration: none;
 }
 

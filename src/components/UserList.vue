@@ -1,13 +1,7 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      max-width="500px"
-    >
-      <v-form
-        ref="form"
-        autocomplete="off"
-      >
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-form ref="form" autocomplete="off">
         <v-card>
           <v-card-title>
             <span class="headline">
@@ -18,11 +12,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
-                  xs12
-                  sm6
-                  md9
-                >
+                <v-flex xs12 sm6 md9>
                   <v-text-field
                     v-model.trim="editedItem.name"
                     :disabled="!isBasicAuth"
@@ -31,11 +21,7 @@
                     required
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                  sm6
-                  md3
-                >
+                <v-flex xs12 sm6 md3>
                   <v-switch
                     v-model="editedItem.status"
                     :true-value="'active'"
@@ -43,11 +29,7 @@
                     :label="$t('Active')"
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                  sm6
-                  md9
-                >
+                <v-flex xs12 sm6 md9>
                   <v-text-field
                     v-model.trim="editedItem.login"
                     :disabled="!isBasicAuth"
@@ -56,11 +38,7 @@
                     required
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                  sm6
-                  md9
-                >
+                <v-flex xs12 sm6 md9>
                   <v-text-field
                     v-model.trim="editedItem.email"
                     :disabled="!isBasicAuth"
@@ -69,21 +47,14 @@
                     required
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                  sm6
-                  md3
-                >
+                <v-flex xs12 sm6 md3>
                   <v-checkbox
                     v-model="editedItem.email_verified"
                     :label="$t('Verified')"
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                  sm6
-                >
+                <v-flex xs12 sm6>
                   <v-text-field
                     v-show="isBasicAuth"
                     v-model="editedItem.password"
@@ -105,10 +76,7 @@
                     :label="$t('Password')"
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                  sm6
-                >
+                <v-flex xs12 sm6>
                   <v-text-field
                     v-show="isBasicAuth"
                     :append-icon="
@@ -130,11 +98,7 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                  sm6
-                  md12
-                >
+                <v-flex xs12 sm6 md12>
                   <v-select
                     v-model="userGroups"
                     :items="allGroups"
@@ -146,26 +110,17 @@
                     multiple
                     :disabled="!editedId"
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                      >
-                        <strong>{{ data.item.name }}</strong>&nbsp;
+                    <template slot="selection" slot-scope="data">
+                      <v-chip :selected="data.selected" close>
+                        <strong>{{ data.item.name }}</strong
+                        >&nbsp;
                         <span>({{ $t('Group') }})</span>
                       </v-chip>
                     </template>
                   </v-select>
                 </v-flex>
 
-                <v-flex
-                  xs12
-                  sm6
-                  md12
-                >
+                <v-flex xs12 sm6 md12>
                   <v-autocomplete
                     v-model="editedItem.roles"
                     :items="allowedRoles"
@@ -175,25 +130,16 @@
                     solo
                     multiple
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                      >
-                        <strong>{{ data.item }}</strong>&nbsp;
+                    <template slot="selection" slot-scope="data">
+                      <v-chip :selected="data.selected" close>
+                        <strong>{{ data.item }}</strong
+                        >&nbsp;
                         <span>({{ $t('role') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
                 </v-flex>
-                <v-flex
-                  xs12
-                  sm6
-                  md12
-                >
+                <v-flex xs12 sm6 md12>
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Comment')"
@@ -205,18 +151,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="close"
-            >
+            <v-btn color="blue darken-1" flat @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="validate"
-            >
+            <v-btn color="blue darken-1" flat @click="validate">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -228,39 +166,22 @@
       <v-card-title class="title">
         {{ $t('Users') }}
         <v-spacer />
-        <v-btn-toggle
-          v-model="status"
-          class="transparent"
-          multiple
-        >
-          <v-btn
-            value="active"
-            flat
-          >
+        <v-btn-toggle v-model="status" class="transparent" multiple>
+          <v-btn value="active" flat>
             <v-tooltip bottom>
-              <v-icon slot="activator">
-                check_circle
-              </v-icon>
+              <v-icon slot="activator"> check_circle </v-icon>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn
-            value="inactive"
-            flat
-          >
+          <v-btn value="inactive" flat>
             <v-tooltip bottom>
-              <v-icon slot="activator">
-                block
-              </v-icon>
+              <v-icon slot="activator"> block </v-icon>
               <span>{{ $t('Inactive') }}</span>
             </v-tooltip>
           </v-btn>
         </v-btn-toggle>
         <v-spacer />
-        <v-flex
-          xs3
-          class="mr-3 pt-3"
-        >
+        <v-flex xs3 class="mr-3 pt-3">
           <v-autocomplete
             v-model="wantRoles"
             :items="allowedRoles"
@@ -268,15 +189,10 @@
             chips
             multiple
           >
-            <template
-              slot="selection"
-              slot-scope="data"
-            >
-              <v-chip
-                :selected="data.selected"
-                close
-              >
-                <strong>{{ data.item }}</strong>&nbsp;
+            <template slot="selection" slot-scope="data">
+              <v-chip :selected="data.selected" close>
+                <strong>{{ data.item }}</strong
+                >&nbsp;
                 <span>({{ $t('role') }})</span>
               </v-chip>
             </template>
@@ -305,10 +221,7 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
+        <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
           <td class="text-xs-center">
             <v-tooltip top>
@@ -328,10 +241,7 @@
           <td>{{ props.item.email }}</td>
           <td class="text-xs-center">
             <v-tooltip top>
-              <v-icon
-                slot="activator"
-                @click="toggleEmailVerified(props.item)"
-              >
+              <v-icon slot="activator" @click="toggleEmailVerified(props.item)">
                 {{
                   props.item.email_verified
                     ? 'check_box'
@@ -348,19 +258,14 @@
             </v-tooltip>
           </td>
           <td>
-            <v-chip
-              v-for="role in props.item.roles"
-              :key="role"
-            >
-              <strong>{{ role }}</strong>&nbsp;
+            <v-chip v-for="role in props.item.roles" :key="role">
+              <strong>{{ role }}</strong
+              >&nbsp;
               <span>({{ $t('role') }})</span>
             </v-chip>
           </td>
           <td class="text-xs-right">
-            <date-time
-              :value="props.item.createTime"
-              format="mediumDate"
-            />
+            <date-time :value="props.item.createTime" format="mediumDate" />
           </td>
           <td class="text-xs-right">
             <date-time
@@ -379,12 +284,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                edit
-              </v-icon>
+              <v-icon small color="grey darken-3"> edit </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:users'"
@@ -392,31 +292,18 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                delete
-              </v-icon>
+              <v-icon small color="grey darken-3"> delete </v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
+          <v-alert :value="true" color="error" icon="warning">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
-          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}.
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+          {{ $t('SearchNoResult1') }} "{{ search }}"
+          {{ $t('SearchNoResult2') }}.
         </v-alert>
       </v-data-table>
     </v-card>
@@ -439,7 +326,7 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data: vm => ({
+  data: (vm) => ({
     descending: true,
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40, 50],
@@ -490,10 +377,15 @@ export default {
     },
     showPassword: false,
     rules: {
-      required: v => !!v || i18n.t('Required'),
-      min: v => (vm.editedId && v == null) || (v && v.length >= 6) || i18n.t('Min6Char'),
-      passwordMatch: v =>
-        (vm.editedId && v == null) || (v && v == vm.editedItem.password) || i18n.t('PasswordNotMatch')
+      required: (v) => !!v || i18n.t('Required'),
+      min: (v) =>
+        (vm.editedId && v == null) ||
+        (v && v.length >= 6) ||
+        i18n.t('Min6Char'),
+      passwordMatch: (v) =>
+        (vm.editedId && v == null) ||
+        (v && v == vm.editedItem.password) ||
+        i18n.t('PasswordNotMatch')
     }
   }),
   computed: {
@@ -501,7 +393,9 @@ export default {
       return this.$config.provider == 'basic'
     },
     users() {
-      return this.$store.state.users.users.filter(u => !this.status || this.status.includes(u.status))
+      return this.$store.state.users.users.filter(
+        (u) => !this.status || this.status.includes(u.status)
+      )
     },
     allGroups() {
       return this.$store.state.groups.groups
@@ -558,15 +452,17 @@ export default {
       this.wantRoles = roles
     },
     customFilter(items, search, filter) {
-      items = items.filter(item =>
-        this.wantRoles.length > 0 ? item.roles.some(x => this.wantRoles.includes(x)) : item
+      items = items.filter((item) =>
+        this.wantRoles.length > 0
+          ? item.roles.some((x) => this.wantRoles.includes(x))
+          : item
       )
 
       if (search.trim() === '') return items
 
-      return items.filter(i => (
-        Object.keys(i).some(j => filter(i[j], search))
-      ))
+      return items.filter((i) =>
+        Object.keys(i).some((j) => filter(i[j], search))
+      )
     },
     toggleUserStatus(item) {
       this.$store.dispatch('users/setUserStatus', [
@@ -621,10 +517,24 @@ export default {
           }
         ])
         if (this.editedGroups) {
-          const addedGroups = this.editedGroups.filter(g => !this.userGroups.map(g => g.id).includes(g))
-          const removedGroups = this.userGroups.map(g => g.id).filter(g => !this.editedGroups.includes(g))
-          addedGroups.map(groupId => this.$store.dispatch('groups/addUserToGroup', [groupId, this.editedId]))
-          removedGroups.map(groupId => this.$store.dispatch('groups/removeUserFromGroup', [groupId, this.editedId]))
+          const addedGroups = this.editedGroups.filter(
+            (g) => !this.userGroups.map((g) => g.id).includes(g)
+          )
+          const removedGroups = this.userGroups
+            .map((g) => g.id)
+            .filter((g) => !this.editedGroups.includes(g))
+          addedGroups.map((groupId) =>
+            this.$store.dispatch('groups/addUserToGroup', [
+              groupId,
+              this.editedId
+            ])
+          )
+          removedGroups.map((groupId) =>
+            this.$store.dispatch('groups/removeUserFromGroup', [
+              groupId,
+              this.editedId
+            ])
+          )
         }
       } else {
         this.$store.dispatch('users/createUser', this.editedItem)

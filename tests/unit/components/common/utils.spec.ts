@@ -1,7 +1,7 @@
 import utils from '@/common/utils'
 
 describe('Utils', () => {
-  let allScopes = [
+  const allScopes = [
     'read',
     'write',
     'admin',
@@ -31,8 +31,11 @@ describe('Utils', () => {
   ]
 
   it('derives full scopes from assigned scopes', () => {
-    let result = utils.getAllowedScopes(['admin:perms', 'read', 'write:keys'], allScopes)
-    let expected = [
+    const result = utils.getAllowedScopes(
+      ['admin:perms', 'read', 'write:keys'],
+      allScopes
+    )
+    const expected = [
       'admin:perms',
       'read:perms',
       'read',

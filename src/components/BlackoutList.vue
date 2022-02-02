@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      max-width="540px"
-    >
+    <v-dialog v-model="dialog" max-width="540px">
       <v-form ref="form">
         <v-card>
           <v-card-title>
@@ -15,10 +12,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
-                  v-if="$config.customer_views"
-                  xs12
-                >
+                <v-flex v-if="$config.customer_views" xs12>
                   <v-select
                     v-model="editedItem.customer"
                     :items="allowedCustomers"
@@ -26,9 +20,7 @@
                     clearable
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-select
                     v-model="editedItem.environment"
                     :items="allowedEnvironments"
@@ -38,9 +30,7 @@
                   />
                 </v-flex>
 
-                <v-flex
-                  xs4
-                >
+                <v-flex xs4>
                   <v-menu
                     ref="menu1"
                     v-model="menu1"
@@ -67,26 +57,20 @@
                   </v-menu>
                 </v-flex>
 
-                <v-flex
-                  xs2
-                >
+                <v-flex xs2>
                   <v-combobox
                     v-model="editedItem.period.startTime"
                     :items="times"
                   />
                 </v-flex>
-                <v-flex
-                  xs2
-                >
+                <v-flex xs2>
                   <v-combobox
                     v-model="editedItem.period.endTime"
                     :items="times"
                   />
                 </v-flex>
 
-                <v-flex
-                  xs4
-                >
+                <v-flex xs4>
                   <v-menu
                     v-model="menu2"
                     :close-on-content-click="false"
@@ -111,9 +95,7 @@
                   </v-menu>
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-combobox
                     v-model="editedItem.service"
                     :items="currentServices"
@@ -125,34 +107,26 @@
                     persistent-hint
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.resource"
                     :label="$t('Resource')"
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.event"
                     :label="$t('Event')"
                   />
                 </v-flex>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.group"
                     :label="$t('Group')"
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-combobox
                     v-model="editedItem.tags"
                     :items="currentTags"
@@ -160,10 +134,7 @@
                     multiple
                     chips
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
+                    <template slot="selection" slot-scope="data">
                       <v-chip
                         :key="JSON.stringify(data.item)"
                         :selected="data.selected"
@@ -173,26 +144,20 @@
                         small
                         @input="data.parent.selectItem(data.item)"
                       >
-                        <v-icon left>
-                          label
-                        </v-icon>{{ data.item }}
+                        <v-icon left> label </v-icon>{{ data.item }}
                       </v-chip>
                     </template>
                   </v-combobox>
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.origin"
                     :label="$t('Origin')"
                   />
                 </v-flex>
 
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Reason')"
@@ -204,18 +169,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="close"
-            >
+            <v-btn color="blue darken-1" flat @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="validate"
-            >
+            <v-btn color="blue darken-1" flat @click="validate">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -227,41 +184,22 @@
       <v-card-title class="title">
         {{ $t('Blackouts') }}
         <v-spacer />
-        <v-btn-toggle
-          v-model="status"
-          class="transparent"
-          multiple
-        >
-          <v-btn
-            value="active"
-            flat
-          >
+        <v-btn-toggle v-model="status" class="transparent" multiple>
+          <v-btn value="active" flat>
             <v-tooltip bottom>
-              <v-icon slot="activator">
-                notifications_paused
-              </v-icon>
+              <v-icon slot="activator"> notifications_paused </v-icon>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn
-            value="pending"
-            flat
-          >
+          <v-btn value="pending" flat>
             <v-tooltip bottom>
-              <v-icon slot="activator">
-                schedule
-              </v-icon>
+              <v-icon slot="activator"> schedule </v-icon>
               <span>{{ $t('Pending') }}</span>
             </v-tooltip>
           </v-btn>
-          <v-btn
-            value="expired"
-            flat
-          >
+          <v-btn value="expired" flat>
             <v-tooltip bottom>
-              <v-icon slot="activator">
-                block
-              </v-icon>
+              <v-icon slot="activator"> block </v-icon>
               <span>{{ $t('Expired') }}</span>
             </v-tooltip>
           </v-btn>
@@ -287,10 +225,7 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
+        <template slot="items" slot-scope="props">
           <td>
             <v-tooltip top>
               {{ $t('WholeEnvironment') }}
@@ -315,9 +250,7 @@
               </v-icon>
             </v-tooltip>
           </td>
-          <td
-            v-if="$config.customer_views"
-          >
+          <td v-if="$config.customer_views">
             {{ props.item.customer }}
           </td>
           <td>{{ props.item.environment }}</td>
@@ -335,15 +268,8 @@
           <td>{{ props.item.event }}</td>
           <td>{{ props.item.group }}</td>
           <td>
-            <v-chip
-              v-for="tag in props.item.tags"
-              :key="tag"
-              label
-              small
-            >
-              <v-icon left>
-                label
-              </v-icon>{{ tag }}
+            <v-chip v-for="tag in props.item.tags" :key="tag" label small>
+              <v-icon left> label </v-icon>{{ tag }}
             </v-chip>
           </td>
           <td>{{ props.item.origin }}</td>
@@ -378,20 +304,12 @@
             </v-tooltip>
           </td>
           <td class="text-xs-left">
-            <date-time
-              :value="props.item.startTime"
-              format="mediumDate"
-            />
+            <date-time :value="props.item.startTime" format="mediumDate" />
           </td>
           <td class="text-xs-left">
-            <date-time
-              :value="props.item.endTime"
-              format="mediumDate"
-            />
+            <date-time :value="props.item.endTime" format="mediumDate" />
           </td>
-          <td
-            class="text-xs-left text-no-wrap"
-          >
+          <td class="text-xs-left text-no-wrap">
             {{ props.item.endTime | until }}
           </td>
           <td class="text-xs-left">
@@ -407,12 +325,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                edit
-              </v-icon>
+              <v-icon small color="grey darken-3"> edit </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'write:blackouts'"
@@ -420,12 +333,7 @@
               class="btn--plain mx-0"
               @click="copyItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                content_copy
-              </v-icon>
+              <v-icon small color="grey darken-3"> content_copy </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'write:blackouts'"
@@ -433,39 +341,22 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                delete
-              </v-icon>
+              <v-icon small color="grey darken-3"> delete </v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
+          <v-alert :value="true" color="error" icon="warning">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
 
-    <list-button-add
-      perms="write:blackouts"
-      @add-to-list="dialog = true"
-    />
+    <list-button-add perms="write:blackouts" @add-to-list="dialog = true" />
   </div>
 </template>
 
@@ -480,7 +371,7 @@ export default {
     DateTime,
     ListButtonAdd
   },
-  data: vm => ({
+  data: (vm) => ({
     descending: true,
     page: 1,
     rowsPerPageItems: [10, 20, 30, 40, 50],
@@ -549,14 +440,14 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: (v) => !!v || i18n.t('Required')
     }
   }),
   computed: {
     blackouts() {
       return this.$store.state.blackouts.blackouts
-        .filter(b => !this.status || this.status.includes(b.status))
-        .map(b => {
+        .filter((b) => !this.status || this.status.includes(b.status))
+        .map((b) => {
           let s = moment(b.startTime)
           let e = moment(b.endTime)
           return Object.assign(b, {
@@ -570,7 +461,9 @@ export default {
         })
     },
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter((h) =>
+        !this.$config.customer_views ? h.value != 'customer' : true
+      )
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']
@@ -595,8 +488,8 @@ export default {
     },
     blackoutPeriod() {
       return (
-        (this.$store.getters.getPreference('blackoutPeriod') ||
-          this.$store.getters.getConfig('blackouts').duration)
+        this.$store.getters.getPreference('blackoutPeriod') ||
+        this.$store.getters.getConfig('blackouts').duration
       )
     },
     times() {
@@ -681,17 +574,34 @@ export default {
       return new Date(date + ' ' + time).toISOString()
     },
     blackoutAttributes(blackout) {
-      const alertAttr = ['environment', 'service', 'resource', 'event', 'group', 'tags', 'origin']
+      const alertAttr = [
+        'environment',
+        'service',
+        'resource',
+        'event',
+        'group',
+        'tags',
+        'origin'
+      ]
       return Object.entries(blackout)
-        .filter(([_, v]) => (!Array.isArray(v) && !!v) || (Array.isArray(v) && v.length))
-        .filter(b => alertAttr.includes(b[0]))
+        .filter(
+          ([_, v]) =>
+            (!Array.isArray(v) && !!v) || (Array.isArray(v) && v.length)
+        )
+        .filter((b) => alertAttr.includes(b[0]))
         .reduce((a, [k, _]) => a.concat(k), [])
     },
     onlyEnvironment(blackout) {
-      return JSON.stringify(this.blackoutAttributes(blackout)) === JSON.stringify(['environment'])
+      return (
+        JSON.stringify(this.blackoutAttributes(blackout)) ===
+        JSON.stringify(['environment'])
+      )
     },
     onlyOrigin(blackout) {
-      return JSON.stringify(this.blackoutAttributes(blackout)) === JSON.stringify(['environment', 'origin'])
+      return (
+        JSON.stringify(this.blackoutAttributes(blackout)) ===
+        JSON.stringify(['environment', 'origin'])
+      )
     },
     editItem(item) {
       this.editedId = item.id
@@ -731,7 +641,9 @@ export default {
             customer: this.editedItem.customer,
             environment: this.editedItem.environment,
             service: this.editedItem.service,
-            resource: this.editedItem.resource ? this.editedItem.resource : null,
+            resource: this.editedItem.resource
+              ? this.editedItem.resource
+              : null,
             event: this.editedItem.event ? this.editedItem.event : null,
             group: this.editedItem.group ? this.editedItem.group : null,
             tags: this.editedItem.tags,

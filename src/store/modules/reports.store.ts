@@ -45,15 +45,20 @@ const mutations = {
 
 function getParams(state) {
   // get "lucene" query params (?q=)
-  let params = new URLSearchParams(state.query)
+  const params = new URLSearchParams(state.query)
 
   // append filter params to query params
-  state.filter.environment && params.append('environment', state.filter.environment)
-  state.filter.severity && state.filter.severity.map(sv => params.append('severity', sv))
-  state.filter.status && state.filter.status.map(st => params.append('status', st))
-  state.filter.customer && state.filter.customer.map(c => params.append('customer', c))
-  state.filter.service && state.filter.service.map(s => params.append('service', s))
-  state.filter.group && state.filter.group.map(g => params.append('group', g))
+  state.filter.environment &&
+    params.append('environment', state.filter.environment)
+  state.filter.severity &&
+    state.filter.severity.map((sv) => params.append('severity', sv))
+  state.filter.status &&
+    state.filter.status.map((st) => params.append('status', st))
+  state.filter.customer &&
+    state.filter.customer.map((c) => params.append('customer', c))
+  state.filter.service &&
+    state.filter.service.map((s) => params.append('service', s))
+  state.filter.group && state.filter.group.map((g) => params.append('group', g))
 
   // add server-side paging
   params.append('page', state.pagination.page)
@@ -86,26 +91,32 @@ function getParams(state) {
 }
 
 const actions = {
-  getTopOffenders({commit, state}) {
-    let params = getParams(state)
-    return AlertsApi.getTop10Count(params).then(({top10}) => commit('SET_TOP_OFFENDERS', top10))
+  async getTopOffenders({ commit, state }) {
+    const params = getParams(state)
+    return AlertsApi.getTop10Count(params).then(({ top10 }) =>
+      commit('SET_TOP_OFFENDERS', top10)
+    )
   },
-  getTopFlapping({commit, state}) {
-    let params = getParams(state)
-    return AlertsApi.getTop10Flapping(params).then(({top10}) => commit('SET_TOP_FLAPPING', top10))
+  async getTopFlapping({ commit, state }) {
+    const params = getParams(state)
+    return AlertsApi.getTop10Flapping(params).then(({ top10 }) =>
+      commit('SET_TOP_FLAPPING', top10)
+    )
   },
-  getTopStanding({commit, state}) {
-    let params = getParams(state)
-    return AlertsApi.getTop10Standing(params).then(({top10}) => commit('SET_TOP_STANDING', top10))
+  async getTopStanding({ commit, state }) {
+    const params = getParams(state)
+    return AlertsApi.getTop10Standing(params).then(({ top10 }) =>
+      commit('SET_TOP_STANDING', top10)
+    )
   },
 
-  setFilter({commit}, filter) {
+  setFilter({ commit }, filter) {
     commit('SET_FILTER', filter)
   },
-  resetFilter({commit, rootState}) {
+  resetFilter({ commit, rootState }) {
     commit('SET_FILTER', rootState.config.filter)
   },
-  setPageSize({commit}, rowsPerPage) {
+  setPageSize({ commit }, rowsPerPage) {
     commit('SET_PAGE_SIZE', rowsPerPage)
   }
 }

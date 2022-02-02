@@ -1,31 +1,31 @@
 import api from './index'
 
 export default {
-  createGroup(data: object) {
+  async createGroup(data: object) {
     return api.post('/group', data)
   },
-  getGroup(groupId: string) {
+  async getGroup(groupId: string) {
     return api.get(`/group/${groupId}`)
   },
-  getGroupUsers(groupId: string) {
+  async getGroupUsers(groupId: string) {
     return api.get(`/group/${groupId}/users`)
   },
-  getGroups(query: object) {
-    let config = {
+  async getGroups(query: object) {
+    const config = {
       params: query
     }
     return api.get('/groups', config)
   },
-  updateGroup(groupId: string, data: object) {
+  async updateGroup(groupId: string, data: object) {
     return api.put(`/group/${groupId}`, data)
   },
-  addUserToGroup(groupId: string, userId: string) {
+  async addUserToGroup(groupId: string, userId: string) {
     return api.put(`/group/${groupId}/user/${userId}`, {})
   },
-  removeUserFromGroup(groupId: string, userId: string) {
+  async removeUserFromGroup(groupId: string, userId: string) {
     return api.delete(`/group/${groupId}/user/${userId}`, {})
   },
-  deleteGroup(groupId: string) {
+  async deleteGroup(groupId: string) {
     return api.delete(`/group/${groupId}`)
   }
 }

@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      max-width="500px"
-    >
+    <v-dialog v-model="dialog" max-width="500px">
       <v-form ref="form">
         <v-card>
           <v-card-title>
@@ -15,9 +12,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
-                  xs12
-                >
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.match"
                     :label="$t('LookUp')"
@@ -26,15 +21,14 @@
                     :rules="[rules.required]"
                     required
                   />
-                  <v-flex
-                    xs12
-                  >
+                  <v-flex xs12>
                     <v-chip
                       v-show="editedItem.customer"
                       close
                       @click="editedItem.customer = null"
                     >
-                      <strong>{{ editedItem.customer }}</strong>&nbsp;
+                      <strong>{{ editedItem.customer }}</strong
+                      >&nbsp;
                       <span>({{ $t('customer') }})</span>
                     </v-chip>
                   </v-flex>
@@ -51,18 +45,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="close"
-            >
+            <v-btn color="blue darken-1" flat @click="close">
               {{ $t('Cancel') }}
             </v-btn>
-            <v-btn
-              color="blue darken-1"
-              flat
-              @click="validate"
-            >
+            <v-btn color="blue darken-1" flat @click="validate">
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
@@ -94,14 +80,12 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
+        <template slot="items" slot-scope="props">
           <td>{{ props.item.match }}</td>
           <td>
             <v-chip>
-              <strong>{{ props.item.customer }}</strong>&nbsp;
+              <strong>{{ props.item.customer }}</strong
+              >&nbsp;
               <span>({{ $t('customer') }})</span>
             </v-chip>
           </td>
@@ -112,12 +96,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                edit
-              </v-icon>
+              <v-icon small color="grey darken-3"> edit </v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:customers'"
@@ -125,39 +104,22 @@
               class="btn--plain mx-0"
               @click="deleteItem(props.item)"
             >
-              <v-icon
-                small
-                color="grey darken-3"
-              >
-                delete
-              </v-icon>
+              <v-icon small color="grey darken-3"> delete </v-icon>
             </v-btn>
           </td>
         </template>
         <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
+          <v-alert :value="true" color="error" icon="warning">
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
           {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
         </v-alert>
       </v-data-table>
     </v-card>
 
-    <list-button-add
-      perms="admin:customers"
-      @add-to-list="dialog = true"
-    />
+    <list-button-add perms="admin:customers" @add-to-list="dialog = true" />
   </div>
 </template>
 
@@ -195,7 +157,7 @@ export default {
       customer: null
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: (v) => !!v || i18n.t('Required')
     }
   }),
   computed: {

@@ -1,20 +1,7 @@
 <template>
-  <v-container
-    grid-list-sm
-    fill-height
-  >
-    <v-layout
-      v-show="!sent"
-      align-center
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      >
+  <v-container grid-list-sm fill-height>
+    <v-layout v-show="!sent" align-center row wrap>
+      <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-xs-center headline font-weight-medium">
           <span>{{ $t('ResetLink') }}</span>
         </p>
@@ -41,35 +28,16 @@
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
-          <v-btn
-            flat
-            color="primary"
-            to="/login"
-          >
+          <v-btn flat color="primary" to="/login">
             {{ $t('SignIn') }}
           </v-btn>
         </div>
       </v-flex>
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      />
+      <v-flex xs12 sm8 offset-xs0 offset-sm2 />
     </v-layout>
 
-    <v-layout
-      v-show="sent"
-      align-center
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      >
+    <v-layout v-show="sent" align-center row wrap>
+      <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-xs-center headline font-weight-medium">
           <span>{{ $t('CheckEmail') }}</span>
         </p>
@@ -83,11 +51,7 @@
             outline
             readonly
           />
-          <v-btn
-            block
-            color="primary"
-            to="/login"
-          >
+          <v-btn block color="primary" to="/login">
             {{ $t('ReturnSignIn') }}
           </v-btn>
         </v-form>
@@ -95,21 +59,12 @@
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
-          <v-btn
-            flat
-            color="primary"
-            to="/login"
-          >
+          <v-btn flat color="primary" to="/login">
             {{ $t('SignIn') }}
           </v-btn>
         </div>
       </v-flex>
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      />
+      <v-flex xs12 sm8 offset-xs0 offset-sm2 />
     </v-layout>
   </v-container>
 </template>

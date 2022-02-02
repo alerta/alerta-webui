@@ -1,20 +1,7 @@
 <template>
-  <v-container
-    grid-list-sm
-    fill-height
-  >
-    <v-layout
-      align-center
-      row
-      wrap
-    >
-      <v-flex
-        v-if="isBasicAuth"
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      >
+  <v-container grid-list-sm fill-height>
+    <v-layout align-center row wrap>
+      <v-flex v-if="isBasicAuth" xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-xs-center headline font-weight-medium">
           {{ $t('LoginToContinue') }}
         </p>
@@ -36,28 +23,15 @@
             outline
             @click:append="showPassword = !showPassword"
           />
-          <v-btn
-            block
-            color="primary"
-            type="submit"
-          >
+          <v-btn block color="primary" type="submit">
             {{ $t('LogIn') }}
           </v-btn>
         </v-form>
         <div class="text-xs-center">
-          <v-btn
-            flat
-            color="primary"
-            to="/signup"
-            :disabled="!signupEnabled"
-          >
+          <v-btn flat color="primary" to="/signup" :disabled="!signupEnabled">
             {{ $t('CreateAccount') }}
           </v-btn>
-          <v-btn
-            flat
-            color="primary"
-            to="/forgot"
-          >
+          <v-btn flat color="primary" to="/forgot">
             {{ $t('ForgotPassword') }}
           </v-btn>
         </div>
@@ -86,10 +60,7 @@
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
             {{ $t('UnspecifiedProblem') }}
-            <a
-              href="#"
-              @click="authenticateUsingSAML"
-            >
+            <a href="#" @click="authenticateUsingSAML">
               {{ $t('TryAgain') }}
             </a>
           </p>
@@ -99,13 +70,7 @@
         </div>
       </v-flex>
 
-      <v-flex
-        v-else
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      >
+      <v-flex v-else xs12 sm8 offset-xs0 offset-sm2>
         <div v-show="message && !error">
           <p class="text-xs-center headline font-weight-medium">
             {{ message }}
@@ -114,10 +79,7 @@
         <div v-show="error">
           <p class="text-xs-center headline font-weight-medium">
             {{ $t('UnspecifiedProblem') }}
-            <a
-              href="#"
-              @click="authenticate"
-            >
+            <a href="#" @click="authenticate">
               {{ $t('TryAgain') }}
             </a>
           </p>
@@ -127,12 +89,7 @@
         </div>
       </v-flex>
 
-      <v-flex
-        xs12
-        sm8
-        offset-xs0
-        offset-sm2
-      />
+      <v-flex xs12 sm8 offset-xs0 offset-sm2 />
     </v-layout>
   </v-container>
 </template>
@@ -156,7 +113,9 @@ export default {
     },
     authProvider() {
       let providers = this.$store.getters['auth/getOptions']['providers']
-      return providers[this.$config.provider] ? providers[this.$config.provider].name : null
+      return providers[this.$config.provider]
+        ? providers[this.$config.provider].name
+        : null
     },
     signupEnabled() {
       return this.$store.getters.getConfig('signup_enabled')
@@ -177,16 +136,20 @@ export default {
       }
       this.$store
         .dispatch('auth/login', credentials)
-        .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
-        .catch(error => this.error = error.response.data.message)
+        .then(() =>
+          this.$router.push({ path: this.$route.query.redirect || '/' })
+        )
+        .catch((error) => (this.error = error.response.data.message))
     },
     authenticate() {
       if (this.authProvider) {
         this.message = `Authenticating with ${this.authProvider} ...`
         this.$store
           .dispatch('auth/authenticate', this.$config.provider)
-          .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
-          .catch(error => this.error = error.response.data.message)
+          .then(() =>
+            this.$router.push({ path: this.$route.query.redirect || '/' })
+          )
+          .catch((error) => (this.error = error.response.data.message))
       } else {
         this.message = i18n.t('AuthNotPossible')
         this.error = `Unknown authentication provider (${this.$config.provider})`
@@ -194,21 +157,33 @@ export default {
     },
     authenticateUsingSAML() {
       let auth_win
-      window.addEventListener('message', event => {
+      window.addEventListener('message', (event) => {
         if (event.source === auth_win) {
-          if (event.data && event.data.status && event.data.status === 'ok' && event.data.token) {
+          if (
+            event.data &&
+            event.data.status &&
+            event.data.status === 'ok' &&
+            event.data.token
+          ) {
             this.$store
               .dispatch('auth/setToken', event.data)
-              .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
-              .catch(error => this.error = error.response.data.message)
+              .then(() =>
+                this.$router.push({ path: this.$route.query.redirect || '/' })
+              )
+              .catch((error) => (this.error = error.response.data.message))
           } else {
             this.message = i18n.t('AuthNotPossible')
-            this.error = event.data.message ? event.data.message : JSON.stringify(event)
+            this.error = event.data.message
+              ? event.data.message
+              : JSON.stringify(event)
           }
         }
         return
       })
-      auth_win = window.open(this.$config.endpoint + '/auth/saml', i18n.t('AuthInProgress'))
+      auth_win = window.open(
+        this.$config.endpoint + '/auth/saml',
+        i18n.t('AuthInProgress')
+      )
     }
   }
 }

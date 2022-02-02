@@ -1,23 +1,23 @@
 import api from './index'
 
 export default {
-  createPerm(data: object) {
+  async createPerm(data: object) {
     return api.post('/perm', data)
   },
-  getPerms(query: object) {
-    let config = {
+  async getPerms(query: object) {
+    const config = {
       params: query
     }
     return api.get('/perms', config)
   },
-  updatePerm(id: string, data: object) {
+  async updatePerm(id: string, data: object) {
     return api.put(`/perm/${id}`, data)
   },
-  deletePerm(id: string) {
+  async deletePerm(id: string) {
     return api.delete(`/perm/${id}`)
   },
 
-  getScopes() {
+  async getScopes() {
     return api.get('/scopes')
   }
 }

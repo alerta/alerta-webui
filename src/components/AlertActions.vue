@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-container
-      v-if="!showForm"
-      class="pa-1"
-      fluid
-    >
+    <v-container v-if="!showForm" class="pa-1" fluid>
       <v-layout>
         <v-flex>
           <v-btn
@@ -34,31 +30,17 @@
             <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
           </v-btn>
 
-          <v-btn
-            outline
-            color="grey darken-2"
-            @click="deleteAlert"
-          >
+          <v-btn outline color="grey darken-2" @click="deleteAlert">
             <v-icon>delete_forever</v-icon>&nbsp;{{ $t('Delete') }}
           </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
 
-
-    <v-container
-      v-if="showForm"
-      class="pa-1"
-      fluid
-    >
+    <v-container v-if="showForm" class="pa-1" fluid>
       <v-layout>
         <v-flex>
-          <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-            @submit="addNote"
-          >
+          <v-form ref="form" v-model="valid" lazy-validation @submit="addNote">
             <v-card>
               <v-card-text>
                 <v-text-field
@@ -131,7 +113,7 @@
 
                 <v-btn
                   color="white"
-                  :class="{'black--text': isDark}"
+                  :class="{ 'black--text': isDark }"
                   @click="addNote"
                 >
                   <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
@@ -139,15 +121,8 @@
 
                 <v-spacer />
 
-                <v-btn
-                  icon
-                  @click="close"
-                >
-                  <v-icon
-                    color="grey darken-1"
-                  >
-                    delete
-                  </v-icon>
+                <v-btn icon @click="close">
+                  <v-icon color="grey darken-1"> delete </v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -177,15 +152,19 @@ export default {
       required: true
     }
   },
-  data: vm => ({
+  data: (vm) => ({
     showForm: false,
     valid: true,
     text: '',
     maxNoteLength: 200,
     minNoteLength: 0,
     textRules: [
-      v => !!v || i18n.t('TextIsRequired'),
-      v => (v && v.length <= vm.maxNoteLength) || `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t('characters')}`
+      (v) => !!v || i18n.t('TextIsRequired'),
+      (v) =>
+        (v && v.length <= vm.maxNoteLength) ||
+        `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t(
+          'characters'
+        )}`
     ]
   }),
   computed: {
@@ -206,31 +185,59 @@ export default {
     }
   },
   methods: {
-    takeAction: debounce(function(action) {
-      this.$emit('take-action', this.id, action, this.text)
-      this.close()
-    }, 200, {leading: true, trailing: false}),
-    ackAlert: debounce(function() {
-      this.$emit('ack-alert', this.id, this.text)
-      this.close()
-    }, 200, {leading: true, trailing: false}),
-    shelveAlert: debounce(function() {
-      this.$emit('shelve-alert', this.id, this.text)
-      this.close()
-    }, 200, {leading: true, trailing: false}),
-    watchAlert: debounce(function() {
-      this.$emit('watch-alert', this.id)
-    }, 200, {leading: true, trailing: false}),
-    unwatchAlert: debounce(function() {
-      this.$emit('unwatch-alert', this.id)
-    }, 200, {leading: true, trailing: false}),
-    addNote: debounce(function(action) {
-      this.$emit('add-note', this.id, this.text)
-      this.close()
-    }, 200, {leading: true, trailing: false}),
-    deleteAlert: debounce(function() {
-      this.$emit('delete-alert', this.id)
-    }, 200, {leading: true, trailing: false}),
+    takeAction: debounce(
+      function (action) {
+        this.$emit('take-action', this.id, action, this.text)
+        this.close()
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    ackAlert: debounce(
+      function () {
+        this.$emit('ack-alert', this.id, this.text)
+        this.close()
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    shelveAlert: debounce(
+      function () {
+        this.$emit('shelve-alert', this.id, this.text)
+        this.close()
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    watchAlert: debounce(
+      function () {
+        this.$emit('watch-alert', this.id)
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    unwatchAlert: debounce(
+      function () {
+        this.$emit('unwatch-alert', this.id)
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    addNote: debounce(
+      function (action) {
+        this.$emit('add-note', this.id, this.text)
+        this.close()
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+    deleteAlert: debounce(
+      function () {
+        this.$emit('delete-alert', this.id)
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
     close() {
       this.text = null
       this.showForm = false

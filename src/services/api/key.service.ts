@@ -1,22 +1,22 @@
 import api from './index'
 
 export default {
-  createKey(data: object) {
+  async createKey(data: object) {
     return api.post('/key', data)
   },
-  getKey(key: string) {
+  async getKey(key: string) {
     return api.get(`/key/${key}`)
   },
-  getKeys(query: object) {
-    let config = {
+  async getKeys(query: object) {
+    const config = {
       params: query
     }
     return api.get('/keys', config)
   },
-  updateKey(key: string, data: object) {
+  async updateKey(key: string, data: object) {
     return api.put(`/key/${key}`, data)
   },
-  deleteKey(key: string) {
+  async deleteKey(key: string) {
     return api.delete(`/key/${key}`)
   }
 }
