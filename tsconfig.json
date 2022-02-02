@@ -12,27 +12,13 @@
     "sourceMap": true,
     "baseUrl": ".",
     "noImplicitAny": false,
-    "types": [
-      "webpack-env",
-      "jest"
-    ],
+    "allowJs": true,
+    "types": ["webpack-env", "jest"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "include": [
-    "src/**/*",
-    "tests/**/*.ts",
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*", "tests/**/*.ts"],
+  "exclude": ["node_modules"]
 }

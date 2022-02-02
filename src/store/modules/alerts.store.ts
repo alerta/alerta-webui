@@ -1,11 +1,36 @@
-import AlertsApi from '@/services/api/alert.service'
-
-import moment from 'moment'
 import utils from '@/common/utils'
+import AlertsApi from '@/services/api/alert.service'
+import moment from 'moment'
+import { DataPagination } from 'vuetify'
 
 const namespaced = true
 
-const state = {
+interface AlertsState {
+  isLoading: boolean
+  isSearching: boolean
+
+  alerts: any[]
+  selected: any[]
+  environments: any[]
+  services: any[]
+  groups: any[]
+  tags: any[]
+
+  alert: any
+  notes: any[]
+
+  isWatch: boolean
+  isKiosk: boolean
+  showPanel: boolean
+  displayDensity: 'comfortable' | 'compact'
+
+  query: any // URLSearchParams
+  filter: any
+
+  pagination: DataPagination
+}
+
+const state: AlertsState = {
   isLoading: false,
   isSearching: false,
 
@@ -39,61 +64,61 @@ const state = {
   },
 
   pagination: {
+    itemsPerPage: 20,
     page: 1,
-    rowsPerPage: 20,
     sortBy: 'default',
-    descending: false,
-    rowsPerPageItems: [5, 10, 20, 50, 100, 200]
+    sortDesc: [false],
+    itemsPerPageOptions: [5, 10, 20, 50, 100, 200]
   }
 }
 
 const mutations = {
-  SET_LOADING(state): any {
+  SET_LOADING(state) {
     state.isLoading = true
   },
-  SET_SEARCH_QUERY(state, query): any {
+  SET_SEARCH_QUERY(state, query) {
     state.isSearching = true
     state.query = query
   },
-  SET_ALERTS(state, [alerts, total, pageSize]): any {
+  SET_ALERTS(state, [alerts, total, pageSize]) {
     state.isLoading = false
     state.isSearching = false
     state.alerts = alerts
     state.pagination.totalItems = total
     state.pagination.rowsPerPage = pageSize
   },
-  RESET_LOADING(state): any {
+  RESET_LOADING(state) {
     state.isLoading = false
     state.isSearching = false
   },
-  SET_KIOSK(state, isKiosk): any {
+  SET_KIOSK(state, isKiosk) {
     state.isKiosk = isKiosk
   },
   SET_SELECTED(state, selected) {
     state.selected = selected
   },
-  SET_ALERT(state, alert): any {
+  SET_ALERT(state, alert) {
     state.alert = alert
   },
-  SET_NOTES(state, notes): any {
+  SET_NOTES(state, notes) {
     state.notes = notes
   },
-  SET_ENVIRONMENTS(state, environments): any {
+  SET_ENVIRONMENTS(state, environments) {
     state.environments = environments
   },
-  SET_SERVICES(state, services): any {
+  SET_SERVICES(state, services) {
     state.services = services
   },
-  SET_GROUPS(state, groups): any {
+  SET_GROUPS(state, groups) {
     state.groups = groups
   },
-  SET_TAGS(state, tags): any {
+  SET_TAGS(state, tags) {
     state.tags = tags
   },
   SET_SETTING(state, { s, v }) {
     state[s] = v
   },
-  SET_FILTER(state, filter): any {
+  SET_FILTER(state, filter) {
     state.filter = Object.assign({}, state.filter, filter)
   },
   SET_PAGINATION(state, pagination) {
@@ -192,52 +217,52 @@ const actions = {
     })
   },
 
-  async watchAlert({ commit, dispatch, rootState }, alertId) {
+  async watchAlert({ rootState }, alertId) {
     const username = rootState.auth.payload.preferred_username
     const tag = `watch:${username}`
     return AlertsApi.tagAlert(alertId, { tags: [tag] })
   },
-  async unwatchAlert({ commit, dispatch, rootState }, alertId) {
+  async unwatchAlert({ rootState }, alertId) {
     const username = rootState.auth.payload.preferred_username
     const tag = `watch:${username}`
     return AlertsApi.untagAlert(alertId, { tags: [tag] })
   },
-  async takeAction({ commit, dispatch }, [alertId, action, text, timeout]) {
+  async takeAction({}, [alertId, action, text, timeout]) {
     return AlertsApi.actionAlert(alertId, {
       action,
       text,
       timeout
     })
   },
-  async tagAlert({ commit, dispatch }, [alertId, tags]) {
+  async tagAlert({}, [alertId, tags]) {
     return AlertsApi.tagAlert(alertId, tags)
   },
-  async untagAlert({ commit, dispatch }, [alertId, tags]) {
+  async untagAlert({}, [alertId, tags]) {
     return AlertsApi.untagAlert(alertId, tags)
   },
 
-  async addNote({ commit, dispatch }, [alertId, text]) {
+  async addNote({ dispatch }, [alertId, text]) {
     return AlertsApi.addNote(alertId, {
       text
-    }).then((response) => dispatch('getAlerts'))
+    }).then(() => dispatch('getAlerts'))
   },
   async getNotes({ commit }, alertId) {
     return AlertsApi.getNotes(alertId).then(({ notes }) => {
       commit('SET_NOTES', notes)
     })
   },
-  async updateNote({ commit, dispatch }, [alertId, noteId, note]) {
+  async updateNote({ dispatch }, [alertId, noteId, note]) {
     return AlertsApi.updateNote(alertId, noteId, {
       note
-    }).then((response) => dispatch('getNotes'))
+    }).then(() => dispatch('getNotes'))
   },
-  async deleteNote({ commit, dispatch }, [alertId, noteId]) {
-    return AlertsApi.deleteNote(alertId, noteId).then((response) =>
+  async deleteNote({ dispatch }, [alertId, noteId]) {
+    return AlertsApi.deleteNote(alertId, noteId).then(() =>
       dispatch('getNotes', [alertId])
     )
   },
 
-  async deleteAlert({ commit, dispatch }, alertId) {
+  async deleteAlert({}, alertId) {
     return AlertsApi.deleteAlert(alertId)
   },
 
@@ -318,7 +343,7 @@ const actions = {
 }
 
 const getters = {
-  alerts: (state, getters, rootState) => {
+  alerts: (state, _getters, rootState) => {
     if (state.isWatch) {
       const username = rootState.auth.payload.preferred_username
       const tag = `watch:${username}`
@@ -328,7 +353,7 @@ const getters = {
     }
   },
   environments:
-    (state, getters, rootState) =>
+    (state, _getters, rootState) =>
     (showAllowedEnvs = true) => {
       if (showAllowedEnvs) {
         return [

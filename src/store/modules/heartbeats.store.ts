@@ -28,10 +28,10 @@ const actions = {
       .then(({ heartbeats }) => commit('SET_HEARTBEATS', heartbeats))
       .catch(() => commit('RESET_LOADING'))
   },
-  async deleteHeartbeat({ dispatch, commit }, heartbeatId) {
-    return HeartbeatsApi.deleteHeartbeat(heartbeatId).then((response) => {
+  async deleteHeartbeat({ dispatch }, heartbeatId) {
+    return HeartbeatsApi.deleteHeartbeat(heartbeatId).then(() =>
       dispatch('getHeartbeats')
-    })
+    )
   }
 }
 

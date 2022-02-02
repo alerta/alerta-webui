@@ -2,7 +2,7 @@ export default {
   getAllowedScopes(scopes: string[], allScopes: string[]) {
     const derivedScopes: string[] = []
 
-    function expandScope(scope: string) {
+    const expandScope = (scope: string) => {
       return allScopes.filter((s) => s.startsWith(scope))
     }
 

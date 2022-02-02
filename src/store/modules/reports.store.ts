@@ -1,5 +1,4 @@
 import AlertsApi from '@/services/api/alert.service'
-
 import moment from 'moment'
 
 const namespaced = true
@@ -26,16 +25,16 @@ const state = {
 }
 
 const mutations = {
-  SET_TOP_OFFENDERS(state, top10): any {
+  SET_TOP_OFFENDERS(state, top10) {
     state.offenders = top10
   },
-  SET_TOP_FLAPPING(state, top10): any {
+  SET_TOP_FLAPPING(state, top10) {
     state.flapping = top10
   },
-  SET_TOP_STANDING(state, top10): any {
+  SET_TOP_STANDING(state, top10) {
     state.standing = top10
   },
-  SET_FILTER(state, filter): any {
+  SET_FILTER(state, filter) {
     state.filter = Object.assign({}, state.filter, filter)
   },
   SET_PAGE_SIZE(state, rowsPerPage) {
@@ -43,7 +42,7 @@ const mutations = {
   }
 }
 
-function getParams(state) {
+const getParams = (state) => {
   // get "lucene" query params (?q=)
   const params = new URLSearchParams(state.query)
 

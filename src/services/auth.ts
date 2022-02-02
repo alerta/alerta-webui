@@ -7,11 +7,9 @@ import axios from 'axios'
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 
-function getRedirectUri(path: string) {
-  return window.location.origin + (path || '')
-}
+const getRedirectUri = (path: string) => window.location.origin + (path || '')
 
-export function vueAuth(config) {
+export const vueAuth = (config) => {
   const basePath = config.base_path || process.env.BASE_URL
   return new VueAuthenticate(Vue.prototype.$http, {
     tokenPath: 'token',

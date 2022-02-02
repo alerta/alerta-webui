@@ -12,7 +12,7 @@
             type="text"
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
-            outline
+            outlined
           />
           <v-text-field
             v-model="password"
@@ -20,7 +20,7 @@
             :type="showPassword ? 'text' : 'password'"
             :label="$t('Password')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
-            outline
+            outlined
             @click:append="showPassword = !showPassword"
           />
           <v-btn block color="primary" type="submit">

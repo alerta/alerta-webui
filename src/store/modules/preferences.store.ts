@@ -59,7 +59,7 @@ const actions = {
       .then(({ attributes }) => {
         commit('SET_PREFS', attributes.prefs)
       })
-      .catch((error) =>
+      .catch(() =>
         dispatch('notifications/error', Error(`${i18n.t('SettingsError')}`), {
           root: true
         })
@@ -67,7 +67,7 @@ const actions = {
   },
   async toggle({ dispatch }, [s, v]) {
     return UsersApi.updateMeAttributes({ prefs: { [s]: v } })
-      .then((response) => dispatch('getUserPrefs'))
+      .then(() => dispatch('getUserPrefs'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
@@ -76,7 +76,7 @@ const actions = {
   },
   async setUserPrefs({ dispatch }, prefs) {
     return UsersApi.updateMeAttributes({ prefs })
-      .then((response) => dispatch('getUserPrefs'))
+      .then(() => dispatch('getUserPrefs'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
@@ -85,7 +85,7 @@ const actions = {
   },
   async resetUserPrefs({ dispatch, commit }) {
     return UsersApi.updateMeAttributes({ prefs: null })
-      .then((response) => commit('RESET_PREFS'))
+      .then(() => commit('RESET_PREFS'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsReset'), {
           root: true
@@ -100,7 +100,7 @@ const actions = {
       .then(({ attributes }) => {
         commit('SET_QUERIES', attributes.queries)
       })
-      .catch((error) =>
+      .catch(() =>
         dispatch('notifications/error', Error(`${i18n.t('SettingsError')}`), {
           root: true
         })
@@ -111,7 +111,7 @@ const actions = {
       .filter((q) => q.text != query.text)
       .concat([query])
     return UsersApi.updateMeAttributes({ queries: qlist })
-      .then((response) => dispatch('getUserQueries'))
+      .then(() => dispatch('getUserQueries'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
@@ -121,7 +121,7 @@ const actions = {
   async removeUserQuery({ dispatch, state }, query) {
     const qlist = state.queries.filter((q) => q.text != query.text)
     return UsersApi.updateMeAttributes({ queries: qlist })
-      .then((response) => dispatch('getUserQueries'))
+      .then(() => dispatch('getUserQueries'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsSaved'), {
           root: true
@@ -130,7 +130,7 @@ const actions = {
   },
   async resetUserQueries({ dispatch, commit }) {
     return UsersApi.updateMeAttributes({ queries: null })
-      .then((response) => commit('RESET_QUERIES'))
+      .then(() => commit('RESET_QUERIES'))
       .then(() =>
         dispatch('notifications/success', i18n.t('SettingsReset'), {
           root: true

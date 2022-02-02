@@ -5,15 +5,17 @@
       :headers="customHeaders"
       :items="alerts"
       item-key="id"
-      :pagination.sync="pagination"
-      :total-items="pagination.totalItems"
-      :rows-per-page-items="pagination.rowsPerPageItems"
+      :sort-by="pagination.sortBy"
+      :server-items-length="pagination.totalItems"
+      :footer-props="{
+        itemsPerPageOptions: pagination.itemsPerPageOptions
+      }"
       :loading="isSearching"
       class="alert-table"
       :class="[displayDensity]"
       :style="columnWidths"
-      sort-icon="arrow_drop_down"
-      select-all
+      header-props.sort-icon="arrow_drop_down"
+      show-select
     >
       <template slot="items" slot-scope="props">
         <tr
@@ -332,15 +334,15 @@
                 <v-list subheader>
                   <v-subheader>Actions</v-subheader>
                   <v-divider />
-                  <v-list-tile
+                  <v-list-item
                     v-for="(action, i) in actions"
                     :key="i"
                     @click.stop="takeAction(props.item.id, action)"
                   >
-                    <v-list-tile-title>{{
+                    <v-list-item-title>{{
                       action | splitCaps
-                    }}</v-list-tile-title>
-                  </v-list-tile>
+                    }}</v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </div>
@@ -574,7 +576,7 @@ export default {
       return status == 'closed'
     },
     takeAction: debounce(
-      function (id, action) {
+      (id, action) => {
         this.$store
           .dispatch('alerts/takeAction', [id, action, ''])
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -583,7 +585,7 @@ export default {
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/takeAction', [id, 'ack', '', this.ackTimeout])
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -592,7 +594,7 @@ export default {
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/takeAction', [id, 'shelve', '', this.shelveTimeout])
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -601,7 +603,7 @@ export default {
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/watchAlert', id)
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -610,7 +612,7 @@ export default {
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/unwatchAlert', id)
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -619,7 +621,7 @@ export default {
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      function (id) {
+      (id) => {
         confirm(i18n.t('ConfirmDelete')) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)

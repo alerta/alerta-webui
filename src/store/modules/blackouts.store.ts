@@ -28,20 +28,20 @@ const actions = {
       .then(({ blackouts }) => commit('SET_BLACKOUTS', blackouts))
       .catch(() => commit('RESET_LOADING'))
   },
-  async createBlackout({ dispatch, commit }, blackout) {
-    return BlackoutsApi.createBlackout(blackout).then((response) => {
+  async createBlackout({ dispatch }, blackout) {
+    return BlackoutsApi.createBlackout(blackout).then(() =>
       dispatch('getBlackouts')
-    })
+    )
   },
-  async updateBlackout({ dispatch, commit }, [blackoutId, update]) {
-    return BlackoutsApi.updateBlackout(blackoutId, update).then((response) => {
+  async updateBlackout({ dispatch }, [blackoutId, update]) {
+    return BlackoutsApi.updateBlackout(blackoutId, update).then(() =>
       dispatch('getBlackouts')
-    })
+    )
   },
-  async deleteBlackout({ dispatch, commit }, blackoutId) {
-    return BlackoutsApi.deleteBlackout(blackoutId).then((response) => {
+  async deleteBlackout({ dispatch }, blackoutId) {
+    return BlackoutsApi.deleteBlackout(blackoutId).then(() =>
       dispatch('getBlackouts')
-    })
+    )
   }
 }
 

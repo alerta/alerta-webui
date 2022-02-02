@@ -26,26 +26,20 @@ const mutations = {
 }
 
 const actions = {
-  async getKeys({ commit, dispatch }) {
+  async getKeys({ commit }) {
     commit('SET_LOADING')
     return KeysApi.getKeys({})
       .then(({ keys }) => commit('SET_KEYS', keys))
       .catch(() => commit('RESET_LOADING'))
   },
-  async createKey({ dispatch, commit }, key) {
-    return KeysApi.createKey(key).then((response) => {
-      dispatch('getKeys')
-    })
+  async createKey({ dispatch }, key) {
+    return KeysApi.createKey(key).then(() => dispatch('getKeys'))
   },
-  async updateKey({ dispatch, commit }, [key, update]) {
-    return KeysApi.updateKey(key, update).then((response) => {
-      dispatch('getKeys')
-    })
+  async updateKey({ dispatch }, [key, update]) {
+    return KeysApi.updateKey(key, update).then(() => dispatch('getKeys'))
   },
-  async deleteKey({ dispatch, commit }, key) {
-    return KeysApi.deleteKey(key).then((response) => {
-      dispatch('getKeys')
-    })
+  async deleteKey({ dispatch }, key) {
+    return KeysApi.deleteKey(key).then(() => dispatch('getKeys'))
   }
 }
 

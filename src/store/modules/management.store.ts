@@ -34,17 +34,17 @@ const mutations = {
 }
 
 const actions = {
-  async getManifest({ commit, dispatch }) {
+  async getManifest({ commit }) {
     return ManagementApi.manifest().then((manifest) =>
       commit('SET_MANIFEST', manifest)
     )
   },
-  async getHealthcheck({ commit, dispatch }) {
+  async getHealthcheck({ commit }) {
     return ManagementApi.healthcheck().then((healthcheck) =>
       commit('SET_HEALTHCHECK', healthcheck)
     )
   },
-  async getStatus({ commit, dispatch }) {
+  async getStatus({ commit }) {
     return ManagementApi.status().then((status) => commit('SET_STATUS', status))
   }
 }

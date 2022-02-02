@@ -1,10 +1,9 @@
 import moment from 'moment'
 import Vue from 'vue'
 
-export default Vue.filter('days', function (value) {
-  function pad(s) {
-    return `0${s}`.slice(-2)
-  }
+export default Vue.filter('days', (value) => {
+  const pad = (s: number) => `0${s}`.slice(-2)
+
   if (value) {
     const duration = moment.duration(value, 'seconds')
     const seconds = pad(duration.seconds())

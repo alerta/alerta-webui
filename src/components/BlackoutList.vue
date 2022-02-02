@@ -36,7 +36,6 @@
                     v-model="menu1"
                     :close-on-content-click="false"
                     :nudge-right="40"
-                    lazy
                     transition="scale-transition"
                     offset-y
                     full-width
@@ -75,7 +74,6 @@
                     v-model="menu2"
                     :close-on-content-click="false"
                     :nudge-right="40"
-                    lazy
                     transition="scale-transition"
                     offset-y
                     full-width
@@ -217,7 +215,7 @@
       <v-data-table
         :headers="computedHeaders"
         :items="blackouts"
-        :rows-per-page-items="rowsPerPageItems"
+        :rows-per-page-items="itemsPerPageOptions"
         :pagination.sync="pagination"
         class="px-2"
         :search="search"
@@ -258,7 +256,7 @@
             <v-chip
               v-for="service in props.item.service"
               :key="service"
-              outline
+              outlined
               small
             >
               {{ service }}
@@ -374,7 +372,7 @@ export default {
   data: (vm) => ({
     descending: true,
     page: 1,
-    rowsPerPageItems: [10, 20, 30, 40, 50],
+    itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
       sortBy: 'startTime',
       rowsPerPage: 20

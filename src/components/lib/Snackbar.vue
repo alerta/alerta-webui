@@ -1,15 +1,7 @@
 <template>
-  <v-snackbar
-    v-model="show"
-    auto-height
-    :color="snackbar.type"
-    :timeout="snackbar.timeout"
-  >
+  <v-snackbar v-model="show" :color="snackbar.type" :timeout="snackbar.timeout">
     {{ snackbar.text | capitalize }}
-    <v-btn
-      flat
-      @click="close"
-    >
+    <v-btn text @click="close">
       {{ snackbar.action }}
     </v-btn>
   </v-snackbar>

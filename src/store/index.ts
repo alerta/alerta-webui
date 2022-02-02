@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import config from './modules/config.store'
 import alerts from './modules/alerts.store'
-import heartbeats from './modules/heartbeats.store'
 import blackouts from './modules/blackouts.store'
-import users from './modules/users.store'
-import groups from './modules/groups.store'
-import perms from './modules/perms.store'
+import config from './modules/config.store'
 import customers from './modules/customers.store'
+import groups from './modules/groups.store'
+import heartbeats from './modules/heartbeats.store'
 import keys from './modules/keys.store'
-import reports from './modules/reports.store'
-import prefs from './modules/preferences.store'
 import management from './modules/management.store'
 import notifications from './modules/notifications.store'
+import perms from './modules/perms.store'
+import prefs from './modules/preferences.store'
+import reports from './modules/reports.store'
+import users from './modules/users.store'
 
 Vue.use(Vuex)
 
@@ -30,7 +30,7 @@ const actions = {
   }
 }
 
-export function createStore(): Store<any> {
+export const createStore = (): Store<any> => {
   return new Vuex.Store({
     state: {
       multiselect: false,

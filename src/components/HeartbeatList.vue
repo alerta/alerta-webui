@@ -36,7 +36,7 @@
     <v-data-table
       :headers="computedHeaders"
       :items="heartbeats"
-      :rows-per-page-items="rowsPerPageItems"
+      :rows-per-page-items="itemsPerPageOptions"
       :pagination.sync="pagination"
       class="px-2"
       :search="search"
@@ -112,7 +112,7 @@ export default {
   data: () => ({
     descending: true,
     page: 1,
-    rowsPerPageItems: [10, 20, 30, 40, 50],
+    itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
       sortBy: 'receiveTime',
       descending: true,

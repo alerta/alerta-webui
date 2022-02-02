@@ -12,7 +12,7 @@
             :type="showPassword ? 'text' : 'password'"
             :label="$t('Password')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
-            outline
+            outlined
             @click:append="showPassword = !showPassword"
           />
           <v-text-field
@@ -21,7 +21,7 @@
             :type="showPassword ? 'text' : 'password'"
             :label="$t('ConfirmPassword')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
-            outline
+            outlined
             @click:append="showPassword = !showPassword"
           />
           <v-btn block color="primary" type="submit">

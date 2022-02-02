@@ -19,7 +19,7 @@ const mutations = {
     state.isLoading = false
     state.groups = groups
   },
-  SET_GROUP(state, group): any {
+  SET_GROUP(state, group) {
     state.group = group
   },
   SET_GROUP_USERS(state, users) {
@@ -55,42 +55,34 @@ const actions = {
   clearGroupUsers({ commit }) {
     commit('RESET_GROUP_USERS')
   },
-  async createGroup({ dispatch, commit }, group) {
-    return GroupsApi.createGroup(group).then((response) => {
-      dispatch('getGroups')
-    })
+  async createGroup({ dispatch }, group) {
+    return GroupsApi.createGroup(group).then(() => dispatch('getGroups'))
   },
-  async updateGroup({ dispatch, commit }, [groupId, update]) {
-    return GroupsApi.updateGroup(groupId, update).then((response) => {
+  async updateGroup({ dispatch }, [groupId, update]) {
+    return GroupsApi.updateGroup(groupId, update).then(() =>
       dispatch('getGroups')
-    })
+    )
   },
-  async addUserToGroup({ dispatch, commit }, [groupId, userId]) {
+  async addUserToGroup({ dispatch }, [groupId, userId]) {
     return GroupsApi.addUserToGroup(groupId, userId)
-      .then((response) => {
-        dispatch('getGroupUsers', groupId)
-      })
+      .then(() => dispatch('getGroupUsers', groupId))
       .then(() =>
         dispatch('notifications/success', i18n.t('UserAddedGroup'), {
           root: true
         })
       )
   },
-  async removeUserFromGroup({ dispatch, commit }, [groupId, userId]) {
+  async removeUserFromGroup({ dispatch }, [groupId, userId]) {
     return GroupsApi.removeUserFromGroup(groupId, userId)
-      .then((response) => {
-        dispatch('getGroupUsers', groupId)
-      })
+      .then(() => dispatch('getGroupUsers', groupId))
       .then(() =>
         dispatch('notifications/success', i18n.t('UserRemovedGroup'), {
           root: true
         })
       )
   },
-  async deleteGroup({ dispatch, commit }, groupId) {
-    return GroupsApi.deleteGroup(groupId).then((response) => {
-      dispatch('getGroups')
-    })
+  async deleteGroup({ dispatch }, groupId) {
+    return GroupsApi.deleteGroup(groupId).then(() => dispatch('getGroups'))
   }
 }
 

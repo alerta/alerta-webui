@@ -33,20 +33,14 @@ const actions = {
       .then(({ permissions }) => commit('SET_PERMS', permissions))
       .catch(() => commit('RESET_LOADING'))
   },
-  async createPerm({ dispatch, commit }, perm) {
-    return PermsApi.createPerm(perm).then((response) => {
-      dispatch('getPerms')
-    })
+  async createPerm({ dispatch }, perm) {
+    return PermsApi.createPerm(perm).then(() => dispatch('getPerms'))
   },
-  async updatePerm({ dispatch, commit }, [permId, update]) {
-    return PermsApi.updatePerm(permId, update).then((response) => {
-      dispatch('getPerms')
-    })
+  async updatePerm({ dispatch }, [permId, update]) {
+    return PermsApi.updatePerm(permId, update).then(() => dispatch('getPerms'))
   },
-  async deletePerm({ dispatch, commit }, permId) {
-    return PermsApi.deletePerm(permId).then((response) => {
-      dispatch('getPerms')
-    })
+  async deletePerm({ dispatch }, permId) {
+    return PermsApi.deletePerm(permId).then(() => dispatch('getPerms'))
   },
 
   async getScopes({ commit }) {

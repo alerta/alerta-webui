@@ -37,42 +37,32 @@ const actions = {
       .then(({ users }) => commit('SET_USERS', users))
       .catch(() => commit('RESET_LOADING'))
   },
-  async createUser({ dispatch, commit }, user) {
-    return UsersApi.createUser(user).then((response) => {
-      dispatch('getUsers')
-    })
+  async createUser({ dispatch }, user) {
+    return UsersApi.createUser(user).then(() => dispatch('getUsers'))
   },
-  async updateUser({ dispatch, commit }, [userId, update]) {
-    return UsersApi.updateUser(userId, update).then((response) => {
-      dispatch('getUsers')
-    })
+  async updateUser({ dispatch }, [userId, update]) {
+    return UsersApi.updateUser(userId, update).then(() => dispatch('getUsers'))
   },
-  async setUserStatus({ dispatch, commit }, [userId, status]) {
+  async setUserStatus({ dispatch }, [userId, status]) {
     return UsersApi.updateUser(userId, { status })
-      .then((response) => {
-        dispatch('getUsers')
-      })
+      .then(() => dispatch('getUsers'))
       .then(() =>
         dispatch('notifications/success', i18n.t('UserStatusSaved'), {
           root: true
         })
       )
   },
-  async setEmailVerified({ dispatch, commit }, [userId, emailVerified]) {
+  async setEmailVerified({ dispatch }, [userId, emailVerified]) {
     return UsersApi.updateUser(userId, { email_verified: emailVerified })
-      .then((response) => {
-        dispatch('getUsers')
-      })
+      .then(() => dispatch('getUsers'))
       .then(() =>
         dispatch('notifications/success', i18n.t('EmailSaved'), { root: true })
       )
   },
-  async deleteUser({ dispatch, commit }, userId) {
-    return UsersApi.deleteUser(userId).then((response) => {
-      dispatch('getUsers')
-    })
+  async deleteUser({ dispatch }, userId) {
+    return UsersApi.deleteUser(userId).then(() => dispatch('getUsers'))
   },
-  async getUserGroups({ dispatch, commit }, userId) {
+  async getUserGroups({ commit }, userId) {
     return UsersApi.getGroups(userId).then(({ groups }) =>
       commit('SET_USER_GROUPS', groups)
     )

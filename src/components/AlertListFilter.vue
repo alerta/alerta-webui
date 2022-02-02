@@ -9,18 +9,20 @@
     right
   >
     <v-card tile>
-      <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" card dense>
+      <v-app-bar flat :color="isDark ? '#616161' : '#eeeeee'" dense>
         <v-toolbar-title>
           {{ $t('Filters') }}
         </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items />
         <v-menu bottom right offset-y>
-          <v-btn slot="activator" icon @click="close">
-            <v-icon>close</v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon @click="close">
+              <v-icon>close</v-icon>
+            </v-btn>
+          </template>
         </v-menu>
-      </v-toolbar>
+      </v-app-bar>
 
       <v-container fluid grid-list-xl>
         <v-layout align-center wrap>
@@ -29,7 +31,7 @@
               v-model="filterText"
               :label="$t('Search')"
               prepend-inner-icon="search"
-              outline
+              outlined
               dense
               clearable
               :hint="$t('FilterDescription')"
@@ -45,7 +47,7 @@
               :placeholder="$t('AllStatuses')"
               :label="$t('Status')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('StatusDescription')"
               persistent-hint
@@ -60,7 +62,7 @@
               :placeholder="$t('AllCustomers')"
               :label="$t('Customer')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('CustomerDescription')"
               persistent-hint
@@ -75,7 +77,7 @@
               :placeholder="$t('AllServices')"
               :label="$t('Service')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('ServiceDescription')"
               persistent-hint
@@ -90,7 +92,7 @@
               :placeholder="$t('AllGroups')"
               :label="$t('Group')"
               multiple
-              outline
+              outlined
               dense
               :hint="$t('GroupDescription')"
               persistent-hint
@@ -117,7 +119,7 @@
               v-model="period.startDate"
               :label="$t('StartDate')"
               prepend-inner-icon="event"
-              outline
+              outlined
               hide-details
               @click:prepend-inner="menu1 = !menu1"
             />
@@ -127,7 +129,7 @@
             <v-text-field
               v-model="period.startTime"
               :label="$t('Time')"
-              outline
+              outlined
               hide-details
             />
           </v-flex>
@@ -138,14 +140,14 @@
               v-model="menu1"
               :close-on-content-click="false"
               :nudge-right="40"
-              lazy
               transition="scale-transition"
               offset-y
-              full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
+              <template v-slot:activator="{ on }">
+                <div v-on="on" />
+              </template>
               <v-date-picker
                 v-model="period.startDate"
                 no-title
@@ -158,7 +160,7 @@
               v-model="period.endDate"
               :label="$t('EndDate')"
               prepend-inner-icon="event"
-              outline
+              outlined
               hide-details
               @click:prepend-inner="menu2 = !menu2"
             />
@@ -168,7 +170,7 @@
             <v-text-field
               v-model="period.endTime"
               :label="$t('Time')"
-              outline
+              outlined
               hide-details
             />
           </v-flex>
@@ -178,14 +180,14 @@
               v-model="menu2"
               :close-on-content-click="false"
               :nudge-right="40"
-              lazy
               transition="scale-transition"
               offset-y
-              full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
+              <template v-slot:activator="{ on }">
+                <div v-on="on" />
+              </template>
               <v-date-picker
                 v-model="period.endDate"
                 no-title
@@ -203,7 +205,7 @@
             {{ $t('Apply') }}
           </v-btn>
           <v-spacer />
-          <v-btn color="blue darken-1" flat @click="reset">
+          <v-btn color="blue darken-1" text @click="reset">
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>

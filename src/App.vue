@@ -10,7 +10,7 @@
         app
       >
         <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" flat>
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
           <router-link to="/" class="toolbar-title">
             <img
@@ -25,24 +25,24 @@
         <v-divider />
         <v-list dense>
           <template v-for="(item, index) in items">
-            <v-list-tile
+            <v-list-item
               v-if="item.icon && item.show"
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
             >
-              <v-list-tile-action>
+              <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
                   {{ item.text }}
                   <v-icon v-if="item.appendIcon" small>
                     {{ item.appendIcon }}
                   </v-icon>
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
 
             <v-list-group
               v-else-if="item.queries && item.queries.length > 0"
@@ -52,22 +52,22 @@
               no-action
             >
               <template v-slot:activator>
-                <v-list-tile>
-                  <v-list-tile-title>
+                <v-list-item>
+                  <v-list-item-title>
                     {{ item.text }}
-                  </v-list-tile-title>
-                </v-list-tile>
+                  </v-list-item-title>
+                </v-list-item>
               </template>
-              <v-list-tile
+              <v-list-item
                 v-for="(q, i) in item.queries"
                 :key="i"
                 @click="submitSearch(q.query)"
               >
-                <v-list-tile-title v-text="q.text" />
-                <v-list-tile-action>
+                <v-list-item-title v-text="q.text" />
+                <v-list-item-action>
                   <v-icon small @click.stop="deleteSearch(q)" v-text="q.icon" />
-                </v-list-tile-action>
-              </v-list-tile>
+                </v-list-item-action>
+              </v-list-item>
             </v-list-group>
 
             <v-divider v-else-if="item.divider" :key="index" />
@@ -81,7 +81,7 @@
         flat
         class="mb-1"
       >
-        <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
         <router-link to="/" class="toolbar-title">
           <img
@@ -89,7 +89,7 @@
             :src="$config.site_logo_url"
             height="48"
           />
-          <v-toolbar-title v-else class="logo"> alerta </v-toolbar-title>
+          <v-toolbar-title v-else class="logo">alerta</v-toolbar-title>
         </router-link>
 
         <v-spacer />
@@ -102,8 +102,9 @@
           prepend-inner-icon="search"
           solo
           clearable
-          height="44"
-          class="pt-2 mr-3 hidden-sm-and-down"
+          dense
+          hide-details
+          class="mr-3 hidden-sm-and-down"
           @focus="hasFocus = true"
           @blur="hasFocus = false"
           @change="submitSearch"
@@ -121,13 +122,15 @@
 
         <div v-if="$route.name === 'alerts'" v-show="isLoggedIn">
           <v-tooltip bottom>
-            <v-switch
-              slot="activator"
-              :input-value="isWatch"
-              hide-details
-              open-delay="3000"
-              @change="toggle('isWatch', $event)"
-            />
+            <template v-slot:activator="{ on }">
+              <v-switch
+                v-on="on"
+                :input-value="isWatch"
+                hide-details
+                open-delay="3000"
+                @change="toggle('isWatch', $event)"
+              />
+            </template>
             <span>{{ $t('Watch') }}</span>
           </v-tooltip>
         </div>
@@ -135,27 +138,31 @@
         <v-spacer class="hidden-sm-and-down" />
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-            @click="toggleFullScreen"
-          >
-            <v-icon>{{
-              isFullscreen() ? 'fullscreen_exit' : 'fullscreen'
-            }}</v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-on="on"
+              icon
+              @click="toggleFullScreen"
+            >
+              <v-icon>{{
+                isFullscreen() ? 'fullscreen_exit' : 'fullscreen'
+              }}</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('FullScreen') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-          >
-            <v-icon @click="refresh"> refresh </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-on="on"
+              icon
+            >
+              <v-icon @click="refresh"> refresh </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Refresh') }}</span>
         </v-tooltip>
 
@@ -166,16 +173,18 @@
           :nudge-width="200"
           offset-x
         >
-          <v-btn slot="activator" icon>
-            <v-avatar size="32px">
-              <img
-                v-if="avatar && !error"
-                :src="avatar"
-                @error="error = true"
-              />
-              <v-icon v-else v-text="navbar.signin.icon" />
-            </v-avatar>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon>
+              <v-avatar size="32px">
+                <img
+                  v-if="avatar && !error"
+                  :src="avatar"
+                  @error="error = true"
+                />
+                <v-icon v-else v-text="navbar.signin.icon" />
+              </v-avatar>
+            </v-btn>
+          </template>
 
           <profile-me v-if="profile" :profile="profile" @close="menu = false" />
         </v-menu>
@@ -183,14 +192,14 @@
         <span class="hidden-xs-only">
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
-            round
-            outline
+            rounded
+            outlined
             color="primary"
             to="/signup"
           >
             {{ $t('SignUp') }}
           </v-btn>
-          <v-btn v-show="!isLoggedIn" round color="primary" to="/login">
+          <v-btn v-show="!isLoggedIn" rounded color="primary" to="/login">
             {{ $t('LogIn') }}
           </v-btn>
         </span>
@@ -217,114 +226,111 @@
         <v-spacer />
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="toggleWatch()"
-          >
-            <v-icon> visibility </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon class="btn--plain" @click="toggleWatch()">
+              <v-icon> visibility </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Watch') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="bulkAckAlert()"
-          >
-            <v-icon> check </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon class="btn--plain" @click="bulkAckAlert()">
+              <v-icon> check </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Ack') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="bulkShelveAlert()"
-          >
-            <v-icon> schedule </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon class="btn--plain" @click="bulkShelveAlert()">
+              <v-icon> schedule </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn slot="activator" icon class="btn--plain">
-            <v-icon>group</v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon class="btn--plain">
+              <v-icon>group</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Group') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="takeBulkAction('close')"
-          >
-            <v-icon> highlight_off </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              icon
+              class="btn--plain"
+              @click="takeBulkAction('close')"
+            >
+              <v-icon> highlight_off </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Close') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="bulkDeleteAlert()"
-          >
-            <v-icon> delete </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon class="btn--plain" @click="bulkDeleteAlert()">
+              <v-icon> delete </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Delete') }}</span>
         </v-tooltip>
 
         <v-menu bottom left>
-          <v-btn slot="activator" flat icon small class="btn--plain px-1 mx-0">
-            <v-icon small> more_vert </v-icon>
-          </v-btn>
-
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" flat icon small class="btn--plain px-1 mx-0">
+              <v-icon small> more_vert </v-icon>
+            </v-btn>
+          </template>
           <v-list subheader>
             <v-subheader>Actions</v-subheader>
             <v-divider />
-            <v-list-tile
+            <v-list-item
               v-for="(action, i) in actions"
               :key="i"
               @click="takeBulkAction(action)"
             >
-              <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
-            </v-list-tile>
+              <v-list-item-title>{{ action | splitCaps }}</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
 
         <v-spacer />
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-            @click="toggleFullScreen"
-          >
-            <v-icon>{{
-              isFullscreen() ? 'fullscreen_exit' : 'fullscreen'
-            }}</v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-on="on"
+              icon
+              @click="toggleFullScreen"
+            >
+              <v-icon>{{
+                isFullscreen() ? 'fullscreen_exit' : 'fullscreen'
+              }}</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('FullScreen') }}</span>
         </v-tooltip>
 
         <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-          >
-            <v-icon @click="refresh"> refresh </v-icon>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-on="on"
+              icon
+            >
+              <v-icon @click="refresh"> refresh </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Refresh') }}</span>
         </v-tooltip>
 
@@ -335,16 +341,18 @@
           :nudge-width="200"
           offset-x
         >
-          <v-btn slot="activator" icon>
-            <v-avatar size="32px">
-              <img
-                v-if="avatar && !error"
-                :src="avatar"
-                @error="error = true"
-              />
-              <v-icon v-else v-text="navbar.signin.icon" />
-            </v-avatar>
-          </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon>
+              <v-avatar size="32px">
+                <img
+                  v-if="avatar && !error"
+                  :src="avatar"
+                  @error="error = true"
+                />
+                <v-icon v-else v-text="navbar.signin.icon" />
+              </v-avatar>
+            </v-btn>
+          </template>
 
           <profile-me v-if="profile" :profile="profile" @close="menu = false" />
         </v-menu>
@@ -352,33 +360,33 @@
         <span class="hidden-xs-only">
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
-            round
-            outline
+            rounded
+            outlined
             color="primary"
             disabled
           >
             {{ $t('SignUp') }}
           </v-btn>
-          <v-btn v-show="!isLoggedIn" round color="primary" disabled>
+          <v-btn v-show="!isLoggedIn" rounded color="primary" disabled>
             {{ $t('LogIn') }}
           </v-btn>
         </span>
       </v-toolbar>
     </div>
 
-    <v-content>
+    <v-main>
       <banner />
       <router-view />
       <snackbar />
-    </v-content>
+    </v-main>
 
     <div v-if="!isKiosk">
       <span class="hidden-sm-and-up">
         <v-btn
           v-show="!isLoggedIn && isSignupEnabled"
           block
-          round
-          outline
+          rounded
+          outlined
           color="primary"
           to="/signup"
           :disabled="selected.length > 0"
@@ -388,7 +396,7 @@
         <v-btn
           v-show="!isLoggedIn"
           block
-          round
+          rounded
           color="primary"
           to="/login"
           :disabled="selected.length > 0"
@@ -401,11 +409,11 @@
 </template>
 
 <script>
-import Banner from '@/components/lib/Banner.vue'
 import ProfileMe from '@/components/auth/ProfileMe.vue'
+import Banner from '@/components/lib/Banner.vue'
 import Snackbar from '@/components/lib/Snackbar.vue'
-
 import i18n from '@/plugins/i18n'
+
 
 export default {
   name: 'App',
@@ -566,7 +574,7 @@ export default {
           ? this.$store.state.alerts.query.q
           : null
       },
-      set(value) {
+      set(_value) {
         // FIXME: offer query suggestions to user here, in future
       }
     },

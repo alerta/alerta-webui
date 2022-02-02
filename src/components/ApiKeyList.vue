@@ -72,7 +72,6 @@
                     v-model="menu"
                     :close-on-content-click="false"
                     :nudge-right="40"
-                    lazy
                     transition="scale-transition"
                     offset-y
                     full-width
@@ -146,7 +145,7 @@
       <v-data-table
         :headers="computedHeaders"
         :items="keys"
-        :rows-per-page-items="rowsPerPageItems"
+        :rows-per-page-items="itemsPerPageOptions"
         :pagination.sync="pagination"
         class="px-2"
         :search="search"
@@ -260,7 +259,7 @@ export default {
   data: (vm) => ({
     descending: true,
     page: 1,
-    rowsPerPageItems: [10, 20, 30, 40, 50],
+    itemsPerPageOptions: [10, 20, 30, 40, 50],
     pagination: {
       sortBy: 'lastUsedTime',
       rowsPerPage: 20

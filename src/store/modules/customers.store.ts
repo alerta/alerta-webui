@@ -28,20 +28,20 @@ const actions = {
       .then(({ customers }) => commit('SET_CUSTOMERS', customers))
       .catch(() => commit('RESET_LOADING'))
   },
-  async createCustomer({ dispatch, commit }, customer) {
-    return CustomersApi.createCustomer(customer).then((response) => {
+  async createCustomer({ dispatch }, customer) {
+    return CustomersApi.createCustomer(customer).then(() =>
       dispatch('getCustomers')
-    })
+    )
   },
-  async updateCustomer({ dispatch, commit }, [customerId, update]) {
-    return CustomersApi.updateCustomer(customerId, update).then((response) => {
+  async updateCustomer({ dispatch }, [customerId, update]) {
+    return CustomersApi.updateCustomer(customerId, update).then(() =>
       dispatch('getCustomers')
-    })
+    )
   },
-  async deleteCustomer({ dispatch, commit }, customerId) {
-    return CustomersApi.deleteCustomer(customerId).then((response) => {
+  async deleteCustomer({ dispatch }, customerId) {
+    return CustomersApi.deleteCustomer(customerId).then(() =>
       dispatch('getCustomers')
-    })
+    )
   }
 }
 

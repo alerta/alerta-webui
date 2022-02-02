@@ -5,7 +5,7 @@
         <v-flex>
           <v-btn
             v-show="!isWatched"
-            outline
+            outlined
             color="grey darken-2"
             @click="watchAlert"
           >
@@ -14,7 +14,7 @@
 
           <v-btn
             v-show="isWatched"
-            outline
+            outlined
             color="grey darken-2"
             @click="unwatchAlert"
           >
@@ -23,14 +23,14 @@
 
           <v-btn
             v-if="!showForm"
-            outline
+            outlined
             color="grey darken-2"
             @click="showForm = true"
           >
             <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
           </v-btn>
 
-          <v-btn outline color="grey darken-2" @click="deleteAlert">
+          <v-btn outlined color="grey darken-2" @click="deleteAlert">
             <v-icon>delete_forever</v-icon>&nbsp;{{ $t('Delete') }}
           </v-btn>
         </v-flex>
@@ -171,7 +171,7 @@ export default {
     isDark() {
       return this.$store.getters.getPreference('isDark')
     },
-    isOpen(status) {
+    isOpen() {
       return this.status == 'open' || this.status == 'NORM'
     },
     isAcked() {
@@ -186,7 +186,7 @@ export default {
   },
   methods: {
     takeAction: debounce(
-      function (action) {
+      (action) => {
         this.$emit('take-action', this.id, action, this.text)
         this.close()
       },
@@ -194,7 +194,7 @@ export default {
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      function () {
+      () => {
         this.$emit('ack-alert', this.id, this.text)
         this.close()
       },
@@ -202,7 +202,7 @@ export default {
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      function () {
+      () => {
         this.$emit('shelve-alert', this.id, this.text)
         this.close()
       },
@@ -210,21 +210,21 @@ export default {
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      function () {
+      () => {
         this.$emit('watch-alert', this.id)
       },
       200,
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      function () {
+      () => {
         this.$emit('unwatch-alert', this.id)
       },
       200,
       { leading: true, trailing: false }
     ),
     addNote: debounce(
-      function (action) {
+      () => {
         this.$emit('add-note', this.id, this.text)
         this.close()
       },
@@ -232,7 +232,7 @@ export default {
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      function () {
+      () => {
         this.$emit('delete-alert', this.id)
       },
       200,

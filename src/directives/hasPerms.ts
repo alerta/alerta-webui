@@ -5,7 +5,7 @@ import { store } from '@/main'
 // v-has-perms.disable="write:keys"
 // v-has-perms="admin:users" (hide is default)
 
-export default Vue.directive('has-perms', function (el, binding) {
+export default Vue.directive('has-perms', (el, binding) => {
   const authRequired = store.getters.getConfig('auth_required')
   const allowReadonly = store.getters.getConfig('allow_readonly')
   const readonlyScopes = store.getters.getConfig('readonly_scopes')
@@ -22,7 +22,7 @@ export default Vue.directive('has-perms', function (el, binding) {
   }
 
   // helper function
-  function isInScope(want, have): boolean {
+  const isInScope = (want, have): boolean => {
     if (have.includes(want) || have.includes(want.split(':')[0])) {
       return true
     } else if (want.startsWith('read')) {

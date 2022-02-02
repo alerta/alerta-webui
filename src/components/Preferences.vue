@@ -146,7 +146,7 @@
 
             <v-combobox
               v-model.number="rowsPerPage"
-              :items="rowsPerPageItems"
+              :items="itemsPerPageOptions"
               :label="$t('PageRows')"
               type="number"
               :suffix="$t('rows')"
@@ -472,7 +472,7 @@ export default {
           this.$store.getters.getConfig('font')['font-size']
         ).replace('px', '')
       },
-      set: debounce(function (value) {
+      set: debounce((value) => {
         this.$store.dispatch('setUserPrefs', {
           font: { 'font-size': value + 'px' }
         })
@@ -485,14 +485,14 @@ export default {
           this.$store.getters.getConfig('font')['font-weight']
         )
       },
-      set: debounce(function (value) {
+      set: debounce((value) => {
         this.$store.dispatch('setUserPrefs', {
           font: { 'font-weight': value }
         })
       }, 2000)
     },
-    rowsPerPageItems() {
-      return this.$store.state.alerts.pagination.rowsPerPageItems
+    itemsPerPageOptions() {
+      return this.$store.state.alerts.pagination.itemsPerPageOptions
     },
     rowsPerPage: {
       get() {

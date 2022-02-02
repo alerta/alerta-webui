@@ -16,14 +16,14 @@ const GoogleAnalytics = {
       const head: HTMLElement = document.head
       head.appendChild(script)
 
-      function gtag(...args: any[]) {
+      const gtag = (...args: any[]) => {
         const dataLayer = (window.dataLayer = window.dataLayer || [])
         dataLayer.push(args)
       }
       gtag('js', new Date())
       gtag('config', trackingId)
 
-      Vue.prototype.$track = function (action: string, params?: object) {
+      Vue.prototype.$track = (action: string, params?: object) => {
         gtag('event', action, params)
       }
 

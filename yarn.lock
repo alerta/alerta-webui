@@ -11340,10 +11340,10 @@ vue@^3.0.5:
     "@vue/server-renderer" "3.2.29"
     "@vue/shared" "3.2.29"
 
-vuetify@^1.5.4:
-  version "1.5.24"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.24.tgz#d5cf6e7289570d5d05f8832a097cd435d36d37df"
-  integrity sha512-guFOgEgZ8VpSgNXOv1QL2fOliaJBoiyNnf+bBqcXsnIppJGRlW1wyT6Ux7ZlQyphSHs+UK1aJNUjcyAtoOiHWg==
+vuetify@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.6.3.tgz#b33ede2da958a40c6ced0ad1f4eda737984b3967"
+  integrity sha512-Zfiz2DZnp1DvxqGaSCGqGjv4mPNAurJJ5Xwy7bzNzIySGLlRdlO8UH6aNWnSgfaAsLP3voxadSGDm6tKM8Ys7w==
 
 vuex-router-sync@^5.0.0:
   version "5.0.0"

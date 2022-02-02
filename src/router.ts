@@ -8,7 +8,7 @@ import Alert from './views/Alert.vue'
 
 Vue.use(VueRouter)
 
-export function createRouter(basePath): VueRouter {
+export const createRouter = (basePath): VueRouter => {
   const router = new VueRouter({
     mode: 'history',
     base: basePath || process.env.BASE_URL,

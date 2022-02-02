@@ -28,7 +28,7 @@
           </v-card-actions>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="blue darken-1" flat @click="ok">
+            <v-btn color="blue darken-1" text @click="ok">
               {{ $t('OK') }}
             </v-btn>
           </v-card-actions>
@@ -64,7 +64,7 @@
       </v-tab>
       <v-spacer />
       <v-btn
-        flat
+        text
         icon
         :class="{ 'filter-active': isActive }"
         @click="sidesheet = !sidesheet"
@@ -73,25 +73,27 @@
       </v-btn>
 
       <v-menu bottom left>
-        <v-btn slot="activator" flat icon>
-          <v-icon>more_vert</v-icon>
-        </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" text icon>
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+        </template>
 
         <v-list>
-          <v-list-tile
+          <v-list-item
             :disabled="!indicators.length"
             @click="showPanel = !showPanel"
           >
-            <v-list-tile-title>
+            <v-list-item-title>
               {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('Panel') }}
-            </v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="densityDialog = true">
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="densityDialog = true">
             {{ $t('DisplayDensity') }}
-          </v-list-tile>
-          <v-list-tile @click="toCsv(alertsByEnvironment)">
+          </v-list-item>
+          <v-list-item @click="toCsv(alertsByEnvironment)">
             {{ $t('DownloadAsCsv') }}
-          </v-list-tile>
+          </v-list-item>
         </v-list>
       </v-menu>
 
@@ -123,10 +125,8 @@
 <script>
 import AlertList from '@/components/AlertList.vue'
 
-import moment from 'moment'
 import { ExportToCsv } from 'export-to-csv'
 import utils from '@/common/utils'
-import i18n from '@/plugins/i18n'
 
 export default {
   components: {
@@ -279,11 +279,11 @@ export default {
     }
   },
   watch: {
-    currentTab(val) {
+    currentTab() {
       this.setPage(1)
     },
     filter: {
-      handler(val) {
+      handler() {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
         this.currentTab = this.defaultTab
         this.cancelTimer()
@@ -308,7 +308,7 @@ export default {
     refresh(val) {
       val || (this.getAlerts() && this.getEnvironments())
     },
-    showPanel(val) {
+    showPanel() {
       history.pushState(null, null, this.$store.getters['alerts/getHash'])
     }
   },
@@ -416,24 +416,14 @@ export default {
 
       const csvExporter = new ExportToCsv(options)
       csvExporter.generateCsv(
-        data.map(
-          ({
-            correlate,
-            service,
-            tags,
-            attributes,
-            rawData,
-            history,
-            ...item
-          }) => ({
-            correlate: correlate.join(','),
-            service: service.join(','),
-            tags: tags.join(','),
-            ...attrs,
-            ...item,
-            rawData: rawData ? rawData.toString() : ''
-          })
-        )
+        data.map(({ correlate, service, tags, rawData, ...item }) => ({
+          correlate: correlate.join(','),
+          service: service.join(','),
+          tags: tags.join(','),
+          ...attrs,
+          ...item,
+          rawData: rawData ? rawData.toString() : ''
+        }))
       )
     }
   }

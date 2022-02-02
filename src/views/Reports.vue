@@ -7,7 +7,7 @@
         <v-flex xs1>
           <v-select
             v-model.number="rowsPerPage"
-            :items="rowsPerPageItems"
+            :items="itemsPerPageOptions"
             :prefix="$t('Top')"
             type="number"
           />
@@ -37,8 +37,6 @@ import TopOffenders from '@/components/reports/TopOffenders.vue'
 import TopFlapping from '@/components/reports/TopFlapping.vue'
 import TopStanding from '@/components/reports/TopStanding.vue'
 
-import i18n from '@/plugins/i18n'
-
 export default {
   components: {
     TopOffenders,
@@ -48,7 +46,7 @@ export default {
   },
   data: () => ({
     sidesheet: false,
-    rowsPerPageItems: [10, 20, 50, 100, 200]
+    itemsPerPageOptions: [10, 20, 50, 100, 200]
   }),
   computed: {
     filter() {

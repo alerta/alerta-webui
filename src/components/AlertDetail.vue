@@ -145,13 +145,13 @@
             <v-list subheader>
               <v-subheader>Actions</v-subheader>
               <v-divider />
-              <v-list-tile
+              <v-list-item
                 v-for="(action, i) in actions"
                 :key="i"
                 @click="takeAction(item.id, action)"
               >
-                <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
-              </v-list-tile>
+                <v-list-item-title>{{ action | splitCaps }}</v-list-item-title>
+              </v-list-item>
             </v-list>
           </v-menu>
           <span>{{ $t('More') }}</span>
@@ -773,10 +773,10 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce'
-import DateTime from './lib/DateTime'
 import AlertActions from '@/components/AlertActions'
 import i18n from '@/plugins/i18n'
+import debounce from 'lodash/debounce'
+import DateTime from './lib/DateTime'
 
 export default {
   components: {
@@ -900,7 +900,7 @@ export default {
       this.$store.dispatch('alerts/deleteNote', [alertId, noteId])
     },
     takeAction: debounce(
-      function (id, action, text) {
+      (id, action, text) => {
         this.$store
           .dispatch('alerts/takeAction', [id, action, text])
           .then(() => this.getAlert(this.id))
@@ -909,7 +909,7 @@ export default {
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      function (id, text) {
+      (id, text) => {
         this.$store
           .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
           .then(() => this.getAlert(this.id))
@@ -918,7 +918,7 @@ export default {
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      function (id, text) {
+      (id, text) => {
         this.$store
           .dispatch('alerts/takeAction', [
             id,
@@ -932,7 +932,7 @@ export default {
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/watchAlert', id)
           .then(() => this.getAlert(this.id))
@@ -941,7 +941,7 @@ export default {
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/unwatchAlert', id)
           .then(() => this.getAlert(this.id))
@@ -950,7 +950,7 @@ export default {
       { leading: true, trailing: false }
     ),
     addNote: debounce(
-      function (id, text) {
+      (id, text) => {
         this.$store
           .dispatch('alerts/addNote', [id, text])
           .then(() => this.getNotes(this.id))
@@ -959,7 +959,7 @@ export default {
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      function (id) {
+      (id) => {
         confirm(i18n.t('ConfirmDelete')) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)
