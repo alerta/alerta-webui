@@ -279,7 +279,7 @@
 
         <v-menu bottom left>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" flat icon small class="btn--plain px-1 mx-0">
+            <v-btn v-on="on" text icon small class="btn--plain px-1 mx-0">
               <v-icon small>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
@@ -722,12 +722,8 @@ export default {
       this.$store.dispatch('alerts/toggle', [sw, value])
     },
     toggleFullScreen() {
-      let elem = document.getElementById('alerta')
-      if (!this.isFullscreen()) {
-        elem.requestFullscreen()
-      } else {
-        document.exitFullscreen()
-      }
+      const elem = document.getElementById('alerta')
+      this.isFullscreen() ? elem.requestFullscreen() : document.exitFullscreen()
     },
     isFullscreen() {
       return document.fullscreenElement

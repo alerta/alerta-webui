@@ -168,7 +168,7 @@ export default {
       this.$store.dispatch('clearUserPrefs')
       this.$store.dispatch('auth/logout').then((response) => {
         if (response.data.logoutUrl) {
-          let redirectUrl =
+          const redirectUrl =
             (this.$config.provider == 'keycloak'
               ? 'redirect_uri='
               : 'post_logout_redirect_url=') +

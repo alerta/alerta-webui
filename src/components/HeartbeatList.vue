@@ -167,7 +167,7 @@ export default {
   },
   methods: {
     timeoutLeft(item) {
-      let expireTime = moment(item.createTime).add(item.timeout, 'seconds')
+      const expireTime = moment(item.createTime).add(item.timeout, 'seconds')
       return expireTime.isAfter()
         ? expireTime.diff(moment(), 'seconds')
         : moment.duration()

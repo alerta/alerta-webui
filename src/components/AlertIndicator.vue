@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import AlertsApi from '../services/api/alert.service'
+import AlertsApi from '@/services/api/alert.service'
 
 export default {
   props: {
@@ -100,18 +100,18 @@ export default {
         ? this.$store.getters.getConfig('colors').severity[severity]
         : 'transparent'
     },
-    getCounts() {
+    async getCounts() {
       return AlertsApi.getCounts(new URLSearchParams(this.query)).then(
         (response) => (this.counts = response.severityCounts)
       )
     },
     getMostSevere() {
-      let paramsWithOpenStatus = new URLSearchParams(this.query)
+      const paramsWithOpenStatus = new URLSearchParams(this.query)
       paramsWithOpenStatus.append('status', 'open')
 
       AlertsApi.getCounts(paramsWithOpenStatus).then((response) => {
         this.maxSeverity = this.$config.alarm_model.defaults.normal_severity
-        for (let sev of this.$config.indicators.severity) {
+        for (const sev of this.$config.indicators.severity) {
           if (response.severityCounts[sev] > 0) {
             this.maxSeverity = sev
             break
@@ -136,10 +136,9 @@ export default {
       }, 300)
     },
     cancelTimer() {
-      if (this.timer) {
-        clearTimeout(this.timer)
-        this.timer = null
-      }
+      if (!this.timer) return
+      clearTimeout(this.timer)
+      this.timer = null
     }
   }
 }

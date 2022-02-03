@@ -290,14 +290,14 @@ export default {
       return this.$config.environments
     },
     severityList() {
-      let severityMap = this.$config.alarm_model.severity
+      const severityMap = this.$config.alarm_model.severity
       return Object.keys(severityMap).sort((a, b) => {
         return severityMap[a] - severityMap[b]
       })
     },
     statusList() {
       // FIXME - remove defaultStatusMap from v7.0 onwards
-      let defaultStatusMap = {
+      const defaultStatusMap = {
         open: 'A',
         assign: 'B',
         ack: 'C',
@@ -307,7 +307,7 @@ export default {
         expired: 'G',
         unknown: 'H'
       }
-      let statusMap = this.$config.alarm_model.status || defaultStatusMap
+      const statusMap = this.$config.alarm_model.status || defaultStatusMap
       return Object.keys(statusMap).sort((a, b) => {
         return statusMap[a].localeCompare(statusMap[b])
       })
@@ -452,8 +452,8 @@ export default {
       this.$store.dispatch('alerts/getGroups')
     },
     getDateRange(from, to) {
-      let t1 = moment.unix(from).utc()
-      let t2 = moment.unix(to).utc()
+      const t1 = moment.unix(from).utc()
+      const t2 = moment.unix(to).utc()
       return {
         startDate: t1.format('YYYY-MM-DD'),
         startTime: t1.format('HH:mm'),

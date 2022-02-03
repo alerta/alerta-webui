@@ -112,7 +112,7 @@ export default {
       return this.$config.provider == 'basic' || this.$config.provider == 'ldap'
     },
     authProvider() {
-      let providers = this.$store.getters['auth/getOptions']['providers']
+      const providers = this.$store.getters['auth/getOptions']['providers']
       return providers[this.$config.provider]
         ? providers[this.$config.provider].name
         : null
@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     login() {
-      let credentials = {
+      const credentials = {
         username: this.username,
         password: this.password
       }

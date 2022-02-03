@@ -9,7 +9,7 @@ export default Vue.directive('has-perms', (el, binding) => {
   const authRequired = store.getters.getConfig('auth_required')
   const allowReadonly = store.getters.getConfig('allow_readonly')
   const readonlyScopes = store.getters.getConfig('readonly_scopes')
-  let authenticated = store.state.auth.isAuthenticated
+  const authenticated = store.state.auth.isAuthenticated
 
   if (!authRequired) {
     return true

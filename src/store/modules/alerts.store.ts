@@ -56,46 +56,34 @@ const alerts: Module<IAlerts, IStore> = {
   state,
   getters: {
     alerts: (state: IAlerts, _getters, rootState) => {
-      if (state.isWatch) {
-        const username = rootState.auth.payload.preferred_username
-        const tag = `watch:${username}`
-        return state.alerts.filter((a) => a.tags.includes(tag))
-      } else {
-        return state.alerts
-      }
+      if (!state.isWatch) return state.alerts
+      const username = rootState.auth.payload.preferred_username
+      const tag = `watch:${username}`
+      return state.alerts.filter((a) => a.tags.includes(tag))
     },
     environments:
       (state: IAlerts, _getters, rootState) =>
-      (showAllowedEnvs = true) => {
-        if (showAllowedEnvs) {
-          return [
-            ...new Set([
-              ...(rootState.config?.environments ?? []),
-              ...state.environments.map((e) => e.environment)
-            ])
-          ].sort()
-        }
-        return state.environments.map((e) => e.environment).sort()
-      },
-    counts: (state: IAlerts) => {
-      return state.environments.reduce(
-        (grp, e) => {
-          grp[e.environment] = e.count
-          grp['ALL'] = grp['ALL'] + e.count
-          return grp
-        },
+      (showAllowedEnvs = true) =>
+        (showAllowedEnvs
+          ? [
+              ...new Set([
+                ...(rootState.config?.environments ?? []),
+                ...state.environments.map((e) => e.environment)
+              ])
+            ]
+          : state.environments.map((e) => e.environment)
+        ).sort(),
+    counts: (state: IAlerts) =>
+      state.environments.reduce(
+        (grp, e) => ({
+          [e.environment]: e.count,
+          [grp['ALL']]: grp['ALL'] + e.count
+        }),
         { ALL: 0 }
-      )
-    },
-    services: (state: IAlerts) => {
-      return state.services.map((s) => s.service).sort()
-    },
-    groups: (state: IAlerts) => {
-      return state.groups.map((g) => g.group).sort()
-    },
-    tags: (state: IAlerts) => {
-      return state.tags.map((t) => t.tag).sort()
-    },
+      ),
+    services: (state: IAlerts) => state.services.map((s) => s.service).sort(),
+    groups: (state: IAlerts) => state.groups.map((g) => g.group).sort(),
+    tags: (state: IAlerts) => state.tags.map((t) => t.tag).sort(),
     getHash: (state: IAlerts) => {
       const filterHash = utils.toHash(state.filter)
       const sortBy = state.pagination.sortBy.length
@@ -109,60 +97,42 @@ const alerts: Module<IAlerts, IStore> = {
     }
   },
   mutations: {
-    SET_LOADING(state: IAlerts) {
-      state.isLoading = true
-    },
-    SET_SEARCH_QUERY(state: IAlerts, query) {
+    SET_LOADING: (state: IAlerts) => (state.isLoading = true),
+    SET_SEARCH_QUERY: (state: IAlerts, query: IAlerts['query']) => {
       state.isSearching = true
       state.query = query
     },
-    SET_ALERTS(state: IAlerts, [alerts, total, pageSize]) {
-      state.isLoading = false
-      state.isSearching = false
+    SET_ALERTS: (state: IAlerts, [alerts, total, pageSize]) => {
       state.alerts = alerts
       state.pagination.totalItems = total
       state.pagination.itemsPerPage = pageSize
     },
-    RESET_LOADING(state: IAlerts) {
+    RESET_LOADING: (state: IAlerts) => {
       state.isLoading = false
       state.isSearching = false
     },
-    SET_KIOSK(state: IAlerts, isKiosk) {
-      state.isKiosk = isKiosk
-    },
-    SET_SELECTED(state: IAlerts, selected) {
-      state.selected = selected
-    },
-    SET_ALERT(state: IAlerts, alert) {
-      state.alert = alert
-    },
-    SET_NOTES(state: IAlerts, notes) {
-      state.notes = notes
-    },
-    SET_ENVIRONMENTS(state: IAlerts, environments) {
-      state.environments = environments
-    },
-    SET_SERVICES(state: IAlerts, services) {
-      state.services = services
-    },
-    SET_GROUPS(state: IAlerts, groups) {
-      state.groups = groups
-    },
-    SET_TAGS(state: IAlerts, tags) {
-      state.tags = tags
-    },
-    SET_SETTING(state: IAlerts, { s, v }) {
-      state[s] = v
-    },
-    SET_FILTER(state: IAlerts, filter) {
-      state.filter = Object.assign({}, state.filter, filter)
-    },
-    SET_PAGINATION(state: IAlerts, pagination) {
-      state.pagination = Object.assign({}, state.pagination, pagination)
-    },
-    SET_PANEL(state: IAlerts, panel) {
-      state.showPanel = panel
-    }
+    SET_KIOSK: (state: IAlerts, isKiosk: IAlerts['isKiosk']) =>
+      (state.isKiosk = isKiosk),
+    SET_SELECTED: (state: IAlerts, selected: IAlerts['selected']) =>
+      (state.selected = selected),
+    SET_ALERT: (state: IAlerts, alert: IAlerts['alert']) =>
+      (state.alert = alert),
+    SET_NOTES: (state: IAlerts, notes: IAlerts['notes']) =>
+      (state.notes = notes),
+    SET_ENVIRONMENTS: (state: IAlerts, environments: IAlerts['environments']) =>
+      (state.environments = environments),
+    SET_SERVICES: (state: IAlerts, services: IAlerts['services']) =>
+      (state.services = services),
+    SET_GROUPS: (state: IAlerts, groups: IAlerts['groups']) =>
+      (state.groups = groups),
+    SET_TAGS: (state: IAlerts, tags: IAlerts['tags']) => (state.tags = tags),
+    SET_SETTING: (state: IAlerts, { s, v }) => (state[s] = v),
+    SET_FILTER: (state: IAlerts, filter: IAlerts['filter']) =>
+      Object.assign(state.filter, filter),
+    SET_PAGINATION: (state: IAlerts, pagination: IAlerts['pagination']) =>
+      Object.assign(state.pagination, pagination),
+    SET_PANEL: (state: IAlerts, panel: IAlerts['showPanel']) =>
+      (state.showPanel = panel)
   },
   actions: {
     async getAlerts({ rootGetters, commit, state }) {
@@ -235,7 +205,7 @@ const alerts: Module<IAlerts, IStore> = {
         .then(({ alerts, total, pageSize }) =>
           commit('SET_ALERTS', [alerts, total, pageSize])
         )
-        .catch(() => commit('RESET_LOADING'))
+        .finally(() => commit('RESET_LOADING'))
     },
     updateQuery({ commit }, query) {
       commit('SET_SEARCH_QUERY', query)

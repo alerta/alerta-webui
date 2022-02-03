@@ -126,7 +126,7 @@ export default {
       }
     },
     signup() {
-      let credentials = {
+      const credentials = {
         name: this.name,
         email: this.email,
         password: this.password,

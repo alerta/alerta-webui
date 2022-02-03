@@ -23,15 +23,11 @@
             ...fontStyle
           }"
           class="hover-lighten"
-          @click="selectItem(props.item)"
+          @click="openItem(props.item)"
         >
           <td class="text-no-wrap center">
-            <v-checkbox
-              v-model="props.selected"
-              primary
-              hide-details
-              color="gray"
-              class="select-box"
+            <v-simple-checkbox
+              :value="props.selected"
               :ripple="false"
               @click.stop
             />
@@ -450,13 +446,13 @@ export default {
       return moment.duration(moment().diff(moment(item.receiveTime)))
     },
     timeoutLeft(item) {
-      let ackedOrShelved =
+      const ackedOrShelved =
         this.isShelved(item.status) || this.isAcked(item.status)
-      let lastModified =
+      const lastModified =
         ackedOrShelved && item.updateTime
           ? item.updateTime
           : item.lastReceiveTime
-      let expireTime = moment(lastModified).add(item.timeout, 'seconds')
+      const expireTime = moment(lastModified).add(item.timeout, 'seconds')
       return expireTime.isAfter()
         ? expireTime.diff(moment(), 'seconds')
         : moment.duration()
@@ -489,7 +485,7 @@ export default {
         this.$store.getters.getConfig('colors').severity[severity] || 'white'
       )
     },
-    selectItem(item) {
+    openItem(item) {
       if (!this.selected.length) {
         this.$emit('set-alert', item)
       }

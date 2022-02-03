@@ -358,7 +358,7 @@ export default {
     },
     computedDateFormats() {
       moment.locale(i18n.locale)
-      let allDateFormats = [
+      const allDateFormats = [
         ...new Set([
           this.$store.getters.getConfig('dates').mediumDate,
           ...this.mediumDateFormats,
@@ -370,7 +370,7 @@ export default {
     },
     computedTimeFormats() {
       moment.locale(i18n.locale)
-      let allTimeFormats = [
+      const allTimeFormats = [
         ...new Set([
           this.$store.getters.getConfig('dates').shortTime,
           ...this.timeFormats

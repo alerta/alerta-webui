@@ -317,7 +317,7 @@ export default {
   created() {
     this.setSearch(this.query)
     if (this.hash) {
-      let hashMap = utils.fromHash(this.hash)
+      const hashMap = utils.fromHash(this.hash)
       this.setFilter(hashMap)
       this.setSort(hashMap)
       this.setPanel(hashMap)
@@ -409,7 +409,7 @@ export default {
         useBom: true,
         useKeysAsHeaders: true
       }
-      let attrs = {}
+      const attrs = {}
       data.map((d) =>
         Object.keys(d.attributes).forEach(
           (attr) => (attrs['attributes.' + attr] = d.attributes[attr])

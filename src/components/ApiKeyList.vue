@@ -383,7 +383,7 @@ export default {
       return this.$store.getters['auth/getUsername']
     },
     endOfDay(date) {
-      let endOfDay = new Date(date)
+      const endOfDay = new Date(date)
       endOfDay.setHours(23, 59, 59, 999)
       return endOfDay.toISOString()
     },

@@ -450,8 +450,8 @@ export default {
       return this.$store.state.blackouts.blackouts
         .filter((b) => !this.status || this.status.includes(b.status))
         .map((b) => {
-          let s = moment(b.startTime)
-          let e = moment(b.endTime)
+          const s = moment(b.startTime)
+          const e = moment(b.endTime)
           return Object.assign(b, {
             period: {
               startDate: s.format('YYYY-MM-DD'),
@@ -500,8 +500,8 @@ export default {
           length: (24 * 60) / 15
         },
         (v, i) => {
-          let h = Math.floor((i * 15) / 60)
-          let m = i * 15 - h * 60
+          const h = Math.floor((i * 15) / 60)
+          const m = i * 15 - h * 60
           return ('0' + h).slice(-2) + ':' + ('0' + m).slice(-2)
         }
       )
@@ -560,10 +560,10 @@ export default {
       )
     },
     defaultTimes() {
-      let now = new Date()
-      let start = this.getBlackoutTime(now)
+      const now = new Date()
+      const start = this.getBlackoutTime(now)
       now.setTime(now.getTime() + this.blackoutPeriod * 1000)
-      let end = this.getBlackoutTime(now)
+      const end = this.getBlackoutTime(now)
 
       return {
         startDate: start.format('YYYY-MM-DD'),
