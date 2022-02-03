@@ -221,9 +221,10 @@ export default {
       return this.$store.getters.getPreference('showAllowedEnvs')
     },
     environments() {
-      return ['ALL'].concat(
-        this.$store.getters['alerts/environments'](this.showAllowedEnvs)
-      )
+      return [
+        'ALL',
+        ...this.$store.getters['alerts/environments'](this.showAllowedEnvs)
+      ]
     },
     environmentCounts() {
       return this.$store.getters['alerts/counts']

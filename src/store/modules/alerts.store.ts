@@ -55,14 +55,14 @@ const alerts: Module<IAlerts, IStore> = {
   namespaced: true,
   state,
   getters: {
-    alerts: (state: IAlerts, _getters, rootState) => {
+    alerts: (state, _getters, rootState) => {
       if (!state.isWatch) return state.alerts
       const username = rootState.auth.payload.preferred_username
       const tag = `watch:${username}`
       return state.alerts.filter((a) => a.tags.includes(tag))
     },
     environments:
-      (state: IAlerts, _getters, rootState) =>
+      (state, _getters, rootState) =>
       (showAllowedEnvs = true) =>
         (showAllowedEnvs
           ? [
@@ -73,7 +73,7 @@ const alerts: Module<IAlerts, IStore> = {
             ]
           : state.environments.map((e) => e.environment)
         ).sort(),
-    counts: (state: IAlerts) =>
+    counts: (state) =>
       state.environments.reduce(
         (grp, e) => ({
           [e.environment]: e.count,
@@ -81,10 +81,10 @@ const alerts: Module<IAlerts, IStore> = {
         }),
         { ALL: 0 }
       ),
-    services: (state: IAlerts) => state.services.map((s) => s.service).sort(),
-    groups: (state: IAlerts) => state.groups.map((g) => g.group).sort(),
-    tags: (state: IAlerts) => state.tags.map((t) => t.tag).sort(),
-    getHash: (state: IAlerts) => {
+    services: (state) => state.services.map((s) => s.service).sort(),
+    groups: (state) => state.groups.map((g) => g.group).sort(),
+    tags: (state) => state.tags.map((t) => t.tag).sort(),
+    getHash: (state) => {
       const filterHash = utils.toHash(state.filter)
       const sortBy = state.pagination.sortBy.length
         ? state.pagination.sortBy[0]
@@ -97,42 +97,38 @@ const alerts: Module<IAlerts, IStore> = {
     }
   },
   mutations: {
-    SET_LOADING: (state: IAlerts) => (state.isLoading = true),
-    SET_SEARCH_QUERY: (state: IAlerts, query: IAlerts['query']) => {
+    SET_LOADING: (state) => (state.isLoading = true),
+    SET_SEARCH_QUERY: (state, query: IAlerts['query']) => {
       state.isSearching = true
       state.query = query
     },
-    SET_ALERTS: (state: IAlerts, [alerts, total, pageSize]) => {
+    SET_ALERTS: (state, [alerts, total, pageSize]) => {
       state.alerts = alerts
       state.pagination.totalItems = total
       state.pagination.itemsPerPage = pageSize
     },
-    RESET_LOADING: (state: IAlerts) => {
+    RESET_LOADING: (state) => {
       state.isLoading = false
       state.isSearching = false
     },
-    SET_KIOSK: (state: IAlerts, isKiosk: IAlerts['isKiosk']) =>
+    SET_KIOSK: (state, isKiosk: IAlerts['isKiosk']) =>
       (state.isKiosk = isKiosk),
-    SET_SELECTED: (state: IAlerts, selected: IAlerts['selected']) =>
+    SET_SELECTED: (state, selected: IAlerts['selected']) =>
       (state.selected = selected),
-    SET_ALERT: (state: IAlerts, alert: IAlerts['alert']) =>
-      (state.alert = alert),
-    SET_NOTES: (state: IAlerts, notes: IAlerts['notes']) =>
-      (state.notes = notes),
-    SET_ENVIRONMENTS: (state: IAlerts, environments: IAlerts['environments']) =>
+    SET_ALERT: (state, alert: IAlerts['alert']) => (state.alert = alert),
+    SET_NOTES: (state, notes: IAlerts['notes']) => (state.notes = notes),
+    SET_ENVIRONMENTS: (state, environments: IAlerts['environments']) =>
       (state.environments = environments),
-    SET_SERVICES: (state: IAlerts, services: IAlerts['services']) =>
+    SET_SERVICES: (state, services: IAlerts['services']) =>
       (state.services = services),
-    SET_GROUPS: (state: IAlerts, groups: IAlerts['groups']) =>
-      (state.groups = groups),
-    SET_TAGS: (state: IAlerts, tags: IAlerts['tags']) => (state.tags = tags),
-    SET_SETTING: (state: IAlerts, { s, v }) => (state[s] = v),
-    SET_FILTER: (state: IAlerts, filter: IAlerts['filter']) =>
+    SET_GROUPS: (state, groups: IAlerts['groups']) => (state.groups = groups),
+    SET_TAGS: (state, tags: IAlerts['tags']) => (state.tags = tags),
+    SET_SETTING: (state, { s, v }) => (state[s] = v),
+    SET_FILTER: (state, filter: IAlerts['filter']) =>
       Object.assign(state.filter, filter),
-    SET_PAGINATION: (state: IAlerts, pagination: IAlerts['pagination']) =>
+    SET_PAGINATION: (state, pagination: IAlerts['pagination']) =>
       Object.assign(state.pagination, pagination),
-    SET_PANEL: (state: IAlerts, panel: IAlerts['showPanel']) =>
-      (state.showPanel = panel)
+    SET_PANEL: (state, panel: IAlerts['showPanel']) => (state.showPanel = panel)
   },
   actions: {
     async getAlerts({ rootGetters, commit, state }) {

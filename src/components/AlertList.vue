@@ -12,12 +12,14 @@
       :loading-text="$t('Loading')"
       :dense="displayDensity == 'compact'"
       class="alert-table"
-      :style="columnWidths"
+      :style="[columnWidths, severityColors]"
       :header-props="{ sortIcon: 'mdi-chevron-down' }"
       show-select
+      @click:row="openItem"
+      :item-class="getSeverity"
     >
       <template v-slot:item.id="{ item }">
-        <span> {{ item.id | shortId }} </span>
+        {{ item.id | shortId }}
       </template>
       <template v-slot:item.severity="{ item }">
         <span :class="['label', 'label-' + item.severity.toLowerCase()]">
@@ -25,9 +27,7 @@
         </span>
       </template>
       <template v-slot:item.correlate="{ item }">
-        <span>
-          {{ item.correlate.join(', ') }}
-        </span>
+        {{ item.correlate.join(', ') }}
       </template>
       <template v-slot:item.status="{ item }">
         <span class="label">
@@ -51,9 +51,7 @@
         </span>
       </template>
       <template v-slot:item.service="{ item }">
-        <span>
-          {{ item.service.join(', ') }}
-        </span>
+        {{ item.service.join(', ') }}
       </template>
       <template v-slot:item.type="{ item }">
         <span class="label">
@@ -71,11 +69,7 @@
         </div>
       </template>
       <template v-slot:item.text="{ item }">
-        <div class="fixed-table">
-          <div class="text-truncate">
-            <span v-html="item.text" />
-          </div>
-        </div>
+        {{ item.text }}
       </template>
       <template v-slot:item.duration="{ item }">
         <span class="text-xs-right">
@@ -124,12 +118,7 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <div
-          :style="{
-            width: 'fit-content',
-            display: 'flex'
-          }"
-        >
+        <div class="row-actions">
           <v-btn
             v-if="isAcked(item.status) || isClosed(item.status)"
             text
@@ -291,7 +280,10 @@ export default {
       timeout: { text: i18n.t('Timeout'), value: 'timeout' },
       timeoutLeft: { text: i18n.t('TimeoutLeft'), value: 'timeoutLeft' },
       customer: { text: i18n.t('Customer'), value: 'customer' },
-      duplicateCount: { text: i18n.t('Dupl'), value: 'duplicateCount' },
+      duplicateCount: {
+        text: i18n.t('Dupl'),
+        value: 'duplicateCount'
+      },
       repeat: { text: i18n.t('Repeat'), value: 'repeat' },
       previousSeverity: {
         text: i18n.t('PrevSeverity'),
@@ -321,6 +313,20 @@ export default {
         this.$store.getters.getPreference('displayDensity') ||
         this.$store.state.alerts.displayDensity
       )
+    },
+    severityColors() {
+      const colors = this.$store.getters.getConfig('colors')
+
+      return {
+        ...Object.entries(colors.severity).reduce(
+          (acc, [severity, color]) => ({
+            ...acc,
+            [`--bg-${severity}`]: color,
+            [`--text-${severity}`]: colors.text
+          }),
+          {}
+        )
+      }
     },
     fontStyle() {
       const font = this.$store.getters.getPreference('font')
@@ -430,21 +436,8 @@ export default {
     textWidth() {
       return this.$store.getters.getPreference('textWidth')
     },
-    textColor(severity) {
-      if (
-        this.severityColor(severity) === 'black' ||
-        this.severityColor(severity) === '#000000'
-      ) {
-        return 'white--text'
-      }
-      return this.$store.getters.getConfig('colors').text
-        ? `${this.$store.getters.getConfig('colors').text}--text`
-        : ''
-    },
-    severityColor(severity) {
-      return (
-        this.$store.getters.getConfig('colors').severity[severity] || 'white'
-      )
+    getSeverity(item) {
+      return `row-${item.severity}`
     },
     openItem(item, ..._args) {
       if (!this.selected.length) {
@@ -529,7 +522,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.row-actions {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+}
+
+.row-actions > button {
+  color: inherit !important;
+}
+
 .value-header {
   width: var(--value-width);
   min-width: var(--value-width);
@@ -577,5 +580,16 @@ export default {
 
 .label-inverse {
   background-color: #333333;
+}
+
+$severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
+  'informational', 'major', 'minor', 'normal', 'ok', 'security', 'trace',
+  'unknown';
+
+@each $severity in $severities {
+  .row-#{$severity} {
+    background-color: var(--bg-#{$severity});
+    color: var(--text-#{$severity});
+  }
 }
 </style>
