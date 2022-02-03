@@ -11,7 +11,7 @@
       @click="addToList"
       class="mb-5"
     >
-      <v-icon color="white"> add </v-icon>
+      <v-icon color="white">mdi-plus</v-icon>
     </v-btn>
   </v-fab-transition>
 </template>

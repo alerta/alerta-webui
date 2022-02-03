@@ -9,10 +9,7 @@
       </div>
     </v-card-text>
 
-    <v-card-actions
-      class="pa-0 mx-0"
-      :style="{ 'background-color': isDark ? '' : '#F5F5F5' }"
-    >
+    <v-card-actions class="pa-0 mx-0">
       <v-layout>
         <v-flex>
           <div class="counts-container">
@@ -54,9 +51,6 @@ export default {
     timer: null
   }),
   computed: {
-    isDark() {
-      return this.$store.getters.getPreference('isDark')
-    },
     refresh() {
       return this.$store.state.refresh
     },

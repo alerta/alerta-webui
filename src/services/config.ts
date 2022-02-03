@@ -1,10 +1,11 @@
+import { IConfig } from '@/common/interfaces'
 import Axios, { AxiosInstance } from 'axios'
 
 class Config {
-  private config: any = {}
-  private envConfig: any = {}
-  private localConfig: any = {}
-  private remoteConfig: any = {}
+  private config?: IConfig = undefined
+  private envConfig: Partial<IConfig> = {}
+  private localConfig: Partial<IConfig> = {}
+  private remoteConfig: Partial<IConfig> = {}
 
   private $http: AxiosInstance
 
@@ -12,26 +13,21 @@ class Config {
     this.$http = Axios.create()
   }
 
-  async getConfig(): Promise<any> {
+  async getConfig() {
     return this.getEnvConfig()
+      .then((response) => this.setEnvConfig(response))
+      .then(async () => this.getLocalConfig())
       .then((response) => {
-        return this.setEnvConfig(response)
-      })
-      .then(async () => {
-        return this.getLocalConfig()
-      })
-      .then((response) => {
+        if (!response) return {}
         return this.setLocalConfig(response)
       })
       .then(async () => {
-        const endpoint = this.config.endpoint
-          ? this.config.endpoint
+        const endpoint = this.config?.endpoint
+          ? this.config?.endpoint
           : 'http://localhost:8080'
         return this.getRemoteConfig(endpoint)
       })
-      .then((response) => {
-        return this.setRemoteConfig(response)
-      })
+      .then((response) => this.setRemoteConfig(response))
       .catch((error) => {
         console.log(error)
         throw error
@@ -39,7 +35,7 @@ class Config {
   }
 
   async getEnvConfig() {
-    return new Promise((resolve, reject) => {
+    return new Promise<IConfig>((resolve) => {
       const envConfig = {}
       if (process.env.VUE_APP_ALERTA_ENDPOINT) {
         envConfig['endpoint'] = process.env.VUE_APP_ALERTA_ENDPOINT
@@ -50,23 +46,21 @@ class Config {
       if (process.env.VUE_APP_TRACKING_ID) {
         envConfig['tracking_id'] = process.env.VUE_APP_TRACKING_ID
       }
-      resolve(envConfig)
+      resolve(envConfig as IConfig)
     })
   }
 
   async getLocalConfig() {
     const basePath = process.env.BASE_URL
     return this.$http
-      .get(`${basePath}config.json`)
+      .get<IConfig>(`${basePath}config.json`)
       .then((response) => response.data)
-      .catch((error) => {
-        console.warn(error.message)
-      })
+      .catch((error) => console.warn(error.message))
   }
 
   async getRemoteConfig(endpoint: string) {
     return this.$http
-      .get(`${endpoint}/config`)
+      .get<IConfig>(`${endpoint}/config`)
       .then((response) => response.data)
       .catch((error) => {
         alert(
@@ -79,25 +73,25 @@ class Config {
       })
   }
 
-  mergeConfig() {
+  mergeConfig(): IConfig {
     return (this.config = {
       ...this.remoteConfig,
       ...this.localConfig,
       ...this.envConfig
-    })
+    } as IConfig)
   }
 
-  setEnvConfig(data) {
+  setEnvConfig(data: IConfig) {
     this.envConfig = data
     return this.mergeConfig()
   }
 
-  setLocalConfig(data) {
+  setLocalConfig(data: IConfig) {
     this.localConfig = data
     return this.mergeConfig()
   }
 
-  setRemoteConfig(data) {
+  setRemoteConfig(data: IConfig) {
     this.remoteConfig = data
     return this.mergeConfig()
   }

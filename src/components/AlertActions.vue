@@ -1,39 +1,37 @@
 <template>
   <div>
     <v-container v-if="!showForm" class="pa-1" fluid>
-      <v-layout>
-        <v-flex>
-          <v-btn
-            v-show="!isWatched"
-            outlined
-            color="grey darken-2"
-            @click="watchAlert"
-          >
-            <v-icon>mdi-eye</v-icon>&nbsp;{{ $t('Watch') }}
-          </v-btn>
+      <v-layout class="actions">
+        <v-btn
+          v-if="!isWatched"
+          outlined
+          color="grey darken-2"
+          @click="watchAlert"
+        >
+          <v-icon>mdi-eye</v-icon>&nbsp;{{ $t('Watch') }}
+        </v-btn>
 
-          <v-btn
-            v-show="isWatched"
-            outlined
-            color="grey darken-2"
-            @click="unwatchAlert"
-          >
-            <v-icon>mdi-eye-off</v-icon>&nbsp;{{ $t('Unwatch') }}
-          </v-btn>
+        <v-btn
+          v-if="isWatched"
+          outlined
+          color="grey darken-2"
+          @click="unwatchAlert"
+        >
+          <v-icon>mdi-eye-off</v-icon>&nbsp;{{ $t('Unwatch') }}
+        </v-btn>
 
-          <v-btn
-            v-if="!showForm"
-            outlined
-            color="grey darken-2"
-            @click="showForm = true"
-          >
-            <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
-          </v-btn>
+        <v-btn
+          v-if="!showForm"
+          outlined
+          color="grey darken-2"
+          @click="showForm = true"
+        >
+          <v-icon>mdi-note-plus</v-icon>&nbsp;{{ $t('AddNote') }}
+        </v-btn>
 
-          <v-btn outlined color="grey darken-2" @click="deleteAlert">
-            <v-icon>delete_forever</v-icon>&nbsp;{{ $t('Delete') }}
-          </v-btn>
-        </v-flex>
+        <v-btn outlined color="grey darken-2" @click="deleteAlert">
+          <v-icon>mdi-delete-forever</v-icon>&nbsp;{{ $t('Delete') }}
+        </v-btn>
       </v-layout>
     </v-container>
 
@@ -50,7 +48,7 @@
                   :minlength="minNoteLength"
                   :rules="textRules"
                   :label="$t('AddNote')"
-                  prepend-icon="edit"
+                  prepend-icon="mdi-pencil"
                   required
                 />
               </v-card-text>
@@ -61,7 +59,7 @@
                   class="white--text"
                   @click="takeAction('open')"
                 >
-                  <v-icon>refresh</v-icon>&nbsp;{{ $t('Open') }}
+                  <v-icon>mdi-refresh</v-icon>&nbsp;{{ $t('Open') }}
                 </v-btn>
 
                 <v-btn
@@ -71,7 +69,7 @@
                   class="white--text"
                   @click="ackAlert()"
                 >
-                  <v-icon>check_circle_outline</v-icon>&nbsp;{{ $t('Ack') }}
+                  <v-icon>mdi-check-circle-outline</v-icon>&nbsp;{{ $t('Ack') }}
                 </v-btn>
 
                 <v-btn
@@ -80,7 +78,9 @@
                   class="white--text"
                   @click="takeAction('unack')"
                 >
-                  <v-icon>check_circle_outline</v-icon>&nbsp;{{ $t('Unack') }}
+                  <v-icon>mdi-check-circle-outline</v-icon>&nbsp;{{
+                    $t('Unack')
+                  }}
                 </v-btn>
 
                 <v-btn
@@ -113,12 +113,8 @@
                   }}
                 </v-btn>
 
-                <v-btn
-                  color="white"
-                  :class="{ 'black--text': isDark }"
-                  @click="addNote"
-                >
-                  <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
+                <v-btn color="white" @click="addNote">
+                  <v-icon>mdi-note-plus</v-icon>&nbsp;{{ $t('AddNote') }}
                 </v-btn>
 
                 <v-spacer />
@@ -170,9 +166,6 @@ export default {
     ]
   }),
   computed: {
-    isDark() {
-      return this.$store.getters.getPreference('isDark')
-    },
     isOpen() {
       return this.status == 'open' || this.status == 'NORM'
     },
@@ -188,7 +181,7 @@ export default {
   },
   methods: {
     takeAction: debounce(
-      (action) => {
+      function (action) {
         this.$emit('take-action', this.id, action, this.text)
         this.close()
       },
@@ -196,7 +189,7 @@ export default {
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      () => {
+      function () {
         this.$emit('ack-alert', this.id, this.text)
         this.close()
       },
@@ -204,7 +197,7 @@ export default {
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      () => {
+      function () {
         this.$emit('shelve-alert', this.id, this.text)
         this.close()
       },
@@ -212,21 +205,21 @@ export default {
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      () => {
+      function () {
         this.$emit('watch-alert', this.id)
       },
       200,
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      () => {
+      function () {
         this.$emit('unwatch-alert', this.id)
       },
       200,
       { leading: true, trailing: false }
     ),
     addNote: debounce(
-      () => {
+      function () {
         this.$emit('add-note', this.id, this.text)
         this.close()
       },
@@ -234,7 +227,7 @@ export default {
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      () => {
+      function () {
         this.$emit('delete-alert', this.id)
       },
       200,
@@ -248,4 +241,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.actions {
+  gap: 0.75rem;
+  padding: 0 1rem 1rem;
+}
+</style>

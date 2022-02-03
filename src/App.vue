@@ -1,5 +1,5 @@
 <template>
-  <v-app id="alerta" :dark="isDark">
+  <v-app id="alerta">
     <div v-if="!isKiosk">
       <v-navigation-drawer
         v-if="isLoggedIn || !isAuthRequired || isAllowReadonly"
@@ -9,7 +9,7 @@
         fixed
         app
       >
-        <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" flat>
+        <v-toolbar flat>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
           <router-link to="/" class="toolbar-title">
@@ -75,12 +75,7 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-toolbar
-        v-if="selected.length == 0"
-        :color="isDark ? '#616161' : '#eeeeee'"
-        flat
-        class="mb-1"
-      >
+      <v-toolbar v-if="selected.length == 0" flat class="mb-1">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
         <router-link to="/" class="toolbar-title">
@@ -123,13 +118,14 @@
         <div v-if="$route.name === 'alerts'" v-show="isLoggedIn">
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-switch
-                v-on="on"
-                :input-value="isWatch"
-                hide-details
-                open-delay="3000"
-                @change="toggle('isWatch', $event)"
-              />
+              <div v-on="on" class="switch-wrapper">
+                <v-switch
+                  :input-value="isWatch"
+                  hide-details
+                  open-delay="3000"
+                  @change="toggle('isWatch', $event)"
+                />
+              </div>
             </template>
             <span>{{ $t('Watch') }}</span>
           </v-tooltip>
@@ -205,11 +201,7 @@
         </span>
       </v-toolbar>
 
-      <v-toolbar
-        v-if="selected.length > 0"
-        :color="isDark ? '#8e8e8e' : '#bcbcbc'"
-        class="mb-1"
-      >
+      <v-toolbar v-if="selected.length > 0" class="mb-1">
         <v-btn icon @click="clearSelected">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
@@ -527,7 +519,6 @@ export default {
           perms: null,
           show: this.isLoggedIn
         },
-        // { icon: 'chat_bubble', text: 'Send feedback' },
         {
           icon: 'mdi-help-circle',
           text: i18n.t('Help'),
@@ -544,9 +535,6 @@ export default {
           show: true
         }
       ]
-    },
-    isDark() {
-      return this.$store.getters.getPreference('isDark')
     },
     isWatch() {
       return this.$store.state.alerts.isWatch
@@ -630,7 +618,7 @@ export default {
   methods: {
     submitSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
-      this.$router.push({
+      this.$router.replace({
         query: { ...this.$router.query, q: query },
         hash: this.$store.getters['alerts/getHash']
       })
@@ -639,7 +627,7 @@ export default {
     clearSearch() {
       this.query = null
       this.$store.dispatch('alerts/updateQuery', {})
-      this.$router.push({
+      this.$router.replace({
         query: { ...this.$router.query, q: undefined },
         hash: this.$store.getters['alerts/getHash']
       })
@@ -755,6 +743,10 @@ export default {
 </script>
 
 <style>
+.switch-wrapper {
+  width: min-content;
+}
+
 .toolbar-title {
   color: inherit;
   text-decoration: inherit;

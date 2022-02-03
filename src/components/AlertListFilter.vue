@@ -9,7 +9,7 @@
     right
   >
     <v-card tile>
-      <v-app-bar flat :color="isDark ? '#616161' : '#eeeeee'" dense>
+      <v-app-bar flat dense>
         <v-toolbar-title>
           {{ $t('Filters') }}
         </v-toolbar-title>
@@ -252,9 +252,6 @@ export default {
         { divider: true },
         { text: i18n.t('SelectRange'), range: [0, 0] }
       ]
-    },
-    isDark() {
-      return this.$store.getters.getPreference('isDark')
     },
     history() {
       return this.item.history.map((h, index) => ({ index: index, ...h }))

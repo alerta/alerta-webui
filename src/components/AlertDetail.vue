@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card tile flat>
-      <v-toolbar :color="isDark ? '#616161' : '#eeeeee'" dense>
+      <v-toolbar dense>
         <v-btn icon @click="dialog = false">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
@@ -15,7 +15,7 @@
               class="btn--plain px-1 mx-0"
               @click="takeAction(item.id, 'open')"
             >
-              <v-icon size="20px">refresh</v-icon>
+              <v-icon size="20px">mdi-refresh</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Open') }}</span>
@@ -76,7 +76,7 @@
               class="btn--plain px-1 mx-0"
               @click="takeAction(item.id, 'unack')"
             >
-              <v-icon size="20px">undo</v-icon>
+              <v-icon size="20px">mdi-undo</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Unack') }}</span>
@@ -107,7 +107,7 @@
               class="btn--plain px-1 mx-0"
               @click="takeAction(item.id, 'unshelve')"
             >
-              <v-icon size="20px">restore</v-icon>
+              <v-icon size="20px">mdi-restore</v-icon>
             </v-btn>
           </template>
           <span>{{ $t('Unshelve') }}</span>
@@ -150,7 +150,7 @@
               class="btn--plain px-1 mx-0"
               @click="clipboardCopy(JSON.stringify(item, null, 4))"
             >
-              <v-icon size="20px">content_copy</v-icon>
+              <v-icon size="20px">mdi-clipboard-multiple-outline</v-icon>
             </v-btn>
           </template>
           <span>{{ copyIconText }}</span>
@@ -159,9 +159,11 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-menu v-on="on" bottom left>
-              <v-btn v-on="on" icon class="btn--plain px-1 mx-0">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on" icon class="btn--plain px-1 mx-0">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
 
               <v-list subheader>
                 <v-subheader>Actions</v-subheader>
@@ -184,7 +186,10 @@
 
       <v-card flat>
         <v-tabs v-model="active" grow>
-          <v-tab ripple><v-icon>info</v-icon>&nbsp;{{ $t('Details') }}</v-tab>
+          <v-tab ripple>
+            <v-icon>mdi-information</v-icon>
+            &nbsp;{{ $t('Details') }}
+          </v-tab>
           <v-tab-item :transition="false" :reverse-transition="false">
             <v-card flat>
               <v-alert
@@ -644,7 +649,7 @@
                           small
                           @click="queryBy('tags', tag)"
                         >
-                          <v-icon left>label</v-icon>{{ tag }}
+                          <v-icon left>mdi-label</v-icon>{{ tag }}
                         </v-chip>
                       </div>
                     </div>
@@ -696,7 +701,7 @@
           </v-tab-item>
 
           <v-tab ripple>
-            <v-icon>history</v-icon>&nbsp;{{ $t('History') }}
+            <v-icon>mdi-history</v-icon>&nbsp;{{ $t('History') }}
           </v-tab>
           <v-tab-item :transition="false" :reverse-transition="false">
             <div class="tab-item-wrapper">
@@ -705,7 +710,7 @@
                 :items="history"
                 item-key="index"
                 :options.sync="pagination"
-                header-props:sort-icon="arrow_drop_down"
+                :header-props="{ sortIcon: 'mdi-chevron-down' }"
               >
                 <template slot="items" slot-scope="props">
                   <td class="hidden-sm-and-down">
@@ -761,15 +766,10 @@
           </v-tab-item>
 
           <v-tab ripple>
-            <v-icon>assessment</v-icon>&nbsp;{{ $t('Data') }}
+            <v-icon>mdi-chart-box</v-icon>&nbsp;{{ $t('Data') }}
           </v-tab>
           <v-tab-item :transition="false" :reverse-transition="false">
-            <v-card
-              :color="isDark ? 'grey darken-1' : 'grey lighten-3'"
-              class="mx-1"
-              style="overflow-x: auto"
-              flat
-            >
+            <v-card class="mx-1" style="overflow-x: auto" flat>
               <v-card-text>
                 <span class="console-text">{{
                   item.rawData || 'no raw data'
@@ -839,9 +839,6 @@ export default {
     copyIconText: i18n.t('Copy')
   }),
   computed: {
-    isDark() {
-      return this.$store.getters.getPreference('isDark')
-    },
     item() {
       return this.$store.state.alerts.alert
     },
@@ -925,7 +922,7 @@ export default {
       this.$store.dispatch('alerts/deleteNote', [alertId, noteId])
     },
     takeAction: debounce(
-      (id, action, text) => {
+      function (id, action, text) {
         this.$store
           .dispatch('alerts/takeAction', [id, action, text])
           .then(() => this.getAlert(this.id))
@@ -934,7 +931,7 @@ export default {
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      (id, text) => {
+      function (id, text) {
         this.$store
           .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
           .then(() => this.getAlert(this.id))
@@ -943,7 +940,7 @@ export default {
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      (id, text) => {
+      function (id, text) {
         this.$store
           .dispatch('alerts/takeAction', [
             id,
@@ -957,7 +954,7 @@ export default {
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/watchAlert', id)
           .then(() => this.getAlert(this.id))
@@ -966,7 +963,7 @@ export default {
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/unwatchAlert', id)
           .then(() => this.getAlert(this.id))
@@ -975,7 +972,7 @@ export default {
       { leading: true, trailing: false }
     ),
     addNote: debounce(
-      (id, text) => {
+      function (id, text) {
         this.$store
           .dispatch('alerts/addNote', [id, text])
           .then(() => this.getNotes(this.id))
@@ -984,7 +981,7 @@ export default {
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      (id) => {
+      function (id) {
         confirm(i18n.t('ConfirmDelete')) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)
@@ -994,7 +991,7 @@ export default {
       { leading: true, trailing: false }
     ),
     queryBy(attribute, value) {
-      this.$router.push({ path: `/alerts?q=${attribute}:"${value}"` }) // double-quotes (") around value mean exact match
+      this.$router.replace({ path: `/alerts?q=${attribute}:"${value}"` }) // double-quotes (") around value mean exact match
     },
     close() {
       this.$emit('close')

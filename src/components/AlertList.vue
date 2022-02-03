@@ -12,7 +12,7 @@
       class="alert-table"
       :class="[displayDensity]"
       :style="columnWidths"
-      header-props.sort-icon="mdi-chevron-down"
+      :header-props="{ sortIcon: 'mdi-chevron-down' }"
       show-select
       :loading-text="$t('Loading')"
     >
@@ -510,7 +510,7 @@ export default {
       return status == 'closed'
     },
     takeAction: debounce(
-      (id, action) => {
+      function (id, action) {
         this.$store
           .dispatch('alerts/takeAction', [id, action, ''])
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -519,7 +519,7 @@ export default {
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/takeAction', [id, 'ack', '', this.ackTimeout])
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -528,7 +528,7 @@ export default {
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/takeAction', [id, 'shelve', '', this.shelveTimeout])
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -537,7 +537,7 @@ export default {
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/watchAlert', id)
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -546,7 +546,7 @@ export default {
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/unwatchAlert', id)
           .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -555,7 +555,7 @@ export default {
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      (id) => {
+      function (id) {
         confirm(i18n.t('ConfirmDelete')) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)
@@ -579,7 +579,7 @@ export default {
   justify-content: center;
 }
 
-.alert-table .v-table th,
+.alert-table .v-data-table__wrapper th,
 td {
   padding: 0px 5px !important;
 }
@@ -594,17 +594,17 @@ td {
   min-width: var(--text-width);
 }
 
-.comfortable table.v-table tbody td,
-table.v-table tbody th {
+.comfortable .v-data-table__wrapper tbody td,
+.v-data-table__wrapper tbody th {
   height: 42px !important;
 }
 
-.compact table.v-table tbody td,
-table.v-table tbody th {
+.compact .v-data-table__wrapper tbody td,
+.v-data-table__wrapper tbody th {
   height: 34px !important;
 }
 
-.alert-table .v-table tbody td {
+.alert-table .v-data-table__wrapper tbody td {
   border-top: 1px solid rgb(221, 221, 221);
 }
 

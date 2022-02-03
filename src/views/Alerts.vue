@@ -124,6 +124,8 @@
 
 <script>
 import AlertList from '@/components/AlertList.vue'
+import AlertIndicator from '@/components/AlertIndicator.vue'
+import AlertListFilter from '@/components/AlertListFilter.vue'
 
 import { ExportToCsv } from 'export-to-csv'
 import utils from '@/common/utils'
@@ -131,8 +133,8 @@ import utils from '@/common/utils'
 export default {
   components: {
     AlertList,
-    AlertIndicator: () => import('@/components/AlertIndicator.vue'),
-    AlertListFilter: () => import('@/components/AlertListFilter.vue')
+    AlertIndicator,
+    AlertListFilter
   },
   props: {
     query: {

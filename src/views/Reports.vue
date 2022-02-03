@@ -36,13 +36,14 @@
 import TopOffenders from '@/components/reports/TopOffenders.vue'
 import TopFlapping from '@/components/reports/TopFlapping.vue'
 import TopStanding from '@/components/reports/TopStanding.vue'
+import ReportFilter from '@/components/reports/ReportFilter.vue'
 
 export default {
   components: {
     TopOffenders,
     TopFlapping,
     TopStanding,
-    ReportFilter: () => import('@/components/reports/ReportFilter.vue')
+    ReportFilter
   },
   data: () => ({
     sidesheet: false,

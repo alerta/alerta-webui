@@ -1,6 +1,7 @@
-import stateMerge from 'vue-object-merge'
+import { IConfig } from '@/common/interfaces'
+import utils from '@/common/utils'
 
-const state = {
+const state: IConfig = {
   endpoint: 'http://local.alerta.io:8080',
   alarm_model: {}, // includes severity, colors and status maps
 
@@ -18,11 +19,12 @@ const state = {
   keycloak_realm: null,
   keycloak_url: null,
   pingfederate_url: null,
+  oidc_auth_url: null,
+  azure_tenant: null,
+  cognito_domain: null,
+  aws_region: null,
 
   site_logo_url: '',
-
-  severity: {}, // moved to alarm_model
-  colors: {}, // moved to alarm_model
 
   timeouts: {}, // includes alert, heartbeat, ack and shelve timeouts
 
@@ -57,19 +59,19 @@ const state = {
 }
 
 const mutations = {
-  SET_CONFIG(state, config) {
-    stateMerge(state, config)
+  SET_CONFIG(state: IConfig, config: Partial<IConfig>) {
+    utils.stateMerge(state, config)
   }
 }
 
 const actions = {
-  updateConfig({ commit }, config) {
+  updateConfig({ commit }, config: Partial<IConfig>) {
     commit('SET_CONFIG', config)
   }
 }
 
 const getters = {
-  getConfig: (state) => (setting) => {
+  getConfig: (state: IConfig) => (setting) => {
     return state[setting]
   }
 }

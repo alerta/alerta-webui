@@ -1,3 +1,23 @@
+import Vue from 'vue'
+
+const stateMerge = (
+  state: object,
+  value: object,
+  propName?: string | number,
+  ignoreNull = false
+) => {
+  if (
+    Object.prototype.toString.call(value) === '[object Object]' &&
+    (propName == null || state.hasOwnProperty(propName))
+  ) {
+    const o = propName == null ? state : state[propName]
+    if (o == null) return
+    for (const prop in value) stateMerge(o, value[prop], prop, ignoreNull)
+  }
+  if (!ignoreNull || value !== null)
+    Vue.set(state, propName as string | number, value)
+}
+
 export default {
   getAllowedScopes(scopes: string[], allScopes: string[]) {
     const derivedScopes: string[] = []
@@ -33,5 +53,6 @@ export default {
           .map((x) => x.split(':'))
           .reduce((a, [k, v]) => Object.assign(a, { [k]: v }), {})
       : {}
-  }
+  },
+  stateMerge
 }

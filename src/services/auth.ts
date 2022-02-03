@@ -1,15 +1,16 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import VueAxios from 'vue-axios'
+import { IConfig } from '@/common/interfaces'
 import { VueAuthenticate } from '@alerta/vue-authenticate'
 import axios from 'axios'
+import Vue from 'vue'
+import VueAxios from 'vue-axios'
+import Vuex from 'vuex'
 
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 
 const getRedirectUri = (path: string) => window.location.origin + (path || '')
 
-export const vueAuth = (config) => {
+export const vueAuth = (config: IConfig) => {
   const basePath = config.base_path || process.env.BASE_URL
   return new VueAuthenticate(Vue.prototype.$http, {
     tokenPath: 'token',

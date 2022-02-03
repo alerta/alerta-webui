@@ -19,6 +19,7 @@ import { createStore } from '@/store'
 import { makeStore } from '@/store/modules/auth.store'
 import axios from 'axios'
 import Vue from 'vue'
+import { sync } from 'vuex-router-sync'
 
 export const store = createStore()
 
@@ -40,7 +41,7 @@ bootstrap.getConfig().then((config) => {
     trackingId: config.tracking_id,
     router
   })
-  // sync(store, router)
+  sync(store, router)
 
   new Vue({
     router,

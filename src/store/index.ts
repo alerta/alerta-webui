@@ -19,11 +19,10 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 export const createStore = () =>
-  new Store({
+  new Store<any>({
     state: {
       multiselect: false,
-      refresh: false,
-      auth: { isAuthenticated: true }
+      refresh: false
     },
     mutations: {
       SET_SETTING(state, { s, v }) {
@@ -56,8 +55,8 @@ export const createStore = () =>
 // FIXME: types...
 export interface State {
   config?: any
+  isDark?: boolean
   isKiosk: boolean
-  isDark: boolean
   alerts?: any
   users?: any
   auth?: any

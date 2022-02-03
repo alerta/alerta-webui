@@ -248,7 +248,7 @@ import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
 
 export default {
-  data: (vm) => ({
+  data: () => ({
     mediumDateFormats: [
       'l',
       'L',
@@ -340,10 +340,12 @@ export default {
     },
     isDark: {
       get() {
-        return this.$store.getters.getPreference('isDark')
+        // return this.$store.getters.getPreference('isDark')
+        return this.$vuetify.theme.dark
       },
       set(value) {
-        this.$store.dispatch('toggle', ['isDark', value])
+        // this.$store.dispatch('toggle', ['isDark', value])
+        this.$vuetify.theme.dark = value
       }
     },
     isPlaySounds: {
@@ -472,7 +474,7 @@ export default {
           this.$store.getters.getConfig('font')['font-size']
         ).replace('px', '')
       },
-      set: debounce((value) => {
+      set: debounce(function (value) {
         this.$store.dispatch('setUserPrefs', {
           font: { 'font-size': value + 'px' }
         })
@@ -485,7 +487,7 @@ export default {
           this.$store.getters.getConfig('font')['font-weight']
         )
       },
-      set: debounce((value) => {
+      set: debounce(function (value) {
         this.$store.dispatch('setUserPrefs', {
           font: { 'font-weight': value }
         })

@@ -25,11 +25,11 @@
             <span>{{ provider[profile.provider].text }}</span>
           </v-tooltip>
           <v-tooltip v-else-if="profile.email_verified" top>
-            <v-icon slot="activator">verified_user</v-icon>
+            <v-icon slot="activator">mdi-shield-check</v-icon>
             <span>({{ $t('EmailVerified') }})</span>
           </v-tooltip>
           <v-tooltip v-else top>
-            <v-icon slot="activator">fas fa-user-times</v-icon>
+            <v-icon slot="activator">mdi-account-remove</v-icon>
             <span>{{ $t('EmailNotVerified') }}</span>
           </v-tooltip>
         </v-list-item-action>
@@ -133,8 +133,6 @@
 </template>
 
 <script>
-import i18n from '@/plugins/i18n'
-
 export default {
   props: {
     profile: {
@@ -144,17 +142,17 @@ export default {
   },
   data: () => ({
     provider: {
-      basic: { icon: 'fas fa-id-card', text: 'BasicAuth' },
-      ldap: { icon: 'fas fa-id-card', text: 'LDAP' },
-      azure: { icon: 'fab fa-windows', text: 'Azure OAuth2' },
-      cognito: { icon: 'fab fa-aws', text: 'Amazon Cognito' },
-      github: { icon: 'fab fa-github', text: 'GitHub OAuth2' },
-      gitlab: { icon: 'fab fa-gitlab', text: 'GitLab OAuth2' },
-      google: { icon: 'fab fa-google', text: 'Google OAuth2' },
-      keycloak: { icon: 'fas fa-key', text: 'Keycloak' },
-      openid: { icon: 'fab fa-openid', text: 'OpenID Connect' },
-      pingfederate: { icon: 'fas fa-id-badge', text: 'PingFederate' },
-      saml2: { icon: 'fas fa-id-badge', text: 'SAML2' }
+      basic: { icon: 'mdi-card-account-details', text: 'BasicAuth' },
+      ldap: { icon: 'mdi-card-account-details', text: 'LDAP' },
+      azure: { icon: 'mdi-microsoft-azure', text: 'Azure OAuth2' },
+      cognito: { icon: 'mdi-aws', text: 'Amazon Cognito' },
+      github: { icon: 'mdi-github', text: 'GitHub OAuth2' },
+      gitlab: { icon: 'mdi-gitlab', text: 'GitLab OAuth2' },
+      google: { icon: 'mdi-google', text: 'Google OAuth2' },
+      keycloak: { icon: 'mdi-key', text: 'Keycloak' },
+      openid: { icon: 'mdi-openid', text: 'OpenID Connect' },
+      pingfederate: { icon: 'mdi-badge-account', text: 'PingFederate' },
+      saml2: { icon: 'mdi-badge-account', text: 'SAML2' }
     }
   }),
   computed: {

@@ -219,7 +219,7 @@
         :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
-        header-props:sort-icon="arrow_drop_down"
+        :header-props="{ sortIcon: 'mdi-chevron-down' }"
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
