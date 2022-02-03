@@ -4,9 +4,9 @@ export default {
   async getHeartbeat(id: string) {
     return api.get(`/heartbeat/${id}`)
   },
-  async getHeartbeats(query: object) {
+  async getHeartbeats(query?: object) {
     const config = {
-      params: query
+      params: query ?? {}
     }
     return api.get('/heartbeats', config)
   },

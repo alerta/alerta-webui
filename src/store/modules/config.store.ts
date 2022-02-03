@@ -1,5 +1,6 @@
-import { IConfig } from '@/common/interfaces'
+import { IConfig, IStore } from '@/common/interfaces'
 import utils from '@/common/utils'
+import { Module } from 'vuex'
 
 const state: IConfig = {
   endpoint: 'http://local.alerta.io:8080',
@@ -58,27 +59,23 @@ const state: IConfig = {
   environments: []
 }
 
-const mutations = {
-  SET_CONFIG(state: IConfig, config: Partial<IConfig>) {
-    utils.stateMerge(state, config)
-  }
-}
-
-const actions = {
-  updateConfig({ commit }, config: Partial<IConfig>) {
-    commit('SET_CONFIG', config)
-  }
-}
-
-const getters = {
-  getConfig: (state: IConfig) => (setting) => {
-    return state[setting]
-  }
-}
-
-export default {
+const config: Module<IConfig, IStore> = {
   state,
-  mutations,
-  actions,
-  getters
+  mutations: {
+    SET_CONFIG(state: IConfig, config: Partial<IConfig>) {
+      utils.stateMerge(state, config)
+    }
+  },
+  actions: {
+    updateConfig({ commit }, config: Partial<IConfig>) {
+      commit('SET_CONFIG', config)
+    }
+  },
+  getters: {
+    getConfig: (state: IConfig) => (setting) => {
+      return state[setting]
+    }
+  }
 }
+
+export default config

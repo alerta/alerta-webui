@@ -1,4 +1,4 @@
-import { IPreferences } from '@/common/interfaces'
+import { IPreferences, IStore } from '@/common/interfaces'
 import utils from '@/common/utils'
 import i18n from '@/plugins/i18n'
 import vuetify from '@/plugins/vuetify'
@@ -35,7 +35,7 @@ const getDefaults = (): IPreferences => ({
   queries: []
 })
 
-const preferences: Module<IPreferences, any> = {
+const preferences: Module<IPreferences, IStore> = {
   state: getDefaults(),
   mutations: {
     SET_PREFS(state, prefs) {

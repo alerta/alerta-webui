@@ -1,60 +1,55 @@
+import { ICustomers, IStore } from '@/common/interfaces'
 import CustomersApi from '@/services/api/customer.service'
+import { Module } from 'vuex'
 
-const namespaced = true
-
-const state = {
+const state: ICustomers = {
   isLoading: false,
-
   customers: []
 }
 
-const mutations = {
-  SET_LOADING(state) {
-    state.isLoading = true
-  },
-  SET_CUSTOMERS(state, customers) {
-    state.isLoading = false
-    state.customers = customers
-  },
-  RESET_LOADING(state) {
-    state.isLoading = false
-  }
-}
-
-const actions = {
-  async getCustomers({ commit }) {
-    commit('SET_LOADING')
-    return CustomersApi.getCustomers({})
-      .then(({ customers }) => commit('SET_CUSTOMERS', customers))
-      .catch(() => commit('RESET_LOADING'))
-  },
-  async createCustomer({ dispatch }, customer) {
-    return CustomersApi.createCustomer(customer).then(() =>
-      dispatch('getCustomers')
-    )
-  },
-  async updateCustomer({ dispatch }, [customerId, update]) {
-    return CustomersApi.updateCustomer(customerId, update).then(() =>
-      dispatch('getCustomers')
-    )
-  },
-  async deleteCustomer({ dispatch }, customerId) {
-    return CustomersApi.deleteCustomer(customerId).then(() =>
-      dispatch('getCustomers')
-    )
-  }
-}
-
-const getters = {
-  customers: (state) => {
-    return state.customers.map((c) => c.customer)
-  }
-}
-
-export default {
-  namespaced,
+const customers: Module<ICustomers, IStore> = {
+  namespaced: true,
   state,
-  mutations,
-  actions,
-  getters
+  mutations: {
+    SET_LOADING(state) {
+      state.isLoading = true
+    },
+    SET_CUSTOMERS(state, customers) {
+      state.isLoading = false
+      state.customers = customers
+    },
+    RESET_LOADING(state) {
+      state.isLoading = false
+    }
+  },
+  getters: {
+    customers: (state) => {
+      return state.customers.map((c) => c.customer)
+    }
+  },
+  actions: {
+    async getCustomers({ commit }) {
+      commit('SET_LOADING')
+      return CustomersApi.getCustomers({})
+        .then(({ customers }) => commit('SET_CUSTOMERS', customers))
+        .catch(() => commit('RESET_LOADING'))
+    },
+    async createCustomer({ dispatch }, customer) {
+      return CustomersApi.createCustomer(customer).then(() =>
+        dispatch('getCustomers')
+      )
+    },
+    async updateCustomer({ dispatch }, [customerId, update]) {
+      return CustomersApi.updateCustomer(customerId, update).then(() =>
+        dispatch('getCustomers')
+      )
+    },
+    async deleteCustomer({ dispatch }, customerId) {
+      return CustomersApi.deleteCustomer(customerId).then(() =>
+        dispatch('getCustomers')
+      )
+    }
+  }
 }
+
+export default customers

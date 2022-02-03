@@ -33,12 +33,12 @@ bootstrap.getConfig().then((config) => {
   axios.defaults.baseURL = config.endpoint
 
   const interceptors = makeInterceptors(router)
-  axios.interceptors.request.use(interceptors.requestIdHeader, undefined)
+  axios.interceptors.request.use(interceptors.requestIdHeader)
   axios.interceptors.response.use(undefined, interceptors.interceptErrors)
   axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
 
   Vue.use(GoogleAnalytics, {
-    trackingId: config.tracking_id,
+    trackingId: process.env.NODE_ENV === 'production' && config.tracking_id,
     router
   })
   sync(store, router)

@@ -1,48 +1,40 @@
+import { IHeartbeats, IStore } from '@/common/interfaces'
 import HeartbeatsApi from '@/services/api/heartbeat.service'
+import { Module } from 'vuex'
 
-const namespaced = true
-
-const state = {
+const state: IHeartbeats = {
   isLoading: false,
 
   heartbeats: []
 }
 
-const mutations = {
-  SET_LOADING(state) {
-    state.isLoading = true
-  },
-  SET_HEARTBEATS(state, heartbeats) {
-    state.isLoading = false
-    state.heartbeats = heartbeats
-  },
-  RESET_LOADING(state) {
-    state.isLoading = false
-  }
-}
-
-const actions = {
-  async getHeartbeats({ commit }) {
-    commit('SET_LOADING')
-    return HeartbeatsApi.getHeartbeats({})
-      .then(({ heartbeats }) => commit('SET_HEARTBEATS', heartbeats))
-      .catch(() => commit('RESET_LOADING'))
-  },
-  async deleteHeartbeat({ dispatch }, heartbeatId) {
-    return HeartbeatsApi.deleteHeartbeat(heartbeatId).then(() =>
-      dispatch('getHeartbeats')
-    )
-  }
-}
-
-const getters = {
-  //
-}
-
-export default {
-  namespaced,
+const heartbeats: Module<IHeartbeats, IStore> = {
+  namespaced: true,
   state,
-  mutations,
-  actions,
-  getters
+  mutations: {
+    SET_LOADING(state) {
+      state.isLoading = true
+    },
+    SET_HEARTBEATS(state, heartbeats: IHeartbeats['heartbeats']) {
+      state.isLoading = false
+      state.heartbeats = heartbeats
+    },
+    RESET_LOADING(state) {
+      state.isLoading = false
+    }
+  },
+  actions: {
+    getHeartbeats: async ({ commit }) => {
+      commit('SET_LOADING')
+      return HeartbeatsApi.getHeartbeats()
+        .then(({ heartbeats }) => commit('SET_HEARTBEATS', heartbeats))
+        .catch(() => commit('RESET_LOADING'))
+    },
+    deleteHeartbeat: async ({ dispatch }, heartbeatId: string) =>
+      HeartbeatsApi.deleteHeartbeat(heartbeatId).then(() =>
+        dispatch('getHeartbeats')
+      )
+  }
 }
+
+export default heartbeats

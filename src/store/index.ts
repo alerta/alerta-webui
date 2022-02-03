@@ -1,3 +1,4 @@
+import { IStore } from '@/common/interfaces'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import alerts from './modules/alerts.store'
@@ -19,7 +20,7 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 export const createStore = () =>
-  new Store<any>({
+  new Store<IStore>({
     state: {
       multiselect: false,
       refresh: false
@@ -51,13 +52,3 @@ export const createStore = () =>
       notifications
     }
   })
-
-// FIXME: types...
-export interface State {
-  config?: any
-  isDark?: boolean
-  isKiosk: boolean
-  alerts?: any
-  users?: any
-  auth?: any
-}

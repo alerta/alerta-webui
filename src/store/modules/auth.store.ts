@@ -1,6 +1,9 @@
+import { IAuth, IStore } from '@/common/interfaces'
 import AuthApi from '@/services/api/auth.service'
+import { VueAuthenticate } from '@alerta/vue-authenticate'
+import { Module } from 'vuex'
 
-export const makeStore = (vueAuth) => ({
+export const makeStore = (vueAuth: VueAuthenticate): Module<IAuth, IStore> => ({
   namespaced: true,
 
   state: {
@@ -53,9 +56,6 @@ export const makeStore = (vueAuth) => ({
           commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()])
         )
         .then(() => dispatch('getUserPrefs', {}, { root: true }))
-        .catch((error) => {
-          throw error
-        })
     },
     authenticate({ commit, dispatch }, provider) {
       return vueAuth
@@ -64,9 +64,6 @@ export const makeStore = (vueAuth) => ({
           commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()])
         )
         .then(() => dispatch('getUserPrefs', {}, { root: true }))
-        .catch((error) => {
-          throw error
-        })
     },
     setToken({ commit, dispatch }, token) {
       vueAuth.setToken(token)
@@ -104,26 +101,21 @@ export const makeStore = (vueAuth) => ({
       return state.isAuthenticated
     },
     getUsername(state) {
-      return state.payload && state.payload.preferred_username
+      return state.payload?.preferred_username
     },
     getAvatar(state) {
-      return state.payload && state.payload.picture
+      return state.payload?.picture
     },
     scopes(state) {
-      return state.payload && state.payload.scope
-        ? state.payload.scope.split(' ')
-        : []
+      return state.payload?.scope ? state.payload.scope.split(' ') : []
     },
     customers(state) {
-      return state.payload.customers && state.payload.customers.length == 0
+      return state.payload.customers?.length === 0
         ? ['ALL (*)']
         : state.payload.customers
     },
     isAdmin(_state, getters) {
-      if (getters.isLoggedIn) {
-        return getters.scopes.includes('admin')
-      }
-      return false
+      return getters.isLoggedIn && getters.scopes.includes('admin')
     }
   }
 })

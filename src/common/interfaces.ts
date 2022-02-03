@@ -1,5 +1,56 @@
 import { I18nOptions } from 'vue-i18n'
+import { DataOptions } from 'vuetify'
 
+export type DateRange = [number | null, number | null]
+
+export interface IStore {
+  multiselect: boolean
+  refresh: boolean
+  auth?: any
+  config?: IConfig
+}
+
+export interface IFilter {
+  text?: string | null
+  environment?: string | null
+  status?: string[] | null
+  service?: string[] | null
+  group?: string[] | null
+  customer?: string[] | null
+  dateRange: DateRange
+}
+
+export interface IAlerts {
+  isLoading: boolean
+  isSearching: boolean
+
+  alerts: any[]
+  selected: any[]
+  environments: any[]
+  services: any[]
+  groups: {
+    count: number
+    environment: string
+    group: string
+  }[]
+  tags: any[]
+
+  alert: any
+  notes: any[]
+
+  isWatch: boolean
+  isKiosk: boolean
+  showPanel: boolean
+  displayDensity: 'comfortable' | 'compact'
+
+  query: URLSearchParams
+  filter: IFilter
+
+  pagination: DataOptions & {
+    itemsPerPageOptions: number[]
+    totalItems: number
+  }
+}
 export interface IConfig {
   endpoint: string
   base_path?: string
@@ -49,14 +100,7 @@ export interface IConfig {
   columns?: string[]
   sort_by: (string | null)[]
   actions?: any[]
-  filter: {
-    text: string | null
-    environment: string | null
-    status: string | null
-    service: string | null
-    group: string | null
-    dateRange?: (string | null)[]
-  }
+  filter: IFilter
 
   tracking_id: string | null
   /* interval in milliseconds */
@@ -92,4 +136,111 @@ export interface IPreferences {
   blackoutStartNow: boolean
   blackoutPeriod: null
   queries: any[]
+}
+
+export interface IUsers {
+  isLoading: boolean
+  domains: any[]
+  users: any[]
+  groups: any[]
+}
+
+export interface ICustomers {
+  isLoading: boolean
+  customers: any[]
+}
+
+export interface IReports {
+  offenders: []
+  flapping: []
+  standing: []
+
+  query?: string
+
+  filter: {
+    environment: any | null
+    severity: any[] | null
+    status: string[] | null
+    customer: any[] | null
+    service: any[] | null
+    group: any[] | null
+    dateRange: DateRange
+  }
+
+  pagination: {
+    page: number
+    itemsPerPage: number
+  }
+}
+
+export interface IPerms {
+  isLoading: boolean
+
+  permissions: string[]
+  scopes: string[]
+}
+
+export interface IBlackouts {
+  isLoading: boolean
+
+  blackouts: any[]
+}
+export interface IGroups {
+  isLoading: boolean
+
+  groups: any[]
+  group: any
+  users: any[]
+}
+
+export interface Snackbar {
+  type: 'success' | 'info' | 'error'
+  text: string
+  action: string
+  timeout: number
+}
+
+export interface Banner {
+  type: 'success' | 'info' | 'warning' | 'error'
+  text: string
+  icon: string | null
+}
+
+export interface INotifications {
+  snackbars: Snackbar[]
+  banners: Banner[]
+}
+
+export interface IKeys {
+  isLoading: boolean
+  keys: any[]
+  users?: any[]
+}
+
+export interface IManagement {
+  isLoading?: boolean
+  manifest: any
+
+  healthcheck: any
+  status: any
+
+  application: any
+  metrics: any[]
+  time: number | null
+  uptime: number | null
+  version: string | null
+}
+
+export interface IAuth {
+  isAuthenticated: boolean
+  token: string | null
+  payload: any
+
+  isSending: boolean
+}
+
+export interface IHeartbeats {
+  isLoading: boolean
+
+  heartbeats: any[]
 }

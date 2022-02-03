@@ -1,16 +1,17 @@
 import { store } from '@/main'
 import { v4 as uuidv4 } from 'uuid'
-import axios from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import VueRouter from 'vue-router'
 
-export const makeInterceptors = (router) => ({
+export const makeInterceptors = (router: VueRouter) => ({
   // add requestId
-  requestIdHeader(config) {
-    config.headers['X-Request-ID'] = uuidv4()
+  requestIdHeader(config: AxiosRequestConfig) {
+    config.headers = { ...config.headers, 'X-Request-ID': uuidv4() }
     return config
   },
 
   // response handlers
-  async interceptErrors(error) {
+  async interceptErrors(error: AxiosError) {
     if (!error.response && !axios.isCancel(error)) {
       store.dispatch(
         'notifications/error',
@@ -18,15 +19,15 @@ export const makeInterceptors = (router) => ({
       )
     }
 
-    if (error.response) {
+    if (error.response)
       store.dispatch('notifications/error', error.response.data)
-    }
+
     return Promise.reject(error)
   },
 
   // redirect to login if API rejects auth token
-  async redirectToLogin(error) {
-    if (error.response && error.response.status === 401) {
+  async redirectToLogin(error: AxiosError) {
+    if (error.response?.status === 401) {
       if (store.getters['auth/isLoggedIn']) {
         store.dispatch('auth/logout')
       }
