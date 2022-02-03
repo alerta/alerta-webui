@@ -340,11 +340,10 @@ export default {
     },
     isDark: {
       get() {
-        // return this.$store.getters.getPreference('isDark')
         return this.$vuetify.theme.dark
       },
       set(value) {
-        // this.$store.dispatch('toggle', ['isDark', value])
+        this.$store.dispatch('toggle', ['isDark', value])
         this.$vuetify.theme.dark = value
       }
     },

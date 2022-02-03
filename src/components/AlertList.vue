@@ -9,282 +9,243 @@
       :server-items-length="pagination.totalItems"
       :footer-props="pagination"
       :loading="isSearching"
+      :loading-text="$t('Loading')"
+      :dense="displayDensity == 'compact'"
       class="alert-table"
-      :class="[displayDensity]"
       :style="columnWidths"
       :header-props="{ sortIcon: 'mdi-chevron-down' }"
       show-select
-      :loading-text="$t('Loading')"
     >
-      <template v-slot:item="props">
-        <tr
-          :style="{
-            'background-color': severityColor(props.item.severity),
-            ...fontStyle
-          }"
-          class="hover-lighten"
-          @click="openItem(props.item)"
-        >
-          <td class="text-no-wrap center">
-            <v-simple-checkbox
-              :value="props.selected"
-              :ripple="false"
-              @click.stop
-            />
-          </td>
-          <td
-            v-for="col in $config.columns"
-            :key="col"
-            :class="['text-no-wrap', textColor(props.item.severity)]"
-          >
-            <span v-if="col == 'id'"> {{ props.item.id | shortId }} </span>
-            <span v-if="col == 'resource'"> {{ props.item.resource }} </span>
-            <span v-if="col == 'event'"> {{ props.item.event }} </span>
-            <span v-if="col == 'environment'">
-              {{ props.item.environment }}
-            </span>
-            <span v-if="col == 'severity'">
-              <span
-                :class="['label', 'label-' + props.item.severity.toLowerCase()]"
-              >
-                {{ props.item.severity | capitalize }}
-              </span>
-            </span>
-            <span v-if="col == 'correlate'">
-              {{ props.item.correlate.join(', ') }}
-            </span>
-            <span v-if="col == 'status'">
-              <span class="label">
-                {{ props.item.status | capitalize }}
-              </span>
-              <span v-if="showNotesIcon">
-                <span v-if="lastNote(props.item)" class="pl-2">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-bind="attrs" small v-on="on">mdi-note</v-icon>
-                    </template>
-                    <span>{{ lastNote(props.item) }}</span>
-                  </v-tooltip>
-                </span>
-              </span>
-            </span>
-            <span v-if="col == 'service'">
-              {{ props.item.service.join(', ') }}
-            </span>
-            <span v-if="col == 'group'"> {{ props.item.group }} </span>
-            <span v-if="col == 'value'">
-              <div class="fixed-table">
-                <div class="text-truncate">
-                  <span v-html="props.item.value" />
-                </div>
-              </div>
-            </span>
-            <span v-if="col == 'text'">
-              <div class="fixed-table">
-                <div class="text-truncate">
-                  <span v-html="props.item.text" />
-                </div>
-              </div>
-            </span>
-            <span v-if="col == 'tags'">
-              <span v-for="tag in props.item.tags" :key="tag"
-                ><span class="label">{{ tag }}</span
-                >&nbsp;</span
-              >
-            </span>
-            <span v-if="props.item.attributes.hasOwnProperty(col)">
-              <span v-html="props.item.attributes[col]" />
-            </span>
-            <span v-if="col == 'origin'"> {{ props.item.origin }} </span>
-            <span v-if="col == 'type'">
-              <span class="label">
-                {{ props.item.type | splitCaps }}
-              </span>
-            </span>
-            <span v-if="col == 'createTime'">
-              <date-time :value="props.item.createTime" format="mediumDate" />
-            </span>
-            <span v-if="col == 'timeout'">
-              {{ props.item.timeout | hhmmss }}
-            </span>
-            <span v-if="col == 'timeoutLeft'" class="text-xs-right">
-              {{ timeoutLeft(props.item) | hhmmss }}
-            </span>
-            <!-- rawData not supported -->
-            <span v-if="col == 'customer' && $config.customer_views">
-              {{ props.item.customer }}
-            </span>
-            <span v-if="col == 'duplicateCount'">
-              {{ props.item.duplicateCount }}
-            </span>
-            <span v-if="col == 'repeat'">
-              <span class="label">
-                {{ props.item.repeat | capitalize }}
-              </span>
-            </span>
-            <span v-if="col == 'previousSeverity'">
-              <span
-                :class="[
-                  'label',
-                  'label-' + props.item.previousSeverity.toLowerCase()
-                ]"
-              >
-                {{ props.item.previousSeverity | capitalize }}
-              </span>
-            </span>
-            <!-- trendIndication not supported -->
-            <span v-if="col == 'receiveTime'">
-              <date-time :value="props.item.receiveTime" format="mediumDate" />
-            </span>
-            <span v-if="col == 'duration'" class="text-xs-right">
-              {{ duration(props.item) | hhmmss }}
-            </span>
-            <span v-if="col == 'lastReceiveId'">
-              {{ props.item.lastReceiveId | shortId }}
-            </span>
-            <span v-if="col == 'lastReceiveTime'">
-              <date-time
-                :value="props.item.lastReceiveTime"
-                format="mediumDate"
-              />
-            </span>
-            <!-- only history supported is most recent note -->
-            <span v-if="col == 'note'"> {{ lastNote(props.item) }} </span>
-          </td>
-          <td :class="['text-no-wrap', textColor(props.item.severity)]">
-            <div
-              class="action-buttons"
-              :style="{
-                'background-color': severityColor(props.item.severity)
-              }"
-            >
-              ...&nbsp;
-              <v-btn
-                v-if="isAcked(props.item.status) || isClosed(props.item.status)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'open')"
-              >
-                <v-icon :size="fontSize">mdi-refresh</v-icon>
-              </v-btn>
-
-              <v-btn
-                v-if="!isWatched(props.item.tags)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="watchAlert(props.item.id)"
-              >
-                <v-icon :size="fontSize">mdi-eye</v-icon>
-              </v-btn>
-              <v-btn
-                v-if="isWatched(props.item.tags)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="unwatchAlert(props.item.id)"
-              >
-                <v-icon :size="fontSize">mdi-eye-off</v-icon>
-              </v-btn>
-
-              <v-btn
-                v-if="isOpen(props.item.status)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="ackAlert(props.item.id)"
-              >
-                <v-icon :size="fontSize">mdi-check</v-icon>
-              </v-btn>
-              <v-btn
-                v-if="isAcked(props.item.status)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'unack')"
-              >
-                <v-icon :size="fontSize">mdi-undo</v-icon>
-              </v-btn>
-
-              <v-btn
-                v-if="isOpen(props.item.status) || isAcked(props.item.status)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="shelveAlert(props.item.id)"
-              >
-                <v-icon :size="fontSize">mdi-clock-outline</v-icon>
-              </v-btn>
-              <v-btn
-                v-if="isShelved(props.item.status)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'unshelve')"
-              >
-                <v-icon :size="fontSize">mdi-restore</v-icon>
-              </v-btn>
-
-              <v-btn
-                v-if="!isClosed(props.item.status)"
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'close')"
-              >
-                <v-icon :size="fontSize">mdi-close-circle-outline</v-icon>
-              </v-btn>
-              <v-btn
-                text
-                icon
-                small
-                class="btn--plain pa-0 ma-0"
-                @click.stop="deleteAlert(props.item.id)"
-              >
-                <v-icon :size="fontSize">mdi-delete</v-icon>
-              </v-btn>
-
-              <v-menu bottom left>
-                <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" text icon small class="btn--plain pa-0 ma-0">
-                    <v-icon small>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-
-                <v-list subheader>
-                  <v-subheader>Actions</v-subheader>
-                  <v-divider />
-                  <v-list-item
-                    v-for="(action, i) in actions"
-                    :key="i"
-                    @click.stop="takeAction(props.item.id, action)"
-                  >
-                    <v-list-item-title>{{
-                      action | splitCaps
-                    }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
-          </td>
-        </tr>
+      <template v-slot:item.id="{ item }">
+        <span> {{ item.id | shortId }} </span>
       </template>
-      <template slot="no-data">
-        <div class="text-xs-center">
-          <span v-if="isLoading">{{ $t('Loading') }}...</span>
-          <span v-if="!isLoading">{{ $t('NoDataAvailable') }}</span>
+      <template v-slot:item.severity="{ item }">
+        <span :class="['label', 'label-' + item.severity.toLowerCase()]">
+          {{ item.severity | capitalize }}
+        </span>
+      </template>
+      <template v-slot:item.correlate="{ item }">
+        <span>
+          {{ item.correlate.join(', ') }}
+        </span>
+      </template>
+      <template v-slot:item.status="{ item }">
+        <span class="label">
+          {{ item.status | capitalize }}
+        </span>
+        <span v-if="showNotesIcon">
+          <span v-if="lastNote(item)" class="pl-2">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" small v-on="on">mdi-note</v-icon>
+              </template>
+              <span>{{ lastNote(item) }}</span>
+            </v-tooltip>
+          </span>
+        </span>
+      </template>
+      <template v-slot:item.tags="{ item }">
+        <span v-for="tag in item.tags" :key="tag">
+          <span class="label">{{ tag }}</span>
+          &nbsp;
+        </span>
+      </template>
+      <template v-slot:item.service="{ item }">
+        <span>
+          {{ item.service.join(', ') }}
+        </span>
+      </template>
+      <template v-slot:item.type="{ item }">
+        <span class="label">
+          {{ item.type | splitCaps }}
+        </span>
+      </template>
+      <template v-slot:item.resource="{ item }">
+        <span class="text-truncate">
+          {{ item.resource }}
+        </span>
+      </template>
+      <template v-slot:item.value="{ item }">
+        <div class="text-truncate">
+          <span v-html="item.value" />
         </div>
-      </template></v-data-table
-    >
+      </template>
+      <template v-slot:item.text="{ item }">
+        <div class="fixed-table">
+          <div class="text-truncate">
+            <span v-html="item.text" />
+          </div>
+        </div>
+      </template>
+      <template v-slot:item.duration="{ item }">
+        <span class="text-xs-right">
+          {{ duration(item) | hhmmss }}
+        </span>
+      </template>
+      <template v-slot:item.label="{ item }">
+        <span class="label">
+          {{ item.repeat | capitalize }}
+        </span>
+      </template>
+      <template v-slot:item.receiveTime="{ item }">
+        <date-time :value="item.receiveTime" format="mediumDate" />
+      </template>
+      <template v-slot:item.lastReceiveTime="{ item }">
+        <date-time :value="item.lastReceiveTime" format="mediumDate" />
+      </template>
+      <template v-slot:item.createTime="{ item }">
+        <date-time :value="item.createTime" format="mediumDate" />
+      </template>
+      <template v-slot:item.timeout="{ item }">
+        {{ item.timeout | hhmmss }}
+      </template>
+      <template v-slot:item.timeoutLeft="{ item }">
+        <span class="text-xs-right">
+          {{ timeoutLeft(item) | hhmmss }}
+        </span>
+      </template>
+      <template v-slot:item.repeat="{ item }">
+        <span class="label">
+          {{ item.repeat | capitalize }}
+        </span>
+      </template>
+      <template v-slot:item.previousSeverity="{ item }">
+        <span
+          :class="['label', 'label-' + item.previousSeverity.toLowerCase()]"
+        >
+          {{ item.previousSeverity | capitalize }}
+        </span>
+      </template>
+      <template v-slot:item.lastReceiveId="{ item }">
+        {{ item.lastReceiveId | shortId }}
+      </template>
+      <template v-slot:item.note="{ item }">
+        {{ lastNote(item) }}
+      </template>
+
+      <template v-slot:item.actions="{ item }">
+        <div
+          :style="{
+            width: 'fit-content',
+            display: 'flex'
+          }"
+        >
+          <v-btn
+            v-if="isAcked(item.status) || isClosed(item.status)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="takeAction(item.id, 'open')"
+          >
+            <v-icon :size="fontSize">mdi-refresh</v-icon>
+          </v-btn>
+
+          <v-btn
+            v-if="!isWatched(item.tags)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="watchAlert(item.id)"
+          >
+            <v-icon :size="fontSize">mdi-eye</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="isWatched(item.tags)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="unwatchAlert(item.id)"
+          >
+            <v-icon :size="fontSize">mdi-eye-off</v-icon>
+          </v-btn>
+
+          <v-btn
+            v-if="isOpen(item.status)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="ackAlert(item.id)"
+          >
+            <v-icon :size="fontSize">mdi-check</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="isAcked(item.status)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="takeAction(item.id, 'unack')"
+          >
+            <v-icon :size="fontSize">mdi-undo</v-icon>
+          </v-btn>
+
+          <v-btn
+            v-if="isOpen(item.status) || isAcked(item.status)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="shelveAlert(item.id)"
+          >
+            <v-icon :size="fontSize">mdi-clock-outline</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="isShelved(item.status)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="takeAction(item.id, 'unshelve')"
+          >
+            <v-icon :size="fontSize">mdi-restore</v-icon>
+          </v-btn>
+
+          <v-btn
+            v-if="!isClosed(item.status)"
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="takeAction(item.id, 'close')"
+          >
+            <v-icon :size="fontSize">mdi-close-circle-outline</v-icon>
+          </v-btn>
+          <v-btn
+            text
+            icon
+            small
+            class="btn--plain pa-0 ma-0"
+            @click.stop="deleteAlert(item.id)"
+          >
+            <v-icon :size="fontSize">mdi-delete</v-icon>
+          </v-btn>
+
+          <v-menu bottom left>
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" text icon small class="btn--plain pa-0 ma-0">
+                <v-icon small>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list subheader>
+              <v-subheader>Actions</v-subheader>
+              <v-divider />
+              <v-list-item
+                v-for="(action, i) in actions"
+                :key="i"
+                @click.stop="takeAction(item.id, action)"
+              >
+                <v-list-item-title>{{ action | splitCaps }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -402,16 +363,16 @@ export default {
       return this.$config.actions
     },
     customHeaders() {
-      return this.$config.columns.map(
-        (c) =>
-          this.headersMap[c] || {
-            text: this.$options.filters.capitalize(c),
-            value: 'attributes.' + c
-          }
-      )
-    },
-    selectedItem() {
-      return this.alerts.filter((a) => a.id == this.selectedId)[0]
+      return [
+        ...this.$config.columns.map(
+          (c) =>
+            this.headersMap[c] || {
+              text: this.$options.filters.capitalize(c),
+              value: 'attributes.' + c
+            }
+        ),
+        { text: 'Actions', value: 'actions', sortable: false }
+      ]
     },
     selectableRows() {
       return this.selected.length > 0
@@ -485,7 +446,7 @@ export default {
         this.$store.getters.getConfig('colors').severity[severity] || 'white'
       )
     },
-    openItem(item) {
+    openItem(item, ..._args) {
       if (!this.selected.length) {
         this.$emit('set-alert', item)
       }
@@ -569,17 +530,6 @@ export default {
 </script>
 
 <style>
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.alert-table .v-data-table__wrapper th,
-td {
-  padding: 0px 5px !important;
-}
-
 .value-header {
   width: var(--value-width);
   min-width: var(--value-width);
@@ -590,35 +540,6 @@ td {
   min-width: var(--text-width);
 }
 
-.comfortable .v-data-table__wrapper tbody td,
-.v-data-table__wrapper tbody th {
-  height: 42px !important;
-}
-
-.compact .v-data-table__wrapper tbody td,
-.v-data-table__wrapper tbody th {
-  height: 34px !important;
-}
-
-.alert-table .v-data-table__wrapper tbody td {
-  border-top: 1px solid rgb(221, 221, 221);
-}
-
-.fixed-table {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-}
-
-i.trend-arrow {
-  width: 24px !important;
-}
-
-div.select-box {
-  width: 24px !important;
-  margin: 0;
-}
-
 .label {
   font-weight: bold;
   line-height: 14px;
@@ -627,9 +548,6 @@ div.select-box {
   white-space: nowrap;
   vertical-align: baseline;
   background-color: #999999;
-}
-
-.label {
   padding: 1px 4px 2px;
   border-radius: 3px;
 }
@@ -659,42 +577,5 @@ div.select-box {
 
 .label-inverse {
   background-color: #333333;
-}
-
-.hover-lighten:hover {
-  filter: brightness(0.87);
-  cursor: pointer;
-}
-
-.btn--plain {
-  height: auto;
-  width: auto;
-  margin: 0;
-  padding: 8px;
-  min-width: 0;
-  font-size: 24px;
-}
-.btn--plain {
-  padding: 0;
-  opacity: 0.6;
-}
-.btn--plain:before {
-  background-color: transparent !important;
-  transition: none !important;
-}
-.btn--plain:hover {
-  opacity: 1;
-}
-
-div.action-buttons {
-  position: absolute;
-  opacity: 0;
-  right: 0;
-  top: 0.5em;
-  height: 2em;
-}
-
-tr:hover div.action-buttons {
-  opacity: 1;
 }
 </style>
