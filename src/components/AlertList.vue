@@ -11,7 +11,6 @@
       :loading="isSearching"
       :loading-text="$t('Loading')"
       :dense="displayDensity == 'compact'"
-      class="alert-table"
       :style="[columnWidths, severityColors]"
       :header-props="{ sortIcon: 'mdi-chevron-down' }"
       show-select
@@ -294,7 +293,11 @@ export default {
         value: 'trendIndication'
       },
       receiveTime: { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
-      duration: { text: i18n.t('Duration'), value: 'duration' },
+      duration: {
+        text: i18n.t('Duration'),
+        value: 'duration',
+        sortable: false
+      },
       lastReceiveId: { text: i18n.t('LastReceiveId'), value: 'lastReceiveId' },
       lastReceiveTime: {
         text: i18n.t('LastReceiveTime'),
@@ -440,9 +443,7 @@ export default {
       return `row-${item.severity}`
     },
     openItem(item, ..._args) {
-      if (!this.selected.length) {
-        this.$emit('set-alert', item)
-      }
+      !this.selected.length && this.$emit('set-alert', item)
     },
     isOpen(status) {
       return status == 'open' || status == 'NORM'

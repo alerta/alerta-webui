@@ -77,7 +77,7 @@ const alerts: Module<IAlerts, IStore> = {
       state.environments.reduce(
         (grp, e) => ({
           [e.environment]: e.count,
-          [grp['ALL']]: grp['ALL'] + e.count
+          ALL: grp['ALL'] + e.count
         }),
         { ALL: 0 }
       ),
