@@ -2,7 +2,7 @@
   <v-container grid-list-sm fill-height>
     <v-layout v-show="!sent" align-center row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-sm-center headline font-weight-medium">
           <span>{{ $t('ResetLink') }}</span>
         </p>
         <v-form @submit.prevent="forgot()">
@@ -11,7 +11,7 @@
             name="login"
             type="text"
             :label="$t('Username')"
-            prepend-inner-icon="alternate_email"
+            prepend-inner-icon="mdi-at"
             outlined
           />
           <v-btn
@@ -24,7 +24,7 @@
             {{ $t('Send') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
+        <div class="text-sm-center">
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
@@ -38,7 +38,7 @@
 
     <v-layout v-show="sent" align-center row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-sm-center headline font-weight-medium">
           <span>{{ $t('CheckEmail') }}</span>
         </p>
         <v-form>
@@ -47,7 +47,7 @@
             name="login"
             type="text"
             :label="$t('Username')"
-            prepend-inner-icon="alternate_email"
+            prepend-inner-icon="mdi-at"
             outlined
             readonly
           />
@@ -55,7 +55,7 @@
             {{ $t('ReturnSignIn') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
+        <div class="text-sm-center">
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>

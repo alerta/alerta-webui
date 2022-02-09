@@ -4,7 +4,7 @@
       class="pa-0"
       :style="{ 'background-color': severityColor(maxSeverity) }"
     >
-      <div class="text-uppercase text-xs-center py-2">
+      <div class="text-uppercase text-sm-center py-2">
         {{ title }}
       </div>
     </v-card-text>
@@ -17,7 +17,7 @@
               <div
                 v-for="severity in $config.indicators.severity"
                 :key="severity"
-                class="count text-xs-center py-2"
+                class="count text-sm-center py-2"
                 :style="{ 'background-color': severityColor(severity) }"
               >
                 {{ counts[severity] || 0 }}

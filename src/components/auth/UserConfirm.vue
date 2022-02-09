@@ -3,7 +3,7 @@
     <v-layout align-center row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <div v-show="message">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-sm-center headline font-weight-medium">
             {{ $t('Thanks') }} {{ message }}{{ $t('YouCanNowLogin1') }}
             <a href="/login">
               {{ $t('YouCanNowLogin2') }}
@@ -11,13 +11,13 @@
           </p>
         </div>
         <div v-show="error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-sm-center headline font-weight-medium">
             {{ $t('EmailConfirmFailed') }}
             <a href="/">
               {{ $t('TryAgain') }}
             </a>
           </p>
-          <p class="text-xs-center subheading font-weight-medium">
+          <p class="text-sm-center subheading font-weight-medium">
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>

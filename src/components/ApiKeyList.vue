@@ -207,7 +207,7 @@
           <td>
             <date-time :value="props.item.expireTime" format="mediumDate" />
           </td>
-          <td class="text-xs-center">
+          <td class="text-sm-center">
             {{ props.item.count }}
           </td>
           <td>{{ props.item.lastUsedTime | timeago }}</td>

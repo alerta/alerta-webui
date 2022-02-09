@@ -4,7 +4,7 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>{{ profile.name }}</v-list-item-title>
-          <v-list-item-sub-title>
+          <v-list-item-subtitle>
             <span>
               <span
                 v-if="
@@ -14,22 +14,28 @@
                 >@</span
               >{{ profile.preferred_username }}
             </span>
-          </v-list-item-sub-title>
+          </v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-action>
           <v-tooltip v-if="profile.provider && profile.provider != 'basic'" top>
-            <v-icon slot="activator">
-              {{ provider[profile.provider].icon }}
-            </v-icon>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">
+                {{ provider[profile.provider].icon }}
+              </v-icon>
+            </template>
             <span>{{ provider[profile.provider].text }}</span>
           </v-tooltip>
           <v-tooltip v-else-if="profile.email_verified" top>
-            <v-icon slot="activator">mdi-shield-check</v-icon>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">mdi-shield-check</v-icon>
+            </template>
             <span>({{ $t('EmailVerified') }})</span>
           </v-tooltip>
           <v-tooltip v-else top>
-            <v-icon slot="activator">mdi-account-remove</v-icon>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">mdi-account-remove</v-icon>
+            </template>
             <span>{{ $t('EmailNotVerified') }}</span>
           </v-tooltip>
         </v-list-item-action>
@@ -51,7 +57,7 @@
               >
             </span>
           </v-list-item-title>
-          <v-list-item-sub-title>{{ $t('Customers') }}</v-list-item-sub-title>
+          <v-list-item-subtitle>{{ $t('Customers') }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -67,9 +73,7 @@
               >
             </span>
           </v-list-item-title>
-          <v-list-item-sub-title>{{
-            $t('Organizations')
-          }}</v-list-item-sub-title>
+          <v-list-item-subtitle>{{ $t('Organizations') }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="profile.groups">
@@ -84,7 +88,7 @@
               >
             </span>
           </v-list-item-title>
-          <v-list-item-sub-title>{{ $t('Groups') }}</v-list-item-sub-title>
+          <v-list-item-subtitle>{{ $t('Groups') }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="profile.roles">
@@ -99,7 +103,7 @@
               >
             </span>
           </v-list-item-title>
-          <v-list-item-sub-title>{{ $t('Roles') }}</v-list-item-sub-title>
+          <v-list-item-subtitle>{{ $t('Roles') }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item>
@@ -114,7 +118,7 @@
               >
             </span>
           </v-list-item-title>
-          <v-list-item-sub-title>{{ $t('Scopes') }}</v-list-item-sub-title>
+          <v-list-item-subtitle>{{ $t('Scopes') }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -122,10 +126,10 @@
     <v-card-actions>
       <v-spacer />
 
-      <v-btn flat @click="close">
+      <v-btn text @click="close">
         {{ $t('Cancel') }}
       </v-btn>
-      <v-btn color="primary" flat @click="logout()">
+      <v-btn color="primary" text @click="logout()">
         {{ $t('LogOut') }}
       </v-btn>
     </v-card-actions>

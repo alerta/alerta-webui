@@ -2,7 +2,7 @@
   <v-container grid-list-sm fill-height>
     <v-layout align-center row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-sm-center headline font-weight-medium">
           <span>{{ $t('ChooseNewPassword') }}</span>
         </p>
         <v-form @submit.prevent="reset()">
@@ -28,7 +28,7 @@
             {{ $t('ResetPassword') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
+        <div class="text-sm-center">
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>

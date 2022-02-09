@@ -8,7 +8,7 @@
           </v-card-title>
 
           <v-layout row wrap>
-            <v-flex align-center justify-center layout text-xs-center>
+            <v-flex align-center justify-center layout text-sm-center>
               <v-avatar size="128" color="grey lighten-4">
                 <img
                   v-if="avatar && !error"
@@ -22,12 +22,12 @@
             </v-flex>
           </v-layout>
           <v-layout row spacer>
-            <v-flex align-center justify-center layout text-xs-center>
+            <v-flex align-center justify-center layout text-sm-center>
               <b>{{ profile.name }}</b>
             </v-flex>
           </v-layout>
           <v-layout row spacer>
-            <v-flex align-center justify-center layout text-xs-center>
+            <v-flex align-center justify-center layout text-sm-center>
               <span
                 v-if="
                   profile.preferred_username &&
@@ -93,7 +93,7 @@
                       <v-icon slot="append" color="success">mdi-check</v-icon>
                     </template>
                     <template v-else>
-                      <v-icon slot="append" color="error">clear</v-icon>
+                      <v-icon slot="append" color="error">mdi-close</v-icon>
                     </template>
                   </v-text-field>
                 </v-flex>

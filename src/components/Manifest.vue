@@ -6,7 +6,7 @@
     hide-default-footer
   >
     <template slot="items" slot-scope="props">
-      <td class="text-xs-center">
+      <td class="text-sm-center">
         {{ version }}
       </td>
       <td>

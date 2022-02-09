@@ -277,7 +277,7 @@
             </v-chip>
           </td>
           <td>{{ props.item.origin }}</td>
-          <td class="text-xs-right">
+          <td class="text-sm-right">
             <v-tooltip top>
               {{ props.item.status | capitalize }}
               <template v-slot:activator="{ on }">
@@ -305,19 +305,19 @@
               </template>
             </v-tooltip>
           </td>
-          <td class="text-xs-left">
+          <td class="text-sm-left">
             <date-time :value="props.item.startTime" format="mediumDate" />
           </td>
-          <td class="text-xs-left">
+          <td class="text-sm-left">
             <date-time :value="props.item.endTime" format="mediumDate" />
           </td>
-          <td class="text-xs-left text-no-wrap">
+          <td class="text-sm-left text-no-wrap">
             {{ props.item.endTime | until }}
           </td>
-          <td class="text-xs-left">
+          <td class="text-sm-left">
             {{ props.item.user }}
           </td>
-          <td class="text-xs-left">
+          <td class="text-sm-left">
             {{ props.item.text }}
           </td>
           <td class="text-no-wrap">

@@ -19,10 +19,10 @@
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.event }}</td>
-          <td class="text-xs-center">
+          <td class="text-sm-center">
             {{ props.item.count }}
           </td>
-          <td class="text-xs-center">
+          <td class="text-sm-center">
             {{ props.item.duplicateCount }}
           </td>
           <td>{{ props.item.environments.join(', ') }}</td>

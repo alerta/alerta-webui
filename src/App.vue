@@ -185,9 +185,9 @@
           <profile-me v-if="profile" :profile="profile" @close="menu = false" />
         </v-menu>
 
-        <span class="hidden-xs-only">
+        <span class="hidden-xs-only" v-show="!isLoggedIn">
           <v-btn
-            v-show="!isLoggedIn && isSignupEnabled"
+            v-show="isSignupEnabled"
             rounded
             outlined
             color="primary"
@@ -195,7 +195,7 @@
           >
             {{ $t('SignUp') }}
           </v-btn>
-          <v-btn v-show="!isLoggedIn" rounded color="primary" to="/login">
+          <v-btn rounded color="primary" to="/login">
             {{ $t('LogIn') }}
           </v-btn>
         </span>

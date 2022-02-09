@@ -71,7 +71,7 @@
         {{ item.text }}
       </template>
       <template v-slot:item.duration="{ item }">
-        <span class="text-xs-right">
+        <span class="text-sm-right">
           {{ duration(item) | hhmmss }}
         </span>
       </template>
@@ -93,7 +93,7 @@
         {{ item.timeout | hhmmss }}
       </template>
       <template v-slot:item.timeoutLeft="{ item }">
-        <span class="text-xs-right">
+        <span class="text-sm-right">
           {{ timeoutLeft(item) | hhmmss }}
         </span>
       </template>
@@ -372,16 +372,13 @@ export default {
       return this.$config.actions
     },
     customHeaders() {
-      return [
-        ...this.$config.columns.map(
-          (c) =>
-            this.headersMap[c] || {
-              text: this.$options.filters.capitalize(c),
-              value: 'attributes.' + c
-            }
-        ),
-        { text: 'Actions', value: 'actions', sortable: false }
-      ]
+      return this.$config.columns.map(
+        (c) =>
+          this.headersMap[c] || {
+            text: this.$options.filters.capitalize(c),
+            value: 'attributes.' + c
+          }
+      )
     },
     selectableRows() {
       return this.selected.length > 0
@@ -442,6 +439,7 @@ export default {
     getSeverity(item) {
       return `row-${item.severity}`
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     openItem(item, ..._args) {
       !this.selected.length && this.$emit('set-alert', item)
     },

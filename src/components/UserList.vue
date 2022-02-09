@@ -223,7 +223,7 @@
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
-          <td class="text-xs-center">
+          <td class="text-sm-center">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-icon
@@ -241,7 +241,7 @@
           </td>
           <td>{{ props.item.login }}</td>
           <td>{{ props.item.email }}</td>
-          <td class="text-xs-center">
+          <td class="text-sm-center">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-icon v-on="on" @click="toggleEmailVerified(props.item)">
@@ -268,17 +268,17 @@
               <span>({{ $t('role') }})</span>
             </v-chip>
           </td>
-          <td class="text-xs-right">
+          <td class="text-sm-right">
             <date-time :value="props.item.createTime" format="mediumDate" />
           </td>
-          <td class="text-xs-right">
+          <td class="text-sm-right">
             <date-time
               v-if="props.item.lastLogin"
               :value="props.item.lastLogin"
               format="mediumDate"
             />
           </td>
-          <td class="text-xs-right">
+          <td class="text-sm-right">
             {{ props.item.text }}
           </td>
           <td class="text-no-wrap">

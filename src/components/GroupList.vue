@@ -46,7 +46,7 @@
                         </v-list-item-avatar>
                         <v-list-item-content>
                           <v-list-item-title v-html="data.item.name" />
-                          <v-list-item-sub-title v-html="data.item.email" />
+                          <v-list-item-subtitle v-html="data.item.email" />
                         </v-list-item-content>
                       </template>
                     </template>
@@ -77,7 +77,7 @@
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-html="item.name" />
-                <v-list-item-sub-title v-html="item.login" />
+                <v-list-item-subtitle v-html="item.login" />
               </v-list-item-content>
 
               <v-list-item-action>
@@ -178,7 +178,7 @@
       >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
-          <td class="text-xs-left">
+          <td class="text-sm-left">
             {{ props.item.text }}
           </td>
           <td>

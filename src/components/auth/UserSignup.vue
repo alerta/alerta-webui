@@ -2,7 +2,7 @@
   <v-container grid-list-sm fill-height>
     <v-layout align-center row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-sm-center headline font-weight-medium">
           <span v-show="signupEnabled">
             {{ $t('CreateAlertaAccount') }}
           </span>
@@ -26,7 +26,7 @@
             name="login"
             type="text"
             :label="$t('Username')"
-            prepend-inner-icon="alternate_email"
+            prepend-inner-icon="mdi-at"
             :disabled="!signupEnabled"
             outlined
             :rules="[rules.required]"
@@ -74,11 +74,11 @@
             {{ $t('SignUp') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
+        <div class="text-sm-center py-sm-2">
           <span class="body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
-          <v-btn flat color="primary" to="/login">
+          <v-btn text color="primary" to="/login">
             {{ $t('SignIn') }}
           </v-btn>
         </div>

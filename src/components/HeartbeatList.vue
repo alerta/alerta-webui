@@ -72,7 +72,7 @@
         <td>
           {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
         </td>
-        <td class="text-xs-center text-no-wrap">
+        <td class="text-sm-center text-no-wrap">
           {{ timeoutLeft(props.item) | hhmmss }}
         </td>
         <td>

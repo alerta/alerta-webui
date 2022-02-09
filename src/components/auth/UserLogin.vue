@@ -2,7 +2,7 @@
   <v-container grid-list-sm fill-height>
     <v-layout align-center row wrap>
       <v-flex v-if="isBasicAuth" xs12 sm8 offset-xs0 offset-sm2>
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-sm-center headline font-weight-medium">
           {{ $t('LoginToContinue') }}
         </p>
         <v-form @submit.prevent="login()">
@@ -11,7 +11,7 @@
             name="login"
             type="text"
             :label="$t('Username')"
-            prepend-inner-icon="alternate_email"
+            prepend-inner-icon="mdi-at"
             outlined
           />
           <v-text-field
@@ -27,11 +27,11 @@
             {{ $t('LogIn') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
-          <v-btn flat color="primary" to="/signup" :disabled="!signupEnabled">
+        <div class="text-sm-center py-sm-2">
+          <v-btn text color="primary" to="/signup" :disabled="!signupEnabled">
             {{ $t('CreateAccount') }}
           </v-btn>
-          <v-btn flat color="primary" to="/forgot">
+          <v-btn text color="primary" to="/forgot">
             {{ $t('ForgotPassword') }}
           </v-btn>
         </div>
@@ -45,26 +45,26 @@
         offset-sm2
       >
         <div>
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-sm-center headline font-weight-medium">
             SAML2 Authentication uses pop-up windows.
           </p>
-          <p class="text-xs-center subheading font-weight-medium">
+          <p class="text-sm-center subheading font-weight-medium">
             Please allow pop-ups from <kbd>{{ host }}</kbd>
           </p>
         </div>
         <div v-show="message && !error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-sm-center headline font-weight-medium">
             {{ message }}
           </p>
         </div>
         <div v-show="error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-sm-center headline font-weight-medium">
             {{ $t('UnspecifiedProblem') }}
             <a href="#" @click="authenticateUsingSAML">
               {{ $t('TryAgain') }}
             </a>
           </p>
-          <p class="text-xs-center subheading font-weight-medium">
+          <p class="text-sm-center subheading font-weight-medium">
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>
@@ -72,18 +72,18 @@
 
       <v-flex v-else xs12 sm8 offset-xs0 offset-sm2>
         <div v-show="message && !error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-sm-center headline font-weight-medium">
             {{ message }}
           </p>
         </div>
         <div v-show="error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-sm-center headline font-weight-medium">
             {{ $t('UnspecifiedProblem') }}
             <a href="#" @click="authenticate">
               {{ $t('TryAgain') }}
             </a>
           </p>
-          <p class="text-xs-center subheading font-weight-medium">
+          <p class="text-sm-center subheading font-weight-medium">
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>
