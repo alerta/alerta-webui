@@ -22,7 +22,7 @@
                         :label="$t('APIKey')"
                         readonly
                         monospace
-                        append-icon="content_copy"
+                        append-icon="mdi-copy"
                         @click:append="clipboardCopy(editedItem.key)"
                       />
                     </template>
@@ -83,7 +83,7 @@
                         v-on="on"
                         v-model="pickerDate"
                         :label="$t('Expires')"
-                        prepend-icon="event"
+                        prepend-icon="mdi-calendar"
                         readonly
                       />
                     </template>
@@ -171,7 +171,7 @@
                   style="font-size: 16px"
                   @click="clipboardCopy(props.item.key)"
                 >
-                  content_copy
+                  mdi-copy
                 </v-icon>
               </template>
               <span>{{ copyIconText }}</span>
@@ -180,17 +180,17 @@
           <td>
             <v-tooltip v-if="!isExpired(props.item.expireTime)" top>
               <template v-slot:activator="{ on }">
-                <v-icon v-on="on" color="primary" small
-                  >mdi-check-circle</v-icon
-                >
+                <v-icon v-on="on" color="primary" small>
+                  mdi-check-circle
+                </v-icon>
               </template>
               <span>{{ $t('Active') }}</span>
             </v-tooltip>
             <v-tooltip v-if="isExpired(props.item.expireTime)" top>
               <template v-slot:activator="{ on }">
-                <v-icon v-on="on" color="error" small
-                  >mdi-alert-circle-outline</v-icon
-                >
+                <v-icon v-on="on" color="error" small>
+                  mdi-alert-circle-outline
+                </v-icon>
               </template>
               <span>{{ $t('Expired') }}</span>
             </v-tooltip>
@@ -198,8 +198,8 @@
           <td>{{ props.item.user }}</td>
           <td>
             <v-chip v-for="scope in props.item.scopes" :key="scope" small>
-              <strong>{{ scope }}</strong
-              >&nbsp;
+              <strong>{{ scope }}</strong>
+              &nbsp;
               <span>({{ $t('scope') }})</span>
             </v-chip>
           </td>
@@ -221,7 +221,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3">edit</v-icon>
+              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:keys'"
@@ -238,7 +238,7 @@
               icon
               class="btn--plain mx-0"
             >
-              <v-icon small color="grey darken-3">get_app</v-icon>
+              <v-icon small color="grey darken-3">mdi-download</v-icon>
             </v-btn>
           </td>
         </template>

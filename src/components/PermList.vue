@@ -122,7 +122,7 @@
                 slot="activator"
                 small
               >
-                lock
+                mdi-lock
               </v-icon>
               <span>{{ $t('SystemRole') }}</span>
             </v-tooltip>
@@ -142,7 +142,7 @@
               :disabled="systemRoles.includes(props.item.match)"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3">edit</v-icon>
+              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:perms'"

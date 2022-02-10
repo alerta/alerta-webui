@@ -442,7 +442,7 @@ export default {
           show: true
         },
         {
-          icon: 'expand_less',
+          icon: 'mdi-collapse-all',
           'icon-alt': 'mdi-expand-all',
           text: i18n.t('Searches'),
           model: false,

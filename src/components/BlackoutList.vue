@@ -46,7 +46,7 @@
                         v-on="on"
                         v-model="editedItem.period.startDate"
                         :label="$t('StartDate')"
-                        prepend-icon="event"
+                        prepend-icon="mdi-calendar"
                       />
                     </template>
                     <v-date-picker
@@ -144,7 +144,7 @@
                         small
                         @input="data.parent.selectItem(data.item)"
                       >
-                        <v-icon left>label</v-icon>{{ data.item }}
+                        <v-icon left>mdi-label</v-icon>{{ data.item }}
                       </v-chip>
                     </template>
                   </v-combobox>
@@ -243,14 +243,14 @@
                   color="red"
                   small
                 >
-                  report_problem
+                  mdi-alert
                 </v-icon>
               </template>
             </v-tooltip>
             <v-tooltip top>
               {{ $t('AllOrigin') }}
               <v-icon v-if="onlyOrigin(props.item)" v-on="on" color="red" small>
-                report_problem
+                mdi-alert
               </v-icon>
             </v-tooltip>
           </td>
@@ -273,7 +273,7 @@
           <td>{{ props.item.group }}</td>
           <td>
             <v-chip v-for="tag in props.item.tags" :key="tag" label small>
-              <v-icon left>label</v-icon>{{ tag }}
+              <v-icon left>mdi-label</v-icon>{{ tag }}
             </v-chip>
           </td>
           <td>{{ props.item.origin }}</td>
@@ -327,7 +327,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3">edit</v-icon>
+              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'write:blackouts'"
@@ -335,7 +335,7 @@
               class="btn--plain mx-0"
               @click="copyItem(props.item)"
             >
-              <v-icon small color="grey darken-3">content_copy</v-icon>
+              <v-icon small color="grey darken-3">mdi-copy</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'write:blackouts'"

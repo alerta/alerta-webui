@@ -32,7 +32,7 @@
                         class="chip--select-multi"
                         @input="removeUser(data.item)"
                       >
-                        <v-icon>person</v-icon>
+                        <v-icon>mdi-account</v-icon>
                         {{ data.item.name }}
                       </v-chip>
                     </template>
@@ -42,7 +42,7 @@
                       </template>
                       <template v-else>
                         <v-list-item-avatar>
-                          <v-icon>person</v-icon>
+                          <v-icon>mdi-account</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
                           <v-list-item-title v-html="data.item.name" />
@@ -73,7 +73,7 @@
               @click="removeUser(item.id)"
             >
               <v-list-item-avatar>
-                <v-icon>person</v-icon>
+                <v-icon>mdi-account</v-icon>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title v-html="item.name" />
@@ -84,8 +84,8 @@
                 <v-icon>
                   {{
                     item.status == 'active'
-                      ? 'remove_circle'
-                      : 'remove_circle_outline'
+                      ? 'mdi-minus-circle'
+                      : 'mdi-minus-circle-outline'
                   }}
                 </v-icon>
               </v-list-item-action>
@@ -191,7 +191,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3">edit</v-icon>
+              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:groups'"
@@ -199,7 +199,7 @@
               class="btn--plain mr-0"
               @click="addRemoveUsers(props.item)"
             >
-              <v-icon small color="grey darken-3">person_add</v-icon>
+              <v-icon small color="grey darken-3">mdi-account-plus</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:groups'"

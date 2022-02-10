@@ -57,7 +57,7 @@
         </td>
         <td>
           <v-chip v-for="tag in props.item.tags" :key="tag" label small>
-            <v-icon left>label</v-icon>{{ tag }}
+            <v-icon left>mdi-label</v-icon>{{ tag }}
           </v-chip>
         </td>
         <td>

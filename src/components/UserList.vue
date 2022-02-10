@@ -232,7 +232,9 @@
                   @click="toggleUserStatus(props.item)"
                 >
                   {{
-                    props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
+                    props.item.status === 'active'
+                      ? 'mdi-toggle-switch'
+                      : 'mdi-toggle-switch-off'
                   }}
                 </v-icon>
               </template>
@@ -247,8 +249,8 @@
                 <v-icon v-on="on" @click="toggleEmailVerified(props.item)">
                   {{
                     props.item.email_verified
-                      ? 'check_box'
-                      : 'check_box_outline_blank'
+                      ? 'mdi-checkbox-marked'
+                      : 'mdi-checkbox-blank-outline'
                   }}
                 </v-icon>
               </template>
@@ -288,7 +290,7 @@
               class="btn--plain mr-0"
               @click="editItem(props.item)"
             >
-              <v-icon small color="grey darken-3">edit</v-icon>
+              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
             </v-btn>
             <v-btn
               v-has-perms.disable="'admin:users'"

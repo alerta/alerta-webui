@@ -33,7 +33,7 @@
         >
           <v-tooltip right>
             {{ $t('OpenGitHub') }}
-            <v-icon slot="activator" small>launch</v-icon>
+            <v-icon slot="activator" small>mdi-launch</v-icon>
           </v-tooltip>
         </a>
       </td>
@@ -48,7 +48,7 @@
             class="px-1"
             @click="clipboardCopy($config.endpoint)"
           >
-            content_copy
+            mdi-copy
           </v-icon>
           <span>{{ copyIconText }}</span>
         </v-tooltip>

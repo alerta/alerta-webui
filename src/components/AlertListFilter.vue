@@ -118,7 +118,7 @@
             <v-text-field
               v-model="period.startDate"
               :label="$t('StartDate')"
-              prepend-inner-icon="event"
+              prepend-inner-icon="mdi-calendar"
               outlined
               hide-details
               @click:prepend-inner="menu1 = !menu1"
@@ -159,7 +159,7 @@
             <v-text-field
               v-model="period.endDate"
               :label="$t('EndDate')"
-              prepend-inner-icon="event"
+              prepend-inner-icon="mdi-calendar"
               outlined
               hide-details
               @click:prepend-inner="menu2 = !menu2"
