@@ -12,6 +12,7 @@ export const tr = {
 
   // sidenav
   Alerts: 'Uyarılar',
+  Incidents: 'Incidents',
   Heartbeats: 'Kalp Atışları',
   Users: 'Kullanıcılar',
   Groups: 'Gruplar',

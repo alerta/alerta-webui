@@ -12,6 +12,7 @@ export const fr = {
 
   // sidenav
   Alerts: 'Alertes',
+  Incidents: 'Incidents',
   Heartbeats: 'Signaux de présence',
   Users: 'Utilisateurs',
   Groups: 'Groupes',

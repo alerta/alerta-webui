@@ -75,9 +75,10 @@ const alerts: Module<IAlerts, IStore> = {
         ).sort(),
     counts: (state) =>
       state.environments.reduce(
-        (grp, e) => ({
+        (acc, e) => ({
+          ...acc,
           [e.environment]: e.count,
-          ALL: grp['ALL'] + e.count
+          ALL: acc.ALL + e.count
         }),
         { ALL: 0 }
       ),

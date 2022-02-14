@@ -3,6 +3,22 @@ import { DataOptions } from 'vuetify'
 
 export type DateRange = [number | null, number | null]
 
+export interface IIncident {
+  id: string
+  href: string
+  title: string
+  environment: string
+  severity: string
+  status: string
+  service: string[]
+  tags: string[]
+  createTime: number
+  timeout: number
+  customer?: any
+  previousSeverity: string
+  updateTime: number
+}
+
 export interface IStore {
   multiselect: boolean
   refresh: boolean
@@ -52,8 +68,8 @@ export interface IAlerts {
   }
 }
 
-export interface IIncidents extends Omit<IAlerts, 'alerts'> {
-  incidents: any[]
+export interface IIncidents extends Omit<IAlerts, 'alerts' | 'alert'> {
+  incidents: IIncident[]
 }
 
 export interface IConfig {

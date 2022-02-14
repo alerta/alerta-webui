@@ -1,43 +1,47 @@
 import api from './index'
 import axios from 'axios'
+import { IIncident } from '@/common/interfaces'
 
 let queryInProgress
 
 export default {
-  async getIncident(incidentId: string) {
-    return api.get(`/incidents/${incidentId}`)
-  },
-  async setStatus(incidentId: string, data: object) {
+  getIncident: async (incidentId: string) =>
+    api.get<IIncident>(`/incidents/${incidentId}`),
+  createIncident: async (data: Partial<IIncident>) =>
+    api.post<IIncident>(`/incidents`, data),
+  updateIncident: async (incidentId: string, data: Partial<IIncident>) =>
+    api.put<IIncident>(`/incidents/${incidentId}`, data),
+  setStatus: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/status`, data)
   },
-  async actionIncident(incidentId: string, data: object) {
+  actionIncident: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/action`, data)
   },
-  async tagIncident(incidentId: string, data: object) {
+  tagIncident: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/tag`, data)
   },
-  async untagIncident(incidentId: string, data: object) {
+  untagIncident: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/untag`, data)
   },
-  async updateAttributes(incidentId: string, attributes: object) {
+  updateAttributes: async (incidentId: string, attributes: object) => {
     const data = {
       attributes
     }
     return api.put(`/incidents/${incidentId}/attributes`, data)
   },
-  async addNote(incidentId: string, data: object) {
+  addNote: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/note`, data)
   },
-  async getNotes(incidentId: string) {
+  getNotes: async (incidentId: string) => {
     return api.get(`/incidents/${incidentId}/notes`)
   },
-  async updateNote(incidentId: string, noteId: string, data: object) {
+  updateNote: async (incidentId: string, noteId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/note/${noteId}`, data)
   },
-  async deleteNote(incidentId: string, noteId: string) {
+  deleteNote: async (incidentId: string, noteId: string) => {
     return api.delete(`/incidents/${incidentId}/note/${noteId}`)
   },
-  async getIncidents(query: object) {
+  getIncidents: async (query: object) => {
     if (query && queryInProgress) {
       queryInProgress.cancel(
         'Too many search requests. Cancelling current query.'
@@ -50,42 +54,42 @@ export default {
     }
     return api.get('/incidents', config)
   },
-  async getIncidentHistory(query: object) {
+  getIncidentHistory: async (query: object) => {
     const config = {
       params: query
     }
     return api.get('/incidents/history', config)
   },
-  async getCounts(query: object) {
+  getCounts: async (query: object) => {
     const config = {
       params: query
     }
     return api.get('/incidents/count', config)
   },
 
-  async deleteIncident(incidentId: string) {
+  deleteIncident: async (incidentId: string) => {
     return api.delete(`/incidents/${incidentId}`)
   },
 
-  async getEnvironments(query: object) {
+  getEnvironments: async (query: object) => {
     const config = {
       params: query
     }
     return api.get('/environments', config)
   },
-  async getServices(query: object) {
+  getServices: async (query: object) => {
     const config = {
       params: query
     }
     return api.get('/services', config)
   },
-  async getGroups(query: object) {
+  getGroups: async (query: object) => {
     const config = {
       params: query
     }
     return api.get('/incidents/groups', config)
   },
-  async getTags(query: object) {
+  getTags: async (query: object) => {
     const config = {
       params: query
     }

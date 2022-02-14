@@ -1,4 +1,4 @@
-import { IIncidents, IStore } from '@/common/interfaces'
+import { IIncident, IIncidents, IStore } from '@/common/interfaces'
 import utils from '@/common/utils'
 import IncidentsApi from '@/services/api/incident.service'
 import moment from 'moment'
@@ -15,7 +15,6 @@ const state: IIncidents = {
   groups: [],
   tags: [],
 
-  alert: {},
   notes: [],
 
   // not persisted
@@ -115,7 +114,6 @@ const incidents: Module<IIncidents, IStore> = {
       (state.isKiosk = isKiosk),
     SET_SELECTED: (state, selected: IIncidents['selected']) =>
       (state.selected = selected),
-    SET_INCIDENT: (state, alert: IIncidents['alert']) => (state.alert = alert),
     SET_NOTES: (state, notes: IIncidents['notes']) => (state.notes = notes),
     SET_ENVIRONMENTS: (state, environments: IIncidents['environments']) =>
       (state.environments = environments),
@@ -205,6 +203,12 @@ const incidents: Module<IIncidents, IStore> = {
         )
         .finally(() => commit('RESET_LOADING'))
     },
+    async updateIncident({}, incident: Partial<IIncident> & { id: string }) {
+      IncidentsApi.updateIncident(incident.id, incident)
+    },
+    async createIncident({}, incident: Partial<IIncident>) {
+      IncidentsApi.createIncident(incident)
+    },
     updateQuery({ commit }, query) {
       commit('SET_SEARCH_QUERY', query)
     },
@@ -215,59 +219,53 @@ const incidents: Module<IIncidents, IStore> = {
       commit('SET_SELECTED', selected)
     },
 
-    async getIncident({ commit }, alertId) {
-      return IncidentsApi.getIncident(alertId).then(({ alert }) => {
-        commit('SET_INCIDENT', alert)
-      })
-    },
-
-    async watchIncident({ rootState }, alertId) {
+    async watchIncident({ rootState }, incidentId) {
       const username = rootState.auth.payload.preferred_username
       const tag = `watch:${username}`
-      return IncidentsApi.tagIncident(alertId, { tags: [tag] })
+      return IncidentsApi.tagIncident(incidentId, { tags: [tag] })
     },
-    async unwatchIncident({ rootState }, alertId) {
+    async unwatchIncident({ rootState }, incidentId) {
       const username = rootState.auth.payload.preferred_username
       const tag = `watch:${username}`
-      return IncidentsApi.untagIncident(alertId, { tags: [tag] })
+      return IncidentsApi.untagIncident(incidentId, { tags: [tag] })
     },
-    async takeAction({}, [alertId, action, text, timeout]) {
-      return IncidentsApi.actionIncident(alertId, {
+    async takeAction({}, [incidentId, action, text, timeout]) {
+      return IncidentsApi.actionIncident(incidentId, {
         action,
         text,
         timeout
       })
     },
-    async tagIncident({}, [alertId, tags]) {
-      return IncidentsApi.tagIncident(alertId, tags)
+    async tagIncident({}, [incidentId, tags]) {
+      return IncidentsApi.tagIncident(incidentId, tags)
     },
-    async untagIncident({}, [alertId, tags]) {
-      return IncidentsApi.untagIncident(alertId, tags)
+    async untagIncident({}, [incidentId, tags]) {
+      return IncidentsApi.untagIncident(incidentId, tags)
     },
 
-    async addNote({ dispatch }, [alertId, text]) {
-      return IncidentsApi.addNote(alertId, {
+    async addNote({ dispatch }, [incidentId, text]) {
+      return IncidentsApi.addNote(incidentId, {
         text
       }).then(() => dispatch('getIncidents'))
     },
-    async getNotes({ commit }, alertId) {
-      return IncidentsApi.getNotes(alertId).then(({ notes }) => {
+    async getNotes({ commit }, incidentId) {
+      return IncidentsApi.getNotes(incidentId).then(({ notes }) => {
         commit('SET_NOTES', notes)
       })
     },
-    async updateNote({ dispatch }, [alertId, noteId, note]) {
-      return IncidentsApi.updateNote(alertId, noteId, {
+    async updateNote({ dispatch }, [incidentId, noteId, note]) {
+      return IncidentsApi.updateNote(incidentId, noteId, {
         note
       }).then(() => dispatch('getNotes'))
     },
-    async deleteNote({ dispatch }, [alertId, noteId]) {
-      return IncidentsApi.deleteNote(alertId, noteId).then(() =>
-        dispatch('getNotes', [alertId])
+    async deleteNote({ dispatch }, [incidentId, noteId]) {
+      return IncidentsApi.deleteNote(incidentId, noteId).then(() =>
+        dispatch('getNotes', [incidentId])
       )
     },
 
-    async deleteIncident({}, alertId) {
-      return IncidentsApi.deleteIncident(alertId)
+    async deleteIncident({}, incidentId) {
+      return IncidentsApi.deleteIncident(incidentId)
     },
 
     async getEnvironments({ commit, state }) {

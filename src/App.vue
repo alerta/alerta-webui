@@ -245,14 +245,24 @@
           <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon class="btn--plain">
-              <v-icon>mdi-group</v-icon>
-            </v-btn>
+        <grouping :selected="selected">
+          <template v-slot:activator="{ on: openModal, attrs }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                  @click="openModal.click"
+                  v-bind="attrs"
+                  icon
+                  class="btn--plain"
+                >
+                  <v-icon>mdi-group</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ $t('Group') }}</span>
+            </v-tooltip>
           </template>
-          <span>{{ $t('Group') }}</span>
-        </v-tooltip>
+        </grouping>
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
@@ -411,6 +421,7 @@
 import ProfileMe from '@/components/auth/ProfileMe.vue'
 import Banner from '@/components/lib/Banner.vue'
 import Snackbar from '@/components/lib/Snackbar.vue'
+import Grouping from '@/components/Grouping.vue'
 import i18n from '@/plugins/i18n'
 
 export default {
@@ -418,7 +429,8 @@ export default {
   components: {
     Banner,
     ProfileMe,
-    Snackbar
+    Snackbar,
+    Grouping
   },
   props: [],
   data: () => ({
