@@ -270,7 +270,13 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon class="btn--plain" @click="bulkDeleteAlert()">
+            <v-btn
+              v-on="on"
+              v-has-perms="'admin:alerts'"
+              icon
+              class="btn--plain"
+              @click="bulkDeleteAlert()"
+            >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </template>
@@ -442,6 +448,13 @@ export default {
           show: true
         },
         {
+          icon: 'mdi-group',
+          text: i18n.t('Incidents'),
+          path: '/incidents',
+          perms: 'read:alerts',
+          show: true
+        },
+        {
           icon: 'mdi-collapse-all',
           'icon-alt': 'mdi-expand-all',
           text: i18n.t('Searches'),
@@ -572,7 +585,7 @@ export default {
     },
     queries() {
       return this.$store.getters.getUserQueries.map((query) => ({
-        icon: 'remove_circle_outline',
+        icon: 'mdi-minus-circle-outline',
         text: query.text,
         path: '/alerts',
         query: query.q,

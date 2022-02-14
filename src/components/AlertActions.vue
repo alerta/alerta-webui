@@ -29,7 +29,12 @@
           <v-icon>mdi-note-plus</v-icon>&nbsp;{{ $t('AddNote') }}
         </v-btn>
 
-        <v-btn outlined color="grey darken-2" @click="deleteAlert">
+        <v-btn
+          outlined
+          color="grey darken-2"
+          @click="deleteAlert"
+          v-has-perms="'admin:alerts'"
+        >
           <v-icon>mdi-delete-forever</v-icon>&nbsp;{{ $t('Delete') }}
         </v-btn>
       </v-layout>

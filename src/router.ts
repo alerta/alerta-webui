@@ -32,6 +32,17 @@ export const createRouter = (basePath): VueRouter => {
         meta: { title: 'Alert Detail', requiresAuth: true }
       },
       {
+        path: '/incidents',
+        name: 'incidents',
+        component: async () => import('./views/Incidents.vue'),
+        props: (route) => ({
+          query: route.query,
+          isKiosk: route.query.kiosk,
+          hash: route.hash
+        }),
+        meta: { title: 'Incidents', requiresAuth: true }
+      },
+      {
         path: '/heartbeats',
         name: 'heartbeats',
         component: async () =>

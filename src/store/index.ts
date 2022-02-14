@@ -14,6 +14,7 @@ import perms from './modules/perms.store'
 import prefs from './modules/preferences.store'
 import reports from './modules/reports.store'
 import users from './modules/users.store'
+import incidents from './modules/incidents.store'
 
 Vue.use(Vuex)
 
@@ -49,6 +50,7 @@ export const createStore = () =>
       reports,
       prefs,
       management,
-      notifications
+      notifications,
+      incidents
     }
   })

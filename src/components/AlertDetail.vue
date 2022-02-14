@@ -133,6 +133,7 @@
             <v-btn
               v-on="on"
               icon
+              v-has-perms="'admin:alerts'"
               class="btn--plain px-1 mx-0"
               @click="deleteAlert(item.id)"
             >

@@ -51,6 +51,11 @@ export interface IAlerts {
     totalItems: number
   }
 }
+
+export interface IIncidents extends Omit<IAlerts, 'alerts'> {
+  incidents: any[]
+}
+
 export interface IConfig {
   endpoint: string
   base_path?: string
