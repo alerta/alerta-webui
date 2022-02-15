@@ -5,54 +5,49 @@
     class="px-2"
     hide-default-footer
   >
-    <template slot="items" slot-scope="props">
-      <td class="text-sm-center">
-        {{ version }}
-      </td>
-      <td>
-        <span class="hidden-sm-and-down"
-          >{{ application | capitalize }} {{ $t('API') }}</span
-        >{{ props.item.release }}
-      </td>
-      <td>{{ props.item.build }}</td>
-      <td>
-        <date-time
-          v-if="props.item.date"
-          :value="props.item.date"
-          format="mediumDate"
-        />
-      </td>
-      <td>
-        <span class="hidden-sm-and-down">{{ props.item.revision }}</span>
-        <span class="show-md-and-up">{{
-          props.item.revision.substring(0, 7)
-        }}</span>
-        <a
-          :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
-          target="_blank"
-        >
-          <v-tooltip right>
-            {{ $t('OpenGitHub') }}
-            <v-icon slot="activator" small>mdi-launch</v-icon>
-          </v-tooltip>
-        </a>
-      </td>
-      <td>
-        <a :href="$config.endpoint" target="_blank">
-          <span class="monospace">{{ $config.endpoint }}</span>
-        </a>
-        <v-tooltip :key="copyIconText" top>
+    <template v-slot:item.version>
+      <span>{{ version }}</span>
+    </template>
+
+    <template v-slot:item.date="{ item }">
+      <date-time v-if="item.date" :value="item.date" format="mediumDate" />
+    </template>
+
+    <template v-slot:item.revision="{ item }">
+      <span class="d-sm-none">{{ item.revision }}</span>
+      <span class="d-none-xs d-inline-md">
+        {{ item.revision.substring(0, 7) }}
+      </span>
+      <a
+        :href="`https://github.com/alerta/alerta/commit/${item.revision}`"
+        target="_blank"
+      >
+        <v-tooltip right>
+          {{ $t('OpenGitHub') }}
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" small>mdi-launch</v-icon>
+          </template>
+        </v-tooltip>
+      </a>
+    </template>
+
+    <template v-slot:item.endpoint>
+      <a :href="$config.endpoint" target="_blank" class="monospace">
+        {{ $config.endpoint }}
+      </a>
+      <v-tooltip :key="copyIconText" top>
+        <template v-slot:activator="{ on }">
           <v-icon
-            slot="activator"
+            v-on="on"
             small
             class="px-1"
             @click="clipboardCopy($config.endpoint)"
           >
             mdi-copy
           </v-icon>
-          <span>{{ copyIconText }}</span>
-        </v-tooltip>
-      </td>
+        </template>
+        <span>{{ copyIconText }}</span>
+      </v-tooltip>
     </template>
   </v-data-table>
 </template>

@@ -1,10 +1,7 @@
+import { store } from '@/main'
 import Vue from 'vue'
 import VueRouter, { RouterOptions } from 'vue-router'
-
-import { store } from '@/main'
-
 import Alerts from './views/Alerts.vue'
-import Alert from './views/Alert.vue'
 
 Vue.use(VueRouter)
 
@@ -27,7 +24,7 @@ export const createRouter = (basePath): VueRouter => {
       {
         path: '/alert/:id',
         name: 'alert',
-        component: Alert,
+        component: async () => import('./views/Alert.vue'),
         props: true,
         meta: { title: 'Alert Detail', requiresAuth: true }
       },
@@ -45,71 +42,61 @@ export const createRouter = (basePath): VueRouter => {
       {
         path: '/heartbeats',
         name: 'heartbeats',
-        component: async () =>
-          import(/* webpackChunkName: 'user' */ './views/Heartbeats.vue'),
+        component: async () => import('./views/Heartbeats.vue'),
         meta: { title: 'Heartbeats', requiresAuth: true }
       },
       {
         path: '/users',
         name: 'users',
-        component: async () =>
-          import(/* webpackChunkName: 'admin' */ './views/Users.vue'),
+        component: async () => import('./views/Users.vue'),
         meta: { title: 'Users', requiresAuth: true }
       },
       {
         path: '/groups',
         name: 'groups',
-        component: async () =>
-          import(/* webpackChunkName: 'admin' */ './views/Groups.vue'),
+        component: async () => import('./views/Groups.vue'),
         meta: { title: 'Groups', requiresAuth: true }
       },
       {
         path: '/customers',
         name: 'customers',
-        component: async () =>
-          import(/* webpackChunkName: 'admin' */ './views/Customers.vue'),
+        component: async () => import('./views/Customers.vue'),
         meta: { title: 'Customers', requiresAuth: true }
       },
       {
         path: '/blackouts',
         name: 'blackouts',
-        component: async () =>
-          import(/* webpackChunkName: 'user' */ './views/Blackouts.vue'),
+        component: async () => import('./views/Blackouts.vue'),
         meta: { title: 'Blackouts', requiresAuth: true }
       },
       {
         path: '/perms',
         name: 'perms',
-        component: async () =>
-          import(/* webpackChunkName: 'admin' */ './views/Perms.vue'),
+        component: async () => import('./views/Perms.vue'),
         meta: { title: 'Permissions', requiresAuth: true }
       },
       {
         path: '/keys',
         name: 'apiKeys',
-        component: async () =>
-          import(/* webpackChunkName: 'user' */ './views/ApiKeys.vue'),
+        component: async () => import('./views/ApiKeys.vue'),
         meta: { title: 'API Keys', requiresAuth: true }
       },
       {
         path: '/reports',
         name: 'reports',
-        component: async () =>
-          import(/* webpackChunkName: 'user' */ './views/Reports.vue'),
+        component: async () => import('./views/Reports.vue'),
         meta: { title: 'Reports', requiresAuth: true }
       },
       {
         path: '/profile',
         name: 'profile',
-        component: async () =>
-          import(/* webpackChunkName: 'user' */ './views/Profile.vue'),
+        component: async () => import('./views/Profile.vue'),
         meta: { title: 'Profile', requiresAuth: true }
       },
       {
         path: '/settings',
         name: 'settings',
-        component: async () =>
-          import(/* webpackChunkName: 'user' */ './views/Settings.vue'),
+        component: async () => import('./views/Settings.vue'),
         meta: { title: 'Settings', requiresAuth: true }
       },
       {
@@ -121,50 +108,43 @@ export const createRouter = (basePath): VueRouter => {
       {
         path: '/about',
         name: 'about',
-        component: async () =>
-          import(/* webpackChunkName: 'user' */ './views/About.vue'),
+        component: async () => import('./views/About.vue'),
         meta: { title: 'About', requiresAuth: true }
       },
       {
         path: '/login',
         name: 'login',
-        component: async () =>
-          import(/* webpackChunkName: 'auth' */ './views/Login.vue'),
+        component: async () => import('./views/Login.vue'),
         meta: { title: 'Login' }
       },
       {
         path: '/signup',
         name: 'signup',
-        component: async () =>
-          import(/* webpackChunkName: 'auth' */ './views/Signup.vue'),
+        component: async () => import('./views/Signup.vue'),
         meta: { title: 'Sign Up' }
       },
       {
         path: '/confirm/:token',
         name: 'confirm',
-        component: async () =>
-          import(/* webpackChunkName: 'auth' */ './views/Confirm.vue'),
+        component: async () => import('./views/Confirm.vue'),
         meta: { title: 'Confirm Email' }
       },
       {
         path: '/forgot',
         name: 'forgot',
-        component: async () =>
-          import(/* webpackChunkName: 'auth' */ './views/Forgot.vue'),
+        component: async () => import('./views/Forgot.vue'),
         meta: { title: 'Forgot Password' }
       },
       {
         path: '/reset/:token',
         name: 'reset',
-        component: async () =>
-          import(/* webpackChunkName: 'auth' */ './views/Reset.vue'),
+        component: async () => import('./views/Reset.vue'),
         meta: { title: 'Reset Password' }
       },
       {
         path: '/logout',
         name: 'logout',
-        component: async () =>
-          import(/* webpackChunkName: 'auth' */ './views/Logout.vue'),
+        component: async () => import('./views/Logout.vue'),
         meta: { title: 'Logout' }
       },
       {

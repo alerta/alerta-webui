@@ -6,12 +6,18 @@
       class="px-2"
       hide-default-footer
     >
-      <template slot="items" slot-scope="props">
-        <td>{{ props.item.title }}</td>
-        <td>{{ props.item.type | capitalize }}</td>
-        <td>{{ props.item.group }}.{{ props.item.name }}</td>
-        <td>{{ props.item.value || props.item.count }}</td>
-        <td>{{ avgTime(props.item) }}</td>
+      <template v-slot:item.type="{ item }">
+        {{ item.type | capitalize }}
+      </template>
+      <template v-slot:item.value="{ item }">
+        {{ item.value || item.count }}
+      </template>
+
+      <template v-slot:item.name="{ item }">
+        {{ item.group }}.{{ item.name }}
+      </template>
+      <template v-slot:item.time="{ item }">
+        {{ avgTime(item) }}
       </template>
     </v-data-table>
 

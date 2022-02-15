@@ -17,23 +17,18 @@
         class="px-2"
         hide-default-footer
       >
-        <template slot="items" slot-scope="props">
-          <td>{{ props.item.event }}</td>
-          <td class="text-sm-center">
-            {{ props.item.count }}
-          </td>
-          <td class="text-sm-center">
-            {{ props.item.duplicateCount }}
-          </td>
-          <td>{{ props.item.environments.join(', ') }}</td>
-          <td>{{ props.item.services.join(', ') }}</td>
-          <td>
-            <span v-for="r in props.item.resources" :key="r.id">
-              <router-link :to="`/alert/${r.id}`">
-                {{ r.resource }}
-              </router-link>
-            </span>
-          </td>
+        <template v-slot:item.environment="{ item }">
+          {{ item.environments.join(', ') }}
+        </template>
+        <template v-slot:item.service="{ item }">
+          {{ item.services.join(', ') }}
+        </template>
+        <template v-slot:item.resources="{ item }">
+          <span v-for="r in item.resources" :key="r.id">
+            <router-link :to="`/alert/${r.id}`">
+              {{ r.resource }}
+            </router-link>
+          </span>
         </template>
       </v-data-table>
     </v-card>
@@ -56,22 +51,19 @@ export default {
   }),
   computed: {
     top10() {
-      if (this.filter) {
-        return this.$store.state.reports.standing.filter((alert) =>
-          this.filter.text
-            ? Object.keys(alert).some(
-                (k) =>
-                  alert[k] &&
-                  alert[k]
-                    .toString()
-                    .toLowerCase()
-                    .includes(this.filter.text.toLowerCase())
-              )
-            : true
-        )
-      } else {
+      if (!this.filter || !this.filter.text)
         return this.$store.state.reports.standing
-      }
+
+      return this.$store.state.reports.standing.filter((alert) =>
+        Object.keys(alert).some(
+          (k) =>
+            alert[k] &&
+            alert[k]
+              .toString()
+              .toLowerCase()
+              .includes(this.filter.text.toLowerCase())
+        )
+      )
     },
     filter() {
       return this.$store.state.reports.filter
@@ -85,12 +77,12 @@ export default {
   },
   watch: {
     filter: {
-      handler(val) {
+      handler() {
         this.getTopStanding()
       },
       deep: true
     },
-    itemsPerPage(val) {
+    itemsPerPage() {
       this.getTopStanding()
     },
     refresh(val) {

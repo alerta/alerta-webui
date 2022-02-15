@@ -17,23 +17,18 @@
         class="px-2"
         hide-default-footer
       >
-        <template slot="items" slot-scope="props">
-          <td>{{ props.item.event }}</td>
-          <td class="text-sm-center">
-            {{ props.item.count }}
-          </td>
-          <td class="text-sm-center">
-            {{ props.item.duplicateCount }}
-          </td>
-          <td>{{ props.item.environments.join(', ') }}</td>
-          <td>{{ props.item.services.join(', ') }}</td>
-          <td>
-            <span v-for="r in props.item.resources" :key="r.id">
-              <router-link :to="`/alert/${r.id}`">
-                {{ r.resource }}
-              </router-link>
-            </span>
-          </td>
+        <template v-slot:item.environment="{ item }">
+          {{ item.environments.join(', ') }}
+        </template>
+        <template v-slot:item.service="{ item }">
+          {{ item.services.join(', ') }}
+        </template>
+        <template v-slot:item.resources="{ item }">
+          <span v-for="r in item.resources" :key="r.id">
+            <router-link :to="`/alert/${r.id}`">
+              {{ r.resource }}
+            </router-link>
+          </span>
         </template>
       </v-data-table>
     </v-card>

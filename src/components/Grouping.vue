@@ -49,6 +49,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
+        <v-btn text @click="dialog = false">Cancel</v-btn>
         <v-btn
           color="primary"
           text
@@ -63,15 +64,20 @@
 </template>
 
 <script lang="ts">
+import { IIncident } from '@/common/interfaces'
 import Vue from 'vue'
 
 export default Vue.extend({
-  props: ['selected'],
+  props: {
+    selected: {
+      type: Array
+    }
+  },
   data: () => ({
-    search: null,
-    created: [],
+    search: null as string | null,
+    created: [] as Array<string>,
     dialog: false,
-    incident: {}
+    incident: {} as any
   }),
   mounted() {
     this.$store.dispatch('incidents/getIncidents')
@@ -101,7 +107,22 @@ export default Vue.extend({
       this.dialog = false
       console.log(this.incident)
 
-      // this.$store.dispatch('incidents/createIncident', {})
+      if (this.isCreating) {
+        this.$store.dispatch('incidents/createIncident', {
+          ...this.incident,
+          alerts: this.selected.map((alert: any) => alert.id)
+        })
+        return
+      }
+
+      const incident = this.$store.state.incidents.incidents.find(
+        (incident: IIncident) => incident.title === this.incident.title
+      )
+
+      this.$store.dispatch('incidents/updateIncident', {
+        id: incident.id,
+        alerts: this.selected.map((alert: any) => alert.id)
+      })
     }
   }
 })

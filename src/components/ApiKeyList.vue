@@ -160,88 +160,83 @@
         must-sort
         :header-props="{ sortIcon: 'mdi-chevron-down' }"
       >
-        <template slot="items" slot-scope="props">
-          <td class="text-no-wrap" monospace>
-            {{ props.item.key }}
-            <v-tooltip :key="copyIconText" top>
-              <template v-slot:activator="{ on }">
-                <v-icon
-                  v-on="on"
-                  :value="props.item.key"
-                  style="font-size: 16px"
-                  @click="clipboardCopy(props.item.key)"
-                >
-                  mdi-copy
-                </v-icon>
-              </template>
-              <span>{{ copyIconText }}</span>
-            </v-tooltip>
-          </td>
-          <td>
-            <v-tooltip v-if="!isExpired(props.item.expireTime)" top>
-              <template v-slot:activator="{ on }">
-                <v-icon v-on="on" color="primary" small>
-                  mdi-check-circle
-                </v-icon>
-              </template>
-              <span>{{ $t('Active') }}</span>
-            </v-tooltip>
-            <v-tooltip v-if="isExpired(props.item.expireTime)" top>
-              <template v-slot:activator="{ on }">
-                <v-icon v-on="on" color="error" small>
-                  mdi-alert-circle-outline
-                </v-icon>
-              </template>
-              <span>{{ $t('Expired') }}</span>
-            </v-tooltip>
-          </td>
-          <td>{{ props.item.user }}</td>
-          <td>
-            <v-chip v-for="scope in props.item.scopes" :key="scope" small>
-              <strong>{{ scope }}</strong>
-              &nbsp;
-              <span>({{ $t('scope') }})</span>
-            </v-chip>
-          </td>
-          <td>{{ props.item.text }}</td>
-          <td>
-            <date-time :value="props.item.expireTime" format="mediumDate" />
-          </td>
-          <td class="text-sm-center">
-            {{ props.item.count }}
-          </td>
-          <td>{{ props.item.lastUsedTime | timeago }}</td>
-          <td v-if="$config.customer_views">
-            {{ props.item.customer }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'write:keys'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:keys'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon small color="grey darken-3">mdi-delete</v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:keys'"
-              :href="`data:text/plain;base64,${toData(props.item)}`"
-              :download="`key_${props.item.id}.json`"
-              icon
-              class="btn--plain mx-0"
-            >
-              <v-icon small color="grey darken-3">mdi-download</v-icon>
-            </v-btn>
-          </td>
+        <template v-slot:item.key="{ item }">
+          <span class="monospace">
+            {{ item.key }}
+          </span>
+          <v-tooltip :key="copyIconText" top>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                v-on="on"
+                :value="item.key"
+                style="font-size: 16px"
+                @click="clipboardCopy(item.key)"
+              >
+                mdi-copy
+              </v-icon>
+            </template>
+            <span>{{ copyIconText }}</span>
+          </v-tooltip>
+
+          <v-tooltip v-if="!isExpired(item.expireTime)" top>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on" color="primary" small>
+                mdi-check-circle
+              </v-icon>
+            </template>
+            <span>{{ $t('Active') }}</span>
+          </v-tooltip>
+          <v-tooltip v-else top>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on" color="error" small>
+                mdi-alert-circle-outline
+              </v-icon>
+            </template>
+            <span>{{ $t('Expired') }}</span>
+          </v-tooltip>
         </template>
+        <template v-slot:item.expireTime="{ item }">
+          <date-time :value="item.expireTime" format="mediumDate" />
+        </template>
+        <template v-slot:item.lastUsedTime="{ item }">
+          {{ item.lastUsedTime | timeago }}
+        </template>
+        <template v-slot:item.scopes="{ item }">
+          <v-chip v-for="scope in item.scopes" :key="scope" small>
+            <strong>{{ scope }}</strong>
+            &nbsp;
+            <span>({{ $t('scope') }})</span>
+          </v-chip>
+        </template>
+
+        <template v-slot:item.name="{ item }">
+          <v-btn
+            v-has-perms.disable="'write:keys'"
+            icon
+            class="btn--plain mr-0"
+            @click="editItem(item)"
+          >
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            v-has-perms.disable="'admin:keys'"
+            icon
+            class="btn--plain mx-0"
+            @click="deleteItem(item)"
+          >
+            <v-icon small>mdi-delete</v-icon>
+          </v-btn>
+          <v-btn
+            v-has-perms.disable="'admin:keys'"
+            :href="`data:text/plain;base64,${toData(item)}`"
+            :download="`key_${item.id}.json`"
+            icon
+            class="btn--plain mx-0"
+          >
+            <v-icon small>mdi-download</v-icon>
+          </v-btn>
+        </template>
+
         <template slot="no-data">
           <v-alert :value="true" color="error" icon="mdi-alert">
             {{ $t('NoDisplay') }}
@@ -282,7 +277,6 @@ export default {
     dialog: false,
     headers: [
       { text: i18n.t('APIKey'), value: 'key', sortable: false },
-      { text: '', value: 'expireTime' },
       { text: i18n.t('User'), value: 'user' },
       { text: i18n.t('Scopes'), value: 'scopes' },
       { text: i18n.t('Description'), value: 'text' },

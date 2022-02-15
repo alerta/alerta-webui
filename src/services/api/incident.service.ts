@@ -7,10 +7,13 @@ let queryInProgress
 export default {
   getIncident: async (incidentId: string) =>
     api.get<IIncident>(`/incidents/${incidentId}`),
+
   createIncident: async (data: Partial<IIncident>) =>
     api.post<IIncident>(`/incidents`, data),
+
   updateIncident: async (incidentId: string, data: Partial<IIncident>) =>
     api.put<IIncident>(`/incidents/${incidentId}`, data),
+
   setStatus: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/status`, data)
   },
