@@ -107,7 +107,7 @@
                     :disabled="!editedId"
                   >
                     <template slot="selection" slot-scope="data">
-                      <v-chip :selected="data.selected" close>
+                      <v-chip :input-value="data.selected" close>
                         <strong>{{ data.item.name }}</strong
                         >&nbsp;
                         <span>({{ $t('Group') }})</span>
@@ -127,7 +127,7 @@
                     multiple
                   >
                     <template slot="selection" slot-scope="data">
-                      <v-chip :selected="data.selected" close>
+                      <v-chip :input-value="data.selected" close>
                         <strong>{{ data.item }}</strong
                         >&nbsp;
                         <span>({{ $t('role') }})</span>
@@ -188,15 +188,8 @@
             :label="$t('Roles')"
             chips
             multiple
-          >
-            <template slot="selection" slot-scope="data">
-              <v-chip :selected="data.selected" close>
-                <strong>{{ data.item }}</strong
-                >&nbsp;
-                <span>({{ $t('role') }})</span>
-              </v-chip>
-            </template>
-          </v-autocomplete>
+            deletable-chips
+          />
         </v-flex>
         <v-flex xs6>
           <v-text-field
@@ -221,34 +214,53 @@
         must-sort
         :header-props="{ sortIcon: 'mdi-chevron-down' }"
       >
-        <template slot="items" slot-scope="props">
-          <td>{{ props.item.name }}</td>
-          <td class="text-sm-center">
+        <template v-slot:item.createTime="{ item }">
+          <date-time :value="item.createTime" format="mediumDate" />
+        </template>
+        <template v-slot:item.lastLogin="{ item }">
+          <date-time
+            v-if="item.lastLogin"
+            :value="item.lastLogin"
+            format="mediumDate"
+          />
+        </template>
+
+        <template v-slot:item.roles="{ item }">
+          <v-chip v-for="role in item.roles" :key="role">
+            <strong>{{ role }}</strong>
+            &nbsp;
+            <span>({{ $t('role') }})</span>
+          </v-chip>
+        </template>
+
+        <template v-slot:item.status="{ item }">
+          <div class="text-sm-center">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-icon
                   v-on="on"
-                  :color="props.item.status == 'active' ? 'primary' : ''"
-                  @click="toggleUserStatus(props.item)"
+                  :color="item.status == 'active' ? 'primary' : ''"
+                  @click="toggleUserStatus(item)"
                 >
                   {{
-                    props.item.status === 'active'
+                    item.status === 'active'
                       ? 'mdi-toggle-switch'
                       : 'mdi-toggle-switch-off'
                   }}
                 </v-icon>
               </template>
-              <span>{{ props.item.status | capitalize }}</span>
+              <span>{{ item.status | capitalize }}</span>
             </v-tooltip>
-          </td>
-          <td>{{ props.item.login }}</td>
-          <td>{{ props.item.email }}</td>
-          <td class="text-sm-center">
+          </div>
+        </template>
+
+        <template v-slot:item.email_verified="{ item }">
+          <div class="text-sm-center">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
-                <v-icon v-on="on" @click="toggleEmailVerified(props.item)">
+                <v-icon v-on="on" @click="toggleEmailVerified(item)">
                   {{
-                    props.item.email_verified
+                    item.email_verified
                       ? 'mdi-checkbox-marked'
                       : 'mdi-checkbox-blank-outline'
                   }}
@@ -256,52 +268,34 @@
               </template>
               <span>
                 {{
-                  props.item.email_verified
+                  item.email_verified
                     ? $t('EmailVerified')
                     : $t('EmailNotVerified')
                 }}
               </span>
             </v-tooltip>
-          </td>
-          <td>
-            <v-chip v-for="role in props.item.roles" :key="role">
-              <strong>{{ role }}</strong
-              >&nbsp;
-              <span>({{ $t('role') }})</span>
-            </v-chip>
-          </td>
-          <td class="text-sm-right">
-            <date-time :value="props.item.createTime" format="mediumDate" />
-          </td>
-          <td class="text-sm-right">
-            <date-time
-              v-if="props.item.lastLogin"
-              :value="props.item.lastLogin"
-              format="mediumDate"
-            />
-          </td>
-          <td class="text-sm-right">
-            {{ props.item.text }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:users'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:users'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon small color="grey darken-3">mdi-delete</v-icon>
-            </v-btn>
-          </td>
+          </div>
         </template>
+
+        <template v-slot:item.actions="{ item }">
+          <v-btn
+            v-has-perms.disable="'admin:users'"
+            icon
+            class="btn--plain mr-0"
+            @click="editItem(item)"
+          >
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            v-has-perms.disable="'admin:users'"
+            icon
+            class="btn--plain mx-0"
+            @click="deleteItem(item)"
+          >
+            <v-icon small>mdi-delete</v-icon>
+          </v-btn>
+        </template>
+
         <template slot="no-data">
           <v-alert :value="true" color="error" icon="mdi-alert">
             {{ $t('NoDisplay') }}
@@ -340,7 +334,6 @@ export default {
       sortDesc: [true],
       itemsPerPage: 20
     },
-    // totalItems: number,
     status: ['active', 'inactive'],
     search: '',
     wantRoles: [],
@@ -355,7 +348,7 @@ export default {
       { text: i18n.t('Created'), value: 'createTime' },
       { text: i18n.t('LastLogin'), value: 'lastLogin' },
       { text: i18n.t('Comment'), value: 'text' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { text: i18n.t('Actions'), value: 'actions', sortable: false }
     ],
     editedId: null,
     editedItem: {

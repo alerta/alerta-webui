@@ -209,7 +209,7 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.name="{ item }">
+        <template v-slot:item.actions="{ item }">
           <v-btn
             v-has-perms.disable="'write:keys'"
             icon
@@ -284,7 +284,7 @@ export default {
       { text: i18n.t('Count'), value: 'count' },
       { text: i18n.t('LastUsed'), value: 'lastUsedTime' },
       { text: i18n.t('Customer'), value: 'customer' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { text: i18n.t('Actions'), value: 'actions', sortable: false }
     ],
     editedId: null,
     editedItem: {

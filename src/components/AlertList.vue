@@ -21,7 +21,7 @@
         {{ item.id | shortId }}
       </template>
       <template v-slot:item.severity="{ item }">
-        <span :class="['label', 'label-' + item.severity.toLowerCase()]">
+        <span :class="['label', `label-${item.severity.toLowerCase()}`]">
           {{ item.severity | capitalize }}
         </span>
       </template>
@@ -104,7 +104,7 @@
       </template>
       <template v-slot:item.previousSeverity="{ item }">
         <span
-          :class="['label', 'label-' + item.previousSeverity.toLowerCase()]"
+          :class="['label', `label-${item.previousSeverity.toLowerCase()}`]"
         >
           {{ item.previousSeverity | capitalize }}
         </span>
@@ -552,33 +552,33 @@ export default {
   background-color: #999999;
   padding: 1px 4px 2px;
   border-radius: 3px;
-}
 
-.label-critical {
-  background-color: #b94a48;
-}
+  &.label-critical {
+    background-color: #b94a48;
+  }
 
-.label-major {
-  background-color: #f89406;
-}
+  &.label-major {
+    background-color: #f89406;
+  }
 
-.label-minor {
-  background-color: #ffd700;
-}
+  &.label-minor {
+    background-color: #ffd700;
+  }
 
-.label-warning {
-  background-color: #3a87ad;
-}
+  &.label-warning {
+    background-color: #3a87ad;
+  }
 
-.label-normal,
-.label-cleared,
-.label-ok,
-.label-informational {
-  background-color: #468847;
-}
+  &.label-normal,
+  &.label-cleared,
+  &.label-ok,
+  &.label-informational {
+    background-color: #468847;
+  }
 
-.label-inverse {
-  background-color: #333333;
+  &.label-inverse {
+    background-color: #333333;
+  }
 }
 
 $severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
@@ -587,8 +587,13 @@ $severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
 
 @each $severity in $severities {
   .row-#{$severity} {
-    background-color: var(--bg-#{$severity});
+    background: var(--bg-#{$severity});
     color: var(--text-#{$severity});
+
+    &:hover {
+      background: var(--bg-#{$severity}) !important;
+      filter: brightness(0.87);
+    }
   }
 }
 </style>
