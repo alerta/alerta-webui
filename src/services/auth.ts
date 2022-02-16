@@ -11,7 +11,7 @@ Vue.use(VueAxios, axios)
 const getRedirectUri = (path: string) => window.location.origin + (path || '')
 
 export const vueAuth = (config: IConfig) => {
-  const basePath = config.base_path || process.env.BASE_URL
+  const basePath = config.base_path || import.meta.env.BASE_URL
   return new VueAuthenticate(Vue.prototype.$http, {
     tokenPath: 'token',
     tokenName: 'token',

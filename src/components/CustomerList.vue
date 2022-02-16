@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import ListButtonAdd from './lib/ListButtonAdd'
+import ListButtonAdd from './lib/ListButtonAdd.vue'
 import i18n from '@/plugins/i18n'
 
 export default {

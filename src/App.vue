@@ -30,6 +30,7 @@
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
+              color="primary"
             >
               <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -591,7 +592,8 @@ export default {
           ? this.$store.state.alerts.query.q
           : null
       },
-      set(_value) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      set(value) {
         // FIXME: offer query suggestions to user here, in future
       }
     },

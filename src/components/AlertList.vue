@@ -241,7 +241,7 @@
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
 import moment from 'moment'
-import DateTime from '@/components//lib/DateTime'
+import DateTime from '@/components/lib/DateTime.vue'
 
 export default {
   components: {

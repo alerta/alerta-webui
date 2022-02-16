@@ -18,7 +18,7 @@ import incidents from './modules/incidents.store'
 
 Vue.use(Vuex)
 
-const debug = process.env.NODE_ENV !== 'production'
+const debug = import.meta.env.NODE_ENV !== 'production'
 
 export const createStore = () =>
   new Store<IStore>({

@@ -37,21 +37,21 @@ class Config {
   async getEnvConfig() {
     return new Promise<IConfig>((resolve) => {
       const envConfig = {}
-      if (process.env.VUE_APP_ALERTA_ENDPOINT) {
-        envConfig['endpoint'] = process.env.VUE_APP_ALERTA_ENDPOINT
+      if (import.meta.env.VITE_ALERTA_ENDPOINT) {
+        envConfig['endpoint'] = import.meta.env.VITE_ALERTA_ENDPOINT
       }
-      if (process.env.VUE_APP_CLIENT_ID) {
-        envConfig['client_id'] = process.env.VUE_APP_CLIENT_ID
+      if (import.meta.env.VITE_CLIENT_ID) {
+        envConfig['client_id'] = import.meta.env.VITE_CLIENT_ID
       }
-      if (process.env.VUE_APP_TRACKING_ID) {
-        envConfig['tracking_id'] = process.env.VUE_APP_TRACKING_ID
+      if (import.meta.env.VITE_TRACKING_ID) {
+        envConfig['tracking_id'] = import.meta.env.VITE_TRACKING_ID
       }
       resolve(envConfig as IConfig)
     })
   }
 
   async getLocalConfig() {
-    const basePath = process.env.BASE_URL
+    const basePath = import.meta.env.BASE_URL
     return this.$http
       .get<IConfig>(`${basePath}config.json`)
       .then((response) => response.data)

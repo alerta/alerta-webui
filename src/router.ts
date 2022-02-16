@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 export const createRouter = (basePath): VueRouter => {
   const router = new VueRouter({
     mode: 'history',
-    base: basePath || process.env.BASE_URL,
+    base: basePath || import.meta.env.BASE_URL,
     routes: [
       {
         path: '/alerts',

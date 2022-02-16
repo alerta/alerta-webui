@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime'
+import DateTime from './lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
 
 export default {
@@ -77,7 +77,7 @@ export default {
       return this.$store.state.management.application
     },
     version() {
-      return process.env.VUE_APP_VERSION || 'dev'
+      return import.meta.env.VITE_VERSION || 'dev'
     },
     refresh() {
       return this.$store.state.refresh

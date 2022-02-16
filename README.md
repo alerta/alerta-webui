@@ -1,5 +1,4 @@
-Alerta Web UI 7.0
-=================
+# Alerta Web UI 7.0
 
 [![Actions Status](https://github.com/alerta/alerta-webui/workflows/CI%20Tests/badge.svg)](https://github.com/alerta/alerta-webui/actions) [![Slack chat](https://img.shields.io/badge/chat-on%20slack-blue?logo=slack)](https://slack.alerta.dev)
 
@@ -7,8 +6,7 @@ Version 7.0 of the Alerta web UI is a [VueJS](https://vuejs.org/) web app.
 
 ![webui](/docs/images/alerta-webui-v7.png?raw=true&v=1)
 
-Installation
-------------
+## Installation
 
 To install the web console:
 
@@ -19,8 +17,7 @@ To install the web console:
 
     >> browse to http://localhost:8000
 
-Configuration
--------------
+## Configuration
 
 Most configuration will come from the Alerta API server. The minimum,
 and most common, configuration is simply to tell the web UI where the
@@ -28,7 +25,7 @@ API server is located.
 
 Environment variables for some settings can be used at build time:
 
-    $ export VUE_APP_ALERTA_ENDPOINT=https://alerta-api.example.com
+    $ export VITE_ALERTA_ENDPOINT=https://alerta-api.example.com
     $ npm install
     $ npm run build
 
@@ -49,17 +46,16 @@ As a special case, support for setting an OAuth Client ID using a
 build-time environment variable is possible but should not be be
 necessary for most deployments.
 
-    $ export VUE_APP_CLIENT_ID=0ffe5d26-6c66-4871-a6fa-593d9fa972b1
+    $ export VITE_CLIENT_ID=0ffe5d26-6c66-4871-a6fa-593d9fa972b1
 
-Quick Start
------------
+## Quick Start
 
 A docker container that is built using the most recent master branch is
 available for download from Docker Hub.
 
     $ docker pull alerta/alerta-beta
 
- It can also be built locally using the `Dockerfile` in this repository.
+It can also be built locally using the `Dockerfile` in this repository.
 
     $ docker build -t alerta/alerta-beta .
 
@@ -73,8 +69,7 @@ Note: Update the `CORS_ORIGINS` setting in the Alerta API server config
 to include the URL that the beta web console is hosted at otherwise
 the browser will throw "blocked by CORS policy" errors and not work.
 
-Deployment
-----------
+## Deployment
 
 Since this is a static web app then a production deployment of Alerta web UI
 is simply a matter of downloading the release tarball and copying the `dist`
@@ -84,13 +79,12 @@ See the [VueJS platform guide][2] for more information.
 
 [2]: https://cli.vuejs.org/guide/deployment.html#general-guidelines
 
-Troubleshooting
----------------
+## Troubleshooting
 
 The two main issues with deployment in production involve CORS and HTML5
 history mode.
 
-### Cross-origin Errors (CORS) ###
+### Cross-origin Errors (CORS)
 
 All modern browsers restrict access of a web app running at one domain to
 resources at a different origin (domain). This mechanism is known as [CORS][3].
@@ -115,6 +109,7 @@ The fix is to provide a [catch-all fallback route][5] so that any URL that
 doesn't match a static asset will be handled by the web app and redirected.
 
 **Example using nginx**
+
 ```
 location / {
   try_files $uri $uri/ /index.html;
@@ -124,49 +119,53 @@ location / {
 [5]: https://router.vuejs.org/guide/essentials/history-mode.html
 [6]: https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
 
-Development
------------
+## Development
 
 Project setup
+
 ```
 npm install
 ```
 
 Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 Compiles and minifies for production
+
 ```
 npm run build
 ```
 
-Tests
------
+## Tests
 
 Run your tests
+
 ```
 npm run test
 ```
 
 Lints and fixes files
+
 ```
 npm run lint
 ```
 
 Run your end-to-end tests
+
 ```
 npm run test:e2e
 ```
 
 Run your unit tests
+
 ```
 npm run test:unit
 ```
 
-License
--------
+## License
 
     Alerta monitoring system and console
     Copyright 2019-2021 Nick Satterly

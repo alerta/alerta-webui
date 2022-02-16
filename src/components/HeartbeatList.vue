@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime'
+import DateTime from './lib/DateTime.vue'
 import moment from 'moment'
 import i18n from '@/plugins/i18n'
 

@@ -317,8 +317,8 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime'
-import ListButtonAdd from './lib/ListButtonAdd'
+import DateTime from './lib/DateTime.vue'
+import ListButtonAdd from './lib/ListButtonAdd.vue'
 import i18n from '@/plugins/i18n'
 
 export default {
