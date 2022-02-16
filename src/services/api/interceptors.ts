@@ -1,12 +1,12 @@
 import { store } from '@/main'
-import { v4 as uuidv4 } from 'uuid'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import { v4 } from 'uuid'
 import VueRouter from 'vue-router'
 
 export const makeInterceptors = (router: VueRouter) => ({
   // add requestId
   requestIdHeader(config: AxiosRequestConfig) {
-    config.headers = { ...config.headers, 'X-Request-ID': uuidv4() }
+    config.headers = { ...config.headers, 'X-Request-ID': v4() }
     return config
   },
 

@@ -1,12 +1,12 @@
+import api from '@/services/api'
 import { IConfig } from '@/store/interfaces'
 import { VueAuthenticate } from '@alerta/vue-authenticate'
-import axios from 'axios'
 import Vue from 'vue'
 import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, api)
 
 const getRedirectUri = (path: string) => window.location.origin + (path || '')
 

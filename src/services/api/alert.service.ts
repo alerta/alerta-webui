@@ -4,97 +4,114 @@ import api from '.'
 let queryInProgress: CancelTokenSource
 
 export default {
-  async getAlert(alertId: string) {
-    return api.get(`/alert/${alertId}`)
+  getAlert: (alertId: string) => api.get(`/alert/${alertId}`),
+  setStatus: (alertId: string, data: object) =>
+    api.put(`/alert/${alertId}/status`, data).then((res) => res.data),
+  actionAlert: (alertId: string, data: object) =>
+    api.put(`/alert/${alertId}/action`, data).then((res) => res.data),
+  tagAlert: (alertId: string, data: object) =>
+    api.put(`/alert/${alertId}/tag`, data).then((res) => res.data),
+  untagAlert: (alertId: string, data: object) =>
+    api.put(`/alert/${alertId}/untag`, data).then((res) => res.data),
+  updateAttributes: (alertId: string, attributes: object) =>
+    api
+      .put(`/alert/${alertId}/attributes`, {
+        attributes
+      })
+      .then((res) => res.data),
+  addNote: (alertId: string, data: object) =>
+    api.put(`/alert/${alertId}/note`, data).then((res) => res.data),
+  getNotes: (alertId: string) => {
+    return api.get(`/alert/${alertId}/notes`).then((res) => res.data)
   },
-  async setStatus(alertId: string, data: object) {
-    return api.put(`/alert/${alertId}/status`, data)
+  updateNote: (alertId: string, noteId: string, data: object) => {
+    return api
+      .put(`/alert/${alertId}/note/${noteId}`, data)
+      .then((res) => res.data)
   },
-  async actionAlert(alertId: string, data: object) {
-    return api.put(`/alert/${alertId}/action`, data)
+  deleteNote: (alertId: string, noteId: string) => {
+    return api
+      .delete(`/alert/${alertId}/note/${noteId}`)
+      .then((res) => res.data)
   },
-  async tagAlert(alertId: string, data: object) {
-    return api.put(`/alert/${alertId}/tag`, data)
-  },
-  async untagAlert(alertId: string, data: object) {
-    return api.put(`/alert/${alertId}/untag`, data)
-  },
-  async updateAttributes(alertId: string, attributes: object) {
-    return api.put(`/alert/${alertId}/attributes`, {
-      attributes
-    })
-  },
-  async addNote(alertId: string, data: object) {
-    return api.put(`/alert/${alertId}/note`, data)
-  },
-  async getNotes(alertId: string) {
-    return api.get(`/alert/${alertId}/notes`)
-  },
-  async updateNote(alertId: string, noteId: string, data: object) {
-    return api.put(`/alert/${alertId}/note/${noteId}`, data)
-  },
-  async deleteNote(alertId: string, noteId: string) {
-    return api.delete(`/alert/${alertId}/note/${noteId}`)
-  },
-  async getAlerts(query: object) {
-    if (query && queryInProgress) {
+  getAlerts: (query: object) => {
+    if (query && queryInProgress)
       queryInProgress.cancel(
         'Too many search requests. Cancelling current query.'
       )
-    }
+
     queryInProgress = axios.CancelToken.source()
-    const config = {
-      params: query,
-      cancelToken: queryInProgress.token
-    }
-    return api.get('/alerts', config)
+    return api
+      .get('/alerts', {
+        params: query,
+        cancelToken: queryInProgress.token
+      })
+      .then((res) => res.data)
   },
-  async getAlertHistory(query: object) {
-    return api.get('/alerts/history', {
-      params: query
-    })
+  getAlertHistory: (query: object) => {
+    return api
+      .get('/alerts/history', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async getCounts(query: object) {
-    return api.get('/alerts/count', {
-      params: query
-    })
+  getCounts: (query: object) => {
+    return api
+      .get('/alerts/count', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async getTop10Count(query: object) {
-    return api.get('/alerts/top10/count', {
-      params: query
-    })
+  getTop10Count: (query: object) => {
+    return api
+      .get('/alerts/top10/count', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async getTop10Flapping(query: object) {
-    return api.get('/alerts/top10/flapping', {
-      params: query
-    })
+  getTop10Flapping: (query: object) => {
+    return api
+      .get('/alerts/top10/flapping', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async getTop10Standing(query: object) {
-    return api.get('/alerts/top10/standing', {
-      params: query
-    })
+  getTop10Standing: (query: object) => {
+    return api
+      .get('/alerts/top10/standing', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async deleteAlert(alertId: string) {
-    return api.delete(`/alert/${alertId}`)
+  deleteAlert: (alertId: string) => {
+    return api.delete(`/alert/${alertId}`).then((res) => res.data)
   },
-  async getEnvironments(query: object) {
-    return api.get('/environments', {
-      params: query
-    })
+  getEnvironments: (query: object) => {
+    return api
+      .get('/environments', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async getServices(query: object) {
-    return api.get('/services', {
-      params: query
-    })
+  getServices: (query: object) => {
+    return api
+      .get('/services', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async getGroups(query: object) {
-    return api.get('/alerts/groups', {
-      params: query
-    })
+  getGroups: (query: object) => {
+    return api
+      .get('/alerts/groups', {
+        params: query
+      })
+      .then((res) => res.data)
   },
-  async getTags(query: object) {
-    return api.get('/alerts/tags', {
-      params: query
-    })
+  getTags: (query: object) => {
+    return api
+      .get('/alerts/tags', {
+        params: query
+      })
+      .then((res) => res.data)
   }
 }
