@@ -1,5 +1,5 @@
-import { IManagement } from '@/common/interfaces'
-import api from './index'
+import { IManagement } from '@/store/interfaces'
+import api from '.'
 
 export default {
   async manifest() {

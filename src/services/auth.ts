@@ -1,4 +1,4 @@
-import { IConfig } from '@/common/interfaces'
+import { IConfig } from '@/store/interfaces'
 import { VueAuthenticate } from '@alerta/vue-authenticate'
 import axios from 'axios'
 import Vue from 'vue'

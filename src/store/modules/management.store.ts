@@ -1,4 +1,4 @@
-import { IManagement, IStore } from '@/common/interfaces'
+import { IManagement, IStore } from '@/store/interfaces'
 import ManagementApi from '@/services/api/management.service'
 import { Module } from 'vuex'
 

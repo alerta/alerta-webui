@@ -1,4 +1,4 @@
-import { IReports, IStore } from '@/common/interfaces'
+import { IReports, IStore } from '@/store/interfaces'
 import AlertsApi from '@/services/api/alert.service'
 import moment from 'moment'
 import { Module } from 'vuex'

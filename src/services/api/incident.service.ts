@@ -1,8 +1,8 @@
-import api from './index'
-import axios from 'axios'
+import api from '.'
+import axios, { CancelTokenSource } from 'axios'
 import { IIncident } from '@/common/interfaces'
 
-let queryInProgress
+let queryInProgress: CancelTokenSource
 
 export default {
   getIncident: async (incidentId: string) =>
@@ -26,12 +26,10 @@ export default {
   untagIncident: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/untag`, data)
   },
-  updateAttributes: async (incidentId: string, attributes: object) => {
-    const data = {
+  updateAttributes: async (incidentId: string, attributes: object) =>
+    api.put(`/incidents/${incidentId}/attributes`, {
       attributes
-    }
-    return api.put(`/incidents/${incidentId}/attributes`, data)
-  },
+    }),
   addNote: async (incidentId: string, data: object) => {
     return api.put(`/incidents/${incidentId}/note`, data)
   },
@@ -45,17 +43,16 @@ export default {
     return api.delete(`/incidents/${incidentId}/note/${noteId}`)
   },
   getIncidents: async (query: object) => {
-    if (query && queryInProgress) {
+    if (query && queryInProgress)
       queryInProgress.cancel(
         'Too many search requests. Cancelling current query.'
       )
-    }
+
     queryInProgress = axios.CancelToken.source()
-    const config = {
+    return api.get('/incidents', {
       params: query,
       cancelToken: queryInProgress.token
-    }
-    return api.get('/incidents', config)
+    })
   },
   getIncidentHistory: async (query: object) => {
     const config = {

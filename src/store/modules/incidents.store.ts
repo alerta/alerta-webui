@@ -1,4 +1,4 @@
-import { IIncident, IIncidents, IStore } from '@/common/interfaces'
+import { IIncident, IIncidents, IStore } from '@/store/interfaces'
 import utils from '@/common/utils'
 import IncidentsApi from '@/services/api/incident.service'
 import moment from 'moment'

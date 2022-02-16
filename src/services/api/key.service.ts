@@ -1,4 +1,4 @@
-import api from './index'
+import api from '.'
 
 export default {
   async createKey(data: object) {

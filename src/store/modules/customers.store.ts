@@ -1,4 +1,4 @@
-import { ICustomers, IStore } from '@/common/interfaces'
+import { ICustomers, IStore } from '@/store/interfaces'
 import CustomersApi from '@/services/api/customer.service'
 import { Module } from 'vuex'
 

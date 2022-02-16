@@ -1,4 +1,4 @@
-import { IConfig, IStore } from '@/common/interfaces'
+import { IConfig, IStore } from '@/store/interfaces'
 import utils from '@/common/utils'
 import { Module } from 'vuex'
 

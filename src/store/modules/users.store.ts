@@ -1,7 +1,7 @@
 import UsersApi from '@/services/api/user.service'
 import i18n from '@/plugins/i18n'
 import { Module } from 'vuex'
-import { IStore, IUsers } from '@/common/interfaces'
+import { IStore, IUsers } from '@/store/interfaces'
 
 const state: IUsers = {
   isLoading: false,

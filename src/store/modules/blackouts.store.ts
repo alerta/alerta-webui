@@ -1,4 +1,4 @@
-import { IBlackouts, IStore } from '@/common/interfaces'
+import { IBlackouts, IStore } from '@/store/interfaces'
 import BlackoutsApi from '@/services/api/blackout.service'
 import { Module } from 'vuex'
 

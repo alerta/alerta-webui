@@ -1,4 +1,4 @@
-import { IKeys, IStore } from '@/common/interfaces'
+import { IKeys, IStore } from '@/store/interfaces'
 import KeysApi from '@/services/api/key.service'
 import { Module } from 'vuex'
 

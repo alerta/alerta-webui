@@ -1,4 +1,4 @@
-import { IAlerts, IStore } from '@/common/interfaces'
+import { IAlerts, IStore } from '@/store/interfaces'
 import utils from '@/common/utils'
 import AlertsApi from '@/services/api/alert.service'
 import moment from 'moment'
@@ -15,7 +15,7 @@ const state: IAlerts = {
   groups: [],
   tags: [],
 
-  alert: {},
+  alert: undefined,
   notes: [],
 
   // not persisted
@@ -34,6 +34,7 @@ const state: IAlerts = {
     customer: null,
     service: null,
     group: null,
+    severity: null,
     dateRange: [null, null]
   },
 
@@ -309,8 +310,8 @@ const alerts: Module<IAlerts, IStore> = {
         )
       }
 
-      return AlertsApi.getEnvironments(params).then(({ environments }) =>
-        commit('SET_ENVIRONMENTS', environments)
+      return AlertsApi.getEnvironments(params).then(
+        (res) => res && commit('SET_ENVIRONMENTS', res.environments)
       )
     },
     async getServices({ commit }) {

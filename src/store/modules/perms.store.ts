@@ -1,4 +1,4 @@
-import { IPerms, IStore } from '@/common/interfaces'
+import { IPerms, IStore } from '@/store/interfaces'
 import PermsApi from '@/services/api/perms.service'
 import { Module } from 'vuex'
 

@@ -1,4 +1,4 @@
-import { IGroups, IStore } from '@/common/interfaces'
+import { IGroups, IStore } from '@/store/interfaces'
 import i18n from '@/plugins/i18n'
 import GroupsApi from '@/services/api/group.service'
 import { Module } from 'vuex'

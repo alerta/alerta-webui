@@ -1,4 +1,4 @@
-import { IAuth, IStore } from '@/common/interfaces'
+import { IAuth, IStore } from '@/store/interfaces'
 import AuthApi from '@/services/api/auth.service'
 import { VueAuthenticate } from '@alerta/vue-authenticate'
 import { Module } from 'vuex'

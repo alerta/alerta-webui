@@ -1,4 +1,4 @@
-import { IPreferences, IStore } from '@/common/interfaces'
+import { IPreferences, IStore } from '@/store/interfaces'
 import utils from '@/common/utils'
 import i18n from '@/plugins/i18n'
 import vuetify from '@/plugins/vuetify'

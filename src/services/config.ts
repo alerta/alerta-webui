@@ -1,4 +1,4 @@
-import { IConfig } from '@/common/interfaces'
+import { IConfig } from '@/store/interfaces'
 import Axios, { AxiosInstance } from 'axios'
 
 class Config {
@@ -15,19 +15,13 @@ class Config {
 
   async getConfig() {
     return this.getEnvConfig()
-      .then((response) => this.setEnvConfig(response))
-      .then(async () => this.getLocalConfig())
-      .then((response) => {
-        if (!response) return {}
-        return this.setLocalConfig(response)
-      })
-      .then(async () => {
-        const endpoint = this.config?.endpoint
-          ? this.config?.endpoint
-          : 'http://localhost:8080'
-        return this.getRemoteConfig(endpoint)
-      })
-      .then((response) => this.setRemoteConfig(response))
+      .then((config) => this.setEnvConfig(config))
+      .then(() => this.getLocalConfig())
+      .then((response) => (response ? this.setLocalConfig(response) : {}))
+      .then(async () =>
+        this.getRemoteConfig(this.config?.endpoint ?? 'http://localhost:8080')
+      )
+      .then((config) => this.setRemoteConfig(config))
       .catch((error) => {
         console.log(error)
         throw error
@@ -35,19 +29,13 @@ class Config {
   }
 
   async getEnvConfig() {
-    return new Promise<IConfig>((resolve) => {
-      const envConfig = {}
-      if (import.meta.env.VITE_ALERTA_ENDPOINT) {
-        envConfig['endpoint'] = import.meta.env.VITE_ALERTA_ENDPOINT
-      }
-      if (import.meta.env.VITE_CLIENT_ID) {
-        envConfig['client_id'] = import.meta.env.VITE_CLIENT_ID
-      }
-      if (import.meta.env.VITE_TRACKING_ID) {
-        envConfig['tracking_id'] = import.meta.env.VITE_TRACKING_ID
-      }
-      resolve(envConfig as IConfig)
-    })
+    const envConfig: Partial<IConfig> = {}
+
+    envConfig.endpoint = import.meta.env.VITE_ALERTA_ENDPOINT
+    envConfig.client_id = import.meta.env.VITE_CLIENT_ID
+    envConfig.tracking_id = import.meta.env.VITE_TRACKING_ID
+
+    return envConfig
   }
 
   async getLocalConfig() {
@@ -73,7 +61,7 @@ class Config {
       })
   }
 
-  mergeConfig(): IConfig {
+  mergeConfig() {
     return (this.config = {
       ...this.remoteConfig,
       ...this.localConfig,
@@ -81,7 +69,7 @@ class Config {
     } as IConfig)
   }
 
-  setEnvConfig(data: IConfig) {
+  setEnvConfig(data: Partial<IConfig>) {
     this.envConfig = data
     return this.mergeConfig()
   }

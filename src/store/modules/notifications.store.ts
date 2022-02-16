@@ -1,4 +1,4 @@
-import { Banner, INotifications, IStore, Snackbar } from '@/common/interfaces'
+import { Banner, INotifications, IStore, Snackbar } from '@/store/interfaces'
 import { Module } from 'vuex'
 
 const state: INotifications = {

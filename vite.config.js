@@ -6,6 +6,8 @@ import { createVuePlugin as vue } from 'vite-plugin-vue2'
 export default ({ mode }) => {
   import.meta.env = { ...import.meta.env, ...loadEnv(mode, process.cwd()) }
 
+  const port = import.meta.env.VITE_PORT || 3000
+
   return defineConfig({
     plugins: [vue()],
     resolve: {
@@ -14,7 +16,10 @@ export default ({ mode }) => {
       }
     },
     server: {
-      port: import.meta.env.VITE_PORT || 3000
+      port
+    },
+    preview: {
+      port
     }
   })
 }

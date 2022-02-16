@@ -70,7 +70,8 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     selected: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({

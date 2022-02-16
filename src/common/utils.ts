@@ -7,13 +7,14 @@ const stateMerge = (
   ignoreNull = false
 ) => {
   if (
-    Object.prototype.toString.call(value) === '[object Object]' &&
+    typeof value === 'object' &&
     (propName == null || state.hasOwnProperty(propName))
   ) {
     const o = propName == null ? state : state[propName]
     if (o == null) return
     for (const prop in value) stateMerge(o, value[prop], prop, ignoreNull)
   }
+
   if (!ignoreNull || value !== null)
     Vue.set(state, propName as string | number, value)
 }

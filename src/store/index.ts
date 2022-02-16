@@ -1,4 +1,4 @@
-import { IStore } from '@/common/interfaces'
+import { IStore } from '@/store/interfaces'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import alerts from './modules/alerts.store'

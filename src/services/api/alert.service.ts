@@ -1,7 +1,7 @@
-import api from './index'
-import axios from 'axios'
+import axios, { CancelTokenSource } from 'axios'
+import api from '.'
 
-let queryInProgress
+let queryInProgress: CancelTokenSource
 
 export default {
   async getAlert(alertId: string) {
@@ -20,10 +20,9 @@ export default {
     return api.put(`/alert/${alertId}/untag`, data)
   },
   async updateAttributes(alertId: string, attributes: object) {
-    const data = {
+    return api.put(`/alert/${alertId}/attributes`, {
       attributes
-    }
-    return api.put(`/alert/${alertId}/attributes`, data)
+    })
   },
   async addNote(alertId: string, data: object) {
     return api.put(`/alert/${alertId}/note`, data)
@@ -51,62 +50,51 @@ export default {
     return api.get('/alerts', config)
   },
   async getAlertHistory(query: object) {
-    const config = {
+    return api.get('/alerts/history', {
       params: query
-    }
-    return api.get('/alerts/history', config)
+    })
   },
   async getCounts(query: object) {
-    const config = {
+    return api.get('/alerts/count', {
       params: query
-    }
-    return api.get('/alerts/count', config)
+    })
   },
   async getTop10Count(query: object) {
-    const config = {
+    return api.get('/alerts/top10/count', {
       params: query
-    }
-    return api.get('/alerts/top10/count', config)
+    })
   },
   async getTop10Flapping(query: object) {
-    const config = {
+    return api.get('/alerts/top10/flapping', {
       params: query
-    }
-    return api.get('/alerts/top10/flapping', config)
+    })
   },
   async getTop10Standing(query: object) {
-    const config = {
+    return api.get('/alerts/top10/standing', {
       params: query
-    }
-    return api.get('/alerts/top10/standing', config)
+    })
   },
-
   async deleteAlert(alertId: string) {
     return api.delete(`/alert/${alertId}`)
   },
-
   async getEnvironments(query: object) {
-    const config = {
+    return api.get('/environments', {
       params: query
-    }
-    return api.get('/environments', config)
+    })
   },
   async getServices(query: object) {
-    const config = {
+    return api.get('/services', {
       params: query
-    }
-    return api.get('/services', config)
+    })
   },
   async getGroups(query: object) {
-    const config = {
+    return api.get('/alerts/groups', {
       params: query
-    }
-    return api.get('/alerts/groups', config)
+    })
   },
   async getTags(query: object) {
-    const config = {
+    return api.get('/alerts/tags', {
       params: query
-    }
-    return api.get('/alerts/tags', config)
+    })
   }
 }

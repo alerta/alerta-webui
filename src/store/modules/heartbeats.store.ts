@@ -1,4 +1,4 @@
-import { IHeartbeats, IStore } from '@/common/interfaces'
+import { IHeartbeats, IStore } from '@/store/interfaces'
 import HeartbeatsApi from '@/services/api/heartbeat.service'
 import { Module } from 'vuex'
 

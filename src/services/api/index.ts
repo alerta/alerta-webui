@@ -1,3 +1,16 @@
+// import { Axios } from 'axios'
+
+// const api = new Axios()
+
+// api.interceptors.response.use(
+//   (response) => {
+//     return Promise.resolve(response.data)
+//   },
+//   (error) => {
+//     return Promise.reject(error)
+//   }
+// )
+
 import axios, { AxiosRequestConfig, Method } from 'axios'
 import Vue from 'vue'
 
