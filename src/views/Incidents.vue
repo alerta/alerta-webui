@@ -36,114 +36,130 @@
 
     <v-container :style="severityColors">
       <v-row>
-        <template v-for="incident in incidents">
-          <v-col :key="incident.id">
-            <v-card class="relative">
-              <v-card-title>
-                {{ incident.title }}
-              </v-card-title>
-              <v-card-subtitle>
-                <span>{{ incident.alerts.length }} {{ $t('Alerts') }}</span>
-              </v-card-subtitle>
-              <v-divider></v-divider>
+        <v-col v-for="incident in incidents" :key="incident.id">
+          <v-card class="relative">
+            <v-card-title>
+              {{ incident.title }}
+            </v-card-title>
+            <v-card-subtitle>
+              <span>{{ incident.alerts.length }} {{ $t('Alerts') }}</span>
+            </v-card-subtitle>
+            <v-divider></v-divider>
 
-              <div class="actions">
+            <div class="actions">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-on="on"
+                    :disabled="
+                      !isAcked(incident.status) && !isClosed(incident.status)
+                    "
+                    icon
+                    class="btn--plain px-1 mx-0"
+                    @click="takeAction(incident.id, 'open')"
+                  >
+                    <v-icon size="20px">mdi-refresh</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('Open') }}</span>
+              </v-tooltip>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-show="!isAcked(incident.status)"
+                    v-on="on"
+                    :disabled="!isOpen(incident.status)"
+                    icon
+                    class="btn--plain px-1 mx-0"
+                    @click="ackAlert(incident.id)"
+                  >
+                    <v-icon size="20px">mdi-check</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('Ack') }}</span>
+              </v-tooltip>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-show="isAcked(incident.status)"
+                    v-on="on"
+                    icon
+                    class="btn--plain px-1 mx-0"
+                    @click="takeAction(incident.id, 'unack')"
+                  >
+                    <v-icon size="20px">mdi-undo</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('Unack') }}</span>
+              </v-tooltip>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-on="on"
+                    :disabled="incident.status == 'closed'"
+                    icon
+                    class="btn--plain px-1 mx-0"
+                    @click="takeAction(incident.id, 'close')"
+                  >
+                    <v-icon size="20px">mdi-close-circle-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('Close') }}</span>
+              </v-tooltip>
+            </div>
+            <v-card-text>
+              <div class="d-flex gap-1">
+                <span class="label">
+                  {{ incident.status | capitalize }}
+                </span>
+                <span
+                  :class="`label severity-${incident.severity.toLowerCase()}`"
+                >
+                  {{ incident.severity | capitalize }}
+                </span>
+              </div>
+              <div>
+                {{ incident.note }}
+              </div>
+            </v-card-text>
+            <v-card-actions class="pa-4">
+              <div>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      :disabled="
-                        !isAcked(incident.status) && !isClosed(incident.status)
-                      "
-                      icon
-                      class="btn--plain px-1 mx-0"
-                      @click="takeAction(incident.id, 'open')"
-                    >
-                      <v-icon size="20px">mdi-refresh</v-icon>
-                    </v-btn>
+                    <v-avatar v-on="on">
+                      <img
+                        v-if="incident.owner.avatar"
+                        :src="incident.owner.avatar"
+                        @error="error = true"
+                      />
+                      <v-icon v-else size="38" color="grey lighten-2">
+                        mdi-account-circle
+                      </v-icon>
+                    </v-avatar>
                   </template>
-                  <span>{{ $t('Open') }}</span>
-                </v-tooltip>
-
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-show="!isAcked(incident.status)"
-                      v-on="on"
-                      :disabled="!isOpen(incident.status)"
-                      icon
-                      class="btn--plain px-1 mx-0"
-                      @click="ackAlert(incident.id)"
-                    >
-                      <v-icon size="20px">mdi-check</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('Ack') }}</span>
-                </v-tooltip>
-
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-show="isAcked(incident.status)"
-                      v-on="on"
-                      icon
-                      class="btn--plain px-1 mx-0"
-                      @click="takeAction(incident.id, 'unack')"
-                    >
-                      <v-icon size="20px">mdi-undo</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('Unack') }}</span>
-                </v-tooltip>
-
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      :disabled="incident.status == 'closed'"
-                      icon
-                      class="btn--plain px-1 mx-0"
-                      @click="takeAction(incident.id, 'close')"
-                    >
-                      <v-icon size="20px">mdi-close-circle-outline</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('Close') }}</span>
+                  <span>{{ incident.owner.name }}</span>
                 </v-tooltip>
               </div>
-              <v-card-text>
-                <div class="d-flex gap-1">
-                  <span class="label">
-                    {{ incident.status | capitalize }}
-                  </span>
-                  <span
-                    :class="`label severity-${incident.severity.toLowerCase()}`"
-                  >
-                    {{ incident.severity | capitalize }}
-                  </span>
-                </div>
-                <div>
-                  {{ incident.note }}
-                </div>
-              </v-card-text>
-              <v-card-actions class="pa-4">
-                <div class="d-flex gap-1">
-                  <v-chip v-for="tag in incident.tags" :key="tag">
-                    {{ tag }}
-                  </v-chip>
-                </div>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="primary"
-                  link
-                  :to="{ name: 'incident', params: { id: incident.id } }"
-                >
-                  Open
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </template>
+
+              <div class="d-flex gap-1">
+                <v-chip v-for="tag in incident.tags" :key="tag">
+                  {{ tag }}
+                </v-chip>
+              </div>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                link
+                :to="{ name: 'incident', params: { id: incident.id } }"
+              >
+                Open
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
       </v-row>
     </v-container>
 
@@ -530,9 +546,9 @@ $severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
   'unknown';
 
 @each $severity in $severities {
-  .severity-#{$severity} {
+  .label.severity-#{$severity} {
     background: var(--bg-#{$severity});
-    color: var(--text-#{$severity});
+    color: white;
   }
 }
 </style>

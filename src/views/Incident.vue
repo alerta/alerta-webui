@@ -157,6 +157,11 @@
     <span>
       {{ incident }}
     </span>
+
+    <alert-list
+      :alerts="incident.alerts"
+      :columns="['severity', 'status', 'resource', 'service', 'description']"
+    ></alert-list>
   </v-card>
   <div v-else-if="incident === undefined">
     <v-progress-circular
@@ -171,14 +176,26 @@
 <script lang="ts">
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
+import AlertList from '@/components/AlertList.vue'
 import Vue from 'vue'
 
 export default Vue.extend({
+  components: {
+    AlertList
+  },
   data: () => ({
     copyIconText: i18n.t('Copy')
   }),
   mounted() {
-    this.getIncident()
+    this.getIncident().then(() => {
+      this.$store.dispatch('alerts/setPagination', {
+        page: 1,
+        itemsPerPage: 25,
+
+        itemsPerPageOptions: [],
+        totalItems: this.incident?.alerts.length
+      })
+    })
   },
   computed: {
     id() {
@@ -198,6 +215,14 @@ export default Vue.extend({
     getIncident(): Promise<IIncidents['incident']> {
       return this.$store.dispatch('incidents/getIncident', this.id)
     },
+    // parseIncident() {
+    //   return Math.round(Math.random())
+    //     ? JSON.stringify(this.incident)
+    //         .split('')
+    //         .map((char) => char.charCodeAt(0).toString(2))
+    //         .join(' ')
+    //     : this.incident
+    // },
     isOpen(status: string) {
       return status === 'open' || status === 'NORM'
     },

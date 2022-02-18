@@ -30,7 +30,6 @@
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
-              color="primary"
             >
               <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -51,6 +50,7 @@
               :prepend-icon="item.model ? item.icon : item['icon-alt']"
               sub-group
               no-action
+              color="neutral"
             >
               <template v-slot:activator>
                 <v-list-item>
@@ -461,18 +461,18 @@ export default {
           show: true
         },
         {
-          icon: 'mdi-group',
-          text: i18n.t('Incidents'),
-          path: '/incidents',
-          perms: 'read:alerts',
-          show: true
-        },
-        {
           icon: 'mdi-collapse-all',
           'icon-alt': 'mdi-expand-all',
           text: i18n.t('Searches'),
           model: false,
           queries: this.queries
+        },
+        {
+          icon: 'mdi-group',
+          text: i18n.t('Incidents'),
+          path: '/incidents',
+          perms: 'read:alerts',
+          show: true
         },
         {
           icon: 'mdi-timer',

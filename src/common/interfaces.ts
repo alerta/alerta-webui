@@ -11,11 +11,13 @@ export interface IIncident {
   tags: string[]
   createTime: number
   timeout: number
-  customer?: any
+  customer?: string
   previousSeverity: string
   updateTime: number
 
   alerts: string[] // alert ids
+
+  owner?: IUser
 }
 
 export interface IAlert {
@@ -37,7 +39,7 @@ export interface IAlert {
   createTime: number
   timeout: number
   rawData: any
-  customer: any
+  customer: string
   duplicateCount: number
   repeat: boolean
   previousSeverity: string
