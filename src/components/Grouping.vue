@@ -14,11 +14,13 @@
       <v-card-text>
         <v-combobox
           placeholder="Select or create an incident"
-          :items="[...items, ...created]"
+          :items="[...incidents, ...created]"
           :search-input.sync="search"
           :hide-no-data="!search"
           label="Incident"
-          v-model="incident.title"
+          item-text="title"
+          item-value="id"
+          @input="onInput"
         >
           <template v-slot:no-data>
             <v-list-item @click="createItem(search)">
@@ -29,7 +31,7 @@
 
         <v-autocomplete
           v-if="isCreating"
-          :items="['Severe', 'Warning']"
+          :items="severities"
           label="Severity"
           v-model="incident.severity"
         />
@@ -43,6 +45,8 @@
           label="Tags"
           v-model="incident.tags"
         />
+
+        <span>{{ incident }}</span>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -64,66 +68,95 @@
 </template>
 
 <script lang="ts">
-import { IIncident } from '@/common/interfaces'
-import Vue from 'vue'
+import { IAlert, IIncident } from '@/common/interfaces'
+import Vue, { PropType } from 'vue'
 
 export default Vue.extend({
   props: {
     selected: {
-      type: Array,
+      type: Array as PropType<IAlert[]>,
       default: () => []
     }
   },
   data: () => ({
-    search: null as string | null,
-    created: [] as Array<string>,
+    search: '',
+    created: [] as Partial<IIncident>[],
     dialog: false,
-    incident: {} as any
+    incident: {} as Partial<IIncident>,
+    incidents: [],
+    severities: [
+      'warning',
+      'critical',
+      'debug',
+      'cleared',
+      'indeterminate',
+      'informational',
+      'major',
+      'minor',
+      'normal',
+      'ok',
+      'security',
+      'trace',
+      'unknown'
+    ]
   }),
   mounted() {
-    this.$store.dispatch('incidents/getIncidents')
+    this.$store
+      .dispatch('incidents/getIncidents')
+      .then(
+        () => (this.incidents = this.$store.state.incidents.incidents ?? [])
+      )
   },
   computed: {
-    items() {
-      return this.$store.getters['incidents/incidents']
-    },
     isCreating() {
-      return this.search && this.created.includes(this.search)
+      return this.incident?.id === undefined
     }
   },
   watch: {
     dialog() {
       if (!this.dialog) {
-        this.search = null
+        this.search = ''
         this.incident = {}
         return
       }
     }
   },
   methods: {
+    onInput(event) {
+      if (typeof event === 'string') return
+      this.incident = event
+    },
     createItem(item: string) {
-      this.created.push(item as never)
+      this.incident = { id: undefined, title: item }
+      this.created.push(this.incident)
+
+      return true
     },
     submit() {
+      if (!this.incident) return
       this.dialog = false
-      console.log(this.incident)
 
-      if (this.isCreating) {
-        this.$store.dispatch('incidents/createIncident', {
-          ...this.incident,
-          alerts: this.selected.map((alert: any) => alert.id)
-        })
-        return
-      }
+      const incident: Partial<IIncident> = this.isCreating
+        ? this.incident
+        : {
+            id: this.incident.id,
+            alerts:
+              this.$store.state.incidents.incidents.find(
+                (incident) => incident.id === this.incident.id
+              )?.alerts ?? []
+          }
 
-      const incident = this.$store.state.incidents.incidents.find(
-        (incident: IIncident) => incident.title === this.incident.title
+      incident.alerts = [
+        ...this.selected.map((alert) => alert.id),
+        ...(incident.alerts ?? [])
+      ].filter((alert, index, self) => self.indexOf(alert) === index)
+
+      this.$store.dispatch(
+        this.isCreating
+          ? 'incidents/createIncident'
+          : 'incidents/updateIncident',
+        incident
       )
-
-      this.$store.dispatch('incidents/updateIncident', {
-        id: incident.id,
-        alerts: this.selected.map((alert: any) => alert.id)
-      })
     }
   }
 })

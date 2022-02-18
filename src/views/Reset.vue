@@ -3,13 +3,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import Vue from 'vue'
 import UserReset from '@/components/auth/UserReset.vue'
 
-@Component({
+export default Vue.extend({
   components: {
     UserReset
   }
 })
-export default class Reset extends Vue {}
 </script>

@@ -1,7 +1,5 @@
 <template>
   <div class="incidents">
-    <audio ref="audio" :src="audioURL" />
-
     <v-dialog v-model="densityDialog" max-width="340px">
       <v-form ref="form">
         <v-card>
@@ -36,6 +34,119 @@
       </v-form>
     </v-dialog>
 
+    <v-container :style="severityColors">
+      <v-row>
+        <template v-for="incident in incidents">
+          <v-col :key="incident.id">
+            <v-card class="relative">
+              <v-card-title>
+                {{ incident.title }}
+              </v-card-title>
+              <v-card-subtitle>
+                <span>{{ incident.alerts.length }} {{ $t('Alerts') }}</span>
+              </v-card-subtitle>
+              <v-divider></v-divider>
+
+              <div class="actions">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      v-on="on"
+                      :disabled="
+                        !isAcked(incident.status) && !isClosed(incident.status)
+                      "
+                      icon
+                      class="btn--plain px-1 mx-0"
+                      @click="takeAction(incident.id, 'open')"
+                    >
+                      <v-icon size="20px">mdi-refresh</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ $t('Open') }}</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      v-show="!isAcked(incident.status)"
+                      v-on="on"
+                      :disabled="!isOpen(incident.status)"
+                      icon
+                      class="btn--plain px-1 mx-0"
+                      @click="ackAlert(incident.id)"
+                    >
+                      <v-icon size="20px">mdi-check</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ $t('Ack') }}</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      v-show="isAcked(incident.status)"
+                      v-on="on"
+                      icon
+                      class="btn--plain px-1 mx-0"
+                      @click="takeAction(incident.id, 'unack')"
+                    >
+                      <v-icon size="20px">mdi-undo</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ $t('Unack') }}</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      v-on="on"
+                      :disabled="incident.status == 'closed'"
+                      icon
+                      class="btn--plain px-1 mx-0"
+                      @click="takeAction(incident.id, 'close')"
+                    >
+                      <v-icon size="20px">mdi-close-circle-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ $t('Close') }}</span>
+                </v-tooltip>
+              </div>
+              <v-card-text>
+                <div class="d-flex gap-1">
+                  <span class="label">
+                    {{ incident.status | capitalize }}
+                  </span>
+                  <span
+                    :class="`label severity-${incident.severity.toLowerCase()}`"
+                  >
+                    {{ incident.severity | capitalize }}
+                  </span>
+                </div>
+                <div>
+                  {{ incident.note }}
+                </div>
+              </v-card-text>
+              <v-card-actions class="pa-4">
+                <div class="d-flex gap-1">
+                  <v-chip v-for="tag in incident.tags" :key="tag">
+                    {{ tag }}
+                  </v-chip>
+                </div>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  link
+                  :to="{ name: 'incident', params: { id: incident.id } }"
+                >
+                  Open
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </template>
+      </v-row>
+    </v-container>
+
     <v-expand-transition>
       <div v-if="showPanel" class="px-1">
         <v-layout wrap>
@@ -52,100 +163,21 @@
         <v-divider />
       </div>
     </v-expand-transition>
-
-    <v-tabs v-model="currentTab" class="px-1" grow>
-      <v-tab
-        v-for="env in environments"
-        :key="env"
-        :href="'#tab-' + env"
-        @click="setEnv(env)"
-      >
-        {{ env }}&nbsp;({{ environmentCounts[env] || 0 }})
-      </v-tab>
-      <v-spacer />
-      <v-btn
-        text
-        icon
-        :class="{ 'filter-active': isActive }"
-        @click="sidesheet = !sidesheet"
-      >
-        <v-icon>mdi-filter-variant</v-icon>
-      </v-btn>
-
-      <v-menu bottom left>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" text icon>
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item
-            :disabled="!indicators.length"
-            @click="showPanel = !showPanel"
-          >
-            <v-list-item-title>
-              {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('Panel') }}
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="densityDialog = true">
-            {{ $t('DisplayDensity') }}
-          </v-list-item>
-          <v-list-item @click="toCsv(incidentsByEnvironment)">
-            {{ $t('DownloadAsCsv') }}
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
-      <span class="pr-2" />
-
-      <v-tabs-items v-model="currentTab">
-        <v-tab-item
-          v-for="env in environments"
-          :key="env"
-          :value="'tab-' + env"
-          :transition="false"
-          :reverse-transition="false"
-        >
-          <keep-alive max="1">
-            <alert-list
-              v-if="env == filter.environment || env == 'ALL'"
-              :incidents="incidentsByEnvironment"
-              @set-alert="setIncident"
-            />
-          </keep-alive>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-tabs>
-
-    <alert-list-filter :value="sidesheet" @close="sidesheet = false" />
   </div>
 </template>
 
 <script>
-import AlertList from '@/components/AlertList.vue'
-import AlertIndicator from '@/components/AlertIndicator.vue'
-import AlertListFilter from '@/components/AlertListFilter.vue'
-
 import { ExportToCsv } from 'export-to-csv'
 import utils from '@/common/utils'
+import Vue from 'vue'
+import debounce from 'lodash/debounce'
 
-export default {
-  components: {
-    AlertList,
-    AlertIndicator,
-    AlertListFilter
-  },
+export default Vue.extend({
   props: {
     query: {
       type: Object,
       required: false,
-      default: () => {}
-    },
-    isKiosk: {
-      type: String,
-      required: false,
-      default: null
+      default: new URLSearchParams()
     },
     hash: {
       type: String,
@@ -157,7 +189,7 @@ export default {
     currentTab: null,
     densityDialog: false,
     selectedId: null,
-    selectedItem: {},
+    selectedincident: {},
     sidesheet: false,
     timer: null
   }),
@@ -174,6 +206,20 @@ export default {
     },
     filter() {
       return this.$store.state.incidents.filter
+    },
+    severityColors() {
+      const colors = this.$store.getters.getConfig('colors')
+
+      return {
+        ...Object.entries(colors.severity).reduce(
+          (acc, [severity, color]) => ({
+            ...acc,
+            [`--bg-${severity}`]: color,
+            [`--text-${severity}`]: colors.text
+          }),
+          {}
+        )
+      }
     },
     isActive() {
       return (
@@ -286,8 +332,8 @@ export default {
       this.setPage(1)
     },
     filter: {
-      handler() {
-        history.pushState(null, null, this.$store.getters['incidents/getHash'])
+      async handler() {
+        await this.router.push(this.$store.getters['incidents/getHash'])
         this.currentTab = this.defaultTab
         this.cancelTimer()
         this.refreshIncidents()
@@ -295,11 +341,11 @@ export default {
       deep: true
     },
     pagination: {
-      handler(newVal, oldVal) {
-        history.pushState(null, null, this.$store.getters['incidents/getHash'])
+      async handler(newVal, oldVal) {
+        await this.router.push(this.$store.getters['incidents/getHash'])
         if (
           oldVal.page != newVal.page ||
-          oldVal.itemsPerPage != newVal.itemsPerPage ||
+          oldVal.incidentsPerPage != newVal.incidentsPerPage ||
           oldVal.sortBy != newVal.sortBy ||
           oldVal.descending != newVal.descending
         ) {
@@ -311,8 +357,8 @@ export default {
     refresh(val) {
       val || (this.getIncidents() && this.getEnvironments())
     },
-    showPanel() {
-      history.pushState(null, null, this.$store.getters['incidents/getHash'])
+    async showPanel() {
+      await this.router.push(this.$store.getters['incidents/getHash'])
     }
   },
   created() {
@@ -377,8 +423,8 @@ export default {
         environment: env === 'ALL' ? null : env
       })
     },
-    setIncident(item) {
-      this.$router.push({ path: `/incidents/${item.id}` })
+    setIncident(incident) {
+      this.$router.push({ path: `/incidents/${incident.id}` })
     },
     refreshIncidents() {
       this.getEnvironments()
@@ -396,9 +442,32 @@ export default {
         this.timer = null
       }
     },
+    isOpen(status) {
+      return status == 'open' || status == 'NORM'
+    },
+    isAcked(status) {
+      return status == 'ack' || status == 'ACKED'
+    },
+    isShelved(status) {
+      return status == 'shelved' || status == 'SHLVD'
+    },
+    isClosed(status) {
+      return status == 'closed'
+    },
+
     ok() {
       this.densityDialog = false
     },
+    takeAction: debounce(
+      function (id, action, text) {
+        this.$store
+          .dispatch('incidents/takeAction', [id, action, text])
+          .then(() => this.getAlert())
+      },
+      200,
+      { leading: true, trailing: false }
+    ),
+
     toCsv(data) {
       const options = {
         fieldSeparator: ',',
@@ -419,21 +488,21 @@ export default {
 
       const csvExporter = new ExportToCsv(options)
       csvExporter.generateCsv(
-        data.map(({ correlate, service, tags, rawData, ...item }) => ({
+        data.map(({ correlate, service, tags, rawData, ...incident }) => ({
           correlate: correlate.join(','),
           service: service.join(','),
           tags: tags.join(','),
           ...attrs,
-          ...item,
+          ...incident,
           rawData: rawData ? rawData.toString() : ''
         }))
       )
     }
   }
-}
+})
 </script>
 
-<style>
+<style lang="scss">
 .filter-active::after {
   background-color: rgb(255, 82, 82);
   border-radius: 50%;
@@ -444,5 +513,26 @@ export default {
   right: 7px;
   top: 9px;
   width: 8px;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+$severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
+  'informational', 'major', 'minor', 'normal', 'ok', 'security', 'trace',
+  'unknown';
+
+@each $severity in $severities {
+  .severity-#{$severity} {
+    background: var(--bg-#{$severity});
+    color: var(--text-#{$severity});
+  }
 }
 </style>

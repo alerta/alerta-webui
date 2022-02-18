@@ -1,8 +1,9 @@
-import { IIncident, IIncidents, IStore } from '@/store/interfaces'
+import { IIncidents, IStore } from '@/store/interfaces'
 import utils from '@/common/utils'
 import IncidentsApi from '@/services/api/incident.service'
 import moment from 'moment'
 import { Module } from 'vuex'
+import { IIncident } from '@/common/interfaces'
 
 const state: IIncidents = {
   isLoading: false,
@@ -15,6 +16,7 @@ const state: IIncidents = {
   groups: [],
   tags: [],
 
+  incident: null,
   notes: [],
 
   // not persisted
@@ -27,6 +29,7 @@ const state: IIncidents = {
   query: new URLSearchParams(), // URLSearchParams
   filter: {
     // local defaults
+    severity: null,
     environment: null,
     text: null,
     status: ['open', 'ack'],
@@ -106,6 +109,9 @@ const incidents: Module<IIncidents, IStore> = {
       state.pagination.totalItems = total
       state.pagination.itemsPerPage = pageSize
     },
+    SET_INCIDENT: (state, incident: IIncidents['incident']) => {
+      state.incident = incident
+    },
     RESET_LOADING: (state) => {
       state.isLoading = false
       state.isSearching = false
@@ -147,16 +153,14 @@ const incidents: Module<IIncidents, IStore> = {
 
       // add server-side sorting
       let sortBy = state.pagination.sortBy
-      if (sortBy.length === 0) sortBy = [rootGetters.getConfig('sort_by')]
+      if (sortBy.length === 0) sortBy = ['lastReceiveTime']
 
-      if (sortBy.length === 1) {
-        params.append(
-          'sort-by',
-          (state.pagination.sortDesc.length ? '-' : '') + sortBy
-        )
-      } else {
-        sortBy.forEach((sb) => params.append('sort-by', sb))
-      }
+      sortBy.length === 1
+        ? params.append(
+            'sort-by',
+            (state.pagination.sortDesc.length ? '-' : '') + sortBy
+          )
+        : sortBy.forEach((sb) => params.append('sort-by', sb))
 
       // need notes from alert history if showing notes icons
       if (rootGetters.getPreference('showNotesIcon')) {
@@ -203,7 +207,16 @@ const incidents: Module<IIncidents, IStore> = {
         )
         .finally(() => commit('RESET_LOADING'))
     },
+
+    async getIncident({ commit }, id: string) {
+      commit('SET_LOADING')
+      return IncidentsApi.getIncident(id)
+        .then(({ incident }) => commit('SET_INCIDENT', incident))
+        .catch(() => commit('SET_INCIDENT', null))
+        .finally(() => commit('RESET_LOADING'))
+    },
     async updateIncident({}, incident: Partial<IIncident> & { id: string }) {
+      console.log(incident)
       IncidentsApi.updateIncident(incident.id, incident)
     },
     async createIncident({}, incident: Partial<IIncident>) {

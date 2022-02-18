@@ -40,6 +40,12 @@ export const createRouter = (basePath): VueRouter => {
         meta: { title: 'Incidents', requiresAuth: true }
       },
       {
+        path: '/incidents/:id',
+        name: 'incident',
+        component: async () => import('./views/Incident.vue'),
+        meta: { title: 'Incident Detail', requiresAuth: true }
+      },
+      {
         path: '/heartbeats',
         name: 'heartbeats',
         component: async () => import('./views/Heartbeats.vue'),

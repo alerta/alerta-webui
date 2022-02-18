@@ -590,7 +590,8 @@ $severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
     background: var(--bg-#{$severity});
     color: var(--text-#{$severity});
 
-    &:hover {
+    &:hover,
+    &.v-data-table__selected {
       background: var(--bg-#{$severity}) !important;
       filter: brightness(0.87);
     }

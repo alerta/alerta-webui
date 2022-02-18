@@ -4,7 +4,7 @@ import { Module } from 'vuex'
 
 const state: IConfig = {
   endpoint: 'http://local.alerta.io:8080',
-  alarm_model: {}, // includes severity, colors and status maps
+  alarm_model: {},
 
   auth_required: true,
   allow_readonly: false,
@@ -27,9 +27,9 @@ const state: IConfig = {
 
   site_logo_url: '',
 
-  timeouts: {}, // includes alert, heartbeat, ack and shelve timeouts
+  timeouts: {},
 
-  blackouts: {}, // include default duration
+  blackouts: {},
 
   dates: {
     longDate: 'ddd D MMM, YYYY HH:mm:ss.SSS Z',
@@ -47,6 +47,8 @@ const state: IConfig = {
   actions: [],
   filter: {
     text: null,
+    severity: null,
+    customer: null,
     environment: null,
     status: null,
     service: null,

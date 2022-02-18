@@ -81,12 +81,7 @@ export const makeStore = (vueAuth: VueAuthenticate): Module<IAuth, IStore> => ({
       return AuthApi.reset(token, password)
     },
     logout({ commit }) {
-      return vueAuth
-        .logout()
-        .then((response) => {
-          return response
-        })
-        .finally(() => commit('RESET_AUTH'))
+      return vueAuth.logout().finally(() => commit('RESET_AUTH'))
     }
   },
 

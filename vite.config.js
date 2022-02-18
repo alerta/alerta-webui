@@ -16,7 +16,10 @@ export default ({ mode }) => {
       }
     },
     server: {
-      port
+      port,
+      hmr: {
+        clientPort: 443
+      }
     },
     preview: {
       port

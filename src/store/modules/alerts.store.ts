@@ -216,8 +216,8 @@ const alerts: Module<IAlerts, IStore> = {
     },
 
     async getAlert({ commit }, alertId) {
-      return AlertsApi.getAlert(alertId).then(({ alert }) => {
-        commit('SET_ALERT', alert)
+      return AlertsApi.getAlert(alertId).then((res) => {
+        commit('SET_ALERT', res.data.alert)
       })
     },
 

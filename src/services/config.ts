@@ -1,5 +1,5 @@
 import { IConfig } from '@/store/interfaces'
-import Axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 
 class Config {
   private config?: IConfig = undefined
@@ -10,7 +10,7 @@ class Config {
   private $http: AxiosInstance
 
   constructor() {
-    this.$http = Axios.create()
+    this.$http = axios.create()
   }
 
   async getConfig() {

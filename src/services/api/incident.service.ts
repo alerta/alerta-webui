@@ -1,29 +1,30 @@
 import api from '.'
 import axios, { CancelTokenSource } from 'axios'
-import { IIncident } from '@/common/interfaces'
+import { DTO, IIncident } from '@/common/interfaces'
 
 let queryInProgress: CancelTokenSource
+type IncidentDTO = DTO & { incident: IIncident }
 
 export default {
   getIncident: async (incidentId: string) =>
-    api.get<IIncident>(`/incidents/${incidentId}`).then((res) => res.data),
+    api.get<IncidentDTO>(`/incidents/${incidentId}`).then((res) => res.data),
 
   createIncident: async (data: Partial<IIncident>) =>
-    api.post<IIncident>(`/incidents`, data).then((res) => res.data),
+    api.post<IncidentDTO>(`/incidents`, data).then((res) => res.data),
 
   updateIncident: async (incidentId: string, data: Partial<IIncident>) =>
     api
-      .put<IIncident>(`/incidents/${incidentId}`, data)
+      .put<IncidentDTO>(`/incidents/${incidentId}`, data)
       .then((res) => res.data),
 
   setStatus: async (incidentId: string, data: object) => {
     return api
-      .put(`/incidents/${incidentId}/status`, data)
+      .put<IncidentDTO>(`/incidents/${incidentId}/status`, data)
       .then((res) => res.data)
   },
   actionIncident: async (incidentId: string, data: object) => {
     return api
-      .put(`/incidents/${incidentId}/action`, data)
+      .put<IncidentDTO>(`/incidents/${incidentId}/action`, data)
       .then((res) => res.data)
   },
   tagIncident: async (incidentId: string, data: object) => {

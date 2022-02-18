@@ -14,6 +14,8 @@ export interface IIncident {
   customer?: any
   previousSeverity: string
   updateTime: number
+
+  alerts: string[] // alert ids
 }
 
 export interface IAlert {
@@ -101,4 +103,12 @@ export interface IFilter {
   group: string[] | null
   dateRange: DateRange
   text: string | null
+}
+
+export interface DTO {
+  status: 'ok' | 'error'
+  message?: string
+  code?: number
+  errors?: any[]
+  requestId?: string
 }

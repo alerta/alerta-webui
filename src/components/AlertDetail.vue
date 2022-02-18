@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat v-if="item">
     <v-card tile flat>
       <v-toolbar dense>
         <v-btn icon @click="dialog = false">
@@ -202,18 +202,18 @@
                 class="ma-1"
                 @input="deleteNote(item.id, note.id)"
               >
-                <b>{{ note.user || 'Anonymous' }}</b
-                >{{ $t('addedNoteOn') }}
+                <b>{{ note.user || 'Anonymous' }}</b>
+                {{ $t('addedNoteOn') }}
                 <span v-if="note.updateTime">
-                  <b
-                    ><date-time :value="note.updateTime" format="longDate"
-                  /></b>
+                  <b>
+                    <date-time :value="note.updateTime" format="longDate" />
+                  </b>
                   ({{ note.updateTime | timeago }})<br />
                 </span>
                 <span v-else>
-                  <b
-                    ><date-time :value="note.createTime" format="longDate"
-                  /></b>
+                  <b>
+                    <date-time :value="note.createTime" format="longDate" />
+                  </b>
                   ({{ note.createTime | timeago }})<br />
                 </span>
                 <i>{{ note.text }}</i>
@@ -713,7 +713,7 @@
                 :options.sync="pagination"
                 :header-props="{ sortIcon: 'mdi-chevron-down' }"
               >
-                <template slot="items" slot-scope="props">
+                <template v-slot:item="props">
                   <td class="hidden-sm-and-down">
                     <span class="console-text">{{
                       props.item.id | shortId
@@ -847,7 +847,7 @@ export default {
       return this.$config.actions
     },
     history() {
-      return this.item.history
+      return this.item?.history
         ? this.item.history.map((h, index) => ({ index: index, ...h }))
         : []
     },
@@ -886,15 +886,14 @@ export default {
       val || this.close()
     },
     refresh(val) {
-      if (val) {
-        this.getAlert(this.id)
-        this.getNotes(this.id)
-      }
+      if (!val) return
+      this.getAlert()
+      this.getNotes()
     }
   },
   created() {
-    this.getAlert(this.id)
-    this.getNotes(this.id)
+    this.getAlert()
+    this.getNotes()
   },
   methods: {
     getAlert() {
@@ -926,7 +925,7 @@ export default {
       function (id, action, text) {
         this.$store
           .dispatch('alerts/takeAction', [id, action, text])
-          .then(() => this.getAlert(this.id))
+          .then(() => this.getAlert())
       },
       200,
       { leading: true, trailing: false }
@@ -935,7 +934,7 @@ export default {
       function (id, text) {
         this.$store
           .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
-          .then(() => this.getAlert(this.id))
+          .then(() => this.getAlert())
       },
       200,
       { leading: true, trailing: false }
@@ -949,7 +948,7 @@ export default {
             text,
             this.shelveTimeout
           ])
-          .then(() => this.getAlert(this.id))
+          .then(() => this.getAlert())
       },
       200,
       { leading: true, trailing: false }
@@ -958,7 +957,7 @@ export default {
       function (id) {
         this.$store
           .dispatch('alerts/watchAlert', id)
-          .then(() => this.getAlert(this.id))
+          .then(() => this.getAlert())
       },
       200,
       { leading: true, trailing: false }
@@ -967,7 +966,7 @@ export default {
       function (id) {
         this.$store
           .dispatch('alerts/unwatchAlert', id)
-          .then(() => this.getAlert(this.id))
+          .then(() => this.getAlert())
       },
       200,
       { leading: true, trailing: false }
@@ -976,7 +975,7 @@ export default {
       function (id, text) {
         this.$store
           .dispatch('alerts/addNote', [id, text])
-          .then(() => this.getNotes(this.id))
+          .then(() => this.getNotes())
       },
       200,
       { leading: true, trailing: false }

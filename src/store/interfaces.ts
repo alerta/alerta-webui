@@ -46,6 +46,7 @@ export interface IAlerts {
 
 export interface IIncidents extends Omit<IAlerts, 'alerts' | 'alert'> {
   incidents: IIncident[]
+  incident: (IIncident & { alerts: IAlert[] }) | null
 }
 
 export interface IConfig {
