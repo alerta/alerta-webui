@@ -18,6 +18,7 @@ import bootstrap from '@/services/config'
 import { createStore } from '@/store'
 import { makeStore } from '@/store/modules/auth.store'
 import Vue from 'vue'
+import '@/assets/style/main.scss'
 
 export const store = createStore()
 

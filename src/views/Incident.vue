@@ -11,7 +11,7 @@
             v-on="on"
             :disabled="!isAcked(incident.status) && !isClosed(incident.status)"
             icon
-            class="btn--plain px-1 mx-0"
+            plain
             @click="takeAction('open')"
           >
             <v-icon size="20px">mdi-refresh</v-icon>
@@ -27,7 +27,7 @@
             v-on="on"
             :disabled="!isOpen(incident.status)"
             icon
-            class="btn--plain px-1 mx-0"
+            plain
             @click="ackIncident()"
           >
             <v-icon size="20px">mdi-check</v-icon>
@@ -42,7 +42,7 @@
             v-show="isAcked(incident.status)"
             v-on="on"
             icon
-            class="btn--plain px-1 mx-0"
+            plain
             @click="takeAction('unack')"
           >
             <v-icon size="20px">mdi-undo</v-icon>
@@ -58,7 +58,7 @@
             v-on="on"
             :disabled="!isOpen(incident.status) && !isAcked(incident.status)"
             icon
-            class="btn--plain px-1 mx-0"
+            plain
             @click="shelveIncident()"
           >
             <v-icon size="20px">mdi-clock-outline</v-icon>
@@ -73,7 +73,7 @@
             v-show="isShelved(incident.status)"
             v-on="on"
             icon
-            class="btn--plain px-1 mx-0"
+            plain
             @click="takeAction('unshelve')"
           >
             <v-icon size="20px">mdi-restore</v-icon>
@@ -88,7 +88,7 @@
             v-on="on"
             :disabled="isClosed(incident.status)"
             icon
-            class="btn--plain px-1 mx-0"
+            plain
             @click="takeAction('close')"
           >
             <v-icon size="20px">mdi-close-circle-outline</v-icon>
@@ -103,7 +103,7 @@
             v-on="on"
             icon
             v-has-perms="'admin:alerts'"
-            class="btn--plain px-1 mx-0"
+            plain
             @click="deleteIncident(incident.id)"
           >
             <v-icon size="20px">mdi-delete</v-icon>
@@ -117,7 +117,7 @@
           <v-btn
             v-on="on"
             icon
-            class="btn--plain px-1 mx-0"
+            plain
             @click="clipboardCopy(JSON.stringify(incident, null, 4))"
           >
             <v-icon size="20px">mdi-clipboard-multiple-outline</v-icon>
@@ -130,7 +130,7 @@
         <template v-slot:activator="{ on }">
           <v-menu v-on="on" bottom left>
             <template v-slot:activator="{ on }">
-              <v-btn v-on="on" icon class="btn--plain px-1 mx-0">
+              <v-btn v-on="on" icon plain>
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
@@ -150,18 +150,85 @@
         </template>
         <span>{{ $t('More') }}</span>
       </v-tooltip>
+
+      <v-tooltip bottom v-if="creatingNote === false">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" icon plain @click="creatingNote = true">
+            <v-icon size="20px">mdi-note-plus</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t('AddNote') }}</span>
+      </v-tooltip>
+
+      <v-tooltip bottom v-else>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" icon plain @click="creatingNote = false">
+            <v-icon size="20px">mdi-note-off</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t('Cancel') }}</span>
+      </v-tooltip>
     </v-toolbar>
 
     <v-card-title>{{ incident.title }}</v-card-title>
-    <v-card-subtitle>{{ incident.status }}</v-card-subtitle>
-    <span>
-      {{ incident }}
-    </span>
+    <v-card-subtitle class="d-flex gap-2" :style="severityColors">
+      <span class="label">
+        {{ incident.status | capitalize }}
+      </span>
+      <span :class="`label severity-${incident.severity.toLowerCase()}`">
+        {{ incident.severity | capitalize }}
+      </span>
+    </v-card-subtitle>
+
+    <v-card-text>
+      <v-sheet
+        class="px-4 py-2 mb-2"
+        :color="$vuetify.theme.dark ? 'grey darken-2' : 'grey lighten-3'"
+        rounded
+      >
+        <pre>{{ incident.note }}</pre>
+      </v-sheet>
+
+      <v-textarea
+        v-if="creatingNote"
+        placeholder="Add a note"
+        rows="2"
+        auto-grow
+        outlined
+      />
+
+      <v-combobox
+        chips
+        clearable
+        deletable-chips
+        multiple
+        small-chips
+        label="Tags"
+        outlined
+        dense
+        v-model="incident.tags"
+      />
+    </v-card-text>
 
     <alert-list
-      :alerts="incident.alerts"
+      :alerts="alerts"
       :columns="['severity', 'status', 'resource', 'service', 'description']"
-    ></alert-list>
+      @set-alert="openAlert"
+    >
+      <template v-slot:footer.prepend>
+        <v-flex class="pr-4 py-3 items-center">
+          <v-btn
+            :disabled="!selected.length"
+            @click="bulkRemove()"
+            color="error"
+            small
+          >
+            <v-icon left>mdi-close-circle-outline</v-icon>
+            {{ $t('Remove') }}
+          </v-btn>
+        </v-flex>
+      </template>
+    </alert-list>
   </v-card>
   <div v-else-if="incident === undefined">
     <v-progress-circular
@@ -174,9 +241,11 @@
 
 
 <script lang="ts">
-import i18n from '@/plugins/i18n'
-import { IIncidents } from '@/store/interfaces'
+import { IAlert } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
+import i18n from '@/plugins/i18n'
+import IncidentsApi from '@/services/api/incident.service'
+import { IIncidents } from '@/store/interfaces'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -184,7 +253,10 @@ export default Vue.extend({
     AlertList
   },
   data: () => ({
-    copyIconText: i18n.t('Copy')
+    copyIconText: i18n.t('Copy'),
+    creatingNote: false,
+    incident: undefined as IIncidents['incident'] | undefined,
+    alerts: [] as IAlert[]
   }),
   mounted() {
     this.getIncident().then(() => {
@@ -201,28 +273,38 @@ export default Vue.extend({
     id() {
       return this.$route.params.id
     },
+    selected() {
+      return this.$store.state.alerts.selected
+    },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
     },
-    incident(): IIncidents['incident'] | undefined {
-      return this.$store.state.incidents.incident || undefined
-    },
+
     actions() {
       return this.$config.actions
+    },
+    severityColors() {
+      const colors = this.$store.getters.getConfig('colors')
+
+      return {
+        ...Object.entries(colors.severity).reduce(
+          (acc, [severity, color]) => ({
+            ...acc,
+            [`--bg-${severity}`]: color,
+            [`--text-${severity}`]: colors.text
+          }),
+          {}
+        )
+      }
     }
   },
   methods: {
-    getIncident(): Promise<IIncidents['incident']> {
-      return this.$store.dispatch('incidents/getIncident', this.id)
+    getIncident() {
+      return IncidentsApi.getIncident(this.id).then(({ incident }: any) => {
+        this.incident = incident
+        this.alerts = incident.alerts
+      })
     },
-    // parseIncident() {
-    //   return Math.round(Math.random())
-    //     ? JSON.stringify(this.incident)
-    //         .split('')
-    //         .map((char) => char.charCodeAt(0).toString(2))
-    //         .join(' ')
-    //     : this.incident
-    // },
     isOpen(status: string) {
       return status === 'open' || status === 'NORM'
     },
@@ -245,7 +327,40 @@ export default Vue.extend({
         this.getIncident
       )
     },
-    deleteIncident() {},
+    deleteIncident() {
+      confirm(i18n.t('ConfirmDelete').toString()) &&
+        this.$store
+          .dispatch('incidents/deleteIncident', this.id)
+          .then(() => this.$router.push('/incidents'))
+    },
+    openAlert({ id }: IAlert) {
+      this.$router.push({
+        name: 'alert',
+        params: { id },
+        query: {
+          'from-incident': this.id
+        }
+      })
+    },
+    addAlerts() {},
+    bulkRemove() {
+      if (!this.incident || !this.selected.length) return
+
+      const removed = this.selected.map((alert: IAlert) => alert.id)
+      // const removed = this.alerts.splice(0, this.selected.length)
+
+      this.alerts.forEach((alert, index) => {
+        if (removed.includes(alert.id)) this.alerts.splice(index, 1)
+      })
+
+      IncidentsApi.updateIncident(this.id, {
+        alerts: this.alerts.map((alert: IAlert) => alert.id)
+      })
+        .then(() => (this.selected = []))
+        .catch(() => {
+          this.alerts.push(...this.selected)
+        })
+    },
     clipboardCopy(text: string) {
       if (!window.isSecureContext || !navigator.clipboard) return
       navigator.clipboard.writeText(text)
@@ -257,3 +372,17 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style scoped>
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.alert-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.75rem;
+}
+</style>

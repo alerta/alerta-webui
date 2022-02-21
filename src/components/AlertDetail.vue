@@ -713,54 +713,31 @@
                 :options.sync="pagination"
                 :header-props="{ sortIcon: 'mdi-chevron-down' }"
               >
-                <template v-slot:item="props">
-                  <td class="hidden-sm-and-down">
-                    <span class="console-text">{{
-                      props.item.id | shortId
-                    }}</span>
-                  </td>
-                  <td class="hidden-sm-and-down text-no-wrap">
-                    <date-time
-                      :value="props.item.updateTime"
-                      format="mediumDate"
-                    />
-                  </td>
-                  <td class="hidden-md-and-up text-no-wrap">
-                    <date-time
-                      :value="props.item.updateTime"
-                      format="shortTime"
-                    />
-                  </td>
-                  <td class="hidden-sm-and-down">
-                    <span :class="['label', 'label-' + props.item.severity]">
-                      {{ props.item.severity | capitalize }}
-                    </span>
-                  </td>
-                  <td class="hidden-sm-and-down">
-                    <span class="label">
-                      {{ props.item.status | capitalize }}
-                    </span>
-                  </td>
-                  <td class="hidden-sm-and-down">
-                    {{ props.item.timeout | hhmmss }}
-                  </td>
-                  <td>
-                    <span class="label">
-                      {{ props.item.type || 'unknown' | splitCaps }}
-                    </span>
-                  </td>
-                  <td class="hidden-sm-and-down">
-                    {{ props.item.event }}
-                  </td>
-                  <td class="hidden-sm-and-down">
-                    {{ props.item.value }}
-                  </td>
-                  <td>
-                    {{ props.item.user }}
-                  </td>
-                  <td>
-                    {{ props.item.text }}
-                  </td>
+                <template v-slot:item.updateTime="{ item }">
+                  <date-time :value="item.updateTime" format="shortTime" />
+                </template>
+                <template v-slot:item.id="{ item }">
+                  <span class="console-text hidden-sm-and-down">{{
+                    item.id | shortId
+                  }}</span>
+                </template>
+                <template v-slot:item.severity="{ item }">
+                  <span :class="['label', 'label-' + item.severity]">
+                    {{ item.severity | capitalize }}
+                  </span>
+                </template>
+                <template v-slot:item.label="{ item }">
+                  <span class="label">
+                    {{ item.status | capitalize }}
+                  </span>
+                </template>
+                <template v-slot:item.timeout="{ item }">
+                  {{ item.timeout | hhmmss }}
+                </template>
+                <template v-slot:item.type="{ item }">
+                  <span class="label">
+                    {{ item.type || 'unknown' | splitCaps }}
+                  </span>
                 </template>
               </v-data-table>
             </div>
@@ -994,7 +971,12 @@ export default {
       this.$router.replace({ path: `/alerts?q=${attribute}:"${value}"` }) // double-quotes (") around value mean exact match
     },
     close() {
-      this.$emit('close')
+      if (this.$route.query['from-incident'])
+        this.$router.push({
+          name: 'incident',
+          params: { id: this.$route.query['from-incident'] }
+        })
+      else this.$emit('close')
     },
     clipboardCopy(text) {
       if (!window.isSecureContext || !navigator.clipboard) return

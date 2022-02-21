@@ -1,0 +1,10 @@
+$severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
+  'informational', 'major', 'minor', 'normal', 'ok', 'security', 'trace',
+  'unknown';
+
+@each $severity in $severities {
+  .label.severity-#{$severity} {
+    background: var(--bg-#{$severity});
+    color: white;
+  }
+}

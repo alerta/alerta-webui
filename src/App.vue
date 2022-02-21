@@ -76,7 +76,11 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-toolbar v-if="selected.length == 0" flat class="mb-1">
+      <v-toolbar
+        v-if="selected.length == 0 || $route.name !== 'alerts'"
+        flat
+        class="mb-1"
+      >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
         <router-link to="/" class="toolbar-title">
@@ -202,7 +206,10 @@
         </span>
       </v-toolbar>
 
-      <v-toolbar v-if="selected.length > 0" class="mb-1">
+      <v-toolbar
+        v-if="selected.length > 0 && $route.name === 'alerts'"
+        class="mb-1"
+      >
         <v-btn icon @click="clearSelected">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
@@ -221,7 +228,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon class="btn--plain" @click="toggleWatch()">
+            <v-btn v-on="on" icon plain @click="toggleWatch()">
               <v-icon>mdi-eye</v-icon>
             </v-btn>
           </template>
@@ -230,7 +237,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon class="btn--plain" @click="bulkAckAlert()">
+            <v-btn v-on="on" icon plain @click="bulkAckAlert()">
               <v-icon>mdi-check</v-icon>
             </v-btn>
           </template>
@@ -239,7 +246,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon class="btn--plain" @click="bulkShelveAlert()">
+            <v-btn v-on="on" icon plain @click="bulkShelveAlert()">
               <v-icon>mdi-clock-outline</v-icon>
             </v-btn>
           </template>
@@ -255,7 +262,7 @@
                   @click="openModal.click"
                   v-bind="attrs"
                   icon
-                  class="btn--plain"
+                  plain
                 >
                   <v-icon>mdi-group</v-icon>
                 </v-btn>
@@ -267,12 +274,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              icon
-              class="btn--plain"
-              @click="takeBulkAction('close')"
-            >
+            <v-btn v-on="on" icon plain @click="takeBulkAction('close')">
               <v-icon>mdi-close-circle-outline</v-icon>
             </v-btn>
           </template>
@@ -285,7 +287,7 @@
               v-on="on"
               v-has-perms="'admin:alerts'"
               icon
-              class="btn--plain"
+              plain
               @click="bulkDeleteAlert()"
             >
               <v-icon>mdi-delete</v-icon>

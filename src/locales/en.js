@@ -376,7 +376,11 @@ export const en = {
   NoDisplay: 'Sorry, nothing to display here :(',
   SearchNoResult1: 'Your search for ',
   SearchNoResult2: 'found no results.',
-  OK: 'OK'
+  OK: 'OK',
+
+  // Incidents
+  Add: 'Add',
+  Remove: 'Remove'
 
   // ENDS.
 }

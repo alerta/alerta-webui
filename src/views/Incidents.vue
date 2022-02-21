@@ -42,7 +42,17 @@
               {{ incident.title }}
             </v-card-title>
             <v-card-subtitle>
-              <span>{{ incident.alerts.length }} {{ $t('Alerts') }}</span>
+              <div class="d-flex gap-1 align-center">
+                <span>{{ incident.alerts.length }} {{ $t('Alerts') }}</span>
+                <span class="label">
+                  {{ incident.status | capitalize }}
+                </span>
+                <span
+                  :class="`label severity-${incident.severity.toLowerCase()}`"
+                >
+                  {{ incident.severity | capitalize }}
+                </span>
+              </div>
             </v-card-subtitle>
             <v-divider></v-divider>
 
@@ -111,21 +121,18 @@
               </v-tooltip>
             </div>
             <v-card-text>
-              <div class="d-flex gap-1">
-                <span class="label">
-                  {{ incident.status | capitalize }}
-                </span>
-                <span
-                  :class="`label severity-${incident.severity.toLowerCase()}`"
-                >
-                  {{ incident.severity | capitalize }}
-                </span>
-              </div>
-              <div>
-                {{ incident.note }}
-              </div>
+              <v-sheet
+                v-if="incident.note"
+                class="px-4 py-2 mb-2"
+                :color="
+                  $vuetify.theme.dark ? 'grey darken-2' : 'grey lighten-3'
+                "
+                rounded
+              >
+                <pre>{{ incident.note }}</pre>
+              </v-sheet>
             </v-card-text>
-            <v-card-actions class="pa-4">
+            <v-card-actions class="px-4">
               <div>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
@@ -155,7 +162,7 @@
                 link
                 :to="{ name: 'incident', params: { id: incident.id } }"
               >
-                Open
+                Details
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -518,7 +525,7 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
+<style>
 .filter-active::after {
   background-color: rgb(255, 82, 82);
   border-radius: 50%;
@@ -539,16 +546,5 @@ export default Vue.extend({
   position: absolute;
   top: 1rem;
   right: 1rem;
-}
-
-$severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
-  'informational', 'major', 'minor', 'normal', 'ok', 'security', 'trace',
-  'unknown';
-
-@each $severity in $severities {
-  .label.severity-#{$severity} {
-    background: var(--bg-#{$severity});
-    color: white;
-  }
 }
 </style>

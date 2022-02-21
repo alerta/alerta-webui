@@ -20,10 +20,7 @@ const loadLocaleMessages = {
 let language =
   (navigator.languages && navigator.languages[0]) || navigator.language
 
-if (language.length > 2) {
-  language = language.split('-')[0]
-  language = language.split('_')[0]
-}
+if (language.length > 2) language = language.split('-')[0].split('_')[0]
 
 // variable i18n for translation
 const i18n = new VueI18n({

@@ -17,6 +17,10 @@
     :item-class="getSeverity"
     disable-filtering
   >
+    <template v-for="(_, slot) in $slots">
+      <template :slot="slot"><slot :name="slot" /></template>
+    </template>
+
     <template v-slot:item.id="{ item }">
       {{ item.id | shortId }}
     </template>
