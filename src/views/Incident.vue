@@ -28,7 +28,7 @@
             :disabled="!isOpen(incident.status)"
             icon
             plain
-            @click="ackIncident()"
+            @click="ackIncident(id)"
           >
             <v-icon size="20px">mdi-check</v-icon>
           </v-btn>
@@ -171,6 +171,33 @@
       </v-tooltip>
     </v-toolbar>
 
+    <v-alert
+      v-for="note in notes"
+      :key="note.id"
+      :value="true"
+      dismissible
+      type="info"
+      class="ma-1"
+      dense
+      @input="deleteNote(id, note.id)"
+    >
+      <strong>{{ note.user || 'Anonymous' }}</strong>
+      {{ $t('addedNoteOn') }}
+      <span v-if="note.updateTime" class="caption">
+        <strong>
+          <date-time :value="note.updateTime" format="mediumDate" />
+        </strong>
+        ({{ note.updateTime | timeago }})<br />
+      </span>
+      <span v-else class="caption">
+        <strong>
+          <date-time :value="note.createTime" format="mediumDate" />
+        </strong>
+        ({{ note.createTime | timeago }})<br />
+      </span>
+      <pre class="note body-1">{{ note.text }}</pre>
+    </v-alert>
+
     <v-card-title>{{ incident.title }}</v-card-title>
     <v-card-subtitle class="d-flex gap-2" :style="severityColors">
       <span class="label">
@@ -182,13 +209,13 @@
     </v-card-subtitle>
 
     <v-card-text>
-      <v-sheet
+      <!-- <v-sheet
         class="px-4 py-2 mb-2"
         :color="$vuetify.theme.dark ? 'grey darken-2' : 'grey lighten-3'"
         rounded
       >
-        <pre>{{ incident.note }}</pre>
-      </v-sheet>
+        <pre class="note">{{ incident.note }}</pre>
+      </v-sheet> -->
 
       <v-textarea
         v-if="creatingNote"
@@ -265,29 +292,38 @@ import i18n from '@/plugins/i18n'
 import IncidentsApi from '@/services/api/incident.service'
 import { IIncidents } from '@/store/interfaces'
 import pickBy from 'lodash/pickBy'
+import DateTime from '@/components/lib/DateTime.vue'
 import Vue from 'vue'
 
 export default Vue.extend({
   components: {
-    AlertList
+    AlertList,
+    DateTime
   },
   data: () => ({
     copyIconText: i18n.t('Copy'),
     creatingNote: false,
     incident: undefined as IIncidents['incident'] | undefined,
     alerts: [] as IAlert[],
-    newNote: ''
+    newNote: '',
+    notes: [] as IIncidents['notes']
   }),
   mounted() {
-    this.getIncident().then(() => {
-      this.$store.dispatch('alerts/setPagination', {
-        page: 1,
-        itemsPerPage: 25,
+    this.getIncident()
+      .then(() => {
+        this.$store.dispatch('alerts/setPagination', {
+          page: 1,
+          itemsPerPage: 25,
 
-        itemsPerPageOptions: [],
-        totalItems: this.incident?.alerts.length
+          itemsPerPageOptions: [],
+          totalItems: this.incident?.alerts.length
+        })
       })
-    })
+      .then(() => {
+        IncidentsApi.getNotes(this.id).then(({ notes }) => {
+          this.notes = notes
+        })
+      })
   },
   computed: {
     id() {
@@ -308,6 +344,10 @@ export default Vue.extend({
     actions() {
       return this.$config.actions
     },
+    ackTimeout() {
+      return this.$store.getters.getPreference('ackTimeout')
+    },
+
     severityColors() {
       const colors = this.$store.getters.getConfig('colors')
 
@@ -347,10 +387,18 @@ export default Vue.extend({
         .dispatch('incidents/takeAction', [this.id, action, ...args])
         .then(this.getIncident)
     },
+    ackIncident(id, text) {
+      this.$store
+        .dispatch('incidents/takeAction', [id, 'ack', text, this.ackTimeout])
+        .then(() => this.getIncident())
+    },
     shelveIncident() {
       this.takeAction('shelve', undefined, this.shelveTimeout).then(
         this.getIncident
       )
+    },
+    deleteNote(id: string, noteId: string) {
+      this.$store.dispatch('incidents/deleteNote', [id, noteId])
     },
     deleteIncident() {
       confirm(i18n.t('ConfirmDelete').toString()) &&
@@ -378,7 +426,13 @@ export default Vue.extend({
         this.incident.id,
         pickBy(incident, (v) => v !== undefined)
       ).then(({ incident }: any) => {
-        this.incident = incident
+        delete incident.alerts
+        delete incident.note
+
+        this.incident = {
+          ...this.incident,
+          ...pickBy(incident, (v) => v !== undefined)
+        } as any
       })
     },
     bulkRemove() {
@@ -434,5 +488,13 @@ export default Vue.extend({
 <style scoped>
 .gap-2 {
   gap: 0.5rem;
+}
+
+.note {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 </style>

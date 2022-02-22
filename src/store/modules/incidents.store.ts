@@ -257,9 +257,9 @@ const incidents: Module<IIncidents, IStore> = {
     },
 
     async addNote({ dispatch }, [incidentId, text]) {
-      return IncidentsApi.addNote(incidentId, {
-        text
-      }).then(() => dispatch('getIncidents'))
+      return IncidentsApi.addNote(incidentId, text).then(() =>
+        dispatch('getIncidents')
+      )
     },
     async getNotes({ commit }, incidentId) {
       return IncidentsApi.getNotes(incidentId).then(({ notes }) => {
