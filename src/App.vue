@@ -173,6 +173,7 @@
           :close-on-content-click="false"
           :nudge-width="200"
           offset-x
+          bottom
         >
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon>
@@ -752,7 +753,7 @@ export default {
     },
     toggleFullScreen() {
       const elem = document.getElementById('alerta')
-      this.isFullscreen() ? elem.requestFullscreen() : document.exitFullscreen()
+      this.isFullscreen() ? document.exitFullscreen() : elem.requestFullscreen()
     },
     isFullscreen() {
       return document.fullscreenElement

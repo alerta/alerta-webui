@@ -40,6 +40,8 @@ const notifications: Module<INotifications, IStore> = {
         action: 'OK',
         timeout: 3000
       }),
+    custom: ({ commit }, snackbar: Snackbar) =>
+      commit('ADD_SNACKBAR', snackbar),
     error: ({ commit }, error) =>
       // HTTP error with status, code, message and errors.
       commit('ADD_SNACKBAR', {

@@ -335,7 +335,9 @@
               class="btn--plain mx-0"
               @click="copyItem(props.item)"
             >
-              <v-icon small color="grey darken-3">mdi-copy</v-icon>
+              <v-icon small color="grey darken-3"
+                >mdi-clipboard-multiple-outline</v-icon
+              >
             </v-btn>
             <v-btn
               v-has-perms.disable="'write:blackouts'"

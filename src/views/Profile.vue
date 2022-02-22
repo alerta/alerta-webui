@@ -8,7 +8,7 @@
           </v-card-title>
 
           <v-layout row wrap>
-            <v-flex align-center justify-center layout text-sm-center>
+            <v-flex class="align-center" justify-center layout text-sm-center>
               <v-avatar size="128" color="grey lighten-4">
                 <img
                   v-if="avatar && !error"
@@ -22,12 +22,12 @@
             </v-flex>
           </v-layout>
           <v-layout row spacer>
-            <v-flex align-center justify-center layout text-sm-center>
+            <v-flex class="align-center" justify-center layout text-sm-center>
               <b>{{ profile.name }}</b>
             </v-flex>
           </v-layout>
           <v-layout row spacer>
-            <v-flex align-center justify-center layout text-sm-center>
+            <v-flex class="align-center" justify-center layout text-sm-center>
               <span
                 v-if="
                   profile.preferred_username &&

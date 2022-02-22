@@ -151,22 +151,23 @@
         <span>{{ $t('More') }}</span>
       </v-tooltip>
 
-      <v-tooltip bottom v-if="creatingNote === false">
+      <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon plain @click="creatingNote = true">
+          <v-btn
+            v-if="creatingNote"
+            v-on="on"
+            icon
+            plain
+            @click="creatingNote = false"
+          >
+            <v-icon size="20px">mdi-note-off</v-icon>
+          </v-btn>
+          <v-btn v-else v-on="on" icon plain @click="creatingNote = true">
             <v-icon size="20px">mdi-note-plus</v-icon>
           </v-btn>
         </template>
-        <span>{{ $t('AddNote') }}</span>
-      </v-tooltip>
-
-      <v-tooltip bottom v-else>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon plain @click="creatingNote = false">
-            <v-icon size="20px">mdi-note-off</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ $t('Cancel') }}</span>
+        <span v-if="creatingNote">{{ $t('Cancel') }}</span>
+        <span v-else>{{ $t('AddNote') }}</span>
       </v-tooltip>
     </v-toolbar>
 
@@ -195,6 +196,11 @@
         rows="2"
         auto-grow
         outlined
+        append-outer-icon="mdi-plus-circle"
+        v-model="newNote"
+        @click:append-outer="addNote"
+        autofocus
+        :rules="[(v) => !!v || $t('NoteRequired')]"
       />
 
       <v-combobox
@@ -207,8 +213,14 @@
         outlined
         dense
         v-model="incident.tags"
+        hide-details
+        append-icon=""
       />
     </v-card-text>
+    <v-divider />
+    <v-card-actions class="justify-end">
+      <v-btn color="primary" @click="handleSave">Save</v-btn>
+    </v-card-actions>
 
     <alert-list
       :alerts="alerts"
@@ -216,16 +228,22 @@
       @set-alert="openAlert"
     >
       <template v-slot:footer.prepend>
-        <v-flex class="pr-4 py-3 items-center">
-          <v-btn
-            :disabled="!selected.length"
-            @click="bulkRemove()"
-            color="error"
-            small
-          >
-            <v-icon left>mdi-close-circle-outline</v-icon>
-            {{ $t('Remove') }}
-          </v-btn>
+        <v-flex class="pr-4 py-3 align-center">
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                :disabled="!selected.length"
+                @click="bulkRemove()"
+                color="error"
+                small
+              >
+                <v-icon left>mdi-close-circle-outline</v-icon>
+                {{ $t('Remove') }}
+              </v-btn>
+            </template>
+            <span>Remove alerts from incident</span>
+          </v-tooltip>
         </v-flex>
       </template>
     </alert-list>
@@ -241,11 +259,12 @@
 
 
 <script lang="ts">
-import { IAlert } from '@/common/interfaces'
+import { IAlert, IIncident } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import i18n from '@/plugins/i18n'
 import IncidentsApi from '@/services/api/incident.service'
 import { IIncidents } from '@/store/interfaces'
+import pickBy from 'lodash/pickBy'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -256,7 +275,8 @@ export default Vue.extend({
     copyIconText: i18n.t('Copy'),
     creatingNote: false,
     incident: undefined as IIncidents['incident'] | undefined,
-    alerts: [] as IAlert[]
+    alerts: [] as IAlert[],
+    newNote: ''
   }),
   mounted() {
     this.getIncident().then(() => {
@@ -273,8 +293,13 @@ export default Vue.extend({
     id() {
       return this.$route.params.id
     },
-    selected() {
-      return this.$store.state.alerts.selected
+    selected: {
+      get() {
+        return this.$store.state.alerts.selected
+      },
+      set(value: IAlert[]) {
+        this.$store.dispatch('alerts/updateSelected', value)
+      }
     },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
@@ -342,12 +367,24 @@ export default Vue.extend({
         }
       })
     },
-    addAlerts() {},
+    handleSave() {
+      if (!this.incident) return
+
+      const incident: Partial<IIncident> = this.incident
+      delete incident.alerts
+      delete incident.owner
+
+      IncidentsApi.updateIncident(
+        this.incident.id,
+        pickBy(incident, (v) => v !== undefined)
+      ).then(({ incident }: any) => {
+        this.incident = incident
+      })
+    },
     bulkRemove() {
       if (!this.incident || !this.selected.length) return
 
       const removed = this.selected.map((alert: IAlert) => alert.id)
-      // const removed = this.alerts.splice(0, this.selected.length)
 
       this.alerts.forEach((alert, index) => {
         if (removed.includes(alert.id)) this.alerts.splice(index, 1)
@@ -356,10 +393,31 @@ export default Vue.extend({
       IncidentsApi.updateIncident(this.id, {
         alerts: this.alerts.map((alert: IAlert) => alert.id)
       })
-        .then(() => (this.selected = []))
+        .then(() => {
+          this.selected = []
+          this.$store.dispatch(
+            'notifications/success',
+            `Removed ${removed.length} alert${removed.length > 1 ? 's' : ''}`
+          )
+        })
         .catch(() => {
           this.alerts.push(...this.selected)
         })
+    },
+    addNote() {
+      if (!this.newNote)
+        return this.$store.dispatch('notifications/custom', {
+          type: 'error',
+          text: i18n.t('NoteRequired').toString(),
+          action: 'CLOSE',
+          timeout: 5000
+        })
+      IncidentsApi.addNote(this.id, this.newNote).then(() => {
+        this.$store.dispatch('notifications/success', 'Note created')
+        this.newNote = ''
+        this.creatingNote = false
+        this.getIncident()
+      })
     },
     clipboardCopy(text: string) {
       if (!window.isSecureContext || !navigator.clipboard) return
@@ -376,13 +434,5 @@ export default Vue.extend({
 <style scoped>
 .gap-2 {
   gap: 0.5rem;
-}
-
-.alert-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 0.75rem;
 }
 </style>

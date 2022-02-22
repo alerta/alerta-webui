@@ -22,9 +22,8 @@ export default {
   },
   watch: {
     snackbar() {
-      if (this.$store.getters['notifications/hasSnackbar']) {
+      if (this.$store.getters['notifications/hasSnackbar'])
         this.$nextTick(() => (this.show = true))
-      }
     },
     show(val) {
       val || this.close()

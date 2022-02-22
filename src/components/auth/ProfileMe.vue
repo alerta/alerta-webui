@@ -44,7 +44,7 @@
 
     <v-divider />
 
-    <v-list>
+    <v-list dense>
       <v-list-item v-if="$config.customer_views">
         <v-list-item-content>
           <v-list-item-title>
@@ -64,13 +64,13 @@
       <v-list-item v-if="profile.orgs">
         <v-list-item-content>
           <v-list-item-title>
-            <span v-for="(org, index) in profile.orgs" :key="index">
-              <v-chip v-if="index < 3" small>
-                <span>{{ org }}</span>
+            <v-chip-group column>
+              <v-chip v-for="org in profile.orgs.slice(0, 3)" :key="org" small>
+                {{ org }}
               </v-chip>
-              <span v-if="index === 3" class="grey--text caption"
-                >(+{{ profile.orgs.length - 1 }} {{ $t('others') }})</span
-              >
+            </v-chip-group>
+            <span v-if="profile.orgs.length > 3" class="grey--text caption">
+              (+{{ profile.orgs.length - 1 }} {{ $t('others') }})
             </span>
           </v-list-item-title>
           <v-list-item-subtitle>{{ $t('Organizations') }}</v-list-item-subtitle>
@@ -94,13 +94,17 @@
       <v-list-item v-if="profile.roles">
         <v-list-item-content>
           <v-list-item-title>
-            <span v-for="(role, index) in profile.roles" :key="index">
-              <v-chip v-if="index < 3" small>
-                <span>{{ role }}</span>
-              </v-chip>
-              <span v-if="index === 3" class="grey--text caption"
-                >(+{{ profile.roles.length - 1 }} {{ $t('others') }})</span
+            <v-chip-group column>
+              <v-chip
+                v-for="role in profile.roles.slice(0, 3)"
+                :key="role"
+                small
               >
+                {{ role }}
+              </v-chip>
+            </v-chip-group>
+            <span v-if="profile.roles.length > 3" class="grey--text caption">
+              (+{{ profile.roles.length - 1 }} {{ $t('others') }})
             </span>
           </v-list-item-title>
           <v-list-item-subtitle>{{ $t('Roles') }}</v-list-item-subtitle>
@@ -109,13 +113,13 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>
-            <span v-for="(scope, index) in scopes" :key="index">
-              <v-chip v-if="index < 3" small>
-                <span>{{ scope }}</span>
+            <v-chip-group column>
+              <v-chip v-for="scope in scopes.slice(0, 3)" :key="scope" small>
+                {{ scope }}
               </v-chip>
-              <span v-if="index === 3" class="grey--text caption"
-                >(+{{ scopes.length - 1 }} {{ $t('others') }})</span
-              >
+            </v-chip-group>
+            <span v-if="scopes.length > 3" class="grey--text caption">
+              (+{{ scopes.length - 1 }} {{ $t('others') }})
             </span>
           </v-list-item-title>
           <v-list-item-subtitle>{{ $t('Scopes') }}</v-list-item-subtitle>

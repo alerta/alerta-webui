@@ -22,7 +22,7 @@
                         :label="$t('APIKey')"
                         readonly
                         monospace
-                        append-icon="mdi-copy"
+                        append-icon="mdi-clipboard-multiple-outline"
                         @click:append="clipboardCopy(editedItem.key)"
                       />
                     </template>
@@ -167,12 +167,13 @@
           <v-tooltip :key="copyIconText" top>
             <template v-slot:activator="{ on }">
               <v-icon
+                class="mx-1"
                 v-on="on"
                 :value="item.key"
-                style="font-size: 16px"
                 @click="clipboardCopy(item.key)"
+                small
               >
-                mdi-copy
+                mdi-clipboard-multiple-outline
               </v-icon>
             </template>
             <span>{{ copyIconText }}</span>

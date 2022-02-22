@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-sm fill-height>
-    <v-layout v-show="!sent" align-center row wrap>
+    <v-layout v-show="!sent" class="align-center" row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-sm-center headline font-weight-medium">
           <span>{{ $t('ResetLink') }}</span>
@@ -36,7 +36,7 @@
       <v-flex xs12 sm8 offset-xs0 offset-sm2 />
     </v-layout>
 
-    <v-layout v-show="sent" align-center row wrap>
+    <v-layout v-show="sent" class="align-center" row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-sm-center headline font-weight-medium">
           <span>{{ $t('CheckEmail') }}</span>

@@ -25,7 +25,7 @@
       </v-app-bar>
 
       <v-container fluid grid-list-xl>
-        <v-layout align-center wrap>
+        <v-layout class="align-center" wrap>
           <v-flex xs12 class="pb-0">
             <v-text-field
               v-model="filterText"

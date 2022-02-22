@@ -43,7 +43,7 @@
             class="px-1"
             @click="clipboardCopy($config.endpoint)"
           >
-            mdi-copy
+            mdi-clipboard-multiple-outline
           </v-icon>
         </template>
         <span>{{ copyIconText }}</span>

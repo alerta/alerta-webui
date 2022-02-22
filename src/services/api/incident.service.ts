@@ -1,6 +1,6 @@
-import api from '.'
-import axios, { CancelTokenSource } from 'axios'
 import { DTO, IIncident } from '@/common/interfaces'
+import axios, { CancelTokenSource } from 'axios'
+import api from '.'
 
 let queryInProgress: CancelTokenSource
 type IncidentDTO = DTO & { incident: IIncident }
@@ -41,9 +41,11 @@ export default {
         attributes
       })
       .then((res) => res.data),
-  addNote: async (incidentId: string, data: object) => {
+  addNote: async (incidentId: string, note: string) => {
     return api
-      .put(`/incidents/${incidentId}/note`, data)
+      .post(`/incidents/${incidentId}/notes`, {
+        text: note
+      })
       .then((res) => res.data)
   },
   getNotes: async (incidentId: string) => {
@@ -51,12 +53,12 @@ export default {
   },
   updateNote: async (incidentId: string, noteId: string, data: object) => {
     return api
-      .put(`/incidents/${incidentId}/note/${noteId}`, data)
+      .put(`/incidents/${incidentId}/notes/${noteId}`, data)
       .then((res) => res.data)
   },
   deleteNote: async (incidentId: string, noteId: string) => {
     return api
-      .delete(`/incidents/${incidentId}/note/${noteId}`)
+      .delete(`/incidents/${incidentId}/notes/${noteId}`)
       .then((res) => res.data)
   },
   getIncidents: async (query: object) => {

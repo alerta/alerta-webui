@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-sm fill-height>
-    <v-layout align-center row wrap>
+    <v-layout class="align-center" row wrap>
       <v-flex xs12 sm8 offset-xs0 offset-sm2>
         <p class="text-sm-center headline font-weight-medium">
           <span>{{ $t('ChooseNewPassword') }}</span>

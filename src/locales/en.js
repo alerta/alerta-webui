@@ -380,7 +380,8 @@ export const en = {
 
   // Incidents
   Add: 'Add',
-  Remove: 'Remove'
+  Remove: 'Remove',
+  NoteRequired: 'Note is required'
 
   // ENDS.
 }

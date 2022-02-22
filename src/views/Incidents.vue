@@ -129,7 +129,7 @@
                 "
                 rounded
               >
-                <pre>{{ incident.note }}</pre>
+                <pre class="note">{{ incident.note }}</pre>
               </v-sheet>
             </v-card-text>
             <v-card-actions class="px-4">
@@ -546,5 +546,13 @@ export default Vue.extend({
   position: absolute;
   top: 1rem;
   right: 1rem;
+}
+
+.note {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 </style>
