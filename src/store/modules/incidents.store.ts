@@ -216,11 +216,10 @@ const incidents: Module<IIncidents, IStore> = {
         .finally(() => commit('RESET_LOADING'))
     },
     async updateIncident({}, incident: Partial<IIncident> & { id: string }) {
-      console.log(incident)
-      IncidentsApi.updateIncident(incident.id, incident)
+      return IncidentsApi.updateIncident(incident.id, incident)
     },
     async createIncident({}, incident: Partial<IIncident>) {
-      IncidentsApi.createIncident(incident)
+      return IncidentsApi.createIncident(incident)
     },
     updateQuery({ commit }, query) {
       commit('SET_SEARCH_QUERY', query)

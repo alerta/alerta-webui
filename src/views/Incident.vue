@@ -169,6 +169,17 @@
         <span v-if="creatingNote">{{ $t('Cancel') }}</span>
         <span v-else>{{ $t('AddNote') }}</span>
       </v-tooltip>
+
+      <v-btn @click="updating = !updating" outlined small>
+        <template v-if="updating">
+          <v-icon size="20px" left>mdi-cancel</v-icon>
+          {{ $t('Cancel') }}
+        </template>
+        <template v-else>
+          <v-icon size="20px" left>mdi-pencil</v-icon>
+          Edit
+        </template>
+      </v-btn>
     </v-toolbar>
 
     <v-alert
@@ -198,7 +209,20 @@
       <pre class="note body-1">{{ note.text }}</pre>
     </v-alert>
 
-    <v-card-title>{{ incident.title }}</v-card-title>
+    <v-card-title>
+      <span v-if="!updating">
+        {{ incident.title }}
+      </span>
+      <v-text-field
+        class="mb-2"
+        autofocus
+        dense
+        hide-details
+        v-else
+        outlined
+        v-model="incident.title"
+      />
+    </v-card-title>
     <v-card-subtitle class="d-flex gap-2" :style="severityColors">
       <span class="label">
         {{ incident.status | capitalize }}
@@ -232,7 +256,7 @@
 
       <v-combobox
         chips
-        clearable
+        :clearable="updating"
         deletable-chips
         multiple
         small-chips
@@ -242,11 +266,15 @@
         v-model="incident.tags"
         hide-details
         append-icon=""
+        :readonly="!updating"
       />
     </v-card-text>
     <v-divider />
     <v-card-actions class="justify-end">
-      <v-btn color="primary" @click="handleSave">Save</v-btn>
+      <v-btn color="primary" @click="handleSave" v-if="updating">
+        <v-icon left>mdi-content-save</v-icon>
+        Save
+      </v-btn>
     </v-card-actions>
 
     <alert-list
@@ -306,7 +334,8 @@ export default Vue.extend({
     incident: undefined as IIncidents['incident'] | undefined,
     alerts: [] as IAlert[],
     newNote: '',
-    notes: [] as IIncidents['notes']
+    notes: [] as IIncidents['notes'],
+    updating: false
   }),
   mounted() {
     this.getIncident()
@@ -426,6 +455,7 @@ export default Vue.extend({
         this.incident.id,
         pickBy(incident, (v) => v !== undefined)
       ).then(({ incident }: any) => {
+        this.updating = false
         delete incident.alerts
         delete incident.note
 

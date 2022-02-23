@@ -151,12 +151,19 @@ export default Vue.extend({
         ...(incident.alerts ?? [])
       ].filter((alert, index, self) => self.indexOf(alert) === index)
 
-      this.$store.dispatch(
-        this.isCreating
-          ? 'incidents/createIncident'
-          : 'incidents/updateIncident',
-        incident
-      )
+      this.$store
+        .dispatch(
+          this.isCreating
+            ? 'incidents/createIncident'
+            : 'incidents/updateIncident',
+          incident
+        )
+        .then((res) =>
+          this.$router.push({
+            name: 'incident',
+            params: { id: res.incident.id }
+          })
+        )
     }
   }
 })

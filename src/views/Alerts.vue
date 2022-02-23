@@ -370,7 +370,8 @@ export default {
       this.$store.dispatch('alerts/getEnvironments')
     },
     playSound() {
-      !this.isMute && this.$refs.audio.play()
+      if (this.isMute) return
+      this.$refs.audio.play()
     },
     setEnv(env) {
       this.$store.dispatch('alerts/setFilter', {

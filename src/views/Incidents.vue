@@ -1,40 +1,74 @@
 <template>
   <div class="incidents">
-    <v-dialog v-model="densityDialog" max-width="340px">
-      <v-form ref="form">
-        <v-card>
-          <v-card-title class="justify-center">
-            <span class="title">
-              {{ $t('ChooseDisplayDensity') }}
-            </span>
-          </v-card-title>
-          <v-card-actions class="justify-center">
-            <v-btn
-              value="comfortable"
-              :class="{ primary: displayDensity == 'comfortable' }"
-              @click="displayDensity = 'comfortable'"
+    <v-dialog v-model="addIncidentDialog" max-width="600px">
+      <v-card>
+        <v-card-title>Create Incident</v-card-title>
+
+        <v-card-text>
+          <v-form>
+            <v-text-field
+              label="Title"
+              outlined
+              dense
+              autofocus
+              :rules="[(v) => !!v || $t('Required')]"
+              v-model="newIncident.title"
+            />
+            <v-autocomplete
+              :items="alerts"
+              outlined
+              multiple
+              hide-selected
+              clearable
+              dense
+              label="Alerts"
+              item-value="id"
+              item-text="resource"
+              chips
+              small-chips
+              deletable-chips
+              v-model="newIncident.alerts"
+              hide-details
+              class="mb-3"
             >
-              {{ $t('Comfortable') }}
-            </v-btn>
-            <v-btn
-              value="compact"
-              :class="{ primary: displayDensity == 'compact' }"
-              @click="displayDensity = 'compact'"
-            >
-              {{ $t('Compact') }}
-            </v-btn>
-          </v-card-actions>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="blue darken-1" text @click="ok">
-              {{ $t('OK') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-form>
+              <template v-slot:item="props">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ props.item.resource }} ({{ props.item.event }})
+                  </v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-autocomplete>
+
+            <v-select
+              label="Severity"
+              outlined
+              dense
+              v-model="newIncident.severity"
+              :items="severities"
+              :menu-props="{ offsetY: true }"
+            />
+          </v-form>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="error" @click="addIncidentDialog = false">
+            {{ $t('Cancel') }}
+          </v-btn>
+          <v-btn color="primary" @click="addIncident">
+            {{ $t('OK') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
     </v-dialog>
 
     <v-container :style="severityColors">
+      <header class="mb-3 d-flex">
+        <v-btn color="primary" @click="addIncidentDialog = true">
+          Add Incident
+        </v-btn>
+      </header>
       <v-row>
         <v-col v-for="incident in incidents" :key="incident.id">
           <v-card class="relative">
@@ -54,7 +88,7 @@
                 </span>
               </div>
             </v-card-subtitle>
-            <v-divider></v-divider>
+            <v-divider />
 
             <div class="actions">
               <v-tooltip bottom>
@@ -131,6 +165,17 @@
               >
                 <pre class="note">{{ incident.note }}</pre>
               </v-sheet>
+
+              <v-textarea
+                v-if="creatingNote === incident.id"
+                v-model="newNote"
+                autofocus
+                :rules="[(v) => !!v || $t('NoteRequired')]"
+                placeholder="Add a note"
+                rows="2"
+                auto-grow
+                outlined
+              />
             </v-card-text>
             <v-card-actions class="px-4">
               <div>
@@ -157,10 +202,25 @@
                 </v-chip>
               </div>
               <v-spacer></v-spacer>
+
+              <v-btn
+                color="neutral"
+                outlined
+                @click="creatingNote = incident.id"
+                v-if="creatingNote !== incident.id"
+              >
+                <v-icon left>mdi-note-plus</v-icon>
+                {{ $t('AddNote') }}
+              </v-btn>
+              <template v-else-if="creatingNote === incident.id">
+                <v-btn @click="creatingNote = null" color="error">Cancel</v-btn>
+                <v-btn @click="addNote" color="success">Create</v-btn>
+              </template>
               <v-btn
                 color="primary"
                 link
                 :to="{ name: 'incident', params: { id: incident.id } }"
+                :disabled="creatingNote === incident.id"
               >
                 Details
               </v-btn>
@@ -194,6 +254,7 @@ import { ExportToCsv } from 'export-to-csv'
 import utils from '@/common/utils'
 import Vue from 'vue'
 import debounce from 'lodash/debounce'
+import IncidentsApi from '@/services/api/incident.service'
 
 export default Vue.extend({
   props: {
@@ -214,13 +275,35 @@ export default Vue.extend({
     selectedId: null,
     selectedincident: {},
     sidesheet: false,
-    timer: null
+    timer: null,
+    creatingNote: null,
+    newNote: null,
+    addIncidentDialog: false,
+    newIncident: {},
+    severities: [
+      'warning',
+      'critical',
+      'debug',
+      'cleared',
+      'indeterminate',
+      'informational',
+      'major',
+      'minor',
+      'normal',
+      'ok',
+      'security',
+      'trace',
+      'unknown'
+    ]
   }),
   computed: {
     audioURL() {
       return (
         this.$config.audio.new || this.$store.getters.getPreference('audioURL')
       )
+    },
+    alerts() {
+      return this.$store.state.alerts.alerts
     },
     defaultTab() {
       return this.filter.environment
@@ -354,6 +437,9 @@ export default Vue.extend({
     currentTab() {
       this.setPage(1)
     },
+    addIncidentDialog(val) {
+      if (val && !this.alerts?.length) this.$store.dispatch('alerts/getAlerts')
+    },
     filter: {
       async handler() {
         await this.router.push(this.$store.getters['incidents/getHash'])
@@ -446,9 +532,6 @@ export default Vue.extend({
         environment: env === 'ALL' ? null : env
       })
     },
-    setIncident(incident) {
-      this.$router.push({ path: `/incidents/${incident.id}` })
-    },
     refreshIncidents() {
       this.getEnvironments()
       this.getIncidents().then(() => {
@@ -457,6 +540,30 @@ export default Vue.extend({
           () => this.refreshIncidents(),
           this.refreshInterval
         )
+      })
+    },
+    addNote() {
+      if (!this.newNote)
+        return this.$store.dispatch('notifications/custom', {
+          type: 'error',
+          text: i18n.t('NoteRequired').toString(),
+          action: 'CLOSE',
+          timeout: 5000
+        })
+      IncidentsApi.addNote(this.creatingNote, this.newNote).then(() => {
+        this.$store.dispatch('notifications/success', 'Note created')
+        this.newNote = null
+        this.creatingNote = null
+        this.getIncidents()
+      })
+    },
+
+    addIncident() {
+      IncidentsApi.createIncident(this.newIncident).then(() => {
+        this.addIncidentDialog = false
+        this.$store.dispatch('notifications/success', 'Incident created')
+        this.newIncident = {}
+        this.getIncidents()
       })
     },
     cancelTimer() {
@@ -476,10 +583,6 @@ export default Vue.extend({
     },
     isClosed(status) {
       return status == 'closed'
-    },
-
-    ok() {
-      this.densityDialog = false
     },
     takeAction: debounce(
       function (id, action, text) {
