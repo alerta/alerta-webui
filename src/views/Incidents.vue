@@ -116,7 +116,7 @@
                     :disabled="!isOpen(incident.status)"
                     icon
                     class="btn--plain px-1 mx-0"
-                    @click="ackAlert(incident.id)"
+                    @click="ackIncident(incident.id)"
                   >
                     <v-icon size="20px">mdi-check</v-icon>
                   </v-btn>
@@ -301,6 +301,9 @@ export default Vue.extend({
       return (
         this.$config.audio.new || this.$store.getters.getPreference('audioURL')
       )
+    },
+    ackTimeout() {
+      return this.$store.getters.getPreference('ackTimeout')
     },
     alerts() {
       return this.$store.state.alerts.alerts
@@ -588,11 +591,17 @@ export default Vue.extend({
       function (id, action, text) {
         this.$store
           .dispatch('incidents/takeAction', [id, action, text])
-          .then(() => this.getAlert())
+          .then(() => this.getIncidents())
       },
       200,
       { leading: true, trailing: false }
     ),
+
+    ackIncident(id, text) {
+      this.$store
+        .dispatch('incidents/takeAction', [id, 'ack', text, this.ackTimeout])
+        .then(() => this.getIncidents())
+    },
 
     toCsv(data) {
       const options = {
