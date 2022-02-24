@@ -277,11 +277,7 @@
       </v-btn>
     </v-card-actions>
 
-    <alert-list
-      :alerts="alerts"
-      :columns="['severity', 'status', 'resource', 'service', 'description']"
-      @set-alert="openAlert"
-    >
+    <alert-list :alerts="alerts" :columns="alertColumns" @set-alert="openAlert">
       <template v-slot:footer.prepend>
         <v-flex class="pr-4 py-3 align-center">
           <v-tooltip right>
@@ -335,7 +331,8 @@ export default Vue.extend({
     alerts: [] as IAlert[],
     newNote: '',
     notes: [] as IIncidents['notes'],
-    updating: false
+    updating: false,
+    alertColumns: ['severity', 'status', 'resource', 'service', 'text']
   }),
   mounted() {
     this.getIncident()
