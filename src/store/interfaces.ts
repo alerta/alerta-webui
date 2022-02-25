@@ -42,9 +42,12 @@ export interface IAlerts {
     itemsPerPageOptions: number[]
     totalItems: number
   }
+
+  incident?: IIncident
 }
 
-export interface IIncidents extends Omit<IAlerts, 'alerts' | 'alert'> {
+export interface IIncidents
+  extends Omit<IAlerts, 'alerts' | 'alert' | 'incident'> {
   incidents: IIncident[]
   incident: (IIncident & { alerts: IAlert[] }) | null
 }

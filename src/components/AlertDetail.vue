@@ -345,6 +345,28 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="flex xs12 ma-1">
+                  <div class="d-flex align-top">
+                    <div class="flex xs3 text-sm-left">
+                      <div class="grey--text">Incident</div>
+                    </div>
+                    <div class="flex xs6 text-sm-left">
+                      <div class="link-text" v-if="item.incident">
+                        <router-link
+                          :to="{
+                            name: 'incident',
+                            params: { id: item.incident.id }
+                          }"
+                        >
+                          {{ item.incident.title }}
+                        </router-link>
+                      </div>
+                      <div v-else>Not part of an incident</div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="flex xs12 ma-1">
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-sm-left">
@@ -362,23 +384,6 @@
                           <span class="clickable">{{ service }}</span
                           >&nbsp;
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-sm-left">
-                      <div class="grey--text">
-                        {{ $t('Environment') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-sm-left">
-                      <div
-                        class="clickable"
-                        @click="queryBy('environment', item.environment)"
-                      >
-                        {{ item.environment }}
                       </div>
                     </div>
                   </div>

@@ -227,7 +227,9 @@
       <span class="label">
         {{ incident.status | capitalize }}
       </span>
-      <span :class="`label severity-${incident.severity.toLowerCase()}`">
+
+      <v-select v-if="updating"> </v-select>
+      <span v-else :class="`label severity-${incident.severity.toLowerCase()}`">
         {{ incident.severity | capitalize }}
       </span>
     </v-card-subtitle>

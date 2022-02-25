@@ -5,6 +5,7 @@ let queryInProgress: CancelTokenSource
 
 export default {
   getAlert: (alertId: string) => api.get(`/alert/${alertId}`),
+  getAlertIncident: (alertId: string) => api.get(`/alert/${alertId}/incident`),
   setStatus: (alertId: string, data: object) =>
     api.put(`/alert/${alertId}/status`, data).then((res) => res.data),
   actionAlert: (alertId: string, data: object) =>
