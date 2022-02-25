@@ -381,7 +381,8 @@ export const en = {
   // Incidents
   Add: 'Add',
   Remove: 'Remove',
-  NoteRequired: 'Note is required'
+  NoteRequired: 'Note is required',
+  Reassign: 'Reassign'
 
   // ENDS.
 }

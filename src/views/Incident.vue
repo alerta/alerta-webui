@@ -82,20 +82,24 @@
         <span>{{ $t('Unshelve') }}</span>
       </v-tooltip>
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn
-            v-on="on"
-            :disabled="isClosed(incident.status)"
-            icon
-            plain
-            @click="takeAction('close')"
-          >
-            <v-icon size="20px">mdi-close-circle-outline</v-icon>
-          </v-btn>
+      <close-incident-confirm :incident="incident" :callback="getIncident">
+        <template v-slot:activator="{ on: dialogAction }">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                @click="dialogAction.click"
+                :disabled="isClosed(incident.status)"
+                icon
+                plain
+              >
+                <v-icon size="20px">mdi-close-circle-outline</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('Close') }}</span>
+          </v-tooltip>
         </template>
-        <span>{{ $t('Close') }}</span>
-      </v-tooltip>
+      </close-incident-confirm>
 
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -170,6 +174,21 @@
         <span v-else>{{ $t('AddNote') }}</span>
       </v-tooltip>
 
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            icon
+            plain
+            @click="reassign"
+            v-has-perms="'admin:alerts'"
+          >
+            <v-icon size="20px">mdi-account-box</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t('Reassign') }}</span>
+      </v-tooltip>
+
       <v-btn @click="updating = !updating" outlined small>
         <template v-if="updating">
           <v-icon size="20px" left>mdi-cancel</v-icon>
@@ -181,6 +200,37 @@
         </template>
       </v-btn>
     </v-toolbar>
+
+    <v-dialog v-model="assignDialog" max-width="500">
+      <v-card>
+        <v-card-title>{{ $t('Reassign') }}</v-card-title>
+        <v-card-subtitle>
+          Currently assigned to: {{ incident.owner.name }}
+        </v-card-subtitle>
+
+        <v-form @submit.prevent="reassign" v-model="formValidity">
+          <v-card-text>
+            <v-autocomplete
+              item-text="name"
+              item-value="id"
+              :items="users"
+              label="User"
+              outlined
+              :loading="$store.state.users.isLoading"
+              v-model="incident.owner_id"
+              :rules="[(v) => !!v || 'User is required']"
+            />
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="primary" type="submit" :disabled="!formValidity">
+              Assign
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card>
+    </v-dialog>
 
     <v-alert
       v-for="note in notes"
@@ -209,10 +259,25 @@
       <pre class="note body-1">{{ note.text }}</pre>
     </v-alert>
 
-    <v-card-title>
-      <span v-if="!updating">
-        {{ incident.title }}
-      </span>
+    <v-card-title class="d-flex items-center justify-space-between">
+      <template v-if="!updating">
+        <span>
+          {{ incident.title }}
+        </span>
+        <div>
+          <span class="subtitle-1 mr-2">{{ incident.owner.name }}</span>
+          <v-avatar size="30">
+            <img
+              v-if="incident.owner.avatar"
+              :src="incident.owner.avatar"
+              @error="error = true"
+            />
+            <v-icon v-else size="28" color="grey lighten-2">
+              mdi-account-circle
+            </v-icon>
+          </v-avatar>
+        </div>
+      </template>
       <v-text-field
         class="mb-2"
         autofocus
@@ -228,20 +293,20 @@
         {{ incident.status | capitalize }}
       </span>
 
-      <v-select v-if="updating"> </v-select>
-      <span v-else :class="`label severity-${incident.severity.toLowerCase()}`">
+      <span :class="`label severity-${incident.severity.toLowerCase()}`">
         {{ incident.severity | capitalize }}
       </span>
     </v-card-subtitle>
 
     <v-card-text>
-      <!-- <v-sheet
-        class="px-4 py-2 mb-2"
-        :color="$vuetify.theme.dark ? 'grey darken-2' : 'grey lighten-3'"
-        rounded
-      >
-        <pre class="note">{{ incident.note }}</pre>
-      </v-sheet> -->
+      <v-select
+        v-if="updating"
+        v-model="incident.severity"
+        :items="severities"
+        dense
+        outlined
+        label="Severity"
+      />
 
       <v-textarea
         v-if="creatingNote"
@@ -319,12 +384,14 @@ import IncidentsApi from '@/services/api/incident.service'
 import { IIncidents } from '@/store/interfaces'
 import pickBy from 'lodash/pickBy'
 import DateTime from '@/components/lib/DateTime.vue'
+import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import Vue from 'vue'
 
 export default Vue.extend({
   components: {
     AlertList,
-    DateTime
+    DateTime,
+    CloseIncidentConfirm
   },
   data: () => ({
     copyIconText: i18n.t('Copy'),
@@ -334,7 +401,24 @@ export default Vue.extend({
     newNote: '',
     notes: [] as IIncidents['notes'],
     updating: false,
-    alertColumns: ['severity', 'status', 'resource', 'service', 'text']
+    assignDialog: false,
+    alertColumns: ['severity', 'status', 'resource', 'service', 'text'],
+    severities: [
+      'security',
+      'critical',
+      'major',
+      'minor',
+      'warning',
+      'informational',
+      'debug',
+      'trace',
+      'indeterminate',
+      'cleared',
+      'normal',
+      'ok',
+      'unknown'
+    ],
+    formValidity: true
   }),
   mounted() {
     this.getIncident()
@@ -364,6 +448,10 @@ export default Vue.extend({
     },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
+    },
+
+    users() {
+      return this.$store.state.users.users
     },
 
     actions() {
@@ -411,6 +499,19 @@ export default Vue.extend({
       return this.$store
         .dispatch('incidents/takeAction', [this.id, action, ...args])
         .then(this.getIncident)
+    },
+    reassign() {
+      if (this.assignDialog) {
+        if (!this.formValidity) return
+        this.handleSave()
+        this.$store.dispatch('notifications/success', 'Reassigned')
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        delete this.incident?.owner_id
+      }
+
+      this.assignDialog = !this.assignDialog
+      if (this.assignDialog) return this.$store.dispatch('users/getUsers')
     },
     ackIncident(id, text) {
       this.$store

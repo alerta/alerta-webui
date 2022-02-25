@@ -255,14 +255,13 @@ const incidents: Module<IIncidents, IStore> = {
       return IncidentsApi.untagIncident(incidentId, tags)
     },
 
-    async addNote({ dispatch }, [incidentId, text]) {
-      return IncidentsApi.addNote(incidentId, text).then(() =>
-        dispatch('getIncidents')
-      )
+    async addNote({}, [incidentId, text]) {
+      return IncidentsApi.addNote(incidentId, text)
     },
     async getNotes({ commit }, incidentId) {
       return IncidentsApi.getNotes(incidentId).then(({ notes }) => {
         commit('SET_NOTES', notes)
+        return notes
       })
     },
     async updateNote({ dispatch }, [incidentId, noteId, note]) {

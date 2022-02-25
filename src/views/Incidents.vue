@@ -148,20 +148,27 @@
                 <span>{{ $t('Unack') }}</span>
               </v-tooltip>
 
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    v-on="on"
-                    :disabled="incident.status == 'closed'"
-                    icon
-                    class="btn--plain px-1 mx-0"
-                    @click="takeAction(incident.id, 'close')"
-                  >
-                    <v-icon size="20px">mdi-close-circle-outline</v-icon>
-                  </v-btn>
+              <close-incident-confirm
+                :incident="incident"
+                :callback="getIncidents"
+              >
+                <template v-slot:activator="{ on: dialogAction }">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="dialogAction.click"
+                        :disabled="incident.status == 'closed'"
+                        icon
+                        class="btn--plain px-1 mx-0"
+                      >
+                        <v-icon size="20px">mdi-close-circle-outline</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>{{ $t('Close') }}</span>
+                  </v-tooltip>
                 </template>
-                <span>{{ $t('Close') }}</span>
-              </v-tooltip>
+              </close-incident-confirm>
             </div>
             <v-card-text>
               <v-sheet
@@ -265,8 +272,8 @@ import { ExportToCsv } from 'export-to-csv'
 import utils from '@/common/utils'
 import Vue from 'vue'
 import debounce from 'lodash/debounce'
-import IncidentsApi from '@/services/api/incident.service'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
+import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 
 export default Vue.extend({
   props: {
@@ -282,7 +289,8 @@ export default Vue.extend({
     }
   },
   components: {
-    IncidentListFilter
+    IncidentListFilter,
+    CloseIncidentConfirm
   },
   data: () => ({
     currentTab: null,
@@ -568,21 +576,25 @@ export default Vue.extend({
           action: 'CLOSE',
           timeout: 5000
         })
-      IncidentsApi.addNote(this.creatingNote, this.newNote).then(() => {
-        this.$store.dispatch('notifications/success', 'Note created')
-        this.newNote = null
-        this.creatingNote = null
-        this.getIncidents()
-      })
+      this.$store
+        .dispatch('incidents/addNote', [this.creatingNote, this.newNote])
+        .then(() => {
+          this.$store.dispatch('notifications/success', 'Note created')
+          this.newNote = null
+          this.creatingNote = null
+          this.getIncidents()
+        })
     },
 
     addIncident() {
-      IncidentsApi.createIncident(this.newIncident).then(() => {
-        this.addIncidentDialog = false
-        this.$store.dispatch('notifications/success', 'Incident created')
-        this.newIncident = {}
-        this.getIncidents()
-      })
+      this.$store
+        .dispatch('incidents/createIncident', this.newIncident)
+        .then(() => {
+          this.addIncidentDialog = false
+          this.$store.dispatch('notifications/success', 'Incident created')
+          this.newIncident = {}
+          this.getIncidents()
+        })
     },
     cancelTimer() {
       if (this.timer) {
