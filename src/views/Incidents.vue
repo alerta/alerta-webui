@@ -460,7 +460,7 @@ export default Vue.extend({
     },
     filter: {
       async handler() {
-        await this.router.push(this.$store.getters['incidents/getHash'])
+        await this.$router.push(this.$store.getters['incidents/getHash'])
         this.currentTab = this.defaultTab
         this.cancelTimer()
         this.refreshIncidents()
@@ -469,7 +469,7 @@ export default Vue.extend({
     },
     pagination: {
       async handler(newVal, oldVal) {
-        await this.router.push(this.$store.getters['incidents/getHash'])
+        await this.$router.push(this.$store.getters['incidents/getHash'])
         if (
           oldVal.page != newVal.page ||
           oldVal.incidentsPerPage != newVal.incidentsPerPage ||
@@ -485,7 +485,7 @@ export default Vue.extend({
       val || (this.getIncidents() && this.getEnvironments())
     },
     async showPanel() {
-      await this.router.push(this.$store.getters['incidents/getHash'])
+      await this.$router.push(this.$store.getters['incidents/getHash'])
     }
   },
   created() {
