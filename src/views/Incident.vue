@@ -339,9 +339,6 @@ export default Vue.extend({
       .then(() => {
         this.$store.dispatch('alerts/setPagination', {
           page: 1,
-          itemsPerPage: 25,
-
-          itemsPerPageOptions: [],
           totalItems: this.incident?.alerts.length
         })
       })

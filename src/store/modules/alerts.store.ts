@@ -4,6 +4,19 @@ import AlertsApi from '@/services/api/alert.service'
 import moment from 'moment'
 import { Module } from 'vuex'
 
+export const DEFAULT_PAGINATION_OPTIONS = Object.freeze({
+  itemsPerPage: 20,
+  page: 1,
+  sortBy: [],
+  sortDesc: [],
+  mustSort: false,
+  groupBy: [],
+  groupDesc: [],
+  multiSort: false,
+  itemsPerPageOptions: [5, 10, 20, 50, 100, 200],
+  totalItems: 0
+})
+
 const state: IAlerts = {
   isLoading: false,
   isSearching: false,
@@ -38,18 +51,7 @@ const state: IAlerts = {
     dateRange: [null, null]
   },
 
-  pagination: {
-    itemsPerPage: 20,
-    page: 1,
-    sortBy: [],
-    sortDesc: [],
-    mustSort: false,
-    groupBy: [],
-    groupDesc: [],
-    multiSort: false,
-    itemsPerPageOptions: [5, 10, 20, 50, 100, 200],
-    totalItems: 0
-  }
+  pagination: Object.assign({}, DEFAULT_PAGINATION_OPTIONS)
 }
 
 const alerts: Module<IAlerts, IStore> = {
