@@ -64,9 +64,18 @@
     </v-dialog>
 
     <v-container :style="severityColors">
-      <header class="mb-3 d-flex">
+      <header class="mb-3 d-flex justify-space-between">
         <v-btn color="primary" @click="addIncidentDialog = true">
           Add Incident
+        </v-btn>
+
+        <v-btn
+          text
+          icon
+          :class="{ 'filter-active': isActive }"
+          @click="sidesheet = !sidesheet"
+        >
+          <v-icon>mdi-filter-variant</v-icon>
         </v-btn>
       </header>
       <v-row>
@@ -246,6 +255,8 @@
         <v-divider />
       </div>
     </v-expand-transition>
+
+    <incident-list-filter :value="sidesheet" @close="sidesheet = false" />
   </div>
 </template>
 
@@ -255,6 +266,7 @@ import utils from '@/common/utils'
 import Vue from 'vue'
 import debounce from 'lodash/debounce'
 import IncidentsApi from '@/services/api/incident.service'
+import IncidentListFilter from '@/components/IncidentListFilter.vue'
 
 export default Vue.extend({
   props: {
@@ -268,6 +280,9 @@ export default Vue.extend({
       required: false,
       default: ''
     }
+  },
+  components: {
+    IncidentListFilter
   },
   data: () => ({
     currentTab: null,

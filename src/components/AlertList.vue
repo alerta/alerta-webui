@@ -415,7 +415,7 @@ export default {
   },
   methods: {
     duration(item) {
-      return moment.duration(moment().diff(moment(item.receiveTime)))
+      return moment.duration(moment().diff(item.receiveTime))
     },
     timeoutLeft(item) {
       const ackedOrShelved =
