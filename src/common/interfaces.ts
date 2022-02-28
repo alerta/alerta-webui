@@ -105,6 +105,7 @@ export interface IFilter {
   group: string[] | null
   dateRange: DateRange
   text: string | null
+  owned: boolean | null
 }
 
 export interface DTO {

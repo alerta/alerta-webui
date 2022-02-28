@@ -69,14 +69,24 @@
           Add Incident
         </v-btn>
 
-        <v-btn
-          text
-          icon
-          :class="{ 'filter-active': isActive }"
-          @click="sidesheet = !sidesheet"
-        >
-          <v-icon>mdi-filter-variant</v-icon>
-        </v-btn>
+        <div class="d-flex align-center gap-2">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <div v-on="on" class="switch-wrapper">
+                <v-switch v-model="myIncidents" hide-details />
+              </div>
+            </template>
+            <span>{{ $t('MyIncidents') }}</span>
+          </v-tooltip>
+          <v-btn
+            text
+            icon
+            :class="{ 'filter-active': isActive }"
+            @click="sidesheet = !sidesheet"
+          >
+            <v-icon>mdi-filter-variant</v-icon>
+          </v-btn>
+        </div>
       </header>
       <v-row>
         <v-col v-for="incident in incidents" :key="incident.id">
@@ -325,6 +335,16 @@ export default Vue.extend({
         this.$config.audio.new || this.$store.getters.getPreference('audioURL')
       )
     },
+    myIncidents: {
+      get() {
+        return this.$store.state.incidents.filter.owned
+      },
+      set(v) {
+        this.$store.dispatch('incidents/setFilter', {
+          owned: v
+        })
+      }
+    },
     ackTimeout() {
       return this.$store.getters.getPreference('ackTimeout')
     },
@@ -368,22 +388,18 @@ export default Vue.extend({
       return this.$config.indicators ? this.$config.indicators.queries : []
     },
     incidents() {
-      if (this.filter) {
-        return this.$store.getters['incidents/incidents'].filter((incident) =>
-          this.filter.text
-            ? Object.keys(incident).some(
-                (k) =>
-                  incident[k] &&
-                  incident[k]
-                    .toString()
-                    .toLowerCase()
-                    .includes(this.filter.text.toLowerCase())
-              )
-            : true
+      if (!this.filter?.text) return this.$store.getters['incidents/incidents']
+
+      return this.$store.getters['incidents/incidents'].filter((incident) =>
+        Object.keys(incident).some(
+          (k) =>
+            incident[k] &&
+            incident[k]
+              .toString()
+              .toLowerCase()
+              .includes(this.filter.text.toLowerCase())
         )
-      } else {
-        return this.$store.getters['incidents/incidents']
-      }
+      )
     },
     isNewOpenIncidents() {
       return this.incidents
@@ -681,10 +697,18 @@ export default Vue.extend({
   gap: 0.25rem;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .actions {
   position: absolute;
   top: 1rem;
   right: 1rem;
+}
+
+.switch-wrapper {
+  width: min-content;
 }
 
 .note {
@@ -693,5 +717,10 @@ export default Vue.extend({
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+}
+
+.v-input--selection-controls {
+  margin: 0;
+  padding: 0;
 }
 </style>

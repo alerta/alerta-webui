@@ -1,7 +1,12 @@
 <template>
   <v-card v-if="incident">
     <v-toolbar dense>
-      <v-btn icon link :to="{ name: 'incidents' }" exact>
+      <v-btn
+        icon
+        link
+        :to="{ name: $route.query['from-alerts'] ? 'alerts' : 'incidents' }"
+        exact
+      >
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
@@ -106,7 +111,7 @@
           <v-btn
             v-on="on"
             icon
-            v-has-perms="'admin:alerts'"
+            v-has-perms="'write:alerts'"
             plain
             @click="deleteIncident(incident.id)"
           >

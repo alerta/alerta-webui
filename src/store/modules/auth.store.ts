@@ -95,6 +95,9 @@ export const makeStore = (vueAuth: VueAuthenticate): Module<IAuth, IStore> => ({
     isLoggedIn(state) {
       return state.isAuthenticated
     },
+    getId(state) {
+      return state.payload?.sub
+    },
     getUsername(state) {
       return state.payload?.preferred_username
     },

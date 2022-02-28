@@ -33,7 +33,7 @@ export const vueAuth = (config: IConfig) => {
         display: 'popup',
         oauthType: '2.0',
         popupOptions: { width: 1020, height: 618 },
-        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
+        state: () => encodeURIComponent(Math.random().toString(36).slice(2))
       },
       cognito: {
         name: 'Amazon Cognito',
@@ -47,7 +47,7 @@ export const vueAuth = (config: IConfig) => {
         display: 'popup',
         oauthType: '2.0',
         popupOptions: { width: 1020, height: 618 },
-        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
+        state: () => encodeURIComponent(Math.random().toString(36).slice(2))
       },
       github: {
         name: 'GitHub',
@@ -69,7 +69,7 @@ export const vueAuth = (config: IConfig) => {
         display: 'popup',
         oauthType: '2.0',
         popupOptions: { width: 1020, height: 618 },
-        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
+        state: () => encodeURIComponent(Math.random().toString(36).slice(2))
       },
       google: {
         name: 'Google',
@@ -89,7 +89,7 @@ export const vueAuth = (config: IConfig) => {
         display: 'popup',
         oauthType: '2.0',
         popupOptions: { width: 1020, height: 618 },
-        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
+        state: () => encodeURIComponent(Math.random().toString(36).slice(2))
       },
       openid: {
         name: 'OpenID',
@@ -103,7 +103,7 @@ export const vueAuth = (config: IConfig) => {
         display: 'popup',
         oauthType: '2.0',
         popupOptions: { width: 1020, height: 618 },
-        state: () => encodeURIComponent(Math.random().toString(36).substr(2))
+        state: () => encodeURIComponent(Math.random().toString(36).slice(2))
       },
       pingfederate: {
         name: 'PingFederate',

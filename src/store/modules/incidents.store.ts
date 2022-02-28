@@ -36,7 +36,8 @@ const state: IIncidents = {
     customer: null,
     service: null,
     group: null,
-    dateRange: [null, null]
+    dateRange: [null, null],
+    owned: null
   },
 
   pagination: {
@@ -146,21 +147,23 @@ const incidents: Module<IIncidents, IStore> = {
       state.filter.environment &&
         params.append('environment', state.filter.environment)
 
-      state.filter.status?.map((st) => params.append('status', st))
-      state.filter.customer?.map((c) => params.append('customer', c))
-      state.filter.service?.map((s) => params.append('service', s))
-      state.filter.group?.map((g) => params.append('group', g))
+      state.filter.status?.forEach((st) => params.append('status', st))
+      state.filter.customer?.forEach((c) => params.append('customer', c))
+      state.filter.service?.forEach((s) => params.append('service', s))
+      state.filter.group?.forEach((g) => params.append('group', g))
+
+      state.filter.owned && params.append('owner', rootGetters['auth/getId'])
 
       // add server-side sorting
       let sortBy = state.pagination.sortBy
       if (sortBy.length === 0) sortBy = ['lastReceiveTime']
 
-      sortBy.length === 1
-        ? params.append(
-            'sort-by',
-            (state.pagination.sortDesc.length ? '-' : '') + sortBy
-          )
-        : sortBy.forEach((sb) => params.append('sort-by', sb))
+      if (sortBy.length === 1) {
+        params.append(
+          'sort-by',
+          (state.pagination.sortDesc.length ? '-' : '') + sortBy
+        )
+      } else sortBy.forEach((sb) => params.append('sort-by', sb))
 
       // need notes from alert history if showing notes icons
       if (rootGetters.getPreference('showNotesIcon')) {

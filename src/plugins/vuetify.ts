@@ -20,8 +20,5 @@ export default new Vuetify({
         accent: '#ffa726'
       }
     }
-  },
-  icons: {
-    iconfont: 'mdi'
   }
 })

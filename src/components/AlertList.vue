@@ -21,6 +21,22 @@
       <template :slot="slot"><slot :name="slot" /></template>
     </template>
 
+    <template v-slot:item.incident="{ item }">
+      <v-btn
+        v-if="item.incident"
+        :to="{
+          name: 'incident',
+          params: { id: item.incident },
+          query: { 'from-alerts': true }
+        }"
+        small
+        text
+        @click.native.stop
+      >
+        <strong>Open</strong>
+      </v-btn>
+    </template>
+
     <template v-slot:item.id="{ item }">
       {{ item.id | shortId }}
     </template>
@@ -265,6 +281,13 @@ export default {
   data: () => ({
     search: '',
     headersMap: {
+      incident: {
+        text: i18n.t('Incident'),
+        value: 'incident',
+        sortable: false,
+        class: 'text-center',
+        cellClass: 'text-center'
+      },
       id: { text: i18n.t('AlertId'), value: 'id' },
       resource: { text: i18n.t('Resource'), value: 'resource' },
       event: { text: i18n.t('Event'), value: 'event' },
@@ -377,7 +400,7 @@ export default {
       return this.$config.actions
     },
     tableHeaders() {
-      return (this.columns ?? this.$config.columns).map(
+      return (this.columns ?? ['incident', ...this.$config.columns]).map(
         (c) =>
           this.headersMap[c] || {
             text: this.$options.filters.capitalize(c),
