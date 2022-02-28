@@ -1,5 +1,6 @@
 import { IConfig } from '@/store/interfaces'
 import axios, { AxiosInstance } from 'axios'
+import { pickBy } from 'lodash'
 
 class Config {
   private config?: IConfig = undefined
@@ -17,7 +18,7 @@ class Config {
     return this.getEnvConfig()
       .then((config) => this.setEnvConfig(config))
       .then(() => this.getLocalConfig())
-      .then((response) => (response ? this.setLocalConfig(response) : {}))
+      .then((config) => this.setLocalConfig(config))
       .then(async () =>
         this.getRemoteConfig(this.config?.endpoint ?? 'http://localhost:8080')
       )
@@ -29,21 +30,28 @@ class Config {
   }
 
   async getEnvConfig() {
-    const envConfig: Partial<IConfig> = {}
-
-    envConfig.endpoint = import.meta.env.VITE_ALERTA_ENDPOINT
-    envConfig.client_id = import.meta.env.VITE_CLIENT_ID
-    envConfig.tracking_id = import.meta.env.VITE_TRACKING_ID
-
-    return envConfig
+    return pickBy(
+      {
+        endpoint: import.meta.env.VITE_ALERTA_ENDPOINT,
+        client_id: import.meta.env.VITE_CLIENT_ID,
+        tracking_id: import.meta.env.VITE_TRACKING_ID
+      },
+      (value) => value
+    ) as Partial<IConfig>
   }
 
   async getLocalConfig() {
     const basePath = import.meta.env.BASE_URL
+
+    const url = new URL('config.json', `http://localhost${basePath}`)
+
     return this.$http
-      .get<IConfig>(`${basePath}config.json`)
+      .get<Partial<IConfig>>(url.pathname)
       .then((response) => response.data)
-      .catch((error) => console.warn(error.message))
+      .catch((error) => {
+        console.warn(error.message)
+        return {} as Partial<IConfig>
+      })
   }
 
   async getRemoteConfig(endpoint: string) {
@@ -63,8 +71,8 @@ class Config {
 
   mergeConfig() {
     return (this.config = {
-      ...this.remoteConfig,
       ...this.localConfig,
+      ...this.remoteConfig,
       ...this.envConfig
     } as IConfig)
   }
@@ -74,7 +82,7 @@ class Config {
     return this.mergeConfig()
   }
 
-  setLocalConfig(data: IConfig) {
+  setLocalConfig(data: Partial<IConfig>) {
     this.localConfig = data
     return this.mergeConfig()
   }

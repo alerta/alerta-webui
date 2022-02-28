@@ -383,7 +383,8 @@ export const en = {
   Remove: 'Remove',
   NoteRequired: 'Note is required',
   Reassign: 'Reassign',
-  MyIncidents: 'My Incidents'
+  MyIncidents: 'My Incidents',
+  Incident: 'Incident'
 
   // ENDS.
 }

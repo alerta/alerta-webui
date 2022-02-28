@@ -48,7 +48,8 @@ const state: IAlerts = {
     service: null,
     group: null,
     severity: null,
-    dateRange: [null, null]
+    dateRange: [null, null],
+    owned: null
   },
 
   pagination: Object.assign({}, DEFAULT_PAGINATION_OPTIONS)
