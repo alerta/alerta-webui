@@ -17,13 +17,13 @@
         class="px-2"
         hide-default-footer
       >
-        <template v-slot:item.environment="{ item }">
+        <template v-slot:[`item.environment`]="{ item }">
           {{ item.environments.join(', ') }}
         </template>
-        <template v-slot:item.service="{ item }">
+        <template v-slot:[`item.service`]="{ item }">
           {{ item.services.join(', ') }}
         </template>
-        <template v-slot:item.resources="{ item }">
+        <template v-slot:[`item.resources`]="{ item }">
           <span v-for="r in item.resources" :key="r.id">
             <router-link :to="`/alert/${r.id}`">
               {{ r.resource }}

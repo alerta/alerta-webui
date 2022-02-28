@@ -160,7 +160,7 @@
         must-sort
         :header-props="{ sortIcon: 'mdi-chevron-down' }"
       >
-        <template v-slot:item.key="{ item }">
+        <template v-slot:[`item.key`]="{ item }">
           <span class="monospace">
             {{ item.key }}
           </span>
@@ -196,13 +196,13 @@
             <span>{{ $t('Expired') }}</span>
           </v-tooltip>
         </template>
-        <template v-slot:item.expireTime="{ item }">
+        <template v-slot:[`item.expireTime`]="{ item }">
           <date-time :value="item.expireTime" format="mediumDate" />
         </template>
-        <template v-slot:item.lastUsedTime="{ item }">
+        <template v-slot:[`item.lastUsedTime`]="{ item }">
           {{ item.lastUsedTime | timeago }}
         </template>
-        <template v-slot:item.scopes="{ item }">
+        <template v-slot:[`item.scopes`]="{ item }">
           <v-chip v-for="scope in item.scopes" :key="scope" small>
             <strong>{{ scope }}</strong>
             &nbsp;
@@ -210,7 +210,7 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.actions="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-btn
             v-has-perms.disable="'write:keys'"
             icon

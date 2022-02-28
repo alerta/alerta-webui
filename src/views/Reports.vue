@@ -4,7 +4,7 @@
       <v-card-title class="title">
         {{ $t('Reports') }}
         <v-spacer />
-        <v-flex xs1>
+        <v-flex md1 sm2>
           <v-select
             v-model.number="itemsPerPage"
             :items="itemsPerPageOptions"

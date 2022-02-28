@@ -718,28 +718,28 @@
                 :options.sync="pagination"
                 :header-props="{ sortIcon: 'mdi-chevron-down' }"
               >
-                <template v-slot:item.updateTime="{ item }">
+                <template v-slot:[`item.updateTime`]="{ item }">
                   <date-time :value="item.updateTime" format="shortTime" />
                 </template>
-                <template v-slot:item.id="{ item }">
+                <template v-slot:[`item.id`]="{ item }">
                   <span class="console-text hidden-sm-and-down">{{
                     item.id | shortId
                   }}</span>
                 </template>
-                <template v-slot:item.severity="{ item }">
+                <template v-slot:[`item.severity`]="{ item }">
                   <span :class="['label', 'label-' + item.severity]">
                     {{ item.severity | capitalize }}
                   </span>
                 </template>
-                <template v-slot:item.label="{ item }">
+                <template v-slot:[`item.label`]="{ item }">
                   <span class="label">
                     {{ item.status | capitalize }}
                   </span>
                 </template>
-                <template v-slot:item.timeout="{ item }">
+                <template v-slot:[`item.timeout`]="{ item }">
                   {{ item.timeout | hhmmss }}
                 </template>
-                <template v-slot:item.type="{ item }">
+                <template v-slot:[`item.type`]="{ item }">
                   <span class="label">
                     {{ item.type || 'unknown' | splitCaps }}
                   </span>

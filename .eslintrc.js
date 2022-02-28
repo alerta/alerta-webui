@@ -3,6 +3,6 @@ module.exports = {
   rules: {
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/no-empty-function': 'off',
-    'vue/valid-v-slot': 'off'
+    '@typescript-eslint/ban-ts-comment': 'off'
   }
 }

@@ -21,7 +21,7 @@
       <template :slot="slot"><slot :name="slot" /></template>
     </template>
 
-    <template v-slot:item.incident="{ item }">
+    <template v-slot:[`item.incident`]="{ item }">
       <v-btn
         v-if="item.incident"
         :to="{
@@ -37,18 +37,18 @@
       </v-btn>
     </template>
 
-    <template v-slot:item.id="{ item }">
+    <template v-slot:[`item.id`]="{ item }">
       {{ item.id | shortId }}
     </template>
-    <template v-slot:item.severity="{ item }">
+    <template v-slot:[`item.severity`]="{ item }">
       <span :class="['label', `label-${item.severity.toLowerCase()}`]">
         {{ item.severity | capitalize }}
       </span>
     </template>
-    <template v-slot:item.correlate="{ item }">
+    <template v-slot:[`item.correlate`]="{ item }">
       {{ item.correlate.join(', ') }}
     </template>
-    <template v-slot:item.status="{ item }">
+    <template v-slot:[`item.status`]="{ item }">
       <span class="label">
         {{ item.status | capitalize }}
       </span>
@@ -63,78 +63,78 @@
         </span>
       </span>
     </template>
-    <template v-slot:item.tags="{ item }">
+    <template v-slot:[`item.tags`]="{ item }">
       <span v-for="tag in item.tags" :key="tag">
         <span class="label">{{ tag }}</span>
         &nbsp;
       </span>
     </template>
-    <template v-slot:item.service="{ item }">
+    <template v-slot:[`item.service`]="{ item }">
       {{ item.service.join(', ') }}
     </template>
-    <template v-slot:item.type="{ item }">
+    <template v-slot:[`item.type`]="{ item }">
       <span class="label">
         {{ item.type | splitCaps }}
       </span>
     </template>
-    <template v-slot:item.resource="{ item }">
+    <template v-slot:[`item.resource`]="{ item }">
       <span class="text-truncate">
         {{ item.resource }}
       </span>
     </template>
-    <template v-slot:item.value="{ item }">
+    <template v-slot:[`item.value`]="{ item }">
       <div class="text-truncate">
         <span v-html="item.value" />
       </div>
     </template>
-    <template v-slot:item.text="{ item }">
+    <template v-slot:[`item.text`]="{ item }">
       {{ item.text }}
     </template>
-    <template v-slot:item.duration="{ item }">
+    <template v-slot:[`item.duration`]="{ item }">
       <span class="text-sm-right">
         {{ duration(item) | hhmmss }}
       </span>
     </template>
-    <template v-slot:item.label="{ item }">
+    <template v-slot:[`item.label`]="{ item }">
       <span class="label">
         {{ item.repeat | capitalize }}
       </span>
     </template>
-    <template v-slot:item.receiveTime="{ item }">
+    <template v-slot:[`item.receiveTime`]="{ item }">
       <date-time :value="item.receiveTime" format="mediumDate" />
     </template>
-    <template v-slot:item.lastReceiveTime="{ item }">
+    <template v-slot:[`item.lastReceiveTime`]="{ item }">
       <date-time :value="item.lastReceiveTime" format="mediumDate" />
     </template>
-    <template v-slot:item.createTime="{ item }">
+    <template v-slot:[`item.createTime`]="{ item }">
       <date-time :value="item.createTime" format="mediumDate" />
     </template>
-    <template v-slot:item.timeout="{ item }">
+    <template v-slot:[`item.timeout`]="{ item }">
       {{ item.timeout | hhmmss }}
     </template>
-    <template v-slot:item.timeoutLeft="{ item }">
+    <template v-slot:[`item.timeoutLeft`]="{ item }">
       <span class="text-sm-right">
         {{ timeoutLeft(item) | hhmmss }}
       </span>
     </template>
-    <template v-slot:item.repeat="{ item }">
+    <template v-slot:[`item.repeat`]="{ item }">
       <span class="label">
         {{ item.repeat | capitalize }}
       </span>
     </template>
-    <template v-slot:item.previousSeverity="{ item }">
+    <template v-slot:[`item.previousSeverity`]="{ item }">
       <span :class="['label', `label-${item.previousSeverity.toLowerCase()}`]">
         {{ item.previousSeverity | capitalize }}
       </span>
     </template>
-    <template v-slot:item.lastReceiveId="{ item }">
+    <template v-slot:[`item.lastReceiveId`]="{ item }">
       {{ item.lastReceiveId | shortId }}
     </template>
-    <template v-slot:item.note="{ item }">
+    <template v-slot:[`item.note`]="{ item }">
       {{ lastNote(item) }}
     </template>
 
-    <template v-slot:item.actions="{ item }">
+    <template v-slot:[`item.actions`]="{ item }">
       <div class="row-actions">
         <v-btn
           v-if="isAcked(item.status) || isClosed(item.status)"

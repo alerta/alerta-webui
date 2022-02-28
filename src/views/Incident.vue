@@ -350,7 +350,7 @@
     </v-card-actions>
 
     <alert-list :alerts="alerts" :columns="alertColumns" @set-alert="openAlert">
-      <template v-slot:footer.prepend>
+      <template v-slot:[`footer.prepend`]>
         <v-flex class="pr-4 py-3 align-center">
           <v-tooltip right>
             <template v-slot:activator="{ on }">
@@ -384,12 +384,11 @@
 <script lang="ts">
 import { IAlert, IIncident } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
-import i18n from '@/plugins/i18n'
-import IncidentsApi from '@/services/api/incident.service'
-import { IIncidents } from '@/store/interfaces'
-import pickBy from 'lodash/pickBy'
-import DateTime from '@/components/lib/DateTime.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
+import DateTime from '@/components/lib/DateTime.vue'
+import i18n from '@/plugins/i18n'
+import { IIncidents } from '@/store/interfaces'
+import { cloneDeep, omit, pickBy } from 'lodash'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -401,7 +400,7 @@ export default Vue.extend({
   data: () => ({
     copyIconText: i18n.t('Copy'),
     creatingNote: false,
-    incident: undefined as IIncidents['incident'] | undefined,
+    incident: undefined as any,
     alerts: [] as IAlert[],
     newNote: '',
     notes: [] as IIncidents['notes'],
@@ -430,13 +429,13 @@ export default Vue.extend({
       .then(() => {
         this.$store.dispatch('alerts/setPagination', {
           page: 1,
-          totalItems: this.incident?.alerts.length
+          totalItems: this.alerts.length
         })
       })
       .then(() => {
-        IncidentsApi.getNotes(this.id).then(({ notes }) => {
-          this.notes = notes
-        })
+        this.$store
+          .dispatch('incidents/getNotes', this.incident?.id)
+          .then((notes) => (this.notes = notes))
       })
   },
   computed: {
@@ -460,6 +459,7 @@ export default Vue.extend({
     },
 
     actions() {
+      // @ts-ignore
       return this.$config.actions
     },
     ackTimeout() {
@@ -483,9 +483,11 @@ export default Vue.extend({
   },
   methods: {
     getIncident() {
-      return IncidentsApi.getIncident(this.id).then(({ incident }: any) => {
-        this.incident = incident
-        this.alerts = incident.alerts
+      return this.$store.dispatch('incidents/getIncident', this.id).then(() => {
+        this.incident = omit(cloneDeep(this.$store.state.incidents.incident), [
+          'alerts'
+        ])
+        this.alerts = cloneDeep(this.$store.state.incidents.incident.alerts)
       })
     },
     isOpen(status: string) {
@@ -510,15 +512,12 @@ export default Vue.extend({
         if (!this.formValidity) return
         this.handleSave()
         this.$store.dispatch('notifications/success', 'Reassigned')
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        delete this.incident?.owner_id
       }
 
       this.assignDialog = !this.assignDialog
       if (this.assignDialog) return this.$store.dispatch('users/getUsers')
     },
-    ackIncident(id, text) {
+    ackIncident(id: string, text: string) {
       this.$store
         .dispatch('incidents/takeAction', [id, 'ack', text, this.ackTimeout])
         .then(() => this.getIncident())
@@ -550,22 +549,16 @@ export default Vue.extend({
       if (!this.incident) return
 
       const incident: Partial<IIncident> = this.incident
-      delete incident.alerts
-      delete incident.owner
 
-      IncidentsApi.updateIncident(
-        this.incident.id,
-        pickBy(incident, (v) => v !== undefined)
-      ).then(({ incident }: any) => {
-        this.updating = false
-        delete incident.alerts
-        delete incident.note
-
-        this.incident = {
-          ...this.incident,
+      this.$store
+        .dispatch('incidents/updateIncident', {
+          id: this.incident.id,
           ...pickBy(incident, (v) => v !== undefined)
-        } as any
-      })
+        })
+        .then(({ incident }) => {
+          this.updating = false
+          this.incident = incident
+        })
     },
     bulkRemove() {
       if (!this.incident || !this.selected.length) return
@@ -576,9 +569,11 @@ export default Vue.extend({
         if (removed.includes(alert.id)) this.alerts.splice(index, 1)
       })
 
-      IncidentsApi.updateIncident(this.id, {
-        alerts: this.alerts.map((alert: IAlert) => alert.id)
-      })
+      this.$store
+        .dispatch('incidents/updateIncident', {
+          id: this.incident.id,
+          alerts: this.alerts.map((alert: IAlert) => alert.id)
+        })
         .then(() => {
           this.selected = []
           this.$store.dispatch(
@@ -586,9 +581,7 @@ export default Vue.extend({
             `Removed ${removed.length} alert${removed.length > 1 ? 's' : ''}`
           )
         })
-        .catch(() => {
-          this.alerts.push(...this.selected)
-        })
+        .catch(() => this.alerts.push(...this.selected))
     },
     addNote() {
       if (!this.newNote)
@@ -598,12 +591,14 @@ export default Vue.extend({
           action: 'CLOSE',
           timeout: 5000
         })
-      IncidentsApi.addNote(this.id, this.newNote).then(() => {
-        this.$store.dispatch('notifications/success', 'Note created')
-        this.newNote = ''
-        this.creatingNote = false
-        this.getIncident()
-      })
+      this.$store
+        .dispatch('incidents/addNote', [this.id, this.newNote])
+        .then(() => {
+          this.$store.dispatch('notifications/success', 'Note created')
+          this.newNote = ''
+          this.creatingNote = false
+          this.getIncident()
+        })
     },
     clipboardCopy(text: string) {
       if (!window.isSecureContext || !navigator.clipboard) return

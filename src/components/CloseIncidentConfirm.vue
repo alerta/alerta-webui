@@ -62,7 +62,7 @@ export default Vue.extend({
     handleOpen(open: () => void) {
       this.$store
         .dispatch('incidents/getNotes', this.incident.id)
-        .then((notes: any[]) => {
+        .then((notes: { createTime: string }[]) => {
           if (
             notes.length > 0 &&
             moment().diff(notes[notes.length - 1].createTime, 'minutes') <

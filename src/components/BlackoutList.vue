@@ -587,13 +587,16 @@ export default {
         'tags',
         'origin'
       ]
-      return Object.entries(blackout)
-        .filter(
-          ([, v]) =>
-            (!Array.isArray(v) && !!v) || (Array.isArray(v) && v.length)
-        )
-        .filter((b) => alertAttr.includes(b[0]))
-        .reduce((a, [k, _]) => a.concat(k), [])
+      return (
+        Object.entries(blackout)
+          .filter(
+            ([, v]) =>
+              (!Array.isArray(v) && !!v) || (Array.isArray(v) && v.length)
+          )
+          .filter((b) => alertAttr.includes(b[0]))
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          .reduce((a, [k, _]) => a.concat(k), [])
+      )
     },
     onlyEnvironment(blackout) {
       return (

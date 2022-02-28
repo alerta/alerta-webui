@@ -5,15 +5,15 @@
     class="px-2"
     hide-default-footer
   >
-    <template v-slot:item.version>
+    <template v-slot:[`item.version`]>
       <span>{{ version }}</span>
     </template>
 
-    <template v-slot:item.date="{ item }">
+    <template v-slot:[`item.date`]="{ item }">
       <date-time v-if="item.date" :value="item.date" format="mediumDate" />
     </template>
 
-    <template v-slot:item.revision="{ item }">
+    <template v-slot:[`item.revision`]="{ item }">
       <span class="d-sm-none">{{ item.revision }}</span>
       <span class="d-none-xs d-inline-md">
         {{ item.revision.substring(0, 7) }}
@@ -31,7 +31,7 @@
       </a>
     </template>
 
-    <template v-slot:item.endpoint>
+    <template v-slot:[`item.endpoint`]>
       <a :href="$config.endpoint" target="_blank" class="monospace">
         {{ $config.endpoint }}
       </a>

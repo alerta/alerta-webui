@@ -6,17 +6,17 @@
       class="px-2"
       hide-default-footer
     >
-      <template v-slot:item.type="{ item }">
+      <template v-slot:[`item.type`]="{ item }">
         {{ item.type | capitalize }}
       </template>
-      <template v-slot:item.value="{ item }">
+      <template v-slot:[`item.value`]="{ item }">
         {{ item.value || item.count }}
       </template>
 
-      <template v-slot:item.name="{ item }">
+      <template v-slot:[`item.name`]="{ item }">
         {{ item.group }}.{{ item.name }}
       </template>
-      <template v-slot:item.time="{ item }">
+      <template v-slot:[`item.time`]="{ item }">
         {{ avgTime(item) }}
       </template>
     </v-data-table>

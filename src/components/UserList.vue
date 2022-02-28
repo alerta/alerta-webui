@@ -214,10 +214,10 @@
         must-sort
         :header-props="{ sortIcon: 'mdi-chevron-down' }"
       >
-        <template v-slot:item.createTime="{ item }">
+        <template v-slot:[`item.createTime`]="{ item }">
           <date-time :value="item.createTime" format="mediumDate" />
         </template>
-        <template v-slot:item.lastLogin="{ item }">
+        <template v-slot:[`item.lastLogin`]="{ item }">
           <date-time
             v-if="item.lastLogin"
             :value="item.lastLogin"
@@ -225,7 +225,7 @@
           />
         </template>
 
-        <template v-slot:item.roles="{ item }">
+        <template v-slot:[`item.roles`]="{ item }">
           <v-chip v-for="role in item.roles" :key="role">
             <strong>{{ role }}</strong>
             &nbsp;
@@ -233,7 +233,7 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.status="{ item }">
+        <template v-slot:[`item.status`]="{ item }">
           <div class="text-sm-center">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
@@ -254,7 +254,7 @@
           </div>
         </template>
 
-        <template v-slot:item.email_verified="{ item }">
+        <template v-slot:[`item.email_verified`]="{ item }">
           <div class="text-sm-center">
             <v-tooltip top>
               <template v-slot:activator="{ on }">
@@ -277,7 +277,7 @@
           </div>
         </template>
 
-        <template v-slot:item.actions="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-btn
             v-has-perms.disable="'admin:users'"
             icon
