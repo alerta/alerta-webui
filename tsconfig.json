@@ -13,7 +13,7 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "allowJs": true,
-    "types": ["webpack-env", "jest", "vite/client"],
+    "types": ["webpack-env", "@types/jest", "vite/client"],
     "isolatedModules": true,
     "paths": {
       "@/*": ["src/*"]

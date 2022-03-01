@@ -1,12 +1,9 @@
-name: release
+name: Release
 
 on:
   push:
     tags:
-    - 'v*'
-
-env:
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - "*.*.*"
 
 jobs:
   test:
@@ -15,21 +12,16 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
-      - run: npm version
-      - run: npm install
+          node-version: 16
+
+      - run: yarn
       - name: Lint
         id: lint
-        run: npm run lint:nofix
+        run: yarn lint:nofix
+
       - name: Unit Test
         id: unit-test
-        run: npm run test:unit
-
-      - uses: act10ns/slack@v1
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-        if: failure()
+        run: yarn test:unit
 
   release:
     needs: test
@@ -38,48 +30,20 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
-      - run: npm version
-      - run: npm install
+          node-version: 16
+
+      - run: yarn install
       - name: Build artifacts
         id: build
         run: |
-          npm run build
+          yarn build
           zip alerta-webui.zip -r dist/*
           tar cvfz alerta-webui.tar.gz dist/*
+
       - name: Create Release
-        id: create-release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          artifacts: "alerta-webui.{zip,tar.gz}"
+          token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
-      - name: Upload Zip File
-        id: upload-zip-file
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }} 
-          asset_path: ./alerta-webui.zip
-          asset_name: alerta-webui.zip
-          asset_content_type: application/zip
-      - name: Upload Compressed TAR File
-        id: upload-tarball
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }} 
-          asset_path: ./alerta-webui.tar.gz
-          asset_name: alerta-webui.tar.gz
-          asset_content_type: application/gzip
-
-      - uses: act10ns/slack@v1
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-        # if: failure()

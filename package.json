@@ -9,7 +9,10 @@
     "serve": "vite preview",
     "format": "prettier --write '**/*.{ts,vue,js}'",
     "format-check": "prettier --check '**/*.{ts,vue,js}'",
-    "lint": "eslint --ext .ts,.vue --fix src"
+    "lint": "eslint --ext .ts,.vue --fix src",
+    "lint:nofix": "eslint --no-fix --ext .ts,.vue src",
+    "test:e2e": "echo \"Error: no e2e tests specified\" && exit 0",
+    "test:unit": "echo \"Error: no unit tests specified\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -49,11 +52,14 @@
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",
     "@vue/test-utils": "^1.2.2",
+    "@vue/vue2-jest": "^27.0.0-alpha.4",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.0.0",
     "eslint-plugin-jest": "^26.0.0",
     "eslint-plugin-vue": "^8.4.0",
     "jest": "^27.4.7",
+    "jest-serializer-vue": "^2.0.2",
+    "jest-transform-stub": "^2.0.0",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
     "sass": "^1.49.7",
