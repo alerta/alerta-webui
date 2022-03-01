@@ -46,7 +46,7 @@
           v-model="incident.tags"
         />
 
-        <span>{{ incident }}</span>
+        <span v-if="isDev">{{ incident }}</span>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -110,6 +110,9 @@ export default Vue.extend({
   computed: {
     isCreating() {
       return this.incident?.id === undefined
+    },
+    isDev() {
+      return import.meta.env.DEV
     }
   },
   watch: {

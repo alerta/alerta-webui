@@ -480,8 +480,8 @@ export default {
       this.editedItem = Object.assign({}, item)
       this.getUserGroups(item.id)
       this.editedGroups = null
-      this.$refs.form.resetValidation()
       this.dialog = true
+      if (this.$refs.form) this.$refs.form.resetValidation()
     },
     deleteItem(item) {
       confirm(i18n.t('ConfirmDelete')) &&
