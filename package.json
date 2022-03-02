@@ -5,7 +5,7 @@
   "description": "Alerta web UI",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && rimraf dist/config.json.example",
     "serve": "vite preview",
     "format": "prettier --write '**/*.{ts,vue,js}'",
     "format-check": "prettier --check '**/*.{ts,vue,js}'",

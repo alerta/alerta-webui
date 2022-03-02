@@ -268,7 +268,7 @@
                   <v-icon>mdi-group</v-icon>
                 </v-btn>
               </template>
-              <span>{{ $t('Group') }}</span>
+              <span>{{ $t('AddToIncident') }}</span>
             </v-tooltip>
           </template>
         </grouping>

@@ -8,8 +8,12 @@
     </template>
 
     <v-card>
-      <v-card-title>Group Alerts</v-card-title>
-      <v-card-subtitle>Selected {{ selected.length }} alerts</v-card-subtitle>
+      <v-card-title>Add alerts to incident</v-card-title>
+      <v-card-subtitle
+        >Selected {{ selected.length }} alert{{
+          selected.length == 1 ? '' : 's'
+        }}</v-card-subtitle
+      >
 
       <v-card-text>
         <v-combobox
@@ -21,6 +25,7 @@
           item-text="title"
           item-value="id"
           @input="onInput"
+          ref="combobox"
         >
           <template v-slot:no-data>
             <v-list-item @click="createItem(search)">
@@ -108,10 +113,16 @@ export default Vue.extend({
   }),
   mounted() {
     this.$store
-      .dispatch('incidents/getIncidents', false)
-      .then(
-        () => (this.incidents = this.$store.state.incidents.incidents ?? [])
-      )
+      .dispatch('incidents/setFilter', {
+        status: ['open', 'ack', 'shelved']
+      })
+      .then(() => {
+        this.$store
+          .dispatch('incidents/getIncidents')
+          .then(
+            () => (this.incidents = this.$store.state.incidents.incidents ?? [])
+          )
+      })
   },
   computed: {
     isCreating() {
@@ -134,6 +145,9 @@ export default Vue.extend({
       this.incident = event
     },
     createItem(item: string) {
+      // @ts-ignore
+      this.$refs.combobox?.blur()
+
       this.incident = { id: undefined, title: item }
       this.created.push(this.incident)
 

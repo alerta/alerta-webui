@@ -384,7 +384,8 @@ export const en = {
   NoteRequired: 'Note is required',
   Reassign: 'Reassign',
   MyIncidents: 'My Incidents',
-  Incident: 'Incident'
+  Incident: 'Incident',
+  AddToIncident: 'Add to Incident'
 
   // ENDS.
 }

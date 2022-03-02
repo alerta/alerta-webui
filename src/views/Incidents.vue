@@ -329,6 +329,9 @@ export default Vue.extend({
       'unknown'
     ]
   }),
+  mounted() {
+    this.$store.dispatch('incidents/setFilter', { status: ['open', 'ack'] })
+  },
   computed: {
     audioURL() {
       return (

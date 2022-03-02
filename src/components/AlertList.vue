@@ -22,19 +22,26 @@
     </template>
 
     <template v-slot:[`item.incident`]="{ item }">
-      <v-btn
-        v-if="item.incident"
-        :to="{
-          name: 'incident',
-          params: { id: item.incident },
-          query: { 'from-alerts': true }
-        }"
-        small
-        text
-        @click.native.stop
-      >
-        <strong>Open</strong>
-      </v-btn>
+      <div class="d-flex justify-center">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-if="item.incident"
+              v-on="on"
+              :to="{
+                name: 'incident',
+                params: { id: item.incident },
+                query: { 'from-alerts': true }
+              }"
+              icon
+              @click.native.stop
+            >
+              <v-icon small>mdi-group</v-icon>
+            </v-btn>
+          </template>
+          <span>Open Incident</span>
+        </v-tooltip>
+      </div>
     </template>
 
     <template v-slot:[`item.id`]="{ item }">
