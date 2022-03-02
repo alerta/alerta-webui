@@ -31,7 +31,8 @@ export default {
   },
   methods: {
     handleClick() {
-      this.snackbar.callback?.() && this.close()
+      this.snackbar.callback?.()
+      this.close()
     },
     close() {
       this.show = false
