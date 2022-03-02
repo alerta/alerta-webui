@@ -203,6 +203,7 @@ export interface Snackbar {
   text: string
   action: string
   timeout: number
+  callback?: () => void
 }
 
 export interface Banner {

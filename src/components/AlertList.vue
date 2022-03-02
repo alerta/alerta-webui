@@ -78,8 +78,13 @@
       </span>
     </template>
     <template v-slot:[`item.resource`]="{ item }">
-      <span class="text-truncate">
+      <span class="text-truncate" @contextmenu="clipboardCopy(item.resource)">
         {{ item.resource }}
+      </span>
+    </template>
+    <template v-slot:[`item.event`]="{ item }">
+      <span class="text-truncate" @contextmenu="clipboardCopy(item.event)">
+        {{ item.event }}
       </span>
     </template>
     <template v-slot:[`item.value`]="{ item }">
@@ -544,6 +549,7 @@ export default {
     clipboardCopy(text) {
       if (!window.isSecureContext || !navigator.clipboard) return
       navigator.clipboard.writeText(text)
+      this.$store.dispatch('notifications/success', 'Copied to clipboard')
     }
   }
 }

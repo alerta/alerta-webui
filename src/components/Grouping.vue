@@ -34,6 +34,9 @@
           :items="severities"
           label="Severity"
           v-model="incident.severity"
+          hint="Will use highest severity of alerts if not set"
+          persistent-hint
+          :disabled="!incident.title"
         />
         <v-combobox
           v-if="isCreating"
@@ -44,12 +47,15 @@
           small-chips
           label="Tags"
           v-model="incident.tags"
+          :disabled="!incident.title"
         />
 
-        <span v-if="isDev">{{ incident }}</span>
+        <pre v-if="isDev" class="caption">{{
+          JSON.stringify(incident, null, 2)
+        }}</pre>
       </v-card-text>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -85,24 +91,24 @@ export default Vue.extend({
     incident: {} as Partial<IIncident>,
     incidents: [],
     severities: [
-      'warning',
+      'security',
       'critical',
-      'debug',
-      'cleared',
-      'indeterminate',
-      'informational',
       'major',
       'minor',
+      'warning',
+      'informational',
+      'debug',
+      'trace',
+      'indeterminate',
+      'cleared',
       'normal',
       'ok',
-      'security',
-      'trace',
       'unknown'
     ]
   }),
   mounted() {
     this.$store
-      .dispatch('incidents/getIncidents')
+      .dispatch('incidents/getIncidents', false)
       .then(
         () => (this.incidents = this.$store.state.incidents.incidents ?? [])
       )
@@ -117,11 +123,9 @@ export default Vue.extend({
   },
   watch: {
     dialog() {
-      if (!this.dialog) {
-        this.search = ''
-        this.incident = {}
-        return
-      }
+      if (this.dialog) return
+      this.search = ''
+      this.incident = {}
     }
   },
   methods: {
@@ -138,6 +142,7 @@ export default Vue.extend({
     submit() {
       if (!this.incident) return
       this.dialog = false
+      const creating = this.isCreating
 
       const incident: Partial<IIncident> = this.isCreating
         ? this.incident
@@ -156,17 +161,24 @@ export default Vue.extend({
 
       this.$store
         .dispatch(
-          this.isCreating
-            ? 'incidents/createIncident'
-            : 'incidents/updateIncident',
+          creating ? 'incidents/createIncident' : 'incidents/updateIncident',
           incident
         )
-        .then((res) =>
-          this.$router.push({
-            name: 'incident',
-            params: { id: res.incident.id }
+        .then((res) => {
+          this.$store.dispatch('notifications/custom', {
+            type: 'success',
+            text: `${creating ? 'Created' : 'Updated'} incident ${
+              res.incident.title
+            }`,
+            action: 'Open',
+            timeout: 4000,
+            callback: () =>
+              this.$router.push({
+                name: 'incident',
+                params: { id: res.incident.id }
+              })
           })
-        )
+        })
     }
   }
 })

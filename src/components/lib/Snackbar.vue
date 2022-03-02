@@ -3,7 +3,7 @@
     {{ snackbar.text | capitalize }}
 
     <template v-slot:action="{ attrs }">
-      <v-btn text v-bind="attrs" @click="close">
+      <v-btn outlined v-bind="attrs" @click="handleClick">
         {{ snackbar.action }}
       </v-btn>
     </template>
@@ -30,6 +30,9 @@ export default {
     }
   },
   methods: {
+    handleClick() {
+      this.snackbar.callback?.() && this.close()
+    },
     close() {
       this.show = false
       this.$store.dispatch('notifications/closeSnackbar')

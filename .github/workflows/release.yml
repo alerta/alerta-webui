@@ -35,10 +35,7 @@ jobs:
       - run: yarn install
       - name: Build artifacts
         id: build
-        run: |
-          yarn build
-          zip alerta-webui.zip -r dist/*
-          tar cvfz alerta-webui.tar.gz dist/*
+        run: yarn package
 
       - name: Create Release
         uses: ncipollo/release-action@v1

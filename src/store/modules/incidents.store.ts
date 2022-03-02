@@ -138,21 +138,21 @@ const incidents: Module<IIncidents, IStore> = {
       (state.showPanel = panel)
   },
   actions: {
-    async getIncidents({ rootGetters, commit, state }) {
+    async getIncidents({ rootGetters, commit, state }, filter = true) {
       commit('SET_LOADING')
       // get "lucene" query params (?q=)
       const params = new URLSearchParams(state.query)
 
-      // append filter params to query params
-      state.filter.environment &&
-        params.append('environment', state.filter.environment)
-
-      state.filter.status?.forEach((st) => params.append('status', st))
-      state.filter.customer?.forEach((c) => params.append('customer', c))
-      state.filter.service?.forEach((s) => params.append('service', s))
-      state.filter.group?.forEach((g) => params.append('group', g))
-
-      state.filter.owned && params.append('owner', rootGetters['auth/getId'])
+      if (filter) {
+        // append filter params to query params
+        state.filter.environment &&
+          params.append('environment', state.filter.environment)
+        state.filter.status?.forEach((st) => params.append('status', st))
+        state.filter.customer?.forEach((c) => params.append('customer', c))
+        state.filter.service?.forEach((s) => params.append('service', s))
+        state.filter.group?.forEach((g) => params.append('group', g))
+        state.filter.owned && params.append('owner', rootGetters['auth/getId'])
+      }
 
       // add server-side sorting
       let sortBy = state.pagination.sortBy
