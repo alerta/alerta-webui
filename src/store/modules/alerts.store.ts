@@ -35,7 +35,7 @@ const state: IAlerts = {
   isWatch: false,
   isKiosk: false,
   showPanel: false,
-  displayDensity: 'comfortable', // 'comfortable' or 'compact'
+  displayDensity: 'comfortable',
 
   // query, filter and pagination
   query: new URLSearchParams(), // URLSearchParams
@@ -61,9 +61,9 @@ const alerts: Module<IAlerts, IStore> = {
   getters: {
     alerts: (state, _getters, rootState) => {
       if (!state.isWatch) return state.alerts
-      const username = rootState.auth.payload.preferred_username
-      const tag = `watch:${username}`
-      return state.alerts.filter((a) => a.tags.includes(tag))
+      return state.alerts.filter((a) =>
+        a.tags.includes(`watch:${rootState.auth.payload.preferred_username}`)
+      )
     },
     environments:
       (state, _getters, rootState) =>
@@ -151,22 +151,17 @@ const alerts: Module<IAlerts, IStore> = {
       state.filter.group?.map((g) => params.append('group', g))
 
       // add server-side sorting
-      let sortBy = state.pagination.sortBy
-      if (sortBy.length === 0) sortBy = [rootGetters.getConfig('sort_by')]
+      const sortBy = state.pagination.sortBy
+        ? state.pagination.sortBy.map((s, i) =>
+            state.pagination.sortDesc[i] ? `-${s}` : s
+          )
+        : [rootGetters.getConfig('sort_by')]
 
-      if (sortBy.length === 1) {
-        params.append(
-          'sort-by',
-          (state.pagination.sortDesc.length ? '-' : '') + sortBy
-        )
-      } else {
-        sortBy.forEach((sb) => params.append('sort-by', sb))
-      }
+      sortBy.forEach((sb) => params.append('sort-by', sb))
 
       // need notes from alert history if showing notes icons
-      if (rootGetters.getPreference('showNotesIcon')) {
+      if (rootGetters.getPreference('showNotesIcon'))
         params.append('show-history', 'true')
-      }
 
       // add server-side paging
       params.append('page', String(state.pagination.page))

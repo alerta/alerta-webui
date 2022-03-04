@@ -383,13 +383,14 @@ export default {
     },
     refreshAlerts() {
       this.getEnvironments()
-      this.getAlerts().then(() => {
-        this.isNewOpenAlerts && this.playSound()
-        this.timer = setTimeout(
-          () => this.refreshAlerts(),
-          this.refreshInterval
-        )
-      })
+      this.getAlerts()
+        .then(() => this.isNewOpenAlerts && this.playSound())
+        .finally(() => {
+          this.timer = setTimeout(
+            () => this.refreshAlerts(),
+            this.refreshInterval
+          )
+        })
     },
     cancelTimer() {
       if (this.timer) {

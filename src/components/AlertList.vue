@@ -443,9 +443,7 @@ export default {
   },
   watch: {
     itemsPerPage(val) {
-      this.pagination = Object.assign({}, this.pagination, {
-        itemsPerPage: val
-      })
+      this.pagination = { itemsPerPage: val }
     }
   },
   methods: {

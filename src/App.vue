@@ -591,9 +591,7 @@ export default {
     },
     query: {
       get() {
-        return this.$store.state.alerts.query
-          ? this.$store.state.alerts.query.q
-          : null
+        return this.$store.state.alerts.query?.q || null
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       set(value) {

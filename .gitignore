@@ -23,3 +23,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+# packaged app
+alerta-webui.tar.gz
+alerta-webui.zip

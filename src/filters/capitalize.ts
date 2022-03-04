@@ -4,6 +4,9 @@ import Vue from 'vue'
 
 export default Vue.filter('capitalize', (value) => {
   if (value == null) return ''
-  value = value.toString()
-  return value.charAt(0).toUpperCase() + value.slice(1)
+
+  const words: string[] = value.toString().split(' ')
+  return words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
 })

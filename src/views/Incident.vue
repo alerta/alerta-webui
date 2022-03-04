@@ -298,7 +298,7 @@
         {{ incident.status | capitalize }}
       </span>
 
-      <span :class="`label severity-${incident.severity.toLowerCase()}`">
+      <span :class="`label label-${incident.severity.toLowerCase()}`">
         {{ incident.severity | capitalize }}
       </span>
     </v-card-subtitle>
@@ -406,7 +406,15 @@ export default Vue.extend({
     notes: [] as IIncidents['notes'],
     updating: false,
     assignDialog: false,
-    alertColumns: ['severity', 'status', 'resource', 'service', 'text'],
+    alertColumns: [
+      'severity',
+      'status',
+      'service',
+      'resource',
+      'event',
+      'text',
+      'value'
+    ],
     severities: [
       'security',
       'critical',

@@ -669,7 +669,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-sm-left">
                       <div class="grey--text">
-                        {{ attr | splitCaps }}
+                        {{ attr | capitalize }}
                       </div>
                     </div>
                     <div class="flex xs6 text-sm-left">

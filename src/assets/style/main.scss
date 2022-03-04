@@ -1,10 +1,38 @@
-$severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',
-  'informational', 'major', 'minor', 'normal', 'ok', 'security', 'trace',
-  'unknown';
+.label {
+  font-weight: bold;
+  line-height: 14px;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #999999;
+  padding: 1px 4px 2px;
+  border-radius: 3px;
 
-@each $severity in $severities {
-  .label.severity-#{$severity} {
-    background: var(--bg-#{$severity});
-    color: white;
+  &.label-critical {
+    background-color: #b94a48;
+  }
+
+  &.label-major {
+    background-color: #f89406;
+  }
+
+  &.label-minor {
+    background-color: #ffd700;
+  }
+
+  &.label-warning {
+    background-color: #3a87ad;
+  }
+
+  &.label-normal,
+  &.label-cleared,
+  &.label-ok,
+  &.label-informational {
+    background-color: #468847;
+  }
+
+  &.label-inverse {
+    background-color: #333333;
   }
 }
