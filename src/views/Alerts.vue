@@ -379,7 +379,7 @@ export default {
       })
     },
     setAlert(item) {
-      this.$router.push({ path: `/alert/${item.id}` })
+      this.$router.push({ name: 'alert', params: { id: item.id } })
     },
     refreshAlerts() {
       this.getEnvironments()

@@ -186,11 +186,12 @@ export default Vue.extend({
             }`,
             action: 'Open',
             timeout: 4000,
-            callback: () =>
+            callback: () => {
               this.$router.push({
                 name: 'incident',
                 params: { id: res.incident.id }
               })
+            }
           })
         })
     }

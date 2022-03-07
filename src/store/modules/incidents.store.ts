@@ -232,16 +232,6 @@ const incidents: Module<IIncidents, IStore> = {
       commit('SET_SELECTED', selected)
     },
 
-    async watchIncident({ rootState }, incidentId) {
-      const username = rootState.auth.payload.preferred_username
-      const tag = `watch:${username}`
-      return IncidentsApi.tagIncident(incidentId, { tags: [tag] })
-    },
-    async unwatchIncident({ rootState }, incidentId) {
-      const username = rootState.auth.payload.preferred_username
-      const tag = `watch:${username}`
-      return IncidentsApi.untagIncident(incidentId, { tags: [tag] })
-    },
     async takeAction({}, [incidentId, action, text, timeout]) {
       return IncidentsApi.actionIncident(incidentId, {
         action,
@@ -249,13 +239,6 @@ const incidents: Module<IIncidents, IStore> = {
         timeout
       })
     },
-    async tagIncident({}, [incidentId, tags]) {
-      return IncidentsApi.tagIncident(incidentId, tags)
-    },
-    async untagIncident({}, [incidentId, tags]) {
-      return IncidentsApi.untagIncident(incidentId, tags)
-    },
-
     async addNote({}, [incidentId, text]) {
       return IncidentsApi.addNote(incidentId, text)
     },
@@ -322,21 +305,6 @@ const incidents: Module<IIncidents, IStore> = {
 
       return IncidentsApi.getEnvironments(params).then(({ environments }) =>
         commit('SET_ENVIRONMENTS', environments)
-      )
-    },
-    async getServices({ commit }) {
-      return IncidentsApi.getServices({}).then(({ services }) =>
-        commit('SET_SERVICES', services)
-      )
-    },
-    async getGroups({ commit }) {
-      return IncidentsApi.getGroups({}).then(({ groups }) =>
-        commit('SET_GROUPS', groups)
-      )
-    },
-    async getTags({ commit }) {
-      return IncidentsApi.getTags({}).then(({ tags }) =>
-        commit('SET_TAGS', tags)
       )
     },
 

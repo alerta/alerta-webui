@@ -7,6 +7,8 @@
     hide-overlay
     width="300"
     right
+    disable-route-watcher
+    @input="!$event && close()"
   >
     <v-card tile>
       <v-app-bar flat dense>
@@ -420,6 +422,7 @@ export default {
       this.showDateRange = false
       this.$store.dispatch('alerts/resetFilter')
     },
+
     close() {
       this.$emit('close')
     }

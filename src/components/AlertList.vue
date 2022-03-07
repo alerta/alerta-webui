@@ -350,6 +350,9 @@ export default {
     multiselect: false,
     timer: null
   }),
+  beforeDestroy() {
+    this.$store.dispatch('alerts/updateSelected', [])
+  },
   computed: {
     displayDensity() {
       return (

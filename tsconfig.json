@@ -12,8 +12,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "noImplicitAny": false,
-    "allowJs": true,
-    "types": ["webpack-env", "@types/jest", "vite/client"],
+    "types": ["@types/jest", "vite/client"],
     "isolatedModules": true,
     "paths": {
       "@/*": ["src/*"]

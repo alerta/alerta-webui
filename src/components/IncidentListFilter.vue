@@ -1,12 +1,14 @@
 <template>
   <v-navigation-drawer
-    :value="sidesheet"
+    :value="isOpen"
     clipped
     disable-resize-watcher
     absolute
     hide-overlay
     width="300"
     right
+    disable-route-watcher
+    @input="!$event && close()"
   >
     <v-card tile>
       <v-app-bar flat dense>
@@ -184,19 +186,20 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang='ts'>
 import moment from 'moment'
 import i18n from '@/plugins/i18n'
+import Vue from 'vue'
+import { DateRange } from '@/store/interfaces'
 
-export default {
+export default Vue.extend({
   props: {
-    value: {
+    isOpen: {
       type: Boolean,
       default: false
     }
   },
-  data: (vm) => ({
-    sidesheet: vm.value,
+  data: () => ({
     active: null,
     pagination: {
       itemsPerPage: 10,
@@ -223,29 +226,11 @@ export default {
         { text: i18n.t('SelectRange'), range: [0, 0] }
       ]
     },
-    history() {
-      return this.item.history.map((h, index) => ({ index: index, ...h }))
-    },
-    isWatched() {
-      const tag = `watch:${this.username}`
-      return this.item.tags.indexOf(tag) > -1
-    },
     statusList() {
-      // FIXME - remove defaultStatusMap from v7.0 onwards
-      const defaultStatusMap = {
-        open: 'A',
-        assign: 'B',
-        ack: 'C',
-        shelved: 'D',
-        blackout: 'E',
-        closed: 'F',
-        expired: 'G',
-        unknown: 'H'
-      }
-      const statusMap = this.$config.alarm_model.status || defaultStatusMap
-      return Object.keys(statusMap).sort((a, b) => {
-        return statusMap[a].localeCompare(statusMap[b])
-      })
+      const statusMap = this.$config.alarm_model.status
+      return Object.keys(statusMap).sort((a, b) =>
+        statusMap[a].localeCompare(statusMap[b])
+      )
     },
     currentCustomers() {
       return this.$store.getters['customers/customers']
@@ -267,7 +252,7 @@ export default {
       get() {
         return this.$store.state.incidents.filter.status
       },
-      set(value) {
+      set(value: string[]) {
         this.$store.dispatch('incidents/setFilter', {
           status: value.length > 0 ? value : null
         })
@@ -277,7 +262,7 @@ export default {
       get() {
         return this.$store.state.incidents.filter.customer
       },
-      set(value) {
+      set(value: string[]) {
         this.$store.dispatch('incidents/setFilter', {
           customer: value.length > 0 ? value : null
         })
@@ -287,7 +272,7 @@ export default {
       get() {
         return this.$store.state.incidents.filter.service
       },
-      set(value) {
+      set(value: string[]) {
         this.$store.dispatch('incidents/setFilter', {
           service: value.length > 0 ? value : null
         })
@@ -299,34 +284,31 @@ export default {
           ? [0, 0]
           : this.$store.state.incidents.filter.dateRange
       },
-      set(value) {
-        if (value[0] === 0) {
-          this.period = this.getDateRange(
-            this.$store.state.incidents.filter.dateRange[0]
-              ? this.$store.state.incidents.filter.dateRange[0]
-              : moment().unix() - 7 * 24 * 3600, // 7 days ago
-            this.$store.state.incidents.filter.dateRange[1]
-              ? this.$store.state.incidents.filter.dateRange[1]
-              : moment().unix()
-          )
-          this.showDateRange = true
-        } else {
+      set(value: DateRange) {
+        if (value[0] !== 0) {
           this.showDateRange = false
           this.$store.dispatch('incidents/setFilter', {
             dateRange: value
           })
+          return
         }
+
+        this.period = this.getDateRange(
+          this.$store.state.incidents.filter.dateRange[0]
+            ? this.$store.state.incidents.filter.dateRange[0]
+            : moment().unix() - 7 * 24 * 3600, // 7 days ago
+          this.$store.state.incidents.filter.dateRange[1]
+            ? this.$store.state.incidents.filter.dateRange[1]
+            : moment().unix()
+        )
+        this.showDateRange = true
       }
     },
     username() {
       return this.$store.getters['auth/getUsername']
     }
   },
-  watch: {
-    value(val) {
-      this.sidesheet = val
-    }
-  },
+
   created() {
     if (this.$config.customer_views) this.getCustomers()
 
@@ -371,7 +353,6 @@ export default {
       this.$emit('close')
     }
   }
-}
+})
 </script>
 
-<style></style>

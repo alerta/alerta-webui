@@ -421,14 +421,15 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import ProfileMe from '@/components/auth/ProfileMe.vue'
 import Banner from '@/components/lib/Banner.vue'
 import Snackbar from '@/components/lib/Snackbar.vue'
 import Grouping from '@/components/Grouping.vue'
 import i18n from '@/plugins/i18n'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   name: 'App',
   components: {
     Banner,
@@ -591,7 +592,7 @@ export default {
     },
     query: {
       get() {
-        return this.$store.state.alerts.query?.q || null
+        return this.$store.state.alerts.query?.q || ''
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       set(value) {
@@ -629,9 +630,7 @@ export default {
   },
   watch: {
     isKiosk(val) {
-      if (val) {
-        this.toggleFullScreen()
-      }
+      val && this.toggleFullScreen()
     },
     languagePref(val) {
       i18n.locale = val
@@ -647,7 +646,7 @@ export default {
     submitSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
       this.$router.replace({
-        query: { ...this.$router.query, q: query },
+        query: { ...this.$route.query, q: query },
         hash: this.$store.getters['alerts/getHash']
       })
       this.refresh()
@@ -656,7 +655,7 @@ export default {
       this.query = null
       this.$store.dispatch('alerts/updateQuery', {})
       this.$router.replace({
-        query: { ...this.$router.query, q: undefined },
+        query: { ...this.$route.query, q: undefined },
         hash: this.$store.getters['alerts/getHash']
       })
       this.refresh()
@@ -736,10 +735,10 @@ export default {
       this.$store.dispatch('alerts/unwatchAlert', id)
     },
     bulkDeleteAlert() {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.t('ConfirmDelete') as string) &&
         Promise.all(
           this.selected.map((a) =>
-            this.$store.dispatch('alerts/deleteAlert', a.id, false)
+            this.$store.dispatch('alerts/deleteAlert', a.id)
           )
         ).then(() => {
           this.clearSelected()
@@ -750,8 +749,9 @@ export default {
       this.$store.dispatch('alerts/toggle', [sw, value])
     },
     toggleFullScreen() {
-      const elem = document.getElementById('alerta')
-      this.isFullscreen() ? document.exitFullscreen() : elem.requestFullscreen()
+      this.isFullscreen()
+        ? document.exitFullscreen()
+        : document.getElementById('alerta')?.requestFullscreen()
     },
     isFullscreen() {
       return document.fullscreenElement
@@ -763,7 +763,7 @@ export default {
       }, 300)
     }
   }
-}
+})
 </script>
 
 <style>

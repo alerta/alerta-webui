@@ -27,20 +27,6 @@ export default {
       .put<IncidentDTO>(`/incidents/${incidentId}/action`, data)
       .then((res) => res.data)
   },
-  tagIncident: async (incidentId: string, data: object) => {
-    return api.put(`/incidents/${incidentId}/tag`, data).then((res) => res.data)
-  },
-  untagIncident: async (incidentId: string, data: object) => {
-    return api
-      .put(`/incidents/${incidentId}/untag`, data)
-      .then((res) => res.data)
-  },
-  updateAttributes: async (incidentId: string, attributes: object) =>
-    api
-      .put(`/incidents/${incidentId}/attributes`, {
-        attributes
-      })
-      .then((res) => res.data),
   addNote: async (incidentId: string, note: string) => {
     return api
       .post(`/incidents/${incidentId}/notes`, {
@@ -75,23 +61,10 @@ export default {
       })
       .then((res) => res.data)
   },
-  getIncidentHistory: async (query: object) => {
-    const config = {
-      params: query
-    }
-    return api.get('/incidents/history', config).then((res) => res.data)
-  },
-  getCounts: async (query: object) => {
-    const config = {
-      params: query
-    }
-    return api.get('/incidents/count', config).then((res) => res.data)
-  },
 
   deleteIncident: async (incidentId: string) => {
     return api.delete(`/incidents/${incidentId}`).then((res) => res.data)
   },
-
   getEnvironments: async (query: object) => {
     const config = {
       params: query
@@ -103,17 +76,5 @@ export default {
       params: query
     }
     return api.get('/services', config).then((res) => res.data)
-  },
-  getGroups: async (query: object) => {
-    const config = {
-      params: query
-    }
-    return api.get('/incidents/groups', config).then((res) => res.data)
-  },
-  getTags: async (query: object) => {
-    const config = {
-      params: query
-    }
-    return api.get('/incidents/tags', config).then((res) => res.data)
   }
 }

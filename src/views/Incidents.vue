@@ -1,5 +1,5 @@
 <template>
-  <div class="incidents">
+  <div>
     <v-dialog v-model="addIncidentDialog" max-width="600px">
       <v-card>
         <v-card-title>Create Incident</v-card-title>
@@ -73,7 +73,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <div v-on="on" class="switch-wrapper">
-                <v-switch v-model="myIncidents" hide-details />
+                <v-switch v-model="ownedIncidents" hide-details />
               </div>
             </template>
             <span>{{ $t('MyIncidents') }}</span>
@@ -174,9 +174,7 @@
                 <span class="label">
                   {{ incident.status | capitalize }}
                 </span>
-                <span
-                  :class="`label label-${incident.severity.toLowerCase()}`"
-                >
+                <span :class="`label label-${incident.severity.toLowerCase()}`">
                   {{ incident.severity | capitalize }}
                 </span>
               </div>
@@ -276,17 +274,18 @@
       </div>
     </v-expand-transition>
 
-    <incident-list-filter :value="sidesheet" @close="sidesheet = false" />
+    <incident-list-filter :isOpen="sidesheet" @close="sidesheet = false" />
   </div>
 </template>
 
-<script>
-import { ExportToCsv } from 'export-to-csv'
+<script lang='ts'>
 import utils from '@/common/utils'
-import Vue from 'vue'
-import debounce from 'lodash/debounce'
-import IncidentListFilter from '@/components/IncidentListFilter.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
+import IncidentListFilter from '@/components/IncidentListFilter.vue'
+import i18n from '@/plugins/i18n'
+import { ExportToCsv } from 'export-to-csv'
+import { debounce } from 'lodash'
+import Vue from 'vue'
 
 export default Vue.extend({
   props: {
@@ -341,7 +340,7 @@ export default Vue.extend({
         this.$config.audio.new || this.$store.getters.getPreference('audioURL')
       )
     },
-    myIncidents: {
+    ownedIncidents: {
       get() {
         return this.$store.state.incidents.filter.owned
       },
@@ -407,16 +406,6 @@ export default Vue.extend({
         )
       )
     },
-    isNewOpenIncidents() {
-      return this.incidents
-        .filter((incident) =>
-          this.filter.environment
-            ? this.filter.environment == incident.environment
-            : true
-        )
-        .filter((incident) => incident.status == 'open')
-        .reduce((acc, incident) => acc || !incident.repeat, false)
-    },
     showAllowedEnvs() {
       return this.$store.getters.getPreference('showAllowedEnvs')
     },
@@ -430,11 +419,11 @@ export default Vue.extend({
       return this.$store.getters['incidents/counts']
     },
     incidentsByEnvironment() {
-      return this.incidents.filter((incident) =>
-        this.filter.environment
-          ? incident.environment === this.filter.environment
-          : true
-      )
+      return this.filter.environment
+        ? this.incidents.filter(
+            (incident) => incident.environment === this.filter.environment
+          )
+        : this.incidents
     },
     refreshInterval() {
       return (
@@ -470,11 +459,9 @@ export default Vue.extend({
         )
       },
       set(value) {
-        if (this.isLoggedIn) {
-          this.$store.dispatch('setUserPrefs', { displayDensity: value })
-        } else {
-          this.$store.dispatch('incidents/set', ['displayDensity', value])
-        }
+        this.isLoggedIn
+          ? this.$store.dispatch('setUserPrefs', { displayDensity: value })
+          : this.$store.dispatch('incidents/set', ['displayDensity', value])
       }
     },
     pagination() {
@@ -490,7 +477,8 @@ export default Vue.extend({
     },
     filter: {
       async handler() {
-        await this.$router.push(this.$store.getters['incidents/getHash'])
+        const hash = this.$store.getters['incidents/getHash']
+        hash != this.$route.hash && (await this.$router.replace(hash))
         this.currentTab = this.defaultTab
         this.cancelTimer()
         this.refreshIncidents()
@@ -499,7 +487,9 @@ export default Vue.extend({
     },
     pagination: {
       async handler(newVal, oldVal) {
-        await this.$router.push(this.$store.getters['incidents/getHash'])
+        const hash = this.$store.getters['incidents/getHash']
+        hash != this.$route.hash && (await this.$router.replace(hash))
+
         if (
           oldVal.page != newVal.page ||
           oldVal.incidentsPerPage != newVal.incidentsPerPage ||
@@ -572,9 +562,6 @@ export default Vue.extend({
     getEnvironments() {
       this.$store.dispatch('incidents/getEnvironments')
     },
-    playSound() {
-      !this.isMute && this.$refs.audio.play()
-    },
     setEnv(env) {
       this.$store.dispatch('incidents/setFilter', {
         environment: env === 'ALL' ? null : env
@@ -583,7 +570,6 @@ export default Vue.extend({
     refreshIncidents() {
       this.getEnvironments()
       this.getIncidents().then(() => {
-        this.isNewOpenIncidents && this.playSound()
         this.timer = setTimeout(
           () => this.refreshIncidents(),
           this.refreshInterval
