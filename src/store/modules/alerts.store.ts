@@ -4,19 +4,6 @@ import AlertsApi from '@/services/api/alert.service'
 import moment from 'moment'
 import { Module } from 'vuex'
 
-export const DEFAULT_PAGINATION_OPTIONS = Object.freeze({
-  itemsPerPage: 20,
-  page: 1,
-  sortBy: [],
-  sortDesc: [],
-  mustSort: false,
-  groupBy: [],
-  groupDesc: [],
-  multiSort: false,
-  itemsPerPageOptions: [5, 10, 20, 50, 100, 200],
-  totalItems: 0
-})
-
 const state: IAlerts = {
   isLoading: false,
   isSearching: false,
@@ -52,7 +39,18 @@ const state: IAlerts = {
     owned: null
   },
 
-  pagination: Object.assign({}, DEFAULT_PAGINATION_OPTIONS)
+  pagination: {
+    itemsPerPage: 20,
+    page: 1,
+    sortBy: [],
+    sortDesc: [],
+    mustSort: false,
+    groupBy: [],
+    groupDesc: [],
+    multiSort: false,
+    itemsPerPageOptions: [5, 10, 20, 50, 100, 200],
+    totalItems: 0
+  }
 }
 
 const alerts: Module<IAlerts, IStore> = {
@@ -107,10 +105,9 @@ const alerts: Module<IAlerts, IStore> = {
       state.isSearching = true
       state.query = query
     },
-    SET_ALERTS: (state, [alerts, total, pageSize]) => {
+    SET_ALERTS: (state, [alerts, total]) => {
       state.alerts = alerts
       state.pagination.totalItems = total
-      state.pagination.itemsPerPage = pageSize
     },
     RESET_LOADING: (state) => {
       state.isLoading = false
@@ -198,9 +195,7 @@ const alerts: Module<IAlerts, IStore> = {
       }
 
       return AlertsApi.getAlerts(params)
-        .then(({ alerts, total, pageSize }) =>
-          commit('SET_ALERTS', [alerts, total, pageSize])
-        )
+        .then(({ alerts, total }) => commit('SET_ALERTS', [alerts, total]))
         .finally(() => commit('RESET_LOADING'))
     },
     updateQuery({ commit }, query) {

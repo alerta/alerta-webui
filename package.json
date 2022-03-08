@@ -13,7 +13,7 @@
     "lint:nofix": "eslint --no-fix --ext .ts,.vue src",
     "test:e2e": "echo \"Error: no e2e tests specified\" && exit 0",
     "test:unit": "echo \"Error: no unit tests specified\" && exit 0",
-    "package": "yarn build && tar -czf alerta-webui.tar.gz dist && zip alerta-webui.zip dist"
+    "package": "yarn build && tar -czf alerta-webui.tar.gz dist && zip -r alerta-webui.zip dist"
   },
   "repository": {
     "type": "git",

@@ -194,7 +194,7 @@
         <span>{{ $t('Reassign') }}</span>
       </v-tooltip>
 
-      <v-btn @click="updating = !updating" outlined small>
+      <v-btn @click="toggleUpdating" outlined small>
         <template v-if="updating">
           <v-icon size="20px" left>mdi-cancel</v-icon>
           {{ $t('Cancel') }}
@@ -553,6 +553,16 @@ export default Vue.extend({
         }
       })
     },
+    toggleUpdating() {
+      if (!this.updating) {
+        this.updating = true
+        return
+      }
+      this.updating = false
+      this.incident = omit(cloneDeep(this.$store.state.incidents.incident), [
+        'alerts'
+      ])
+    },
     handleSave() {
       if (!this.incident) return
 
@@ -565,7 +575,9 @@ export default Vue.extend({
         })
         .then(({ incident }) => {
           this.updating = false
-          this.incident = incident
+
+          this.$store.dispatch('incidents/set', ['incident', incident])
+          this.incident = cloneDeep(incident)
         })
     },
     bulkRemove() {

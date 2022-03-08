@@ -187,7 +187,6 @@ export default {
       sortDesc: [true],
       itemsPerPage: 20
     },
-    // totalItems: number,
     search: '',
     systemRoles: ['admin', 'user', 'guest'],
     wantScopes: [],

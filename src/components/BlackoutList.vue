@@ -383,7 +383,6 @@ export default {
       sortDesc: [true],
       itemsPerPage: 20
     },
-    // totalItems: number,
     status: ['active', 'pending', 'expired'],
     search: '',
     dialog: false,

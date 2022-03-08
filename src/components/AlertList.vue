@@ -405,10 +405,13 @@ export default {
     },
     pagination: {
       get() {
-        return this.$store.state.alerts.pagination
+        return {
+          ...this.$store.state.alerts.pagination
+        }
       },
       set(value) {
         this.$store.dispatch('alerts/setPagination', value)
+        console.log(JSON.stringify(value, undefined, 2))
       }
     },
     actions() {
@@ -444,10 +447,16 @@ export default {
       return this.$store.getters['auth/getUsername']
     }
   },
+  mounted() {
+    this.pagination = { itemsPerPage: this.itemsPerPage }
+  },
   watch: {
     itemsPerPage(val) {
       this.pagination = { itemsPerPage: val }
     }
+    // pagination(val) {
+    //   console.log(JSON.stringify(val, undefined, 2))
+    // }
   },
   methods: {
     duration(item) {

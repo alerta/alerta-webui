@@ -246,7 +246,6 @@ export default {
       sortDesc: [true],
       itemsPerPage: 20
     },
-    // totalItems: number,
     search: '',
     dialog: false,
     headers: [
