@@ -203,8 +203,17 @@
                 auto-grow
                 outlined
               />
+
+              <div>
+                Updated at:
+                <date-time :value="incident.updateTime" format="mediumDate" />
+              </div>
+              <div>
+                Duration:
+                <span>{{ duration(incident.updateTime) | hhmmss }}</span>
+              </div>
             </v-card-text>
-            <v-card-actions class="px-4">
+            <v-card-actions class="px-4 gap-2">
               <div>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
@@ -282,9 +291,11 @@
 import utils from '@/common/utils'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
+import DateTime from '@/components/lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
 import { ExportToCsv } from 'export-to-csv'
 import { debounce } from 'lodash'
+import moment from 'moment'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -302,7 +313,8 @@ export default Vue.extend({
   },
   components: {
     IncidentListFilter,
-    CloseIncidentConfirm
+    CloseIncidentConfirm,
+    DateTime
   },
   data: () => ({
     currentTab: null,
@@ -525,6 +537,9 @@ export default Vue.extend({
     this.cancelTimer()
   },
   methods: {
+    duration(val) {
+      return moment.duration(moment().diff(val))
+    },
     setSearch(query) {
       this.$store.dispatch('incidents/updateQuery', query)
     },

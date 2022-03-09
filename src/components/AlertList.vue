@@ -411,7 +411,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('alerts/setPagination', value)
-        console.log(JSON.stringify(value, undefined, 2))
       }
     },
     actions() {
@@ -454,9 +453,6 @@ export default {
     itemsPerPage(val) {
       this.pagination = { itemsPerPage: val }
     }
-    // pagination(val) {
-    //   console.log(JSON.stringify(val, undefined, 2))
-    // }
   },
   methods: {
     duration(item) {

@@ -1,6 +1,6 @@
-import { IAlerts, IStore } from '@/store/interfaces'
 import utils from '@/common/utils'
 import AlertsApi from '@/services/api/alert.service'
+import { IAlerts, IStore } from '@/store/interfaces'
 import moment from 'moment'
 import { Module } from 'vuex'
 
@@ -197,6 +197,7 @@ const alerts: Module<IAlerts, IStore> = {
       return AlertsApi.getAlerts(params)
         .then(({ alerts, total }) => commit('SET_ALERTS', [alerts, total]))
         .finally(() => commit('RESET_LOADING'))
+        .catch(() => {})
     },
     updateQuery({ commit }, query) {
       commit('SET_SEARCH_QUERY', query)

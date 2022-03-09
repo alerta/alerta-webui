@@ -326,6 +326,21 @@
         :rules="[(v) => !!v || $t('NoteRequired')]"
       />
 
+      <div class="d-flex flex-column pb-3">
+        <span>
+          Created at:
+          <date-time :value="incident.createTime" format="mediumDate" />
+        </span>
+        <span>
+          Updated at:
+          <date-time :value="incident.updateTime" format="mediumDate" />
+        </span>
+        <span>
+          Duration:
+          {{ duration | hhmmss }}
+        </span>
+      </div>
+
       <v-combobox
         chips
         :clearable="updating"
@@ -338,7 +353,7 @@
         v-model="incident.tags"
         append-icon=""
         :readonly="!updating"
-        :hide-details="updating"
+        hide-details="auto"
         hint="Edit incident to change tags"
       />
     </v-card-text>
@@ -389,6 +404,7 @@ import DateTime from '@/components/lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
 import { cloneDeep, omit, pickBy } from 'lodash'
+import moment from 'moment'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -406,6 +422,7 @@ export default Vue.extend({
     notes: [] as IIncidents['notes'],
     updating: false,
     assignDialog: false,
+    duration: {},
     severities: [
       'security',
       'critical',
@@ -421,9 +438,14 @@ export default Vue.extend({
       'ok',
       'unknown'
     ],
-    formValidity: true
+    formValidity: true,
+    interval: null as number | null
   }),
   mounted() {
+    this.interval = setInterval(() => {
+      this.duration = this.calcDuration(this.incident.updateTime)
+    }, 1000)
+
     this.getIncident()
       .then(() => {
         this.$store.dispatch('alerts/setPagination', {
@@ -436,6 +458,9 @@ export default Vue.extend({
           .dispatch('incidents/getNotes', this.incident?.id)
           .then((notes) => (this.notes = notes))
       })
+  },
+  destroyed() {
+    this.interval && clearInterval(this.interval)
   },
   computed: {
     id() {
@@ -485,6 +510,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    calcDuration(val) {
+      return moment.duration(moment().diff(val))
+    },
     getIncident() {
       return this.$store.dispatch('incidents/getIncident', this.id).then(() => {
         this.incident = omit(cloneDeep(this.$store.state.incidents.incident), [

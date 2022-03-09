@@ -55,6 +55,7 @@ export interface IIncidents
 export interface IConfig {
   endpoint: string
   base_path?: string
+  sentry_dsn?: string
 
   alarm_model: {
     name: string

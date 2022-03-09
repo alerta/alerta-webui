@@ -1,9 +1,9 @@
-import { IIncidents, IStore } from '@/store/interfaces'
+import { IIncident } from '@/common/interfaces'
 import utils from '@/common/utils'
 import IncidentsApi from '@/services/api/incident.service'
+import { IIncidents, IStore } from '@/store/interfaces'
 import moment from 'moment'
 import { Module } from 'vuex'
-import { IIncident } from '@/common/interfaces'
 
 const state: IIncidents = {
   isLoading: false,
@@ -153,20 +153,21 @@ const incidents: Module<IIncidents, IStore> = {
       state.filter.owned && params.append('owner', rootGetters['auth/getId'])
 
       // add server-side sorting
-      let sortBy = state.pagination.sortBy
-      if (sortBy.length === 0) sortBy = ['lastReceiveTime']
+      const sortBy = state.pagination.sortBy.length
+        ? state.pagination.sortBy
+        : ['updateTime']
 
       if (sortBy.length === 1) {
         params.append(
           'sort-by',
-          (state.pagination.sortDesc.length ? '-' : '') + sortBy
+          (state.pagination.sortDesc[0] ? '-' : '') + sortBy
         )
       } else sortBy.forEach((sb) => params.append('sort-by', sb))
 
       // need notes from alert history if showing notes icons
-      if (rootGetters.getPreference('showNotesIcon')) {
-        params.append('show-history', 'true')
-      }
+      // if (rootGetters.getPreference('showNotesIcon')) {
+      //   params.append('show-history', 'true')
+      // }
 
       // add server-side paging
       params.append('page', String(state.pagination.page))
@@ -207,6 +208,7 @@ const incidents: Module<IIncidents, IStore> = {
           commit('SET_INCIDENTS', [incidents, total, pageSize])
         )
         .finally(() => commit('RESET_LOADING'))
+        .catch(() => {})
     },
 
     async getIncident({ commit }, id: string) {
