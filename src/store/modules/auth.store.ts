@@ -3,7 +3,9 @@ import AuthApi from '@/services/api/auth.service'
 import { VueAuthenticate } from '@alerta/vue-authenticate'
 import { Module } from 'vuex'
 
-export const makeStore = (vueAuth: VueAuthenticate): Module<IAuth, IStore> => ({
+export const makeAuthStore = (
+  vueAuth: VueAuthenticate
+): Module<IAuth, IStore> => ({
   namespaced: true,
 
   state: {

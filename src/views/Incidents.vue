@@ -278,7 +278,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import utils from '@/common/utils'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
@@ -672,7 +672,7 @@ export default Vue.extend({
 })
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .filter-active::after {
   background-color: rgb(255, 82, 82);
   border-radius: 50%;

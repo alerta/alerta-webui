@@ -186,7 +186,7 @@
   </v-navigation-drawer>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import moment from 'moment'
 import i18n from '@/plugins/i18n'
 import Vue from 'vue'
@@ -355,4 +355,3 @@ export default Vue.extend({
   }
 })
 </script>
-

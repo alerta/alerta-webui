@@ -336,9 +336,10 @@
         outlined
         dense
         v-model="incident.tags"
-        hide-details
         append-icon=""
         :readonly="!updating"
+        :hide-details="updating"
+        hint="Edit incident to change tags"
       />
     </v-card-text>
     <v-divider />
@@ -380,7 +381,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { IAlert, IIncident } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
@@ -406,15 +406,6 @@ export default Vue.extend({
     notes: [] as IIncidents['notes'],
     updating: false,
     assignDialog: false,
-    alertColumns: [
-      'severity',
-      'status',
-      'service',
-      'resource',
-      'event',
-      'text',
-      'value'
-    ],
     severities: [
       'security',
       'critical',
@@ -457,6 +448,10 @@ export default Vue.extend({
       set(value: IAlert[]) {
         this.$store.dispatch('alerts/updateSelected', value)
       }
+    },
+    alertColumns() {
+      // @ts-ignore
+      return this.$config.columns
     },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')

@@ -1,14 +1,14 @@
 {
   "name": "alerta-webui",
-  "version": "8.8.0",
+  "version": "8.8.1",
   "private": true,
   "description": "Alerta web UI",
   "scripts": {
     "dev": "vite",
     "build": "vite build && rimraf dist/config.json.example",
     "serve": "vite preview",
-    "format": "prettier --write '**/*.{ts,vue,js}'",
-    "format-check": "prettier --check '**/*.{ts,vue,js}'",
+    "format": "prettier --write .",
+    "format-check": "prettier --check .",
     "lint": "eslint --ext .ts,.vue --fix src",
     "lint:nofix": "eslint --no-fix --ext .ts,.vue src",
     "test:e2e": "echo \"Error: no e2e tests specified\" && exit 0",
@@ -26,8 +26,15 @@
   ],
   "author": "satterly",
   "license": "Apache-2.0",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 11"
+  ],
   "dependencies": {
     "@alerta/vue-authenticate": "github:alerta/vue-authenticate",
+    "@sentry/tracing": "^6.18.2",
+    "@sentry/vue": "^6.18.2",
     "acorn": "^6.0.0",
     "acorn-dynamic-import": "^4.0.0",
     "axios": "^0.25.0",

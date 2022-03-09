@@ -1,6 +1,7 @@
 import { store } from '@/main'
 import axios, { Axios } from 'axios'
 import { v4 } from 'uuid'
+export { makeInterceptors } from './interceptors'
 
 declare global {
   interface Window {
