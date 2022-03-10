@@ -1,7 +1,6 @@
 import { store } from '@/main'
 import Vue from 'vue'
 import VueRouter, { RouterOptions } from 'vue-router'
-import Alerts from './views/Alerts.vue'
 
 Vue.use(VueRouter)
 
@@ -13,7 +12,7 @@ export const createRouter = (basePath): VueRouter => {
       {
         path: '/alerts',
         name: 'alerts',
-        component: Alerts,
+        component: async () => import('./views/Alerts.vue'),
         props: (route) => ({
           query: route.query,
           isKiosk: route.query.kiosk,
@@ -157,8 +156,8 @@ export const createRouter = (basePath): VueRouter => {
         path: '*',
         redirect: (to) => {
           // redirect hashbang mode links to HTML5 mode links
-          if (to.fullPath.substr(0, 3) === '/#/') {
-            return { path: to.fullPath.substr(2), hash: '' }
+          if (to.fullPath.slice(0, 3) === '/#/') {
+            return { path: to.fullPath.slice(2), hash: '' }
           }
           return '/alerts'
         }

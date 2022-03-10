@@ -77,7 +77,7 @@ export default {
       return this.$store.state.management.application
     },
     version() {
-      return import.meta.env.VITE_VERSION || 'dev'
+      return import.meta.env.PACKAGE_VERSION || 'dev'
     },
     refresh() {
       return this.$store.state.refresh

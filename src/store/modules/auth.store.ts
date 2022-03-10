@@ -1,6 +1,7 @@
-import { IAuth, IStore } from '@/store/interfaces'
 import AuthApi from '@/services/api/auth.service'
+import { IAuth, IStore } from '@/store/interfaces'
 import { VueAuthenticate } from '@alerta/vue-authenticate'
+import * as Sentry from '@sentry/vue'
 import { Module } from 'vuex'
 
 export const makeAuthStore = (
@@ -21,11 +22,18 @@ export const makeAuthStore = (
       state.isAuthenticated = true
       state.token = token
       state.payload = payload
+
+      Sentry.setUser({
+        email: payload.email,
+        username: payload.preferred_username
+      })
     },
     RESET_AUTH(state) {
       state.isAuthenticated = false
       state.token = null
       state.payload = {}
+
+      Sentry.configureScope((scope) => scope.setUser(null))
     },
     SET_SENDING(state) {
       state.isSending = true

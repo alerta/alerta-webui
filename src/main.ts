@@ -32,15 +32,14 @@ bootstrap.getConfig().then((config) => {
     Sentry.init({
       Vue: Vue,
       dsn: config.sentry_dsn,
+      environment: import.meta.env.PROD ? 'production' : 'development',
+      release: import.meta.env.PACKAGE_VERSION || 'unknown',
       integrations: [
         new BrowserTracing({
           routingInstrumentation: Sentry.vueRouterInstrumentation(router),
           tracingOrigins: ['localhost', /^\//]
         })
       ],
-      // Set tracesSampleRate to 1.0 to capture 100%
-      // of transactions for performance monitoring.
-      // We recommend adjusting this value in production
       tracesSampleRate: 1.0
     })
 

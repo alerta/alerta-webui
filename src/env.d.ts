@@ -1,7 +1,6 @@
 interface ImportMetaEnv {
   readonly VITE_ALERTA_ENDPOINT: string
-  readonly VITE_CLIENT_ID: string
-  readonly VITE_TRACKING_ID: string
+  readonly PACKAGE_VERSION: string
 }
 
 interface ImportMeta {

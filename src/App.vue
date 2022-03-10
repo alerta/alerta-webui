@@ -428,6 +428,7 @@ import Snackbar from '@/components/lib/Snackbar.vue'
 import Grouping from '@/components/Grouping.vue'
 import i18n from '@/plugins/i18n'
 import Vue from 'vue'
+import * as Sentry from '@sentry/vue'
 
 export default Vue.extend({
   name: 'App',
@@ -640,6 +641,11 @@ export default Vue.extend({
     if (this.isLoggedIn) {
       this.$store.dispatch('getUserPrefs')
       this.$store.dispatch('getUserQueries')
+
+      Sentry.setUser({
+        email: this.$store.state.auth.payload.email,
+        username: this.$store.state.auth.preferred_username
+      })
     }
   },
   methods: {

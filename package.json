@@ -13,7 +13,7 @@
     "lint:nofix": "eslint --no-fix --ext .ts,.vue src",
     "test:e2e": "echo \"Error: no e2e tests specified\" && exit 0",
     "test:unit": "echo \"Error: no unit tests specified\" && exit 0",
-    "package": "yarn build && tar -czf alerta-webui.tar.gz dist && zip -r alerta-webui.zip dist"
+    "package": "yarn build && tar -czf alerta-webui.tar.gz dist && zip -rq alerta-webui.zip dist"
   },
   "repository": {
     "type": "git",
@@ -75,6 +75,7 @@
     "ts-jest": "^27.1.3",
     "typescript": "^4.5.5",
     "vite": "^2.8.3",
+    "vite-plugin-package-version": "^1.0.2",
     "vite-plugin-vue2": "1.9.3",
     "vue-template-compiler": "^2.6.14",
     "vue-tsc": "^0.31.4"

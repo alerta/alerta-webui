@@ -371,7 +371,7 @@ export default {
     },
     playSound() {
       if (this.isMute) return
-      this.$refs.audio.play()
+      this.$refs.audio?.play().catch(() => {})
     },
     setEnv(env) {
       this.$store.dispatch('alerts/setFilter', {

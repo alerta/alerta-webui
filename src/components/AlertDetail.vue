@@ -683,15 +683,28 @@
                           >&nbsp;
                         </span>
                       </div>
-                      <div
+                      <a
                         v-else-if="
                           typeof value === 'string' &&
-                          (value.includes('http://') ||
-                            value.includes('https://'))
+                          value.includes('<a') &&
+                          value.includes('</a>')
                         "
+                        :href="getLinkHref(value)"
                         class="link-text"
-                        v-html="value"
-                      />
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {{ getLinkBody(value) }}
+                      </a>
+                      <a
+                        v-else-if="isLink(value)"
+                        :href="value"
+                        class="link-text"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {{ value }}
+                      </a>
                       <div
                         v-else
                         class="clickable"
@@ -780,13 +793,14 @@
   </v-card>
 </template>
 
-<script>
+<script lang='ts'>
 import AlertActions from '@/components/AlertActions.vue'
 import DateTime from '@/components/lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   components: {
     DateTime,
     AlertActions
@@ -878,6 +892,18 @@ export default {
     this.getNotes()
   },
   methods: {
+    getLinkBody(link: string) {
+      return link.match(/<a\b[^>]*>(?<text>.*?)<\/a>/)?.groups?.text
+    },
+    getLinkHref(link: string) {
+      return link.match(/href=(?:"|')(?<href>.*?)(?:"|')/)?.groups?.href
+    },
+    isLink(item: any) {
+      if (typeof item !== 'string') return false
+      return !!item.match(
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+      )
+    },
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
     },
@@ -992,7 +1018,7 @@ export default {
       }, 2000)
     }
   }
-}
+})
 </script>
 
 <style>
@@ -1062,13 +1088,15 @@ span.clickable {
 
 .theme--dark div.clickable,
 .theme--dark span.clickable,
-.theme--dark div.link-text a {
+.theme--dark div.link-text a,
+.theme--dark a.link-text {
   color: orange;
 }
 
 div.clickable:hover,
 span.clickable:hover,
-div.link-text a:hover {
+div.link-text a:hover,
+a.link-text:hover {
   text-decoration: none;
 }
 
