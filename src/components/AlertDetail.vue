@@ -12,7 +12,8 @@
               v-on="on"
               :disabled="!isAcked(item.status) && !isClosed(item.status)"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="takeAction(item.id, 'open')"
             >
               <v-icon size="20px">mdi-refresh</v-icon>
@@ -27,7 +28,8 @@
               v-show="!isWatched(item.tags)"
               v-on="on"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="watchAlert(item.id)"
             >
               <v-icon size="20px">mdi-eye</v-icon>
@@ -42,7 +44,8 @@
               v-show="isWatched(item.tags)"
               v-on="on"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="unwatchAlert(item.id)"
             >
               <v-icon size="20px">mdi-eye-off</v-icon>
@@ -58,7 +61,8 @@
               v-on="on"
               :disabled="!isOpen(item.status)"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="ackAlert(item.id)"
             >
               <v-icon size="20px">mdi-check</v-icon>
@@ -73,7 +77,8 @@
               v-show="isAcked(item.status)"
               v-on="on"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="takeAction(item.id, 'unack')"
             >
               <v-icon size="20px">mdi-undo</v-icon>
@@ -89,7 +94,8 @@
               v-on="on"
               :disabled="!isOpen(item.status) && !isAcked(item.status)"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="shelveAlert(item.id)"
             >
               <v-icon size="20px">mdi-clock-outline</v-icon>
@@ -104,7 +110,8 @@
               v-show="isShelved(item.status)"
               v-on="on"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="takeAction(item.id, 'unshelve')"
             >
               <v-icon size="20px">mdi-restore</v-icon>
@@ -119,7 +126,8 @@
               v-on="on"
               :disabled="isClosed(item.status)"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="takeAction(item.id, 'close')"
             >
               <v-icon size="20px">mdi-close-circle-outline</v-icon>
@@ -134,7 +142,8 @@
               v-on="on"
               icon
               v-has-perms="'admin:alerts'"
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="deleteAlert(item.id)"
             >
               <v-icon size="20px">mdi-delete</v-icon>
@@ -148,7 +157,8 @@
             <v-btn
               v-on="on"
               icon
-              class="btn--plain px-1 mx-0"
+              plain
+              class="px-1 mx-0"
               @click="clipboardCopy(JSON.stringify(item, null, 4))"
             >
               <v-icon size="20px">mdi-clipboard-multiple-outline</v-icon>
@@ -161,7 +171,7 @@
           <template v-slot:activator="{ on }">
             <v-menu v-on="on" bottom left>
               <template v-slot:activator="{ on }">
-                <v-btn v-on="on" icon class="btn--plain px-1 mx-0">
+                <v-btn v-on="on" icon plain class="px-1 mx-0">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
@@ -898,11 +908,12 @@ export default Vue.extend({
     getLinkHref(link: string) {
       return link.match(/href=(?:"|')(?<href>.*?)(?:"|')/)?.groups?.href
     },
-    isLink(item: any) {
+    isLink(item) {
       if (typeof item !== 'string') return false
-      return !!item.match(
+      const match = item.match(
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
       )
+      return match?.shift() === item
     },
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
@@ -990,7 +1001,7 @@ export default Vue.extend({
     ),
     deleteAlert: debounce(
       function (id) {
-        confirm(i18n.t('ConfirmDelete')) &&
+        confirm(i18n.t('ConfirmDelete') as string) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)
             .then(() => this.$router.push({ name: 'alerts' }))

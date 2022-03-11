@@ -35,7 +35,7 @@ export interface IAlerts {
   showPanel: boolean
   displayDensity: 'comfortable' | 'compact'
 
-  query: URLSearchParams
+  query: Record<string, string>
   filter: IFilter
 
   pagination: DataOptions & {

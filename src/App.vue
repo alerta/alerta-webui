@@ -644,26 +644,32 @@ export default Vue.extend({
 
       Sentry.setUser({
         email: this.$store.state.auth.payload.email,
-        username: this.$store.state.auth.preferred_username
+        username:
+          this.$store.state.auth.payload.preferred_username ??
+          this.$store.state.auth.payload.name
       })
     }
   },
   methods: {
     submitSearch(query) {
       this.$store.dispatch('alerts/updateQuery', { q: query })
-      this.$router.replace({
-        query: { ...this.$route.query, q: query },
-        hash: this.$store.getters['alerts/getHash']
-      })
+      this.$router
+        .replace({
+          query: { ...this.$route.query, q: query },
+          hash: this.$store.getters['alerts/getHash']
+        })
+        .catch(() => {})
       this.refresh()
     },
     clearSearch() {
       this.query = null
       this.$store.dispatch('alerts/updateQuery', {})
-      this.$router.replace({
-        query: { ...this.$route.query, q: undefined },
-        hash: this.$store.getters['alerts/getHash']
-      })
+      this.$router
+        .replace({
+          query: { ...this.$route.query, q: undefined },
+          hash: this.$store.getters['alerts/getHash']
+        })
+        .catch(() => {})
       this.refresh()
     },
     clearSelected() {

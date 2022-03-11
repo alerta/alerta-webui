@@ -1,6 +1,7 @@
 import utils from '@/common/utils'
 import AlertsApi from '@/services/api/alert.service'
 import { IAlerts, IStore } from '@/store/interfaces'
+import { omitBy } from 'lodash'
 import moment from 'moment'
 import { Module } from 'vuex'
 
@@ -25,7 +26,7 @@ const state: IAlerts = {
   displayDensity: 'comfortable',
 
   // query, filter and pagination
-  query: new URLSearchParams(), // URLSearchParams
+  query: {},
   filter: {
     // local defaults
     environment: null,
@@ -136,7 +137,9 @@ const alerts: Module<IAlerts, IStore> = {
     async getAlerts({ rootGetters, commit, state }) {
       commit('SET_LOADING')
       // get "lucene" query params (?q=)
-      const params = new URLSearchParams(state.query)
+      const params = new URLSearchParams(
+        omitBy(state.query, (v, k) => k == 'q' && !v)
+      )
 
       // append filter params to query params
       state.filter.environment &&
