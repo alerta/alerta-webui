@@ -429,6 +429,7 @@ import Grouping from '@/components/Grouping.vue'
 import i18n from '@/plugins/i18n'
 import Vue from 'vue'
 import * as Sentry from '@sentry/vue'
+import { isUndefined, omitBy } from 'lodash'
 
 export default Vue.extend({
   name: 'App',
@@ -651,7 +652,9 @@ export default Vue.extend({
     }
   },
   methods: {
-    submitSearch(query) {
+    submitSearch(query: string | null) {
+      if (!query) return this.clearSearch()
+
       this.$store.dispatch('alerts/updateQuery', { q: query })
       this.$router
         .replace({
@@ -666,7 +669,7 @@ export default Vue.extend({
       this.$store.dispatch('alerts/updateQuery', {})
       this.$router
         .replace({
-          query: { ...this.$route.query, q: undefined },
+          query: omitBy({ ...this.$route.query, q: undefined }, isUndefined),
           hash: this.$store.getters['alerts/getHash']
         })
         .catch(() => {})

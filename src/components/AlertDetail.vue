@@ -1006,7 +1006,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     queryBy(attribute, value) {
-      this.$router.replace({ path: `/alerts?q=${attribute}:"${value}"` }) // double-quotes (") around value mean exact match
+      this.$router.push({ path: `/alerts?q=${attribute}:"${value}"` }) // double-quotes (") around value mean exact match
     },
     close() {
       if (this.$route.query['from-incident'])
