@@ -715,11 +715,7 @@
                       >
                         {{ value }}
                       </a>
-                      <div
-                        v-else
-                        class="clickable"
-                        @click="queryBy(`_.${attr}`, value)"
-                      >
+                      <div v-else>
                         {{ value }}
                       </div>
                     </div>

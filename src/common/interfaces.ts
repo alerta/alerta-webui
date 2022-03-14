@@ -1,4 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DateRange } from '@/store/interfaces'
+
+export interface INote {
+  attributes: any
+  createTime: string
+  customer: string | null
+  href: string
+  id: string
+  related: {
+    alert: string
+  }
+  text: string
+  type: string
+  updateTime: string | null
+  user: string
+}
 
 export interface IIncident {
   id: string
@@ -18,6 +34,7 @@ export interface IIncident {
   alerts: string[] // alert ids
 
   owner?: IUser
+  note?: INote
 }
 
 export interface IAlert {

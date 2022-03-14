@@ -447,20 +447,18 @@ export default {
     getPerms() {
       this.$store.dispatch('perms/getPerms')
     },
-    filterByRoles(roles) {
-      this.wantRoles = roles
-    },
-    customFilter(items, search, filter) {
-      items = items.filter((item) =>
-        this.wantRoles.length > 0
-          ? item.roles.some((x) => this.wantRoles.includes(x))
-          : item
-      )
-
-      if (search.trim() === '') return items
-
-      return items.filter((i) =>
-        Object.keys(i).some((j) => filter(i[j], search))
+    customFilter(value, search, item) {
+      return (
+        (this.wantRoles.length
+          ? item.roles.some((role) => this.wantRoles.includes(role))
+          : true) &&
+        value != null &&
+        search != null &&
+        typeof value !== 'boolean' &&
+        value
+          .toString()
+          .toLocaleLowerCase()
+          .indexOf(search.toLocaleLowerCase()) !== -1
       )
     },
     toggleUserStatus(item) {

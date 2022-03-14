@@ -251,20 +251,18 @@ export default {
     getScopes() {
       this.$store.dispatch('perms/getScopes')
     },
-    filterByScopes(scopes) {
-      this.wantScopes = scopes
-    },
-    customFilter(items, search, filter) {
-      items = items.filter((item) =>
-        this.wantScopes.length > 0
-          ? item.scopes.some((x) => this.wantScopes.includes(x))
-          : item
-      )
-
-      if (search.trim() === '') return items
-
-      return items.filter((i) =>
-        Object.keys(i).some((j) => filter(i[j], search))
+    customFilter(value, search, item) {
+      return (
+        (this.wantScopes.length
+          ? item.scopes.some((role) => this.wantScopes.includes(role))
+          : true) &&
+        value != null &&
+        search != null &&
+        typeof value !== 'boolean' &&
+        value
+          .toString()
+          .toLocaleLowerCase()
+          .indexOf(search.toLocaleLowerCase()) !== -1
       )
     },
     editItem(item) {

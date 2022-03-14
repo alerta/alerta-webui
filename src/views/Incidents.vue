@@ -190,7 +190,14 @@
                 "
                 rounded
               >
-                <pre class="note">{{ incident.note }}</pre>
+                <strong class="mb-1 d-block">
+                  <date-time
+                    :value="incident.note.createTime"
+                    :format="shortDate"
+                  />
+                  by {{ incident.note.user }}:
+                </strong>
+                <pre class="note">{{ incident.note.text }}</pre>
               </v-sheet>
 
               <v-textarea
