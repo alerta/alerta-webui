@@ -80,6 +80,8 @@
             clearable
             solo
             dense
+            multiple
+            class="flex-grow-0"
             :loading="this.$store.state.users.loading"
             @focus="getUsers"
           />
@@ -375,13 +377,11 @@ export default Vue.extend({
     },
     incidentOwner: {
       get() {
-        return this.$store.state.incidents.filter.owner?.length
-          ? this.$store.state.incidents.filter.owner[0]
-          : null
+        return this.$store.state.incidents.filter.owner
       },
       set(v) {
         this.$store.dispatch('incidents/setFilter', {
-          owner: v ? [v] : []
+          owner: v
         })
       }
     },

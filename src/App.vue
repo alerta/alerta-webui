@@ -171,8 +171,8 @@
           v-show="isLoggedIn"
           v-model="menu"
           :close-on-content-click="false"
-          :nudge-width="200"
-          offset-x
+          :nudge-bottom="15"
+          offset-y
           bottom
         >
           <template v-slot:activator="{ on }">
@@ -352,7 +352,8 @@
           v-model="menu"
           :close-on-content-click="false"
           :nudge-width="200"
-          offset-x
+          offset-y
+          bottom
         >
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon>
