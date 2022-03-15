@@ -36,7 +36,7 @@ const state: IAlerts = {
     group: null,
     severity: null,
     dateRange: [null, null],
-    owned: null
+    owner: null
   },
 
   pagination: {
@@ -148,7 +148,7 @@ const alerts: Module<IAlerts, IStore> = {
       state.filter.group?.map((g) => params.append('group', g))
 
       // add server-side sorting
-      const sortBy = state.pagination.sortBy
+      const sortBy = state.pagination.sortBy.length
         ? state.pagination.sortBy.map((s, i) =>
             state.pagination.sortDesc[i] ? `-${s}` : s
           )
@@ -165,32 +165,29 @@ const alerts: Module<IAlerts, IStore> = {
       params.append('page-size', String(state.pagination.itemsPerPage))
 
       // apply any date/time filters
-      if ((state.filter.dateRange[0] ?? 0) > 0) {
+      const startDate = state.filter.dateRange[0] ?? 0
+      const endDate = state.filter.dateRange[1] ?? 0
+
+      if (startDate > 0) {
         params.append(
           'from-date',
-          moment.unix(state.filter.dateRange[0] ?? 0).toISOString() // epoch seconds
+          moment.unix(startDate).toISOString() // epoch seconds
         )
-      } else if ((state.filter.dateRange[0] ?? 0) < 0) {
+      } else if (startDate < 0) {
         params.append(
           'from-date',
-          moment()
-            .utc()
-            .add(state.filter.dateRange[0] ?? 0, 'seconds')
-            .toISOString() // seconds offset
+          moment().utc().add(startDate, 'seconds').toISOString() // seconds offset
         )
       }
-      if ((state.filter.dateRange[1] ?? 0) > 0) {
+      if (endDate > 0) {
         params.append(
           'to-date',
-          moment.unix(state.filter.dateRange[1] ?? 0).toISOString() // epoch seconds
+          moment.unix(endDate).toISOString() // epoch seconds
         )
-      } else if ((state.filter.dateRange[1] ?? 0) < 0) {
+      } else if (endDate < 0) {
         params.append(
           'to-date',
-          moment()
-            .utc()
-            .add(state.filter.dateRange[1] ?? 0, 'seconds')
-            .toISOString() // seconds offset
+          moment().utc().add(endDate, 'seconds').toISOString() // seconds offset
         )
       }
 

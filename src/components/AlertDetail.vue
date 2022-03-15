@@ -773,9 +773,9 @@
           <v-tab-item :transition="false" :reverse-transition="false">
             <v-card class="mx-1" style="overflow-x: auto" flat>
               <v-card-text>
-                <span class="console-text">{{
-                  item.rawData || 'no raw data'
-                }}</span>
+                <span class="console-text">
+                  {{ parseRawData(item.rawData) }}
+                </span>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -898,6 +898,9 @@ export default Vue.extend({
     this.getNotes()
   },
   methods: {
+    parseRawData(data?: string) {
+      return data ? JSON.stringify(JSON.parse(data), null, 2) : 'no raw data'
+    },
     getLinkBody(link: string) {
       return link.match(/<a\b[^>]*>(?<text>.*?)<\/a>/)?.groups?.text
     },

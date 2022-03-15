@@ -70,14 +70,19 @@
         </v-btn>
 
         <div class="d-flex align-center gap-2">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <div v-on="on" class="switch-wrapper">
-                <v-switch v-model="ownedIncidents" hide-details />
-              </div>
-            </template>
-            <span>{{ $t('MyIncidents') }}</span>
-          </v-tooltip>
+          <v-autocomplete
+            label="Incident Owner"
+            v-model="incidentOwner"
+            :items="users"
+            item-text="name"
+            item-value="id"
+            hide-details
+            clearable
+            solo
+            dense
+            :loading="this.$store.state.users.loading"
+            @focus="getUsers"
+          />
           <v-btn
             text
             icon
@@ -177,6 +182,15 @@
                 <span :class="`label label-${incident.severity.toLowerCase()}`">
                   {{ incident.severity | capitalize }}
                 </span>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <span class="mx-1" v-on="on">
+                      <v-icon small>mdi-clock-outline</v-icon>
+                      {{ incident.updateTime | timeago }}</span
+                    >
+                  </template>
+                  <span>{{ parseTimestamp(incident.updateTime) }}</span>
+                </v-tooltip>
               </div>
             </v-card-subtitle>
             <v-divider />
@@ -190,13 +204,21 @@
                 "
                 rounded
               >
-                <strong class="mb-1 d-block">
-                  <date-time
-                    :value="incident.note.createTime"
-                    :format="shortDate"
-                  />
-                  by {{ incident.note.user }}:
-                </strong>
+                <div class="mb-1 d-flex justify-space-between">
+                  <strong>
+                    <v-icon small>mdi-account-circle</v-icon>
+                    {{ incident.note.user }}
+                  </strong>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <strong v-on="on">
+                        <v-icon small>mdi-clock-outline</v-icon>
+                        {{ incident.note.createTime | timeago }}
+                      </strong>
+                    </template>
+                    <span>{{ parseTimestamp(incident.note.createTime) }}</span>
+                  </v-tooltip>
+                </div>
                 <pre class="note">{{ incident.note.text }}</pre>
               </v-sheet>
 
@@ -210,15 +232,6 @@
                 auto-grow
                 outlined
               />
-
-              <div>
-                Updated at:
-                <date-time :value="incident.updateTime" format="mediumDate" />
-              </div>
-              <div>
-                Duration:
-                <span>{{ duration(incident.updateTime) | hhmmss }}</span>
-              </div>
             </v-card-text>
             <v-card-actions class="px-4 gap-2">
               <div>
@@ -298,7 +311,6 @@
 import utils from '@/common/utils'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
-import DateTime from '@/components/lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
 import { ExportToCsv } from 'export-to-csv'
 import { debounce } from 'lodash'
@@ -320,8 +332,7 @@ export default Vue.extend({
   },
   components: {
     IncidentListFilter,
-    CloseIncidentConfirm,
-    DateTime
+    CloseIncidentConfirm
   },
   data: () => ({
     currentTab: null,
@@ -359,13 +370,18 @@ export default Vue.extend({
         this.$config.audio.new || this.$store.getters.getPreference('audioURL')
       )
     },
-    ownedIncidents: {
+    users() {
+      return this.$store.state.users.users
+    },
+    incidentOwner: {
       get() {
-        return this.$store.state.incidents.filter.owned
+        return this.$store.state.incidents.filter.owner?.length
+          ? this.$store.state.incidents.filter.owner[0]
+          : null
       },
       set(v) {
         this.$store.dispatch('incidents/setFilter', {
-          owned: v
+          owner: v ? [v] : []
         })
       }
     },
@@ -544,6 +560,13 @@ export default Vue.extend({
     this.cancelTimer()
   },
   methods: {
+    getUsers() {
+      if (!this.$store.state.users.users?.length)
+        this.$store.dispatch('users/getUsers')
+    },
+    parseTimestamp(data: string) {
+      return moment(data).toLocaleString()
+    },
     duration(val) {
       return moment.duration(moment().diff(val))
     },

@@ -26,7 +26,7 @@ const state: IIncidents = {
   displayDensity: 'comfortable', // 'comfortable' or 'compact'
 
   // query, filter and pagination
-  query: new URLSearchParams(), // URLSearchParams
+  query: {}, // URLSearchParams
   filter: {
     // local defaults
     severity: null,
@@ -37,7 +37,7 @@ const state: IIncidents = {
     service: null,
     group: null,
     dateRange: [null, null],
-    owned: null
+    owner: null
   },
 
   pagination: {
@@ -138,7 +138,7 @@ const incidents: Module<IIncidents, IStore> = {
       (state.showPanel = panel)
   },
   actions: {
-    async getIncidents({ rootGetters, commit, state }) {
+    async getIncidents({ commit, state }) {
       commit('SET_LOADING')
       // get "lucene" query params (?q=)
       const params = new URLSearchParams(state.query)
@@ -150,7 +150,7 @@ const incidents: Module<IIncidents, IStore> = {
       state.filter.customer?.forEach((c) => params.append('customer', c))
       state.filter.service?.forEach((s) => params.append('service', s))
       state.filter.group?.forEach((g) => params.append('group', g))
-      state.filter.owned && params.append('owner', rootGetters['auth/getId'])
+      state.filter.owner?.forEach((o) => params.append('owner', o))
 
       // add server-side sorting
       const sortBy = state.pagination.sortBy.length
@@ -164,42 +164,34 @@ const incidents: Module<IIncidents, IStore> = {
         )
       } else sortBy.forEach((sb) => params.append('sort-by', sb))
 
-      // need notes from alert history if showing notes icons
-      // if (rootGetters.getPreference('showNotesIcon')) {
-      //   params.append('show-history', 'true')
-      // }
-
       // add server-side paging
       params.append('page', String(state.pagination.page))
       params.append('page-size', String(state.pagination.itemsPerPage))
 
       // apply any date/time filters
-      if ((state.filter.dateRange[0] ?? 0) > 0) {
+      const startDate = state.filter.dateRange[0] ?? 0
+      const endDate = state.filter.dateRange[1] ?? 0
+
+      if (startDate > 0) {
         params.append(
           'from-date',
-          moment.unix(state.filter.dateRange[0] ?? 0).toISOString() // epoch seconds
+          moment.unix(startDate).toISOString() // epoch seconds
         )
-      } else if ((state.filter.dateRange[0] ?? 0) < 0) {
+      } else if (startDate < 0) {
         params.append(
           'from-date',
-          moment()
-            .utc()
-            .add(state.filter.dateRange[0] ?? 0, 'seconds')
-            .toISOString() // seconds offset
+          moment().utc().add(startDate, 'seconds').toISOString() // seconds offset
         )
       }
-      if ((state.filter.dateRange[1] ?? 0) > 0) {
+      if (endDate > 0) {
         params.append(
           'to-date',
-          moment.unix(state.filter.dateRange[1] ?? 0).toISOString() // epoch seconds
+          moment.unix(endDate).toISOString() // epoch seconds
         )
-      } else if ((state.filter.dateRange[1] ?? 0) < 0) {
+      } else if (endDate < 0) {
         params.append(
           'to-date',
-          moment()
-            .utc()
-            .add(state.filter.dateRange[1] ?? 0, 'seconds')
-            .toISOString() // seconds offset
+          moment().utc().add(endDate, 'seconds').toISOString() // seconds offset
         )
       }
 

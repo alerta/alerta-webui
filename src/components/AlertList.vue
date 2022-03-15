@@ -297,8 +297,8 @@ export default {
         text: i18n.t('Incident'),
         value: 'incident',
         sortable: false,
-        class: 'text-center',
-        cellClass: 'text-center'
+        class: 'pa-0',
+        cellClass: 'pa-0'
       },
       id: { text: i18n.t('AlertId'), value: 'id' },
       resource: { text: i18n.t('Resource'), value: 'resource' },

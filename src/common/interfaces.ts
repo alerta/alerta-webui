@@ -122,7 +122,7 @@ export interface IFilter {
   group: string[] | null
   dateRange: DateRange
   text: string | null
-  owned: boolean | null
+  owner: string[] | null
 }
 
 export interface DTO {
