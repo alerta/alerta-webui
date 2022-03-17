@@ -5,20 +5,21 @@
         {{ value | date(displayMode, formatString) }}
       </span>
     </template>
-    <span>{{ value | date('utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
+    <span>{{ value | date('utc', dateFormat) }}</span>
   </v-tooltip>
 </template>
 
 <script>
-import moment from 'moment'
-import i18n from '@/plugins/i18n'
-moment.locale(i18n.locale)
+import { DateTime } from 'luxon'
 
 export default {
   props: {
     value: { type: String, required: true },
     format: { type: String, default: 'mediumDate' }
   },
+  data: () => ({
+    dateFormat: DateTime.DATETIME_SHORT
+  }),
   computed: {
     displayMode() {
       return this.$store.state.prefs.timezone

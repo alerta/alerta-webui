@@ -64,16 +64,16 @@
           {{ props.item.attributes }}
         </td>
         <td>
-          <date-time :value="props.item.createTime" format="mediumDate" />
+          <date-format :value="props.item.createTime" format="mediumDate" />
         </td>
         <td>
-          <date-time :value="props.item.receiveTime" format="mediumDate" />
+          <date-format :value="props.item.receiveTime" format="mediumDate" />
         </td>
         <td>
           {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
         </td>
         <td class="text-sm-center text-no-wrap">
-          {{ timeoutLeft(props.item) | hhmmss }}
+          {{ timeoutLeft(props.item) }}
         </td>
         <td>
           {{ props.item.receiveTime | timeago }}
@@ -107,13 +107,13 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime.vue'
-import moment from 'moment'
+import DateFormat from './lib/DateTime.vue'
+import { DateTime } from 'luxon'
 import i18n from '@/plugins/i18n'
 
 export default {
   components: {
-    DateTime
+    DateFormat
   },
   data: () => ({
     itemsPerPageOptions: [10, 20, 30, 40, 50],
@@ -167,10 +167,15 @@ export default {
   },
   methods: {
     timeoutLeft(item) {
-      const expireTime = moment(item.createTime).add(item.timeout, 'seconds')
-      return expireTime.isAfter()
-        ? expireTime.diff(moment(), 'seconds')
-        : moment.duration()
+      const expireTime = DateTime.fromISO(item.createTime)
+        .plus({
+          seconds: item.timeout
+        })
+        .diffNow()
+
+      return expireTime.toMillis() > 0
+        ? expireTime.toFormat('hh:mm:ss')
+        : '00:00:00'
     },
     getHeartbeats() {
       this.$store.dispatch('heartbeats/getHeartbeats')

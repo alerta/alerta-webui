@@ -1,6 +1,6 @@
-import { IReports, IStore } from '@/store/interfaces'
 import AlertsApi from '@/services/api/alert.service'
-import moment from 'moment'
+import { IReports, IStore } from '@/store/interfaces'
+import { DateTime } from 'luxon'
 import { Module } from 'vuex'
 
 const state: IReports = {
@@ -15,7 +15,9 @@ const state: IReports = {
     customer: null,
     service: null,
     group: null,
-    dateRange: [null, null]
+    dateRange: [null, null],
+    owner: null,
+    text: null
   },
 
   pagination: {
@@ -43,28 +45,32 @@ const getParams = (state: IReports) => {
   params.append('page-size', String(state.pagination.itemsPerPage))
 
   // apply any date/time filters
-  if ((state.filter.dateRange[0] ?? 0) > 0) {
+  const startDate = state.filter.dateRange[0] ?? 0
+  const endDate = state.filter.dateRange[1] ?? 0
+
+  if (startDate > 0) {
     params.append(
       'from-date',
-      moment.unix(state.filter.dateRange[0] ?? 0).toISOString() // epoch seconds
+      DateTime.fromMillis(startDate).toISO() // epoch seconds
     )
-  } else if ((state.filter.dateRange[0] ?? 0) < 0) {
+  } else if (startDate < 0) {
     params.append(
       'from-date',
-      moment().utc().add(state.filter.dateRange[0], 'seconds').toISOString() // seconds offset
+      DateTime.utc().plus({ seconds: startDate }).toISO() // seconds offset
     )
   }
-  if ((state.filter.dateRange[1] ?? 0) > 0) {
+  if (endDate > 0) {
     params.append(
       'to-date',
-      moment.unix(state.filter.dateRange[1] ?? 0).toISOString() // epoch seconds
+      DateTime.fromMillis(endDate).toISO() // epoch seconds
     )
-  } else if ((state.filter.dateRange[1] ?? 0) < 0) {
+  } else if (endDate < 0) {
     params.append(
       'to-date',
-      moment().utc().add(state.filter.dateRange[1], 'seconds').toISOString() // seconds offset
+      DateTime.utc().plus({ seconds: endDate }).toISO() // seconds offset
     )
   }
+
   return params
 }
 

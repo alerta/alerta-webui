@@ -306,10 +306,10 @@
             </v-tooltip>
           </td>
           <td class="text-sm-left">
-            <date-time :value="props.item.startTime" format="mediumDate" />
+            <date-format :value="props.item.startTime" format="mediumDate" />
           </td>
           <td class="text-sm-left">
-            <date-time :value="props.item.endTime" format="mediumDate" />
+            <date-format :value="props.item.endTime" format="mediumDate" />
           </td>
           <td class="text-sm-left text-no-wrap">
             {{ props.item.endTime | until }}
@@ -365,14 +365,14 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime.vue'
+import DateFormat from './lib/DateTime.vue'
 import ListButtonAdd from './lib/ListButtonAdd.vue'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import i18n from '@/plugins/i18n'
 
 export default {
   components: {
-    DateTime,
+    DateFormat,
     ListButtonAdd
   },
   data: () => ({
@@ -451,14 +451,14 @@ export default {
       return this.$store.state.blackouts.blackouts
         .filter((b) => !this.status || this.status.includes(b.status))
         .map((b) => {
-          const s = moment(b.startTime)
-          const e = moment(b.endTime)
+          const t1 = DateTime.fromISO(b.startTime)
+          const t2 = DateTime.fromISO(b.endTime)
           return Object.assign(b, {
             period: {
-              startDate: s.format('YYYY-MM-DD'),
-              startTime: s.format('HH:mm'),
-              endDate: e.format('YYYY-MM-DD'),
-              endTime: e.format('HH:mm')
+              startDate: t1.toFormat('yyyy-MM-dd'),
+              startTime: t1.toFormat('HH:mm'),
+              endDate: t2.toFormat('yyyy-MM-dd'),
+              endTime: t2.toFormat('HH:mm')
             }
           })
         })
@@ -550,14 +550,11 @@ export default {
       this.$store.dispatch('alerts/getTags')
     },
     getBlackoutTime(date) {
-      if (this.blackoutStartNow) {
-        return moment(date)
-      }
+      if (this.blackoutStartNow) return DateTime.fromJSDate(date)
+
       // return soonest 15 minute interval
-      return moment(
-        new Date(
-          Math.ceil(date.getTime() / 1000 / 60 / 15) * 1000 * 60 * 15
-        ).toISOString()
+      return DateTime.fromMillis(
+        Math.ceil(date.getTime() / 1000 / 60 / 15) * 1000 * 60 * 15
       )
     },
     defaultTimes() {
@@ -567,10 +564,10 @@ export default {
       const end = this.getBlackoutTime(now)
 
       return {
-        startDate: start.format('YYYY-MM-DD'),
-        startTime: start.format('HH:mm'),
-        endDate: end.format('YYYY-MM-DD'),
-        endTime: end.format('HH:mm')
+        startDate: start.toFormat('yyyy-MM-dd'),
+        startTime: start.toFormat('HH:mm'),
+        endDate: end.toFormat('yyyy-MM-dd'),
+        endTime: end.toFormat('HH:mm')
       }
     },
     toISODate(date, time) {

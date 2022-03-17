@@ -243,40 +243,29 @@
 </template>
 
 <script>
-import moment from 'moment'
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
+import { DateTime } from 'luxon'
 
 export default {
   data: () => ({
-    mediumDateFormats: [
-      'l',
-      'L',
-      'll',
-      'LL',
-      'ddd D MMM HH:mm',
-      'lll',
-      'llll',
-      'LLL',
-      'LLLL'
-    ],
+    mediumDateFormats: ['D', 'DDD', 'ccc d MMM HH:mm', 'fff', 'cccc fff'],
     longDateFormats: [
-      'ddd D MMM, YYYY HH:mm:ss.SSS Z',
-      'l hh:mm:ss.SSS A',
-      'YYYY-MM-DD HH:mm:ss.SSS Z',
-      'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'
+      'cccc d LLL, yyyy HH:mm:ss.SSS ZZ',
+      'D hh:mm:ss.SSS a',
+      'yyyy-MM-dd HH:mm:ss.SSS ZZ',
+      `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`
     ],
     timeFormats: [
-      'LT',
-      'LTS',
-      'hh:mm:ss.SSS A',
+      'hh:mm a',
+      'hh:mm:ss a',
+      'hh:mm:ss.SSS a',
       'HH:mm',
       'HH:mm:ss',
       'HH:mm:ss.SSS',
-      'HH:mm:ss.SSS Z'
+      'HH:mm:ss.SSS ZZ'
     ],
     webSafeFontFamilies: [
-      { text: 'Sintony', value: '"Sintony", Arial, sans-serif' },
       { text: 'Helvetica', value: '"Helvetica", Arial, sans-serif' },
       { text: 'Verdana', value: '"Verdana", Arial, sans-serif' },
       { text: 'Courier New', value: '"Courier New", Courier, monospace' },
@@ -284,29 +273,7 @@ export default {
       { text: 'Lucida Console', value: '"Lucida Console", Monaco, monospace' },
       { text: 'Andale Mono', value: '"Andale Mono", Courier, monospace' }
     ],
-    fontSizeLabels: [
-      'tiny',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      'huge'
-    ],
+    fontSizeLabels: ['tiny', ...Array(18).map(() => ''), 'huge'],
     fontWeightLabels: ['thin', '', '', 'normal', '', '', 'bold', '', 'heavy'],
     valueWidthOptions: [50, 100, 150, 200], // px
     textWidthOptions: [200, 400, 600, 800], // px
@@ -356,7 +323,6 @@ export default {
       }
     },
     computedDateFormats() {
-      moment.locale(i18n.locale)
       const allDateFormats = [
         ...new Set([
           this.$store.getters.getConfig('dates').mediumDate,
@@ -365,17 +331,30 @@ export default {
           ...this.longDateFormats
         ])
       ]
-      return allDateFormats.map((f) => ({ text: moment().format(f), value: f }))
+      return allDateFormats.map((f) => ({
+        text: DateTime.now().toFormat(f, {
+          locale:
+            (navigator.languages && navigator.languages[0]) ||
+            navigator.language
+        }),
+        value: f
+      }))
     },
     computedTimeFormats() {
-      moment.locale(i18n.locale)
       const allTimeFormats = [
         ...new Set([
           this.$store.getters.getConfig('dates').shortTime,
           ...this.timeFormats
         ])
       ]
-      return allTimeFormats.map((f) => ({ text: moment().format(f), value: f }))
+      return allTimeFormats.map((f) => ({
+        text: DateTime.now().toFormat(f, {
+          locale:
+            (navigator.languages && navigator.languages[0]) ||
+            navigator.language
+        }),
+        value: f
+      }))
     },
     longDate: {
       get() {
@@ -447,7 +426,7 @@ export default {
         this.$store.getters.getConfig('font')['font-family']
       return [
         {
-          text: defaultFontFamily.split(',')[0].replace(/"/g, ''),
+          text: 'System',
           value: defaultFontFamily
         },
         ...this.webSafeFontFamilies

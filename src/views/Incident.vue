@@ -251,13 +251,13 @@
       {{ $t('addedNoteOn') }}
       <span v-if="note.updateTime" class="caption">
         <strong>
-          <date-time :value="note.updateTime" format="mediumDate" />
+          <format-date :value="note.updateTime" format="mediumDate" />
         </strong>
         ({{ note.updateTime | timeago }})<br />
       </span>
       <span v-else class="caption">
         <strong>
-          <date-time :value="note.createTime" format="mediumDate" />
+          <format-date :value="note.createTime" format="mediumDate" />
         </strong>
         ({{ note.createTime | timeago }})<br />
       </span>
@@ -327,18 +327,18 @@
       />
 
       <div class="d-flex flex-column pb-3">
-        <span>
-          Created at:
-          <date-time :value="incident.createTime" format="mediumDate" />
-        </span>
-        <span>
-          Updated at:
-          <date-time :value="incident.updateTime" format="mediumDate" />
-        </span>
-        <span>
-          Duration:
-          {{ duration | hhmmss }}
-        </span>
+        <div>
+          <strong>Created at:</strong>
+          <format-date :value="incident.createTime" format="mediumDate" />
+        </div>
+        <div>
+          <strong>Updated at:</strong>
+          <format-date :value="incident.updateTime" format="mediumDate" />
+        </div>
+        <div>
+          <strong>Duration since update:</strong>
+          <span class="px-1">{{ incident.updateTime | hhmmss }}</span>
+        </div>
       </div>
 
       <v-combobox
@@ -400,29 +400,27 @@
 import { IAlert, IIncident } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
-import DateTime from '@/components/lib/DateTime.vue'
+import FormatDate from '@/components/lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
 import { cloneDeep, omit, pickBy } from 'lodash'
-import moment from 'moment'
 import Vue from 'vue'
 
 export default Vue.extend({
   components: {
     AlertList,
-    DateTime,
+    FormatDate,
     CloseIncidentConfirm
   },
   data: () => ({
     copyIconText: i18n.t('Copy'),
     creatingNote: false,
-    incident: undefined as any,
+    incident: undefined as Omit<IIncident, 'alerts'> | undefined,
     alerts: [] as IAlert[],
     newNote: '',
     notes: [] as IIncidents['notes'],
     updating: false,
     assignDialog: false,
-    duration: {},
     severities: [
       'security',
       'critical',
@@ -442,10 +440,6 @@ export default Vue.extend({
     interval: null as number | null
   }),
   mounted() {
-    this.interval = setInterval(() => {
-      this.duration = this.calcDuration(this.incident.updateTime)
-    }, 1000)
-
     this.getIncident()
       .then(() => {
         this.$store.dispatch('alerts/setPagination', {
@@ -510,14 +504,12 @@ export default Vue.extend({
     }
   },
   methods: {
-    calcDuration(val) {
-      return moment.duration(moment().diff(val))
-    },
     getIncident() {
       return this.$store.dispatch('incidents/getIncident', this.id).then(() => {
-        this.incident = omit(cloneDeep(this.$store.state.incidents.incident), [
-          'alerts'
-        ])
+        this.incident = omit(
+          cloneDeep<IIncident>(this.$store.state.incidents.incident),
+          ['alerts']
+        )
         this.alerts = cloneDeep(this.$store.state.incidents.incident.alerts)
       })
     },
@@ -582,9 +574,10 @@ export default Vue.extend({
         return
       }
       this.updating = false
-      this.incident = omit(cloneDeep(this.$store.state.incidents.incident), [
-        'alerts'
-      ])
+      this.incident = omit(
+        cloneDeep<IIncident>(this.$store.state.incidents.incident),
+        ['alerts']
+      )
     },
     handleSave() {
       if (!this.incident) return
@@ -658,6 +651,10 @@ export default Vue.extend({
 <style scoped>
 .gap-2 {
   gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .note {

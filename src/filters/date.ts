@@ -1,10 +1,26 @@
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import Vue from 'vue'
 
 export default Vue.filter(
   'date',
-  (value: moment.MomentInput, mode = 'local', format = 'll') => {
+  (
+    value?: string,
+    mode = 'local',
+    format: string | Intl.DateTimeFormatOptions = 'll'
+  ) => {
     if (!value) return
-    return moment(value)[mode === 'utc' ? 'utc' : 'local']().format(format)
+
+    const date = DateTime.fromISO(value)
+    if (typeof format === 'string') {
+      return date.toFormat(format, {
+        locale:
+          mode === 'utc'
+            ? 'utc'
+            : (navigator.languages && navigator.languages[0]) ||
+              navigator.language
+      })
+    }
+
+    return date.toLocaleString(format)
   }
 )

@@ -59,15 +59,13 @@
       <span class="label">
         {{ item.status | capitalize }}
       </span>
-      <span v-if="showNotesIcon">
-        <span v-if="lastNote(item)" class="pl-2">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon v-bind="attrs" small v-on="on">mdi-note</v-icon>
-            </template>
-            <span>{{ lastNote(item) }}</span>
-          </v-tooltip>
-        </span>
+      <span v-if="showNotesIcon && lastNote(item)" class="pl-2">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" small v-on="on">mdi-note</v-icon>
+          </template>
+          <span>{{ lastNote(item) }}</span>
+        </v-tooltip>
       </span>
     </template>
     <template v-slot:[`item.tags`]="{ item }">
@@ -113,20 +111,20 @@
       </span>
     </template>
     <template v-slot:[`item.receiveTime`]="{ item }">
-      <date-time :value="item.receiveTime" format="mediumDate" />
+      <date-format :value="item.receiveTime" format="mediumDate" />
     </template>
     <template v-slot:[`item.lastReceiveTime`]="{ item }">
-      <date-time :value="item.lastReceiveTime" format="mediumDate" />
+      <date-format :value="item.lastReceiveTime" format="mediumDate" />
     </template>
     <template v-slot:[`item.createTime`]="{ item }">
-      <date-time :value="item.createTime" format="mediumDate" />
+      <date-format :value="item.createTime" format="mediumDate" />
     </template>
     <template v-slot:[`item.timeout`]="{ item }">
       {{ item.timeout | hhmmss }}
     </template>
     <template v-slot:[`item.timeoutLeft`]="{ item }">
       <span class="text-sm-right">
-        {{ timeoutLeft(item) | hhmmss }}
+        {{ timeoutLeft(item) }}
       </span>
     </template>
     <template v-slot:[`item.repeat`]="{ item }">
@@ -266,15 +264,19 @@
   </v-data-table>
 </template>
 
-<script>
+<script lang='ts'>
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
-import moment from 'moment'
-import DateTime from '@/components/lib/DateTime.vue'
+import DateFormat from '@/components/lib/DateTime.vue'
+import { DateTime } from 'luxon'
+import Vue, { PropType } from 'vue'
+import { IAlerts } from '@/store/interfaces'
 
-export default {
+type Alert = Required<IAlerts>['alert']
+
+export default Vue.extend({
   components: {
-    DateTime
+    DateFormat
   },
   props: {
     selectable: {
@@ -286,7 +288,7 @@ export default {
       default: () => []
     },
     columns: {
-      type: Array,
+      type: Array as PropType<Array<string>>,
       default: null
     }
   },
@@ -306,7 +308,7 @@ export default {
       environment: { text: i18n.t('Environment'), value: 'environment' },
       severity: { text: i18n.t('Severity'), value: 'severity' },
       correlate: { text: i18n.t('Correlate'), value: 'correlate' },
-      status: { text: i18n.t('Status'), value: 'status' },
+      status: { text: i18n.t('Status'), value: 'status', class: '' },
       service: { text: i18n.t('Service'), value: 'service' },
       group: { text: i18n.t('Group'), value: 'group' },
       value: { text: i18n.t('Value'), value: 'value', class: 'value-header' },
@@ -417,10 +419,14 @@ export default {
       return this.$config.actions
     },
     tableHeaders() {
-      return (this.columns ?? ['incident', ...this.$config.columns]).map(
+      return [
+        ...new Set<string>(
+          this.columns ?? ['incident', ...this.$config.columns]
+        )
+      ].map(
         (c) =>
           this.headersMap[c] || {
-            text: this.$options.filters.capitalize(c),
+            text: this.$options.filters?.capitalize(c),
             value: 'attributes.' + c
           }
       )
@@ -455,22 +461,28 @@ export default {
     }
   },
   methods: {
-    duration(item) {
-      return moment.duration(moment().diff(item.receiveTime))
+    duration(item: Alert) {
+      return DateTime.fromISO(item.receiveTime)
     },
-    timeoutLeft(item) {
+    timeoutLeft(item: Alert) {
       const ackedOrShelved =
         this.isShelved(item.status) || this.isAcked(item.status)
       const lastModified =
         ackedOrShelved && item.updateTime
           ? item.updateTime
           : item.lastReceiveTime
-      const expireTime = moment(lastModified).add(item.timeout, 'seconds')
-      return expireTime.isAfter()
-        ? expireTime.diff(moment(), 'seconds')
-        : moment.duration()
+
+      const expireTime = DateTime.fromISO(lastModified)
+        .plus({
+          seconds: item.timeout
+        })
+        .diffNow()
+
+      return expireTime.toMillis() > 0
+        ? expireTime.toFormat('hh:mm:ss')
+        : '00:00:00'
     },
-    lastNote(item) {
+    lastNote(item: Alert) {
       const note = item.history
         .filter((h) => h.type == 'note' || h.type == 'dismiss')
         .pop()
@@ -482,27 +494,27 @@ export default {
     textWidth() {
       return this.$store.getters.getPreference('textWidth')
     },
-    getSeverity(item) {
+    getSeverity(item: Alert) {
       return `row-${item.severity}`
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    openItem(item, ..._args) {
+    openItem(item: Alert, _options) {
       !this.selected.length && this.$emit('set-alert', item)
     },
-    isOpen(status) {
-      return status == 'open' || status == 'NORM'
+    isOpen(status: Alert['status']) {
+      return status === 'open' || status === 'NORM'
     },
-    isWatched(tags) {
+    isWatched(tags: Alert['tags']) {
       return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
     },
-    isAcked(status) {
-      return status == 'ack' || status == 'ACKED'
+    isAcked(status: Alert['status']) {
+      return status === 'ack' || status === 'ACKED'
     },
-    isShelved(status) {
-      return status == 'shelved' || status == 'SHLVD'
+    isShelved(status: Alert['status']) {
+      return status === 'shelved' || status === 'SHLVD'
     },
-    isClosed(status) {
-      return status == 'closed'
+    isClosed(status: Alert['status']) {
+      return status === 'closed'
     },
     takeAction: debounce(
       function (id, action) {
@@ -551,7 +563,7 @@ export default {
     ),
     deleteAlert: debounce(
       function (id) {
-        confirm(i18n.t('ConfirmDelete')) &&
+        confirm(i18n.t('ConfirmDelete').toString()) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)
             .then(() => this.$store.dispatch('alerts/getAlerts'))
@@ -559,13 +571,13 @@ export default {
       200,
       { leading: true, trailing: false }
     ),
-    clipboardCopy(text) {
+    clipboardCopy(text: string) {
       if (!window.isSecureContext || !navigator.clipboard) return
       navigator.clipboard.writeText(text)
       this.$store.dispatch('notifications/success', 'Copied to clipboard')
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

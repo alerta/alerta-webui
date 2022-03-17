@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IAlert, IFilter, IIncident, IReport, IUser } from '@/common/interfaces'
+import {
+  IAlert,
+  IFilter,
+  IIncident,
+  INote,
+  IReport,
+  IUser
+} from '@/common/interfaces'
 import { I18nOptions } from 'vue-i18n'
 import { DataOptions } from 'vuetify'
 
@@ -48,7 +55,7 @@ export interface IAlerts {
 
 export interface IIncidents
   extends Omit<IAlerts, 'alerts' | 'alert' | 'incident'> {
-  incidents: IIncident[]
+  incidents: (IIncident & { note?: INote })[]
   incident: (IIncident & { alerts: IAlert[] }) | null
 }
 

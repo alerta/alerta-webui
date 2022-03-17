@@ -39,7 +39,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import moment from 'moment'
+import { DateTime } from 'luxon'
+import { INote } from '@/common/interfaces'
 
 export default Vue.extend({
   data: () => ({
@@ -62,11 +63,13 @@ export default Vue.extend({
     handleOpen(open: () => void) {
       this.$store
         .dispatch('incidents/getNotes', this.incident.id)
-        .then((notes: { createTime: string }[]) => {
+        .then((notes: INote[]) => {
           if (
             notes.length > 0 &&
-            moment().diff(notes[notes.length - 1].createTime, 'minutes') <
-              this.minutes
+            DateTime.now().diff(
+              DateTime.fromISO(notes[notes.length - 1].createTime),
+              'minutes'
+            ).minutes < this.minutes
           )
             this.closeIncident()
           else open()

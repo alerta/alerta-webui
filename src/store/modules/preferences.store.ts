@@ -1,11 +1,11 @@
-import { IPreferences, IStore } from '@/store/interfaces'
 import utils from '@/common/utils'
 import i18n from '@/plugins/i18n'
 import vuetify from '@/plugins/vuetify'
 import UsersApi from '@/services/api/user.service'
+import { IPreferences, IStore } from '@/store/interfaces'
 import { Module } from 'vuex'
 
-const getDefaults = (): IPreferences => ({
+const defaultState: IPreferences = Object.freeze({
   isDark: false,
   isMute: true,
   languagePref: i18n.locale,
@@ -36,7 +36,7 @@ const getDefaults = (): IPreferences => ({
 })
 
 const preferences: Module<IPreferences, IStore> = {
-  state: getDefaults(),
+  state: Object.assign({}, defaultState),
   mutations: {
     SET_PREFS(state, prefs) {
       vuetify.framework.theme.dark = prefs.isDark
@@ -44,7 +44,7 @@ const preferences: Module<IPreferences, IStore> = {
     },
     RESET_PREFS(state) {
       const q = state.queries
-      Object.assign(state, getDefaults())
+      Object.assign(state, defaultState)
       vuetify.framework.theme.dark = state.isDark
       utils.stateMerge(state, { queries: q })
     },

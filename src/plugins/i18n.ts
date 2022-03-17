@@ -1,11 +1,10 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n'
-
+import { de } from '@/locales/de'
 // import file language from @/locales
 import { en } from '@/locales/en'
 import { fr } from '@/locales/fr'
-import { de } from '@/locales/de'
 import { tr } from '@/locales/tr'
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
 
 Vue.use(VueI18n)
 

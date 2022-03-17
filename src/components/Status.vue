@@ -32,30 +32,30 @@
       class="px-2"
       hide-default-footer
     >
-      <template slot="items" slot-scope="props">
+      <template v-slot:item="{ item }">
         <td>{{ $t('LastUpdate') }}</td>
         <td>
-          <date-time
-            v-if="props.item.lastTime"
-            :value="props.item.lastTime"
+          <date-filter
+            v-if="item.lastTime"
+            :value="item.lastTime"
             format="longDate"
           />
         </td>
         <td>{{ $t('Uptime') }}</td>
-        <td>{{ (props.item.uptime / 1000) | days }}</td>
+        <td>{{ getUptime(item.uptime) }}</td>
       </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
-import DateTime from './lib/DateTime.vue'
-import moment from 'moment'
+import DateFilter from './lib/DateTime.vue'
 import i18n from '@/plugins/i18n'
+import { DateTime, Duration } from 'luxon'
 
 export default {
   components: {
-    DateTime
+    DateFilter
   },
   data: () => ({
     headers: [
@@ -73,9 +73,11 @@ export default {
     uptime() {
       return [
         {
-          lastTime: moment(this.$store.state.management.time)
-            .utc()
-            .toISOString(),
+          lastTime: this.$store.state.management.time
+            ? DateTime.fromMillis(this.$store.state.management.time, {
+                setZone: 'utc'
+              }).toISO()
+            : null,
           uptime: this.$store.state.management.uptime
         }
       ]
@@ -93,6 +95,9 @@ export default {
     this.getStatus()
   },
   methods: {
+    getUptime(val) {
+      return Duration.fromMillis(val).toFormat(`d 'days' hh:mm:ss`)
+    },
     getStatus() {
       return this.$store.dispatch('management/getStatus')
     },

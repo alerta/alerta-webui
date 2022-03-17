@@ -2,7 +2,7 @@ import { IIncident } from '@/common/interfaces'
 import utils from '@/common/utils'
 import IncidentsApi from '@/services/api/incident.service'
 import { IIncidents, IStore } from '@/store/interfaces'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import { Module } from 'vuex'
 
 const state: IIncidents = {
@@ -175,23 +175,24 @@ const incidents: Module<IIncidents, IStore> = {
       if (startDate > 0) {
         params.append(
           'from-date',
-          moment.unix(startDate).toISOString() // epoch seconds
+          DateTime.fromMillis(startDate).toISO() // epoch seconds
         )
       } else if (startDate < 0) {
         params.append(
           'from-date',
-          moment().utc().add(startDate, 'seconds').toISOString() // seconds offset
+          DateTime.utc().plus({ seconds: startDate }).toISO() // seconds offset
         )
       }
+
       if (endDate > 0) {
         params.append(
           'to-date',
-          moment.unix(endDate).toISOString() // epoch seconds
+          DateTime.fromMillis(endDate).toISO() // epoch seconds
         )
       } else if (endDate < 0) {
         params.append(
           'to-date',
-          moment().utc().add(endDate, 'seconds').toISOString() // seconds offset
+          DateTime.utc().plus({ seconds: endDate }).toISO() // seconds offset
         )
       }
 
@@ -268,32 +269,29 @@ const incidents: Module<IIncidents, IStore> = {
       state.filter.group?.map((g) => params.append('group', g))
 
       // apply any date/time filters
-      if ((state.filter.dateRange[0] ?? 0) > 0) {
+      const startDate = state.filter.dateRange[0] ?? 0
+      const endDate = state.filter.dateRange[1] ?? 0
+
+      if (startDate > 0) {
         params.append(
           'from-date',
-          moment.unix(state.filter.dateRange[0] ?? 0).toISOString() // epoch seconds
+          DateTime.fromMillis(startDate).toISO() // epoch seconds
         )
-      } else if ((state.filter.dateRange[0] ?? 0) < 0) {
+      } else if (startDate < 0) {
         params.append(
           'from-date',
-          moment()
-            .utc()
-            .add(state.filter.dateRange[0] ?? 0, 'seconds')
-            .toISOString() // seconds offset
+          DateTime.utc().plus({ seconds: startDate }).toISO() // seconds offset
         )
       }
-      if ((state.filter.dateRange[1] ?? 0) > 0) {
+      if (endDate > 0) {
         params.append(
           'to-date',
-          moment.unix(state.filter.dateRange[1] ?? 0).toISOString() // epoch seconds
+          DateTime.fromMillis(endDate).toISO() // epoch seconds
         )
-      } else if ((state.filter.dateRange[1] ?? 0) < 0) {
+      } else if (endDate < 0) {
         params.append(
           'to-date',
-          moment()
-            .utc()
-            .add(state.filter.dateRange[1] ?? 0, 'seconds')
-            .toISOString() // seconds offset
+          DateTime.utc().plus({ seconds: endDate }).toISO() // seconds offset
         )
       }
 

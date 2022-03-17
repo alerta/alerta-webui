@@ -97,193 +97,7 @@
       </header>
       <v-row>
         <v-col v-for="incident in incidents" :key="incident.id">
-          <v-card>
-            <header class="d-flex justify-space-between">
-              <v-card-title class="break-normal pb-0 pr-2">
-                {{ incident.title }}
-              </v-card-title>
-
-              <div class="flex-shrink-0 mt-4 mr-4">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      :disabled="
-                        !isAcked(incident.status) && !isClosed(incident.status)
-                      "
-                      icon
-                      plain
-                      @click="takeAction(incident.id, 'open')"
-                    >
-                      <v-icon size="20px">mdi-refresh</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('Open') }}</span>
-                </v-tooltip>
-
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-show="!isAcked(incident.status)"
-                      v-on="on"
-                      :disabled="!isOpen(incident.status)"
-                      icon
-                      plain
-                      @click="ackIncident(incident.id)"
-                    >
-                      <v-icon size="20px">mdi-check</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('Ack') }}</span>
-                </v-tooltip>
-
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-show="isAcked(incident.status)"
-                      v-on="on"
-                      icon
-                      plain
-                      @click="takeAction(incident.id, 'unack')"
-                    >
-                      <v-icon size="20px">mdi-undo</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('Unack') }}</span>
-                </v-tooltip>
-
-                <close-incident-confirm
-                  :incident="incident"
-                  :callback="getIncidents"
-                >
-                  <template v-slot:activator="{ on: dialogAction }">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-btn
-                          v-on="on"
-                          @click="dialogAction.click"
-                          :disabled="incident.status == 'closed'"
-                          icon
-                          class="btn--plain px-1 mx-0"
-                        >
-                          <v-icon size="20px">mdi-close-circle-outline</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>{{ $t('Close') }}</span>
-                    </v-tooltip>
-                  </template>
-                </close-incident-confirm>
-              </div>
-            </header>
-            <v-card-subtitle class="pt-0">
-              <div class="d-flex gap-1 align-center">
-                <span>{{ incident.alerts.length }} {{ $t('Alerts') }}</span>
-                <span class="label">
-                  {{ incident.status | capitalize }}
-                </span>
-                <span :class="`label label-${incident.severity.toLowerCase()}`">
-                  {{ incident.severity | capitalize }}
-                </span>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <span class="mx-1" v-on="on">
-                      <v-icon small>mdi-clock-outline</v-icon>
-                      {{ incident.updateTime | timeago }}</span
-                    >
-                  </template>
-                  <span>{{ parseTimestamp(incident.updateTime) }}</span>
-                </v-tooltip>
-              </div>
-            </v-card-subtitle>
-            <v-divider />
-
-            <v-card-text>
-              <v-sheet
-                v-if="incident.note"
-                class="px-4 py-2 mb-2"
-                :color="
-                  $vuetify.theme.dark ? 'grey darken-2' : 'grey lighten-3'
-                "
-                rounded
-              >
-                <div class="mb-1 d-flex justify-space-between">
-                  <strong>
-                    <v-icon small>mdi-account-circle</v-icon>
-                    {{ incident.note.user }}
-                  </strong>
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on }">
-                      <strong v-on="on">
-                        <v-icon small>mdi-clock-outline</v-icon>
-                        {{ incident.note.createTime | timeago }}
-                      </strong>
-                    </template>
-                    <span>{{ parseTimestamp(incident.note.createTime) }}</span>
-                  </v-tooltip>
-                </div>
-                <pre class="note">{{ incident.note.text }}</pre>
-              </v-sheet>
-
-              <v-textarea
-                v-if="creatingNote === incident.id"
-                v-model="newNote"
-                autofocus
-                :rules="[(v) => !!v || $t('NoteRequired')]"
-                placeholder="Add a note"
-                rows="2"
-                auto-grow
-                outlined
-              />
-            </v-card-text>
-            <v-card-actions class="px-4 gap-2">
-              <div>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-avatar v-on="on">
-                      <img
-                        v-if="incident.owner.avatar"
-                        :src="incident.owner.avatar"
-                        @error="error = true"
-                      />
-                      <v-icon v-else size="38" color="grey lighten-2">
-                        mdi-account-circle
-                      </v-icon>
-                    </v-avatar>
-                  </template>
-                  <span>{{ incident.owner.name }}</span>
-                </v-tooltip>
-              </div>
-
-              <div class="d-flex gap-1">
-                <v-chip v-for="tag in incident.tags" :key="tag">
-                  {{ tag }}
-                </v-chip>
-              </div>
-              <v-spacer></v-spacer>
-
-              <v-btn
-                color="neutral"
-                outlined
-                @click="creatingNote = incident.id"
-                v-if="creatingNote !== incident.id"
-              >
-                <v-icon left>mdi-note-plus</v-icon>
-                {{ $t('AddNote') }}
-              </v-btn>
-              <template v-else-if="creatingNote === incident.id">
-                <v-btn @click="creatingNote = null" color="error">Cancel</v-btn>
-                <v-btn @click="addNote" color="success">Create</v-btn>
-              </template>
-              <v-btn
-                color="primary"
-                link
-                :to="{ name: 'incident', params: { id: incident.id } }"
-                :disabled="creatingNote === incident.id"
-              >
-                Details
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+          <incident-card :incident="incident" @getInicdents="getIncidents" />
         </v-col>
       </v-row>
     </v-container>
@@ -311,12 +125,11 @@
 
 <script lang="ts">
 import utils from '@/common/utils'
-import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
+import IncidentCard from '@/components/IncidentCard.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
 import i18n from '@/plugins/i18n'
 import { ExportToCsv } from 'export-to-csv'
 import { debounce } from 'lodash'
-import moment from 'moment'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -334,7 +147,7 @@ export default Vue.extend({
   },
   components: {
     IncidentListFilter,
-    CloseIncidentConfirm
+    IncidentCard
   },
   data: () => ({
     currentTab: null,
@@ -343,8 +156,6 @@ export default Vue.extend({
     selectedincident: {},
     sidesheet: false,
     timer: null,
-    creatingNote: null,
-    newNote: null,
     addIncidentDialog: false,
     newIncident: {},
     severities: [
@@ -384,9 +195,6 @@ export default Vue.extend({
           owner: v
         })
       }
-    },
-    ackTimeout() {
-      return this.$store.getters.getPreference('ackTimeout')
     },
     alerts() {
       return this.$store.state.alerts.alerts
@@ -564,12 +372,6 @@ export default Vue.extend({
       if (!this.$store.state.users.users?.length)
         this.$store.dispatch('users/getUsers')
     },
-    parseTimestamp(data: string) {
-      return moment(data).toLocaleString()
-    },
-    duration(val) {
-      return moment.duration(moment().diff(val))
-    },
     setSearch(query) {
       this.$store.dispatch('incidents/updateQuery', query)
     },
@@ -621,24 +423,6 @@ export default Vue.extend({
         )
       })
     },
-    addNote() {
-      if (!this.newNote)
-        return this.$store.dispatch('notifications/custom', {
-          type: 'error',
-          text: i18n.t('NoteRequired').toString(),
-          action: 'CLOSE',
-          timeout: 5000
-        })
-      this.$store
-        .dispatch('incidents/addNote', [this.creatingNote, this.newNote])
-        .then(() => {
-          this.$store.dispatch('notifications/success', 'Note created')
-          this.newNote = null
-          this.creatingNote = null
-          this.getIncidents()
-        })
-    },
-
     addIncident() {
       this.$store
         .dispatch('incidents/createIncident', this.newIncident)
@@ -658,31 +442,6 @@ export default Vue.extend({
     isOpen(status) {
       return status == 'open' || status == 'NORM'
     },
-    isAcked(status) {
-      return status == 'ack' || status == 'ACKED'
-    },
-    isShelved(status) {
-      return status == 'shelved' || status == 'SHLVD'
-    },
-    isClosed(status) {
-      return status == 'closed'
-    },
-    takeAction: debounce(
-      function (id, action, text) {
-        this.$store
-          .dispatch('incidents/takeAction', [id, action, text])
-          .then(() => this.getIncidents())
-      },
-      200,
-      { leading: true, trailing: false }
-    ),
-
-    ackIncident(id, text) {
-      this.$store
-        .dispatch('incidents/takeAction', [id, 'ack', text, this.ackTimeout])
-        .then(() => this.getIncidents())
-    },
-
     toCsv(data) {
       const options = {
         fieldSeparator: ',',

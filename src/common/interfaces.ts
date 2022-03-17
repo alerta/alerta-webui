@@ -34,7 +34,6 @@ export interface IIncident {
   alerts: string[] // alert ids
 
   owner?: IUser
-  note?: INote
 }
 
 export interface IAlert {
@@ -53,17 +52,17 @@ export interface IAlert {
   attributes: any
   origin: string
   type: string
-  createTime: number
+  createTime: string
   timeout: number
   rawData: any
   customer: string
   duplicateCount: number
   repeat: boolean
   previousSeverity: string
-  receiveTime: number
-  lasReceiveId: number
-  lasReceiveTime: number
-  updateTime: number
+  receiveTime: string
+  lastReceiveId: number
+  lastReceiveTime: string
+  updateTime: string
   history: any[]
 }
 

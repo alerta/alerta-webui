@@ -197,7 +197,7 @@
           </v-tooltip>
         </template>
         <template v-slot:[`item.expireTime`]="{ item }">
-          <date-time :value="item.expireTime" format="mediumDate" />
+          <date-format :value="item.expireTime" format="mediumDate" />
         </template>
         <template v-slot:[`item.lastUsedTime`]="{ item }">
           {{ item.lastUsedTime | timeago }}
@@ -254,15 +254,15 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime.vue'
+import DateFormat from '@/components/lib/DateTime.vue'
 import ListButtonAdd from './lib/ListButtonAdd.vue'
 import utils from '@/common/utils'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import i18n from '@/plugins/i18n'
 
 export default {
   components: {
-    DateTime,
+    DateFormat,
     ListButtonAdd
   },
   data: (vm) => ({
@@ -372,7 +372,10 @@ export default {
       this.$store.dispatch('customers/getCustomers')
     },
     defaultExpireTime() {
-      return moment().add(1, 'Year').endOf('day').toISOString().slice(0, 10)
+      return DateTime.now()
+        .plus({ year: 1 })
+        .endOf('day')
+        .toFormat(`yyyy-MM-dd`)
     },
     username() {
       return this.$store.getters['auth/getUsername']

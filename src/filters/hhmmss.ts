@@ -1,13 +1,13 @@
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import Vue from 'vue'
 
-export default Vue.filter('hhmmss', (value?: moment.DurationInputArg1) => {
-  const pad = (s: number) => `0${s}`.slice(-2)
-
+export default Vue.filter('hhmmss', (value?: string | DateTime) => {
   if (!value) return
-  const duration = moment.duration(value, 'seconds')
-  const seconds = pad(duration.seconds())
-  const minutes = pad(duration.minutes())
-  const hours = Math.floor(duration.as('h'))
-  return `${hours}:${minutes}:${seconds}`
+
+  return DateTime.now()
+    .diff(
+      typeof value === 'string' ? DateTime.fromISO(value) : value,
+      'seconds'
+    )
+    .toFormat('hh:mm:ss')
 })

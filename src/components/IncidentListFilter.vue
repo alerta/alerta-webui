@@ -187,10 +187,10 @@
 </template>
 
 <script lang="ts">
-import moment from 'moment'
 import i18n from '@/plugins/i18n'
 import Vue from 'vue'
 import { DateRange } from '@/store/interfaces'
+import { DateTime } from 'luxon'
 
 export default Vue.extend({
   props: {
@@ -294,12 +294,12 @@ export default Vue.extend({
         }
 
         this.period = this.getDateRange(
-          this.$store.state.incidents.filter.dateRange[0]
-            ? this.$store.state.incidents.filter.dateRange[0]
-            : moment().unix() - 7 * 24 * 3600, // 7 days ago
-          this.$store.state.incidents.filter.dateRange[1]
-            ? this.$store.state.incidents.filter.dateRange[1]
-            : moment().unix()
+          this.$store.state.alerts.filter.dateRange[0]
+            ? this.$store.state.alerts.filter.dateRange[0]
+            : DateTime.now().minus({ days: 7 }).toSeconds(),
+          this.$store.state.alerts.filter.dateRange[1]
+            ? this.$store.state.alerts.filter.dateRange[1]
+            : DateTime.now().toSeconds()
         )
         this.showDateRange = true
       }
@@ -325,13 +325,13 @@ export default Vue.extend({
       this.$store.dispatch('customers/getCustomers')
     },
     getDateRange(from, to) {
-      const t1 = moment.unix(from).utc()
-      const t2 = moment.unix(to).utc()
+      const t1 = DateTime.fromSeconds(from).toUTC()
+      const t2 = DateTime.fromSeconds(to).toUTC()
       return {
-        startDate: t1.format('YYYY-MM-DD'),
-        startTime: t1.format('HH:mm'),
-        endDate: t2.format('YYYY-MM-DD'),
-        endTime: t2.format('HH:mm')
+        startDate: t1.toFormat('yyyy-MM-dd'),
+        startTime: t1.toFormat('HH:mm'),
+        endDate: t2.toFormat('yyyy-MM-dd'),
+        endTime: t2.toFormat('HH:mm')
       }
     },
     toEpoch(date, time) {
