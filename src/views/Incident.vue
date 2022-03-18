@@ -186,7 +186,7 @@
             icon
             plain
             @click="reassign"
-            v-has-perms="'admin:alerts'"
+            v-has-perms="'write:alerts'"
           >
             <v-icon size="20px">mdi-account-box</v-icon>
           </v-btn>
