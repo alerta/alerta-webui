@@ -95,7 +95,7 @@
         <v-spacer />
 
         <v-text-field
-          v-if="$route.name === 'alerts'"
+          v-if="$route.name === 'alerts' || $route.name === 'incidents'"
           v-model="query"
           :flat="!hasFocus"
           :label="$t('Search')"
@@ -593,9 +593,14 @@ export default Vue.extend({
     profile() {
       return this.$store.state.auth.payload || {}
     },
+    alertsOrIncidents() {
+      if (this.$route.name == 'alerts') return 'alerts'
+      if (this.$route.name == 'incidents') return 'incidents'
+      return ''
+    },
     query: {
       get() {
-        return this.$store.state.alerts.query?.q || ''
+        return this.$store.state[this.alertsOrIncidents].query?.q || ''
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       set(value) {
@@ -656,22 +661,24 @@ export default Vue.extend({
     submitSearch(query: string | null) {
       if (!query) return this.clearSearch()
 
-      this.$store.dispatch('alerts/updateQuery', { q: query })
+      this.$store.dispatch(`${this.alertsOrIncidents}/updateQuery`, {
+        q: query
+      })
       this.$router
         .replace({
           query: { ...this.$route.query, q: query },
-          hash: this.$store.getters['alerts/getHash']
+          hash: this.$store.getters[`${this.alertsOrIncidents}/getHash`]
         })
         .catch(() => {})
       this.refresh()
     },
     clearSearch() {
       this.query = null
-      this.$store.dispatch('alerts/updateQuery', {})
+      this.$store.dispatch(`${this.alertsOrIncidents}/updateQuery`, {})
       this.$router
         .replace({
           query: omitBy({ ...this.$route.query, q: undefined }, isUndefined),
-          hash: this.$store.getters['alerts/getHash']
+          hash: this.$store.getters[`${this.alertsOrIncidents}/getHash`]
         })
         .catch(() => {})
       this.refresh()
