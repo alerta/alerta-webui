@@ -116,7 +116,7 @@
             <span>Created {{ parseTimestamp(incident.note.createTime) }}</span>
           </v-tooltip>
         </div>
-        <pre class="note">{{ incident.note.text }}</pre>
+        <pre class="note">{{ incident.note.text.trim() }}</pre>
       </v-sheet>
 
       <v-textarea
@@ -201,7 +201,7 @@ export default Vue.extend({
   },
   data: () => ({
     creatingNote: false,
-    note: null
+    note: null as string | null
   }),
   computed: {
     ackTimeout() {
@@ -260,7 +260,7 @@ export default Vue.extend({
           timeout: 5000
         })
       this.$store
-        .dispatch('incidents/addNote', [this.incident?.id, this.note])
+        .dispatch('incidents/addNote', [this.incident?.id, this.note.trim()])
         .then(() => {
           this.$store.dispatch('notifications/success', 'Note created')
           this.note = null

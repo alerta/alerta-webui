@@ -628,7 +628,7 @@ export default Vue.extend({
           timeout: 5000
         })
       this.$store
-        .dispatch('incidents/addNote', [this.id, this.newNote])
+        .dispatch('incidents/addNote', [this.id, this.newNote.trim()])
         .then(() => {
           this.$store.dispatch('notifications/success', 'Note created')
           this.newNote = ''

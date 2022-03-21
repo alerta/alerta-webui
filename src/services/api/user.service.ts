@@ -17,7 +17,7 @@ export default {
     const config = {
       params: query
     }
-    return api.get('/users', config).then((res) => res.data)
+    return api.get('/users/new', config).then((res) => res.data)
   },
   async updateUser(userId: string, data: object) {
     return api.put(`/user/${userId}`, data).then((res) => res.data)

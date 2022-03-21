@@ -105,10 +105,9 @@ const incidents: Module<IIncidents, IStore> = {
       state.isSearching = true
       state.query = query
     },
-    SET_INCIDENTS: (state, [incidents, total, pageSize]) => {
+    SET_INCIDENTS: (state, [incidents, total]) => {
       state.incidents = incidents
       state.pagination.totalItems = total
-      state.pagination.itemsPerPage = pageSize
     },
     SET_INCIDENT: (state, incident: IIncidents['incident']) => {
       state.incident = incident
@@ -197,8 +196,8 @@ const incidents: Module<IIncidents, IStore> = {
       }
 
       return IncidentsApi.getIncidents(params)
-        .then(({ incidents, total, pageSize }) =>
-          commit('SET_INCIDENTS', [incidents, total, pageSize])
+        .then(({ incidents, total }) =>
+          commit('SET_INCIDENTS', [incidents, total])
         )
         .finally(() => commit('RESET_LOADING'))
         .catch(() => {})

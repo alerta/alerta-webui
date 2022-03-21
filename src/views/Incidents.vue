@@ -95,29 +95,27 @@
           </v-btn>
         </div>
       </header>
-      <v-row>
-        <v-col v-for="incident in incidents" :key="incident.id">
-          <incident-card :incident="incident" @getInicdents="getIncidents" />
-        </v-col>
-      </v-row>
+      <v-data-iterator
+        :options.sync="pagination"
+        :server-items-length="pagination.totalItems"
+        :items="incidents"
+        :footer-props="{
+          showCurrentPage: true,
+          ...pagination
+        }"
+      >
+        <template v-slot:default="{ items }">
+          <v-row>
+            <v-col v-for="incident in items" :key="incident.id">
+              <incident-card
+                :incident="incident"
+                @getInicdents="getIncidents"
+              />
+            </v-col>
+          </v-row>
+        </template>
+      </v-data-iterator>
     </v-container>
-
-    <v-expand-transition>
-      <div v-if="showPanel" class="px-1">
-        <v-layout wrap>
-          <v-flex
-            v-for="(indicator, index) in indicators"
-            :key="index"
-            xs12
-            sm6
-            md3
-          >
-            <alert-indicator :title="indicator.text" :query="indicator.query" />
-          </v-flex>
-        </v-layout>
-        <v-divider />
-      </div>
-    </v-expand-transition>
 
     <incident-list-filter :isOpen="sidesheet" @close="sidesheet = false" />
   </div>
@@ -127,9 +125,7 @@
 import utils from '@/common/utils'
 import IncidentCard from '@/components/IncidentCard.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
-import i18n from '@/plugins/i18n'
 import { ExportToCsv } from 'export-to-csv'
-import { debounce } from 'lodash'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -178,6 +174,14 @@ export default Vue.extend({
     this.$store.dispatch('incidents/setFilter', { status: ['open', 'ack'] })
   },
   computed: {
+    pagination: {
+      get() {
+        return this.$store.state.incidents.pagination
+      },
+      set(value) {
+        this.$store.dispatch('incidents/setPagination', value)
+      }
+    },
     audioURL() {
       return (
         this.$config.audio.new || this.$store.getters.getPreference('audioURL')
@@ -306,9 +310,6 @@ export default Vue.extend({
           ? this.$store.dispatch('setUserPrefs', { displayDensity: value })
           : this.$store.dispatch('incidents/set', ['displayDensity', value])
       }
-    },
-    pagination() {
-      return this.$store.state.incidents.pagination
     }
   },
   watch: {
