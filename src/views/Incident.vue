@@ -401,6 +401,7 @@ import { IAlert, IIncident } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import FormatDate from '@/components/lib/DateTime.vue'
+import { DateTime } from 'luxon'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
 import { cloneDeep, omit, pickBy } from 'lodash'
@@ -450,7 +451,14 @@ export default Vue.extend({
       .then(() => {
         this.$store
           .dispatch('incidents/getNotes', this.incident?.id)
-          .then((notes) => (this.notes = notes))
+          .then(
+            (notes) =>
+              (this.notes = notes.sort((a, b) =>
+                DateTime.fromISO(a.createTime).diff(
+                  DateTime.fromISO(b.createTime)
+                )
+              ))
+          )
       })
   },
   destroyed() {
