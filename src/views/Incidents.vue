@@ -1,5 +1,35 @@
 <template>
   <div>
+    <v-dialog v-model="newNoteDialog" max-width="600px">
+      <v-card>
+        <v-card-title v-if="newNoteIncident"
+          >Add note for {{ newNoteIncident.title }}</v-card-title
+        >
+
+        <v-card-text>
+          <v-form>
+            <v-textarea
+              outlined
+              dense
+              autofocus
+              :rules="[(v) => !!v || $t('Required')]"
+              v-model="newNote"
+            />
+          </v-form>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="error" @click="newNoteDialog = false">
+            {{ $t('Cancel') }}
+          </v-btn>
+          <v-btn color="primary" @click="createNewNote">
+            {{ $t('OK') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="addIncidentDialog" max-width="600px">
       <v-card>
         <v-card-title>Create Incident</v-card-title>
@@ -64,36 +94,45 @@
     </v-dialog>
 
     <v-container :style="severityColors">
-      <header class="mb-3 d-flex justify-space-between">
-        <v-btn color="primary" @click="addIncidentDialog = true">
-          Add Incident
-        </v-btn>
-
-        <div class="d-flex align-center gap-2">
-          <v-autocomplete
-            label="Incident Owner"
-            v-model="incidentOwner"
-            :items="users"
-            item-text="name"
-            item-value="id"
-            hide-details
-            clearable
-            solo
-            dense
-            multiple
-            class="flex-grow-0"
-            :loading="this.$store.state.users.loading"
-            @focus="getUsers"
-          />
-          <v-btn
-            text
-            icon
-            :class="{ 'filter-active': isActive }"
-            @click="sidesheet = !sidesheet"
-          >
-            <v-icon>mdi-filter-variant</v-icon>
+      <header class="mb-2">
+        <div class="d-flex justify-space-between">
+          <v-btn color="primary" @click="addIncidentDialog = true">
+            Add Incident
           </v-btn>
+
+          <div class="d-flex align-center gap-2">
+            <v-autocomplete
+              label="Incident Owner"
+              v-model="incidentOwner"
+              :items="users"
+              item-text="name"
+              item-value="id"
+              hide-details
+              clearable
+              solo
+              dense
+              multiple
+              class="flex-grow-0"
+              :loading="this.$store.state.users.loading"
+              @focus="getUsers"
+            />
+            <v-btn
+              text
+              icon
+              :class="{ 'filter-active': isActive }"
+              @click="sidesheet = !sidesheet"
+            >
+              <v-icon>mdi-filter-variant</v-icon>
+            </v-btn>
+          </div>
         </div>
+
+        <v-data-table-header
+          class="incidents-header"
+          :headers="headers"
+          :options.sync="pagination"
+          sort-icon="mdi-chevron-down"
+        />
       </header>
       <v-data-iterator
         :options.sync="pagination"
@@ -103,16 +142,22 @@
           showCurrentPage: true,
           ...pagination
         }"
+        disable-sort
+        class="d-flex flex-column gap-2"
       >
         <template v-slot:default="{ items }">
-          <v-row>
-            <v-col v-for="incident in items" :key="incident.id">
-              <incident-card
-                :incident="incident"
-                @getInicdents="getIncidents"
-              />
-            </v-col>
-          </v-row>
+          <incident-row
+            v-for="incident in items"
+            :key="incident.id"
+            :incident="incident"
+            @getIncidents="getIncidents"
+            @createNote="
+              () => {
+                newNoteIncident = incident
+                newNoteDialog = true
+              }
+            "
+          />
         </template>
       </v-data-iterator>
     </v-container>
@@ -123,10 +168,12 @@
 
 <script lang="ts">
 import utils from '@/common/utils'
-import IncidentCard from '@/components/IncidentCard.vue'
+import IncidentRow from '@/components/IncidentRow.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
+import { i18n } from '@/plugins'
 import { ExportToCsv } from 'export-to-csv'
 import Vue from 'vue'
+import { IIncidents } from '@/store/interfaces'
 
 export default Vue.extend({
   props: {
@@ -143,7 +190,7 @@ export default Vue.extend({
   },
   components: {
     IncidentListFilter,
-    IncidentCard
+    IncidentRow
   },
   data: () => ({
     currentTab: null,
@@ -154,6 +201,9 @@ export default Vue.extend({
     timer: null,
     addIncidentDialog: false,
     newIncident: {},
+    newNote: null as string | null,
+    newNoteIncident: null as IIncidents['incident'] | null,
+    newNoteDialog: false,
     severities: [
       'warning',
       'critical',
@@ -168,6 +218,41 @@ export default Vue.extend({
       'security',
       'trace',
       'unknown'
+    ],
+    headers: [
+      {
+        text: 'Status',
+        sortable: false
+      },
+      {
+        text: 'Severity',
+        sortable: false
+      },
+      {
+        text: 'Receive Time'
+      },
+      {
+        text: 'Duration'
+      },
+      {
+        text: 'Last Updated'
+      },
+      {
+        text: 'Title',
+        sortable: false
+      },
+      {
+        text: 'Alerts',
+        sortable: false
+      },
+      {
+        text: 'Assignee',
+        sortable: false
+      },
+      {
+        text: 'Actions',
+        sortable: false
+      }
     ]
   }),
   mounted() {
@@ -369,6 +454,28 @@ export default Vue.extend({
     this.cancelTimer()
   },
   methods: {
+    createNewNote() {
+      if (!this.newNote?.trim() || !this.newNoteIncident)
+        return this.$store.dispatch('notifications/custom', {
+          type: 'error',
+          text: i18n.t('NoteRequired').toString(),
+          action: 'CLOSE',
+          timeout: 5000
+        })
+
+      this.newNoteDialog = false
+      this.$store
+        .dispatch('incidents/addNote', [
+          this.newNoteIncident.id,
+          this.newNote.trim()
+        ])
+        .then(() => {
+          this.$store.dispatch('notifications/success', 'Note created')
+          this.newNote = null
+          this.newNoteIncident = null
+          this.getIncidents()
+        })
+    },
     getUsers() {
       if (!this.$store.state.users.users?.length)
         this.$store.dispatch('users/getUsers')
@@ -490,59 +597,18 @@ export default Vue.extend({
   width: 8px;
 }
 
-.gap-1 {
-  gap: 0.25rem;
+.incidents-header > tr {
+  padding: 0 1rem;
+  margin-top: 0.5rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr 2fr 3fr 5fr 1fr 1.5fr 2fr;
+
+  gap: 0.5rem;
 }
 
 .gap-2 {
   gap: 0.5rem;
-}
-
-.switch-wrapper {
-  width: min-content;
-}
-
-.label {
-  font-weight: bold;
-  line-height: 14px;
-  color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  white-space: nowrap;
-  vertical-align: baseline;
-  background-color: #999999;
-  padding: 1px 4px 2px;
-  border-radius: 3px;
-
-  &.label-critical {
-    background-color: #b94a48;
-  }
-
-  &.label-major {
-    background-color: #f89406;
-  }
-
-  &.label-minor {
-    background-color: #ffd700;
-  }
-
-  &.label-warning {
-    background-color: #3a87ad;
-  }
-
-  &.label-normal,
-  &.label-cleared,
-  &.label-ok,
-  &.label-informational {
-    background-color: #468847;
-  }
-
-  &.label-inverse {
-    background-color: #333333;
-  }
-}
-
-.break-normal {
-  word-break: normal;
 }
 
 .note {

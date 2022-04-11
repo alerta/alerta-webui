@@ -19,6 +19,9 @@ export default new Vuetify({
         secondary: '#2196f3',
         accent: '#ffa726'
       }
+    },
+    options: {
+      customProperties: true
     }
   }
 })

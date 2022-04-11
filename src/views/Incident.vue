@@ -261,7 +261,7 @@
         </strong>
         ({{ note.createTime | timeago }})<br />
       </span>
-      <pre class="note body-1">{{ note.text }}</pre>
+      <pre class="note body-1">{{ note.text.trim() }}</pre>
     </v-alert>
 
     <v-card-title class="d-flex items-center justify-space-between">
