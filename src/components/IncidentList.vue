@@ -147,7 +147,7 @@
               </span>
 
               <span class="grey--text">
-                ({{ incident.note.createTime | timeago }})
+                ({{ incident.note.createTime | timeago('narrow') }})
               </span>
             </div>
             <div v-else></div>
@@ -341,7 +341,7 @@ export default Vue.extend({
   display: grid;
   align-items: center;
 
-  grid-template-columns: 1fr 1fr 2fr 1.5fr 2fr 7fr 1fr 1.5fr 2fr;
+  grid-template-columns: 0.75fr 0.75fr 2fr 1.25fr 1.75fr max(36rem, 35vw) 1fr 1.5fr 2fr;
   gap: 0.5rem;
   padding-inline: 1rem;
 }

@@ -1,7 +1,7 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <span v-on="on" class="text-no-wrap">
+      <span v-on="on" :class="`text-no-wrap`">
         {{ value | date(displayMode, formatString) }}
       </span>
     </template>
@@ -9,10 +9,11 @@
   </v-tooltip>
 </template>
 
-<script>
+<script lang='ts'>
 import { DateTime } from 'luxon'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   props: {
     value: { type: String, required: true },
     format: { type: String, default: 'mediumDate' }
@@ -31,7 +32,6 @@ export default {
       )
     }
   }
-}
+})
 </script>
 
-<style></style>
