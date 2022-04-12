@@ -386,6 +386,7 @@ export default {
       this.getAlerts()
         .then(() => this.isNewOpenAlerts && this.playSound())
         .finally(() => {
+          if (this.timer) clearTimeout(this.timer)
           this.timer = setTimeout(
             () => this.refreshAlerts(),
             this.refreshInterval
