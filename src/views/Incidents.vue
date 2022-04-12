@@ -142,9 +142,9 @@ import utils from '@/common/utils'
 import IncidentList from '@/components/IncidentList.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
 import { i18n } from '@/plugins'
+import { IIncidents } from '@/store/interfaces'
 import { ExportToCsv } from 'export-to-csv'
 import Vue from 'vue'
-import { IIncidents } from '@/store/interfaces'
 import { DataTableHeader } from 'vuetify/types'
 
 export default Vue.extend({
@@ -242,6 +242,7 @@ export default Vue.extend({
     },
     audioURL() {
       return (
+        // @ts-ignore
         this.$config.audio.new || this.$store.getters.getPreference('audioURL')
       )
     },
@@ -292,9 +293,7 @@ export default Vue.extend({
         this.filter.dateRange[1]
       )
     },
-    indicators() {
-      return this.$config.indicators ? this.$config.indicators.queries : []
-    },
+
     incidents() {
       if (!this.filter?.text) return this.$store.getters['incidents/incidents']
 
@@ -345,27 +344,6 @@ export default Vue.extend({
     },
     isMute() {
       return this.$store.getters.getPreference('isMute')
-    },
-    showPanel: {
-      get() {
-        return this.$store.state.incidents.showPanel
-      },
-      set(value) {
-        this.$store.dispatch('incidents/toggle', ['showPanel', value])
-      }
-    },
-    displayDensity: {
-      get() {
-        return (
-          this.$store.getters.getPreference('displayDensity') ||
-          this.$store.state.incidents.displayDensity
-        )
-      },
-      set(value) {
-        this.isLoggedIn
-          ? this.$store.dispatch('setUserPrefs', { displayDensity: value })
-          : this.$store.dispatch('incidents/set', ['displayDensity', value])
-      }
     }
   },
   watch: {
@@ -399,6 +377,7 @@ export default Vue.extend({
         const hash = this.$store.getters['incidents/getHash']
         hash != this.$route.hash && (await this.$router.replace(hash))
         this.currentTab = this.defaultTab
+
         this.cancelTimer()
         this.refreshIncidents()
       },
@@ -408,9 +387,6 @@ export default Vue.extend({
       if (!val) return
       this.getIncidents()
       this.getEnvironments()
-    },
-    async showPanel() {
-      await this.$router.push(this.$store.getters['incidents/getHash'])
     }
   },
   created() {
@@ -422,6 +398,7 @@ export default Vue.extend({
       this.setPanel(hashMap)
     }
     this.currentTab = this.defaultTab
+
     this.cancelTimer()
     this.refreshIncidents()
   },
@@ -501,10 +478,10 @@ export default Vue.extend({
     refreshIncidents() {
       this.getEnvironments()
       this.getIncidents().then(() => {
-        this.timer = setTimeout(
-          () => this.refreshIncidents(),
-          this.refreshInterval
-        )
+        if (this.timer) clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.refreshIncidents()
+        }, this.refreshInterval)
       })
     },
     addIncident() {

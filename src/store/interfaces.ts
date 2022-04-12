@@ -35,7 +35,7 @@ export interface IAlerts {
   tags: { tag: string }[]
 
   alert?: IAlert
-  notes: string[]
+  notes: INote[]
 
   isWatch: boolean
   isKiosk: boolean

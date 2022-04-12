@@ -34,12 +34,13 @@
           <date-format
             v-if="incident.lastReceiveTime"
             :value="incident.lastReceiveTime"
+            class="w-max"
           />
           <span v-else class="grey--text">No alerts</span>
           <span>{{ incident.createTime | hhmmss }}</span>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <span v-on="on">
+              <span v-on="on" class="w-max">
                 {{ incident.updateTime | timeago }}
               </span>
             </template>
@@ -340,9 +341,13 @@ export default Vue.extend({
   display: grid;
   align-items: center;
 
-  grid-template-columns: 1fr 1fr 3fr 2fr 3fr 5fr 1fr 1.5fr 2fr;
+  grid-template-columns: 1fr 1fr 2fr 1.5fr 2fr 7fr 1fr 1.5fr 2fr;
   gap: 0.5rem;
   padding-inline: 1rem;
+}
+
+.w-max {
+  width: max-content;
 }
 
 .incident-row {

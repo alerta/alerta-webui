@@ -336,8 +336,8 @@
           <format-date :value="incident.updateTime" format="mediumDate" />
         </div>
         <div>
-          <strong>Duration since update:</strong>
-          <span class="px-1">{{ incident.updateTime | hhmmss }}</span>
+          <strong>Last Receive Time:</strong>
+          <format-date :value="incident.lastReceiveTime" format="mediumDate" />
         </div>
       </div>
 
@@ -397,7 +397,7 @@
 </template>
 
 <script lang="ts">
-import { IAlert, IIncident } from '@/common/interfaces'
+import { IAlert, IIncident, INote } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import FormatDate from '@/components/lib/DateTime.vue'
@@ -452,11 +452,11 @@ export default Vue.extend({
         this.$store
           .dispatch('incidents/getNotes', this.incident?.id)
           .then(
-            (notes) =>
+            (notes: INote[]) =>
               (this.notes = notes.sort((a, b) =>
                 DateTime.fromISO(a.createTime).diff(
                   DateTime.fromISO(b.createTime)
-                )
+                ).valueOf()
               ))
           )
       })
