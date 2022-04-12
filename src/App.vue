@@ -299,7 +299,7 @@
 
         <v-menu bottom left>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" text icon small class="btn--plain px-1 mx-0">
+            <v-btn v-on="on" text icon small plain class="px-1 mx-0">
               <v-icon small>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>

@@ -294,14 +294,14 @@ export default {
       },
       deep: true
     },
-    pagination: {
+    '$store.state.alerts.pagination': {
       handler(newVal, oldVal) {
         history.pushState(null, null, this.$store.getters['alerts/getHash'])
         if (
           oldVal.page != newVal.page ||
           oldVal.itemsPerPage != newVal.itemsPerPage ||
           oldVal.sortBy != newVal.sortBy ||
-          oldVal.descending != newVal.descending
+          oldVal.sortDesc != newVal.sortDesc
         ) {
           this.getAlerts()
           this.getEnvironments()

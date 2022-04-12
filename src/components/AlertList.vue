@@ -151,7 +151,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="takeAction(item.id, 'open')"
         >
           <v-icon :size="fontSize">mdi-refresh</v-icon>
@@ -162,7 +163,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="watchAlert(item.id)"
         >
           <v-icon :size="fontSize">mdi-eye</v-icon>
@@ -172,7 +174,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="unwatchAlert(item.id)"
         >
           <v-icon :size="fontSize">mdi-eye-off</v-icon>
@@ -183,7 +186,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="ackAlert(item.id)"
         >
           <v-icon :size="fontSize">mdi-check</v-icon>
@@ -193,7 +197,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="takeAction(item.id, 'unack')"
         >
           <v-icon :size="fontSize">mdi-undo</v-icon>
@@ -204,7 +209,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="shelveAlert(item.id)"
         >
           <v-icon :size="fontSize">mdi-clock-outline</v-icon>
@@ -214,7 +220,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="takeAction(item.id, 'unshelve')"
         >
           <v-icon :size="fontSize">mdi-restore</v-icon>
@@ -225,7 +232,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="takeAction(item.id, 'close')"
         >
           <v-icon :size="fontSize">mdi-close-circle-outline</v-icon>
@@ -234,7 +242,8 @@
           text
           icon
           small
-          class="btn--plain pa-0 ma-0"
+          plain
+          class="pa-0 ma-0"
           @click.stop="deleteAlert(item.id)"
         >
           <v-icon :size="fontSize">mdi-delete</v-icon>
@@ -242,7 +251,7 @@
 
         <v-menu bottom left>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" text icon small class="btn--plain pa-0 ma-0">
+            <v-btn v-on="on" text icon plain small class="pa-0 ma-0">
               <v-icon small>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
@@ -271,6 +280,7 @@ import DateFormat from '@/components/lib/DateTime.vue'
 import { DateTime } from 'luxon'
 import Vue, { PropType } from 'vue'
 import { IAlerts } from '@/store/interfaces'
+import { DataTableHeader } from 'vuetify'
 
 type Alert = Required<IAlerts>['alert']
 
@@ -299,6 +309,7 @@ export default Vue.extend({
         text: i18n.t('Incident'),
         value: 'incident',
         sortable: false,
+        align: 'center',
         class: 'pa-0',
         cellClass: 'pa-0'
       },
@@ -327,7 +338,8 @@ export default Vue.extend({
       customer: { text: i18n.t('Customer'), value: 'customer' },
       duplicateCount: {
         text: i18n.t('Dupl'),
-        value: 'duplicateCount'
+        value: 'duplicateCount',
+        align: 'center'
       },
       repeat: { text: i18n.t('Repeat'), value: 'repeat' },
       previousSeverity: {
@@ -346,7 +358,7 @@ export default Vue.extend({
         value: 'lastReceiveTime'
       },
       note: { text: i18n.t('LastNote'), value: 'note', sortable: false }
-    },
+    } as Record<string, DataTableHeader>,
     details: false,
     selectedId: null,
     multiselect: false,

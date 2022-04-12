@@ -37,9 +37,10 @@
                       </v-chip>
                     </template>
                     <template v-slot:item="data">
-                      <template v-if="typeof data.item !== 'object'">
+                      <template v-if="false"></template>
+                      <!-- <template v-if="(typeof data.item !== 'object')">
                         <v-list-item-content v-text="data.item" />
-                      </template>
+                      </template> -->
                       <template v-else>
                         <v-list-item-avatar>
                           <v-icon>mdi-account</v-icon>
@@ -176,40 +177,34 @@
         must-sort
         :header-props="{ sortIcon: 'mdi-chevron-down' }"
       >
-        <template slot="items" slot-scope="props">
-          <td>{{ props.item.name }}</td>
-          <td class="text-sm-left">
-            {{ props.item.text }}
-          </td>
-          <td>
-            {{ props.item.count }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon small color="grey darken-3">mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mr-0"
-              @click="addRemoveUsers(props.item)"
-            >
-              <v-icon small color="grey darken-3">mdi-account-plus</v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon small color="grey darken-3">mdi-delete</v-icon>
-            </v-btn>
-          </td>
+        <template v-slot:actions="">
+          <v-btn
+            v-has-perms.disable="'admin:groups'"
+            icon
+            plain
+            class="mr-0"
+            @click="editItem(props.item)"
+          >
+            <v-icon small color="grey darken-3">mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            v-has-perms.disable="'admin:groups'"
+            icon
+            plain
+            class="mr-0"
+            @click="addRemoveUsers(props.item)"
+          >
+            <v-icon small color="grey darken-3">mdi-account-plus</v-icon>
+          </v-btn>
+          <v-btn
+            v-has-perms.disable="'admin:groups'"
+            icon
+            plain
+            class="mx-0"
+            @click="deleteItem(props.item)"
+          >
+            <v-icon small color="grey darken-3">mdi-delete</v-icon>
+          </v-btn>
         </template>
         <template slot="no-data">
           <v-alert :value="true" color="error" icon="mdi-alert">

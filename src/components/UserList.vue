@@ -281,7 +281,8 @@
           <v-btn
             v-has-perms.disable="'admin:users'"
             icon
-            class="btn--plain mr-0"
+            plain
+            class="mr-0"
             @click="editItem(item)"
           >
             <v-icon small>mdi-pencil</v-icon>
@@ -289,7 +290,8 @@
           <v-btn
             v-has-perms.disable="'admin:users'"
             icon
-            class="btn--plain mx-0"
+            plain
+            class="mx-0"
             @click="deleteItem(item)"
           >
             <v-icon small>mdi-delete</v-icon>

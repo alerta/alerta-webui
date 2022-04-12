@@ -324,7 +324,8 @@
             <v-btn
               v-has-perms.disable="'write:blackouts'"
               icon
-              class="btn--plain mr-0"
+              plain
+              class="mr-0"
               @click="editItem(props.item)"
             >
               <v-icon small color="grey darken-3">mdi-pencil</v-icon>
@@ -332,7 +333,8 @@
             <v-btn
               v-has-perms.disable="'write:blackouts'"
               icon
-              class="btn--plain mx-0"
+              plain
+              class="mx-0"
               @click="copyItem(props.item)"
             >
               <v-icon small color="grey darken-3"
@@ -342,7 +344,8 @@
             <v-btn
               v-has-perms.disable="'write:blackouts'"
               icon
-              class="btn--plain mx-0"
+              plain
+              class="mx-0"
               @click="deleteItem(props.item)"
             >
               <v-icon small color="grey darken-3">mdi-delete</v-icon>

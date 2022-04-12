@@ -214,7 +214,8 @@
           <v-btn
             v-has-perms.disable="'write:keys'"
             icon
-            class="btn--plain mr-0"
+            plain
+            class="mr-0"
             @click="editItem(item)"
           >
             <v-icon small>mdi-pencil</v-icon>
@@ -222,7 +223,8 @@
           <v-btn
             v-has-perms.disable="'admin:keys'"
             icon
-            class="btn--plain mx-0"
+            plain
+            class="mx-0"
             @click="deleteItem(item)"
           >
             <v-icon small>mdi-delete</v-icon>
@@ -232,7 +234,8 @@
             :href="`data:text/plain;base64,${toData(item)}`"
             :download="`key_${item.id}.json`"
             icon
-            class="btn--plain mx-0"
+            plain
+            class="mx-0"
           >
             <v-icon small>mdi-download</v-icon>
           </v-btn>

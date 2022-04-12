@@ -6,11 +6,12 @@ export default Vue.filter(
   (
     value?: string,
     mode = 'local',
-    format: string | Intl.DateTimeFormatOptions = 'll'
+    format: string | Intl.DateTimeFormatOptions = 'f'
   ) => {
     if (!value) return
 
     const date = DateTime.fromISO(value)
+
     if (typeof format === 'string') {
       return date.toFormat(format, {
         locale:

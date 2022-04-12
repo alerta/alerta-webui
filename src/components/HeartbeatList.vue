@@ -87,7 +87,8 @@
           <v-btn
             v-has-perms.disable="'write:heartbeats'"
             icon
-            class="btn--plain mr-0"
+            plain
+            class="mr-0"
             @click="deleteItem(props.item)"
           >
             <v-icon small color="grey darken-3">mdi-delete</v-icon>

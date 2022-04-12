@@ -93,74 +93,45 @@
       </v-card>
     </v-dialog>
 
-    <v-container :style="severityColors">
-      <header class="mb-2">
-        <div class="d-flex justify-space-between">
-          <v-btn color="primary" @click="addIncidentDialog = true">
-            Add Incident
-          </v-btn>
+    <div class="d-flex flex-column px-4">
+      <div class="d-flex justify-space-between mb-3">
+        <v-btn color="primary" @click="addIncidentDialog = true">
+          Add Incident
+        </v-btn>
 
-          <div class="d-flex align-center gap-2">
-            <v-autocomplete
-              label="Incident Owner"
-              v-model="incidentOwner"
-              :items="users"
-              item-text="name"
-              item-value="id"
-              hide-details
-              clearable
-              solo
-              dense
-              multiple
-              class="flex-grow-0"
-              :loading="this.$store.state.users.loading"
-              @focus="getUsers"
-            />
-            <v-btn
-              text
-              icon
-              :class="{ 'filter-active': isActive }"
-              @click="sidesheet = !sidesheet"
-            >
-              <v-icon>mdi-filter-variant</v-icon>
-            </v-btn>
-          </div>
-        </div>
-
-        <v-data-table-header
-          class="incidents-header"
-          :headers="headers"
-          :options.sync="pagination"
-          sort-icon="mdi-chevron-down"
-        />
-      </header>
-      <v-data-iterator
-        :options.sync="pagination"
-        :server-items-length="pagination.totalItems"
-        :items="incidents"
-        :footer-props="{
-          showCurrentPage: true,
-          ...pagination
-        }"
-        disable-sort
-        class="d-flex flex-column gap-2"
-      >
-        <template v-slot:default="{ items }">
-          <incident-row
-            v-for="incident in items"
-            :key="incident.id"
-            :incident="incident"
-            @getIncidents="getIncidents"
-            @createNote="
-              () => {
-                newNoteIncident = incident
-                newNoteDialog = true
-              }
-            "
+        <div class="d-flex align-center gap-2">
+          <v-autocomplete
+            label="Incident Owner"
+            v-model="incidentOwner"
+            :items="users"
+            item-text="name"
+            item-value="id"
+            hide-details
+            clearable
+            solo
+            dense
+            multiple
+            class="flex-grow-0"
+            :loading="this.$store.state.users.loading"
+            @focus="getUsers"
           />
-        </template>
-      </v-data-iterator>
-    </v-container>
+          <v-btn
+            text
+            icon
+            :class="{ 'filter-active': isActive }"
+            @click="sidesheet = !sidesheet"
+          >
+            <v-icon>mdi-filter-variant</v-icon>
+          </v-btn>
+        </div>
+      </div>
+
+      <incident-list
+        :incidents="incidents"
+        @createNote="handleCreateNote"
+        @getIncidents="getIncidents"
+      />
+    </div>
 
     <incident-list-filter :isOpen="sidesheet" @close="sidesheet = false" />
   </div>
@@ -168,12 +139,13 @@
 
 <script lang="ts">
 import utils from '@/common/utils'
-import IncidentRow from '@/components/IncidentRow.vue'
+import IncidentList from '@/components/IncidentList.vue'
 import IncidentListFilter from '@/components/IncidentListFilter.vue'
 import { i18n } from '@/plugins'
 import { ExportToCsv } from 'export-to-csv'
 import Vue from 'vue'
 import { IIncidents } from '@/store/interfaces'
+import { DataTableHeader } from 'vuetify/types'
 
 export default Vue.extend({
   props: {
@@ -190,19 +162,16 @@ export default Vue.extend({
   },
   components: {
     IncidentListFilter,
-    IncidentRow
+    IncidentList
   },
   data: () => ({
-    currentTab: null,
-    densityDialog: false,
-    selectedId: null,
-    selectedincident: {},
+    currentTab: null as string | null,
     sidesheet: false,
-    timer: null,
+    timer: null as number | null,
     addIncidentDialog: false,
     newIncident: {},
     newNote: null as string | null,
-    newNoteIncident: null as IIncidents['incident'] | null,
+    newNoteIncident: null as IIncidents['incidents'][number] | null,
     newNoteDialog: false,
     severities: [
       'warning',
@@ -222,50 +191,54 @@ export default Vue.extend({
     headers: [
       {
         text: 'Status',
+        value: 'status',
         sortable: false
       },
       {
         text: 'Severity',
+        value: 'severity',
         sortable: false
       },
       {
-        text: 'Receive Time'
+        text: 'Receive Time',
+        value: 'lastReceiveTime'
       },
       {
-        text: 'Duration'
+        text: 'Duration',
+        value: 'createTime'
       },
       {
-        text: 'Last Updated'
+        text: 'Last Updated',
+        value: 'updateTime'
       },
       {
         text: 'Title',
+        value: 'title',
         sortable: false
       },
       {
         text: 'Alerts',
+        value: 'alerts',
         sortable: false
       },
       {
         text: 'Assignee',
+        value: 'owner',
         sortable: false
       },
       {
         text: 'Actions',
+        value: 'actions',
         sortable: false
       }
-    ]
+    ] as DataTableHeader[]
   }),
   mounted() {
     this.$store.dispatch('incidents/setFilter', { status: ['open', 'ack'] })
   },
   computed: {
-    pagination: {
-      get() {
-        return this.$store.state.incidents.pagination
-      },
-      set(value) {
-        this.$store.dispatch('incidents/setPagination', value)
-      }
+    filter() {
+      return this.$store.state.incidents.filter
     },
     audioURL() {
       return (
@@ -293,9 +266,7 @@ export default Vue.extend({
         ? `tab-${this.filter.environment}`
         : 'tab-ALL'
     },
-    filter() {
-      return this.$store.state.incidents.filter
-    },
+
     severityColors() {
       const colors = this.$store.getters.getConfig('colors')
 
@@ -404,6 +375,25 @@ export default Vue.extend({
     addIncidentDialog(val) {
       if (val && !this.alerts?.length) this.$store.dispatch('alerts/getAlerts')
     },
+    '$store.state.incidents.pagination': {
+      async handler(
+        newVal: IIncidents['pagination'],
+        oldVal: IIncidents['pagination']
+      ) {
+        const hash = this.$store.getters['incidents/getHash']
+        if (hash !== this.$route.hash) await this.$router.replace(hash)
+
+        if (
+          oldVal.page != newVal.page ||
+          oldVal.itemsPerPage != newVal.itemsPerPage ||
+          oldVal.sortBy != newVal.sortBy ||
+          oldVal.sortDesc[0] != newVal.sortDesc[0]
+        ) {
+          this.getIncidents()
+          this.getEnvironments()
+        }
+      }
+    },
     filter: {
       async handler() {
         const hash = this.$store.getters['incidents/getHash']
@@ -414,24 +404,10 @@ export default Vue.extend({
       },
       deep: true
     },
-    pagination: {
-      async handler(newVal, oldVal) {
-        const hash = this.$store.getters['incidents/getHash']
-        hash != this.$route.hash && (await this.$router.replace(hash))
-
-        if (
-          oldVal.page != newVal.page ||
-          oldVal.incidentsPerPage != newVal.incidentsPerPage ||
-          oldVal.sortBy != newVal.sortBy ||
-          oldVal.descending != newVal.descending
-        ) {
-          this.getIncidents()
-          this.getEnvironments()
-        }
-      }
-    },
     refresh(val) {
-      val || (this.getIncidents() && this.getEnvironments())
+      if (!val) return
+      this.getIncidents()
+      this.getEnvironments()
     },
     async showPanel() {
       await this.$router.push(this.$store.getters['incidents/getHash'])
@@ -446,7 +422,6 @@ export default Vue.extend({
       this.setPanel(hashMap)
     }
     this.currentTab = this.defaultTab
-    this.setKiosk(this.isKiosk)
     this.cancelTimer()
     this.refreshIncidents()
   },
@@ -454,6 +429,10 @@ export default Vue.extend({
     this.cancelTimer()
   },
   methods: {
+    handleCreateNote(incident: typeof this.newNoteIncident) {
+      this.newNoteIncident = incident
+      this.newNoteDialog = true
+    },
     createNewNote() {
       if (!this.newNote?.trim() || !this.newNoteIncident)
         return this.$store.dispatch('notifications/custom', {
@@ -507,9 +486,6 @@ export default Vue.extend({
     },
     setPanel(panel) {
       this.$store.dispatch('incidents/setPanel', panel.asi == '1')
-    },
-    setKiosk(isKiosk) {
-      this.$store.dispatch('incidents/updateKiosk', isKiosk)
     },
     getIncidents() {
       return this.$store.dispatch('incidents/getIncidents')
@@ -597,26 +573,8 @@ export default Vue.extend({
   width: 8px;
 }
 
-.incidents-header > tr {
-  padding: 0 1rem;
-  margin-top: 0.5rem;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr 3fr 2fr 3fr 5fr 1fr 1.5fr 2fr;
-
-  gap: 0.5rem;
-}
-
 .gap-2 {
   gap: 0.5rem;
-}
-
-.note {
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  word-wrap: break-word;
 }
 
 .v-input--selection-controls {

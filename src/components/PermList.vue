@@ -138,7 +138,8 @@
             <v-btn
               v-has-perms.disable="'admin:perms'"
               icon
-              class="btn--plain mr-0"
+              plain
+              class="mr-0"
               :disabled="systemRoles.includes(props.item.match)"
               @click="editItem(props.item)"
             >
@@ -147,7 +148,8 @@
             <v-btn
               v-has-perms.disable="'admin:perms'"
               icon
-              class="btn--plain mx-0"
+              plain
+              class="mx-0"
               :disabled="systemRoles.includes(props.item.match)"
               @click="deleteItem(props.item)"
             >
