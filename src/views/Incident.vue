@@ -264,12 +264,12 @@
       <pre class="note body-1">{{ note.text.trim() }}</pre>
     </v-alert>
 
-    <v-card-title class="d-flex items-center justify-space-between">
+    <v-card-title class="incident-title">
       <template v-if="!updating">
         <span>
           {{ incident.title }}
         </span>
-        <div>
+        <div class="flex-shrink-0">
           <span class="subtitle-1 mr-2">{{ incident.owner.name }}</span>
           <v-avatar size="30">
             <img
@@ -400,7 +400,7 @@
 import { IAlert, IIncident, INote } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
-import FormatDate from '@/components/lib/DateTime.vue'
+import FormatDate from '@/components/lib/DateFormat.vue'
 import { DateTime } from 'luxon'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
@@ -454,9 +454,9 @@ export default Vue.extend({
           .then(
             (notes: INote[]) =>
               (this.notes = notes.sort((a, b) =>
-                DateTime.fromISO(a.createTime).diff(
-                  DateTime.fromISO(b.createTime)
-                ).valueOf()
+                DateTime.fromISO(a.createTime)
+                  .diff(DateTime.fromISO(b.createTime))
+                  .valueOf()
               ))
           )
       })
@@ -671,5 +671,13 @@ export default Vue.extend({
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+}
+
+.incident-title {
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 2rem;
+
+  word-break: normal;
 }
 </style>

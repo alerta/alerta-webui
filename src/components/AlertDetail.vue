@@ -216,13 +216,13 @@
                 {{ $t('addedNoteOn') }}
                 <span v-if="note.updateTime">
                   <b>
-                    <date-time :value="note.updateTime" format="longDate" />
+                    <date-format :value="note.updateTime" format="longDate" />
                   </b>
                   ({{ note.updateTime | timeago }})<br />
                 </span>
                 <span v-else>
                   <b>
-                    <date-time :value="note.createTime" format="longDate" />
+                    <date-format :value="note.createTime" format="longDate" />
                   </b>
                   ({{ note.createTime | timeago }})<br />
                 </span>
@@ -240,7 +240,7 @@
                 <b>{{ note.user || 'Anonymous' }}</b
                 >{{ $t('addedNoteOn') }}
                 <b
-                  ><date-time
+                  ><date-format
                     v-if="note.updateTime"
                     :value="note.updateTime"
                     format="longDate"
@@ -290,7 +290,7 @@
                     </div>
                     <div class="flex xs9 text-sm-left">
                       <div>
-                        <date-time
+                        <date-format
                           v-if="item.createTime"
                           :value="item.createTime"
                           format="longDate"
@@ -309,7 +309,7 @@
                     </div>
                     <div class="flex xs9 text-sm-left">
                       <div>
-                        <date-time
+                        <date-format
                           v-if="item.receiveTime"
                           :value="item.receiveTime"
                           format="longDate"
@@ -328,7 +328,7 @@
                     </div>
                     <div class="flex xs9 text-sm-left">
                       <div>
-                        <date-time
+                        <date-format
                           v-if="item.lastReceiveTime"
                           :value="item.lastReceiveTime"
                           format="longDate"
@@ -738,7 +738,7 @@
                 :header-props="{ sortIcon: 'mdi-chevron-down' }"
               >
                 <template v-slot:[`item.updateTime`]="{ item }">
-                  <date-time :value="item.updateTime" format="shortTime" />
+                  <date-format :value="item.updateTime" format="shortTime" />
                 </template>
                 <template v-slot:[`item.id`]="{ item }">
                   <span class="console-text hidden-sm-and-down">{{
@@ -801,14 +801,14 @@
 
 <script lang='ts'>
 import AlertActions from '@/components/AlertActions.vue'
-import DateTime from '@/components/lib/DateTime.vue'
+import DateFormat from '@/components/lib/DateFormat.vue'
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
 import Vue from 'vue'
 
 export default Vue.extend({
   components: {
-    DateTime,
+    DateFormat,
     AlertActions
   },
   props: {

@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import DateFilter from './lib/DateTime.vue'
+import DateFilter from './lib/DateFormat.vue'
 import i18n from '@/plugins/i18n'
 import { DateTime, Duration } from 'luxon'
 

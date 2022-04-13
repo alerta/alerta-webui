@@ -41,7 +41,7 @@
           <v-tooltip top>
             <template v-slot:activator="{ on }">
               <span v-on="on" class="w-max">
-                {{ incident.updateTime | timeago }}
+                {{ incident.updateTime | timeago(timestampFormat) }}
               </span>
             </template>
             <span>{{ incident.updateTime | date }}</span>
@@ -62,7 +62,7 @@
               </v-icon>
             </v-avatar>
 
-            {{ incident.owner.name }}
+            {{ incident.owner.login }}
           </div>
 
           <div class="actions" @click.stop>
@@ -139,16 +139,14 @@
           </div>
 
           <div class="note flex-grow-1">
-            <div class="d-flex gap-2" v-if="incident.note">
-              <span>{{ incident.note.user }}:</span>
-
-              <span class="text-left">
+            <div v-if="incident.note">
+              <p>
+                {{ incident.note.user }}:
                 {{ incident.note.text.trim() }}
-              </span>
-
-              <span class="grey--text">
-                ({{ incident.note.createTime | timeago('narrow') }})
-              </span>
+                <span class="grey--text">
+                  ({{ incident.note.createTime | timeago('narrow') }})
+                </span>
+              </p>
             </div>
             <div v-else></div>
             <v-tooltip bottom>
@@ -169,7 +167,6 @@
           </div>
           <div class="tags flex-grow-1">
             Tags:
-
             <v-chip small v-for="tag in incident.tags" :key="tag">
               {{ tag }}
             </v-chip>
@@ -183,7 +180,7 @@
 <script lang="ts">
 import { IIncidents } from '@/store/interfaces'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
-import DateFormat from '@/components/lib/DateTime.vue'
+import DateFormat from '@/components/lib/DateFormat.vue'
 import { debounce } from 'lodash'
 import Vue, { PropType } from 'vue'
 import { DataTableHeader } from 'vuetify'
@@ -198,7 +195,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      rowColour: `grey ${this.$vuetify.theme.dark ? 'darken-3' : 'lighten-3'}`,
       headers: [
         {
           text: 'Status',
@@ -211,13 +207,12 @@ export default Vue.extend({
           sortable: false
         },
         {
-          text: 'Receive Time',
-          value: 'lastReceiveTime',
-          sortable: true
+          text: 'Last Received',
+          value: 'lastReceiveTime'
         },
         {
           text: 'Duration',
-          value: 'createTime'
+          value: 'duration'
         },
         {
           text: 'Last Updated',
@@ -244,10 +239,22 @@ export default Vue.extend({
           sortable: false,
           align: 'center'
         }
-      ] as DataTableHeader[]
+      ] as DataTableHeader[],
+      windowWidth: window.innerWidth,
+      timestampFormat: window.innerWidth < 1200 ? 'narrow' : 'long'
     }
   },
+  mounted() {
+    this.$nextTick(() => window.addEventListener('resize', this.onResize))
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize)
+  },
   computed: {
+    rowColour() {
+      return `grey ${this.$vuetify.theme.dark ? 'darken-3' : 'lighten-3'}`
+    },
+
     users() {
       return this.$store.state.users.users
     },
@@ -261,6 +268,11 @@ export default Vue.extend({
     },
     ackTimeout() {
       return this.$store.getters.getPreference('ackTimeout')
+    }
+  },
+  watch: {
+    windowWidth(val) {
+      this.timestampFormat = val < 1200 ? 'narrow' : 'long'
     }
   },
   methods: {
@@ -277,6 +289,9 @@ export default Vue.extend({
           sortDesc: [true]
         }
       }
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth
     },
     getIncidents() {
       this.$emit('getIncidents')
@@ -341,7 +356,7 @@ export default Vue.extend({
   display: grid;
   align-items: center;
 
-  grid-template-columns: 0.75fr 0.75fr 2fr 1.25fr 1.75fr max(36rem, 35vw) 1fr 1.5fr 2fr;
+  grid-template-columns: 0.75fr 0.75fr 2fr 1.25fr 1.75fr max(25rem, 35%) 1fr 1.5fr 2fr;
   gap: 0.5rem;
   padding-inline: 1rem;
 }
@@ -372,10 +387,6 @@ export default Vue.extend({
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.text-left {
-  text-align: left;
 }
 
 .gap-2 {

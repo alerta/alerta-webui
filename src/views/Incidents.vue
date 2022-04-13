@@ -293,7 +293,9 @@ export default Vue.extend({
         this.filter.dateRange[1]
       )
     },
-
+    pagination() {
+      return this.$store.state.incidents.pagination
+    },
     incidents() {
       if (!this.filter?.text) return this.$store.getters['incidents/incidents']
 
@@ -353,24 +355,15 @@ export default Vue.extend({
     addIncidentDialog(val) {
       if (val && !this.alerts?.length) this.$store.dispatch('alerts/getAlerts')
     },
-    '$store.state.incidents.pagination': {
-      async handler(
-        newVal: IIncidents['pagination'],
-        oldVal: IIncidents['pagination']
-      ) {
+    pagination: {
+      async handler() {
         const hash = this.$store.getters['incidents/getHash']
         if (hash !== this.$route.hash) await this.$router.replace(hash)
 
-        if (
-          oldVal.page != newVal.page ||
-          oldVal.itemsPerPage != newVal.itemsPerPage ||
-          oldVal.sortBy != newVal.sortBy ||
-          oldVal.sortDesc[0] != newVal.sortDesc[0]
-        ) {
-          this.getIncidents()
-          this.getEnvironments()
-        }
-      }
+        this.getIncidents()
+        this.getEnvironments()
+      },
+      deep: true
     },
     filter: {
       async handler() {

@@ -257,7 +257,7 @@
 </template>
 
 <script>
-import DateFormat from '@/components/lib/DateTime.vue'
+import DateFormat from '@/components/lib/DateFormat.vue'
 import ListButtonAdd from './lib/ListButtonAdd.vue'
 import utils from '@/common/utils'
 import { DateTime } from 'luxon'

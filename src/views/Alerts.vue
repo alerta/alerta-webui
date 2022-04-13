@@ -294,19 +294,15 @@ export default {
       },
       deep: true
     },
-    '$store.state.alerts.pagination': {
-      handler(newVal, oldVal) {
-        history.pushState(null, null, this.$store.getters['alerts/getHash'])
-        if (
-          oldVal.page != newVal.page ||
-          oldVal.itemsPerPage != newVal.itemsPerPage ||
-          oldVal.sortBy != newVal.sortBy ||
-          oldVal.sortDesc != newVal.sortDesc
-        ) {
-          this.getAlerts()
-          this.getEnvironments()
-        }
-      }
+    pagination: {
+      async handler() {
+        const hash = this.$store.getters['alerts/getHash']
+        if (hash !== this.$route.hash) await this.$router.replace(hash)
+
+        this.getAlerts()
+        this.getEnvironments()
+      },
+      deep: true
     },
     refresh(val) {
       val || (this.getAlerts() && this.getEnvironments())

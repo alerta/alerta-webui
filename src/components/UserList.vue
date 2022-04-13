@@ -215,10 +215,10 @@
         :header-props="{ sortIcon: 'mdi-chevron-down' }"
       >
         <template v-slot:[`item.createTime`]="{ item }">
-          <date-time :value="item.createTime" format="mediumDate" />
+          <date-format :value="item.createTime" format="mediumDate" />
         </template>
         <template v-slot:[`item.lastLogin`]="{ item }">
-          <date-time
+          <date-format
             v-if="item.lastLogin"
             :value="item.lastLogin"
             format="mediumDate"
@@ -319,13 +319,13 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime.vue'
+import DateFormat from './lib/DateFormat.vue'
 import ListButtonAdd from './lib/ListButtonAdd.vue'
 import i18n from '@/plugins/i18n'
 
 export default {
   components: {
-    DateTime,
+    DateFormat,
     ListButtonAdd
   },
   data: (vm) => ({

@@ -59,10 +59,10 @@
       <span class="label">
         {{ item.status | capitalize }}
       </span>
-      <span v-if="showNotesIcon && lastNote(item)" class="pl-2">
+      <span v-if="showNotesIcon && lastNote(item)">
         <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon v-bind="attrs" small v-on="on">mdi-note</v-icon>
+          <template v-slot:activator="{ on }">
+            <v-icon small v-on="on">mdi-note</v-icon>
           </template>
           <span>{{ lastNote(item) }}</span>
         </v-tooltip>
@@ -276,7 +276,7 @@
 <script lang='ts'>
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
-import DateFormat from '@/components/lib/DateTime.vue'
+import DateFormat from '@/components/lib/DateFormat.vue'
 import { DateTime } from 'luxon'
 import Vue, { PropType } from 'vue'
 import { IAlerts } from '@/store/interfaces'
@@ -319,7 +319,7 @@ export default Vue.extend({
       environment: { text: i18n.t('Environment'), value: 'environment' },
       severity: { text: i18n.t('Severity'), value: 'severity' },
       correlate: { text: i18n.t('Correlate'), value: 'correlate' },
-      status: { text: i18n.t('Status'), value: 'status', class: '' },
+      status: { text: i18n.t('Status'), value: 'status', cellClass: 'status' },
       service: { text: i18n.t('Service'), value: 'service' },
       group: { text: i18n.t('Group'), value: 'group' },
       value: { text: i18n.t('Value'), value: 'value', class: 'value-header' },
@@ -603,6 +603,12 @@ export default Vue.extend({
   color: inherit !important;
 }
 
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .value-header {
   width: var(--value-width);
   min-width: var(--value-width);
@@ -611,45 +617,6 @@ export default Vue.extend({
 .text-header {
   width: var(--text-width);
   min-width: var(--text-width);
-}
-
-.label {
-  font-weight: bold;
-  line-height: 14px;
-  color: #ffffff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  white-space: nowrap;
-  vertical-align: baseline;
-  background-color: #999999;
-  padding: 1px 4px 2px;
-  border-radius: 3px;
-
-  &.label-critical {
-    background-color: #b94a48;
-  }
-
-  &.label-major {
-    background-color: #f89406;
-  }
-
-  &.label-minor {
-    background-color: #ffd700;
-  }
-
-  &.label-warning {
-    background-color: #3a87ad;
-  }
-
-  &.label-normal,
-  &.label-cleared,
-  &.label-ok,
-  &.label-informational {
-    background-color: #468847;
-  }
-
-  &.label-inverse {
-    background-color: #333333;
-  }
 }
 
 $severities: 'warning', 'critical', 'debug', 'cleared', 'indeterminate',

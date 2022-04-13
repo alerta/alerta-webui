@@ -10,7 +10,7 @@
     </template>
 
     <template v-slot:[`item.date`]="{ item }">
-      <date-time v-if="item.date" :value="item.date" format="mediumDate" />
+      <date-format v-if="item.date" :value="item.date" format="mediumDate" />
     </template>
 
     <template v-slot:[`item.revision`]="{ item }">
@@ -53,12 +53,12 @@
 </template>
 
 <script>
-import DateTime from './lib/DateTime.vue'
+import DateFormat from './lib/DateFormat.vue'
 import i18n from '@/plugins/i18n'
 
 export default {
   components: {
-    DateTime
+    DateFormat
   },
   data: () => ({
     headers: [

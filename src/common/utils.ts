@@ -1,3 +1,4 @@
+import { without } from 'lodash'
 import Vue from 'vue'
 
 const stateMerge = (
@@ -43,7 +44,13 @@ export default {
   toHash(obj: object): string {
     return Object.entries(obj)
       .filter((x) => !!x[1])
-      .reduce((a: string[], [k, v]) => a.concat(`${k}:${v}`), [])
+      .reduce<string[]>(
+        (a, [k, v]) =>
+          Array.isArray(v) && !without(v, null).length
+            ? a
+            : a.concat(`${k}:${v}`),
+        []
+      )
       .join(';')
   },
   fromHash(hash: string): object {
