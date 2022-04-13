@@ -157,12 +157,10 @@ const incidents: Module<IIncidents, IStore> = {
         : ['updateTime']
 
       sortBy.forEach((sb, idx) => {
-        let desc = state.pagination.sortDesc[idx]
-        if (sb === 'duration') {
-          desc = !desc
-          sb = 'createTime'
-        }
-        params.append('sort-by', `${desc ? '-' : ''}${sb}`)
+        params.append(
+          'sort-by',
+          `${state.pagination.sortDesc[idx] ? '-' : ''}${sb}`
+        )
       })
 
       // add server-side paging

@@ -1,177 +1,172 @@
 <template>
-  <div class="incident-container">
-    <v-data-table-header
-      class="incident-header"
-      :headers="headers"
-      :options="pagination"
-      sort-icon="mdi-chevron-down"
-      @sort="handleSort"
-    />
-    <v-data-iterator
-      :options.sync="pagination"
-      :server-items-length="pagination.totalItems"
-      :items="incidents"
-      disable-sort
-      :footer-props="{
-        showCurrentPage: true,
-        ...pagination
-      }"
-      class="d-flex flex-column gap-2"
-    >
-      <template v-slot:default="{ items }">
-        <v-sheet
-          v-for="incident in items"
-          :key="incident.id"
-          class="incident-row"
-          :color="rowColour"
-          tabindex="0"
-          @click="open(incident.id)"
-        >
-          <span class="label">{{ incident.status | capitalize }}</span>
-          <span :class="`label label-${incident.severity.toLowerCase()}`">
-            {{ incident.severity | capitalize }}
-          </span>
-          <date-format
-            v-if="incident.lastReceiveTime"
-            :value="incident.lastReceiveTime"
-            relative
-          />
-          <span v-else class="grey--text">No alerts</span>
-          <span>{{ incident.createTime | hhmmss }}</span>
-          <date-format :value="incident.updateTime" relative />
+  <v-data-iterator
+    :options.sync="pagination"
+    :server-items-length="pagination.totalItems"
+    :items="incidents"
+    disable-sort
+    :footer-props="{
+      showCurrentPage: true,
+      ...pagination
+    }"
+    :loading="loading"
+    class="d-flex flex-column gap-2"
+  >
+    <template v-slot:header="{ options, sort }">
+      <v-data-table-header
+        class="incident-header"
+        :headers="headers"
+        :options="options"
+        sort-icon="mdi-chevron-up"
+        @sort="sort"
+      />
+    </template>
+    <template v-slot:default="{ items }">
+      <v-sheet
+        v-for="incident in items"
+        :key="incident.id"
+        class="incident-row"
+        :color="rowColour"
+        tabindex="0"
+        @click="open(incident.id)"
+      >
+        <span class="label">{{ incident.status | capitalize }}</span>
+        <span :class="`label label-${incident.severity.toLowerCase()}`">
+          {{ incident.severity | capitalize }}
+        </span>
+        <date-format
+          v-if="incident.lastReceiveTime"
+          :value="incident.lastReceiveTime"
+          relative
+        />
+        <span v-else class="grey--text">No alerts</span>
+        <span>{{ incident.createTime | hhmmss }}</span>
+        <date-format :value="incident.updateTime" relative />
 
-          <span>{{ incident.title }}</span>
-          <span class="ellipsize">
-            {{ $tc('AlertsCnt', incident.alerts.length) }}
-          </span>
-          <div class="d-flex align-center">
-            <v-avatar size="30" class="mr-1">
-              <img
-                v-if="incident.owner.avatar"
-                :src="incident.owner.avatar"
-                @error="error = true"
-              />
-              <v-icon v-else size="28" color="grey lighten-2">
-                mdi-account-circle
-              </v-icon>
-            </v-avatar>
+        <span>{{ incident.title }}</span>
+        <span class="ellipsize">
+          {{ $tc('AlertsCnt', incident.alerts.length) }}
+        </span>
+        <div class="d-flex align-center">
+          <v-avatar size="30" class="mr-1">
+            <img
+              v-if="incident.owner.avatar"
+              :src="incident.owner.avatar"
+              @error="error = true"
+            />
+            <v-icon v-else size="28" color="grey lighten-2">
+              mdi-account-circle
+            </v-icon>
+          </v-avatar>
 
-            {{ incident.owner.login }}
+          {{ incident.owner.login }}
+        </div>
+
+        <div class="actions" @click.stop>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                :disabled="
+                  !isAcked(incident.status) && !isClosed(incident.status)
+                "
+                icon
+                plain
+                @click.stop="takeAction(incident.id, 'open')"
+              >
+                <v-icon size="20px">mdi-refresh</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('Open') }}</span>
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-show="!isAcked(incident.status)"
+                v-on="on"
+                :disabled="!isOpen(incident.status)"
+                icon
+                plain
+                @click.stop="ackIncident(incident.id)"
+              >
+                <v-icon size="20px">mdi-check</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('Ack') }}</span>
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-show="isAcked(incident.status)"
+                v-on="on"
+                icon
+                plain
+                @click.stop="takeAction(incident.id, 'unack')"
+              >
+                <v-icon size="20px">mdi-undo</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('Unack') }}</span>
+          </v-tooltip>
+
+          <close-incident-confirm :incident="incident" :callback="getIncidents">
+            <template v-slot:activator="{ on: dialogAction }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-on="on"
+                    @click="dialogAction.click"
+                    :disabled="isClosed(incident.status)"
+                    icon
+                    plain
+                    class="px-1 mx-0"
+                  >
+                    <v-icon size="20px">mdi-close-circle-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('Close') }}</span>
+              </v-tooltip>
+            </template>
+          </close-incident-confirm>
+        </div>
+
+        <div class="note flex-grow-1">
+          <div v-if="incident.note">
+            <p>
+              {{ incident.note.user }}:
+              {{ incident.note.text.trim() }}
+              <span class="grey--text">
+                ({{ incident.note.createTime | timeago('narrow') }})
+              </span>
+            </p>
           </div>
-
-          <div class="actions" @click.stop>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  v-on="on"
-                  :disabled="
-                    !isAcked(incident.status) && !isClosed(incident.status)
-                  "
-                  icon
-                  plain
-                  @click.stop="takeAction(incident.id, 'open')"
-                >
-                  <v-icon size="20px">mdi-refresh</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ $t('Open') }}</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  v-show="!isAcked(incident.status)"
-                  v-on="on"
-                  :disabled="!isOpen(incident.status)"
-                  icon
-                  plain
-                  @click.stop="ackIncident(incident.id)"
-                >
-                  <v-icon size="20px">mdi-check</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ $t('Ack') }}</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  v-show="isAcked(incident.status)"
-                  v-on="on"
-                  icon
-                  plain
-                  @click.stop="takeAction(incident.id, 'unack')"
-                >
-                  <v-icon size="20px">mdi-undo</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ $t('Unack') }}</span>
-            </v-tooltip>
-
-            <close-incident-confirm
-              :incident="incident"
-              :callback="getIncidents"
-            >
-              <template v-slot:activator="{ on: dialogAction }">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      @click="dialogAction.click"
-                      :disabled="isClosed(incident.status)"
-                      icon
-                      plain
-                      class="px-1 mx-0"
-                    >
-                      <v-icon size="20px">mdi-close-circle-outline</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('Close') }}</span>
-                </v-tooltip>
-              </template>
-            </close-incident-confirm>
-          </div>
-
-          <div class="note flex-grow-1">
-            <div v-if="incident.note">
-              <p>
-                {{ incident.note.user }}:
-                {{ incident.note.text.trim() }}
-                <span class="grey--text">
-                  ({{ incident.note.createTime | timeago('narrow') }})
-                </span>
-              </p>
-            </div>
-            <div v-else></div>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  @on="on"
-                  icon
-                  plain
-                  elevation="1"
-                  small
-                  @click.stop="$emit('createNote', incident)"
-                >
-                  <v-icon small>mdi-note-plus</v-icon>
-                </v-btn>
-              </template>
-              <span>Add Note</span>
-            </v-tooltip>
-          </div>
-          <div
-            class="tags flex-grow-1"
-            @click.stop="$emit('editTags', incident)"
-          >
-            Tags:
-            <v-chip small v-for="tag in incident.tags" :key="tag">
-              {{ tag }}
-            </v-chip>
-          </div>
-        </v-sheet>
-      </template>
-    </v-data-iterator>
-  </div>
+          <div v-else></div>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                @on="on"
+                icon
+                plain
+                elevation="1"
+                small
+                @click.stop="$emit('createNote', incident)"
+              >
+                <v-icon small>mdi-note-plus</v-icon>
+              </v-btn>
+            </template>
+            <span>Add Note</span>
+          </v-tooltip>
+        </div>
+        <div class="tags flex-grow-1" @click.stop="$emit('editTags', incident)">
+          Tags:
+          <v-chip small v-for="tag in incident.tags" :key="tag">
+            {{ tag }}
+          </v-chip>
+        </div>
+      </v-sheet>
+    </template>
+  </v-data-iterator>
 </template>
 
 <script lang="ts">
@@ -209,7 +204,7 @@ export default Vue.extend({
         },
         {
           text: 'Duration',
-          value: 'duration'
+          value: 'createTime'
         },
         {
           text: 'Last Updated',
@@ -251,7 +246,9 @@ export default Vue.extend({
     rowColour() {
       return `grey ${this.$vuetify.theme.dark ? 'darken-3' : 'lighten-3'}`
     },
-
+    loading() {
+      return this.$store.state.incidents.isLoading
+    },
     users() {
       return this.$store.state.users.users
     },
@@ -273,20 +270,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    handleSort(val: string) {
-      if (this.pagination.sortBy.includes(val)) {
-        this.pagination = {
-          ...this.pagination,
-          sortDesc: [!this.pagination.sortDesc[0]]
-        }
-      } else {
-        this.pagination = {
-          ...this.pagination,
-          sortBy: [val],
-          sortDesc: [true]
-        }
-      }
-    },
     onResize() {
       this.windowWidth = window.innerWidth
     },
@@ -342,20 +325,16 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.incident-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 .incident-row,
 .incident-header > tr {
   display: grid;
   align-items: center;
 
-  grid-template-columns: 0.75fr 0.75fr 1.75fr 1.25fr 1.75fr max(25rem, 35%) 1fr 1.5fr 2fr;
+  grid-template-columns: 1fr 1fr 2fr 1.5fr 2fr max(25rem, 40%) 1fr 1.5fr 2fr;
   gap: 0.5rem;
   padding-inline: 1rem;
+
+  user-select: none;
 }
 
 .w-max {
