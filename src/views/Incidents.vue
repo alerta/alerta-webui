@@ -29,6 +29,35 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="editTagsDialog" max-width="600px">
+      <v-card>
+        <v-card-title v-if="editTagsIncident">
+          Edit tags for {{ editTagsIncident.title }}
+        </v-card-title>
+
+        <v-card-text>
+          <v-combobox
+            outlined
+            dense
+            autofocus
+            multiple
+            chips
+            deletable-chips
+            v-model="editTags"
+          />
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="error" @click="editTagsDialog = false">
+            {{ $t('Cancel') }}
+          </v-btn>
+          <v-btn color="primary" @click="editIncidentTags">
+            {{ $t('OK') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="addIncidentDialog" max-width="600px">
       <v-card>
@@ -129,6 +158,7 @@
       <incident-list
         :incidents="incidents"
         @createNote="handleCreateNote"
+        @editTags="handleEditTags"
         @getIncidents="getIncidents"
       />
     </div>
@@ -144,6 +174,7 @@ import IncidentListFilter from '@/components/IncidentListFilter.vue'
 import { i18n } from '@/plugins'
 import { IIncidents } from '@/store/interfaces'
 import { ExportToCsv } from 'export-to-csv'
+import { cloneDeep } from 'lodash'
 import Vue from 'vue'
 import { DataTableHeader } from 'vuetify/types'
 
@@ -173,6 +204,9 @@ export default Vue.extend({
     newNote: null as string | null,
     newNoteIncident: null as IIncidents['incidents'][number] | null,
     newNoteDialog: false,
+    editTags: null as string[] | null,
+    editTagsIncident: null as IIncidents['incidents'][number] | null,
+    editTagsDialog: false,
     severities: [
       'warning',
       'critical',
@@ -399,7 +433,34 @@ export default Vue.extend({
     this.cancelTimer()
   },
   methods: {
-    handleCreateNote(incident: typeof this.newNoteIncident) {
+    handleEditTags(incident: Exclude<typeof this.editTagsIncident, null>) {
+      this.editTagsIncident = incident
+      this.editTags = cloneDeep(incident.tags)
+      this.editTagsDialog = true
+    },
+    editIncidentTags() {
+      if (!this.editTagsIncident) return
+      if (this.editTags === this.editTagsIncident.tags) {
+        this.editTagsIncident = null
+        this.editTags = null
+        this.editTagsDialog = false
+        return
+      }
+
+      this.editTagsDialog = false
+      this.$store
+        .dispatch('incidents/updateIncident', {
+          id: this.editTagsIncident.id,
+          tags: this.editTags
+        })
+        .then(() => {
+          this.$store.dispatch('notifications/success', 'Changed tags')
+          this.editTagsIncident = null
+          this.editTags = null
+          this.getIncidents()
+        })
+    },
+    handleCreateNote(incident: Exclude<typeof this.newNoteIncident, null>) {
       this.newNoteIncident = incident
       this.newNoteDialog = true
     },

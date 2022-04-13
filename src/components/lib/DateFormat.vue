@@ -1,8 +1,8 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <span v-on="on" :class="`text-no-wrap`">
-        {{ value | date(displayMode, formatString) }}
+      <span v-on="on" class="w-max">
+        {{ filter(value) }}
       </span>
     </template>
     <span>{{ value | date('utc', dateFormat) }}</span>
@@ -16,7 +16,8 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     value: { type: String, required: true },
-    format: { type: String, default: 'mediumDate' }
+    format: { type: String, default: 'mediumDate' },
+    relative: { type: Boolean, default: false }
   },
   data: () => ({
     dateFormat: DateTime.DATETIME_SHORT
@@ -28,10 +29,25 @@ export default Vue.extend({
     formatString() {
       return (
         this.$store.state.prefs.dates[this.format] ||
+        // @ts-ignore
         this.$config.dates[this.format]
       )
+    }
+  },
+  methods: {
+    filter(val: string) {
+      return this.relative
+        ? this.$options.filters?.timeago(val)
+        : this.$options.filters?.date(val, this.displayMode, this.formatString)
     }
   }
 })
 </script>
+
+<style>
+.w-max {
+  white-space: nowrap;
+  width: max-content;
+}
+</style>
 

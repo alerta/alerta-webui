@@ -34,18 +34,12 @@
           <date-format
             v-if="incident.lastReceiveTime"
             :value="incident.lastReceiveTime"
-            class="w-max"
+            relative
           />
           <span v-else class="grey--text">No alerts</span>
           <span>{{ incident.createTime | hhmmss }}</span>
-          <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <span v-on="on" class="w-max">
-                {{ incident.updateTime | timeago(timestampFormat) }}
-              </span>
-            </template>
-            <span>{{ incident.updateTime | date }}</span>
-          </v-tooltip>
+          <date-format :value="incident.updateTime" relative />
+
           <span>{{ incident.title }}</span>
           <span class="ellipsize">
             {{ $tc('AlertsCnt', incident.alerts.length) }}
@@ -165,7 +159,10 @@
               <span>Add Note</span>
             </v-tooltip>
           </div>
-          <div class="tags flex-grow-1">
+          <div
+            class="tags flex-grow-1"
+            @click.stop="$emit('editTags', incident)"
+          >
             Tags:
             <v-chip small v-for="tag in incident.tags" :key="tag">
               {{ tag }}
@@ -356,7 +353,7 @@ export default Vue.extend({
   display: grid;
   align-items: center;
 
-  grid-template-columns: 0.75fr 0.75fr 2fr 1.25fr 1.75fr max(25rem, 35%) 1fr 1.5fr 2fr;
+  grid-template-columns: 0.75fr 0.75fr 1.75fr 1.25fr 1.75fr max(25rem, 35%) 1fr 1.5fr 2fr;
   gap: 0.5rem;
   padding-inline: 1rem;
 }
