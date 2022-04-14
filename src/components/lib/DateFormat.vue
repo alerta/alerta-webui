@@ -17,7 +17,7 @@ export default Vue.extend({
   props: {
     value: { type: String, required: true },
     format: { type: String, default: 'mediumDate' },
-    relative: { type: Boolean, default: false }
+    relative: { type: [Boolean, String], default: false }
   },
   data: () => ({
     dateFormat: DateTime.DATETIME_SHORT
@@ -37,7 +37,10 @@ export default Vue.extend({
   methods: {
     filter(val: string) {
       return this.relative
-        ? this.$options.filters?.timeago(val)
+        ? this.$options.filters?.timeago(
+            val,
+            typeof this.relative === 'string' ? this.relative : 'long'
+          )
         : this.$options.filters?.date(val, this.displayMode, this.formatString)
     }
   }

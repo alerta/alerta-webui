@@ -2,9 +2,9 @@
   <div>
     <v-dialog v-model="newNoteDialog" max-width="600px">
       <v-card>
-        <v-card-title v-if="newNoteIncident"
-          >Add note for {{ newNoteIncident.title }}</v-card-title
-        >
+        <v-card-title class="break-normal" v-if="newNoteIncident">
+          Add note for "{{ newNoteIncident.title }}"
+        </v-card-title>
 
         <v-card-text>
           <v-form>
@@ -31,8 +31,8 @@
     </v-dialog>
     <v-dialog v-model="editTagsDialog" max-width="600px">
       <v-card>
-        <v-card-title v-if="editTagsIncident">
-          Edit tags for {{ editTagsIncident.title }}
+        <v-card-title class="break-normal" v-if="editTagsIncident">
+          Edit tags for "{{ editTagsIncident.title }}"
         </v-card-title>
 
         <v-card-text>
@@ -606,6 +606,10 @@ export default Vue.extend({
 
 .gap-2 {
   gap: 0.5rem;
+}
+
+.break-normal {
+  word-break: normal;
 }
 
 .v-input--selection-controls {

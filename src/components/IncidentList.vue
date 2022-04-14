@@ -36,11 +36,11 @@
         <date-format
           v-if="incident.lastReceiveTime"
           :value="incident.lastReceiveTime"
-          relative
+          :relative="timestampFormat"
         />
         <span v-else class="grey--text">No alerts</span>
         <span>{{ incident.createTime | hhmmss }}</span>
-        <date-format :value="incident.updateTime" relative />
+        <date-format :value="incident.updateTime" :relative="timestampFormat" />
 
         <span>{{ incident.title }}</span>
         <span class="ellipsize">
@@ -328,20 +328,21 @@ export default Vue.extend({
 .incident-row,
 .incident-header > tr {
   display: grid;
-  align-items: center;
 
-  grid-template-columns: 1fr 1fr 2fr 1.5fr 2fr max(25rem, 40%) 1fr 1.5fr 2fr;
+  grid-template-columns: 1fr 1fr 2fr 1.5fr 2fr max(25rem, 40%) 1fr 1.5fr 1.75fr;
   gap: 0.5rem;
   padding-inline: 1rem;
 
   user-select: none;
 }
 
-.w-max {
-  width: max-content;
+.incident-header > tr {
+  align-items: center;
 }
 
 .incident-row {
+  align-items: flex-start;
+
   width: 100%;
   padding-block: 0.5rem;
   border-radius: 0.5rem;
