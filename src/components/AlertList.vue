@@ -646,7 +646,7 @@ export default {
       }
     },
     isOpen(status) {
-      return status == 'open' || status == 'NORM'
+      return status == 'open' || status == 'NORM' || status == 'UNACK' || status == 'RTNUN'
     },
     isWatched(tags) {
       return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
