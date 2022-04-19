@@ -12,7 +12,7 @@ export const en = {
 
   // sidenav
   Alerts: 'Alerts',
-  AlertsCnt: 'alert | {count} alerts',
+  AlertsCnt: '1 alert | {count} alerts',
   Incidents: 'Incidents',
   Heartbeats: 'Heartbeats',
   Users: 'Users',

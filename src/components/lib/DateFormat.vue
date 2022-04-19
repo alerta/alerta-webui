@@ -2,7 +2,14 @@
   <v-tooltip top>
     <template v-slot:activator="{ on }">
       <span v-on="on" class="w-max">
-        {{ filter(value) }}
+        <slot v-bind:on="on">
+          <template v-if="relative">
+            {{ value | timeago(relativeStyle) }}
+          </template>
+          <template v-else>
+            {{ value | date(displayMode, formatString) }}
+          </template>
+        </slot>
       </span>
     </template>
     <span>{{ value | date('utc', dateFormat) }}</span>
@@ -32,16 +39,9 @@ export default Vue.extend({
         // @ts-ignore
         this.$config.dates[this.format]
       )
-    }
-  },
-  methods: {
-    filter(val: string) {
-      return this.relative
-        ? this.$options.filters?.timeago(
-            val,
-            typeof this.relative === 'string' ? this.relative : 'long'
-          )
-        : this.$options.filters?.date(val, this.displayMode, this.formatString)
+    },
+    relativeStyle() {
+      return typeof this.relative === 'string' ? this.relative : 'long'
     }
   }
 })

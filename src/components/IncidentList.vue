@@ -36,17 +36,28 @@
         <date-format
           v-if="incident.lastReceiveTime"
           :value="incident.lastReceiveTime"
-          :relative="timestampFormat"
-        />
+        >
+          <template v-slot:default="{ on }">
+            <span v-on="on">
+              {{ incident.lastReceiveTime | timeago(timestampFormat) }}
+            </span>
+          </template>
+        </date-format>
         <span v-else class="grey--text">No alerts</span>
         <span>{{ incident.createTime | hhmmss }}</span>
-        <date-format :value="incident.updateTime" :relative="timestampFormat" />
+        <date-format :value="incident.updateTime" >
+          <template v-slot:default="{ on }">
+            <span v-on="on">
+              {{ incident.updateTime | timeago(timestampFormat) }}
+            </span>
+          </template>
+        </date-format>
 
         <span>{{ incident.title }}</span>
         <span class="ellipsize">
           {{ $tc('AlertsCnt', incident.alerts.length) }}
         </span>
-        <div class="d-flex align-center">
+        <div class="d-flex align-center ellipsize">
           <v-avatar size="30" class="mr-1">
             <img
               v-if="incident.owner.avatar"
@@ -58,7 +69,9 @@
             </v-icon>
           </v-avatar>
 
-          {{ incident.owner.login }}
+          <span class="ellipsize">
+            {{ incident.owner.name }}
+          </span>
         </div>
 
         <div class="actions" @click.stop>
