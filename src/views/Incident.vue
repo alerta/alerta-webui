@@ -426,6 +426,13 @@
                 {{ item.severity | capitalize }}
               </span>
             </template>
+            <template v-slot:[`item.tags`]="{ item }">
+              <div class="d-flex flex-wrap gap-2">
+                <v-chip v-for="tag in item.tags" :key="tag.id" x-small>{{
+                  tag
+                }}</v-chip>
+              </div>
+            </template>
             <template v-slot:[`item.status`]="{ item }">
               <span class="label">
                 {{ item.status | capitalize }}
