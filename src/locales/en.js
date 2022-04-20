@@ -388,7 +388,8 @@ export const en = {
   Incident: 'Incident',
   AddToIncident: 'Add to Incident',
   IncidentOrNoteId: 'Incident/Note ID',
-  Owner: 'Owner'
+  Owner: 'Owner',
+  Title: 'Title'
 
   // ENDS.
 }

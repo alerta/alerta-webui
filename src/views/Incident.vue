@@ -470,10 +470,10 @@ import { IAlert, IIncident, INote, IUser } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import DateFormat from '@/components/lib/DateFormat.vue'
-import { DateTime, Duration } from 'luxon'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
 import { cloneDeep, omit, pickBy } from 'lodash'
+import { DateTime, Duration } from 'luxon'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -546,7 +546,7 @@ export default Vue.extend({
           .dispatch('incidents/getNotes', this.incident?.id)
           .then(
             (notes: INote[]) =>
-              (this.notes = notes.sort((a, b) =>
+              (this.notes = cloneDeep(notes).sort((a, b) =>
                 DateTime.fromISO(a.createTime)
                   .diff(DateTime.fromISO(b.createTime))
                   .toMillis()
@@ -721,8 +721,10 @@ export default Vue.extend({
 
       const removed = this.selected.map((alert: IAlert) => alert.id)
 
-      this.alerts.forEach((alert, index) => {
-        if (removed.includes(alert.id)) this.alerts.splice(index, 1)
+      let removedItems = 0
+      cloneDeep(this.alerts).forEach((alert, index) => {
+        if (removed.includes(alert.id))
+          this.alerts.splice(index - removedItems++, 1)
       })
 
       this.$store

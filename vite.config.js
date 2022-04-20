@@ -31,6 +31,7 @@ export default ({ mode }) => {
     preview: {
       port,
       strictPort: true
-    }
+    },
+    devSourcemap: true
   })
 }
