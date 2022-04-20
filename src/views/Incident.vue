@@ -345,9 +345,11 @@
               <div>
                 <strong>Last Receive Time:</strong>
                 <date-format
+                  v-if="incident.lastReceiveTime"
                   :value="incident.lastReceiveTime"
                   format="mediumDate"
                 />
+                <span v-else> No alerts</span>
               </div>
             </div>
 
