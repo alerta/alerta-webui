@@ -750,13 +750,13 @@
                     {{ item.severity | capitalize }}
                   </span>
                 </template>
-                <template v-slot:[`item.label`]="{ item }">
+                <template v-slot:[`item.status`]="{ item }">
                   <span class="label">
                     {{ item.status | capitalize }}
                   </span>
                 </template>
                 <template v-slot:[`item.timeout`]="{ item }">
-                  {{ item.timeout | hhmmss }}
+                  {{ formatTimeout(item.timeout) }}
                 </template>
                 <template v-slot:[`item.type`]="{ item }">
                   <span class="label">
@@ -804,6 +804,7 @@ import AlertActions from '@/components/AlertActions.vue'
 import DateFormat from '@/components/lib/DateFormat.vue'
 import i18n from '@/plugins/i18n'
 import debounce from 'lodash/debounce'
+import { Duration } from 'luxon'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -898,6 +899,9 @@ export default Vue.extend({
     this.getNotes()
   },
   methods: {
+    formatTimeout(val: number) {
+      return Duration.fromObject({ seconds: val }).toFormat('hh:mm:ss')
+    },
     parseRawData(data?: string) {
       return data ? JSON.stringify(JSON.parse(data), null, 2) : 'no raw data'
     },

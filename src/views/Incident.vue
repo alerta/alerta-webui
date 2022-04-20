@@ -237,155 +237,215 @@
       </v-card>
     </v-dialog>
 
-    <v-alert
-      v-for="note in notes"
-      :key="note.id"
-      :value="true"
-      dismissible
-      type="info"
-      class="ma-1"
-      dense
-      @input="deleteNote(id, note.id)"
-    >
-      <strong>{{ note.user || 'Anonymous' }}</strong>
-      {{ $t('addedNoteOn') }}
-      <span v-if="note.updateTime" class="caption">
-        <strong>
-          <format-date :value="note.updateTime" format="mediumDate" />
-        </strong>
-        ({{ note.updateTime | timeago }})<br />
-      </span>
-      <span v-else class="caption">
-        <strong>
-          <format-date :value="note.createTime" format="mediumDate" />
-        </strong>
-        ({{ note.createTime | timeago }})<br />
-      </span>
-      <pre class="note body-1">{{ note.text.trim() }}</pre>
-    </v-alert>
+    <v-tabs v-model="active" grow>
+      <v-tab ripple>
+        <v-icon>mdi-information</v-icon>
+        &nbsp;{{ $t('Details') }}
+      </v-tab>
+      <v-tab-item :transition="false" :reverse-transition="false">
+        <v-card flat>
+          <v-alert
+            v-for="note in notes"
+            :key="note.id"
+            :value="true"
+            dismissible
+            type="info"
+            class="ma-1"
+            dense
+            @input="deleteNote(id, note.id)"
+          >
+            <strong>{{ note.user || 'Anonymous' }}</strong>
+            {{ $t('addedNoteOn') }}
+            <span v-if="note.updateTime" class="caption">
+              <strong>
+                <date-format :value="note.updateTime" format="mediumDate" />
+              </strong>
+              ({{ note.updateTime | timeago }})<br />
+            </span>
+            <span v-else class="caption">
+              <strong>
+                <date-format :value="note.createTime" format="mediumDate" />
+              </strong>
+              ({{ note.createTime | timeago }})<br />
+            </span>
+            <pre class="note body-1">{{ note.text.trim() }}</pre>
+          </v-alert>
 
-    <v-card-title class="incident-title">
-      <template v-if="!updating">
-        <span>
-          {{ incident.title }}
-        </span>
-        <div class="flex-shrink-0">
-          <span class="subtitle-1 mr-2">{{ incident.owner.name }}</span>
-          <v-avatar size="30">
-            <img
-              v-if="incident.owner.avatar"
-              :src="incident.owner.avatar"
-              @error="error = true"
-            />
-            <v-icon v-else size="28" color="grey lighten-2">
-              mdi-account-circle
-            </v-icon>
-          </v-avatar>
-        </div>
-      </template>
-      <v-text-field
-        class="mb-2"
-        autofocus
-        dense
-        hide-details
-        v-else
-        outlined
-        v-model="incident.title"
-      />
-    </v-card-title>
-    <v-card-subtitle class="d-flex gap-2" :style="severityColors">
-      <span class="label">
-        {{ incident.status | capitalize }}
-      </span>
-
-      <span :class="`label label-${incident.severity.toLowerCase()}`">
-        {{ incident.severity | capitalize }}
-      </span>
-    </v-card-subtitle>
-
-    <v-card-text>
-      <v-select
-        v-if="updating"
-        v-model="incident.severity"
-        :items="severities"
-        dense
-        outlined
-        label="Severity"
-      />
-
-      <v-textarea
-        v-if="creatingNote"
-        placeholder="Add a note"
-        rows="2"
-        auto-grow
-        outlined
-        append-outer-icon="mdi-plus-circle"
-        v-model="newNote"
-        @click:append-outer="addNote"
-        autofocus
-        :rules="[(v) => !!v || $t('NoteRequired')]"
-      />
-
-      <div class="d-flex flex-column pb-3">
-        <div>
-          <strong>Created at:</strong>
-          <format-date :value="incident.createTime" format="mediumDate" />
-        </div>
-        <div>
-          <strong>Updated at:</strong>
-          <format-date :value="incident.updateTime" format="mediumDate" />
-        </div>
-        <div>
-          <strong>Last Receive Time:</strong>
-          <format-date :value="incident.lastReceiveTime" format="mediumDate" />
-        </div>
-      </div>
-
-      <v-combobox
-        chips
-        :clearable="updating"
-        deletable-chips
-        multiple
-        small-chips
-        label="Tags"
-        outlined
-        dense
-        v-model="incident.tags"
-        append-icon=""
-        :readonly="!updating"
-        hide-details="auto"
-        hint="Edit incident to change tags"
-      />
-    </v-card-text>
-    <v-divider />
-    <v-card-actions class="justify-end">
-      <v-btn color="primary" @click="handleSave" v-if="updating">
-        <v-icon left>mdi-content-save</v-icon>
-        Save
-      </v-btn>
-    </v-card-actions>
-
-    <alert-list :alerts="alerts" :columns="alertColumns" @set-alert="openAlert">
-      <template v-slot:[`footer.prepend`]>
-        <v-flex class="pr-4 py-3 align-center">
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                :disabled="!selected.length"
-                @click="bulkRemove()"
-                color="error"
-                small
-              >
-                <v-icon left>mdi-close-circle-outline</v-icon>
-                {{ $t('Remove') }}
-              </v-btn>
+          <v-card-title class="incident-title">
+            <template v-if="!updating">
+              <span>
+                {{ incident.title }}
+              </span>
+              <div class="flex-shrink-0">
+                <span class="subtitle-1 mr-2">{{ incident.owner.name }}</span>
+                <v-avatar size="30">
+                  <img
+                    v-if="incident.owner.avatar"
+                    :src="incident.owner.avatar"
+                    @error="error = true"
+                  />
+                  <v-icon v-else size="28" color="grey lighten-2">
+                    mdi-account-circle
+                  </v-icon>
+                </v-avatar>
+              </div>
             </template>
-            <span>Remove alerts from incident</span>
-          </v-tooltip>
-        </v-flex>
-      </template>
-    </alert-list>
+            <v-text-field
+              class="mb-2"
+              autofocus
+              dense
+              hide-details
+              v-else
+              outlined
+              v-model="incident.title"
+            />
+          </v-card-title>
+          <v-card-subtitle class="d-flex gap-2" :style="severityColors">
+            <span class="label">
+              {{ incident.status | capitalize }}
+            </span>
+
+            <span :class="`label label-${incident.severity.toLowerCase()}`">
+              {{ incident.severity | capitalize }}
+            </span>
+          </v-card-subtitle>
+
+          <v-card-text>
+            <v-select
+              v-if="updating"
+              v-model="incident.severity"
+              :items="severities"
+              dense
+              outlined
+              label="Severity"
+            />
+
+            <v-textarea
+              v-if="creatingNote"
+              placeholder="Add a note"
+              rows="2"
+              auto-grow
+              outlined
+              append-outer-icon="mdi-plus-circle"
+              v-model="newNote"
+              @click:append-outer="addNote"
+              autofocus
+              :rules="[(v) => !!v || $t('NoteRequired')]"
+            />
+
+            <div class="d-flex flex-column pb-3">
+              <div>
+                <strong>Created at:</strong>
+                <date-format :value="incident.createTime" format="mediumDate" />
+              </div>
+              <div>
+                <strong>Updated at:</strong>
+                <date-format :value="incident.updateTime" format="mediumDate" />
+              </div>
+              <div>
+                <strong>Last Receive Time:</strong>
+                <date-format
+                  :value="incident.lastReceiveTime"
+                  format="mediumDate"
+                />
+              </div>
+            </div>
+
+            <v-combobox
+              chips
+              :clearable="updating"
+              deletable-chips
+              multiple
+              small-chips
+              label="Tags"
+              outlined
+              dense
+              v-model="incident.tags"
+              append-icon=""
+              :readonly="!updating"
+              hide-details="auto"
+              hint="Edit incident to change tags"
+            />
+          </v-card-text>
+          <v-divider />
+          <v-card-actions class="justify-end">
+            <v-btn color="primary" @click="handleSave" v-if="updating">
+              <v-icon left>mdi-content-save</v-icon>
+              Save
+            </v-btn>
+          </v-card-actions>
+
+          <alert-list
+            :alerts="alerts"
+            :columns="alertColumns"
+            @set-alert="openAlert"
+          >
+            <template v-slot:[`footer.prepend`]>
+              <v-flex class="pr-4 py-3 align-center">
+                <v-tooltip right>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      v-on="on"
+                      :disabled="!selected.length"
+                      @click="bulkRemove()"
+                      color="error"
+                      small
+                    >
+                      <v-icon left>mdi-close-circle-outline</v-icon>
+                      {{ $t('Remove') }}
+                    </v-btn>
+                  </template>
+                  <span>Remove alerts from incident</span>
+                </v-tooltip>
+              </v-flex>
+            </template>
+          </alert-list>
+        </v-card>
+      </v-tab-item>
+
+      <v-tab ripple>
+        <v-icon>mdi-history</v-icon>&nbsp;{{ $t('History') }}
+      </v-tab>
+      <v-tab-item :transition="false" :reverse-transition="false">
+        <div class="tab-item-wrapper">
+          <v-data-table
+            :headers="headersByScreenSize"
+            :items="history"
+            item-key="index"
+            :options.sync="pagination"
+            :header-props="{ sortIcon: 'mdi-chevron-down' }"
+          >
+            <template v-slot:[`item.updateTime`]="{ item }">
+              <date-format :value="item.updateTime" />
+            </template>
+            <template v-slot:[`item.id`]="{ item }">
+              {{ item.id | shortId }}
+            </template>
+            <template v-slot:[`item.severity`]="{ item }">
+              <span :class="['label', 'label-' + item.severity]">
+                {{ item.severity | capitalize }}
+              </span>
+            </template>
+            <template v-slot:[`item.status`]="{ item }">
+              <span class="label">
+                {{ item.status | capitalize }}
+              </span>
+            </template>
+            <template v-slot:[`item.timeout`]="{ item }">
+              {{ formatTimeout(item.timeout) }}
+            </template>
+            <template v-slot:[`item.owner`]="{ item }">
+              {{ getUser(item.owner) }}
+            </template>
+            <template v-slot:[`item.type`]="{ item }">
+              <span class="label">
+                {{ item.type || 'unknown' | splitCaps }}
+              </span>
+            </template>
+          </v-data-table>
+        </div>
+      </v-tab-item>
+    </v-tabs>
   </v-card>
   <div v-else-if="incident === undefined">
     <v-progress-circular
@@ -397,11 +457,11 @@
 </template>
 
 <script lang="ts">
-import { IAlert, IIncident, INote } from '@/common/interfaces'
+import { IAlert, IIncident, INote, IUser } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
-import FormatDate from '@/components/lib/DateFormat.vue'
-import { DateTime } from 'luxon'
+import DateFormat from '@/components/lib/DateFormat.vue'
+import { DateTime, Duration } from 'luxon'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
 import { cloneDeep, omit, pickBy } from 'lodash'
@@ -410,7 +470,7 @@ import Vue from 'vue'
 export default Vue.extend({
   components: {
     AlertList,
-    FormatDate,
+    DateFormat,
     CloseIncidentConfirm
   },
   data: () => ({
@@ -422,6 +482,7 @@ export default Vue.extend({
     notes: [] as IIncidents['notes'],
     updating: false,
     assignDialog: false,
+    active: null as number | null,
     severities: [
       'security',
       'critical',
@@ -438,7 +499,30 @@ export default Vue.extend({
       'unknown'
     ],
     formValidity: true,
-    interval: null as number | null
+    interval: null as number | null,
+    headers: [
+      {
+        text: i18n.t('IncidentOrNoteId'),
+        value: 'id',
+        hide: 'smAndDown',
+        cellClass: 'console-text hidden-sm-and-down'
+      },
+      { text: i18n.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
+      { text: i18n.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
+      { text: i18n.t('Title'), value: 'title' },
+      { text: i18n.t('Severity'), value: 'severity', hide: 'smAndDown' },
+      { text: i18n.t('Status'), value: 'status', hide: 'smAndDown' },
+      { text: i18n.t('Timeout'), value: 'timeout', hide: 'smAndDown' },
+      { text: i18n.t('Type'), value: 'type' },
+      { text: i18n.t('Tags'), value: 'tags', hide: 'smAndDown' },
+      { text: i18n.t('Owner'), value: 'owner', hide: 'smAndDown' },
+      { text: i18n.t('User'), value: 'user' }
+    ],
+    pagination: {
+      itemsPerPage: 10,
+      sortBy: ['updateTime'],
+      sortDesc: [true]
+    }
   }),
   mounted() {
     this.getIncident()
@@ -456,13 +540,20 @@ export default Vue.extend({
               (this.notes = notes.sort((a, b) =>
                 DateTime.fromISO(a.createTime)
                   .diff(DateTime.fromISO(b.createTime))
-                  .valueOf()
+                  .toMillis()
               ))
           )
       })
   },
-  destroyed() {
+  beforeDestroy() {
     this.interval && clearInterval(this.interval)
+  },
+  watch: {
+    active(val: number | null) {
+      if (val === 1 && !this.users.length) {
+        this.$store.dispatch('users/getUsers')
+      }
+    }
   },
   computed: {
     id() {
@@ -480,14 +571,20 @@ export default Vue.extend({
       // @ts-ignore
       return this.$config.columns
     },
+    history() {
+      return this.incident?.history.map((h, index) => ({ index, ...h })) ?? []
+    },
+    headersByScreenSize() {
+      return this.headers.filter(
+        (h) => !h.hide || !this.$vuetify.breakpoint[h.hide]
+      )
+    },
     shelveTimeout() {
       return this.$store.getters.getPreference('shelveTimeout')
     },
-
     users() {
-      return this.$store.state.users.users
+      return this.$store.state.users.users as Array<IUser>
     },
-
     actions() {
       // @ts-ignore
       return this.$config.actions
@@ -495,7 +592,6 @@ export default Vue.extend({
     ackTimeout() {
       return this.$store.getters.getPreference('ackTimeout')
     },
-
     severityColors() {
       const colors = this.$store.getters.getConfig('colors')
 
@@ -512,6 +608,12 @@ export default Vue.extend({
     }
   },
   methods: {
+    formatTimeout(val: number) {
+      return Duration.fromObject({ seconds: val }).toFormat('hh:mm:ss')
+    },
+    getUser(id: string) {
+      return this.users.find((u) => u.id === id)?.name ?? id
+    },
     getIncident() {
       return this.$store.dispatch('incidents/getIncident', this.id).then(() => {
         this.incident = omit(
@@ -546,7 +648,8 @@ export default Vue.extend({
       }
 
       this.assignDialog = !this.assignDialog
-      if (this.assignDialog) return this.$store.dispatch('users/getUsers')
+      if (this.assignDialog && !this.users.length)
+        return this.$store.dispatch('users/getUsers')
     },
     ackIncident(id: string, text: string) {
       this.$store

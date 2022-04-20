@@ -30,6 +30,7 @@ export interface IIncident {
   customer?: string
   previousSeverity: string
   updateTime: number
+  history: any[]
 
   alerts: string[] // alert ids
 

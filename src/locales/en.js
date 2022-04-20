@@ -386,7 +386,9 @@ export const en = {
   Reassign: 'Reassign',
   MyIncidents: 'My Incidents',
   Incident: 'Incident',
-  AddToIncident: 'Add to Incident'
+  AddToIncident: 'Add to Incident',
+  IncidentOrNoteId: 'Incident/Note ID',
+  Owner: 'Owner'
 
   // ENDS.
 }
