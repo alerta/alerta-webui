@@ -45,7 +45,7 @@
         </date-format>
         <span v-else class="grey--text">No alerts</span>
         <span>{{ incident.createTime | hhmmss }}</span>
-        <date-format :value="incident.updateTime" >
+        <date-format :value="incident.updateTime">
           <template v-slot:default="{ on }">
             <span v-on="on">
               {{ incident.updateTime | timeago(timestampFormat) }}
@@ -58,13 +58,13 @@
           {{ $tc('AlertsCnt', incident.alerts.length) }}
         </span>
         <div class="d-flex align-center ellipsize">
-          <v-avatar size="30" class="mr-1">
+          <v-avatar size="24" class="mr-1">
             <img
               v-if="incident.owner.avatar"
               :src="incident.owner.avatar"
               @error="error = true"
             />
-            <v-icon v-else size="28" color="grey lighten-2">
+            <v-icon v-else size="20" color="grey lighten-2">
               mdi-account-circle
             </v-icon>
           </v-avatar>
