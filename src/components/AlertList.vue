@@ -604,9 +604,10 @@ export default Vue.extend({
 }
 
 .status {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  white-space: nowrap;
+  & > :nth-child(2) {
+    margin-left: 0.25rem;
+  }
 }
 
 .value-header {

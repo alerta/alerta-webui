@@ -738,7 +738,7 @@
                 :header-props="{ sortIcon: 'mdi-chevron-down' }"
               >
                 <template v-slot:[`item.updateTime`]="{ item }">
-                  <date-format :value="item.updateTime" format="shortTime" />
+                  <date-format :value="item.updateTime" />
                 </template>
                 <template v-slot:[`item.id`]="{ item }">
                   <span class="console-text hidden-sm-and-down">{{
