@@ -238,6 +238,11 @@ const incidents: Module<IIncidents, IStore> = {
     },
     async getNotes({ commit }, incidentId) {
       return IncidentsApi.getNotes(incidentId).then(({ notes }) => {
+        notes = notes.sort((a, b) =>
+          DateTime.fromISO(a.createTime)
+            .diff(DateTime.fromISO(b.createTime))
+            .toMillis()
+        )
         commit('SET_NOTES', notes)
         return notes
       })

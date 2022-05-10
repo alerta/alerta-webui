@@ -250,7 +250,13 @@ const alerts: Module<IAlerts, IStore> = {
     },
     async getNotes({ commit }, alertId) {
       return AlertsApi.getNotes(alertId).then(({ notes }) => {
+        notes = notes.sort((a, b) =>
+          DateTime.fromISO(a.createTime)
+            .diff(DateTime.fromISO(b.createTime))
+            .toMillis()
+        )
         commit('SET_NOTES', notes)
+        return notes
       })
     },
     async updateNote({ dispatch }, [alertId, noteId, note]) {

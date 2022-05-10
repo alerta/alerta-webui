@@ -803,7 +803,7 @@
 import AlertActions from '@/components/AlertActions.vue'
 import DateFormat from '@/components/lib/DateFormat.vue'
 import i18n from '@/plugins/i18n'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 import { Duration } from 'luxon'
 import Vue from 'vue'
 

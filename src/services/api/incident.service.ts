@@ -1,9 +1,10 @@
-import { DTO, IIncident } from '@/common/interfaces'
+import { DTO, IIncident, INote } from '@/common/interfaces'
 import axios, { CancelTokenSource } from 'axios'
 import api from '.'
 
 let queryInProgress: CancelTokenSource
 type IncidentDTO = DTO & { incident: IIncident }
+type NotesDTO = DTO & { notes: INote[] }
 
 export default {
   getIncident: async (incidentId: string) =>
@@ -35,7 +36,9 @@ export default {
       .then((res) => res.data)
   },
   getNotes: async (incidentId: string) => {
-    return api.get(`/incidents/${incidentId}/notes`).then((res) => res.data)
+    return api
+      .get<NotesDTO>(`/incidents/${incidentId}/notes`)
+      .then((res) => res.data)
   },
   updateNote: async (incidentId: string, noteId: string, data: object) => {
     return api
