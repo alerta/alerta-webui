@@ -122,15 +122,17 @@
   </div>
 </template>
 
-<script>
-import AlertList from '@/components/AlertList.vue'
-import AlertIndicator from '@/components/AlertIndicator.vue'
-import AlertListFilter from '@/components/AlertListFilter.vue'
-
-import { ExportToCsv } from 'export-to-csv'
+<script lang='ts'>
 import utils from '@/common/utils'
+import AlertIndicator from '@/components/AlertIndicator.vue'
+import AlertList from '@/components/AlertList.vue'
+import AlertListFilter from '@/components/AlertListFilter.vue'
+import { IAlerts } from '@/store/interfaces'
+import { ExportToCsv } from 'export-to-csv'
+import { cloneDeep } from 'lodash'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   components: {
     AlertList,
     AlertIndicator,
@@ -189,32 +191,25 @@ export default {
     indicators() {
       return this.$config.indicators ? this.$config.indicators.queries : []
     },
-    alerts() {
-      if (this.filter) {
-        return this.$store.getters['alerts/alerts'].filter((alert) =>
-          this.filter.text
-            ? Object.keys(alert).some(
-                (k) =>
-                  alert[k] &&
-                  alert[k]
-                    .toString()
-                    .toLowerCase()
-                    .includes(this.filter.text.toLowerCase())
-              )
-            : true
-        )
-      } else {
-        return this.$store.getters['alerts/alerts']
-      }
+    alerts(): IAlerts['alerts'] {
+      const filterText = this.filter?.text?.toLowerCase()
+      if (!filterText) return this.$store.getters['alerts/alerts']
+
+      return this.$store.getters['alerts/alerts'].filter(
+        (alert: IAlerts['alerts'][number]) =>
+          Object.keys(alert).some((k) =>
+            alert[k]?.toString().toLowerCase().includes(filterText)
+          )
+      )
     },
     isNewOpenAlerts() {
       return this.alerts
-        .filter((alert) =>
-          this.filter.environment
-            ? this.filter.environment == alert.environment
-            : true
+        .filter(
+          (alert) =>
+            (this.filter.environment
+              ? this.filter.environment == alert.environment
+              : true) && alert.status == 'open'
         )
-        .filter((alert) => alert.status == 'open')
         .reduce((acc, alert) => acc || !alert.repeat, false)
     },
     showAllowedEnvs() {
@@ -230,7 +225,7 @@ export default {
       return this.$store.getters['alerts/counts']
     },
     alertsByEnvironment() {
-      return this.alerts.filter((alert) =>
+      return cloneDeep(this.alerts).filter((alert) =>
         this.filter.environment
           ? alert.environment === this.filter.environment
           : true
@@ -287,7 +282,7 @@ export default {
     },
     filter: {
       handler() {
-        history.pushState(null, null, this.$store.getters['alerts/getHash'])
+        history.pushState(null, '', this.$store.getters['alerts/getHash'])
         this.currentTab = this.defaultTab
         this.cancelTimer()
         this.refreshAlerts()
@@ -429,7 +424,7 @@ export default {
       )
     }
   }
-}
+})
 </script>
 
 <style>

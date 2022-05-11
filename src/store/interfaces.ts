@@ -118,7 +118,7 @@ export interface IConfig {
     'font-weight': number
   }
   audio?: any
-  columns?: string[]
+  columns: string[]
   sort_by: (string | null)[]
   actions?: any[]
   filter: IFilter
@@ -127,6 +127,8 @@ export interface IConfig {
   /* interval in milliseconds */
   refresh_interval?: number
   environments?: string[]
+
+  indicators: any
 }
 
 export interface IPreferences {

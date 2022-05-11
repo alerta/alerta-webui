@@ -22,11 +22,10 @@
     </template>
 
     <template v-slot:[`item.incident`]="{ item }">
-      <div class="d-flex justify-center">
+      <div class="d-flex justify-center" v-if="item.incident">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
-              v-if="item.incident"
               v-on="on"
               :to="{
                 name: 'incident',
