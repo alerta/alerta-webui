@@ -68,9 +68,8 @@
       </span>
     </template>
     <template v-slot:[`item.tags`]="{ item }">
-      <span v-for="tag in item.tags" :key="tag">
-        <span class="label">{{ tag }}</span>
-        &nbsp;
+      <span v-for="tag in item.tags" :key="tag" class="label">
+        {{ tag }}
       </span>
     </template>
     <template v-slot:[`item.service`]="{ item }">

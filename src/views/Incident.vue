@@ -245,7 +245,7 @@
       <v-tab-item :transition="false" :reverse-transition="false">
         <v-card flat>
           <v-alert
-            v-for="note in notes"
+            v-for="note in notes.slice(-maxNotes)"
             :key="note.id"
             :value="true"
             dismissible
@@ -270,6 +270,22 @@
             </span>
             <pre class="note body-1">{{ note.text.trim() }}</pre>
           </v-alert>
+          <div class="mt-2 d-flex justify-center">
+            <v-tooltip bottom class="d-block">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                  v-if="notes.length > maxNotes"
+                  @click="maxNotes = maxNotes === 5 ? 0 : 5"
+                  icon
+                >
+                  <v-icon v-if="maxNotes === 5">mdi-chevron-down</v-icon>
+                  <v-icon v-else>mdi-chevron-up</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ $t(maxNotes === 5 ? 'Expand' : 'Collapse') }}</span>
+            </v-tooltip>
+          </div>
 
           <v-card-title class="incident-title">
             <template v-if="!updating">
@@ -492,6 +508,7 @@ export default Vue.extend({
     updating: false,
     assignDialog: false,
     active: null as number | null,
+    maxNotes: 5,
     severities: [
       'security',
       'critical',
@@ -671,7 +688,13 @@ export default Vue.extend({
       )
     },
     deleteNote(id: string, noteId: string) {
-      this.$store.dispatch('incidents/deleteNote', [id, noteId])
+      this.$store.dispatch('incidents/deleteNote', [id, noteId]).then((res) => {
+        if (res.status !== 'ok') return
+        this.notes.splice(
+          this.notes.findIndex((n) => n.id === noteId),
+          1
+        )
+      })
     },
     deleteIncident() {
       confirm(i18n.t('ConfirmDelete').toString()) &&
@@ -751,11 +774,12 @@ export default Vue.extend({
         })
       this.$store
         .dispatch('incidents/addNote', [this.id, this.newNote.trim()])
-        .then(() => {
+        .then((res) => {
+          if (res.status !== 'ok') return
           this.$store.dispatch('notifications/success', 'Note created')
+          this.notes.push(res.note)
           this.newNote = ''
           this.creatingNote = false
-          this.getIncident()
         })
     },
     clipboardCopy(text: string) {
