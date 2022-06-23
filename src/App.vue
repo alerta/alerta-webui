@@ -578,6 +578,13 @@ export default {
           show: true
         },
         {
+          icon: 'filter_alt',
+          text: i18n.t('Filters'),
+          path: '/filters',
+          perms: 'read:filters',
+          show: true
+        },
+        {
           icon: 'security',
           text: i18n.t('Permissions'),
           path: '/perms',

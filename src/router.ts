@@ -62,6 +62,15 @@ export function createRouter(basePath): VueRouter {
         meta: {title: 'Blackouts', requiresAuth: true}
       },
       {
+        path: '/filters',
+        name: 'filters',
+        component: () => import(/* webpackChunkName: 'user' */ './views/Filters.vue'),
+        props: route => ({
+          query: route.query,
+        }),
+        meta: {title: 'Filters', requiresAuth: true}
+      },
+      {
         path: '/perms',
         name: 'perms',
         component: () => import(/* webpackChunkName: 'admin' */ './views/Perms.vue'),

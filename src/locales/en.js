@@ -179,7 +179,7 @@ export const en = {
   EditApiKey: 'Edit API Key',
 
   // Blackouts
-  ChooseService: 'Choose one or more service',
+  ChooseService: 'Enter, or choose one or more services',
   Start: 'Start',
   End: 'End',
   Created: 'Created',
@@ -197,6 +197,15 @@ export const en = {
   LookUpDescription: 'Use login, Keycloak role, GitHub org, GitLab group or email domain',
   NewCustomer: 'New Customer',
   EditCustomer: 'Edit Customer',
+
+  // Filters
+  Filter: 'Filter',
+  NewFilter: 'New Filter',
+  EditFilter: 'Edit Filter',
+  FilterType: 'Filter Type',
+  JSONField: 'This field requires valid JSON',
+  InvalidJSON: 'Not valid JSON',
+  ChooseType: 'Enter or choose type',
 
   // Groups
   AddRemoveUsers: 'Add/Remove Users',

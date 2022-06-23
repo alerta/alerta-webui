@@ -179,7 +179,8 @@ export const de = {
   EditApiKey: 'Bearbeite API Schlüssel',
 
   // Blackouts
-  ChooseService: 'Wähle einen oder mehrere Services',
+  ChooseService: 'Tippe oder wähle einen oder mehrere Services',
+
   Start: 'Start',
   End: 'Ende',
   Created: 'Erstellt',
@@ -197,6 +198,15 @@ export const de = {
   LookUpDescription: 'Nutze Login, Keycloak Rolle, GitHub org, GitLab Gruppe oder E-Mail-Domain',
   NewCustomer: 'Neuer Kunde',
   EditCustomer: 'Bearbeite Kunde',
+
+  // Filters
+  Filter: 'Filter',
+  NewFilter: 'Neuer Filter',
+  EditFilter: 'Bearbeite Filter',
+  FilterType: 'Filtertyp',
+  JSONField: 'Dieses Feld erfordert JSON',
+  InvalidJSON: 'Nicht gültig JSON',
+  ChooseType: 'Tippe oder wähle einen Filtertyp',
 
   // Groups
   AddRemoveUsers: 'Erstellen/Lösche Nutzer',

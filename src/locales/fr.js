@@ -104,7 +104,7 @@ export const fr = {
   Repeat: 'Répéter',
   Origin: 'Origine',
   Tags: 'Tags',
-  Attributes: 'attributs',
+  Attributes: 'Attributs',
   History: 'Historique',
   Data: 'Donnée',
 
@@ -179,7 +179,7 @@ export const fr = {
   EditApiKey: 'Modifier Clé API',
 
   // Blackouts
-  ChooseService: 'Choisir un ou plusieurs service',
+  ChooseService: 'Entrez votre texte ou choisissez un ou plusieurs services',
   Start: 'Début',
   End: 'Fin',
   Created: 'Date de création',
@@ -197,6 +197,14 @@ export const fr = {
   LookUpDescription: 'Utiliser l\'identifiant, le rôle Keycloak, l\'organisation GitHub, le groupe GitLab ou le domaine de messagerie',
   NewCustomer: 'Nouveau client',
   EditCustomer: 'Modifier client',
+  // Filters
+  Filter: 'Filtre',
+  NewFilter: 'Nouveau Filtre',
+  EditFilter: 'Editer Filtre',
+  FilterType: 'Type de Filtre',
+  JSONField: 'Ce champ requiert un fichier JSON valide',
+  InvalidJSON: 'Fichier JSON invalide',
+  ChooseType: 'Entrez votre texte ou choisissez un type de Filtre',
 
   // Groups
   AddRemoveUsers: 'Ajouter/Modifier utilisateurs',
