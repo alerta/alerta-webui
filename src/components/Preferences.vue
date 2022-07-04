@@ -349,7 +349,8 @@ export default {
         { text: i18n.t('English'), value: 'en' },
         { text: i18n.t('French'), value: 'fr' },
         { text: i18n.t('German'), value: 'de' },
-        { text: i18n.t('Turkish'), value: 'tr' }
+        { text: i18n.t('Turkish'), value: 'tr' },
+        { text: i18n.t('Russian'), value: 'ru' }
       ]
     },
     timezoneOptions() {

@@ -6,6 +6,7 @@ import {en} from '@/locales/en'
 import {fr} from '@/locales/fr'
 import {de} from '@/locales/de'
 import {tr} from '@/locales/tr'
+import {ru} from '@/locales/ru'
 
 Vue.use(VueI18n)
 
@@ -13,7 +14,8 @@ const loadLocaleMessages = {
   en,
   fr,
   de,
-  tr
+  tr,
+  ru
 }
 
 // variable navigator language

@@ -238,6 +238,7 @@ export const tr = {
   French: 'Fransızca',
   German: 'Almanca',
   Turkish: 'Türkçe',
+  Russian: '',
   DateTimeSettings: 'Tarih ve Zaman ayarları',
   LongDate: 'Uzun Tarih biçimi',
   MediumDate: 'Orta Tarih biçimi',

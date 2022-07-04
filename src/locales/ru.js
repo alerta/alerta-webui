@@ -1,4 +1,4 @@
-export const fr = {
+export const ru = {
   // topnav
   Search: 'Поиск',
   FullScreen: 'На весь экран',
