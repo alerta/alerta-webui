@@ -28,8 +28,10 @@ export interface IIncident {
   createTime: number
   timeout: number
   customer?: string
+  snoozeMessage?: string
   previousSeverity: string
   updateTime: number
+  snoozeTime?: number
   history: any[]
 
   alerts: string[] // alert ids

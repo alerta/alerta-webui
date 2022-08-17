@@ -194,6 +194,23 @@
         <span>{{ $t('Reassign') }}</span>
       </v-tooltip>
 
+      <v-btn-toggle class="mr-1">
+        <v-btn @click="snoozeIncident(3600)" small>
+          <v-icon size="20px" left>mdi-bell-sleep</v-icon>
+          1h
+        </v-btn>
+
+        <v-btn @click="snoozeIncident(2 * 3600)" small>
+          <v-icon size="20px" left>mdi-bell-sleep</v-icon>
+          2h
+        </v-btn>
+
+        <v-btn @click="snoozeDialog = !snoozeDialog" small>
+          <v-icon size="20px" left>mdi-bell-sleep</v-icon>
+          {{ $t('Custom') }}
+        </v-btn>
+      </v-btn-toggle>
+
       <v-btn @click="toggleUpdating" outlined small>
         <template v-if="updating">
           <v-icon size="20px" left>mdi-cancel</v-icon>
@@ -205,6 +222,48 @@
         </template>
       </v-btn>
     </v-toolbar>
+
+    <v-dialog v-model="snoozeDialog" max-width="500">
+      <v-card>
+        <v-card-title>{{ $t('Snooze incident') }}</v-card-title>
+        <v-card-text>
+          <v-slider
+            thumb-label="always"
+            :thumb-size="40"
+            step="300"
+            min="3600"
+            max="21600"
+            v-model="customSnooze"
+          >
+            <template v-slot:thumb-label="{ value }">
+              {{ formatTimeout(value, 'h:mm') }}
+            </template>
+          </v-slider>
+
+          <v-textarea
+            label="Reminder (optional)"
+            rows="3"
+            no-resize
+            v-model="snoozeMessage"
+          ></v-textarea>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="snoozeDialog = false" small color="error" outlined
+            >Cancel</v-btn
+          >
+          <v-btn
+            @click="
+              snoozeIncident(customSnooze).then(() => (snoozeDialog = false))
+            "
+            outlined
+            small
+          >
+            <v-icon size="20px" left>mdi-bell-sleep-outline</v-icon>
+            Snooze
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="assignDialog" max-width="500">
       <v-card>
@@ -367,6 +426,13 @@
                 />
                 <span v-else> No alerts</span>
               </div>
+              <div v-if="isShelved(incident.status) && incident.snoozeTime">
+                <strong> Snoozed until: </strong>
+                <date-format
+                  format="mediumDate"
+                  :value="incident.snoozeTime"
+                ></date-format>
+              </div>
             </div>
 
             <v-combobox
@@ -507,6 +573,9 @@ export default Vue.extend({
     notes: [] as IIncidents['notes'],
     updating: false,
     assignDialog: false,
+    snoozeDialog: false,
+    customSnooze: 4 * 3600,
+    snoozeMessage: null as string | null,
     active: null as number | null,
     maxNotes: 5,
     severities: [
@@ -634,8 +703,9 @@ export default Vue.extend({
     }
   },
   methods: {
-    formatTimeout(val: number) {
-      return Duration.fromObject({ seconds: val }).toFormat('hh:mm:ss')
+    formatTimeout(val: number, format?: string) {
+      format ??= 'hh:mm:ss'
+      return Duration.fromObject({ seconds: val }).toFormat(format)
     },
     getUser(id: string) {
       return this.users.find((u) => u.id === id)?.name ?? id
@@ -701,6 +771,22 @@ export default Vue.extend({
         this.$store
           .dispatch('incidents/deleteIncident', this.id)
           .then(() => this.$router.push('/incidents'))
+    },
+    snoozeIncident(duration: number) {
+      // this.takeAction(
+      //   'shelve',
+      //   `Snoozed for ${this.formatTimeout(duration, 'h:mm')} by ${
+      //     this.$store.getters['auth/getUsername']
+      //   }`
+      // )
+      return this.$store
+        .dispatch('incidents/updateIncident', {
+          id: this.id,
+          status: 'shelved',
+          snoozeTime: duration,
+          snoozeMessage: this.snoozeMessage
+        })
+        .then(this.getIncident)
     },
     openAlert({ id }: IAlert) {
       this.$router.push({
