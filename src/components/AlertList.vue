@@ -16,6 +16,7 @@
     @click:row="openItem"
     :item-class="getSeverity"
     disable-filtering
+    class="alert-list"
   >
     <template v-for="(_, slot) in $slots">
       <template :slot="slot"><slot :name="slot" /></template>
@@ -595,6 +596,10 @@ export default Vue.extend({
   display: flex;
   width: fit-content;
   align-items: center;
+}
+
+.alert-list thead th {
+  white-space: nowrap;
 }
 
 .row-actions > button {
