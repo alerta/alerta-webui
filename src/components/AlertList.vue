@@ -30,7 +30,7 @@
               v-on="on"
               :to="{
                 name: 'incident',
-                params: { id: item.incident },
+                params: { id: item.incident.id || item.incident },
                 query: { 'from-alerts': true }
               }"
               icon
@@ -39,7 +39,7 @@
               <v-icon small>mdi-group</v-icon>
             </v-btn>
           </template>
-          <span>Open Incident</span>
+          <span>Open Incident {{ item.incident.title || '' }}</span>
         </v-tooltip>
       </div>
     </template>
