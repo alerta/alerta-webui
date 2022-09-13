@@ -35,7 +35,7 @@
               icon
               @click.native.stop
             >
-              <v-icon small>mdi-group</v-icon>
+              <v-icon small>mdi-group</v-icon>{{ item.incident.shortId }}
             </v-btn>
           </template>
           <span>Open Incident</span>
