@@ -16,6 +16,7 @@
     @click:row="openItem"
     :item-class="getSeverity"
     disable-filtering
+    class="alert-list"
   >
     <template v-for="(_, slot) in $slots">
       <template :slot="slot"><slot :name="slot" /></template>
@@ -29,7 +30,7 @@
               v-on="on"
               :to="{
                 name: 'incident',
-                params: { id: item.incident },
+                params: { id: item.incident.id || item.incident },
                 query: { 'from-alerts': true }
               }"
               icon
@@ -38,7 +39,7 @@
               <v-icon small>mdi-group</v-icon>{{ item.incident.shortId }}
             </v-btn>
           </template>
-          <span>Open Incident</span>
+          <span>Open Incident {{ item.incident.title || '' }}</span>
         </v-tooltip>
       </div>
     </template>
@@ -595,6 +596,10 @@ export default Vue.extend({
   display: flex;
   width: fit-content;
   align-items: center;
+}
+
+.alert-list thead th {
+  white-space: nowrap;
 }
 
 .row-actions > button {

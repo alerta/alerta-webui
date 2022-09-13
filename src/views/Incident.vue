@@ -194,23 +194,29 @@
         <span>{{ $t('Reassign') }}</span>
       </v-tooltip>
 
-      <v-btn-toggle class="mr-1">
-        <v-btn @click="snoozeIncident(3600)" small>
-          <v-icon size="20px" left>mdi-bell-sleep</v-icon>
-          1h
-        </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <div v-on="on">
+            <v-btn-toggle class="mr-2">
+              <v-btn @click="snoozeIncident(3600)" small>
+                <v-icon size="20px" left>mdi-bell-sleep</v-icon>
+                1h
+              </v-btn>
 
-        <v-btn @click="snoozeIncident(2 * 3600)" small>
-          <v-icon size="20px" left>mdi-bell-sleep</v-icon>
-          2h
-        </v-btn>
+              <v-btn @click="snoozeIncident(2 * 3600)" small>
+                <v-icon size="20px" left>mdi-bell-sleep</v-icon>
+                2h
+              </v-btn>
 
-        <v-btn @click="snoozeDialog = !snoozeDialog" small>
-          <v-icon size="20px" left>mdi-bell-sleep</v-icon>
-          {{ $t('Custom') }}
-        </v-btn>
-      </v-btn-toggle>
-
+              <v-btn @click="snoozeDialog = !snoozeDialog" small>
+                <v-icon size="20px" left>mdi-bell-sleep</v-icon>
+                {{ $t('Custom') }}
+              </v-btn>
+            </v-btn-toggle>
+          </div>
+        </template>
+        <span>{{ $t('Snooze') }}</span>
+      </v-tooltip>
       <v-btn @click="toggleUpdating" outlined small>
         <template v-if="updating">
           <v-icon size="20px" left>mdi-cancel</v-icon>
@@ -225,7 +231,7 @@
 
     <v-dialog v-model="snoozeDialog" max-width="500">
       <v-card>
-        <v-card-title>{{ $t('Snooze incident') }}</v-card-title>
+        <v-card-title>{{ $t('SnoozeIncident') }}</v-card-title>
         <v-card-text>
           <v-slider
             thumb-label="always"
@@ -245,18 +251,19 @@
             rows="3"
             no-resize
             v-model="snoozeMessage"
-          ></v-textarea>
+          />
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="snoozeDialog = false" small color="error" outlined
-            >Cancel</v-btn
-          >
+          <v-spacer />
+
+          <v-btn @click="snoozeDialog = false" color="error">{{
+            $t('Cancel')
+          }}</v-btn>
           <v-btn
             @click="
               snoozeIncident(customSnooze).then(() => (snoozeDialog = false))
             "
-            outlined
-            small
+            color="primary"
           >
             <v-icon size="20px" left>mdi-bell-sleep-outline</v-icon>
             Snooze
@@ -773,12 +780,6 @@ export default Vue.extend({
           .then(() => this.$router.push('/incidents'))
     },
     snoozeIncident(duration: number) {
-      // this.takeAction(
-      //   'shelve',
-      //   `Snoozed for ${this.formatTimeout(duration, 'h:mm')} by ${
-      //     this.$store.getters['auth/getUsername']
-      //   }`
-      // )
       return this.$store
         .dispatch('incidents/updateIncident', {
           id: this.id,
