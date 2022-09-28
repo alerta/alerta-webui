@@ -64,23 +64,20 @@ export function createRouter(basePath): VueRouter {
       {
         path: '/notificationrules',
         name: 'notificationrules',
-        component: () =>
-          import(/* webpackChunkName: 'user' */ './views/NotificationRule.vue'),
-        meta: { title: 'NotificationRules', requiresAuth: true }
+        component: () => import(/* webpackChunkName: 'user' */ './views/NotificationRule.vue'),
+        meta: {title: 'NotificationRules', requiresAuth: true}
       },
       {
         path: '/notificationchannels',
         name: 'notificationchannels',
-        component: () =>
-          import(/* webpackChunkName: 'user' */ './views/NotificationChannel.vue'),
-        meta: { title: 'NotificationChannels', requiresAuth: true }
+        component: () => import(/* webpackChunkName: 'user' */ './views/NotificationChannel.vue'),
+        meta: {title: 'NotificationChannels', requiresAuth: true}
       },
       {
         path: '/oncall',
         name: 'oncall',
-        component: () =>
-          import(/* webpackChunkName: 'user' */ './views/OnCall.vue'),
-        meta: { title: 'oncall', requiresAuth: true }
+        component: () => import(/* webpackChunkName: 'user' */ './views/OnCall.vue'),
+        meta: {title: 'oncall', requiresAuth: true}
       },
       {
         path: '/perms',

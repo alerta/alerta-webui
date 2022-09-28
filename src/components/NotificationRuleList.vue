@@ -207,9 +207,11 @@
                   />
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field
+                  <v-combobox
                     v-model.trim="editedItem.group"
+                    :items="currentGroups"
                     :label="$t('Group')"
+                    clearable
                   />
                 </v-flex>
 
@@ -653,6 +655,9 @@ export default {
     },
     currentTags() {
       return this.$store.getters['alerts/tags']
+    },
+    currentGroups() {
+      return this.$store.getters['alerts/groups']
     },
     isLoading() {
       return this.$store.state.notificationRules.isLoading

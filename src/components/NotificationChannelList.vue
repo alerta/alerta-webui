@@ -55,7 +55,7 @@
                   />
                 </v-flex>
                 <v-flex
-                  v-if="editedId === null && editedItem.type === 'smtp'"
+                  v-if="(editedItem.type === 'smtp' || editedItem.type === 'link_mobility')"
                   xs12
                 >
                   <v-text-field
@@ -73,7 +73,7 @@
                     v-model="editedItem.apiSid"
                     :type="editedItem.type !== 'smtp' ? 'password' : 'text'"
                     :label="
-                      editedItem.type !== 'smtp' ? $t('ApiSid') : $t('Username')
+                      (editedItem.type !== 'smtp' && editedItem.type !== 'link_mobility') ? $t('ApiSid') : $t('Username')
                     "
                     :rules="[rules.required]"
                     required
@@ -87,10 +87,32 @@
                     v-model="editedItem.apiToken"
                     :type="'password'"
                     :label="
-                      editedItem.type !== 'smtp'
+                      (editedItem.type !== 'smtp' && editedItem.type !== 'link_mobility')
                         ? $t('ApiToken')
                         : $t('Password')
                     "
+                    :rules="[rules.required]"
+                    required
+                  />
+                </v-flex>
+                <v-flex
+                  v-if="editedItem.type === 'link_mobility'"
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.platformId"
+                    :label="$t('PlatformId')"
+                    :rules="[rules.required]"
+                    required
+                  />
+                </v-flex>
+                <v-flex
+                  v-if="editedItem.type === 'link_mobility'"
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.platformPartnerId"
+                    :label="$t('PlatfromPartnerId')"
                     :rules="[rules.required]"
                     required
                   />
@@ -175,6 +197,9 @@
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.sender }}</td>
           <td>{{ props.item.type }}</td>
+          <td>{{ props.item.host }}</td>
+          <td>{{ props.item.platformId }}</td>
+          <td>{{ props.item.platformPartnerId }}</td>
 
           <td class="text-no-wrap">
             <v-btn
@@ -259,7 +284,8 @@ export default {
       { text: 'sendgrid (mail)', value: 'sendgrid' },
       { text: 'smtp (mail)', value: 'smtp' },
       { text: 'twilio (sms)', value: 'twilio_sms' },
-      { text: 'twilio (call + sms)', value: 'twilio_call' }
+      { text: 'twilio (call + sms)', value: 'twilio_call' },
+      { text: 'link moblity (sms)', value: 'link_mobility' }
     ],
     search: '',
     dialog: false,
@@ -278,7 +304,9 @@ export default {
       type: null,
       host: null,
       apiToken: null,
-      apiSid: null
+      apiSid: null,
+      platformPartnerId: null,
+      platformId: null
     },
     menu1: false,
     menu2: false,
@@ -289,7 +317,9 @@ export default {
       type: 'sendgrid',
       host: null,
       apiToken: null,
-      apiSid: null
+      apiSid: null,
+      platformPartnerId: null,
+      platformId: null
     },
     rules: {
       required: v => !!v || i18n.t('Required')
@@ -379,6 +409,7 @@ export default {
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
+      console.log(item)
       this.dialog = true
     },
     copyItem(item) {
@@ -413,12 +444,13 @@ export default {
           this.editedId,
           {
             customer: this.editedItem.customer,
-            id: this.editedItem.id,
             sender: this.editedItem.sender,
             type: this.editedItem.type,
             host: this.editedItem.host,
             apiToken: this.editedItem.apiToken,
-            apiSid: this.editedItem.apiSid
+            apiSid: this.editedItem.apiSid,
+            platformId: this.editedItem.platformId,
+            platformPartnerId: this.editedItem.platformPartnerId
           }
         ])
       } else {
