@@ -391,7 +391,9 @@ export const en = {
   Owner: 'Owner',
   Title: 'Title',
   SnoozeIncident: 'Snooze incident',
-  Snooze: 'Snooze'
+  Snooze: 'Snooze',
+  Custom: 'Custom',
+  Expand: 'Expand'
 
   // ENDS.
 }

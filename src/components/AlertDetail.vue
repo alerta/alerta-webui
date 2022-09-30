@@ -2,7 +2,7 @@
   <v-card flat v-if="item">
     <v-card tile flat>
       <v-toolbar dense>
-        <v-btn icon @click="dialog = false">
+        <v-btn icon @click="close()">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
 
@@ -819,7 +819,6 @@ export default Vue.extend({
     }
   },
   data: () => ({
-    dialog: true,
     sheet: false,
     active: null,
     pagination: {
@@ -885,9 +884,6 @@ export default Vue.extend({
     }
   },
   watch: {
-    dialog(val) {
-      val || this.close()
-    },
     refresh(val) {
       if (!val) return
       this.getAlert()
@@ -944,7 +940,7 @@ export default Vue.extend({
       this.$store.dispatch('alerts/deleteNote', [alertId, noteId])
     },
     takeAction: debounce(
-      function (id, action, text) {
+      (id, action, text) => {
         this.$store
           .dispatch('alerts/takeAction', [id, action, text])
           .then(() => this.getAlert())
@@ -953,7 +949,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      function (id, text) {
+      (id, text) => {
         this.$store
           .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
           .then(() => this.getAlert())
@@ -962,7 +958,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      function (id, text) {
+      (id, text) => {
         this.$store
           .dispatch('alerts/takeAction', [
             id,
@@ -976,7 +972,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/watchAlert', id)
           .then(() => this.getAlert())
@@ -985,7 +981,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      function (id) {
+      (id) => {
         this.$store
           .dispatch('alerts/unwatchAlert', id)
           .then(() => this.getAlert())
@@ -994,7 +990,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     addNote: debounce(
-      function (id, text) {
+      (id, text) => {
         this.$store
           .dispatch('alerts/addNote', [id, text])
           .then(() => this.getNotes())
@@ -1003,11 +999,11 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      function (id) {
+      (id) => {
         confirm(i18n.t('ConfirmDelete') as string) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)
-            .then(() => this.$router.push({ name: 'alerts' }))
+            .then(() => this.close())
       },
       200,
       { leading: true, trailing: false }
@@ -1016,12 +1012,7 @@ export default Vue.extend({
       this.$router.push({ path: `/alerts?q=${attribute}:"${value}"` }) // double-quotes (") around value mean exact match
     },
     close() {
-      if (this.$route.query['from-incident'])
-        this.$router.push({
-          name: 'incident',
-          params: { id: this.$route.query['from-incident'] }
-        })
-      else this.$emit('close')
+      this.$emit('close')
     },
     clipboardCopy(text) {
       if (!window.isSecureContext || !navigator.clipboard) return

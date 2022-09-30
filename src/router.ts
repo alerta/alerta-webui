@@ -4,7 +4,7 @@ import VueRouter, { RouterOptions } from 'vue-router'
 
 Vue.use(VueRouter)
 
-export const createRouter = (basePath): VueRouter => {
+export const createRouter = (basePath?: string): VueRouter => {
   const router = new VueRouter({
     mode: 'history',
     base: basePath || import.meta.env.BASE_URL,
