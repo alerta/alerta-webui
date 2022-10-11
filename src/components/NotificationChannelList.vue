@@ -55,7 +55,7 @@
                   />
                 </v-flex>
                 <v-flex
-                  v-if="(editedItem.type === 'smtp' || editedItem.type === 'link_mobility')"
+                  v-if="(editedItem.type === 'smtp' || editedItem.type === 'link_mobility' || editedItem.type === 'link_mobility_xml')"
                   xs12
                 >
                   <v-text-field
@@ -285,7 +285,8 @@ export default {
       { text: 'smtp (mail)', value: 'smtp' },
       { text: 'twilio (sms)', value: 'twilio_sms' },
       { text: 'twilio (call + sms)', value: 'twilio_call' },
-      { text: 'link moblity (sms)', value: 'link_mobility' }
+      { text: 'link moblity (sms)', value: 'link_mobility' },
+      { text: 'link moblity xml (sms)', value: 'link_mobility_xml' }
     ],
     search: '',
     dialog: false,
