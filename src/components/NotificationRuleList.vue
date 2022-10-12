@@ -812,7 +812,9 @@ export default {
             text: this.editedItem.text.replace(/\{([\w\.]*)\}/g, '%($1)s'),
             days: this.editedItem.days,
             severity: this.editedItem.severity,
-            channelId: this.editedItem.channelId
+            channelId: this.editedItem.channelId,
+            advancedSeverity: this.editedItem.advancedSeverity,
+            useAdvancedSeverity: this.editedItem.useAdvancedSeverity
           }
         ])
       } else {
