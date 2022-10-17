@@ -66,6 +66,15 @@
                   />
                 </v-flex>
                 <v-flex
+                  v-if="(editedItem.type === 'smtp' || editedItem.type === 'link_mobility' || editedItem.type === 'link_mobility_xml')"
+                  xs12
+                >
+                  <v-text-field
+                    v-model="editedItem.verify"
+                    :label="$t('Verify')"
+                  />
+                </v-flex>
+                <v-flex
                   v-if="editedId === null && editedItem.type !== 'sendgrid'"
                   xs12
                 >
@@ -307,7 +316,8 @@ export default {
       apiToken: null,
       apiSid: null,
       platformPartnerId: null,
-      platformId: null
+      platformId: null,
+      verify: null
     },
     menu1: false,
     menu2: false,
@@ -320,7 +330,8 @@ export default {
       apiToken: null,
       apiSid: null,
       platformPartnerId: null,
-      platformId: null
+      platformId: null,
+      verify: null
     },
     rules: {
       required: v => !!v || i18n.t('Required')
@@ -451,7 +462,8 @@ export default {
             apiToken: this.editedItem.apiToken,
             apiSid: this.editedItem.apiSid,
             platformId: this.editedItem.platformId,
-            platformPartnerId: this.editedItem.platformPartnerId
+            platformPartnerId: this.editedItem.platformPartnerId,
+            verify: this.editedItem.verify
           }
         ])
       } else {
