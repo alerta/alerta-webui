@@ -238,7 +238,7 @@
             :thumb-size="40"
             step="300"
             min="3600"
-            max="21600"
+            :max="maxCustomSnooze"
             v-model="customSnooze"
           >
             <template v-slot:thumb-label="{ value }">
@@ -559,6 +559,7 @@ import { IAlert, IIncident, INote, IUser } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import DateFormat from '@/components/lib/DateFormat.vue'
+import { store } from '@/main'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
 import { cloneDeep, omit, pickBy } from 'lodash'
@@ -582,6 +583,7 @@ export default Vue.extend({
     assignDialog: false,
     snoozeDialog: false,
     customSnooze: 4 * 3600,
+    maxCustomSnooze: 6 * 3600,
     snoozeMessage: null as string | null,
     active: null as number | null,
     maxNotes: 5,
@@ -627,6 +629,9 @@ export default Vue.extend({
     }
   }),
   mounted() {
+
+    this.maxCustomSnooze = this.$store.getters['auth/getPayload']?.groups?.includes('Team Lead') ? 48 * 3600 : 6 * 3600
+
     this.getIncident()
       .then(() => {
         this.$store.dispatch('alerts/setPagination', {
