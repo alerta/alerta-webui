@@ -314,6 +314,19 @@
             slot="activator"
             icon
             class="btn--plain"
+            @click="showAddNoteForm = !showAddNoteForm"
+          >
+            <v-icon>
+              notes
+            </v-icon>
+          </v-btn>
+          <span>{{ $t('Notes') }}</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
             @click="bulkShelveAlert()"
           >
             <v-icon>
@@ -462,6 +475,31 @@
           </v-btn>
         </span>
       </v-toolbar>
+      <v-container
+        v-if="showAddNoteForm"
+        class="pa-1"
+        fluid
+      >
+        <v-layout>
+          <v-flex>
+            <v-card>
+              <v-card-text>
+                <v-text-field
+                  v-model.trim="text"
+                  :counter="maxNoteLength"
+                  :maxlength="maxNoteLength"
+                  :minlength="minNoteLength"
+                  :rules="textRules"
+                  :label="$t('AddNote')"
+                  prepend-icon="edit"
+                  required
+                  @keydown.enter="bulkAddNotes()"
+                />
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </div>
 
     <v-content>
@@ -513,7 +551,16 @@ export default {
     Snackbar
   },
   props: [],
-  data: () => ({
+  data: vm => ({
+    showAddNoteForm: false,
+    text: '',
+    valid: true,
+    maxNoteLength: 200,
+    minNoteLength: 0,
+    textRules: [
+      v => !!v || i18n.t('TextIsRequired'),
+      v => (v && v.length <= vm.maxNoteLength) || `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t('characters')}`
+    ],
     hasFocus: false,
     menu: false,
     message: false,
@@ -763,6 +810,13 @@ export default {
           ])
       })
         .reduce(() => this.clearSelected())
+    },
+    bulkAddNotes() {
+      Promise.all(this.selected.map(a => this.$store.dispatch('alerts/addNote', [a.id, this.text]))).then(() => {
+        this.showAddNoteForm = false
+        this.clearSelected()
+        this.text=''
+      })
     },
     bulkShelveAlert() {
       Promise.all(this.selected.map(a => {
