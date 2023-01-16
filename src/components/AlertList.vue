@@ -526,7 +526,8 @@ export default {
     details: false,
     selectedId: null,
     multiselect: false,
-    timer: null
+    timer: null,
+    shiftDown: false
   }),
   computed: {
     displayDensity() {
@@ -591,6 +592,25 @@ export default {
         return this.$store.state.alerts.selected
       },
       set(value) {
+        const alerts = this.$store.state.alerts.alerts
+        if (this.shiftDown) {
+          // check if there is a gap between selected and previously
+          let indexes = []
+          for (let i = 0; i < value.length; i++) {
+            const alertIndex = alerts.findIndex((x => x.id === value[i].id))
+            indexes.push(alertIndex)
+            if (i > 0) {
+              if (Math.abs(alertIndex - indexes[i - 1]) > 1) {
+                const lowIndex = Math.min(alertIndex, indexes[i - 1])
+                const highIndex = Math.max(alertIndex, indexes[i - 1])
+                // fill in all the missing alerts
+                for (let j = lowIndex + 1; j < highIndex; j++) {
+                  value.push(alerts[j])
+                }
+              }
+            }
+          }
+        }
         this.$store.dispatch('alerts/updateSelected', value)
       }
     },
@@ -609,7 +629,20 @@ export default {
       this.pagination = Object.assign({}, this.pagination, {rowsPerPage: val})
     }
   },
+  created() {
+    this.initHotkeys()
+  },
   methods: {
+    initHotkeys() {
+      window.addEventListener('keydown', this.processHotkey)
+      window.addEventListener('keyup', this.removeHotkey)
+    },
+    processHotkey(event) {
+      event.code === 'ShiftLeft' || event.code === 'ShiftRight' ? this.shiftDown = true : 0
+    },
+    removeHotkey(event) {
+      event.code === 'ShiftLeft' || event.code === 'ShiftRight' ? this.shiftDown = false : 0
+    },
     duration(item) {
       return moment.duration(moment().diff(moment(item.receiveTime)))
     },
