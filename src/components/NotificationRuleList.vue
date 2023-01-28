@@ -7,11 +7,27 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
-              {{ formTitle }}
-            </span>
+            <v-flex
+              xs12
+              sm6
+              md9
+            >
+              <span class="headline" >
+                {{ formTitle }}
+              </span>
+            </v-flex>
+            <v-flex
+              xs12
+              sm6
+              md3
+            >
+              <v-checkbox
+                v-model="editedItem.active"
+                :label="$t('Active')"
+              />
+            </v-flex>
           </v-card-title>
-
+          
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
@@ -60,6 +76,7 @@
                   />
                 </v-flex>
 
+
                 <v-flex
                   xs12
                   sm6
@@ -68,6 +85,31 @@
                   <v-checkbox
                     v-model="editedItem.useOnCall"
                     :label="$t('UseOncall')"
+                  />
+                </v-flex>
+
+
+                <v-flex xs12>
+                  <v-select
+                    v-model="editedItem.userIds"
+                    :items="users"
+                    item-text="name"
+                    item-value="id"
+                    :label="$t('Users')"
+                    chips
+                    multiple
+                  />
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-select
+                    v-model="editedItem.groupIds"
+                    :items="groups"
+                    item-text="name"
+                    item-value="id"
+                    :label="$t('Groups')"
+                    chips
+                    multiple
                   />
                 </v-flex>
                 <v-flex xs12>
@@ -306,7 +348,15 @@
               <span>{{ $t('Deactivated') }}</span>
             </v-tooltip>
           </v-btn>
+          
         </v-btn-toggle>
+
+        <v-flex>
+          <v-checkbox
+            v-model="editedItem.active"
+            :label="$t('Mute All')"
+          />
+        </v-flex>
         <v-spacer />
         <v-text-field
           v-model="search"
@@ -531,6 +581,7 @@ export default {
     ],
     editedId: null,
     editedItem: {
+      active: true,
       customer: null,
       environment: null,
       receivers: [],
@@ -556,6 +607,7 @@ export default {
     menu1: false,
     menu2: false,
     defaultItem: {
+      active: true,
       customer: null,
       environment: null,
       receivers: [],
@@ -636,6 +688,12 @@ export default {
         this.$store.dispatch('notificationRules/setPagination', value)
       }
     },
+    users() {
+      return this.$store.state.users.users
+    },
+    groups() {
+      return this.$store.state.groups.groups
+    },
     computedHeaders() {
       return this.headers.filter(h =>
         !this.$config.customer_views ? h.value != 'customer' : true
@@ -702,6 +760,8 @@ export default {
       this.getEnvironments()
       this.getServices()
       this.getTags()
+      this.getUsers()
+      this.getGroups()
     },
     pagination: {
       handler() {
@@ -717,6 +777,8 @@ export default {
     this.getEnvironments()
     this.getServices()
     this.getTags()
+    this.getUsers()
+    this.getGroups()
     this.editedItem = Object.assign({}, this.defaultItem)
   },
   methods: {
@@ -728,6 +790,12 @@ export default {
     },
     getCustomers() {
       this.$store.dispatch('customers/getCustomers')
+    },
+    getUsers() {
+      this.$store.dispatch('users/getUsers')
+    },
+    getGroups() {
+      this.$store.dispatch('groups/getGroups')
     },
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')
