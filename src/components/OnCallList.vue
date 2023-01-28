@@ -330,7 +330,7 @@
               outline
               small
             >
-              {{ userId }}
+              {{ users.find(element => element.id == userId).name }}
             </v-chip>
           </td>
           <td>
@@ -340,7 +340,7 @@
               outline
               small
             >
-              {{ groupId }}
+              {{ groups.find(element => element.id == groupId).name }}
             </v-chip>
           </td>
           <td class="text-xs-left">
