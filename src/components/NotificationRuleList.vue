@@ -350,13 +350,6 @@
           </v-btn>
           
         </v-btn-toggle>
-
-        <v-flex>
-          <v-checkbox
-            v-model="editedItem.active"
-            :label="$t('Mute All')"
-          />
-        </v-flex>
         <v-spacer />
         <v-text-field
           v-model="search"
@@ -585,6 +578,8 @@ export default {
       customer: null,
       environment: null,
       receivers: [],
+      userIds: [],
+      groupIds: [],
       useOnCall: false,
       service: [],
       resource: null,
@@ -611,6 +606,8 @@ export default {
       customer: null,
       environment: null,
       receivers: [],
+      userIds: [],
+      groupIds: [],
       useOnCall: false,
       service: [],
       resource: null,
@@ -866,9 +863,12 @@ export default {
         this.$store.dispatch('notificationRules/updateNotificationRule', [
           this.editedId,
           {
+            active: this.editedItem.active,
             customer: this.editedItem.customer,
             environment: this.editedItem.environment,
             receivers: this.editedItem.receivers,
+            userIds: this.editedItem.userIds,
+            groupIds: this.editedItem.groupIds,
             useOnCall: this.editedItem.useOnCall,
             service: this.editedItem.service,
             resource: this.editedItem.resource,
