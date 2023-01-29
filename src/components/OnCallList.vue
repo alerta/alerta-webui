@@ -330,7 +330,8 @@
               outline
               small
             >
-              {{ users.find(element => element.id == userId).name }}
+              {{ getName(users, userId) }}
+              <!-- {{ users.find(element => element.id == userId).name }} -->
             </v-chip>
           </td>
           <td>
@@ -340,7 +341,8 @@
               outline
               small
             >
-              {{ groups.find(element => element.id == groupId).name }}
+              {{ getName(groups, groupId) }}
+              <!-- {{ groups.find(element => element.id == groupId).name }} -->
             </v-chip>
           </td>
           <td class="text-xs-left">
@@ -670,6 +672,10 @@ export default {
     },
     getOnCalls() {
       this.$store.dispatch('onCalls/getOnCalls')
+    },
+    getName(nameList,id) {
+      let name = nameList.find(element => element.id == id)
+      return name !== undefined ? name.name : id
     },
     getCustomers() {
       this.$store.dispatch('customers/getCustomers')
