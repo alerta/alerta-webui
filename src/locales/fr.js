@@ -70,6 +70,7 @@ export const fr = {
   Unshelve: 'Unshelve',
   Close: 'Close', //'Fermé',
   Watch: 'Watch', //'Surveiller',
+  Notes: 'Notes', // 'Remarques'
   Unwatch: 'Unwatch', //'Ne plus surveiller',
   AddNote: 'Add note', //'Ajouter Note',
   Delete: 'Delete', //'Supprimer',
