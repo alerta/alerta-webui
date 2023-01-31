@@ -591,13 +591,13 @@ export default {
       get() {
         return this.$store.state.alerts.selected
       },
-      set(value) {
+      set(values) {
         const alerts = this.$store.state.alerts.alerts
         if (this.shiftDown) {
           // check if there is a gap between selected and previously
           let indexes = []
-          for (let i = 0; i < value.length; i++) {
-            const alertIndex = alerts.findIndex((x => x.id === value[i].id))
+          for (let i = 0; i < values.length; i++) {
+            const alertIndex = alerts.findIndex((x => x.id === values[i].id))
             indexes.push(alertIndex)
             if (i > 0) {
               if (Math.abs(alertIndex - indexes[i - 1]) > 1) {
@@ -606,15 +606,15 @@ export default {
                 // fill in all the missing alerts
                 for (let j = lowIndex + 1; j < highIndex; j++) {
                   // check if alert is already in the list
-                  if (value.indexOf(alerta[j]) === -1) {
-                    value.push(alerts[j])
+                  if (!values.find(alert => alert.id === alerts[j].id)) {
+                    values.push(alerts[j])
                   }
                 }
               }
             }
           }
         }
-        this.$store.dispatch('alerts/updateSelected', value)
+        this.$store.dispatch('alerts/updateSelected', values)
       }
     },
     ackTimeout() {
