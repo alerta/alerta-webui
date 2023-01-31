@@ -526,7 +526,8 @@ export default {
     details: false,
     selectedId: null,
     multiselect: false,
-    timer: null
+    timer: null,
+    shiftDown: false
   }),
   computed: {
     displayDensity() {
@@ -590,8 +591,30 @@ export default {
       get() {
         return this.$store.state.alerts.selected
       },
-      set(value) {
-        this.$store.dispatch('alerts/updateSelected', value)
+      set(values) {
+        const alerts = this.$store.state.alerts.alerts
+        if (this.shiftDown) {
+          // check if there is a gap between selected and previously
+          let indexes = []
+          for (let i = 0; i < values.length; i++) {
+            const alertIndex = alerts.findIndex((x => x.id === values[i].id))
+            indexes.push(alertIndex)
+            if (i > 0) {
+              if (Math.abs(alertIndex - indexes[i - 1]) > 1) {
+                const lowIndex = Math.min(alertIndex, indexes[i - 1])
+                const highIndex = Math.max(alertIndex, indexes[i - 1])
+                // fill in all the missing alerts
+                for (let j = lowIndex + 1; j < highIndex; j++) {
+                  // check if alert is already in the list
+                  if (!values.find(alert => alert.id === alerts[j].id)) {
+                    values.push(alerts[j])
+                  }
+                }
+              }
+            }
+          }
+        }
+        this.$store.dispatch('alerts/updateSelected', values)
       }
     },
     ackTimeout() {
@@ -609,7 +632,20 @@ export default {
       this.pagination = Object.assign({}, this.pagination, {rowsPerPage: val})
     }
   },
+  created() {
+    this.initHotkeys()
+  },
   methods: {
+    initHotkeys() {
+      window.addEventListener('keydown', this.processHotkey)
+      window.addEventListener('keyup', this.removeHotkey)
+    },
+    processHotkey(event) {
+      event.code === 'ShiftLeft' || event.code === 'ShiftRight' ? this.shiftDown = true : 0
+    },
+    removeHotkey(event) {
+      event.code === 'ShiftLeft' || event.code === 'ShiftRight' ? this.shiftDown = false : 0
+    },
     duration(item) {
       return moment.duration(moment().diff(moment(item.receiveTime)))
     },
