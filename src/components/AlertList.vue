@@ -605,7 +605,10 @@ export default {
                 const highIndex = Math.max(alertIndex, indexes[i - 1])
                 // fill in all the missing alerts
                 for (let j = lowIndex + 1; j < highIndex; j++) {
-                  value.push(alerts[j])
+                  // check if alert is already in the list
+                  if (value.indexOf(alerta[j]) === -1) {
+                    value.push(alerts[j])
+                  }
                 }
               }
             }
