@@ -35,6 +35,7 @@
     "@alerta/vue-authenticate": "github:alerta/vue-authenticate",
     "@sentry/tracing": "^6.18.2",
     "@sentry/vue": "^6.18.2",
+    "@vue/runtime-dom": "^3.2.47",
     "acorn": "^6.0.0",
     "acorn-dynamic-import": "^4.0.0",
     "axios": "^0.25.0",
