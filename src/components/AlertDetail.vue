@@ -940,7 +940,7 @@ export default Vue.extend({
       this.$store.dispatch('alerts/deleteNote', [alertId, noteId])
     },
     takeAction: debounce(
-      (id, action, text) => {
+      function (id, action, text) {
         this.$store
           .dispatch('alerts/takeAction', [id, action, text])
           .then(() => this.getAlert())
@@ -949,7 +949,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     ackAlert: debounce(
-      (id, text) => {
+      function (id, text) {
         this.$store
           .dispatch('alerts/takeAction', [id, 'ack', text, this.ackTimeout])
           .then(() => this.getAlert())
@@ -958,7 +958,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     shelveAlert: debounce(
-      (id, text) => {
+      function (id, text) {
         this.$store
           .dispatch('alerts/takeAction', [
             id,
@@ -972,7 +972,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     watchAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/watchAlert', id)
           .then(() => this.getAlert())
@@ -981,7 +981,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     unwatchAlert: debounce(
-      (id) => {
+      function (id) {
         this.$store
           .dispatch('alerts/unwatchAlert', id)
           .then(() => this.getAlert())
@@ -990,7 +990,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     addNote: debounce(
-      (id, text) => {
+      function (id, text) {
         this.$store
           .dispatch('alerts/addNote', [id, text])
           .then(() => this.getNotes())
@@ -999,7 +999,7 @@ export default Vue.extend({
       { leading: true, trailing: false }
     ),
     deleteAlert: debounce(
-      (id) => {
+      function (id) {
         confirm(i18n.t('ConfirmDelete') as string) &&
           this.$store
             .dispatch('alerts/deleteAlert', id)
