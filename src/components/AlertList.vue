@@ -23,7 +23,7 @@
     </template>
 
     <template v-slot:[`item.incident`]="{ item }">
-      <div class="d-flex justify-center" v-if="item.incident">
+      <div class="d-flex flex-column align-center justify-center" v-if="item.incident">
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -36,11 +36,12 @@
               icon
               @click.native.stop
             >
-              <v-icon small>mdi-group</v-icon>{{ item.incident.shortId }}
+              <v-icon small>mdi-group</v-icon>
             </v-btn>
           </template>
           <span>Open Incident {{ item.incident.title || '' }}</span>
         </v-tooltip>
+        <v-chip class="mb-1" x-small>{{ item.incident | shortId }}</v-chip>
       </div>
     </template>
 
