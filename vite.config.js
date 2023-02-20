@@ -11,6 +11,7 @@ export default ({ mode }) => {
   }
 
   const port = import.meta.env.VITE_PORT || 3000
+  const shouldUseHttps = import.meta.env.VITE_HTTPS.toLowerCase() === 'true'
 
   return defineConfig({
     plugins: [vue(), loadVersion()],
@@ -25,7 +26,7 @@ export default ({ mode }) => {
     server: {
       port,
       hmr: {
-        clientPort: 443
+        clientPort: shouldUseHttps ? 443 : 80
       }
     },
     preview: {
