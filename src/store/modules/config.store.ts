@@ -23,6 +23,7 @@ const state = {
 
   severity: {}, // moved to alarm_model
   colors: {}, // moved to alarm_model
+  clipboard_template: '',
 
   timeouts: {}, // includes alert, heartbeat, ack and shelve timeouts
 
