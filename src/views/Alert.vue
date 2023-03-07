@@ -15,7 +15,10 @@ export default {
     AlertDetail
   },
   props: {
-    id
+    id: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import axios from 'axios'
 import {AxiosRequestConfig, Method} from 'axios'
 import app from '@/main'

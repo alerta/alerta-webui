@@ -53,7 +53,7 @@ const actions = {
         dispatch('getUsers')
       })
       .then(() =>
-        dispatch('notifications/success', i18n.t('UserStatusSaved'), {
+        dispatch('notifications/success', i18n.global.t('UserStatusSaved'), {
           root: true
         })
       )
@@ -63,7 +63,7 @@ const actions = {
       .then(response => {
         dispatch('getUsers')
       })
-      .then(() => dispatch('notifications/success', i18n.t('EmailSaved'), {root: true}))
+      .then(() => dispatch('notifications/success', i18n.global.t('EmailSaved'), {root: true}))
   },
   deleteUser({dispatch, commit}, userId) {
     return UsersApi.deleteUser(userId).then(response => {

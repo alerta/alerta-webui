@@ -1,18 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import VueAxios from 'vue-axios'
 import {VueAuthenticate} from '@alerta/vue-authenticate'
-import axios from 'axios'
-import app from '@/main'
-
-app.use(Vuex)
-app.use(VueAxios, axios)
 
 function getRedirectUri(path: string) {
   return window.location.origin + (path || '')
 }
 
-export function vueAuth(config) {
+export function vueAuth(app, config) { 
   let basePath = config.base_path || process.env.BASE_URL
   return new VueAuthenticate(app.prototype.$http, {
     tokenPath: 'token',

@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import Vuex, {Store} from 'vuex'
+import { createStore as createVuexStore, Store} from 'vuex'
 import config from './modules/config.store'
 import alerts from './modules/alerts.store'
 import heartbeats from './modules/heartbeats.store'
@@ -13,9 +12,7 @@ import reports from './modules/reports.store'
 import prefs from './modules/preferences.store'
 import management from './modules/management.store'
 import notifications from './modules/notifications.store'
-import app from '@/main'
 
-app.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -32,7 +29,7 @@ const actions = {
 }
 
 export function createStore(): Store<any> {
-  return new Vuex.Store({
+  return createVuexStore({
     state: {
       multiselect: false,
       refresh: false
