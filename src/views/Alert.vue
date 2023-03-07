@@ -18,6 +18,8 @@ import AlertDetail from '@/components/AlertDetail.vue'
   }
 })
 export default class Alert extends Vue {
-  @Prop() public id!: string
+  @Prop() id
+  //@Prop() public id!: string Removed to convert to JS
+
 }
 </script>
