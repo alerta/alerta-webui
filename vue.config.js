@@ -3,6 +3,7 @@ process.env.VUE_APP_VERSION = require('./package.json').version
 module.exports = {
   publicPath: process.env.BASE_URL,
   chainWebpack: config => {
+    config.resolve.alias.set('vue', '@vue/compat')
     config.module
       .rule('fonts')
       .use('url-loader')
@@ -10,6 +11,19 @@ module.exports = {
       .options({
         limit: 4096,
         name: 'fonts/[name].[ext]'
+      })
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .tap((options) => {
+        return {
+          ...options,
+          compilerOptions: {
+            compatConfig: {
+              MODE: 2
+            }
+          }
+        }
       })
   },
   devServer: {

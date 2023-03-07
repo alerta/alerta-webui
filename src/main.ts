@@ -29,7 +29,7 @@ import '@/filters/until'
 
 export const store = createStore()
 
-let app;
+let app
 bootstrap.getConfig().then(config => {
   const router = createRouter(config.base_path)
 
@@ -60,4 +60,4 @@ bootstrap.getConfig().then(config => {
   app.mount('#app')
 })
 
-export default app;
+export default app
