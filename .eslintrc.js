@@ -14,7 +14,7 @@ module.exports = {
     "no-debugger": "error",
     quotes: ["error", "single"],
     "vue/script-indent": "error",
-    "vue/name-property-casing": ["error", "PascalCase"],
+    "vue/component-definition-name-casing": ["error", "PascalCase"],
     "vue/component-name-in-template-casing": ["error", "kebab-case"],
     "vue/html-indent": ["error", 2],
     "vue/script-indent": ["error", 2],
