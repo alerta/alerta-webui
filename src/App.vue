@@ -7,7 +7,7 @@
       <v-navigation-drawer
         v-if="isLoggedIn || !isAuthRequired || isAllowReadonly"
         v-model="drawer"
-        :clipped="$vuetify.breakpoint.lgAndUp"
+        :clipped="$vuetify.display.lgAndUp"
         disable-resize-watcher
         fixed
         app
