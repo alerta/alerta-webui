@@ -295,17 +295,19 @@ export default {
       this.setPage(1)
     },
     filter: {
-      handler(val) {
-        history.pushState(null, null, this.$store.getters['alerts/getHash'])
+      async handler(val) {
+        await this.$router.push(this.$store.getters['alerts/getHash'])
+        history.replaceState({...history.state}, null)
         this.currentTab = this.defaultTab
         this.cancelTimer()
         this.refreshAlerts()
       },
       deep: true
     },
-    pagination: {
-      handler(newVal, oldVal) {
-        history.pushState(null, null, this.$store.getters['alerts/getHash'])
+    pagination: { 
+      async handler(newVal, oldVal) {
+        await this.$router.push(this.$store.getters['alerts/getHash'])
+        history.replaceState({...history.state}, null)
         if (oldVal.page != newVal.page ||
           oldVal.rowsPerPage != newVal.rowsPerPage ||
           oldVal.sortBy != newVal.sortBy ||
@@ -319,8 +321,9 @@ export default {
     refresh(val) {
       val || this.getAlerts() && this.getEnvironments()
     },
-    showPanel(val) {
-      history.pushState(null, null, this.$store.getters['alerts/getHash'])
+    async showPanel(val) {
+      await this.$router.push(this.$store.getters['alerts/getHash'])
+      history.replaceState({...history.state}, null)
     }
   },
   created() {

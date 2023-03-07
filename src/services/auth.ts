@@ -4,9 +4,9 @@ function getRedirectUri(path: string) {
   return window.location.origin + (path || '')
 }
 
-export function vueAuth(app, config) { 
+export function vueAuth(app, config) {
   let basePath = config.base_path || process.env.BASE_URL
-  return new VueAuthenticate(app.prototype.$http, {
+  return new VueAuthenticate(app.config.globalProperties.$http, {
     tokenPath: 'token',
     tokenName: 'token',
     tokenPrefix: '',

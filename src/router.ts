@@ -12,11 +12,10 @@ export function createRouter(basePath) {
   const router = createVueRouter({
     //TODO: This should use createWebHistory(), createWebHashHistory(), or createMemoryHistory()?
     //Refer to https://router.vuejs.org/guide/migration/#new-history-option-to-replace-mode
-    history: createWebHistory(),
-    base: basePath || process.env.BASE_URL,
+    history: createWebHistory(basePath || process.env.BASE_URL),
     routes: [
       {
-        path: '/alerts',
+        path: '/alerts', 
         name: 'alerts',
         component: Alerts,
         props: route => ({
@@ -141,7 +140,7 @@ export function createRouter(basePath) {
         meta: {title: 'Logout'}
       },
       {
-        path: '*',
+        path: '/:pathMatch(.*)',
         redirect: to => {
           // redirect hashbang mode links to HTML5 mode links
           if (to.fullPath.substr(0, 3) === '/#/') {

@@ -35,10 +35,13 @@ bootstrap.getConfig().then(config => {
   app = createApp({
     render: (h:any) => h(App)
   })
-  const router = createRouter(config.base_path)
-
+  
+  const router = createRouter(config.base_path)  
   store.dispatch('updateConfig', config)
-  store.dispatch('alerts/setFilter', config.filter)
+  store.dispatch('alerts/setFilter', config.filter) 
+  //These plugins must be loaded so app.config.globalProperties.$http will be set
+  //before vueAuth attempts to use it
+  app.use(VueAxios, axios)
   store.registerModule('auth', makeStore(vueAuth(app, config)))
   axios.defaults.baseURL = config.endpoint
 
@@ -48,11 +51,10 @@ bootstrap.getConfig().then(config => {
   axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
 
 
-  app.use(router)
+  app.use(router) 
   app.use(i18n)
   app.use(store)
-  app.use(VueAxios, axios)
-  app.use(vuetify)
+  app.use(vuetify) 
 
   app.directive('hasPerms', hasPerms)
 
@@ -74,7 +76,7 @@ bootstrap.getConfig().then(config => {
     router 
   })
   sync(store, router)
-
+  //
   app.mount('#app')
 })
 
