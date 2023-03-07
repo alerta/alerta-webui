@@ -3,6 +3,7 @@ process.env.VUE_APP_VERSION = require('./package.json').version
 module.exports = {
   publicPath: process.env.BASE_URL,
   chainWebpack: config => {
+    //Remove this when compatibility mode is no longer needed
     config.resolve.alias.set('vue', '@vue/compat')
     config.module
       .rule('fonts')

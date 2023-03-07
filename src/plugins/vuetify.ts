@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
 import colors from 'vuetify/es5/util/colors'
 
-import 'vuetify/src/stylus/app.styl'
+import 'vuetify/src/styles/main.sass'
 
 Vue.use(Vuetify, {
   theme: {

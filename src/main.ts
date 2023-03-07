@@ -13,7 +13,7 @@ import GoogleAnalytics from '@/plugins/analytics'
 import i18n from '@/plugins/i18n'
 
 import '@/plugins/vuetify'
-import './stylus/main.styl'
+import './sass/main.sass'
 import App from './App.vue'
 
 import '@/directives/hasPerms'
