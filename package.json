@@ -32,7 +32,6 @@
     "export-to-csv": "^0.2.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "typescript-eslint-parser": "^22.0.0",
     "vue": "^3.2.47",
     "vue-authenticate": "github:alerta/vue-authenticate",
     "vue-class-component": "^6.0.0",
@@ -46,6 +45,7 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.14",
+    "@typescript-eslint/parser": "^5.52.0",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-e2e-cypress": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
@@ -57,13 +57,13 @@
     "@vue/test-utils": "^2.2.10",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.3",
+    "eslint": "^8.34.0",
+    "eslint-plugin-vue": "^9.9.0",
     "jest": "^22.4.4",
     "prettier": "^2.4.1",
     "sass": "^1.58.0",
     "sass-loader": "^7.3.1",
-    "ts-jest": "^23.10.5",
+    "ts-jest": "^23.10.5",/**/
     "typescript": "^3.9.10",
     "vue-cli-plugin-vuetify": "^0.4.6"
   }
