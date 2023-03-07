@@ -34,7 +34,7 @@
     "moment": "^2.29.1",
     "vue": "^3.2.47",
     "vue-authenticate": "github:alerta/vue-authenticate",
-    "vue-class-component": "^6.0.0",
+    "vue-class-component": "^6.3.2",
     "vue-i18n": "^8.26.7",
     "vue-object-merge": "^0.1.8",
     "vue-property-decorator": "^7.3.0",

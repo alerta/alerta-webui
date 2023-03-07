@@ -123,7 +123,7 @@
                   class="pl-2"
                 >
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
+                    <template #activator="{ on, attrs }">
                       <v-icon
                         v-bind="attrs"
                         small
@@ -150,7 +150,7 @@
             >
               <div class="fixed-table">
                 <div class="text-truncate">
-                  <span v-html="props.item.value" />
+                  <span>{{ props.item.value }}</span>
                 </div>
               </div>
             </span>
@@ -159,7 +159,7 @@
             >
               <div class="fixed-table">
                 <div class="text-truncate">
-                  <span v-html="props.item.text" />
+                  <span>{{ props.item.text }}</span>
                 </div>
               </div>
             </span>
@@ -177,7 +177,7 @@
             <span
               v-if="props.item.attributes.hasOwnProperty(col)"
             >
-              <span v-html="props.item.attributes[col]" />
+              <span>{{ props.item.attributes[col] }}</span>
             </span>
             <span
               v-if="col == 'origin'"

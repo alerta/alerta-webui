@@ -579,7 +579,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
-                        <span v-html="item.text" />
+                        <span>{{ item.text }}</span>
                       </div>
                     </div>
                   </div>
@@ -727,8 +727,9 @@
                       <div
                         v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
                         class="link-text"
-                        v-html="value"
-                      />
+                      >
+                        {{ value }}
+                      </div>
                       <div
                         v-else
                         class="clickable"
