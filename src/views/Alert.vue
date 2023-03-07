@@ -8,18 +8,14 @@
 </template>
 
 <script>
-import { Prop } from 'vue-property-decorator'
-import { Vue, Options } from 'vue-class-component'
 import AlertDetail from '@/components/AlertDetail.vue'
 
-@Options({
+export default {
   components: {
     AlertDetail
+  },
+  props: {
+    id
   }
-})
-export default class Alert extends Vue {
-  @Prop() id
-  //@Prop() public id!: string Removed to convert to JS
-
 }
 </script>

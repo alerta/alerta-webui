@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import CustomerList from '@/components/CustomerList.vue'
 
-@Options({
+export default {
   components: {
     CustomerList
   }
-})
-export default class Customers extends Vue {}
+}
 </script>

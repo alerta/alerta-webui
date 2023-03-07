@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import GroupList from '@/components/GroupList.vue'
 
-@Options({
+export default {
   components: {
     GroupList
   }
-})
-export default class Groups extends Vue {}
+}
 </script>

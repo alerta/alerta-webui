@@ -3,13 +3,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import UserConfirm from '@/components/auth/UserConfirm.vue'
 
-@Options({
+export default {
   components: {
     UserConfirm
   }
-})
-export default class Confirm extends Vue {}
+}
 </script>

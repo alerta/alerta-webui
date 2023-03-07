@@ -3,13 +3,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import UserForgot from '@/components/auth/UserForgot.vue'
 
-@Options({
+export default {
   components: {
     UserForgot
   }
-})
-export default class Forgot extends Vue {}
+}
 </script>

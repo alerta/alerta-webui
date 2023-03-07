@@ -3,13 +3,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import UserSignup from '@/components/auth/UserSignup.vue'
 
-@Options({
+export default {
   components: {
     UserSignup
   }
-})
-export default class Signup extends Vue {}
+}
 </script>

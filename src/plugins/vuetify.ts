@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
-import colors from 'vuetify/es5/util/colors'
+import { createVuetify } from 'vuetify'
 
-import 'vuetify/src/styles/main.sass'
+import 'vuetify/lib/styles/main.sass'
 
 import app from '@/main'
+//TODO: Does createVuetify need options?
+const vuetify = createVuetify()
 
-app.use(Vuetify, {
+app.use(vuetify, {
   theme: {
     primary: '#3f51b5',
     secondary: '#2196f3',

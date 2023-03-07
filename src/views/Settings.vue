@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import Preferences from '@/components/Preferences.vue'
 
-@Options({
+export default {
   components: {
     Preferences
   }
-})
-export default class Settings extends Vue {}
+}
 </script>

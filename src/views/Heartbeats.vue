@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import HeartbeatList from '@/components/HeartbeatList.vue'
 
-@Options({
+export default {
   components: {
     HeartbeatList
   }
-})
-export default class Heartbeats extends Vue {}
+}
 </script>

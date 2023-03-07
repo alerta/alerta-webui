@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import { Vue, Options } from 'vue-class-component'
 import BlackoutList from '@/components/BlackoutList.vue'
 
-@Options({
+export default {
   components: {
     BlackoutList
   }
-})
-export default class Blackouts extends Vue {}
+}
 </script>
