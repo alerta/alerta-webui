@@ -924,7 +924,7 @@ export default {
     },
     headersByScreenSize() {
       return this.headers.filter(
-        h => !h.hide || !this.$vuetify.breakpoint[h.hide]
+        h => !h.hide || !this.$vuetify.display[h.hide]
       )
     },
     ackTimeout() {
