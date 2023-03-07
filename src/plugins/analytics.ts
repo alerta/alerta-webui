@@ -18,7 +18,7 @@ const GoogleAnalytics = {
 
       function gtag(...args: any[]) {
         const dataLayer = (window.dataLayer = window.dataLayer || [])
-        dataLayer.push(arguments)
+        dataLayer.push(arguments) 
       }
       gtag('js', new Date())
       gtag('config', trackingId)

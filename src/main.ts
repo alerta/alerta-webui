@@ -30,16 +30,27 @@ import until from '@/filters/until'
 
 export const store = createStore()
 
-let app
+const app = createApp(App)
+app.use(VueAxios, axios)
+app.use(i18n)
+app.use(vuetify) 
+app.directive('hasPerms', hasPerms)
+app.config.globalProperties.$filters = {
+  capitalize,
+  date,
+  days,
+  hhmmss,
+  shortId,
+  splitCaps,
+  timeago,
+  until
+}
 bootstrap.getConfig().then(config => {
-  app = createApp(App)
-  
+ 
   const router = createRouter(config.base_path)  
   store.dispatch('updateConfig', config)
   store.dispatch('alerts/setFilter', config.filter) 
-  //These plugins must be loaded so app.config.globalProperties.$http will be set
-  //before vueAuth attempts to use it
-  app.use(VueAxios, axios)
+  
   store.registerModule('auth', makeStore(vueAuth(app, config)))
   axios.defaults.baseURL = config.endpoint
 
@@ -49,24 +60,9 @@ bootstrap.getConfig().then(config => {
   axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
 
   app.use(router) 
-  app.use(i18n)
   app.use(store)
-  app.use(vuetify) 
-
-  app.directive('hasPerms', hasPerms)
 
   app.config.globalProperties.$config = config
-
-  app.config.globalProperties.$filters = {
-    capitalize,
-    date,
-    days,
-    hhmmss,
-    shortId,
-    splitCaps,
-    timeago,
-    until
-  }
 
   app.use(GoogleAnalytics, {
     trackingId: config.tracking_id,
@@ -75,5 +71,4 @@ bootstrap.getConfig().then(config => {
   sync(store, router)
   app.mount('#app')
 })
-
 export default app
