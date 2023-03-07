@@ -49,6 +49,7 @@ bootstrap.getConfig().then(config => {
     i18n,
     render: (h:any) => h(App)
   })
+  app.use(router)
   app.config.globalProperties.$config = config
 
   app.use(GoogleAnalytics, {
