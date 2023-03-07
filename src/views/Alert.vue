@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Prop } from 'vue-property-decorator'
 import { Vue, Options } from 'vue-class-component'
 import AlertDetail from '@/components/AlertDetail.vue'
