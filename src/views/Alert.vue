@@ -8,10 +8,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Prop } from 'vue-property-decorator'
+import { Vue, Options } from 'vue-class-component'
 import AlertDetail from '@/components/AlertDetail.vue'
 
-@Component({
+@Options({
   components: {
     AlertDetail
   }

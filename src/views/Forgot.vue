@@ -2,11 +2,11 @@
   <user-forgot />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Vue, Options } from 'vue-class-component'
 import UserForgot from '@/components/auth/UserForgot.vue'
 
-@Component({
+@Options({
   components: {
     UserForgot
   }

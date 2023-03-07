@@ -4,11 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Vue, Options } from 'vue-class-component'
+
 import PermList from '@/components/PermList.vue'
 
-@Component({
+@Options({
   components: {
     PermList
   }

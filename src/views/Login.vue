@@ -2,11 +2,11 @@
   <user-login />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Vue, Options } from 'vue-class-component'
 import UserLogin from '@/components/auth/UserLogin.vue'
 
-@Component({
+@Options({
   components: {
     UserLogin
   }

@@ -5,12 +5,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Vue, Options } from 'vue-class-component'
 import Manifest from '@/components/Manifest.vue'
 import Status from '@/components/Status.vue'
 
-@Component({
+@Options({
   components: {
     Manifest,
     Status

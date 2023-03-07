@@ -2,11 +2,11 @@
   <user-confirm />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Vue, Options } from 'vue-class-component'
 import UserConfirm from '@/components/auth/UserConfirm.vue'
 
-@Component({
+@Options({
   components: {
     UserConfirm
   }

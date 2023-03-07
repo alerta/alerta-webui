@@ -2,11 +2,11 @@
   <user-logout />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Vue, Options } from 'vue-class-component'
 import UserLogout from '@/components/auth/UserLogout.vue'
 
-@Component({
+@Options({
   components: {
     UserLogout
   }

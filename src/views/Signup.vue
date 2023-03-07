@@ -2,11 +2,11 @@
   <user-signup />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
+import { Vue, Options } from 'vue-class-component'
 import UserSignup from '@/components/auth/UserSignup.vue'
 
-@Component({
+@Options({
   components: {
     UserSignup
   }
