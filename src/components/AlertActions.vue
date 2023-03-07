@@ -184,8 +184,8 @@ export default {
     maxNoteLength: 200,
     minNoteLength: 0,
     textRules: [
-      v => !!v || i18n.t('TextIsRequired'),
-      v => (v && v.length <= vm.maxNoteLength) || `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t('characters')}`
+      v => !!v || i18n.global.t('TextIsRequired'),
+      v => (v && v.length <= vm.maxNoteLength) || `${i18n.global.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.global.t('characters')}`
     ]
   }),
   computed: {

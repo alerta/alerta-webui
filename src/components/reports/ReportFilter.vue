@@ -346,12 +346,12 @@ export default {
   computed: {
     dateRanges() {
       return [
-        { text: i18n.t('Latest'), range: [null, null] },
-        { text: i18n.t('Hour'), range: [-3600, null] },
-        { text: i18n.t('SixHours'), range: [-3600 * 6, null] },
-        { text: i18n.t('TwelveHours'), range: [-3600 * 12, null] },
+        { text: i18n.global.t('Latest'), range: [null, null] },
+        { text: i18n.global.t('Hour'), range: [-3600, null] },
+        { text: i18n.global.t('SixHours'), range: [-3600 * 6, null] },
+        { text: i18n.global.t('TwelveHours'), range: [-3600 * 12, null] },
         { divider: true },
-        { text: i18n.t('SelectRange'), range: [0, 0] },
+        { text: i18n.global.t('SelectRange'), range: [0, 0] },
       ]
     },
     isDark() {

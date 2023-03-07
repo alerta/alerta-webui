@@ -346,16 +346,16 @@ export default {
   computed: {
     languages() {
       return [
-        { text: i18n.t('English'), value: 'en' },
-        { text: i18n.t('French'), value: 'fr' },
-        { text: i18n.t('German'), value: 'de' },
-        { text: i18n.t('Turkish'), value: 'tr' }
+        { text: i18n.global.t('English'), value: 'en' },
+        { text: i18n.global.t('French'), value: 'fr' },
+        { text: i18n.global.t('German'), value: 'de' },
+        { text: i18n.global.t('Turkish'), value: 'tr' }
       ]
     },
     timezoneOptions() {
       return [
-        { text: i18n.t('UseLocal'), value: 'local' },
-        { text: i18n.t('UseUTC'), value: 'utc' }
+        { text: i18n.global.t('UseLocal'), value: 'local' },
+        { text: i18n.global.t('UseUTC'), value: 'utc' }
       ]
     },
     isLanguages: {
@@ -383,7 +383,7 @@ export default {
       }
     },
     computedDateFormats() {
-      moment.locale(i18n.locale)
+      moment.locale(i18n.global.locale)
       let allDateFormats = [...new Set([
         this.$store.getters.getConfig('dates').mediumDate,
         ...this.mediumDateFormats,
@@ -393,7 +393,7 @@ export default {
       return allDateFormats.map(f => ({text: moment().format(f), value: f}))
     },
     computedTimeFormats() {
-      moment.locale(i18n.locale)
+      moment.locale(i18n.global.locale)
       let allTimeFormats = [...new Set([
         this.$store.getters.getConfig('dates').shortTime,
         ...this.timeFormats,

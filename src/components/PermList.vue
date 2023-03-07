@@ -251,9 +251,9 @@ export default {
     wantScopes: [],
     dialog: false,
     headers: [
-      { text: i18n.t('Role'), value: 'match' },
-      { text: i18n.t('Scopes'), value: 'scopes' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { text: i18n.global.t('Role'), value: 'match' },
+      { text: i18n.global.t('Scopes'), value: 'scopes' },
+      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -265,7 +265,7 @@ export default {
       scopes: []
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: v => !!v || i18n.global.t('Required')
     }
   }),
   computed: {
@@ -285,7 +285,7 @@ export default {
       return this.$store.state.perms.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewPermission') : i18n.t('EditPermission')
+      return !this.editedId ? i18n.global.t('NewPermission') : i18n.global.t('EditPermission')
     },
     refresh() {
       return this.$store.state.refresh
@@ -330,7 +330,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('perms/deletePerm', item.id)
     },
     close() {

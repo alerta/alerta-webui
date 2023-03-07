@@ -882,19 +882,19 @@ export default {
       descending: true
     },
     headers: [
-      { text: i18n.t('AlertOrNoteId'), value: 'id', hide: 'smAndDown' },
-      { text: i18n.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
-      { text: i18n.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
-      { text: i18n.t('Severity'), value: 'severity', hide: 'smAndDown' },
-      { text: i18n.t('Status'), value: 'status', hide: 'smAndDown' },
-      { text: i18n.t('Timeout'), value: 'timeout', hide: 'smAndDown' },
-      { text: i18n.t('Type'), value: 'type' },
-      { text: i18n.t('Event'), value: 'event', hide: 'smAndDown' },
-      { text: i18n.t('Value'), value: 'value', hide: 'smAndDown' },
-      { text: i18n.t('User'), value: 'user' },
-      { text: i18n.t('Text'), value: 'text' }
+      { text: i18n.global.t('AlertOrNoteId'), value: 'id', hide: 'smAndDown' },
+      { text: i18n.global.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
+      { text: i18n.global.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
+      { text: i18n.global.t('Severity'), value: 'severity', hide: 'smAndDown' },
+      { text: i18n.global.t('Status'), value: 'status', hide: 'smAndDown' },
+      { text: i18n.global.t('Timeout'), value: 'timeout', hide: 'smAndDown' },
+      { text: i18n.global.t('Type'), value: 'type' },
+      { text: i18n.global.t('Event'), value: 'event', hide: 'smAndDown' },
+      { text: i18n.global.t('Value'), value: 'value', hide: 'smAndDown' },
+      { text: i18n.global.t('User'), value: 'user' },
+      { text: i18n.global.t('Text'), value: 'text' }
     ],
-    copyIconText: i18n.t('Copy')
+    copyIconText: i18n.global.t('Copy')
   }),
   computed: {
     isDark() {
@@ -1012,7 +1012,7 @@ export default {
         .then(() => this.getNotes(this.id))
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('alerts/deleteAlert', id)
           .then(() => this.$router.push({ name: 'alerts' }))
     }, 200, {leading: true, trailing: false}),
@@ -1023,7 +1023,7 @@ export default {
       this.$emit('close')
     },
     clipboardCopy(text) {
-      this.copyIconText = i18n.t('Copied')
+      this.copyIconText = i18n.global.t('Copied')
       let textarea = document.createElement('textarea')
       textarea.textContent = text
       document.body.appendChild(textarea)
@@ -1031,7 +1031,7 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(textarea)
       setTimeout(() => {
-        this.copyIconText = i18n.t('Copy')
+        this.copyIconText = i18n.global.t('Copy')
       }, 2000)
     }
   }

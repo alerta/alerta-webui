@@ -175,17 +175,17 @@ export default {
     status: ['ok', 'slow', 'expired'],
     search: '',
     headers: [
-      { text: i18n.t('Origin'), value: 'origin' },
-      { text: i18n.t('Customer'), value: 'customer' },
-      { text: i18n.t('Tags'), value: 'tags' },
-      { text: i18n.t('Attributes'), value: 'attributes' },
-      { text: i18n.t('CreateTime'), value: 'createTime' },
-      { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
-      { text: i18n.t('Latency'), value: 'latency' },
-      { text: i18n.t('Timeout'), value: 'timeout' },
-      { text: i18n.t('Since'), value: 'since' },
-      { text: i18n.t('Status'), value: 'status' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { text: i18n.global.t('Origin'), value: 'origin' },
+      { text: i18n.global.t('Customer'), value: 'customer' },
+      { text: i18n.global.t('Tags'), value: 'tags' },
+      { text: i18n.global.t('Attributes'), value: 'attributes' },
+      { text: i18n.global.t('CreateTime'), value: 'createTime' },
+      { text: i18n.global.t('ReceiveTime'), value: 'receiveTime' },
+      { text: i18n.global.t('Latency'), value: 'latency' },
+      { text: i18n.global.t('Timeout'), value: 'timeout' },
+      { text: i18n.global.t('Since'), value: 'since' },
+      { text: i18n.global.t('Status'), value: 'status' },
+      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
     ]
   }),
   computed: {
@@ -219,7 +219,7 @@ export default {
       this.$store.dispatch('heartbeats/getHeartbeats')
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('heartbeats/deleteHeartbeat', item.id)
     },
     diffTime(a, b) {

@@ -132,7 +132,7 @@ export default {
       this.$store.dispatch('auth/forgot', this.email).then(() => {
         this.$store.dispatch(
           'notifications/success',
-          i18n.t('ResetEmailSent'),
+          i18n.global.t('ResetEmailSent'),
           { root: true }
         )
         this.sent = true

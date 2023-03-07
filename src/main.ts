@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import bootstrap from './services/config'
 
 import {createApp} from 'vue'
@@ -32,9 +33,7 @@ export const store = createStore()
 
 let app
 bootstrap.getConfig().then(config => {
-  app = createApp({
-    render: (h:any) => h(App)
-  })
+  app = createApp(App)
   
   const router = createRouter(config.base_path)  
   store.dispatch('updateConfig', config)
@@ -49,7 +48,6 @@ bootstrap.getConfig().then(config => {
   axios.interceptors.request.use(interceptors.requestIdHeader, undefined)
   axios.interceptors.response.use(undefined, interceptors.interceptErrors)
   axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
-
 
   app.use(router) 
   app.use(i18n)
@@ -76,7 +74,6 @@ bootstrap.getConfig().then(config => {
     router 
   })
   sync(store, router)
-  //
   app.mount('#app')
 })
 

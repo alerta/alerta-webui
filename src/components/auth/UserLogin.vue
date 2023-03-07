@@ -188,7 +188,7 @@ export default {
           .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
           .catch(error => this.error = error.response.data.message)
       } else {
-        this.message = i18n.t('AuthNotPossible')
+        this.message = i18n.global.t('AuthNotPossible')
         this.error = `Unknown authentication provider (${this.$config.provider})`
       }
     },
@@ -202,13 +202,13 @@ export default {
               .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
               .catch(error => this.error = error.response.data.message)
           } else {
-            this.message = i18n.t('AuthNotPossible')
+            this.message = i18n.global.t('AuthNotPossible')
             this.error = event.data.message ? event.data.message : JSON.stringify(event)
           }
         }
         return
       })
-      auth_win = window.open(this.$config.endpoint + '/auth/saml', i18n.t('AuthInProgress'))
+      auth_win = window.open(this.$config.endpoint + '/auth/saml', i18n.global.t('AuthInProgress'))
     }
   }
 }

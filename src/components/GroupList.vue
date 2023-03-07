@@ -300,10 +300,10 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: i18n.t('Name'), value: 'name' },
-      { text: i18n.t('Description'), value: 'text' },
-      { text: i18n.t('NumberUsers'), value: 'count' },
-      { text: i18n.t('Actions'), value: 'actions', sortable: false }
+      { text: i18n.global.t('Name'), value: 'name' },
+      { text: i18n.global.t('Description'), value: 'text' },
+      { text: i18n.global.t('NumberUsers'), value: 'count' },
+      { text: i18n.global.t('Actions'), value: 'actions', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -317,7 +317,7 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: v => !!v || i18n.global.t('Required')
     },
     groupId: null,
     groupName: '',
@@ -341,7 +341,7 @@ export default {
       return this.$store.state.groups.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewGroup') : i18n.t('EditGroup')
+      return !this.editedId ? i18n.global.t('NewGroup') : i18n.global.t('EditGroup')
     },
     refresh() {
       return this.$store.state.refresh
@@ -375,7 +375,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('groups/deleteGroup', item.id)
     },
     close() {

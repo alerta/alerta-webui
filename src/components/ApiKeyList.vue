@@ -379,16 +379,16 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: i18n.t('APIKey'), value: 'key', sortable: false },
+      { text: i18n.global.t('APIKey'), value: 'key', sortable: false },
       { text: '', value: 'expireTime' },
-      { text: i18n.t('User'), value: 'user' },
-      { text: i18n.t('Scopes'), value: 'scopes' },
-      { text: i18n.t('Description'), value: 'text' },
-      { text: i18n.t('Expires'), value: 'expireTime' },
-      { text: i18n.t('Count'), value: 'count' },
-      { text: i18n.t('LastUsed'), value: 'lastUsedTime' },
-      { text: i18n.t('Customer'), value: 'customer' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { text: i18n.global.t('User'), value: 'user' },
+      { text: i18n.global.t('Scopes'), value: 'scopes' },
+      { text: i18n.global.t('Description'), value: 'text' },
+      { text: i18n.global.t('Expires'), value: 'expireTime' },
+      { text: i18n.global.t('Count'), value: 'count' },
+      { text: i18n.global.t('LastUsed'), value: 'lastUsedTime' },
+      { text: i18n.global.t('Customer'), value: 'customer' },
+      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -408,7 +408,7 @@ export default {
       scopes: [],
       expireTime: null
     },
-    copyIconText: i18n.t('Copy')
+    copyIconText: i18n.global.t('Copy')
   }),
   computed: {
     computedHeaders() {
@@ -436,7 +436,7 @@ export default {
       return this.$store.state.keys.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewApiKey') : i18n.t('EditApiKey')
+      return !this.editedId ? i18n.global.t('NewApiKey') : i18n.global.t('EditApiKey')
     },
     refresh() {
       return this.$store.state.refresh
@@ -487,7 +487,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('keys/deleteKey', item.id)
     },
     close() {
@@ -527,7 +527,7 @@ export default {
       return this.isExpired(key.expireTime) ? 'expired' : 'active'
     },
     clipboardCopy(text) {
-      this.copyIconText = i18n.t('Copied')
+      this.copyIconText = i18n.global.t('Copied')
       let textarea = document.createElement('textarea')
       textarea.textContent = text
       document.body.appendChild(textarea)
@@ -535,7 +535,7 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(textarea)
       setTimeout(() => {
-        this.copyIconText = i18n.t('Copy')
+        this.copyIconText = i18n.global.t('Copy')
       }, 2000)
     },
     toData(item) {

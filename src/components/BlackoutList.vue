@@ -494,22 +494,22 @@ export default {
     dialog: false,
     headers: [
       { text: '', value: 'icons' },
-      { text: i18n.t('Customer'), value: 'customer' },
-      { text: i18n.t('Environment'), value: 'environment' },
-      { text: i18n.t('Service'), value: 'service' },
-      { text: i18n.t('Resource'), value: 'resource' },
-      { text: i18n.t('Event'), value: 'event' },
-      { text: i18n.t('Group'), value: 'group' },
-      { text: i18n.t('Tags'), value: 'tags' },
-      { text: i18n.t('Origin'), value: 'origin' },
+      { text: i18n.global.t('Customer'), value: 'customer' },
+      { text: i18n.global.t('Environment'), value: 'environment' },
+      { text: i18n.global.t('Service'), value: 'service' },
+      { text: i18n.global.t('Resource'), value: 'resource' },
+      { text: i18n.global.t('Event'), value: 'event' },
+      { text: i18n.global.t('Group'), value: 'group' },
+      { text: i18n.global.t('Tags'), value: 'tags' },
+      { text: i18n.global.t('Origin'), value: 'origin' },
       { text: '', value: 'status' },
-      { text: i18n.t('Start'), value: 'startTime' },
-      { text: i18n.t('End'), value: 'endTime' },
-      { text: i18n.t('Expires'), value: 'remaining' },
-      { text: i18n.t('User'), value: 'user' },
+      { text: i18n.global.t('Start'), value: 'startTime' },
+      { text: i18n.global.t('End'), value: 'endTime' },
+      { text: i18n.global.t('Expires'), value: 'remaining' },
+      { text: i18n.global.t('User'), value: 'user' },
       // { text: 'Created', value: 'createTime' }, FIXME
-      { text: i18n.t('Reason'), value: 'text' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { text: i18n.global.t('Reason'), value: 'text' },
+      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -549,7 +549,7 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: v => !!v || i18n.global.t('Required')
     }
   }),
   computed: {
@@ -588,7 +588,7 @@ export default {
       return this.$store.state.blackouts.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewBlackout') : i18n.t('EditBlackout')
+      return !this.editedId ? i18n.global.t('NewBlackout') : i18n.global.t('EditBlackout')
     },
     blackoutStartNow() {
       return this.$store.getters.getPreference('blackoutStartNow')
@@ -705,7 +705,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('blackouts/deleteBlackout', item.id)
     },
     close() {

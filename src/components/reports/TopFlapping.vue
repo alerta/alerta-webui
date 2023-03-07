@@ -51,12 +51,12 @@ import i18n from '@/plugins/i18n'
 export default {
   data: () => ({
     headers: [
-      {text: i18n.t('Event'), value: 'event', sortable: false},
-      {text: i18n.t('Count'), value: 'count', sortable: false},
-      {text: i18n.t('DuplCount'), value: 'duplicateCount', sortable: false},
-      {text: i18n.t('Environment'), value: 'environment', sortable: false},
-      {text: i18n.t('Services'), value: 'services', sortable: false},
-      {text: i18n.t('Resources'), value: 'resources', sortable: false},
+      {text: i18n.global.t('Event'), value: 'event', sortable: false},
+      {text: i18n.global.t('Count'), value: 'count', sortable: false},
+      {text: i18n.global.t('DuplCount'), value: 'duplicateCount', sortable: false},
+      {text: i18n.global.t('Environment'), value: 'environment', sortable: false},
+      {text: i18n.global.t('Services'), value: 'services', sortable: false},
+      {text: i18n.global.t('Resources'), value: 'resources', sortable: false},
     ]
   }),
   computed: {

@@ -75,15 +75,15 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: i18n.t('WebUI'), value: 'version', sortable: false},
-      {text: i18n.t('API'), value: 'release', sortable: false},
-      {text: i18n.t('Build'), value: 'build', sortable: false},
-      {text: i18n.t('Date'), value: 'date', sortable: false},
-      {text: i18n.t('GitRevision'), value: 'revision', sortable: false},
-      {text: i18n.t('APIEndpoint'), value: 'endpoint', sortable: false}
+      {text: i18n.global.t('WebUI'), value: 'version', sortable: false},
+      {text: i18n.global.t('API'), value: 'release', sortable: false},
+      {text: i18n.global.t('Build'), value: 'build', sortable: false},
+      {text: i18n.global.t('Date'), value: 'date', sortable: false},
+      {text: i18n.global.t('GitRevision'), value: 'revision', sortable: false},
+      {text: i18n.global.t('APIEndpoint'), value: 'endpoint', sortable: false}
     ],
     manifest: [],
-    copyIconText: i18n.t('Copy')
+    copyIconText: i18n.global.t('Copy')
   }),
   computed: {
     application() {
@@ -110,7 +110,7 @@ export default {
       return this.$store.dispatch('management/getManifest')
     },
     clipboardCopy(text) {
-      this.copyIconText = i18n.t('Copied')
+      this.copyIconText = i18n.global.t('Copied')
       let textarea = document.createElement('textarea')
       textarea.textContent = text
       document.body.appendChild(textarea)
@@ -118,7 +118,7 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(textarea)
       setTimeout(() => {
-        this.copyIconText = i18n.t('Copy')
+        this.copyIconText = i18n.global.t('Copy')
       }, 2000)
     }
   }

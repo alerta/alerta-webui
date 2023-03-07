@@ -124,10 +124,10 @@ export default {
     showPassword: false,
     text: null,
     rules: {
-      required: v => !!v || i18n.t('Required'),
-      min: v => (v && v.length >= 6) || i18n.t('Min6Char'),
+      required: v => !!v || i18n.global.t('Required'),
+      min: v => (v && v.length >= 6) || i18n.global.t('Min6Char'),
       passwordMatch: v =>
-        (v && v == vm.password) || i18n.t('PasswordNotMatch')
+        (v && v == vm.password) || i18n.global.t('PasswordNotMatch')
     }
   }),
   computed: {

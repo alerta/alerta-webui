@@ -453,16 +453,16 @@ export default {
     wantRoles: [],
     dialog: false,
     headers: [
-      { text: i18n.t('Name'), value: 'name' },
-      { text: i18n.t('Status'), value: 'status' },
-      { text: i18n.t('Login'), value: 'login' },
-      { text: i18n.t('Email'), value: 'email' },
-      { text: i18n.t('VerifiedOrNot'), value: 'email_verified' },
-      { text: i18n.t('Roles'), value: 'roles' },
-      { text: i18n.t('Created'), value: 'createTime' },
-      { text: i18n.t('LastLogin'), value: 'lastLogin' },
-      { text: i18n.t('Comment'), value: 'text' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { text: i18n.global.t('Name'), value: 'name' },
+      { text: i18n.global.t('Status'), value: 'status' },
+      { text: i18n.global.t('Login'), value: 'login' },
+      { text: i18n.global.t('Email'), value: 'email' },
+      { text: i18n.global.t('VerifiedOrNot'), value: 'email_verified' },
+      { text: i18n.global.t('Roles'), value: 'roles' },
+      { text: i18n.global.t('Created'), value: 'createTime' },
+      { text: i18n.global.t('LastLogin'), value: 'lastLogin' },
+      { text: i18n.global.t('Comment'), value: 'text' },
+      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -490,10 +490,10 @@ export default {
     },
     showPassword: false,
     rules: {
-      required: v => !!v || i18n.t('Required'),
-      min: v => (vm.editedId && v == null) || (v && v.length >= 6) || i18n.t('Min6Char'),
+      required: v => !!v || i18n.global.t('Required'),
+      min: v => (vm.editedId && v == null) || (v && v.length >= 6) || i18n.global.t('Min6Char'),
       passwordMatch: v =>
-        (vm.editedId && v == null) || (v && v == vm.editedItem.password) || i18n.t('PasswordNotMatch')
+        (vm.editedId && v == null) || (v && v == vm.editedItem.password) || i18n.global.t('PasswordNotMatch')
     }
   }),
   computed: {
@@ -521,7 +521,7 @@ export default {
       return this.$store.state.users.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewUser') : i18n.t('EditUser')
+      return !this.editedId ? i18n.global.t('NewUser') : i18n.global.t('EditUser')
     },
     refresh() {
       return this.$store.state.refresh
@@ -589,7 +589,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('users/deleteUser', item.id)
     },
     close() {
