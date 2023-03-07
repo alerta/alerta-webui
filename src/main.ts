@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import bootstrap from './services/config'
 
 import {createApp} from 'vue'
