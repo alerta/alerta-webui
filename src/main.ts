@@ -18,14 +18,14 @@ import App from './App.vue'
 
 import '@/directives/hasPerms'
 
-import '@/filters/capitalize'
-import '@/filters/date'
-import '@/filters/days'
-import '@/filters/hhmmss'
-import '@/filters/shortId'
-import '@/filters/splitCaps'
-import '@/filters/timeago'
-import '@/filters/until'
+import capitalize from '@/filters/capitalize'
+import date from '@/filters/date'
+import days from '@/filters/days'
+import hhmmss from '@/filters/hhmmss'
+import shortId from '@/filters/shortId'
+import splitCaps from '@/filters/splitCaps'
+import timeago from '@/filters/timeago'
+import until from '@/filters/until'
 
 export const store = createStore()
 
@@ -51,6 +51,17 @@ bootstrap.getConfig().then(config => {
   })
   app.use(router)
   app.config.globalProperties.$config = config
+
+  app.config.globalProperties.$filters = {
+    capitalize,
+    date,
+    days,
+    hhmmss,
+    shortId,
+    splitCaps,
+    timeago,
+    until
+  }
 
   app.use(GoogleAnalytics, {
     trackingId: config.tracking_id,

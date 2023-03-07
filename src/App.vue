@@ -377,7 +377,7 @@
               :key="i"
               @click="takeBulkAction(action)"
             >
-              <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
+              <v-list-tile-title>{{ $filters.splitCaps(action) }}</v-list-tile-title>
             </v-list-tile>
           </v-list>
         </v-menu>

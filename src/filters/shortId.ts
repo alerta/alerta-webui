@@ -1,7 +1,5 @@
-import Vue from 'vue'
-
-export default Vue.filter('shortId', function (value) {
+export default function (value) {
   if (value) {
     return String(value).substring(0, 8)
   }
-})
+}

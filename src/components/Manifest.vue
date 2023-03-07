@@ -13,7 +13,7 @@
         {{ version }}
       </td>
       <td>
-        <span class="hidden-sm-and-down">{{ application | capitalize }} {{ $t('API') }} </span>{{ props.item.release }}
+        <span class="hidden-sm-and-down">{{ $filters.capitalize(application) }} {{ $t('API') }} </span>{{ props.item.release }}
       </td>
       <td>{{ props.item.build }}</td>
       <td>

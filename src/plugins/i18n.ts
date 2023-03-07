@@ -6,8 +6,9 @@ import {en} from '@/locales/en'
 import {fr} from '@/locales/fr'
 import {de} from '@/locales/de'
 import {tr} from '@/locales/tr'
+import app from '@/main'
 
-Vue.use(VueI18n)
+app.use(VueI18n)
 
 const loadLocaleMessages = {
   en,

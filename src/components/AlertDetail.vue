@@ -216,7 +216,7 @@
                 :key="i"
                 @click="takeAction(item.id, action)"
               >
-                <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
+                <v-list-tile-title>{{ $filters.splitCaps(action) }}</v-list-tile-title>
               </v-list-tile>
             </v-list>
           </v-menu>
@@ -255,13 +255,13 @@
                   <b><date-time
                     :value="note.updateTime"
                     format="longDate"
-                  /></b> ({{ note.updateTime | timeago }})<br>
+                  /></b> ({{ $filters.timeago(note.updateTime) }})<br>
                 </span>
                 <span v-else>
                   <b><date-time
                     :value="note.createTime"
                     format="longDate"
-                  /></b> ({{ note.createTime | timeago }})<br>
+                  /></b> ({{ $filters.timeago(note.createTime) }})<br>
                 </span>
                 <i>{{ note.text }}</i>
               </v-alert>
@@ -279,7 +279,7 @@
                   v-if="note.updateTime"
                   :value="note.updateTime"
                   format="longDate"
-                /></b> ({{ note.updateTime | timeago }})<br>
+                /></b> ({{ $filters.timeago(note.updateTime) }})<br>
                 <i>{{ note.text }}</i>
               </v-alert>
               <!-- DEPRECATED -->
@@ -327,7 +327,7 @@
                           :value="item.createTime"
                           format="longDate"
                         />
-                        ({{ item.createTime | timeago }})
+                        ({{ $filters.timeago(item.createTime) }})
                       </div>
                     </div>
                   </div>
@@ -346,7 +346,7 @@
                           :value="item.receiveTime"
                           format="longDate"
                         />
-                        ({{ item.receiveTime | timeago }})
+                        ({{ $filters.timeago(item.receiveTime) }})
                       </div>
                     </div>
                   </div>
@@ -365,7 +365,7 @@
                           :value="item.lastReceiveTime"
                           format="longDate"
                         />
-                        ({{ item.lastReceiveTime | timeago }})
+                        ({{ $filters.timeago(item.lastReceiveTime) }})
                       </div>
                     </div>
                   </div>
@@ -508,10 +508,10 @@
                     <div class="flex xs6 text-xs-left">
                       <div>
                         <span :class="['label', 'label-' + item.previousSeverity]">
-                          {{ item.previousSeverity | capitalize }}
+                          {{ $filters.capitalize(item.previousSeverity) }}
                         </span>&nbsp;&rarr;&nbsp;
                         <span :class="['label', 'label-' + item.severity]">
-                          {{ item.severity | capitalize }}
+                          {{ $filters.capitalize(item.severity) }}
                         </span>
                       </div>
                     </div>
@@ -528,11 +528,11 @@
                     <div class="flex xs6 text-xs-left">
                       <div>
                         <span class="label">
-                          {{ item.status | capitalize }}
+                          {{ $filters.capitalize(item.status) }}
                         </span>
                         <span
                           v-if="statusNote && statusNote.user"
-                        >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ statusNote.updateTime | timeago }})
+                        >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ $filters.timeago(statusNote.updateTime) }})
                         </span>
                       </div>
                     </div>
@@ -594,7 +594,7 @@
                     <div class="flex xs6 text-xs-left">
                       <div>
                         <span class="label">
-                          {{ item.trendIndication | splitCaps }}
+                          {{ $filters.splitCaps(item.trendIndication) }}
                         </span>
                       </div>
                     </div>
@@ -624,7 +624,7 @@
                     <div class="flex xs6 text-xs-left">
                       <div>
                         <span class="label">
-                          {{ item.type | splitCaps }}
+                          {{ $filters.splitCaps(item.type) }}
                         </span>
                       </div>
                     </div>
@@ -654,7 +654,7 @@
                     <div class="flex xs6 text-xs-left">
                       <div>
                         <span class="label">
-                          {{ item.repeat | capitalize }}
+                          {{ $filters.capitalize(item.repeat) }}
                         </span>
                       </div>
                     </div>
@@ -709,7 +709,7 @@
                   <div class="d-flex align-top">
                     <div class="flex xs3 text-xs-left">
                       <div class="grey--text">
-                        {{ attr | splitCaps }}
+                        {{ $filters.splitCaps(attr) }}
                       </div>
                     </div>
                     <div class="flex xs6 text-xs-left">
@@ -763,7 +763,7 @@
                   slot-scope="props"
                 >
                   <td class="hidden-sm-and-down">
-                    <span class="console-text">{{ props.item.id | shortId }}</span>
+                    <span class="console-text">{{ $filters.shortId(props.item.id) }}</span>
                   </td>
                   <td
                     class="hidden-sm-and-down text-no-wrap"
@@ -783,20 +783,20 @@
                   </td>
                   <td class="hidden-sm-and-down">
                     <span :class="['label', 'label-' + props.item.severity]">
-                      {{ props.item.severity | capitalize }}
+                      {{ $filters.capitalize(props.item.severity) }}
                     </span>
                   </td>
                   <td class="hidden-sm-and-down">
                     <span class="label">
-                      {{ props.item.status | capitalize }}
+                      {{ $filters.capitalize(props.item.status) }}
                     </span>
                   </td>
                   <td class="hidden-sm-and-down">
-                    {{ props.item.timeout | hhmmss }}
+                    {{ $filters.hhmmss(props.item.timeout) }}
                   </td>
                   <td>
                     <span class="label">
-                      {{ props.item.type || 'unknown' | splitCaps }}
+                      {{ $filters.splitCaps(props.item.type || 'unknown') }}
                     </span>
                   </td>
                   <td class="hidden-sm-and-down">

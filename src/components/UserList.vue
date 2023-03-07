@@ -321,7 +321,7 @@
                   props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
                 }}
               </v-icon>
-              <span>{{ props.item.status | capitalize }}</span>
+              <span>{{ $filters.capitalize(props.item.status) }}</span>
             </v-tooltip>
           </td>
           <td>{{ props.item.login }}</td>

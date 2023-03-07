@@ -3,9 +3,10 @@ import Vuex from 'vuex'
 import VueAxios from 'vue-axios'
 import {VueAuthenticate} from '@alerta/vue-authenticate'
 import axios from 'axios'
+import app from '@/main'
 
-Vue.use(Vuex)
-Vue.use(VueAxios, axios)
+app.use(Vuex)
+app.use(VueAxios, axios)
 
 function getRedirectUri(path: string) {
   return window.location.origin + (path || '')
@@ -13,7 +14,7 @@ function getRedirectUri(path: string) {
 
 export function vueAuth(config) {
   let basePath = config.base_path || process.env.BASE_URL
-  return new VueAuthenticate(Vue.prototype.$http, {
+  return new VueAuthenticate(app.prototype.$http, {
     tokenPath: 'token',
     tokenName: 'token',
     tokenPrefix: '',

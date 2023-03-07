@@ -349,7 +349,7 @@
           <td>{{ props.item.origin }}</td>
           <td class="text-xs-right">
             <v-tooltip top>
-              {{ props.item.status | capitalize }}
+              {{ $filters.capitalize(props.item.status) }}
               <v-icon
                 v-if="props.item.status == 'pending'"
                 slot="activator"
@@ -392,7 +392,7 @@
           <td
             class="text-xs-left text-no-wrap"
           >
-            {{ props.item.endTime | until }}
+            {{ $filters.until(props.item.endTime) }}
           </td>
           <td class="text-xs-left">
             {{ props.item.user }}

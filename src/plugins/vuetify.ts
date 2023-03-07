@@ -4,7 +4,9 @@ import colors from 'vuetify/es5/util/colors'
 
 import 'vuetify/src/styles/main.sass'
 
-Vue.use(Vuetify, {
+import app from '@/main'
+
+app.use(Vuetify, {
   theme: {
     primary: '#3f51b5',
     secondary: '#2196f3',

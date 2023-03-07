@@ -4,9 +4,9 @@
       slot="activator"
       class="text-no-wrap"
     >
-      {{ value | date(displayMode, formatString) }}
+      {{ $filters.date(value, displayMode, formatString) }}
     </span>
-    <span>{{ value | date('utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
+    <span>{{ $filters.date(value, 'utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
   </v-tooltip>
 </template>
 

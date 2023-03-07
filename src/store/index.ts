@@ -13,8 +13,9 @@ import reports from './modules/reports.store'
 import prefs from './modules/preferences.store'
 import management from './modules/management.store'
 import notifications from './modules/notifications.store'
+import app from '@/main'
 
-Vue.use(Vuex)
+app.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 

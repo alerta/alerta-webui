@@ -1,7 +1,6 @@
 import moment from 'moment'
-import Vue from 'vue'
 
-export default Vue.filter('days', function (value) {
+export default function (value) {
   function pad(s) {
     return ('0' + s).slice(-2)
   }
@@ -13,4 +12,4 @@ export default Vue.filter('days', function (value) {
     var days = Math.floor(duration.as('d'))
     return `${days} days ${hours}:${minutes}:${seconds}`
   }
-})
+}
