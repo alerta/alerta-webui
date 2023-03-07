@@ -68,7 +68,7 @@
               sub-group
               no-action
             >
-              <template v-slot:activator>
+              <template #activator>
                 <v-list-tile>
                   <v-list-tile-title>
                     {{ item.text }}
@@ -80,13 +80,14 @@
                 :key="i"
                 @click="submitSearch(q.query)"
               >
-                <v-list-tile-title v-text="q.text" />
+                <v-list-tile-title>{{ q.text }}</v-list-tile-title>
                 <v-list-tile-action>
                   <v-icon
                     small
                     @click.stop="deleteSearch(q)"
-                    v-text="q.icon"
-                  />
+                  >
+                    {{ q.icon }}
+                  </v-icon>
                 </v-list-tile-action>
               </v-list-tile>
             </v-list-group>
@@ -143,11 +144,11 @@
           @change="submitSearch"
           @click:clear="clearSearch"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-tooltip
               bottom
             >
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <v-icon
                   v-on="on"
                   @click="saveSearch"
@@ -224,8 +225,9 @@
               >
               <v-icon
                 v-else
-                v-text="navbar.signin.icon"
-              />
+              >
+                {{ navbar.signin.icon }}
+              </v-icon>
             </v-avatar>
           </v-btn>
 
@@ -430,8 +432,9 @@
               >
               <v-icon
                 v-else
-                v-text="navbar.signin.icon"
-              />
+              >
+                {{ navbar.signin.icon }}
+              </v-icon>
             </v-avatar>
           </v-btn>
 
