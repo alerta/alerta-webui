@@ -221,25 +221,28 @@
               :nudge-width="200"
               offset-x
             >
-              <v-btn
-                slot="activator"
-                icon
-              >
-                <v-avatar
-                  size="32px"
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  slot="activator"
+                  icon
                 >
-                  <img
-                    v-if="avatar && !error"
-                    :src="avatar"
-                    @error="error = true"
+                  <v-avatar
+                    size="32px"
                   >
-                  <v-icon
-                    v-else
-                  >
-                    {{ navbar.signin.icon }}
-                  </v-icon>
-                </v-avatar>
-              </v-btn>
+                    <img
+                      v-if="avatar && !error"
+                      :src="avatar"
+                      @error="error = true"
+                    >
+                    <v-icon
+                      v-else
+                    >
+                      {{ navbar.signin.icon }}
+                    </v-icon>
+                  </v-avatar>
+                </v-btn>
+              </template>
 
               <profile-me
                 v-if="profile"
@@ -443,26 +446,28 @@
             :nudge-width="200"
             offset-x
           >
-            <v-btn
-              slot="activator"
-              icon
-            >
-              <v-avatar
-                size="32px"
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                slot="activator"
+                icon
               >
-                <img
-                  v-if="avatar && !error"
-                  :src="avatar"
-                  @error="error = true"
+                <v-avatar
+                  size="32px"
                 >
-                <v-icon
-                  v-else
-                >
-                  {{ navbar.signin.icon }}
-                </v-icon>
-              </v-avatar>
-            </v-btn>
-
+                  <img
+                    v-if="avatar && !error"
+                    :src="avatar"
+                    @error="error = true"
+                  >
+                  <v-icon
+                    v-else
+                  >
+                    {{ navbar.signin.icon }}
+                  </v-icon>
+                </v-avatar>
+              </v-btn>
+            </template>
             <profile-me
               v-if="profile"
               :profile="profile"
