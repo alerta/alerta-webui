@@ -215,7 +215,7 @@
           </v-tooltip>
           <div>
             <v-menu
-              v-show="isLoggedIn"
+              v-if="isLoggedIn"
               v-model="menu"
               :close-on-content-click="false"
               :nudge-width="200"

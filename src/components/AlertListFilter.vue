@@ -24,13 +24,16 @@
           end
           offset-y
         >
-          <v-btn
-            slot="activator"
-            icon
-            @click="close"
-          >
-            <v-icon>close</v-icon>
-          </v-btn>
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              slot="activator"
+              icon
+              @click="close"
+            >
+              <v-icon>close</v-icon>
+            </v-btn>
+          </template> 
         </v-menu>
       </v-toolbar>
 

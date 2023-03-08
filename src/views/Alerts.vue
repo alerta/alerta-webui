@@ -96,13 +96,16 @@
         bottom
         start
       >
-        <v-btn
-          slot="activator"
-          variant="flat"
-          icon
-        >
-          <v-icon>more_vert</v-icon>
-        </v-btn>
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            slot="activator"
+            variant="flat"
+            icon
+          >
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+        </template>
 
         <v-list>
           <v-list-item

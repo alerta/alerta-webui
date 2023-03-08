@@ -90,7 +90,7 @@ export default {
     this.cancelTimer()
     this.refreshCounts()
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.cancelTimer()
   },
   methods: {
