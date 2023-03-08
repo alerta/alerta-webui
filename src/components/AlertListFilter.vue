@@ -268,7 +268,7 @@
           <v-spacer />
           <v-btn
             color="blue darken-1"
-            flat
+            variant="flat"
             @click="reset"
           >
             {{ $t('Reset') }}

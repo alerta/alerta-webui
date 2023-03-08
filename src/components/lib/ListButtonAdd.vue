@@ -1,10 +1,10 @@
 <template>
+  <!-- fab removed; no longer supported -->
   <v-fab-transition>
     <v-btn
       key="add"
       v-has-perms="perms"
       color="accent"
-      fab
       fixed
       bottom
       end

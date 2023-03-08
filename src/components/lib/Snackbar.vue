@@ -7,7 +7,7 @@
   >
     {{ $filters.capitalize(snackbar.text) }}
     <v-btn
-      flat
+      variant="flat"
       @click="close"
     >
       {{ snackbar.action }}

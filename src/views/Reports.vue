@@ -16,7 +16,7 @@
         </v-flex>
 
         <v-btn
-          flat
+          variant="flat"
           icon
           :class="{ 'filter-active': isActive }"
           @click="sidesheet = !sidesheet"

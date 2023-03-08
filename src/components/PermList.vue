@@ -71,14 +71,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              variant="flat"
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              variant="flat"
               @click="validate"
             >
               {{ $t('Save') }}

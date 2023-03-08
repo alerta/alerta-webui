@@ -65,7 +65,6 @@
               v-else-if="item.queries && item.queries.length > 0"
               :key="item.text"
               :prepend-icon="item.model ? item.icon : item['icon-alt']"
-              sub-group
               no-action
             >
               <template #activator>
@@ -144,7 +143,7 @@
           @change="submitSearch"
           @click:clear="clearSearch"
         >
-          <template #append-outer>
+          <template #append>
             <v-tooltip
               bottom
             >
@@ -168,7 +167,7 @@
           <v-tooltip bottom>
             <v-switch
               slot="activator"
-              :input-value="isWatch"
+              :model-value="isWatch"
               hide-details
               open-delay="3000"
               @change="toggle('isWatch', $event)"
@@ -359,7 +358,7 @@
         >
           <v-btn
             slot="activator"
-            flat
+            variant="flat"
             icon
             small
             class="btn--plain px-1 mx-0"

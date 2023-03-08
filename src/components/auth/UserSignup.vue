@@ -93,7 +93,7 @@
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
-            flat
+            variant="flat"
             color="primary"
             to="/login"
           >

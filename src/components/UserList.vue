@@ -139,7 +139,7 @@
                     v-model="userGroups"
                     :items="allGroups"
                     :label="$t('Groups')"
-                    item-text="name"
+                    item-title="name"
                     item-value="id"
                     chips
                     solo
@@ -207,14 +207,14 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              variant="flat"
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
               color="blue darken-1"
-              flat
+              variant="flat"
               @click="validate"
             >
               {{ $t('Save') }}
@@ -235,7 +235,7 @@
         >
           <v-btn
             value="active"
-            flat
+            variant="flat"
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
@@ -246,7 +246,7 @@
           </v-btn>
           <v-btn
             value="inactive"
-            flat
+            variant="flat"
           >
             <v-tooltip bottom>
               <v-icon slot="activator">

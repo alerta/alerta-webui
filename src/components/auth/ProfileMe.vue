@@ -172,14 +172,14 @@
       <v-spacer />
 
       <v-btn
-        flat
+        variant="flat"
         @click="close"
       >
         {{ $t('Cancel') }}
       </v-btn>
       <v-btn
         color="primary"
-        flat
+        variant="flat"
         @click="logout()"
       >
         {{ $t('LogOut') }}

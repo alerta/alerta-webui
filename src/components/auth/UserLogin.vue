@@ -46,7 +46,7 @@
         </v-form>
         <div class="text-xs-center">
           <v-btn
-            flat
+            variant="flat"
             color="primary"
             to="/signup"
             :disabled="!signupEnabled"
@@ -54,7 +54,7 @@
             {{ $t('CreateAccount') }}
           </v-btn>
           <v-btn
-            flat
+            variant="flat"
             color="primary"
             to="/forgot"
           >

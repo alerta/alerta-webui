@@ -36,7 +36,7 @@
             <v-spacer />
             <v-btn
               color="blue darken-1"
-              flat
+              variant="flat"
               @click="ok"
             >
               {{ $t('OK') }}
@@ -84,7 +84,7 @@
       </v-tab>
       <v-spacer />
       <v-btn
-        flat
+        variant="flat"
         icon
         :class="{ 'filter-active': isActive }"
         @click="sidesheet = !sidesheet"
@@ -98,7 +98,7 @@
       >
         <v-btn
           slot="activator"
-          flat
+          variant="flat"
           icon
         >
           <v-icon>more_vert</v-icon>
@@ -131,7 +131,7 @@
       <v-tabs-items
         v-model="currentTab"
       >
-        <v-tab-item
+        <v-window-item
           v-for="env in environments"
           :key="env"
           :value="'tab-' + env"
@@ -145,7 +145,7 @@
               @set-alert="setAlert"
             />
           </keep-alive>
-        </v-tab-item>
+        </v-window-item>
       </v-tabs-items>
     </v-tabs>
 

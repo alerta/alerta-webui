@@ -10,7 +10,7 @@
       >
         <v-btn
           value="ok"
-          flat
+          variant="flat"
         >
           <v-tooltip bottom>
             <v-icon slot="activator">
@@ -21,7 +21,7 @@
         </v-btn>
         <v-btn
           value="slow"
-          flat
+          variant="flat"
         >
           <v-tooltip bottom>
             <v-icon slot="activator">
@@ -32,7 +32,7 @@
         </v-btn>
         <v-btn
           value="expired"
-          flat
+          variant="flat"
         >
           <v-tooltip bottom>
             <v-icon slot="activator">

@@ -158,10 +158,10 @@
               max="30"
               step="1"
               always-dirty
-              ticks="always"
+              show-ticks="always"
               thumb-label
               :label="$t('FontSize')"
-              :tick-labels="fontSizeLabels"
+              :ticks="fontSizeLabels"
             />
 
             <v-slider
@@ -170,11 +170,11 @@
               max="900"
               step="100"
               always-dirty
-              ticks="always"
+              show-ticks="always"
               tick-size="2"
               thumb-label
               :label="$t('FontWeight')"
-              :tick-labels="fontWeightLabels"
+              :ticks="fontWeightLabels"
             />
 
             <v-combobox
@@ -281,7 +281,7 @@
           <v-spacer />
           <v-btn
             color="blue darken-1"
-            flat
+            variant="flat"
             @click="reset"
           >
             {{ $t('Reset') }}
