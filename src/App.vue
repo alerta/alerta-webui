@@ -152,9 +152,9 @@
               <v-tooltip
                 location="bottom"
               >
-                <template #activator="{ on }">
+                <template #activator="{ props }">
                   <v-icon
-                    v-on="on"
+                    v-bind="props"
                     @click="saveSearch"
                   >
                     push_pin
