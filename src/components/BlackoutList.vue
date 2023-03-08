@@ -62,7 +62,7 @@
                     <v-date-picker
                       v-model="editedItem.period.startDate"
                       no-title
-                      @input="menu1 = false"
+                      @update:model-value="menu1 = false"
                     />
                   </v-menu>
                 </v-flex>
@@ -106,7 +106,7 @@
                     <v-date-picker
                       v-model="editedItem.period.endDate"
                       no-title
-                      @input="menu2 = false"
+                      @update:model-value="menu2 = false"
                     />
                   </v-menu>
                 </v-flex>
@@ -173,7 +173,7 @@
                         small
                         @input="data.parent.selectItem(data.item)"
                       >
-                        <v-icon left>
+                        <v-icon start>
                           label
                         </v-icon>{{ data.item }}
                       </v-chip>
@@ -341,7 +341,7 @@
               label
               small
             >
-              <v-icon left>
+              <v-icon start>
                 label
               </v-icon>{{ tag }}
             </v-chip>

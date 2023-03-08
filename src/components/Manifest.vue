@@ -30,7 +30,7 @@
           :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
           target="_blank"
         >
-          <v-tooltip right>
+          <v-tooltip end>
             {{ $t('OpenGitHub') }}
             <v-icon
               slot="activator"

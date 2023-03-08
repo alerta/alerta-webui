@@ -194,7 +194,7 @@
           <v-menu
             slot="activator"
             bottom
-            left
+            start
           >
             <v-btn
               slot="activator"
@@ -209,7 +209,7 @@
             <v-list
               subheader
             >
-              <v-subheader>Actions</v-subheader>
+              <v-list-subheader>Actions</v-list-subheader>
               <v-divider />
               <v-list-tile
                 v-for="(action, i) in actions"
@@ -693,7 +693,7 @@
                           small
                           @click="queryBy('tags', tag)"
                         >
-                          <v-icon left>
+                          <v-icon start>
                             label
                           </v-icon>{{ tag }}
                         </v-chip>

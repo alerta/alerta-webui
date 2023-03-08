@@ -80,7 +80,7 @@
             label
             small
           >
-            <v-icon left>
+            <v-icon start>
               label
             </v-icon>{{ tag }}
           </v-chip>

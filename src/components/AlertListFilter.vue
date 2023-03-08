@@ -6,7 +6,7 @@
     absolute
     hide-overlay
     width="300"
-    right
+    end
   >
     <v-card tile>
       <v-toolbar
@@ -21,7 +21,7 @@
         <v-toolbar-items />
         <v-menu
           bottom
-          right
+          end
           offset-y
         >
           <v-btn
@@ -196,7 +196,7 @@
               <v-date-picker
                 v-model="period.startDate"
                 no-title
-                @input="menu1 = false"
+                @update:model-value="menu1 = false"
               />
             </v-menu>
           </v-flex>
@@ -246,7 +246,7 @@
               <v-date-picker
                 v-model="period.endDate"
                 no-title
-                @input="menu2 = false"
+                @update:model-value="menu2 = false"
               />
             </v-menu>
           </v-flex>

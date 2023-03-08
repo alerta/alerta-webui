@@ -20,7 +20,7 @@
                 >
                   <v-tooltip
                     :key="copyIconText"
-                    right
+                    end
                   >
                     <v-text-field
                       v-if="editedItem.key"
@@ -114,7 +114,7 @@
                     <v-date-picker
                       v-model="pickerDate"
                       :min="new Date().toISOString().slice(0, 10)"
-                      @input="menu = false"
+                      @update:model-value="menu = false"
                     />
                   </v-menu>
                 </v-flex>

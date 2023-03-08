@@ -432,7 +432,7 @@
 
               <v-menu
                 bottom
-                left
+                start
               >
                 <v-btn
                   slot="activator"
@@ -449,7 +449,7 @@
                 <v-list
                   subheader
                 >
-                  <v-subheader>Actions</v-subheader>
+                  <v-list-subheader>Actions</v-list-subheader>
                   <v-divider />
                   <v-list-tile
                     v-for="(action, i) in actions"

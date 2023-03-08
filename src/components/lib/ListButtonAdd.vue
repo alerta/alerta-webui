@@ -7,7 +7,7 @@
       fab
       fixed
       bottom
-      right
+      end
       @click="addToList"
       class="mb-5"
     >

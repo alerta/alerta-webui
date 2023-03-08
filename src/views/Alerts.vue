@@ -94,7 +94,7 @@
 
       <v-menu
         bottom
-        left
+        start
       >
         <v-btn
           slot="activator"
