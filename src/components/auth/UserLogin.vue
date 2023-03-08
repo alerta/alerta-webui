@@ -25,7 +25,7 @@
             type="text"
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
-            outlined
+            variant="outlined"
           />
           <v-text-field
             v-model="password"
@@ -33,7 +33,7 @@
             :type="showPassword ? 'text' : 'password'"
             :label="$t('Password')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
-            outlined
+            variant="outlined"
             @click:append="showPassword = !showPassword"
           />
           <v-btn

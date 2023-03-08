@@ -25,7 +25,7 @@
             type="text"
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
-            outlined
+            variant="outlined"
           />
           <v-btn
             :loading="isSending"
@@ -80,7 +80,7 @@
             type="text"
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
-            outlined
+            variant="outlined"
             readonly
           />
           <v-btn

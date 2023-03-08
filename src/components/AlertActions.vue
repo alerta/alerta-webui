@@ -9,7 +9,7 @@
         <v-col>
           <v-btn
             v-show="!isWatched"
-            outlined
+            variant="outlined"
             color="grey darken-2"
             @click="watchAlert"
           >
@@ -18,7 +18,7 @@
 
           <v-btn
             v-show="isWatched"
-            outlined
+            variant="outlined"
             color="grey darken-2"
             @click="unwatchAlert"
           >
@@ -27,7 +27,7 @@
 
           <v-btn
             v-if="!showForm"
-            outlined
+            variant="outlined"
             color="grey darken-2"
             @click="showForm = true"
           >
@@ -35,7 +35,7 @@
           </v-btn>
 
           <v-btn
-            outlined
+            variant="outlined"
             color="grey darken-2"
             @click="deleteAlert"
           >

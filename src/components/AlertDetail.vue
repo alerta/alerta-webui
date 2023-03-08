@@ -246,7 +246,7 @@
                   v-for="note in notes"
                   :key="note.id"
                   :value="true"
-                  dismissible
+                  closable
                   type="info"
                   class="ma-1"
                   @input="deleteNote(item.id, note.id)"

@@ -31,7 +31,7 @@
             type="text"
             :label="$t('FullName')"
             :disabled="!signupEnabled"
-            outlined
+            variant="outlined"
             :rules="[rules.required]"
             required
           />
@@ -42,7 +42,7 @@
             :label="$t('Username')"
             prepend-inner-icon="alternate_email"
             :disabled="!signupEnabled"
-            outlined
+            variant="outlined"
             :rules="[rules.required]"
             required
           />
@@ -53,7 +53,7 @@
             :label="$t('Password')"
             :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
-            outlined
+            variant="outlined"
             :rules="[rules.min]"
             required
             @click:append="showPassword = !showPassword"
@@ -65,7 +65,7 @@
             :type="showPassword ? 'text' : 'password'"
             :label="$t('ConfirmPassword')"
             :disabled="!signupEnabled"
-            outlined
+            variant="outlined"
             :rules="[rules.passwordMatch]"
             required
             @click:append="showPassword = !showPassword"
@@ -76,7 +76,7 @@
             type="text"
             :label="$t('Description')"
             :disabled="!signupEnabled"
-            outlined
+            variant="outlined"
           />
           <v-btn
             :loading="isSending"

@@ -3,7 +3,7 @@
     :value="sidesheet"
     clipped
     disable-resize-watcher
-    absolute
+    position="absolute"
     hide-overlay
     width="300"
     end
@@ -50,7 +50,7 @@
               v-model="filterText"
               :label="$t('Search')"
               prepend-inner-icon="search"
-              outlined
+              variant="outlined"
               dense
               clearable
               :hint="$t('FilterDescription')"
@@ -69,7 +69,7 @@
               :placeholder="$t('AllEnvironments')"
               :label="$t('Environment')"
               multiple
-              outlinedd
+              variant="outlined"
               dense
               :hint="$t('EnvironmentDescription')"
               persistent-hint
@@ -87,7 +87,7 @@
               :placeholder="$t('AllSeverities')"
               :label="$t('Severity')"
               multiple
-              outlined
+              variant="outlined"
               dense
               :hint="$t('SeverityDescription')"
               persistent-hint
@@ -105,7 +105,7 @@
               :placeholder="$t('AllStatuses')"
               :label="$t('Status')"
               multiple
-              outlined
+              variant="outlined"
               dense
               :hint="$t('StatusDescription')"
               persistent-hint
@@ -124,7 +124,7 @@
               :placeholder="$t('AllCustomers')"
               :label="$t('Customer')"
               multiple
-              outlined
+              variant="outlined"
               dense
               :hint="$t('CustomerDescription')"
               persistent-hint
@@ -142,7 +142,7 @@
               :placeholder="$t('AllServices')"
               :label="$t('Service')"
               multiple
-              outlined
+              variant="outlined"
               dense
               :hint="$t('ServiceDescription')"
               persistent-hint
@@ -160,7 +160,7 @@
               :placeholder="$t('AllGroups')"
               :label="$t('Group')"
               multiple
-              outlined
+              variant="outlined"
               dense
               :hint="$t('GroupDescription')"
               persistent-hint
@@ -194,7 +194,7 @@
               v-model="period.startDate"
               :label="$t('StartDate')"
               prepend-inner-icon="event"
-              outlined
+              variant="outlined"
               hide-details
               @click:prepend-inner="menu1 = !menu1"
             />
@@ -208,7 +208,7 @@
             <v-text-field
               v-model="period.startTime"
               :label="$t('Time')"
-              outlined
+              variant="outlined"
               hide-details
             />
           </v-col>
@@ -245,7 +245,7 @@
               v-model="period.endDate"
               :label="$t('EndDate')"
               prepend-inner-icon="event"
-              outlined
+              variant="outlined"
               hide-details
               @click:prepend-inner="menu2 = !menu2"
             />
@@ -259,7 +259,7 @@
             <v-text-field
               v-model="period.endTime"
               :label="$t('Time')"
-              outlined
+              variant="outlined"
               hide-details
             />
           </v-col>
