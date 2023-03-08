@@ -3,7 +3,7 @@
     max-width="350"
   >
     <v-list>
-      <v-list-tile>
+      <v-list-item>
         <v-list-item-title>{{ profile.name }}</v-list-item-title>
         <v-list-item-subtitle>
           <span>
@@ -44,13 +44,13 @@
             <span>{{ $t('EmailNotVerified') }}</span>
           </v-tooltip>
         </v-list-item-action>
-      </v-list-tile>
+      </v-list-item>
     </v-list>
 
     <v-divider />
 
     <v-list>
-      <v-list-tile
+      <v-list-item
         v-if="$config.customer_views"
       >
         <v-list-item-title>
@@ -72,7 +72,7 @@
           </span>
         </v-list-item-title>
         <v-list-item-subtitle>{{ $t('Customers') }}</v-list-item-subtitle>
-      </v-list-tile>
+      </v-list-item>
 
       <v-list-item v-if="profile.orgs">
         <v-list-item-title>
@@ -134,7 +134,7 @@
         </v-list-item-title>
         <v-list-item-subtitle>{{ $t('Roles') }}</v-list-item-subtitle>
       </v-list-item>
-      <v-list-tile>
+      <v-list-item>
         <v-list-item-title>
           <span
             v-for="(scope, index) in scopes"
@@ -153,7 +153,7 @@
           </span>
         </v-list-item-title>
         <v-list-item-subtitle>{{ $t('Scopes') }}</v-list-item-subtitle>
-      </v-list-tile>
+      </v-list-item>
     </v-list>
 
     <v-card-actions>

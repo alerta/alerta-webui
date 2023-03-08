@@ -70,7 +70,7 @@
 
           <!-- removed avatar prop from v-list as it has been removed in Vuetify 2 -->
           <v-list>
-            <v-list-tile
+            <v-list-item
               v-for="item in groupUsers"
               :key="item.id"
               @click="removeUser(item.id)"
@@ -86,7 +86,7 @@
                   {{ item.status == 'active' ? 'remove_circle' : 'remove_circle_outline' }}
                 </v-icon>
               </v-list-item-action>
-            </v-list-tile>
+            </v-list-item>
           </v-list>
 
           <v-card-actions>
