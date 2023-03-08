@@ -1,5 +1,6 @@
 import UsersApi from '@/services/api/user.service'
 import i18n from '@/plugins/i18n'
+import stateMerge from 'vue-object-merge'
 
 const getDefaults = () => {
   return {
@@ -37,18 +38,15 @@ const state = getDefaults()
 
 const mutations = {
   SET_PREFS(state, prefs) {
-    //stateMerge(state, prefs)
-    state.prefs = prefs
+    stateMerge(state, prefs)
   },
   RESET_PREFS(state) {
     let q = state.queries
     Object.assign(state, getDefaults())
-    //stateMerge(state, {queries: q})
-    state.queries = q
+    stateMerge(state, {queries: q})
   },
   SET_QUERIES(state, queries) {
-    //stateMerge(state, {queries: queries || []})
-    state.queries = queries || []
+    stateMerge(state, {queries: queries || []})
   },
   RESET_QUERIES(state) {
     Object.assign(state, {queries: []})

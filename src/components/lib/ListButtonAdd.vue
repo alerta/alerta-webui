@@ -6,7 +6,7 @@
       v-has-perms="perms"
       color="accent"
       fixed
-      bottom
+      location="bottom"
       end
       @click="addToList"
       class="mb-5"

@@ -1,11 +1,11 @@
 <template>
   <div class="reports">
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Reports') }}
         <v-spacer />
         <v-col
-          xs1
+          xs="1"
         >
           <v-select
             v-model.number="rowsPerPage"
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import TopOffenders from '@/components/reports/TopOffenders.vue'
 import TopFlapping from '@/components/reports/TopFlapping.vue'
 import TopStanding from '@/components/reports/TopStanding.vue'
@@ -49,7 +50,7 @@ export default {
     TopOffenders,
     TopFlapping,
     TopStanding,
-    ReportFilter: () => import('@/components/reports/ReportFilter.vue')
+    ReportFilter: defineAsyncComponent(() => import('@/components/reports/ReportFilter.vue'))
   },
   data: () => ({
     sidesheet: false,

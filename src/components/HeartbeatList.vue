@@ -1,21 +1,23 @@
 <template>
   <v-card>
-    <v-card-title class="title">
+    <v-card-title class="text-h6">
       {{ $t('Heartbeats') }}
       <v-spacer />
       <v-btn-toggle
         v-model="status"
-        class="transparent"
+        class="bg-transparent"
         multiple
       >
         <v-btn
           value="ok"
           variant="flat"
         >
-          <v-tooltip bottom>
-            <v-icon slot="activator">
-              check_circle
-            </v-icon>
+          <v-tooltip location="bottom">
+            <template #activator="{props}">
+              <v-icon v-bind="props">
+                check_circle
+              </v-icon>
+            </template>
             <span>{{ $t('OK') }}</span>
           </v-tooltip>
         </v-btn>
@@ -23,10 +25,12 @@
           value="slow"
           variant="flat"
         >
-          <v-tooltip bottom>
-            <v-icon slot="activator">
-              access_time
-            </v-icon>
+          <v-tooltip location="bottom">
+            <template #activator="{props}">
+              <v-icon v-bind="props">
+                access_time
+              </v-icon>
+            </template>
             <span>{{ $t('Slow') }}</span>
           </v-tooltip>
         </v-btn>
@@ -34,10 +38,12 @@
           value="expired"
           variant="flat"
         >
-          <v-tooltip bottom>
-            <v-icon slot="activator">
-              timer_off
-            </v-icon>
+          <v-tooltip location="bottom">
+            <template #activator="{props}">
+              <v-icon v-bind="props">
+                timer_off
+              </v-icon>
+            </template>
             <span>{{ $t('Expired') }}</span>
           </v-tooltip>
         </v-btn>
@@ -56,17 +62,14 @@
       :header="computedHeaders"
       :item="heartbeats"
       :rows-per-page-items="rowsPerPageItems"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       class="px-2"
       :search="search"
       :loading="isLoading"
       must-sort
       sort-icon="arrow_drop_down"
     >
-      <template
-        slot="items"
-        slot-scope="props"
-      >
+      <template #items="props">
         <td>{{ props.item.origin }}</td>
         <td
           v-if="$config.customer_views"
@@ -104,7 +107,7 @@
           {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
         </td>
         <td
-          class="text-xs-center text-no-wrap"
+          class="text-center text-no-wrap"
         >
           {{ $filters.hhmmss(timeoutLeft(props.item)) }}
         </td>
@@ -124,15 +127,15 @@
             @click="deleteItem(props.item)"
           >
             <v-icon
-              small
-              color="grey darken-3"
+              size="small"
+              color="grey-darken-3"
             >
               delete
             </v-icon>
           </v-btn>
         </td>
       </template>
-      <template slot="no-data">
+      <template #no-data>
         <v-alert
           :value="true"
           color="error"
@@ -141,14 +144,15 @@
           {{ $t('NoDisplay') }}
         </v-alert>
       </template>
-      <v-alert
-        slot="no-results"
-        :value="true"
-        color="error"
-        icon="warning"
-      >
-        {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
-      </v-alert>
+      <template #no-results>
+        <v-alert
+          :value="true"
+          color="error"
+          icon="warning"
+        >
+          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
+        </v-alert>
+      </template>
     </v-data-table>
   </v-card>
 </template>

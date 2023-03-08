@@ -7,8 +7,7 @@
       hide-actions
     >
       <template
-        slot="items"
-        slot-scope="props"
+        #items="props"
       >
         <td>{{ props.item.title }}</td>
         <td>{{ $filters.capitalize(props.item.type) }}</td>
@@ -25,8 +24,7 @@
       hide-actions
     >
       <template
-        slot="items"
-        slot-scope="props"
+        #items="props"
       >
         <td>{{ $t('LastUpdate') }}</td>
         <td>

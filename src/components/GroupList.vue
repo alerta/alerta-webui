@@ -7,35 +7,35 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ $t('AddRemoveUsers') }}
             </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
+              <v-row wrap>
                 <v-col
-                  xs9
+                  xs="9"
                 >
                   <v-autocomplete
                     v-model="selected"
                     :disabled="isLoading"
                     :items="allUsers"
                     autofocus
-                    filled
+                    variant="filled"
                     chips
                     :label="$t('Addusers')"
                     item-title="name"
                     item-value="id"
-                    @change="addUser"
+                    @update:model-value="addUser"
                   >
                     <template #selection="data">
                       <v-chip
-                        :selected="data.selected"
-                        close
+                        :value="data.selected"
+                        closable
                         class="chip--select-multi"
-                        @input="removeUser(data.item)"
+                        @update:model-value="removeUser(data.item)"
                       >
                         <v-icon>person</v-icon>
                         {{ data.item.name }}
@@ -54,13 +54,13 @@
                     </template>
                   </v-autocomplete>
                 </v-col>
-              </v-layout>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-title primary-title>
             <div>
-              <div class="headline">
+              <div class="text-h5">
                 {{ groupName }}
               </div>
               <span>{{ $t('UsersInGroup') }}</span>
@@ -91,7 +91,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               @click="close"
             >
@@ -109,22 +109,22 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
+              <v-row wrap>
                 <v-col
-                  xs12
-                  sm6
-                  md12
+                  xs="12"
+                  sm="6"
+                  md="12"
                 >
                   <v-chip
                     v-show="editedItem.name"
-                    close
+                    closable
                     @click="editedItem.name = null"
                   >
                     <strong>{{ editedItem.name }}</strong>&nbsp;
@@ -138,28 +138,28 @@
                   required
                 />
                 <v-col
-                  xs12
+                  xs="12"
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Description')"
                   />
                 </v-col>
-              </v-layout>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               @click="validate"
             >
@@ -171,7 +171,7 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Groups') }}
         <v-spacer />
         <v-text-field
@@ -187,19 +187,16 @@
         :header="headers"
         :item="groups"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
+        <template #items="props">
           <td>{{ props.item.name }}</td>
-          <td class="text-xs-left">
+          <td class="text-left">
             {{ props.item.text }}
           </td>
           <td>
@@ -213,8 +210,8 @@
               @click="editItem(props.item)"
             >
               <v-icon
-                small
-                color="grey darken-3"
+                size="small"
+                color="grey-darken-3"
               >
                 edit
               </v-icon>
@@ -226,8 +223,8 @@
               @click="addRemoveUsers(props.item)"
             >
               <v-icon
-                small
-                color="grey darken-3"
+                size="small"
+                color="grey-darken-3"
               >
                 person_add
               </v-icon>
@@ -239,15 +236,15 @@
               @click="deleteItem(props.item)"
             >
               <v-icon
-                small
-                color="grey darken-3"
+                size="small"
+                color="grey-darken-3"
               >
                 delete
               </v-icon>
             </v-btn>
           </td>
         </template>
-        <template slot="no-data">
+        <template #no-data>
           <v-alert
             :value="true"
             color="error"
@@ -256,14 +253,15 @@
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
-          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
-        </v-alert>
+        <template #no-results>
+          <v-alert
+            :value="true"
+            color="error"
+            icon="warning"
+          >
+            {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
+          </v-alert>
+        </template>
       </v-data-table>
     </v-card>
 
@@ -383,7 +381,7 @@ export default {
         this.groupId = null
         this.groupName = ''
         this.$store.dispatch('groups/clearGroupUsers')
-      }, 300)
+      }, 100)
     },
     validate() {
       if (this.$refs.form.validate()) {
@@ -416,7 +414,7 @@ export default {
       setTimeout(() => {
         this.$refs.form.reset()
         this.selected = null
-      }, 300)
+      }, 100)
     },
     removeUser(userId) {
       this.$store.dispatch('groups/removeUserFromGroup', [this.groupId, userId])

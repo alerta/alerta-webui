@@ -1,11 +1,13 @@
 <template>
   <v-tooltip top>
-    <span
-      slot="activator"
-      class="text-no-wrap"
-    >
-      {{ $filters.date(value, displayMode, formatString) }}
-    </span>
+    <template #activator="{props}">
+      <span
+        v-bind="props"
+        class="text-no-wrap"
+      >
+        {{ $filters.date(value, displayMode, formatString) }}
+      </span>
+    </template>
     <span>{{ $filters.date(value, 'utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
   </v-tooltip>
 </template>

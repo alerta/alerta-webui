@@ -3,10 +3,10 @@
     <v-card>
       <v-card-title primary-title>
         <div>
-          <div class="headline">
+          <div class="text-h5">
             {{ $t('Top') }} {{ rowsPerPage }} {{ $t('Offenders') }}
           </div><br>
-          <span class="grey--text">{{ $t('TopOffendersDescription') }}</span>
+          <span class="text-grey">{{ $t('TopOffendersDescription') }}</span>
         </div>
         <v-spacer />
       </v-card-title>
@@ -17,14 +17,13 @@
         hide-actions
       >
         <template
-          slot="items"
-          slot-scope="props"
+          #items="props"
         >
           <td>{{ props.item.event }}</td>
-          <td class="text-xs-center">
+          <td class="text-center">
             {{ props.item.count }}
           </td>
-          <td class="text-xs-center">
+          <td class="text-center">
             {{ props.item.duplicateCount }}
           </td>
           <td>{{ props.item.environments.join(', ') }}</td>

@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential', 
+    'plugin:vuetify/base',
     '@vue/typescript'
   ],
   rules: {

@@ -1,3 +1,5 @@
+import stateMerge from 'vue-object-merge'
+
 const state = {
   endpoint: 'http://local.alerta.io:8080',
   alarm_model: {}, // includes severity, colors and status maps
@@ -56,7 +58,7 @@ const state = {
 
 const mutations = {
   SET_CONFIG(state, config) {
-    state.config = config
+    stateMerge(state,config)
   }
 }
 

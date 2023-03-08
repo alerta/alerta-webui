@@ -5,12 +5,12 @@
       class="pa-1"
       fluid
     >
-      <v-layout>
+      <v-row>
         <v-col>
           <v-btn
             v-show="!isWatched"
             variant="outlined"
-            color="grey darken-2"
+            color="grey-darken-2"
             @click="watchAlert"
           >
             <v-icon>visibility</v-icon>&nbsp;{{ $t('Watch') }}
@@ -19,7 +19,7 @@
           <v-btn
             v-show="isWatched"
             variant="outlined"
-            color="grey darken-2"
+            color="grey-darken-2"
             @click="unwatchAlert"
           >
             <v-icon>visibility_off</v-icon>&nbsp;{{ $t('Unwatch') }}
@@ -28,7 +28,7 @@
           <v-btn
             v-if="!showForm"
             variant="outlined"
-            color="grey darken-2"
+            color="grey-darken-2"
             @click="showForm = true"
           >
             <v-icon>note_add</v-icon>&nbsp;{{ $t('AddNote') }}
@@ -36,13 +36,13 @@
 
           <v-btn
             variant="outlined"
-            color="grey darken-2"
+            color="grey-darken-2"
             @click="deleteAlert"
           >
             <v-icon>delete_forever</v-icon>&nbsp;{{ $t('Delete') }}
           </v-btn>
         </v-col>
-      </v-layout>
+      </v-row>
     </v-container>
 
 
@@ -51,7 +51,7 @@
       class="pa-1"
       fluid
     >
-      <v-layout>
+      <v-row>
         <v-col>
           <v-form
             ref="form"
@@ -76,7 +76,7 @@
                 <v-btn
                   :disabled="!isAcked && !isClosed"
                   color="green"
-                  class="white--text"
+                  class="text-white"
                   @click="takeAction('open')"
                 >
                   <v-icon>refresh</v-icon>&nbsp;{{ $t('Open') }}
@@ -85,8 +85,8 @@
                 <v-btn
                   v-show="!isAcked"
                   :disabled="!isOpen"
-                  color="blue darken-2"
-                  class="white--text"
+                  color="blue-darken-2"
+                  class="text-white"
                   @click="ackAlert()"
                 >
                   <v-icon>check_circle_outline</v-icon>&nbsp;{{ $t('Ack') }}
@@ -94,8 +94,8 @@
 
                 <v-btn
                   v-show="isAcked"
-                  color="blue darken-2"
-                  class="white--text"
+                  color="blue-darken-2"
+                  class="text-white"
                   @click="takeAction('unack')"
                 >
                   <v-icon>check_circle_outline</v-icon>&nbsp;{{ $t('Unack') }}
@@ -105,7 +105,7 @@
                   v-show="!isShelved"
                   :disabled="!isOpen && !isAcked"
                   color="blue"
-                  class="white--text"
+                  class="text-white"
                   @click="shelveAlert()"
                 >
                   <v-icon>schedule</v-icon>&nbsp;{{ $t('Shelve') }}
@@ -114,7 +114,7 @@
                 <v-btn
                   v-show="isShelved"
                   color="blue"
-                  class="white--text"
+                  class="text-white"
                   @click="takeAction('unshelve')"
                 >
                   <v-icon>schedule</v-icon>&nbsp;{{ $t('Unshelve') }}
@@ -123,7 +123,7 @@
                 <v-btn
                   :disabled="isClosed"
                   color="orange"
-                  class="white--text"
+                  class="text-white"
                   @click="takeAction('close')"
                 >
                   <v-icon>highlight_off</v-icon>&nbsp;{{ $t('Close') }}
@@ -144,7 +144,7 @@
                   @click="close"
                 >
                   <v-icon
-                    color="grey darken-1"
+                    color="grey-darken-1"
                   >
                     delete
                   </v-icon>
@@ -153,7 +153,7 @@
             </v-card>
           </v-form>
         </v-col>
-      </v-layout>
+      </v-row>
     </v-container>
   </div>
 </template>

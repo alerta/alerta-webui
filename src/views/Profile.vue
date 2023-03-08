@@ -8,12 +8,12 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               Profile
             </span>
           </v-card-title>
 
-          <v-layout
+          <v-row
             row
             wrap
           >
@@ -21,11 +21,11 @@
               align-center
               justify-center
               layout
-              text-xs-center
+              text-center
             >
               <v-avatar
                 size="128"
-                color="grey lighten-4"
+                color="grey-lighten-4"
               >
                 <img
                   v-if="avatar && !error"
@@ -35,14 +35,14 @@
                 <v-icon
                   v-else
                   size="148"
-                  color="grey lighten-2"
+                  color="grey-lighten-2"
                 >
                   account_circle
                 </v-icon>
               </v-avatar>
             </v-col>
-          </v-layout>
-          <v-layout
+          </v-row>
+          <v-row
             row
             spacer
           >
@@ -54,8 +54,8 @@
             >
               <b>{{ profile.name }}</b>
             </v-col>
-          </v-layout>
-          <v-layout
+          </v-row>
+          <v-row
             row
             spacer
           >
@@ -70,13 +70,14 @@
               >@</span>
               {{ profile.preferred_username }}
             </v-col>
-          </v-layout>
+          </v-row>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
+              <v-row wrap>
                 <v-col
-                  xs12
+                  xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model="profile.name"
@@ -85,7 +86,8 @@
                   />
                 </v-col>
                 <v-col
-                  xs9
+                  xs="9"
+                  sm="6"
                 >
                   <v-text-field
                     v-model="profile.preferred_username"
@@ -96,7 +98,8 @@
 
                 <v-col
                   v-if="provider[profile.provider]"
-                  xs3
+                  xs="3"
+                  sm="3"
                 >
                   <v-text-field
                     v-model="provider[profile.provider].text"
@@ -106,7 +109,8 @@
                 </v-col>
 
                 <v-col
-                  xs12
+                  xs="12"
+                  sm="9"
                 >
                   <v-text-field
                     v-model="profile.sub"
@@ -116,7 +120,8 @@
                 </v-col>
 
                 <v-col
-                  xs12
+                  xs="12"
+                  sm="12"
                 >
                   <v-text-field
                     v-if="profile.oid"
@@ -127,7 +132,8 @@
                 </v-col>
 
                 <v-col
-                  xs12
+                  xs="12"
+                  sm="12"
                 >
                   <v-text-field
                     v-model="profile.email"
@@ -135,17 +141,22 @@
                     readonly
                     prepend-icon="email"
                   >
-                    <template v-if="profile.email_verified">
+                    <template 
+                      v-if="profile.email_verified" 
+                      #append
+                    >
                       <v-icon
-                        slot="append"
                         color="success"
                       >
                         check
                       </v-icon>
                     </template>
-                    <template v-else>
+                    <template 
+                      v-else
+                      #append
+                    >
                       <v-icon
-                        slot="append"
+                        
                         color="error"
                       >
                         clear
@@ -156,7 +167,7 @@
 
                 <v-col
                   v-if="$config.customer_views"
-                  xs12
+                  xs="12"
                 >
                   <v-combobox
                     v-model="customers"
@@ -174,7 +185,7 @@
                   </v-combobox>
                 </v-col>
                 <v-col
-                  xs12
+                  xs="12"
                 >
                   <v-combobox
                     v-model="profile.orgs"
@@ -192,7 +203,7 @@
                   </v-combobox>
                 </v-col>
                 <v-col
-                  xs12
+                  xs="12"
                 >
                   <v-combobox
                     v-model="profile.groups"
@@ -210,7 +221,7 @@
                   </v-combobox>
                 </v-col>
                 <v-col
-                  xs12
+                  xs="12"
                 >
                   <v-combobox
                     v-model="profile.roles"
@@ -228,7 +239,7 @@
                   </v-combobox>
                 </v-col>
                 <v-col
-                  xs12
+                  xs="12"
                 >
                   <v-combobox
                     v-model="scopes"
@@ -245,21 +256,21 @@
                     </template>
                   </v-combobox>
                 </v-col>
-              </v-layout>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               disabled
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               disabled
             >

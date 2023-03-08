@@ -3,19 +3,19 @@
     grid-list-sm
     fill-height
   >
-    <v-layout
+    <v-row
       align-center
       row
       wrap
     >
       <v-col
         v-if="isBasicAuth"
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           {{ $t('LoginToContinue') }}
         </p>
         <v-form @submit.prevent="login()">
@@ -44,7 +44,7 @@
             {{ $t('LogIn') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
+        <div class="text-center">
           <v-btn
             variant="flat"
             color="primary"
@@ -65,26 +65,26 @@
 
       <v-col
         v-else-if="$config.provider == 'saml2'"
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       >
         <div>
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-center text-h5 font-weight-medium">
             SAML2 Authentication uses pop-up windows.
           </p>
-          <p class="text-xs-center subheading font-weight-medium">
+          <p class="text-center subheading font-weight-medium">
             Please allow pop-ups from <kbd>{{ host }}</kbd>
           </p>
         </div>
         <div v-show="message && !error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-center text-h5 font-weight-medium">
             {{ message }}
           </p>
         </div>
         <div v-show="error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-center text-h5 font-weight-medium">
             {{ $t('UnspecifiedProblem') }}
             <a
               href="#"
@@ -93,7 +93,7 @@
               {{ $t('TryAgain') }}
             </a>
           </p>
-          <p class="text-xs-center subheading font-weight-medium">
+          <p class="text-center subheading font-weight-medium">
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>
@@ -101,18 +101,18 @@
 
       <v-col
         v-else
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       >
         <div v-show="message && !error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-center text-h5 font-weight-medium">
             {{ message }}
           </p>
         </div>
         <div v-show="error">
-          <p class="text-xs-center headline font-weight-medium">
+          <p class="text-center text-h5 font-weight-medium">
             {{ $t('UnspecifiedProblem') }}
             <a
               href="#"
@@ -121,19 +121,19 @@
               {{ $t('TryAgain') }}
             </a>
           </p>
-          <p class="text-xs-center subheading font-weight-medium">
+          <p class="text-center subheading font-weight-medium">
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>
       </v-col>
 
       <v-col
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       />
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 

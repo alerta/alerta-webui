@@ -7,7 +7,7 @@
     v-theme-provider might need to be wrapped around specific elements rather than the whole app
     TODO: pass isDark to this so it can be used properly or find another way to toggle themes-->
     <v-theme-provider
-      theme="light"
+      :theme="isDark ? 'dark' : 'light'"
       with-background
     >
       <div v-if="!isKiosk">
@@ -21,7 +21,7 @@
         >
           <v-toolbar
             :color="isDark ? '#616161' : '#eeeeee'"
-            flat
+            variant="flat"
           >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
@@ -139,7 +139,7 @@
             :flat="!hasFocus"
             :label="$t('Search')"
             prepend-inner-icon="search"
-            solo
+            variant="solo"
             clearable
             height="44"
             class="pt-2 mr-3 hidden-sm-and-down"
@@ -152,7 +152,7 @@
               <v-tooltip
                 location="bottom"
               >
-                <template #activator="{ props }">
+                <template #activator="{props}">
                   <v-icon
                     v-bind="props"
                     @click="saveSearch"
@@ -172,13 +172,15 @@
             <v-tooltip
               location="bottom"
             >
-              <v-switch
-                slot="activator"
-                :model-value="isWatch"
-                hide-details
-                open-delay="3000"
-                @change="toggle('isWatch', $event)"
-              />
+              <template #activator="{props}">
+                <v-switch
+                  v-bind="props"
+                  :v-model="isWatch"
+                  hide-details
+                  open-delay="3000"
+                  @update:model-value="toggle('isWatch', $event)"
+                />
+              </template>
               <span>{{ $t('Watch') }}</span>
             </v-tooltip>
           </div>
@@ -188,29 +190,33 @@
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-              slot="activator"
-              icon
-              @click="toggleFullScreen"
-            >
-              <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+                v-bind="props"
+                icon
+                @click="toggleFullScreen"
+              >
+                <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('FullScreen') }}</span>
           </v-tooltip>
 
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-              slot="activator"
-              icon
-            >
-              <v-icon @click="refresh">
-                refresh
-              </v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+                v-bind="props"
+                icon
+              >
+                <v-icon @click="refresh">
+                  refresh
+                </v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('Refresh') }}</span>
           </v-tooltip>
           <div>
@@ -218,13 +224,11 @@
               v-if="isLoggedIn"
               v-model="menu"
               :close-on-content-click="false"
-              :nudge-width="200"
-              offset-x
+              offset="20"
             >
-              <template #activator="{ props }">
+              <template #activator="{props}">
                 <v-btn
                   v-bind="props"
-                  slot="activator"
                   icon
                 >
                   <v-avatar
@@ -243,7 +247,6 @@
                   </v-avatar>
                 </v-btn>
               </template>
-
               <profile-me
                 v-if="profile"
                 :profile="profile"
@@ -255,7 +258,7 @@
           <span class="hidden-xs-only">
             <v-btn
               v-show="!isLoggedIn && isSignupEnabled"
-              round
+              rounded
               variant="outlined"
               color="primary"
               to="/signup"
@@ -264,7 +267,7 @@
             </v-btn>
             <v-btn
               v-show="!isLoggedIn"
-              round
+              rounded
               color="primary"
               to="/login"
             >
@@ -300,84 +303,93 @@
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              slot="activator"
-              icon
-              class="btn--plain"
-              @click="toggleWatch()"
-            >
-              <v-icon>
-                visibility
-              </v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-bind="props"
+                icon
+                class="btn--plain"
+                @click="toggleWatch()"
+              >
+                <v-icon>
+                  visibility
+                </v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('Watch') }}</span>
           </v-tooltip>
 
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              slot="activator"
-              icon
-              class="btn--plain"
-              @click="bulkAckAlert()"
-            >
-              <v-icon>
-                check
-              </v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-bind="props"
+                icon
+                class="btn--plain"
+                @click="bulkAckAlert()"
+              >
+                <v-icon>
+                  check
+                </v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('Ack') }}</span>
           </v-tooltip>
 
           <v-tooltip bottom>
-            <v-btn
-              slot="activator"
-              icon
-              class="btn--plain"
-              @click="bulkShelveAlert()"
-            >
-              <v-icon>
-                schedule
-              </v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-bind="props"
+                icon
+                class="btn--plain"
+                @click="bulkShelveAlert()"
+              >
+                <v-icon>
+                  schedule
+                </v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('Shelve') }}</span>
           </v-tooltip>
 
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              slot="activator"
-              icon
-              class="btn--plain"
-              @click="takeBulkAction('close')"
-            >
-              <v-icon>
-                highlight_off
-              </v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-bind="props"
+                icon
+                class="btn--plain"
+                @click="takeBulkAction('close')"
+              >
+                <v-icon>
+                  highlight_off
+                </v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('Close') }}</span>
           </v-tooltip>
 
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              slot="activator"
-              icon
-              class="btn--plain"
-              @click="bulkDeleteAlert()"
-            >
-              <v-icon>
-                delete
-              </v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-bind="props"
+                icon
+                class="btn--plain"
+                @click="bulkDeleteAlert()"
+              >
+                <v-icon>
+                  delete
+                </v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('Delete') }}</span>
           </v-tooltip>
 
           <v-menu
-            location="bottom"
-            start
+            location="left bottom"
           >
             <v-btn
               slot="activator"
@@ -413,29 +425,33 @@
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-              slot="activator"
-              icon
-              @click="toggleFullScreen"
-            >
-              <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+                v-bind="props"
+                icon
+                @click="toggleFullScreen"
+              >
+                <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('FullScreen') }}</span>
           </v-tooltip>
 
           <v-tooltip
             location="bottom"
           >
-            <v-btn
-              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-              slot="activator"
-              icon
-            >
-              <v-icon @click="refresh">
-                refresh
-              </v-icon>
-            </v-btn>
+            <template #activator="{props}">
+              <v-btn
+                v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+                v-bind="props"
+                icon
+              >
+                <v-icon @click="refresh">
+                  refresh
+                </v-icon>
+              </v-btn>
+            </template>
             <span>{{ $t('Refresh') }}</span>
           </v-tooltip>
 
@@ -444,12 +460,11 @@
             v-model="menu"
             :close-on-content-click="false"
             :nudge-width="200"
-            offset-x
+            offset
           >
-            <template #activator="{ props }">
+            <template #activator="{props}">
               <v-btn
                 v-bind="props"
-                slot="activator"
                 icon
               >
                 <v-avatar
@@ -478,7 +493,7 @@
           <span class="hidden-xs-only">
             <v-btn
               v-show="!isLoggedIn && isSignupEnabled"
-              round
+              rounded
               outlined
               color="primary"
               disabled
@@ -487,7 +502,7 @@
             </v-btn>
             <v-btn
               v-show="!isLoggedIn"
-              round
+              rounded
               color="primary"
               disabled
             >
@@ -499,6 +514,8 @@
 
       <v-main>
         <banner />
+        <!--This may need to be changed
+        https://router.vuejs.org/guide/migration/#router-view-keep-alive-and-transition-->
         <router-view />
         <snackbar />
       </v-main>
@@ -508,7 +525,7 @@
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
             block
-            round
+            rounded
             variant="outlined"
             color="primary"
             to="/signup"
@@ -519,7 +536,7 @@
           <v-btn
             v-show="!isLoggedIn"
             block
-            round
+            rounded
             color="primary"
             to="/login"
             :disabled="selected.length > 0"

@@ -8,7 +8,7 @@
       :style="{ 'background-color': severityColor(maxSeverity) }"
     >
       <div
-        class="text-uppercase text-xs-center py-2"
+        class="text-uppercase text-center py-2"
       >
         {{ title }}
       </div>
@@ -18,12 +18,12 @@
       class="pa-0 mx-0"
       :style="{ 'background-color': isDark ? '' : '#F5F5F5' }"
     >
-      <v-layout>
+      <v-row>
         <v-col>
           <div
             class="counts-container"
           >
-            <v-layout
+            <v-row
               v-if="counts"
               align-start
               justify-space-between
@@ -31,15 +31,15 @@
               <div
                 v-for="severity in $config.indicators.severity"
                 :key="severity"
-                class="count text-xs-center py-2"
+                class="count text-center py-2"
                 :style="{ 'background-color': severityColor(severity) }"
               >
                 {{ counts[severity] || 0 }}
               </div>
-            </v-layout>
+            </v-row>
           </div>
         </v-col>
-      </v-layout>
+      </v-row>
     </v-card-actions>
   </v-card>
 </template>

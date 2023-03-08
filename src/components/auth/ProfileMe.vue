@@ -16,31 +16,37 @@
         <v-list-item-action>
           <v-tooltip
             v-if="profile.provider && profile.provider != 'basic'"
-            top
+            location="top"
           >
-            <v-icon slot="activator">
-              {{
-                provider[profile.provider].icon
-              }}
-            </v-icon>
+            <template #activator="{props}">
+              <v-icon v-bind="props">
+                {{
+                  provider[profile.provider].icon
+                }}
+              </v-icon>
+            </template>
             <span>{{ provider[profile.provider].text }}</span>
           </v-tooltip>
           <v-tooltip
             v-else-if="profile.email_verified"
-            top
+            location="top"
           >
-            <v-icon slot="activator">
-              verified_user
-            </v-icon>
+            <template #activator="{props}">
+              <v-icon v-bind="props">
+                verified_user
+              </v-icon>
+            </template>
             <span>({{ $t('EmailVerified') }})</span>
           </v-tooltip>
           <v-tooltip
             v-else
-            top
+            location="top"
           >
-            <v-icon slot="activator">
-              fas fa-user-times
-            </v-icon>
+            <template #activator="{props}">
+              <v-icon v-bind="props">
+                fas fa-user-times
+              </v-icon>
+            </template>
             <span>{{ $t('EmailNotVerified') }}</span>
           </v-tooltip>
         </v-list-item-action>
@@ -60,14 +66,14 @@
           >
             <v-chip
               v-if="index < 3"
-              outline
+              variant="outlined"
               small
             >
               <span>{{ customer }}</span>
             </v-chip>
             <span
               v-if="index === 3"
-              class="grey--text caption"
+              class="text-grey text-caption"
             >(+{{ customers.length - 1 }} {{ $t('others') }})</span>
           </span>
         </v-list-item-title>
@@ -88,7 +94,7 @@
             </v-chip>
             <span
               v-if="index === 3"
-              class="grey--text caption"
+              class="text-grey text-caption"
             >(+{{ profile.orgs.length - 1 }} {{ $t('others') }})</span>
           </span>
         </v-list-item-title>
@@ -108,7 +114,7 @@
             </v-chip>
             <span
               v-if="index === 3"
-              class="grey--text caption"
+              class="text-grey text-caption"
             >(+{{ profile.groups.length - 1 }} {{ $t('others') }})</span>
           </span>
         </v-list-item-title>
@@ -128,7 +134,7 @@
             </v-chip>
             <span
               v-if="index === 3"
-              class="grey--text caption"
+              class="text-grey text-caption"
             >(+{{ profile.roles.length - 1 }} {{ $t('others') }})</span>
           </span>
         </v-list-item-title>
@@ -148,7 +154,7 @@
             </v-chip>
             <span
               v-if="index === 3"
-              class="grey--text caption"
+              class="text-grey text-caption"
             >(+{{ scopes.length - 1 }} {{ $t('others') }})</span>
           </span>
         </v-list-item-title>

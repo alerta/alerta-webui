@@ -7,22 +7,22 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
+              <v-row wrap>
                 <v-col
-                  xs12
-                  sm6
-                  md12
+                  xs="12"
+                  sm="6"
+                  md="12"
                 >
                   <v-chip
                     v-show="editedItem.match"
-                    close
+                    closable
                     @click="editedItem.match = null"
                   >
                     <strong>{{ editedItem.match }}</strong>&nbsp;
@@ -36,9 +36,9 @@
                   required
                 />
                 <v-col
-                  xs12
-                  sm6
-                  md12
+                  xs="12"
+                  sm="6"
+                  md="12"
                 >
                   <v-autocomplete
                     v-model="editedItem.scopes"
@@ -46,16 +46,15 @@
                     :label="$t('Scopes')"
                     chips
                     clearable
-                    solo
+                    variant="solo"
                     multiple
                   >
                     <template
-                      slot="selection"
-                      slot-scope="data"
+                      #selection="data"
                     >
                       <v-chip
-                        :selected="data.selected"
-                        close
+                        :value="data.selected"
+                        closable
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
                         <span>({{ $t('scope') }})</span>
@@ -63,21 +62,21 @@
                     </template>
                   </v-autocomplete>
                 </v-col>
-              </v-layout>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               @click="validate"
             >
@@ -89,11 +88,11 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
+      <v-card-title class="text-h6">
         {{ $t('Permissions') }}
         <v-spacer />
         <v-col
-          xs3
+          xs="3"
           class="mr-3 pt-3"
         >
           <v-autocomplete
@@ -104,12 +103,11 @@
             multiple
           >
             <template
-              slot="selection"
-              slot-scope="data"
+              #selection="data"
             >
               <v-chip
-                :selected="data.selected"
-                close
+                :value="data.selected"
+                closable
               >
                 <strong>{{ data.item }}</strong>&nbsp;
                 <span>({{ $t('scope') }})</span>
@@ -117,7 +115,7 @@
             </template>
           </v-autocomplete>
         </v-col>
-        <v-col xs6>
+        <v-col xs="6">
           <v-text-field
             v-model="search"
             append-icon="search"
@@ -132,7 +130,7 @@
         :header="headers"
         :item="perms"
         :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         class="px-2"
         :search="search"
         :custom-filter="customFilter"
@@ -140,23 +138,22 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
+        <template #items="props">
           <td>
             <v-chip small>
               <strong>{{ props.item.match }}</strong>&nbsp;
               <span>({{ $t('role') }})</span>
             </v-chip>
-            <v-tooltip top>
-              <v-icon
-                v-if="systemRoles.includes(props.item.match)"
-                slot="activator"
-                small
-              >
-                lock
-              </v-icon>
+            <v-tooltip location="top">
+              <template #activator="{props}">
+                <v-icon
+                  v-if="systemRoles.includes(props.item.match)"
+                  v-bind="props"
+                  size="small"
+                >
+                  lock
+                </v-icon>
+              </template>
               <span>{{ $t('SystemRole') }}</span>
             </v-tooltip>
           </td>
@@ -179,8 +176,8 @@
               @click="editItem(props.item)"
             >
               <v-icon
-                small
-                color="grey darken-3"
+                size="small"
+                color="grey-darken-3"
               >
                 edit
               </v-icon>
@@ -193,15 +190,15 @@
               @click="deleteItem(props.item)"
             >
               <v-icon
-                small
-                color="grey darken-3"
+                size="small"
+                color="grey-darken-3"
               >
                 delete
               </v-icon>
             </v-btn>
           </td>
         </template>
-        <template slot="no-data">
+        <template #no-data>
           <v-alert
             :value="true"
             color="error"
@@ -210,14 +207,15 @@
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
-          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
-        </v-alert>
+        <template #no-results>
+          <v-alert
+            :value="true"
+            color="error"
+            icon="warning"
+          >
+            {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
+          </v-alert>
+        </template>
       </v-data-table>
     </v-card>
 
@@ -335,11 +333,12 @@ export default {
     },
     close() {
       this.dialog = false
+      /*eslint-disable*/
       setTimeout(() => {
         this.$refs.form.reset()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedId = null
-      }, 300)
+      }, 100)
     },
     validate() {
       if (this.$refs.form.validate()) {

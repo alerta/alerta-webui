@@ -6,7 +6,7 @@
       :header="customHeaders"
       :item="alerts"
       item-key="id"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       :total-items="pagination.totalItems"
       :rows-per-page-items="pagination.rowsPerPageItems"
       :loading="isSearching"
@@ -17,8 +17,7 @@
       show-select
     >
       <template
-        slot="items"
-        slot-scope="props"
+        #items="props"
       >
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
@@ -123,11 +122,11 @@
                   v-if="lastNote(props.item)"
                   class="pl-2"
                 >
-                  <v-tooltip bottom>
+                  <v-tooltip location="bottom">
                     <template #activator="{ on, attrs }">
                       <v-icon
                         v-bind="attrs"
-                        small
+                        size="small"
                         v-on="on"
                       >text_snippet</v-icon>
                     </template>
@@ -210,7 +209,7 @@
             </span>
             <span
               v-if="col == 'timeoutLeft'"
-              class="text-xs-right"
+              class="text-right"
             >
               {{ $filters.hhmmss(timeoutLeft(props.item)) }}
             </span>
@@ -256,7 +255,7 @@
             </span>
             <span
               v-if="col == 'duration'"
-              class="text-xs-right"
+              class="text-right"
             >
               {{ $filters.hhmmss(duration(props.item)) }}
             </span>
@@ -292,7 +291,7 @@
                 v-if="isAcked(props.item.status) || isClosed(props.item.status)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'open')"
               >
@@ -307,7 +306,7 @@
                 v-if="!isWatched(props.item.tags)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="watchAlert(props.item.id)"
               >
@@ -321,7 +320,7 @@
                 v-if="isWatched(props.item.tags)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="unwatchAlert(props.item.id)"
               >
@@ -336,7 +335,7 @@
                 v-if="isOpen(props.item.status)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="ackAlert(props.item.id)"
               >
@@ -350,7 +349,7 @@
                 v-if="isAcked(props.item.status)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unack')"
               >
@@ -365,7 +364,7 @@
                 v-if="isOpen(props.item.status) || isAcked(props.item.status)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="shelveAlert(props.item.id)"
               >
@@ -379,7 +378,7 @@
                 v-if="isShelved(props.item.status)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'unshelve')"
               >
@@ -394,7 +393,7 @@
                 v-if="!isClosed(props.item.status)"
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="takeAction(props.item.id, 'close')"
               >
@@ -407,7 +406,7 @@
               <v-btn
                 variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
                 @click.stop="deleteAlert(props.item.id)"
               >
@@ -432,20 +431,22 @@
               </v-btn> -->
 
               <v-menu
-                bottom
+                location="bottom"
                 start
               >
-                <v-btn
-                  slot="activator"
-                  variant="flat"
-                  icon
-                  small
-                  class="btn--plain pa-0 ma-0"
-                >
-                  <v-icon small>
-                    more_vert
-                  </v-icon>
-                </v-btn>
+                <template #activator="{props}">
+                  <v-btn
+                    v-bind="props"
+                    variant="flat"
+                    icon
+                    size="small"
+                    class="btn--plain pa-0 ma-0"
+                  >
+                    <v-icon size="small">
+                      more_vert
+                    </v-icon>
+                  </v-btn>
+                </template>
 
                 <v-list
                   subheader
@@ -465,8 +466,8 @@
           </td>
         </tr>
       </template>
-      <template slot="no-data">
-        <div class="text-xs-center">
+      <template #no-data>
+        <div class="text-center">
           <span v-if="isLoading">{{ $t('Loading') }}...</span>
           <span v-if="!isLoading">{{ $t('NoDataAvailable') }}</span>
         </div>

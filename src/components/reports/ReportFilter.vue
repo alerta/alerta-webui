@@ -1,14 +1,14 @@
 <template>
   <v-navigation-drawer
-    :value="sidesheet"
+    :model-value="sidesheet"
     clipped
     disable-resize-watcher
-    position="absolute"
-    hide-overlay
+    absolute
+    :scrim="false"
     width="300"
-    end
+    location="end"
   >
-    <v-card tile>
+    <v-card rounded="0">
       <v-toolbar
         :color="isDark ? '#616161' : '#eeeeee'"
         card
@@ -20,17 +20,19 @@
         <v-spacer />
         <v-toolbar-items />
         <v-menu
-          bottom
+          location="bottom"
           end
-          offset-y
+          offset
         >
-          <v-btn
-            slot="activator"
-            icon
-            @click="close"
-          >
-            <v-icon>close</v-icon>
-          </v-btn>
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
+              @click="close"
+            >
+              <v-icon>close</v-icon>
+            </v-btn>
+          </template>
         </v-menu>
       </v-toolbar>
 
@@ -38,12 +40,12 @@
         fluid
         grid-list-xl
       >
-        <v-layout
+        <v-row
           align-center
           wrap
         >
           <v-col
-            xs12
+            xs="12"
             class="pb-0"
           >
             <v-text-field
@@ -59,7 +61,7 @@
           </v-col>
 
           <v-col
-            xs12
+            xs="12"
             class="pb-0"
           >
             <v-autocomplete
@@ -77,7 +79,7 @@
           </v-col>
 
           <v-col
-            xs12
+            xs="12"
             class="pb-0"
           >
             <v-select
@@ -95,7 +97,7 @@
           </v-col>
 
           <v-col
-            xs12
+            xs="12"
             class="pb-0"
           >
             <v-select
@@ -114,7 +116,7 @@
 
           <v-col
             v-if="$config.customer_views"
-            xs12
+            xs="12"
             class="pb-0"
           >
             <v-select
@@ -132,7 +134,7 @@
           </v-col>
 
           <v-col
-            xs12
+            xs="12"
             class="pb-0"
           >
             <v-autocomplete
@@ -150,7 +152,7 @@
           </v-col>
 
           <v-col
-            xs12
+            xs="12"
             class="pb-0"
           >
             <v-select
@@ -168,17 +170,16 @@
           </v-col>
 
           <v-col
-            xs12
+            xs="12"
             class="pb-0"
           >
-            <span class="body-2">{{ $t('DateTime') }}</span>
+            <span class="text-body-2">{{ $t('DateTime') }}</span>
             <v-select
               v-model="filterDateRange"
               :items="dateRanges"
               name="dateRange"
               :label="$t('DateTime')"
-              solo
-              flat
+              variant="flat solo"
               prepend-inner-icon="schedule"
               item-value="range"
               hide-details
@@ -187,7 +188,7 @@
 
           <v-col
             v-show="showDateRange"
-            xs8
+            xs="8"
             class="pb-0 pr-0"
           >
             <v-text-field
@@ -202,7 +203,7 @@
 
           <v-col
             v-show="showDateRange"
-            xs4
+            xs="4"
             class="pb-0 pl-1"
           >
             <v-text-field
@@ -220,15 +221,16 @@
               ref="menu1"
               v-model="menu1"
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               lazy
               transition="scale-transition"
-              offset-y
               full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
+              <template #activator="{props}">
+                <div v-bind="props" />
+              </template>
               <v-date-picker
                 v-model="period.startDate"
                 no-title
@@ -238,7 +240,7 @@
           </v-col>
           <v-col
             v-show="showDateRange"
-            xs8
+            xs="8"
             class="pb-0 pr-0"
           >
             <v-text-field
@@ -253,7 +255,7 @@
 
           <v-col
             v-show="showDateRange"
-            xs4
+            xs="4"
             class="pb-0 pl-1"
           >
             <v-text-field
@@ -270,15 +272,16 @@
               ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               lazy
               transition="scale-transition"
-              offset-y
               full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
+              <template #activator="{props}">
+                <div v-bind="props" />
+              </template>
               <v-date-picker
                 v-model="period.endDate"
                 no-title
@@ -286,12 +289,12 @@
               />
             </v-menu>
           </v-col>
-        </v-layout>
+        </v-row>
       </v-container>
     </v-card>
     <v-card flat>
       <v-col
-        xs12
+        xs="12"
       >
         <v-card-actions>
           <v-btn
@@ -303,7 +306,7 @@
           </v-btn>
           <v-spacer />
           <v-btn
-            color="blue darken-1"
+            color="blue-darken-1"
             variant="flat"
             @click="reset"
           >

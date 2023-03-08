@@ -3,19 +3,19 @@
     grid-list-sm
     fill-height
   >
-    <v-layout
+    <v-row
       v-show="!sent"
       align-center
       row
       wrap
     >
       <v-col
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           <span>{{ $t('ResetLink') }}</span>
         </p>
         <v-form @submit.prevent="forgot()">
@@ -37,8 +37,8 @@
             {{ $t('Send') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
-          <span class="body-2">
+        <div class="text-center">
+          <span class="text-body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
@@ -51,26 +51,26 @@
         </div>
       </v-col>
       <v-col
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       />
-    </v-layout>
+    </v-row>
 
-    <v-layout
+    <v-row
       v-show="sent"
       align-center
       row
       wrap
     >
       <v-col
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           <span>{{ $t('CheckEmail') }}</span>
         </p>
         <v-form>
@@ -91,8 +91,8 @@
             {{ $t('ReturnSignIn') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
-          <span class="body-2">
+        <div class="text-center">
+          <span class="text-body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
@@ -105,12 +105,12 @@
         </div>
       </v-col>
       <v-col
-        xs12
-        sm8
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       />
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 

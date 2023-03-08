@@ -12,7 +12,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title class="justify-center">
-            <span class="title">
+            <span class="text-h6">
               {{ $t('ChooseDisplayDensity') }}
             </span>
           </v-card-title>
@@ -35,7 +35,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
+              color="blue-darken-1"
               variant="flat"
               @click="ok"
             >
@@ -51,20 +51,20 @@
         v-if="showPanel"
         class="px-1"
       >
-        <v-layout wrap>
+        <v-row wrap>
           <v-col
             v-for="(indicator, index) in indicators"
             :key="index"
-            xs12
-            sm6
-            md3
+            xs="12"
+            sm="6"
+            md="3"
           >
             <alert-indicator
               :title="indicator.text"
               :query="indicator.query"
             />
           </v-col>
-        </v-layout>
+        </v-row>
         <v-divider />
       </div>
     </v-expand-transition>
@@ -93,13 +93,11 @@
       </v-btn>
 
       <v-menu
-        bottom
-        start
+        location="left bottom"
       >
-        <template #activator="{ props }">
+        <template #activator="{props}">
           <v-btn
             v-bind="props"
-            slot="activator"
             variant="flat"
             icon
           >
@@ -162,6 +160,7 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import AlertList from '@/components/AlertList.vue'
 
 import moment from 'moment'
@@ -172,8 +171,8 @@ import i18n from '@/plugins/i18n'
 export default {
   components: {
     AlertList,
-    AlertIndicator: () => import('@/components/AlertIndicator.vue'),
-    AlertListFilter: () => import('@/components/AlertListFilter.vue')
+    AlertIndicator: defineAsyncComponent(() => import('@/components/AlertIndicator.vue')) ,
+    AlertListFilter: defineAsyncComponent(() => import('@/components/AlertListFilter.vue'))
   },
   props: {
     query: {
@@ -344,7 +343,7 @@ export default {
     this.cancelTimer()
     this.refreshAlerts()
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.cancelTimer()
   },
   methods: {
