@@ -1022,12 +1022,12 @@ export default {
     close() {
       this.$emit('close')
     },
-    clipboardCopy(obj) {
+    clipboardCopy(item) {
       this.copyIconText = i18n.t('Copied')
 
-      let renderedText = this.$config.clipboard_template && nunjucks.renderString(this.$config.clipboard_template, obj)
+      let renderedText = this.$config.clipboard_template && nunjucks.renderString(this.$config.clipboard_template, item)
 
-      let text = JSON.stringify(obj, null, 4)
+      let text = JSON.stringify(item, null, 4)
       let textarea = document.createElement('textarea')
 
       textarea.textContent = renderedText || text
