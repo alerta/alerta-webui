@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-data-table
-      :headers="headers"
-      :items="metrics"
+      :header="headers"
+      :item="metrics"
       class="px-2"
       hide-actions
     >
@@ -19,8 +19,8 @@
     </v-data-table>
 
     <v-data-table
-      :headers="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
-      :items="uptime"
+      :header="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
+      :item="uptime"
       class="px-2"
       hide-actions
     >

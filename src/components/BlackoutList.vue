@@ -277,8 +277,8 @@
       </v-card-title>
 
       <v-data-table
-        :headers="computedHeaders"
-        :items="blackouts"
+        :header="computedHeaders"
+        :item="blackouts"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
         class="px-2"

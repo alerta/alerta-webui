@@ -53,8 +53,8 @@
     </v-card-title>
 
     <v-data-table
-      :headers="computedHeaders"
-      :items="heartbeats"
+      :header="computedHeaders"
+      :item="heartbeats"
       :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
       class="px-2"

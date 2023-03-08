@@ -267,7 +267,6 @@
                   <i>{{ note.text }}</i>
                 </v-alert>
 
-                <!-- DEPRECATED -->
                 <v-alert
                   v-for="note in historyNotes"
                   :key="note.index"
@@ -755,8 +754,8 @@
             >
               <div class="tab-item-wrapper">
                 <v-data-table
-                  :headers="headersByScreenSize"
-                  :items="history"
+                  :header="headersByScreenSize"
+                  :item="history"
                   item-key="index"
                   :pagination.sync="pagination"
                   sort-icon="arrow_drop_down"

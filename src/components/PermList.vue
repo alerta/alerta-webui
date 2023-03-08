@@ -129,8 +129,8 @@
       </v-card-title>
 
       <v-data-table
-        :headers="headers"
-        :items="perms"
+        :header="headers"
+        :item="perms"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
         class="px-2"

@@ -194,8 +194,8 @@
       </v-card-title>
 
       <v-data-table
-        :headers="computedHeaders"
-        :items="keys"
+        :header="computedHeaders"
+        :item="keys"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
         class="px-2"

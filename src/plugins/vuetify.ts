@@ -6,11 +6,6 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 //This will make the final bundle bigger because
 //of possibly unused components
-
-//These components no longer exist in vuetify 3:
-/*
-v-content
-*/
 const customTheme = {
   colors: {
     primary: '#3f51b5',

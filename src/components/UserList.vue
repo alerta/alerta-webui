@@ -294,8 +294,8 @@
       </v-card-title>
 
       <v-data-table
-        :headers="headers"
-        :items="users"
+        :header="headers"
+        :item="users"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
         class="px-2"

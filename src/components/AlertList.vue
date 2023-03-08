@@ -1,9 +1,10 @@
 <template>
   <div>
+    <!-- sort-icon might need to be moved to header slot -->
     <v-data-table
       v-model="selected"
-      :headers="customHeaders"
-      :items="alerts"
+      :header="customHeaders"
+      :item="alerts"
       item-key="id"
       :pagination.sync="pagination"
       :total-items="pagination.totalItems"
@@ -12,8 +13,8 @@
       class="alert-table"
       :class="[ displayDensity ]"
       :style="columnWidths"
-      sort-icon="arrow_drop_down"
-      select-all
+      sort-icon="arrow_drop_down" 
+      show-select
     >
       <template
         slot="items"

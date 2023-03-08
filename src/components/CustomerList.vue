@@ -84,8 +84,8 @@
       </v-card-title>
 
       <v-data-table
-        :headers="headers"
-        :items="customers"
+        :header="headers"
+        :item="customers"
         :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
         class="px-2"

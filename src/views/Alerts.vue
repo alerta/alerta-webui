@@ -128,10 +128,10 @@
 
       <span class="pr-2" />
       
-      <v-window-item
-        v-model="currentTab"
-      >
-        <v-window>
+      <v-window>
+        <v-window-item
+          v-model="currentTab"
+        >
           <v-window-item
             v-for="env in environments"
             :key="env"
@@ -147,8 +147,8 @@
               />
             </keep-alive>
           </v-window-item>
-        </v-window>
-      </v-window-item>
+        </v-window-item>
+      </v-window>
     </v-tabs>
 
     <alert-list-filter

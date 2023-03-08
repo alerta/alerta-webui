@@ -11,8 +11,8 @@
         <v-spacer />
       </v-card-title>
       <v-data-table
-        :headers="headers"
-        :items="top10"
+        :header="headers"
+        :item="top10"
         class="px-2"
         hide-actions
       >
