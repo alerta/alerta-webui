@@ -127,7 +127,7 @@
       </v-menu>
 
       <span class="pr-2" />
-
+      
       <v-tabs-items
         v-model="currentTab"
       >

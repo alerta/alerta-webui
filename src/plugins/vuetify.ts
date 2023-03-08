@@ -9,7 +9,6 @@ import * as directives from 'vuetify/directives'
 
 //These components no longer exist in vuetify 3:
 /*
-v-subheader
 v-flex
 v-content
 */

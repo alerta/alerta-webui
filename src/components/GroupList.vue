@@ -23,7 +23,7 @@
                     :disabled="isLoading"
                     :items="allUsers"
                     autofocus
-                    box
+                    filled
                     chips
                     :label="$t('Addusers')"
                     item-title="name"
@@ -43,16 +43,14 @@
                     </template>
                     <template #item="data">
                       <template v-if="typeof data.item !== 'object'">
-                        <v-list-item-content>{{ data.item }}</v-list-item-content>
+                        {{ data.item }}
                       </template>
                       <template v-else>
                         <v-list-item-avatar>
                           <v-icon>person</v-icon>
                         </v-list-item-avatar>
-                        <v-list-item-content>
-                          <v-list-item-title>{{ data.item.name }}</v-list-item-title>
-                          <v-list-item-subtitle>{{ data.item.email }}</v-list-item-subtitle>
-                        </v-list-item-content>
+                        <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+                        <v-list-item-subtitle>{{ data.item.email }}</v-list-item-subtitle>
                       </template>
                     </template>
                   </v-autocomplete>
@@ -80,10 +78,8 @@
               <v-list-item-avatar>
                 <v-icon>person</v-icon>
               </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>{{ item.name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ item.login }}</v-list-item-subtitle>
-              </v-list-item-content>
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+              <v-list-item-subtitle>{{ item.login }}</v-list-item-subtitle>
 
               <v-list-item-action>
                 <v-icon>

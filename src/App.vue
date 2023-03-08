@@ -48,17 +48,15 @@
               <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ item.text }}
-                  <v-icon
-                    v-if="item.appendIcon"
-                    small
-                  >
-                    {{ item.appendIcon }}
-                  </v-icon>
-                </v-list-item-title>
-              </v-list-item-content>
+              <v-list-item-title>
+                {{ item.text }}
+                <v-icon
+                  v-if="item.appendIcon"
+                  small
+                >
+                  {{ item.appendIcon }}
+                </v-icon>
+              </v-list-item-title>
             </v-list-item>
 
             <v-list-group
@@ -241,7 +239,7 @@
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
             round
-            outline
+            outlined
             color="primary"
             to="/signup"
           >
@@ -448,7 +446,7 @@
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
             round
-            outline
+            outlined
             color="primary"
             disabled
           >
@@ -478,7 +476,7 @@
           v-show="!isLoggedIn && isSignupEnabled"
           block
           round
-          outline
+          outlined
           color="primary"
           to="/signup"
           :disabled="selected.length > 0"
