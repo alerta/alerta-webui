@@ -14,7 +14,7 @@
 
 import moment from 'moment'
 import i18n from '@/plugins/i18n'
-moment.locale(i18n.global.locale)
+moment.locale(i18n.global.locale.value)
 
 export default {
   props: {

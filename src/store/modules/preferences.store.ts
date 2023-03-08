@@ -15,12 +15,12 @@ const getDefaults = () => {
     timezone: 'local', // 'local' or 'utc'
     displayDensity: null, // 'comfortable' or 'compact'
     showAllowedEnvs: false,
-    show/**/NotesIcon: false,
+    showNotesIcon: false,
     font: {
       'font-family': null,
       'font-size': null,
       'font-weight': null
-    },
+    },/**/
     rowsPerPage: 20,
     valueWidth: 50, // px
     textWidth: 400, // px
