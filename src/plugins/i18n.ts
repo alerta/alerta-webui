@@ -1,11 +1,10 @@
-import { createI18n } from 'vue-i18n'
+import {createI18n} from 'vue-i18n'
 
 // import file language from @/locales
 import {en} from '@/locales/en'
 import {fr} from '@/locales/fr'
 import {de} from '@/locales/de'
 import {tr} from '@/locales/tr'
-
 
 const loadLocaleMessages = {
   en,

@@ -1,5 +1,5 @@
-import { createVuetify } from 'vuetify'
-import { md } from 'vuetify/iconsets/md'
+import {createVuetify} from 'vuetify'
+import {md} from 'vuetify/iconsets/md'
 import 'vuetify/lib/styles/main.sass'
 
 //This will make the final bundle bigger because
@@ -25,17 +25,17 @@ const customTheme = {
   }
 }
 
-const vuetify = createVuetify({ 
+const vuetify = createVuetify({
   components,
   theme: {
     themes: {
       customTheme
     }
   },
-  icons: { 
+  icons: {
     defaultSet: 'md',
     sets: {
-      md 
+      md
     }
   }
 })
