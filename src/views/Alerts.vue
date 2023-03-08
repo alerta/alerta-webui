@@ -128,7 +128,7 @@
 
       <span class="pr-2" />
       
-      <v-tabs-items
+      <v-window-item
         v-model="currentTab"
       >
         <v-window>
@@ -148,7 +148,7 @@
             </keep-alive>
           </v-window-item>
         </v-window>
-      </v-tabs-items>
+      </v-window-item>
     </v-tabs>
 
     <alert-list-filter
