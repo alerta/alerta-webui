@@ -16,7 +16,7 @@
           :color="isDark ? '#616161' : '#eeeeee'"
           flat
         >
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
           <router-link
             to="/"
@@ -39,17 +39,17 @@
         <v-divider />
         <v-list dense>
           <template v-for="(item, index) in items">
-            <v-list-tile
+            <v-list-item
               v-if="item.icon && item.show"
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
             >
-              <v-list-tile-action>
+              <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
                   {{ item.text }}
                   <v-icon
                     v-if="item.appendIcon"
@@ -57,9 +57,9 @@
                   >
                     {{ item.appendIcon }}
                   </v-icon>
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
 
             <v-list-group
               v-else-if="item.queries && item.queries.length > 0"
@@ -68,27 +68,27 @@
               no-action
             >
               <template #activator>
-                <v-list-tile>
-                  <v-list-tile-title>
+                <v-list-item>
+                  <v-list-item-title>
                     {{ item.text }}
-                  </v-list-tile-title>
-                </v-list-tile>
+                  </v-list-item-title>
+                </v-list-item>
               </template>
-              <v-list-tile
+              <v-list-item
                 v-for="(q, i) in item.queries"
                 :key="i"
                 @click="submitSearch(q.query)"
               >
-                <v-list-tile-title>{{ q.text }}</v-list-tile-title>
-                <v-list-tile-action>
+                <v-list-item-title>{{ q.text }}</v-list-item-title>
+                <v-list-item-action>
                   <v-icon
                     small
                     @click.stop="deleteSearch(q)"
                   >
                     {{ q.icon }}
                   </v-icon>
-                </v-list-tile-action>
-              </v-list-tile>
+                </v-list-item-action>
+              </v-list-item>
             </v-list-group>
 
             <v-divider
@@ -105,7 +105,7 @@
         flat
         class="mb-1"
       >
-        <v-toolbar-side-icon
+        <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
         />
 
@@ -373,13 +373,13 @@
           >
             <v-list-subheader>Actions</v-list-subheader>
             <v-divider />
-            <v-list-tile
+            <v-list-item
               v-for="(action, i) in actions"
               :key="i"
               @click="takeBulkAction(action)"
             >
-              <v-list-tile-title>{{ $filters.splitCaps(action) }}</v-list-tile-title>
-            </v-list-tile>
+              <v-list-item-title>{{ $filters.splitCaps(action) }}</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
 

@@ -451,13 +451,13 @@
                 >
                   <v-list-subheader>Actions</v-list-subheader>
                   <v-divider />
-                  <v-list-tile
+                  <v-list-item
                     v-for="(action, i) in actions"
                     :key="i"
                     @click.stop="takeAction(props.item.id, action)"
                   >
-                    <v-list-tile-title>{{ $filters.splitCaps(action) }}</v-list-tile-title>
-                  </v-list-tile>
+                    <v-list-item-title>{{ $filters.splitCaps(action) }}</v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </div>

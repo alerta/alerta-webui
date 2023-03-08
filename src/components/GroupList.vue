@@ -43,16 +43,16 @@
                     </template>
                     <template #item="data">
                       <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content>{{ data.item }}</v-list-tile-content>
+                        <v-list-item-content>{{ data.item }}</v-list-item-content>
                       </template>
                       <template v-else>
-                        <v-list-tile-avatar>
+                        <v-list-item-avatar>
                           <v-icon>person</v-icon>
-                        </v-list-tile-avatar>
-                        <v-list-tile-content>
-                          <v-list-tile-title>{{ data.item.name }}</v-list-tile-title>
-                          <v-list-tile-sub-title>{{ data.item.email }}</v-list-tile-sub-title>
-                        </v-list-tile-content>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                          <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+                          <v-list-item-subtitle>{{ data.item.email }}</v-list-item-subtitle>
+                        </v-list-item-content>
                       </template>
                     </template>
                   </v-autocomplete>
@@ -70,26 +70,26 @@
             </div>
           </v-card-title>
 
+          <!-- removed avatar prop from v-list as it has been removed in Vuetify 2 -->
           <v-list>
             <v-list-tile
               v-for="item in groupUsers"
               :key="item.id"
-              avatar
               @click="removeUser(item.id)"
             >
-              <v-list-tile-avatar>
+              <v-list-item-avatar>
                 <v-icon>person</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ item.login }}</v-list-tile-sub-title>
-              </v-list-tile-content>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.name }}</v-list-item-title>
+                <v-list-item-subtitle>{{ item.login }}</v-list-item-subtitle>
+              </v-list-item-content>
 
-              <v-list-tile-action>
+              <v-list-item-action>
                 <v-icon>
                   {{ item.status == 'active' ? 'remove_circle' : 'remove_circle_outline' }}
                 </v-icon>
-              </v-list-tile-action>
+              </v-list-item-action>
             </v-list-tile>
           </v-list>
 

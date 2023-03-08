@@ -4,18 +4,18 @@
   >
     <v-list>
       <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ profile.name }}</v-list-tile-title>
-          <v-list-tile-sub-title>
+        <v-list-item-content>
+          <v-list-item-title>{{ profile.name }}</v-list-item-title>
+          <v-list-item-subtitle>
             <span>
               <span
                 v-if="profile.preferred_username && !profile.preferred_username.includes('@')"
               >@</span>{{ profile.preferred_username }}
             </span>
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
+          </v-list-item-subtitle>
+        </v-list-item-content>
 
-        <v-list-tile-action>
+        <v-list-item-action>
           <v-tooltip
             v-if="profile.provider && profile.provider != 'basic'"
             top
@@ -45,7 +45,7 @@
             </v-icon>
             <span>{{ $t('EmailNotVerified') }}</span>
           </v-tooltip>
-        </v-list-tile-action>
+        </v-list-item-action>
       </v-list-tile>
     </v-list>
 
@@ -55,8 +55,8 @@
       <v-list-tile
         v-if="$config.customer_views"
       >
-        <v-list-tile-content>
-          <v-list-tile-title>
+        <v-list-item-content>
+          <v-list-item-title>
             <span
               v-for="(customer, index) in customers"
               :key="index"
@@ -73,14 +73,14 @@
                 class="grey--text caption"
               >(+{{ customers.length - 1 }} {{ $t('others') }})</span>
             </span>
-          </v-list-tile-title>
-          <v-list-tile-sub-title>{{ $t('Customers') }}</v-list-tile-sub-title>
-        </v-list-tile-content>
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ $t('Customers') }}</v-list-item-subtitle>
+        </v-list-item-content>
       </v-list-tile>
 
-      <v-list-tile v-if="profile.orgs">
-        <v-list-tile-content>
-          <v-list-tile-title>
+      <v-list-item v-if="profile.orgs">
+        <v-list-item-content>
+          <v-list-item-title>
             <span
               v-for="(org, index) in profile.orgs"
               :key="index"
@@ -96,13 +96,13 @@
                 class="grey--text caption"
               >(+{{ profile.orgs.length - 1 }} {{ $t('others') }})</span>
             </span>
-          </v-list-tile-title>
-          <v-list-tile-sub-title>{{ $t('Organizations') }}</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile v-if="profile.groups">
-        <v-list-tile-content>
-          <v-list-tile-title>
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ $t('Organizations') }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item v-if="profile.groups">
+        <v-list-item-content>
+          <v-list-item-title>
             <span
               v-for="(group, index) in profile.groups"
               :key="index"
@@ -118,13 +118,13 @@
                 class="grey--text caption"
               >(+{{ profile.groups.length - 1 }} {{ $t('others') }})</span>
             </span>
-          </v-list-tile-title>
-          <v-list-tile-sub-title>{{ $t('Groups') }}</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile v-if="profile.roles">
-        <v-list-tile-content>
-          <v-list-tile-title>
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ $t('Groups') }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item v-if="profile.roles">
+        <v-list-item-content>
+          <v-list-item-title>
             <span
               v-for="(role, index) in profile.roles"
               :key="index"
@@ -140,13 +140,13 @@
                 class="grey--text caption"
               >(+{{ profile.roles.length - 1 }} {{ $t('others') }})</span>
             </span>
-          </v-list-tile-title>
-          <v-list-tile-sub-title>{{ $t('Roles') }}</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ $t('Roles') }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
       <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        <v-list-item-content>
+          <v-list-item-title>
             <span
               v-for="(scope, index) in scopes"
               :key="index"
@@ -162,9 +162,9 @@
                 class="grey--text caption"
               >(+{{ scopes.length - 1 }} {{ $t('others') }})</span>
             </span>
-          </v-list-tile-title>
-          <v-list-tile-sub-title>{{ $t('Scopes') }}</v-list-tile-sub-title>
-        </v-list-tile-content>
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ $t('Scopes') }}</v-list-item-subtitle>
+        </v-list-item-content>
       </v-list-tile>
     </v-list>
 

@@ -33,7 +33,7 @@ export const store = createStore()
 const app = createApp(App)
 app.use(VueAxios, axios)
 app.use(i18n)
-app.use(vuetify) 
+app.use(vuetify)
 app.directive('hasPerms', hasPerms)
 app.config.globalProperties.$filters = {
   capitalize,
@@ -46,11 +46,10 @@ app.config.globalProperties.$filters = {
   until
 }
 bootstrap.getConfig().then(config => {
- 
-  const router = createRouter(config.base_path)  
+  const router = createRouter(config.base_path)
   store.dispatch('updateConfig', config)
-  store.dispatch('alerts/setFilter', config.filter) 
-  
+  store.dispatch('alerts/setFilter', config.filter)
+
   store.registerModule('auth', makeStore(vueAuth(app, config)))
   axios.defaults.baseURL = config.endpoint
 
@@ -59,14 +58,14 @@ bootstrap.getConfig().then(config => {
   axios.interceptors.response.use(undefined, interceptors.interceptErrors)
   axios.interceptors.response.use(undefined, interceptors.redirectToLogin)
 
-  app.use(router) 
+  app.use(router)
   app.use(store)
 
   app.config.globalProperties.$config = config
 
   app.use(GoogleAnalytics, {
     trackingId: config.tracking_id,
-    router 
+    router
   })
   sync(store, router)
   app.mount('#app')

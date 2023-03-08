@@ -109,9 +109,9 @@
             :disabled="!indicators.length"
             @click="showPanel = !showPanel"
           >
-            <v-list-tile-title>
+            <v-list-item-title>
               {{ showPanel ? $t('Hide') : $t('Show') }} {{ $t('Panel') }}
-            </v-list-tile-title>
+            </v-list-item-title>
           </v-list-tile>
           <v-list-tile
             @click="densityDialog = true"
