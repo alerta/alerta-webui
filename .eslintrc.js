@@ -5,7 +5,7 @@ module.exports = {
     browser: true
   },
   extends: [
-    'plugin:vue/recommended',
+    'plugin:vue/recommended', 
     '@vue/typescript'
   ],
   rules: {
