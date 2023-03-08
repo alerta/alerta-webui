@@ -131,21 +131,23 @@
       <v-tabs-items
         v-model="currentTab"
       >
-        <v-window-item
-          v-for="env in environments"
-          :key="env"
-          :value="'tab-' + env"
-          :transition="false"
-          :reverse-transition="false"
-        >
-          <keep-alive max="1">
-            <alert-list
-              v-if="env == filter.environment || env == 'ALL'"
-              :alerts="alertsByEnvironment"
-              @set-alert="setAlert"
-            />
-          </keep-alive>
-        </v-window-item>
+        <v-window>
+          <v-window-item
+            v-for="env in environments"
+            :key="env"
+            :value="'tab-' + env"
+            :transition="false"
+            :reverse-transition="false"
+          >
+            <keep-alive max="1">
+              <alert-list
+                v-if="env == filter.environment || env == 'ALL'"
+                :alerts="alertsByEnvironment"
+                @set-alert="setAlert"
+              />
+            </keep-alive>
+          </v-window-item>
+        </v-window>
       </v-tabs-items>
     </v-tabs>
 

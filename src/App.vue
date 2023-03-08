@@ -63,6 +63,7 @@
 
             <v-list-group
               v-else-if="item.queries && item.queries.length > 0"
+              :key="item.text"
               :prepend-icon="item.model ? item.icon : item['icon-alt']"
               no-action
             >
