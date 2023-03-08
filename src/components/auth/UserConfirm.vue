@@ -8,7 +8,7 @@
       row
       wrap
     >
-      <v-flex
+      <v-col
         xs12
         sm8
         offset-xs0
@@ -32,8 +32,8 @@
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>
-      </v-flex>
-      <v-flex
+      </v-col>
+      <v-col
         xs12
         sm8
         offset-xs0

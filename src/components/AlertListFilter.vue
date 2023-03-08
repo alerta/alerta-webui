@@ -42,7 +42,7 @@
           align-center
           wrap
         >
-          <v-flex
+          <v-col
             xs12
             class="pb-0"
           >
@@ -56,9 +56,9 @@
               :hint="$t('FilterDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             xs12
             class="pb-0"
           >
@@ -74,9 +74,9 @@
               :hint="$t('StatusDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             v-if="$config.customer_views"
             xs12
             class="pb-0"
@@ -93,9 +93,9 @@
               :hint="$t('CustomerDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             xs12
             class="pb-0"
           >
@@ -111,9 +111,9 @@
               :hint="$t('ServiceDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             xs12
             class="pb-0"
           >
@@ -129,9 +129,9 @@
               :hint="$t('GroupDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             xs12
             class="pb-0"
           >
@@ -147,9 +147,9 @@
               item-value="range"
               hide-details
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             v-show="showDateRange"
             xs8
             class="pb-0 pr-0"
@@ -162,9 +162,9 @@
               hide-details
               @click:prepend-inner="menu1 = !menu1"
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             v-show="showDateRange"
             xs4
             class="pb-0 pl-1"
@@ -175,9 +175,9 @@
               outlined
               hide-details
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             class="pa-0"
           >
             <v-menu
@@ -199,8 +199,8 @@
                 @update:model-value="menu1 = false"
               />
             </v-menu>
-          </v-flex>
-          <v-flex
+          </v-col>
+          <v-col
             v-show="showDateRange"
             xs8
             class="pb-0 pr-0"
@@ -213,9 +213,9 @@
               hide-details
               @click:prepend-inner="menu2 = !menu2"
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             v-show="showDateRange"
             xs4
             class="pb-0 pl-1"
@@ -226,8 +226,8 @@
               outlined
               hide-details
             />
-          </v-flex>
-          <v-flex
+          </v-col>
+          <v-col
             class="pa-0"
           >
             <v-menu
@@ -249,12 +249,12 @@
                 @update:model-value="menu2 = false"
               />
             </v-menu>
-          </v-flex>
+          </v-col>
         </v-layout>
       </v-container>
     </v-card>
     <v-card flat>
-      <v-flex
+      <v-col
         xs12
       >
         <v-card-actions>
@@ -274,7 +274,7 @@
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
   </v-navigation-drawer>
 </template>

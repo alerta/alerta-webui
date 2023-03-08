@@ -37,7 +37,7 @@
       flat
       class="pl-3"
     >
-      <v-flex
+      <v-col
         sm6
         md4
       >
@@ -59,14 +59,14 @@
             />
           </v-layout>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
     
     <v-card
       flat
       class="pl-3"
     >
-      <v-flex
+      <v-col
         sm6
         md4
       >
@@ -106,14 +106,14 @@
             />
           </v-layout>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
 
     <v-card
       flat
       class="pl-3"
     >
-      <v-flex
+      <v-col
         sm6
         md4
       >
@@ -226,14 +226,14 @@
             />
           </v-layout>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
 
     <v-card
       flat
       class="pl-3"
     >
-      <v-flex
+      <v-col
         sm6
         md4
       >
@@ -269,11 +269,11 @@
             />
           </v-layout>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
 
     <v-card flat>
-      <v-flex
+      <v-col
         sm6
         md4
       >
@@ -287,7 +287,7 @@
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
   </v-form>
 </template>

@@ -52,7 +52,7 @@
         class="px-1"
       >
         <v-layout wrap>
-          <v-flex
+          <v-col
             v-for="(indicator, index) in indicators"
             :key="index"
             xs12
@@ -63,7 +63,7 @@
               :title="indicator.text"
               :query="indicator.query"
             />
-          </v-flex>
+          </v-col>
         </v-layout>
         <v-divider />
       </div>

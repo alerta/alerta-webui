@@ -15,7 +15,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   xs9
                 >
                   <v-autocomplete
@@ -54,7 +54,7 @@
                       </template>
                     </template>
                   </v-autocomplete>
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -118,7 +118,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   xs12
                   sm6
                   md12
@@ -131,21 +131,21 @@
                     <strong>{{ editedItem.name }}</strong>&nbsp;
                     <span>({{ $t('group') }})</span>
                   </v-chip>
-                </v-flex>
+                </v-col>
                 <v-text-field
                   v-model.trim="editedItem.name"
                   :label="$t('Group')"
                   :rules="[rules.required]"
                   required
                 />
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Description')"
                   />
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>

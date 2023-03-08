@@ -15,7 +15,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   xs12
                   sm6
                   md12
@@ -28,14 +28,14 @@
                     <strong>{{ editedItem.match }}</strong>&nbsp;
                     <span>({{ $t('role') }})</span>
                   </v-chip>
-                </v-flex>
+                </v-col>
                 <v-text-field
                   v-model.trim="editedItem.match"
                   :label="$t('Role')"
                   :rules="[rules.required]"
                   required
                 />
-                <v-flex
+                <v-col
                   xs12
                   sm6
                   md12
@@ -62,7 +62,7 @@
                       </v-chip>
                     </template>
                   </v-autocomplete>
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -92,7 +92,7 @@
       <v-card-title class="title">
         {{ $t('Permissions') }}
         <v-spacer />
-        <v-flex
+        <v-col
           xs3
           class="mr-3 pt-3"
         >
@@ -116,8 +116,8 @@
               </v-chip>
             </template>
           </v-autocomplete>
-        </v-flex>
-        <v-flex xs6>
+        </v-col>
+        <v-col xs6>
           <v-text-field
             v-model="search"
             append-icon="search"
@@ -125,7 +125,7 @@
             single-line
             hide-details
           />
-        </v-flex>
+        </v-col>
       </v-card-title>
 
       <v-data-table

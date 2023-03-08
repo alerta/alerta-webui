@@ -17,7 +17,7 @@
             row
             wrap
           >
-            <v-flex
+            <v-col
               align-center
               justify-center
               layout
@@ -40,26 +40,26 @@
                   account_circle
                 </v-icon>
               </v-avatar>
-            </v-flex>
+            </v-col>
           </v-layout>
           <v-layout
             row
             spacer
           >
-            <v-flex
+            <v-col
               align-center
               justify-center
               layout
               text-xs-center
             >
               <b>{{ profile.name }}</b>
-            </v-flex>
+            </v-col>
           </v-layout>
           <v-layout
             row
             spacer
           >
-            <v-flex
+            <v-col
               align-center
               justify-center
               layout
@@ -69,13 +69,13 @@
                 v-if="profile.preferred_username && !profile.preferred_username.includes('@')"
               >@</span>
               {{ profile.preferred_username }}
-            </v-flex>
+            </v-col>
           </v-layout>
 
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
@@ -83,8 +83,8 @@
                     :label="$t('FullName')"
                     readonly
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs9
                 >
                   <v-text-field
@@ -92,9 +92,9 @@
                     :label="$t('Username')"
                     readonly
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   v-if="provider[profile.provider]"
                   xs3
                 >
@@ -103,9 +103,9 @@
                     :label="$t('Provider')"
                     readonly
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
@@ -113,9 +113,9 @@
                     :label="$t('UserID')"
                     readonly
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
@@ -124,9 +124,9 @@
                     :label="$t('PrimaryUserID')"
                     readonly
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
@@ -152,9 +152,9 @@
                       </v-icon>
                     </template>
                   </v-text-field>
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   v-if="$config.customer_views"
                   xs12
                 >
@@ -172,8 +172,8 @@
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-combobox
@@ -190,8 +190,8 @@
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-combobox
@@ -208,8 +208,8 @@
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-combobox
@@ -226,8 +226,8 @@
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-combobox
@@ -244,7 +244,7 @@
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>

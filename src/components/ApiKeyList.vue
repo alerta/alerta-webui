@@ -15,7 +15,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-tooltip
@@ -34,8 +34,8 @@
                     />
                     <span>{{ copyIconText }}</span>
                   </v-tooltip>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   v-if="!isAdmin"
                   xs12
                 >
@@ -44,8 +44,8 @@
                     :label="$t('User')"
                     readonly
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   v-if="isAdmin"
                   xs12
                 >
@@ -54,8 +54,8 @@
                     :items="users"
                     :label="$t('User')"
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   v-if="$config.customer_views"
                   xs12
                 >
@@ -64,8 +64,8 @@
                     :items="allowedCustomers"
                     :label="$t('Customer')"
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-autocomplete
@@ -90,8 +90,8 @@
                       </v-chip>
                     </template>
                   </v-autocomplete>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-menu
@@ -117,15 +117,15 @@
                       @update:model-value="menu = false"
                     />
                   </v-menu>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
                     label="Comment"
                   />
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>

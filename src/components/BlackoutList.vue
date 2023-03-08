@@ -15,7 +15,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   v-if="$config.customer_views"
                   xs12
                 >
@@ -25,8 +25,8 @@
                     :label="$t('Customer')"
                     clearable
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-select
@@ -36,9 +36,9 @@
                     :rules="[rules.required]"
                     required
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs4
                 >
                   <v-menu
@@ -65,26 +65,26 @@
                       @update:model-value="menu1 = false"
                     />
                   </v-menu>
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs2
                 >
                   <v-combobox
                     v-model="editedItem.period.startTime"
                     :items="times"
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs2
                 >
                   <v-combobox
                     v-model="editedItem.period.endTime"
                     :items="times"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs4
                 >
                   <v-menu
@@ -109,9 +109,9 @@
                       @update:model-value="menu2 = false"
                     />
                   </v-menu>
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-combobox
@@ -124,33 +124,33 @@
                     :hint="$t('ChooseService')"
                     persistent-hint
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-text-field
                     v-model.trim="editedItem.resource"
                     :label="$t('Resource')"
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-text-field
                     v-model.trim="editedItem.event"
                     :label="$t('Event')"
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                 >
                   <v-text-field
                     v-model.trim="editedItem.group"
                     :label="$t('Group')"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-combobox
@@ -179,25 +179,25 @@
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
                     v-model.trim="editedItem.origin"
                     :label="$t('Origin')"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Reason')"
                   />
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>

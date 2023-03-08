@@ -4,7 +4,7 @@
       <v-card-title class="title">
         {{ $t('Reports') }}
         <v-spacer />
-        <v-flex
+        <v-col
           xs1
         >
           <v-select
@@ -13,7 +13,7 @@
             :prefix="$t('Top')"
             type="number"
           />
-        </v-flex>
+        </v-col>
 
         <v-btn
           variant="flat"

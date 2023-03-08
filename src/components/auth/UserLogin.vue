@@ -8,7 +8,7 @@
       row
       wrap
     >
-      <v-flex
+      <v-col
         v-if="isBasicAuth"
         xs12
         sm8
@@ -61,9 +61,9 @@
             {{ $t('ForgotPassword') }}
           </v-btn>
         </div>
-      </v-flex>
+      </v-col>
 
-      <v-flex
+      <v-col
         v-else-if="$config.provider == 'saml2'"
         xs12
         sm8
@@ -97,9 +97,9 @@
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>
-      </v-flex>
+      </v-col>
 
-      <v-flex
+      <v-col
         v-else
         xs12
         sm8
@@ -125,9 +125,9 @@
             {{ $t('Error') }}: {{ error }}
           </p>
         </div>
-      </v-flex>
+      </v-col>
 
-      <v-flex
+      <v-col
         xs12
         sm8
         offset-xs0

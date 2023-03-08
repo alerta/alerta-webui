@@ -19,7 +19,7 @@
       :style="{ 'background-color': isDark ? '' : '#F5F5F5' }"
     >
       <v-layout>
-        <v-flex>
+        <v-col>
           <div
             class="counts-container"
           >
@@ -38,7 +38,7 @@
               </div>
             </v-layout>
           </div>
-        </v-flex>
+        </v-col>
       </v-layout>
     </v-card-actions>
   </v-card>

@@ -15,7 +15,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   xs12
                 >
                   <v-text-field
@@ -26,7 +26,7 @@
                     :rules="[rules.required]"
                     required
                   />
-                  <v-flex
+                  <v-col
                     xs12
                   >
                     <v-chip
@@ -37,14 +37,14 @@
                       <strong>{{ editedItem.customer }}</strong>&nbsp;
                       <span>({{ $t('customer') }})</span>
                     </v-chip>
-                  </v-flex>
+                  </v-col>
                   <v-text-field
                     v-model.trim="editedItem.customer"
                     :label="$t('Customer')"
                     :rules="[rules.required]"
                     required
                   />
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>

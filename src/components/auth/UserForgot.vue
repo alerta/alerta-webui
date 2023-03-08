@@ -9,7 +9,7 @@
       row
       wrap
     >
-      <v-flex
+      <v-col
         xs12
         sm8
         offset-xs0
@@ -49,8 +49,8 @@
             {{ $t('SignIn') }}
           </v-btn>
         </div>
-      </v-flex>
-      <v-flex
+      </v-col>
+      <v-col
         xs12
         sm8
         offset-xs0
@@ -64,7 +64,7 @@
       row
       wrap
     >
-      <v-flex
+      <v-col
         xs12
         sm8
         offset-xs0
@@ -103,8 +103,8 @@
             {{ $t('SignIn') }}
           </v-btn>
         </div>
-      </v-flex>
-      <v-flex
+      </v-col>
+      <v-col
         xs12
         sm8
         offset-xs0

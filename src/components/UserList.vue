@@ -18,7 +18,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex
+                <v-col
                   xs12
                   sm6
                   md9
@@ -30,8 +30,8 @@
                     :rules="[rules.required]"
                     required
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                   sm6
                   md3
@@ -42,8 +42,8 @@
                     :false-value="'inactive'"
                     :label="$t('Active')"
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                   sm6
                   md9
@@ -55,8 +55,8 @@
                     :rules="[rules.required]"
                     required
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                   sm6
                   md9
@@ -68,8 +68,8 @@
                     :rules="[rules.required]"
                     required
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                   sm6
                   md3
@@ -78,9 +78,9 @@
                     v-model="editedItem.email_verified"
                     :label="$t('Verified')"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                   sm6
                 >
@@ -104,8 +104,8 @@
                     append-icon="visibility"
                     :label="$t('Password')"
                   />
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                   sm6
                 >
@@ -128,9 +128,9 @@
                     append-icon="visibility"
                     :label="$t('ConfirmPassword')"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                   sm6
                   md12
@@ -159,9 +159,9 @@
                       </v-chip>
                     </template>
                   </v-select>
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   xs12
                   sm6
                   md12
@@ -188,8 +188,8 @@
                       </v-chip>
                     </template>
                   </v-autocomplete>
-                </v-flex>
-                <v-flex
+                </v-col>
+                <v-col
                   xs12
                   sm6
                   md12
@@ -198,7 +198,7 @@
                     v-model.trim="editedItem.text"
                     :label="$t('Comment')"
                   />
-                </v-flex>
+                </v-col>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -257,7 +257,7 @@
           </v-btn>
         </v-btn-toggle>
         <v-spacer />
-        <v-flex
+        <v-col
           xs3
           class="mr-3 pt-3"
         >
@@ -281,8 +281,8 @@
               </v-chip>
             </template>
           </v-autocomplete>
-        </v-flex>
-        <v-flex xs6>
+        </v-col>
+        <v-col xs6>
           <v-text-field
             v-model="search"
             append-icon="search"
@@ -290,7 +290,7 @@
             single-line
             hide-details
           />
-        </v-flex>
+        </v-col>
       </v-card-title>
 
       <v-data-table

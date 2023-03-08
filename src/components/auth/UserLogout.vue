@@ -8,7 +8,7 @@
       row
       wrap
     >
-      <v-flex
+      <v-col
         xs12
         sm8
         offset-xs0
@@ -17,8 +17,8 @@
         <p class="text-xs-center headline font-weight-medium">
           {{ $t('LoggedOut') }}
         </p>
-      </v-flex>
-      <v-flex
+      </v-col>
+      <v-col
         xs12
         sm8
         offset-xs0

@@ -6,7 +6,7 @@
       fluid
     >
       <v-layout>
-        <v-flex>
+        <v-col>
           <v-btn
             v-show="!isWatched"
             outlined
@@ -41,7 +41,7 @@
           >
             <v-icon>delete_forever</v-icon>&nbsp;{{ $t('Delete') }}
           </v-btn>
-        </v-flex>
+        </v-col>
       </v-layout>
     </v-container>
 
@@ -52,7 +52,7 @@
       fluid
     >
       <v-layout>
-        <v-flex>
+        <v-col>
           <v-form
             ref="form"
             v-model="valid"
@@ -152,7 +152,7 @@
               </v-card-actions>
             </v-card>
           </v-form>
-        </v-flex>
+        </v-col>
       </v-layout>
     </v-container>
   </div>
