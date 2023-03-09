@@ -962,7 +962,7 @@ export default {
       this.$store.dispatch('alerts/getNotes', this.id)
     },
     isOpen(status) {
-      return status == 'open' || status == 'NORM'
+      return status == 'open' || status == 'NORM' || status == 'UNACK' || status == 'RTNUN'
     },
     isWatched(tags) {
       const tag = `watch:${this.username}`
