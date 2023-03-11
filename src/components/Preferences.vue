@@ -139,7 +139,6 @@
             <v-checkbox
               v-model="showNotesIcon"
               :label="$t('ShowNotesIcon')"
-              :hint="$t('ShowNotesHint')"
               persistent-hint
               class="my-0"
             />
@@ -161,7 +160,6 @@
               show-ticks="always"
               thumb-label
               :label="$t('FontSize')"
-              :ticks="fontSizeLabels"
             />
 
             <v-slider
@@ -174,7 +172,6 @@
               tick-size="2"
               thumb-label
               :label="$t('FontWeight')"
-              :ticks="fontWeightLabels"
             />
 
             <v-combobox

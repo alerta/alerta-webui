@@ -14,14 +14,12 @@
         <v-navigation-drawer
           v-if="isLoggedIn || !isAuthRequired || isAllowReadonly"
           v-model="drawer"
-          :clipped="$vuetify.display.lgAndUp"
           disable-resize-watcher
           position="fixed"
-          app
         >
           <v-toolbar
             :color="isDark ? '#616161' : '#eeeeee'"
-            variant="flat"
+            flat
           >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
@@ -44,7 +42,7 @@
           </v-toolbar>
 
           <v-divider />
-          <v-list dense>
+          <v-list density="default">
             <template v-for="(item, index) in items">
               <v-list-item
                 v-if="item.icon && item.show"
@@ -70,7 +68,6 @@
                 v-else-if="item.queries && item.queries.length > 0"
                 :key="item.text"
                 :prepend-icon="item.model ? item.icon : item['icon-alt']"
-                no-action
               >
                 <template #activator>
                   <v-list-item>
@@ -136,12 +133,10 @@
           <v-text-field
             v-if="$route.name === 'alerts'"
             v-model="query"
-            :flat="!hasFocus"
+            variant="solo"
             :label="$t('Search')"
             prepend-inner-icon="search"
-            variant="solo"
             clearable
-            height="44"
             class="pt-2 mr-3 hidden-sm-and-down"
             @focus="hasFocus = true"
             @blur="hasFocus = false"
@@ -336,7 +331,7 @@
             <span>{{ $t('Ack') }}</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip location="bottom">
             <template #activator="{props}">
               <v-btn
                 v-bind="props"
@@ -391,23 +386,22 @@
           <v-menu
             location="left bottom"
           >
-            <v-btn
-              slot="activator"
-              variant="flat"
-              icon
-              size="small"
-              class="btn--plain px-1 mx-0"
-            >
-              <v-icon
+            <template #activator="{props}">
+              <v-btn
+                v-bind="props"
+                variant="flat"
+                icon
                 size="small"
+                class="btn--plain px-1 mx-0"
               >
-                more_vert
-              </v-icon>
-            </v-btn>
-
-            <v-list
-              subheader
-            >
+                <v-icon
+                  size="small"
+                >
+                  more_vert
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
               <v-list-subheader>Actions</v-list-subheader>
               <v-divider />
               <v-list-item
@@ -494,7 +488,7 @@
             <v-btn
               v-show="!isLoggedIn && isSignupEnabled"
               rounded
-              outlined
+              variant="outlined"
               color="primary"
               disabled
             >

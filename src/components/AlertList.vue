@@ -431,8 +431,7 @@
               </v-btn> -->
 
               <v-menu
-                location="bottom"
-                start
+                location="left bottom"
               >
                 <template #activator="{props}">
                   <v-btn
@@ -448,9 +447,7 @@
                   </v-btn>
                 </template>
 
-                <v-list
-                  subheader
-                >
+                <v-list>
                   <v-list-subheader>Actions</v-list-subheader>
                   <v-divider />
                   <v-list-item

@@ -8,7 +8,7 @@
     >
       <v-toolbar
         :color="isDark ? '#616161' : '#eeeeee'"
-        dense
+        density="default"
       >
         <v-btn
           icon
@@ -237,9 +237,7 @@
                 </v-icon>
               </v-btn>
 
-              <v-list
-                subheader
-              >
+              <v-list>
                 <v-list-subheader>Actions</v-list-subheader>
                 <v-divider />
                 <v-list-item

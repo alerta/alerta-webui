@@ -11,7 +11,7 @@
       <v-toolbar
         :color="isDark ? '#616161' : '#eeeeee'"
         card
-        dense
+        density="default"
       >
         <v-toolbar-title>
           {{ $t('Filters') }}
@@ -53,7 +53,7 @@
               :label="$t('Search')"
               prepend-inner-icon="search"
               variant="outlined"
-              dense
+              density="default"
               clearable
               :hint="$t('FilterDescription')"
               persistent-hint
@@ -68,12 +68,11 @@
             <v-select
               v-model="filterStatus"
               :items="statusList"
-              small-chips
               :placeholder="$t('AllStatuses')"
               :label="$t('Status')"
               multiple
               variant="outlined"
-              dense
+              density="default"
               :hint="$t('StatusDescription')"
               persistent-hint
             />
@@ -93,7 +92,7 @@
               :label="$t('Customer')"
               multiple
               variant="outlined"
-              dense
+              density="default"
               :hint="$t('CustomerDescription')"
               persistent-hint
             />
@@ -112,7 +111,7 @@
               :label="$t('Service')"
               multiple
               variant="outlined"
-              dense
+              density="default"
               :hint="$t('ServiceDescription')"
               persistent-hint
             />
@@ -131,7 +130,7 @@
               :label="$t('Group')"
               multiple
               variant="outlined"
-              dense
+              density="default"
               :hint="$t('GroupDescription')"
               persistent-hint
             />
@@ -148,7 +147,7 @@
               :items="dateRanges"
               name="dateRange"
               :label="$t('DateTime')"
-              variant="flat solo"
+              variant="solo"
               prepend-inner-icon="schedule"
               item-value="range"
               hide-details

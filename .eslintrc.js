@@ -12,6 +12,7 @@ module.exports = {
   rules: {
     semi: ['error', 'never'],
     'vue/multi-word-component-names': 'off', 
+    'vuetify/no-deprecated-components' : 'warn',
     'no-console': 'warn',
     'no-debugger': 'error',
     quotes: ['error', 'single'],
