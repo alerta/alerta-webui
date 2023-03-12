@@ -729,6 +729,7 @@ export default {
       }, 300)
     },
     validate() {
+      //TODO: validate() returns a promise which should be awaited
       if (this.$refs.form.validate()) {
         this.$refs.form.resetValidation()
         this.save()

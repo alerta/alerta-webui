@@ -1,5 +1,4 @@
 import Vue from 'vue'
-//import VueRouter, {RouterOptions} from 'vue-router'
 import {createRouter as createVueRouter, createWebHistory, RouterOptions} from 'vue-router'
 
 import {store} from '@/main'
@@ -10,8 +9,6 @@ import Alert from './views/Alert.vue'
 
 export function createRouter(basePath) {
   const router = createVueRouter({
-    //TODO: This should use createWebHistory(), createWebHashHistory(), or createMemoryHistory()?
-    //Refer to https://router.vuejs.org/guide/migration/#new-history-option-to-replace-mode
     history: createWebHistory(basePath || process.env.BASE_URL),
     routes: [
       {

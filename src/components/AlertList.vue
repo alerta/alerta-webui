@@ -3,8 +3,8 @@
     <!-- sort-icon might need to be moved to header slot -->
     <v-data-table
       v-model="selected"
-      :header="customHeaders"
-      :item="alerts"
+      :headers="customHeaders"
+      :items="alerts"
       item-key="id"
       v-model:pagination="pagination"
       :total-items="pagination.totalItems"
@@ -16,9 +16,7 @@
       sort-icon="arrow_drop_down" 
       show-select
     >
-      <template
-        #items="props"
-      >
+      <template #items="props">
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
           class="hover-lighten"
@@ -65,7 +63,7 @@
             </v-icon>
           </td>
           <td
-            v-for="col in $config.columns"
+            v-for="col in this.$config.columns"
             :key="col"
             :class="['text-no-wrap', textColor(props.item.severity)]"
             :style="fontStyle"
@@ -73,7 +71,7 @@
             <span
               v-if="col == 'id'"
             >
-              {{ $filters.shortId(props.item.id) }}
+              {{ this.$filters.shortId(props.item.id) }}
             </span>
             <span
               v-if="col == 'resource'"
@@ -97,7 +95,7 @@
                 :class="['label', 'label-' + props.item.severity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ $filters.capitalize(props.item.severity) }}
+                {{ this.$filters.capitalize(props.severity) }}
               </span>
             </span>
             <span
@@ -112,7 +110,7 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ $filters.capitalize(props.item.status) }}
+                {{ this.$filters.capitalize(props.item.status) }}
 
               </span>
               <span
@@ -123,11 +121,10 @@
                   class="pl-2"
                 >
                   <v-tooltip location="bottom">
-                    <template #activator="{ on, attrs }">
+                    <template #activator="{props}">
                       <v-icon
-                        v-bind="attrs"
+                        v-bind="props"
                         size="small"
-                        v-on="on"
                       >text_snippet</v-icon>
                     </template>
                     <span>{{ lastNote(props.item) }}</span>
@@ -191,7 +188,7 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ $filters.splitCaps(props.item.type) }}
+                {{ this.$filters.splitCaps(props.item.type) }}
               </span>
             </span>
             <span
@@ -205,17 +202,17 @@
             <span
               v-if="col == 'timeout'"
             >
-              {{ $filter.hhmmss(props.item.timeout) }}
+              {{ this.$filters.hhmmss(props.item.timeout) }}
             </span>
             <span
               v-if="col == 'timeoutLeft'"
               class="text-right"
             >
-              {{ $filters.hhmmss(timeoutLeft(props.item)) }}
+              {{ this.$filters.hhmmss(timeoutLeft(props.item)) }}
             </span>
             <!-- rawData not supported -->
             <span
-              v-if="col == 'customer' && $config.customer_views"
+              v-if="col == 'customer' && this.$config.customer_views"
             >
               {{ props.item.customer }}
             </span>
@@ -231,7 +228,7 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ $filters.capitalize(props.item.repeat) }}
+                {{ this.$filters.capitalize(props.item.repeat) }}
               </span>
             </span>
             <span
@@ -241,7 +238,7 @@
                 :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ $filters.capitalize(props.item.previousSeverity) }}
+                {{ this.$filters.capitalize(props.item.previousSeverity) }}
               </span>
             </span>
             <!-- trendIndication not supported -->
@@ -257,12 +254,12 @@
               v-if="col == 'duration'"
               class="text-right"
             >
-              {{ $filters.hhmmss(duration(props.item)) }}
+              {{ this.$filters.hhmmss(duration(props.item)) }}
             </span>
             <span
               v-if="col == 'lastReceiveId'"
             >
-              {{ $filters.shortId(props.item.lastReceiveId) }}
+              {{ this.$filters.shortId(props.item.lastReceiveId) }}
             </span>
             <span
               v-if="col == 'lastReceiveTime'"
@@ -455,7 +452,7 @@
                     :key="i"
                     @click.stop="takeAction(props.item.id, action)"
                   >
-                    <v-list-item-title>{{ $filters.splitCaps(action) }}</v-list-item-title>
+                    <v-list-item-title>{{ this.$filters.splitCaps(action) }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -493,34 +490,34 @@ export default {
   data: vm => ({
     search: '',
     headersMap: {
-      id: { text: i18n.t('AlertId'), value: 'id' },
-      resource: { text: i18n.t('Resource'), value: 'resource' },
-      event: { text: i18n.t('Event'), value: 'event' },
-      environment: { text: i18n.t('Environment'), value: 'environment' },
-      severity: { text: i18n.t('Severity'), value: 'severity' },
-      correlate: { text: i18n.t('Correlate'), value: 'correlate' },
-      status: { text: i18n.t('Status'), value: 'status' },
-      service: { text: i18n.t('Service'), value: 'service' },
-      group: { text: i18n.t('Group'), value: 'group' },
-      value: { text: i18n.t('Value'), value: 'value', class: 'value-header' },
-      text: { text: i18n.t('Description'), value: 'text', class: 'text-header' },
-      tags: { text: i18n.t('Tags'), value: 'tags' },
-      attributes: { text: i18n.t('Attribute'), value: 'attributes' },
-      origin: { text: i18n.t('Origin'), value: 'origin' },
-      type: { text: i18n.t('Type'), value: 'type' },
-      createTime: { text: i18n.t('CreateTime'), value: 'createTime' },
-      timeout: { text: i18n.t('Timeout'), value: 'timeout' },
-      timeoutLeft: { text: i18n.t('TimeoutLeft'), value: 'timeoutLeft' },
-      customer: { text: i18n.t('Customer'), value: 'customer' },
-      duplicateCount: { text: i18n.t('Dupl'), value: 'duplicateCount' },
-      repeat: { text: i18n.t('Repeat'), value: 'repeat' },
-      previousSeverity: { text: i18n.t('PrevSeverity'), value: 'previousSeverity' },
-      trendIndication: { text: i18n.t('TrendIndication'), value: 'trendIndication' },
-      receiveTime: { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
-      duration: { text: i18n.t('Duration'), value: 'duration' },
-      lastReceiveId: { text: i18n.t('LastReceiveId'), value: 'lastReceiveId' },
-      lastReceiveTime: { text: i18n.t('LastReceiveTime'), value: 'lastReceiveTime' },
-      note: { text: i18n.t('LastNote'), value: 'note', sortable: false }
+      id: { title: i18n.global.t('AlertId'), value: 'id' },
+      resource: { title: i18n.global.t('Resource'), value: 'resource' },
+      event: { title: i18n.global.t('Event'), value: 'event' },
+      environment: { title: i18n.global.t('Environment'), value: 'environment' },
+      severity: { title: i18n.global.t('Severity'), value: 'severity' },
+      correlate: { title: i18n.global.t('Correlate'), value: 'correlate' },
+      status: { title: i18n.global.t('Status'), value: 'status' },
+      service: { title: i18n.global.t('Service'), value: 'service' },
+      group: { title: i18n.global.t('Group'), value: 'group' },
+      value: { title: i18n.global.t('Value'), value: 'value', class: 'value-header' },
+      title: { title: i18n.global.t('Description'), value: 'text', class: 'text-header' },
+      tags: { title: i18n.global.t('Tags'), value: 'tags' },
+      attributes: { title: i18n.global.t('Attribute'), value: 'attributes' },
+      origin: { title: i18n.global.t('Origin'), value: 'origin' },
+      type: { title: i18n.global.t('Type'), value: 'type' },
+      createTime: { title: i18n.global.t('CreateTime'), value: 'createTime' },
+      timeout: { title: i18n.global.t('Timeout'), value: 'timeout' },
+      timeoutLeft: { title: i18n.global.t('TimeoutLeft'), value: 'timeoutLeft' },
+      customer: { title: i18n.global.t('Customer'), value: 'customer' },
+      duplicateCount: { title: i18n.global.t('Dupl'), value: 'duplicateCount' },
+      repeat: { title: i18n.global.t('Repeat'), value: 'repeat' },
+      previousSeverity: { title: i18n.global.t('PrevSeverity'), value: 'previousSeverity' },
+      trendIndication: { title: i18n.global.t('TrendIndication'), value: 'trendIndication' },
+      receiveTime: { title: i18n.global.t('ReceiveTime'), value: 'receiveTime' },
+      duration: { title: i18n.global.t('Duration'), value: 'duration' },
+      lastReceiveId: { title: i18n.global.t('LastReceiveId'), value: 'lastReceiveId' },
+      lastReceiveTime: { title: i18n.global.t('LastReceiveTime'), value: 'lastReceiveTime' },
+      note: { title: i18n.global.t('LastNote'), value: 'note', sortable: false }
     },
     details: false,
     selectedId: null,
@@ -576,7 +573,7 @@ export default {
     },
     customHeaders() {
       return this.$config.columns.map(c =>
-        this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c }
+        this.headersMap[c] || { title: this.$filters.capitalize(c), value: 'attributes.' + c }
       )
     },
     selectedItem() {

@@ -11,33 +11,33 @@
         <v-spacer />
       </v-card-title>
       <v-data-table
-        :header="headers"
-        :item="top10"
+        :headers="headers"
+        :items="top10"
         class="px-2"
-        hide-actions
+        hide-default-footer
       >
-        <template
-          #items="props"
-        >
-          <td>{{ props.item.event }}</td>
-          <td class="text-center">
-            {{ props.item.count }}
-          </td>
-          <td class="text-center">
-            {{ props.item.duplicateCount }}
-          </td>
-          <td>{{ props.item.environments.join(', ') }}</td>
-          <td>{{ props.item.services.join(', ') }}</td>
-          <td>
-            <span
-              v-for="r in props.item.resources"
-              :key="r.id"
-            >
-              <router-link :to="`/alert/${r.id}`">
-                {{ r.resource }}
-              </router-link>
-            </span>
-          </td>
+        <template #items="{props}">
+          <tr>
+            <td>{{ props.event }}</td>
+            <td class="text-center">
+              {{ props.count }}
+            </td>
+            <td class="text-center">
+              {{ 7 }}
+            </td>
+            <td>{{ props.environment.join(', ') }}</td>
+            <td>{{ props.services.join(', ') }}</td>
+            <td>
+              <span
+                v-for="r in props.resources"
+                :key="r.id"
+              >
+                <router-link :to="`/alert/${r.id}`">
+                  {{ r.resource }}
+                </router-link>
+              </span>
+            </td>
+          </tr>
         </template>
       </v-data-table>
     </v-card>
@@ -50,16 +50,17 @@ import i18n from '@/plugins/i18n'
 export default {
   data: () => ({
     headers: [
-      {text: i18n.global.t('Event'), value: 'event', sortable: false},
-      {text: i18n.global.t('Count'), value: 'count', sortable: false},
-      {text: i18n.global.t('DuplCount'), value: 'duplicateCount', sortable: false},
-      {text: i18n.global.t('Environment'), value: 'environment', sortable: false},
-      {text: i18n.global.t('Services'), value: 'services', sortable: false},
-      {text: i18n.global.t('Resources'), value: 'resources', sortable: false},
+      {title: i18n.global.t('Event'), value: 'event', sortable: false},
+      {title: i18n.global.t('Count'), value: 'count', sortable: false},
+      {title: i18n.global.t('DuplCount'), value: 'duplicateCount', sortable: false},
+      {title: i18n.global.t('Environment'), value: 'environments', sortable: false},
+      {title: i18n.global.t('Services'), value: 'services', sortable: false},
+      {title: i18n.global.t('Resources'), value: 'resources', sortable: false},
     ]
   }),
   computed: {
     top10() {
+      console.log(this.$store.state.reports.offenders)
       if (this.filter) {
         return this.$store.state.reports.offenders
           .filter(alert =>
