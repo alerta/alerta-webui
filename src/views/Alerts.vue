@@ -128,25 +128,25 @@
       </v-menu>
 
       <span class="pr-2" />
-      
-      <v-window v-model="currentTab">
-        <v-window-item
-          v-for="env in environments"
-          :key="env"
-          :value="'tab-' + env"
-          :transition="false"
-          :reverse-transition="false"
-        >
-          <keep-alive max="1">
-            <alert-list
-              v-if="env == filter.environment || env == 'ALL'"
-              :alerts="alertsByEnvironment"
-              @set-alert="setAlert"
-            />
-          </keep-alive>
-        </v-window-item>
-      </v-window>
     </v-tabs>
+    <!--v-data-table rows only render when the v-window is outside v-tabs?-->
+    <v-window v-model="currentTab">
+      <v-window-item
+        v-for="env in environments"
+        :key="env"
+        :value="'tab-' + env"
+        :transition="false"
+        :reverse-transition="false"
+      >
+        <keep-alive max="1">
+          <alert-list
+            v-if="env == filter.environment || env == 'ALL'"
+            :alerts="alertsByEnvironment"
+            @set-alert="setAlert"
+          />
+        </keep-alive>
+      </v-window-item>
+    </v-window>
     
     <alert-list-filter
       :value="sidesheet"

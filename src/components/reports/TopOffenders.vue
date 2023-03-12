@@ -60,7 +60,6 @@ export default {
   }),
   computed: {
     top10() {
-      console.log(this.$store.state.reports.offenders)
       if (this.filter) {
         return this.$store.state.reports.offenders
           .filter(alert =>

@@ -16,7 +16,7 @@
       sort-icon="arrow_drop_down" 
       show-select
     >
-      <template #items="props">
+      <template #items="{props}">
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
           class="hover-lighten"
