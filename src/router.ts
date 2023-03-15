@@ -6,13 +6,12 @@ import {store} from '@/main'
 import Alerts from './views/Alerts.vue'
 import Alert from './views/Alert.vue'
 
-
 export function createRouter(basePath) {
   const router = createVueRouter({
     history: createWebHistory(basePath || process.env.BASE_URL),
     routes: [
       {
-        path: '/alerts', 
+        path: '/alerts',
         name: 'alerts',
         component: Alerts,
         props: route => ({
@@ -92,7 +91,11 @@ export function createRouter(basePath) {
       {
         path: '/help',
         name: 'help',
-        component: () => window.open('https://docs.alerta.io/?utm_source=app', '_blank')
+        // Allow for non-caching of the route so users can open the Help link an unlimited amount of times
+        component: () => {
+          const newTab = window.open('about:blank', '_blank')
+          newTab!.location.href = 'https://docs.alerta.io/?utm_source=app'
+        }
       },
       {
         path: '/about',
