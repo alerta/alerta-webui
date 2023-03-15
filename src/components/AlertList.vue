@@ -16,11 +16,11 @@
       sort-icon="arrow_drop_down" 
       show-select
     >
-      <template #items="{props}">
+      <template #item="{item}">
         <tr
-          :style="{ 'background-color': severityColor(props.item.severity) }"
+          :style="{ 'background-color': severityColor(item.value.severity) }"
           class="hover-lighten"
-          @click="selectItem(props.item)"
+          @click="selectItem(item.value)"
         >
           <td
             class="text-no-wrap"
@@ -28,7 +28,7 @@
           >
             <v-checkbox
               v-if="selectableRows"
-              v-model="props.selected"
+              v-model="item.value.selected"
               primary
               hide-details
               color="gray"
@@ -38,26 +38,26 @@
               @click.stop
             />
             <v-icon
-              v-else-if="props.item.trendIndication == 'moreSevere'"
-              :class="['trend-arrow', textColor(props.item.severity)]"
+              v-else-if="item.value.trendIndication == 'moreSevere'"
+              :class="['trend-arrow', textColor(item.value.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; item.value.selected = true"
             >
               arrow_upward
             </v-icon>
             <v-icon
-              v-else-if="props.item.trendIndication == 'lessSevere'"
-              :class="['trend-arrow', textColor(props.item.severity)]"
+              v-else-if="item.value.trendIndication == 'lessSevere'"
+              :class="['trend-arrow', textColor(item.value.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; item.value.selected = true"
             >
               arrow_downward
             </v-icon>
             <v-icon
               v-else
-              :class="['trend-arrow', textColor(props.item.severity)]"
+              :class="['trend-arrow', textColor(item.value.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; item.value.selected = true"
             >
               remove
             </v-icon>
@@ -65,43 +65,43 @@
           <td
             v-for="col in this.$config.columns"
             :key="col"
-            :class="['text-no-wrap', textColor(props.item.severity)]"
+            :class="['text-no-wrap', textColor(item.value.severity)]"
             :style="fontStyle"
           >
             <span
               v-if="col == 'id'"
             >
-              {{ this.$filters.shortId(props.item.id) }}
+              {{ this.$filters.shortId(item.value.id) }}
             </span>
             <span
               v-if="col == 'resource'"
             >
-              {{ props.item.resource }}
+              {{ item.value.resource }}
             </span>
             <span
               v-if="col == 'event'"
             >
-              {{ props.item.event }}
+              {{ item.value.event }}
             </span>
             <span
               v-if="col == 'environment'"
             >
-              {{ props.item.environment }}
+              {{ item.value.environment }}
             </span>
             <span
               v-if="col == 'severity'"
             >
               <span
-                :class="['label', 'label-' + props.item.severity.toLowerCase()]"
+                :class="['label', 'label-' + item.value.severity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(props.severity) }}
+                {{ this.$filters.capitalize(item.value.severity) }}
               </span>
             </span>
             <span
               v-if="col == 'correlate'"
             >
-              {{ props.item.correlate.join(', ') }}
+              {{ item.value.correlate.join(', ') }}
             </span>
             <span
               v-if="col == 'status'"
@@ -110,14 +110,14 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(props.item.status) }}
+                {{ this.$filters.capitalize(item.value.status) }}
 
               </span>
               <span
                 v-if="showNotesIcon"
               >
                 <span
-                  v-if="lastNote(props.item)"
+                  v-if="lastNote(item.value)"
                   class="pl-2"
                 >
                   <v-tooltip location="bottom">
@@ -127,7 +127,7 @@
                         size="small"
                       >text_snippet</v-icon>
                     </template>
-                    <span>{{ lastNote(props.item) }}</span>
+                    <span>{{ lastNote(item.value) }}</span>
                   </v-tooltip>
                 </span>
               </span>
@@ -135,19 +135,19 @@
             <span
               v-if="col == 'service'"
             >
-              {{ props.item.service.join(', ') }}
+              {{ item.value.service.join(', ') }}
             </span>
             <span
               v-if="col == 'group'"
             >
-              {{ props.item.group }}
+              {{ item.value.group }}
             </span>
             <span
               v-if="col == 'value'"
             >
               <div class="fixed-table">
                 <div class="text-truncate">
-                  <span>{{ props.item.value }}</span>
+                  <span>{{ item.value.value }}</span>
                 </div>
               </div>
             </span>
@@ -156,7 +156,7 @@
             >
               <div class="fixed-table">
                 <div class="text-truncate">
-                  <span>{{ props.item.text }}</span>
+                  <span>{{ item.value.text }}</span>
                 </div>
               </div>
             </span>
@@ -164,7 +164,7 @@
               v-if="col == 'tags'"
             >
               <span
-                v-for="tag in props.item.tags"
+                v-for="tag in item.value.tags"
                 :key="tag"
               ><span
                 class="label"
@@ -172,14 +172,14 @@
               >{{ tag }}</span>&nbsp;</span>
             </span>
             <span
-              v-if="props.item.attributes.hasOwnProperty(col)"
+              v-if="item.value.attributes.hasOwnProperty(col)"
             >
-              <span>{{ props.item.attributes[col] }}</span>
+              <span>{{ item.value.attributes[col] }}</span>
             </span>
             <span
               v-if="col == 'origin'"
             >
-              {{ props.item.origin }}
+              {{ item.value.origin }}
             </span>
             <span
               v-if="col == 'type'"
@@ -188,38 +188,38 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ this.$filters.splitCaps(props.item.type) }}
+                {{ this.$filters.splitCaps(item.value.type) }}
               </span>
             </span>
             <span
               v-if="col == 'createTime'"
             >
               <date-time
-                :value="props.item.createTime"
+                :value="item.value.createTime"
                 format="mediumDate"
               />
             </span>
             <span
               v-if="col == 'timeout'"
             >
-              {{ this.$filters.hhmmss(props.item.timeout) }}
+              {{ this.$filters.hhmmss(item.value.timeout) }}
             </span>
             <span
               v-if="col == 'timeoutLeft'"
               class="text-right"
             >
-              {{ this.$filters.hhmmss(timeoutLeft(props.item)) }}
+              {{ this.$filters.hhmmss(timeoutLeft(item.value)) }}
             </span>
             <!-- rawData not supported -->
             <span
               v-if="col == 'customer' && this.$config.customer_views"
             >
-              {{ props.item.customer }}
+              {{ item.value.customer }}
             </span>
             <span
               v-if="col == 'duplicateCount'"
             >
-              {{ props.item.duplicateCount }}
+              {{ item.value.duplicateCount }}
             </span>
             <span
               v-if="col == 'repeat'"
@@ -228,17 +228,17 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(props.item.repeat) }}
+                {{ this.$filters.capitalize(item.value.repeat) }}
               </span>
             </span>
             <span
               v-if="col == 'previousSeverity'"
             >
               <span
-                :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]"
+                :class="['label', 'label-' + item.value.previousSeverity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(props.item.previousSeverity) }}
+                {{ this.$filters.capitalize(item.value.previousSeverity) }}
               </span>
             </span>
             <!-- trendIndication not supported -->
@@ -246,7 +246,7 @@
               v-if="col == 'receiveTime'"
             >
               <date-time
-                :value="props.item.receiveTime"
+                :value="item.value.receiveTime"
                 format="mediumDate"
               />
             </span>
@@ -254,18 +254,18 @@
               v-if="col == 'duration'"
               class="text-right"
             >
-              {{ this.$filters.hhmmss(duration(props.item)) }}
+              {{ this.$filters.hhmmss(duration(item.value)) }}
             </span>
             <span
               v-if="col == 'lastReceiveId'"
             >
-              {{ this.$filters.shortId(props.item.lastReceiveId) }}
+              {{ this.$filters.shortId(item.value.lastReceiveId) }}
             </span>
             <span
               v-if="col == 'lastReceiveTime'"
             >
               <date-time
-                :value="props.item.lastReceiveTime"
+                :value="item.value.lastReceiveTime"
                 format="mediumDate"
               />
             </span>
@@ -273,24 +273,24 @@
             <span
               v-if="col == 'note'"
             >
-              {{ lastNote(props.item) }}
+              {{ lastNote(item.value) }}
             </span>
           </td>
           <td
-            :class="['text-no-wrap', textColor(props.item.severity)]"
+            :class="['text-no-wrap', textColor(item.value.severity)]"
           >
             <div
               class="action-buttons"
-              :style="{ 'background-color': severityColor(props.item.severity) }"
+              :style="{ 'background-color': severityColor(item.value.severity) }"
             >
               ...&nbsp;
               <v-btn
-                v-if="isAcked(props.item.status) || isClosed(props.item.status)"
+                v-if="isAcked(item.value.status) || isClosed(item.value.status)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'open')"
+                @click.stop="takeAction(item.value.id, 'open')"
               >
                 <v-icon
                   :size="fontSize"
@@ -300,12 +300,12 @@
               </v-btn>
 
               <v-btn
-                v-if="!isWatched(props.item.tags)"
+                v-if="!isWatched(item.value.tags)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="watchAlert(props.item.id)"
+                @click.stop="watchAlert(item.value.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -314,12 +314,12 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-if="isWatched(props.item.tags)"
+                v-if="isWatched(item.value.tags)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="unwatchAlert(props.item.id)"
+                @click.stop="unwatchAlert(item.value.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -329,12 +329,12 @@
               </v-btn>
 
               <v-btn
-                v-if="isOpen(props.item.status)"
+                v-if="isOpen(item.value.status)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="ackAlert(props.item.id)"
+                @click.stop="ackAlert(item.value.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -343,12 +343,12 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-if="isAcked(props.item.status)"
+                v-if="isAcked(item.value.status)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'unack')"
+                @click.stop="takeAction(item.value.id, 'unack')"
               >
                 <v-icon
                   :size="fontSize"
@@ -358,12 +358,12 @@
               </v-btn>
 
               <v-btn
-                v-if="isOpen(props.item.status) || isAcked(props.item.status)"
+                v-if="isOpen(item.value.status) || isAcked(item.value.status)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="shelveAlert(props.item.id)"
+                @click.stop="shelveAlert(item.value.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -372,12 +372,12 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-if="isShelved(props.item.status)"
+                v-if="isShelved(item.value.status)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'unshelve')"
+                @click.stop="takeAction(item.value.id, 'unshelve')"
               >
                 <v-icon
                   :size="fontSize"
@@ -387,12 +387,12 @@
               </v-btn>
 
               <v-btn
-                v-if="!isClosed(props.item.status)"
+                v-if="!isClosed(item.value.status)"
                 variant="flat"
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'close')"
+                @click.stop="takeAction(item.value.id, 'close')"
               >
                 <v-icon
                   :size="fontSize"
@@ -405,7 +405,7 @@
                 icon
                 size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="deleteAlert(props.item.id)"
+                @click.stop="deleteAlert(item.value.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -418,7 +418,7 @@
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
-                @click.stop="clipboardCopy(JSON.stringify(props.item, null, 4))"
+                @click.stop="clipboardCopy(JSON.stringify(item.value, null, 4))"
               >
                 <v-icon
                   :size="fontSize"
@@ -450,7 +450,7 @@
                   <v-list-item
                     v-for="(action, i) in actions"
                     :key="i"
-                    @click.stop="takeAction(props.item.id, action)"
+                    @click.stop="takeAction(item.value.id, action)"
                   >
                     <v-list-item-title>{{ this.$filters.splitCaps(action) }}</v-list-item-title>
                   </v-list-item>
