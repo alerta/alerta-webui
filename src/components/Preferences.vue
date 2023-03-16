@@ -489,6 +489,7 @@ export default {
             this.$store.getters.getConfig('font')['font-size']).replace('px', '')
         )
       },
+      //WARNING: This causes the slider value to not update until the delay is over
       set: debounce(function (value) {
         this.$store.dispatch('setUserPrefs', {
           font: {'font-size': value + 'px'}

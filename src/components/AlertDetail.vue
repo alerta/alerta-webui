@@ -785,22 +785,21 @@
               <div class="tab-item-wrapper">
                 <v-data-table
                   :header="headersByScreenSize"
-                  :item="history"
+                  :items="history"
                   item-key="index"
                   v-model:pagination="pagination"
                   sort-icon="arrow_drop_down"
                 >
-                  <template
-                    #items="{props}"
+                  <template #item="{item}"
                   >
                     <td class="hidden-sm-and-down">
-                      <span class="console-text">{{ $filters.shortId(props.item.id) }}</span>
+                      <span class="console-text">{{ $filters.shortId(item.props.id) }}</span>
                     </td>
                     <td
                       class="hidden-sm-and-down text-no-wrap"
                     >
                       <date-time
-                        :value="props.item.updateTime"
+                        :value="item.props.updateTime"
                         format="mediumDate"
                       />
                     </td>
@@ -808,39 +807,39 @@
                       class="hidden-md-and-up text-no-wrap"
                     >
                       <date-time
-                        :value="props.item.updateTime"
+                        :value="item.props.updateTime"
                         format="shortTime"
                       />
                     </td>
                     <td class="hidden-sm-and-down">
-                      <span :class="['label', 'label-' + props.item.severity]">
-                        {{ $filters.capitalize(props.item.severity) }}
+                      <span :class="['label', 'label-' + item.props.severity]">
+                        {{ $filters.capitalize(item.props.severity) }}
                       </span>
                     </td>
                     <td class="hidden-sm-and-down">
                       <span class="label">
-                        {{ $filters.capitalize(props.item.status) }}
+                        {{ $filters.capitalize(item.props.status) }}
                       </span>
                     </td>
                     <td class="hidden-sm-and-down">
-                      {{ $filters.hhmmss(props.item.timeout) }}
+                      {{ $filters.hhmmss(item.props.timeout) }}
                     </td>
                     <td>
                       <span class="label">
-                        {{ $filters.splitCaps(props.item.type || 'unknown') }}
+                        {{ $filters.splitCaps(item.props.type || 'unknown') }}
                       </span>
                     </td>
                     <td class="hidden-sm-and-down">
-                      {{ props.item.event }}
+                      {{ item.props.event }}
                     </td>
                     <td class="hidden-sm-and-down">
-                      {{ props.item.value }}
+                      {{ item.props.value }}
                     </td>
                     <td>
-                      {{ props.item.user }}
+                      {{ item.props.user }}
                     </td>
                     <td>
-                      {{ props.item.text }}
+                      {{ item.props.text }}
                     </td>
                   </template>
                 </v-data-table>
@@ -914,17 +913,17 @@ export default {
       descending: true
     },
     headers: [
-      { text: i18n.global.t('AlertOrNoteId'), value: 'id', hide: 'smAndDown' },
-      { text: i18n.global.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
-      { text: i18n.global.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
-      { text: i18n.global.t('Severity'), value: 'severity', hide: 'smAndDown' },
-      { text: i18n.global.t('Status'), value: 'status', hide: 'smAndDown' },
-      { text: i18n.global.t('Timeout'), value: 'timeout', hide: 'smAndDown' },
-      { text: i18n.global.t('Type'), value: 'type' },
-      { text: i18n.global.t('Event'), value: 'event', hide: 'smAndDown' },
-      { text: i18n.global.t('Value'), value: 'value', hide: 'smAndDown' },
-      { text: i18n.global.t('User'), value: 'user' },
-      { text: i18n.global.t('Text'), value: 'text' }
+      { title: i18n.global.t('AlertOrNoteId'), value: 'id', hide: 'smAndDown' },
+      { title: i18n.global.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
+      { title: i18n.global.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
+      { title: i18n.global.t('Severity'), value: 'severity', hide: 'smAndDown' },
+      { title: i18n.global.t('Status'), value: 'status', hide: 'smAndDown' },
+      { title: i18n.global.t('Timeout'), value: 'timeout', hide: 'smAndDown' },
+      { title: i18n.global.t('Type'), value: 'type' },
+      { title: i18n.global.t('Event'), value: 'event', hide: 'smAndDown' },
+      { title: i18n.global.t('Value'), value: 'value', hide: 'smAndDown' },
+      { title: i18n.global.t('User'), value: 'user' },
+      { title: i18n.global.t('Text'), value: 'text' }
     ],
     copyIconText: i18n.global.t('Copy')
   }),
