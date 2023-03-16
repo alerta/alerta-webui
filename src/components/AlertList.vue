@@ -18,15 +18,15 @@
       show-select
     >
       <template #item="{item}">
-        {{ debug(item) }}
         <tr
           :style="{ 'background-color': severityColor(item.props.severity) }"
           class="hover-lighten"
           @click="selectItem(item.props)"
         >
+          <!--TODO: Style is a temporary fix until background-color can be applied to <tr> elements-->
           <td
-            class="text-no-wrap"
-            :style="fontStyle"
+            class="text-no-wrap label-warning"
+            :style="Object.assign({}, fontStyle, { 'background-color': severityColor(item.props.severity)})"
           >
             <!--TODO: item.selected doesn't exist. I don't know how to achieve this functionality in Vuetify 3-->
             <v-checkbox
@@ -66,11 +66,12 @@
               remove
             </v-icon>
           </td>
+          <!--TODO: Style is a temporary fix until background-color can be applied to <tr> elements-->
           <td
             v-for="col in this.$config.columns"
             :key="col"
             :class="['text-no-wrap', textColor(item.props.severity)]"
-            :style="fontStyle"
+            :style="Object.assign({}, fontStyle, { 'background-color': severityColor(item.props.severity)})"
           >
             <span
               v-if="col == 'id'"
@@ -540,7 +541,7 @@ export default {
       return {
         'font-family': font['font-family'],
         'font-size': font['font-size'],
-        'font-weight': font['font-weight']
+        'font-weight': font['font-weight'],
       }
     },
     fontSize() {
