@@ -1,20 +1,25 @@
 <template>
   <!-- fab removed; no longer supported -->
   <v-fab-transition>
-    <v-btn
+    <div>
+      <div style="padding-top: 2px;"/>
+      <v-btn
       key="add"
       v-has-perms="perms"
-      color="accent"
+      color="#eeeeee"
       fixed
       location="bottom"
       end
       @click="addToList"
       class="mb-5"
-    >
-      <v-icon color="white">
+    > 
+      <v-icon>
         add
       </v-icon>
     </v-btn>
+    </div>
+    
+   
   </v-fab-transition>
 </template>
 
