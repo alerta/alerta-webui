@@ -140,7 +140,7 @@
             class="pt-2 mr-3 hidden-sm-and-down"
             @focus="hasFocus = true"
             @blur="hasFocus = false"
-            @change="submitSearch"
+            @update:focused="submitSearch"
             @click:clear="clearSearch"
           >
             <template #append>
@@ -167,6 +167,8 @@
             <v-tooltip
               location="bottom"
             >
+              <!--update:model-value runs every time a character is entered or removed
+              in the search box which may be undesirable-->
               <template #activator="{props}">
                 <v-switch
                   v-bind="props"
