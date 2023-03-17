@@ -303,7 +303,7 @@
         sort-icon="arrow_drop_down"
       >
         <template #items="props">
-          <td>{{ props.item.name }}</td>
+          <td>{{ 'props.item.name' }}</td>
           <td class="text-center">
             <v-tooltip location="top">
               <template #activator="{props}">
@@ -514,7 +514,10 @@ export default {
       }
     },
     allowedRoles() {
-      return this.$store.getters['perms/roles']
+      // added filtering of empty strings
+      let rawRoles = this.$store.getters['perms/roles']
+      const result = rawRoles.filter(word => word != '')
+      return result
     },
     isLoading() {
       return this.$store.state.users.isLoading
