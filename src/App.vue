@@ -140,7 +140,7 @@
             class="pt-2 mr-3 hidden-sm-and-down"
             @focus="hasFocus = true"
             @blur="hasFocus = false"
-            @update:focused="submitSearch"
+            @update:model-value="submitSearch"
             @click:clear="clearSearch"
           >
             <template #append>
