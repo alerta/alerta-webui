@@ -140,7 +140,7 @@
             class="pt-2 mr-3 hidden-sm-and-down"
             @focus="hasFocus = true"
             @blur="hasFocus = false"
-            @update:model-value="submitSearch"
+            @change="submitSearch"
             @click:clear="clearSearch"
           >
             <template #append>
@@ -763,9 +763,10 @@ export default {
   },
   methods: {
     submitSearch(query) {
-      this.$store.dispatch('alerts/updateQuery', { q: query })
+      const term = query.target.value
+      this.$store.dispatch('alerts/updateQuery', { q: term })
       this.$router.push({
-        query: { ...this.$router.query, q: query },
+        query: { ...this.$router.query, q: term },
         hash: this.$store.getters['alerts/getHash']
       })
       this.refresh()
