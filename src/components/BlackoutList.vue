@@ -283,8 +283,8 @@
       </v-card-title>
 
       <v-data-table
-        :header="computedHeaders"
-        :item="blackouts"
+        :headers="computedHeaders"
+        :items="blackouts"
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
@@ -292,164 +292,170 @@
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
+        item-props
       >
-        <template #items="props">
-          <td>
-            <v-tooltip location="top">
-              <template #activator="{props}">
+        <!--TODO: Even though it works in other v-data-tables, passing in "{item}" for the item slot
+        rather than "item" results in item being undefined, but when it is accessed through the object 
+        it is a part of it is not undefined. Makes no sense-->
+        <template #item="item">
+          <tr>
+            <td>
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="onlyEnvironment(item.item.value)"
+                    v-bind="props"
+                    color="red"
+                    size="small"
+                  >
+                    report_problem
+                  </v-icon>
+                </template>
                 {{ $t('WholeEnvironment') }}
-                <v-icon
-                  v-if="onlyEnvironment(props.item)"
-                  v-bind="props"
-                  color="red"
-                  size="small"
-                >
-                  report_problem
-                </v-icon>
-              </template>
-            </v-tooltip>
-            <v-tooltip location="top">
-              <template #activator="{props}">
+              </v-tooltip>
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="onlyOrigin(item.item.value)"
+                    v-bind="props"
+                    color="red"
+                    size="small"
+                  >
+                    report_problem
+                  </v-icon>
+                </template>
                 {{ $t('AllOrigin') }}
-                <v-icon
-                  v-if="onlyOrigin(props.item)"
-                  v-bind="props"
-                  color="red"
-                  size="small"
-                >
-                  report_problem
-                </v-icon>
-              </template>
-            </v-tooltip>
-          </td>
-          <td
-            v-if="$config.customer_views"
-          >
-            {{ props.item.customer }}
-          </td>
-          <td>{{ props.item.environment }}</td>
-          <td>
-            <v-chip
-              v-for="service in props.item.service"
-              :key="service"
-              variant="outlined"
-              small
+              </v-tooltip>
+            </td>
+            <td
+              v-if="this.$config.customer_views"
             >
-              {{ service }}
-            </v-chip>
-          </td>
-          <td>{{ props.item.resource }}</td>
-          <td>{{ props.item.event }}</td>
-          <td>{{ props.item.group }}</td>
-          <td>
-            <v-chip
-              v-for="tag in props.item.tags"
-              :key="tag"
-              label
-              small
-            >
-              <v-icon start>
+              {{ item.item.value.customer }}
+            </td>
+            <td>{{ item.item.value.environment }}</td>
+            <td>
+              <v-chip
+                v-for="service in item.item.value.service"
+                :key="service"
+                variant="outlined"
+                small
+              >
+                {{ service }}
+              </v-chip>
+            </td>
+            <td>{{ item.item.value.resource }}</td>
+            <td>{{ item.item.value.event }}</td>
+            <td>{{ item.item.value.group }}</td>
+            <td>
+              <v-chip
+                v-for="tag in item.item.value.tags"
+                :key="tag"
                 label
-              </v-icon>{{ tag }}
-            </v-chip>
-          </td>
-          <td>{{ props.item.origin }}</td>
-          <td class="text-right">
-            <v-tooltip location="top">
-              <template #activator="{props}">
-                {{ $filters.capitalize(props.item.status) }}
-                <v-icon
-                  v-if="props.item.status == 'pending'"
-                  v-bind="props"
-                  light
-                  size="small"
-                >
-                  schedule
-                </v-icon>
+                small
+              >
+                <v-icon start>
+                  label
+                </v-icon>{{ tag }}
+              </v-chip>
+            </td>
+            <td>{{ item.item.value.origin }}</td>
+            <td class="text-right">
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="item.item.value.status == 'pending'"
+                    v-bind="props"
+                    light
+                    size="small"
+                  >
+                    schedule
+                  </v-icon>
 
-                <v-icon
-                  v-if="props.item.status == 'active'"
-                  v-bind="props"
-                  color="primary"
-                  size="small"
-                >
-                  notifications_paused
-                </v-icon>
+                  <v-icon
+                    v-if="item.item.value.status == 'active'"
+                    v-bind="props"
+                    color="primary"
+                    size="small"
+                  >
+                    notifications_paused
+                  </v-icon>
 
+                  <v-icon
+                    v-if="item.item.value.status == 'expired'"
+                    v-bind="props"
+                    size="small"
+                  >
+                    block
+                  </v-icon>
+                </template>
+                {{ $filters.capitalize(item.item.value.status) }}
+              </v-tooltip>
+            </td>
+            <td class="text-left">
+              <date-time
+                :value="item.item.value.startTime"
+                format="mediumDate"
+              />
+            </td>
+            <td class="text-left">
+              <date-time
+                :value="item.item.value.endTime"
+                format="mediumDate"
+              />
+            </td>
+            <td
+              class="text-left text-no-wrap"
+            >
+              {{ this.$filters.until(item.item.value.endTime) }}
+            </td>
+            <td class="text-left">
+              {{ item.item.value.user }}
+            </td>
+            <td class="text-left">
+              {{ item.item.value.text }}
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'write:blackouts'"
+                icon
+                class="btn--plain mr-0"
+                @click="editItem(item)"
+              >
                 <v-icon
-                  v-if="props.item.status == 'expired'"
-                  v-bind="props"
                   size="small"
+                  color="grey-darken-3"
                 >
-                  block
+                  edit
                 </v-icon>
-              </template>
-            </v-tooltip>
-          </td>
-          <td class="text-left">
-            <date-time
-              :value="props.item.startTime"
-              format="mediumDate"
-            />
-          </td>
-          <td class="text-left">
-            <date-time
-              :value="props.item.endTime"
-              format="mediumDate"
-            />
-          </td>
-          <td
-            class="text-left text-no-wrap"
-          >
-            {{ $filters.until(props.item.endTime) }}
-          </td>
-          <td class="text-left">
-            {{ props.item.user }}
-          </td>
-          <td class="text-left">
-            {{ props.item.text }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'write:blackouts'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'write:blackouts'"
+                icon
+                class="btn--plain mx-0"
+                @click="copyItem(item)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'write:blackouts'"
-              icon
-              class="btn--plain mx-0"
-              @click="copyItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  content_copy
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'write:blackouts'"
+                icon
+                class="btn--plain mx-0"
+                @click="deleteItem(item)"
               >
-                content_copy
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'write:blackouts'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
-              >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
         <template #no-data>
           <v-alert
@@ -504,23 +510,23 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: '', value: 'icons' },
-      { text: i18n.global.t('Customer'), value: 'customer' },
-      { text: i18n.global.t('Environment'), value: 'environment' },
-      { text: i18n.global.t('Service'), value: 'service' },
-      { text: i18n.global.t('Resource'), value: 'resource' },
-      { text: i18n.global.t('Event'), value: 'event' },
-      { text: i18n.global.t('Group'), value: 'group' },
-      { text: i18n.global.t('Tags'), value: 'tags' },
-      { text: i18n.global.t('Origin'), value: 'origin' },
-      { text: '', value: 'status' },
-      { text: i18n.global.t('Start'), value: 'startTime' },
-      { text: i18n.global.t('End'), value: 'endTime' },
-      { text: i18n.global.t('Expires'), value: 'remaining' },
-      { text: i18n.global.t('User'), value: 'user' },
-      // { text: 'Created', value: 'createTime' }, FIXME
-      { text: i18n.global.t('Reason'), value: 'text' },
-      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: '', value: 'icons' },
+      { title: i18n.global.t('Customer'), value: 'customer' },
+      { title: i18n.global.t('Environment'), value: 'environment' },
+      { title: i18n.global.t('Service'), value: 'service' },
+      { title: i18n.global.t('Resource'), value: 'resource' },
+      { title: i18n.global.t('Event'), value: 'event' },
+      { title: i18n.global.t('Group'), value: 'group' },
+      { title: i18n.global.t('Tags'), value: 'tags' },
+      { title: i18n.global.t('Origin'), value: 'origin' },
+      { title: '', value: 'status' },
+      { title: i18n.global.t('Start'), value: 'startTime' },
+      { title: i18n.global.t('End'), value: 'endTime' },
+      { title: i18n.global.t('Expires'), value: 'remaining' },
+      { title: i18n.global.t('User'), value: 'user' },
+      // { title: 'Created', value: 'createTime' }, FIXME
+      { title: i18n.global.t('Reason'), value: 'text' },
+      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -726,7 +732,7 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedItem.period = this.defaultTimes()
         this.editedId = null
-      }, 300)
+      }, 100)
     },
     validate() {
       //TODO: validate() returns a promise which should be awaited
