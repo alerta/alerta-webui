@@ -290,7 +290,7 @@
           >
             {{ props.item.count }}
           </td>
-          <td>{{ $filters.timeago(props.item.lastUsedTime) }}</td> 
+          <td>{{ this.$filters.timeago(props.item.lastUsedTime) }}</td> 
           <td
             v-if="$config.customer_views"
           >

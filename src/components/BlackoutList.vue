@@ -388,7 +388,7 @@
                     block
                   </v-icon>
                 </template>
-                {{ $filters.capitalize(item.item.value.status) }}
+                {{ this.$filters.capitalize(item.item.value.status) }}
               </v-tooltip>
             </td>
             <td class="text-left">
@@ -406,7 +406,7 @@
             <td
               class="text-left text-no-wrap"
             >
-              {{ $filters.until(item.item.value.endTime) }}
+              {{ this.$filters.until(item.item.value.endTime) }}
             </td>
             <td class="text-left">
               {{ item.item.value.user }}

@@ -245,7 +245,7 @@
                   :key="i"
                   @click="takeAction(item.id, action)"
                 >
-                  <v-list-item-title>{{ $filters.splitCaps(action) }}</v-list-item-title>
+                  <v-list-item-title>{{ this.$filters.splitCaps(action) }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -286,13 +286,13 @@
                     <b><date-time
                       :value="note.updateTime"
                       format="longDate"
-                    /></b> ({{ $filters.timeago(note.updateTime) }})<br>
+                    /></b> ({{ this.$filters.timeago(note.updateTime) }})<br>
                   </span>
                   <span v-else>
                     <b><date-time
                       :value="note.createTime"
                       format="longDate"
-                    /></b> ({{ $filters.timeago(note.createTime) }})<br>
+                    /></b> ({{ this.$filters.timeago(note.createTime) }})<br>
                   </span>
                   <i>{{ note.text }}</i>
                 </v-alert>
@@ -309,7 +309,7 @@
                     v-if="note.updateTime"
                     :value="note.updateTime"
                     format="longDate"
-                  /></b> ({{ $filters.timeago(note.updateTime) }})<br>
+                  /></b> ({{ this.$filters.timeago(note.updateTime) }})<br>
                   <i>{{ note.text }}</i>
                 </v-alert>
                 <!-- DEPRECATED -->
@@ -357,7 +357,7 @@
                             :value="item.createTime"
                             format="longDate"
                           />
-                          ({{ $filters.timeago(item.createTime) }})
+                          ({{ this.$filters.timeago(item.createTime) }})
                         </div>
                       </div>
                     </div>
@@ -376,7 +376,7 @@
                             :value="item.receiveTime"
                             format="longDate"
                           />
-                          ({{ $filters.timeago(item.receiveTime) }})
+                          ({{ this.$filters.timeago(item.receiveTime) }})
                         </div>
                       </div>
                     </div>
@@ -395,7 +395,7 @@
                             :value="item.lastReceiveTime"
                             format="longDate"
                           />
-                          ({{ $filters.timeago(item.lastReceiveTime) }})
+                          ({{ this.$filters.timeago(item.lastReceiveTime) }})
                         </div>
                       </div>
                     </div>
@@ -538,10 +538,10 @@
                       <div class="flex xs6 text-left">
                         <div>
                           <span :class="['label', 'label-' + item.previousSeverity]">
-                            {{ $filters.capitalize(item.previousSeverity) }}
+                            {{ this.$filters.capitalize(item.previousSeverity) }}
                           </span>&nbsp;&rarr;&nbsp;
                           <span :class="['label', 'label-' + item.severity]">
-                            {{ $filters.capitalize(item.severity) }}
+                            {{ this.$filters.capitalize(item.severity) }}
                           </span>
                         </div>
                       </div>
@@ -558,11 +558,11 @@
                       <div class="flex xs6 text-left">
                         <div>
                           <span class="label">
-                            {{ $filters.capitalize(item.status) }}
+                            {{ this.$filters.capitalize(item.status) }}
                           </span>
                           <span
                             v-if="statusNote && statusNote.user"
-                          >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ $filters.timeago(statusNote.updateTime) }})
+                          >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ this.$filters.timeago(statusNote.updateTime) }})
                           </span>
                         </div>
                       </div>
@@ -624,7 +624,7 @@
                       <div class="flex xs6 text-left">
                         <div>
                           <span class="label">
-                            {{ $filters.splitCaps(item.trendIndication) }}
+                            {{ this.$filters.splitCaps(item.trendIndication) }}
                           </span>
                         </div>
                       </div>
@@ -654,7 +654,7 @@
                       <div class="flex xs6 text-left">
                         <div>
                           <span class="label">
-                            {{ $filters.splitCaps(item.type) }}
+                            {{ this.$filters.splitCaps(item.type) }}
                           </span>
                         </div>
                       </div>
@@ -684,7 +684,7 @@
                       <div class="flex xs6 text-left">
                         <div>
                           <span class="label">
-                            {{ $filters.capitalize(item.repeat) }}
+                            {{ this.$filters.capitalize(item.repeat) }}
                           </span>
                         </div>
                       </div>
@@ -739,7 +739,7 @@
                     <div class="d-flex align-top">
                       <div class="flex xs3 text-left">
                         <div class="text-grey">
-                          {{ $filters.splitCaps(attr) }}
+                          {{ this.$filters.splitCaps(attr) }}
                         </div>
                       </div>
                       <div class="flex xs6 text-left">
@@ -816,7 +816,7 @@
                 >
                   <tr>
                     <td class="hidden-sm-and-down">
-                      <span class="console-text">{{ $filters.shortId(item.props.id) }}</span>
+                      <span class="console-text">{{ this.$filters.shortId(item.props.id) }}</span>
                     </td>
                     <td
                       class="hidden-sm-and-down text-no-wrap"
@@ -836,20 +836,20 @@
                     </td>
                     <td class="hidden-sm-and-down">
                       <span :class="['label', 'label-' + item.props.severity]">
-                        {{ $filters.capitalize(item.props.severity) }}
+                        {{ this.$filters.capitalize(item.props.severity) }}
                       </span>
                     </td>
                     <td class="hidden-sm-and-down">
                       <span class="label">
-                        {{ $filters.capitalize(item.props.status) }}
+                        {{ this.$filters.capitalize(item.props.status) }}
                       </span>
                     </td>
                     <td class="hidden-sm-and-down">
-                      {{ $filters.hhmmss(item.props.timeout) }}
+                      {{ this.$filters.hhmmss(item.props.timeout) }}
                     </td>
                     <td>
                       <span class="label">
-                        {{ $filters.splitCaps(item.props.type || 'unknown') }}
+                        {{ this.$filters.splitCaps(item.props.type || 'unknown') }}
                       </span>
                     </td>
                     <td class="hidden-sm-and-down">

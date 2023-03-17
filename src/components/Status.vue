@@ -10,7 +10,7 @@
         #items="props"
       >
         <td>{{ props.item.title }}</td>
-        <td>{{ $filters.capitalize(props.item.type) }}</td>
+        <td>{{ this.$filters.capitalize(props.item.type) }}</td>
         <td>{{ props.item.group }}.{{ props.item.name }}</td>
         <td>{{ props.item.value || props.item.count }}</td>
         <td>{{ avgTime(props.item) }}</td>
@@ -35,7 +35,7 @@
           />
         </td>
         <td>{{ $t('Uptime') }}</td>
-        <td>{{ $filters.days(props.item.uptime / 1000) }}</td>
+        <td>{{ this.$filters.days(props.item.uptime / 1000) }}</td>
       </template>
     </v-data-table>
   </div>

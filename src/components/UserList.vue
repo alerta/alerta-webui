@@ -317,7 +317,7 @@
                   }}
                 </v-icon>
               </template>
-              <span>{{ $filters.capitalize(props.item.status) }}</span>
+              <span>{{ this.$filters.capitalize(props.item.status) }}</span>
             </v-tooltip>
           </td>
           <td>{{ props.item.login }}</td>

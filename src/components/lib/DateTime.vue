@@ -5,10 +5,10 @@
         v-bind="props"
         class="text-no-wrap"
       >
-        {{ $filters.date(value, displayMode, formatString) }}
+        {{ this.$filters.date(value, displayMode, formatString) }}
       </span>
     </template>
-    <span>{{ $filters.date(value, 'utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
+    <span>{{ this.$filters.date(value, 'utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
   </v-tooltip>
 </template>
 

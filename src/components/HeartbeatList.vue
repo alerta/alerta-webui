@@ -109,14 +109,14 @@
         <td
           class="text-center text-no-wrap"
         >
-          {{ $filters.hhmmss(timeoutLeft(props.item)) }}
+          {{ this.$filters.hhmmss(timeoutLeft(props.item)) }}
         </td>
         <td>
-          {{ $filters.timeago(props.item.receiveTime) }}
+          {{ this.$filters.timeago(props.item.receiveTime) }}
         </td>
         <td>
           <span :class="['label', 'label-' + props.item.status.toLowerCase()]">
-            {{ $filters.capitalize(props.item.status) }}
+            {{ this.$filters.capitalize(props.item.status) }}
           </span>
         </td>
         <td class="text-no-wrap">
