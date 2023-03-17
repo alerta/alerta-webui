@@ -777,21 +777,44 @@
           <v-tab ripple>
             <v-icon>history</v-icon>&nbsp;{{ $t('History') }}
           </v-tab>
+          <v-tab ripple>
+            <v-icon>assessment</v-icon>&nbsp;{{ $t('Data') }}
+          </v-tab>
           <v-window>
             <v-window-item
               :transition="false"
               :reverse-transition="false"
             >
-              <div class="tab-item-wrapper">
-                <v-data-table
-                  :header="headersByScreenSize"
-                  :items="history"
-                  item-key="index"
-                  v-model:pagination="pagination"
-                  sort-icon="arrow_drop_down"
+              <v-card
+                :color="isDark ? 'grey darken-1' : 'grey lighten-3'"
+                class="mx-1"
+                style="overflow-x: auto;"
+                flat
+              >
+                <v-card-text>
+                  <span class="console-text">{{ item.rawData || 'no raw data' }}</span>
+                </v-card-text>
+              </v-card>
+            </v-window-item>
+          </v-window>
+        </v-tabs>
+        <v-window>
+          <v-window-item
+            :transition="false"
+            :reverse-transition="false"
+          >
+            <div class="tab-item-wrapper">
+              <v-data-table
+                :headers="headersByScreenSize"
+                :items="history"
+                item-key="index"
+                v-model:pagination="pagination"
+                sort-icon="arrow_drop_down"
+                item-props
+              >
+                <template #item="{item}"
                 >
-                  <template #item="{item}"
-                  >
+                  <tr>
                     <td class="hidden-sm-and-down">
                       <span class="console-text">{{ $filters.shortId(item.props.id) }}</span>
                     </td>
@@ -841,32 +864,12 @@
                     <td>
                       {{ item.props.text }}
                     </td>
-                  </template>
-                </v-data-table>
-              </div>
-            </v-window-item>
-          </v-window>
-          <v-tab ripple>
-            <v-icon>assessment</v-icon>&nbsp;{{ $t('Data') }}
-          </v-tab>
-          <v-window>
-            <v-window-item
-              :transition="false"
-              :reverse-transition="false"
-            >
-              <v-card
-                :color="isDark ? 'grey darken-1' : 'grey lighten-3'"
-                class="mx-1"
-                style="overflow-x: auto;"
-                flat
-              >
-                <v-card-text>
-                  <span class="console-text">{{ item.rawData || 'no raw data' }}</span>
-                </v-card-text>
-              </v-card>
-            </v-window-item>
-          </v-window>
-        </v-tabs>
+                  </tr>
+                </template>
+              </v-data-table>
+            </div>
+          </v-window-item>
+        </v-window>
       </v-card>
 
       <alert-actions
@@ -987,6 +990,7 @@ export default {
     this.getNotes(this.id)
   },
   methods: {
+    log: obj => console.log(obj),
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
     },

@@ -76,7 +76,7 @@
             <span
               v-if="col == 'id'"
             >
-              {{ this.$filters.shortId(item.props.id) }}
+              {{ $filters.shortId(item.props.id) }}
             </span>
             <span
               v-if="col == 'resource'"
@@ -100,7 +100,7 @@
                 :class="['label', 'label-' + item.props.severity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(item.props.severity) }}
+                {{ $filters.capitalize(item.props.severity) }}
               </span>
             </span>
             <span
@@ -115,7 +115,7 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(item.props.status) }}
+                {{ $filters.capitalize(item.props.status) }}
 
               </span>
               <span
@@ -193,7 +193,7 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ this.$filters.splitCaps(item.props.type) }}
+                {{ $filters.splitCaps(item.props.type) }}
               </span>
             </span>
             <span
@@ -207,13 +207,13 @@
             <span
               v-if="col == 'timeout'"
             >
-              {{ this.$filters.hhmmss(item.props.timeout) }}
+              {{ $filters.hhmmss(item.props.timeout) }}
             </span>
             <span
               v-if="col == 'timeoutLeft'"
               class="text-right"
             >
-              {{ this.$filters.hhmmss(timeoutLeft(item.props.id)) }}
+              {{ $filters.hhmmss(timeoutLeft(item.props.id)) }}
             </span>
             <!-- rawData not supported -->
             <span
@@ -233,7 +233,7 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(item.props.repeat) }}
+                {{ $filters.capitalize(item.props.repeat) }}
               </span>
             </span>
             <span
@@ -243,7 +243,7 @@
                 :class="['label', 'label-' + item.props.previousSeverity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ this.$filters.capitalize(item.props.previousSeverity) }}
+                {{ $filters.capitalize(item.props.previousSeverity) }}
               </span>
             </span>
             <!-- trendIndication not supported -->
@@ -259,12 +259,12 @@
               v-if="col == 'duration'"
               class="text-right"
             >
-              {{ this.$filters.hhmmss(duration(item.props.id)) }}
+              {{ $filters.hhmmss(duration(item.props.id)) }}
             </span>
             <span
               v-if="col == 'lastReceiveId'"
             >
-              {{ this.$filters.shortId(item.props.lastReceiveId) }}
+              {{ $filters.shortId(item.props.lastReceiveId) }}
             </span>
             <span
               v-if="col == 'lastReceiveTime'"
@@ -457,7 +457,7 @@
                     :key="i"
                     @click.stop="takeAction(item.props.id, action)"
                   >
-                    <v-list-item-title>{{ this.$filters.splitCaps(action) }}</v-list-item-title>
+                    <v-list-item-title>{{ $filters.splitCaps(action) }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -578,7 +578,7 @@ export default {
     },
     customHeaders() {
       return this.$config.columns.map(c =>
-        this.headersMap[c] || { title: this.$filters.capitalize(c), value: 'attributes.' + c }
+        this.headersMap[c] || { title: $filters.capitalize(c), value: 'attributes.' + c }
       )
     },
     selectedItem() {
