@@ -294,16 +294,13 @@
         sort-icon="arrow_drop_down"
         item-props
       >
-        <!--TODO: Even though it works in other v-data-tables, passing in "{item}" for the item slot
-        rather than "item" results in item being undefined, but when it is accessed through the object 
-        it is a part of it is not undefined. Makes no sense-->
-        <template #item="item">
+        <template #item="{item}">
           <tr>
             <td>
               <v-tooltip location="top">
                 <template #activator="{props}">
                   <v-icon
-                    v-if="onlyEnvironment(item.item.value)"
+                    v-if="onlyEnvironment(item.props)"
                     v-bind="props"
                     color="red"
                     size="small"
@@ -316,7 +313,7 @@
               <v-tooltip location="top">
                 <template #activator="{props}">
                   <v-icon
-                    v-if="onlyOrigin(item.item.value)"
+                    v-if="onlyOrigin(item.props)"
                     v-bind="props"
                     color="red"
                     size="small"
@@ -328,14 +325,14 @@
               </v-tooltip>
             </td>
             <td
-              v-if="this.$config.customer_views"
+              v-if="$config.customer_views"
             >
-              {{ item.item.value.customer }}
+              {{ item.props.customer }}
             </td>
-            <td>{{ item.item.value.environment }}</td>
+            <td>{{ item.props.environment }}</td>
             <td>
               <v-chip
-                v-for="service in item.item.value.service"
+                v-for="service in item.props.service"
                 :key="service"
                 variant="outlined"
                 small
@@ -343,12 +340,12 @@
                 {{ service }}
               </v-chip>
             </td>
-            <td>{{ item.item.value.resource }}</td>
-            <td>{{ item.item.value.event }}</td>
-            <td>{{ item.item.value.group }}</td>
+            <td>{{ item.props.resource }}</td>
+            <td>{{ item.props.event }}</td>
+            <td>{{ item.props.group }}</td>
             <td>
               <v-chip
-                v-for="tag in item.item.value.tags"
+                v-for="tag in item.props.tags"
                 :key="tag"
                 label
                 small
@@ -358,12 +355,12 @@
                 </v-icon>{{ tag }}
               </v-chip>
             </td>
-            <td>{{ item.item.value.origin }}</td>
+            <td>{{ item.props.origin }}</td>
             <td class="text-right">
               <v-tooltip location="top">
                 <template #activator="{props}">
                   <v-icon
-                    v-if="item.item.value.status == 'pending'"
+                    v-if="item.props.status == 'pending'"
                     v-bind="props"
                     light
                     size="small"
@@ -372,7 +369,7 @@
                   </v-icon>
 
                   <v-icon
-                    v-if="item.item.value.status == 'active'"
+                    v-if="item.props.status == 'active'"
                     v-bind="props"
                     color="primary"
                     size="small"
@@ -381,38 +378,38 @@
                   </v-icon>
 
                   <v-icon
-                    v-if="item.item.value.status == 'expired'"
+                    v-if="item.props.status == 'expired'"
                     v-bind="props"
                     size="small"
                   >
                     block
                   </v-icon>
                 </template>
-                {{ this.$filters.capitalize(item.item.value.status) }}
+                {{ this.$filters.capitalize(item.props.status) }}
               </v-tooltip>
             </td>
             <td class="text-left">
               <date-time
-                :value="item.item.value.startTime"
+                :value="item.props.startTime"
                 format="mediumDate"
               />
             </td>
             <td class="text-left">
               <date-time
-                :value="item.item.value.endTime"
+                :value="item.props.endTime"
                 format="mediumDate"
               />
             </td>
             <td
               class="text-left text-no-wrap"
             >
-              {{ this.$filters.until(item.item.value.endTime) }}
+              {{ this.$filters.until(item.props.endTime) }}
             </td>
             <td class="text-left">
-              {{ item.item.value.user }}
+              {{ item.props.user }}
             </td>
             <td class="text-left">
-              {{ item.item.value.text }}
+              {{ item.props.text }}
             </td>
             <td class="text-no-wrap">
               <v-btn
@@ -576,7 +573,8 @@ export default {
         .map(b => {
           let s = moment(b.startTime)
           let e = moment(b.endTime)
-          return Object.assign(b, {
+          let result = Object.assign({}, {...b})
+          return Object.assign(result, {
             period: {
               startDate: s.format('YYYY-MM-DD'),
               startTime: s.format('HH:mm'),
