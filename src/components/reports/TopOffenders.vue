@@ -15,21 +15,22 @@
         :items="top10"
         class="px-2"
         hide-default-footer
+        item-props
       >
         <template #item="{item}">
           <tr>
-            <td>{{ item.value.event }}</td>
+            <td>{{ item.props.event }}</td>
             <td class="text-center">
-              {{ item.value.count }}
+              {{ item.props.count }}
             </td>
             <td class="text-center">
-              {{ item.value.duplicateCount }}
+              {{ item.props.duplicateCount }}
             </td>
-            <td>{{ item.value.environments.join(', ') }}</td>
-            <td>{{ item.value.services.join(', ') }}</td>
+            <td>{{ item.props.environments.join(', ') }}</td>
+            <td>{{ item.props.services.join(', ') }}</td>
             <td>
               <span
-                v-for="r in item.value.resources"
+                v-for="r in item.props.resources"
                 :key="r.id"
               >
                 <router-link :to="`/alert/${r.id}`">

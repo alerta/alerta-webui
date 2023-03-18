@@ -199,8 +199,8 @@
       </v-card-title>
 
       <v-data-table
-        :header="computedHeaders"
-        :item="keys"
+        :headers="computedHeaders"
+        :items="keys"
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
@@ -208,136 +208,136 @@
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
+        item-props
       >
-        <template
-          #items="props"
-        >
-          <td
-            class="text-no-wrap"
-            monospace
-          >
-            {{ props.item.key }}
-            <v-tooltip
-              :key="copyIconText"
-              location="top"
+        <template #item="{item}">
+          <tr>
+            <td
+              class="text-no-wrap"
+              monospace
             >
-              <template #activator="{props}">
-                <v-icon
-                  v-bind="props"
-                  :value="props.item.key"
-                  style="font-size: 16px;"
-                  @click="clipboardCopy(props.item.key)"
-                >
-                  content_copy
-                </v-icon>
-              </template>
-              <span>{{ copyIconText }}</span>
-            </v-tooltip>
-          </td>
-          <td>
-            <v-tooltip
-              v-if="!isExpired(props.item.expireTime)"
-              location="top"
+              {{ item.props.key }}
+              <v-tooltip
+                :key="copyIconText"
+                location="top"
+              >
+                <template #activator="{props}">
+                  <v-icon
+                    v-bind="props"
+                    :value="item.props.key"
+                    style="font-size: 16px;"
+                    @click="clipboardCopy(item.props.key)"
+                  >
+                    content_copy
+                  </v-icon>
+                </template>
+                <span>{{ copyIconText }}</span>
+              </v-tooltip>
+            </td>
+            <td>
+              <v-tooltip
+                v-if="!isExpired(item.props.expireTime)"
+                location="top"
+              >
+                <template #activator="{props}">
+                  <v-icon
+                    v-bind="props"
+                    color="primary"
+                    size="small"
+                  >
+                    check_circle
+                  </v-icon>
+                </template>
+                <span>{{ $t('Active') }}</span>
+              </v-tooltip>
+              <v-tooltip
+                v-if="isExpired(item.props.expireTime)"
+                location="top"
+              >
+                <template #activator="{props}">
+                  <v-icon
+                    v-bind="props"
+                    color="error"
+                    size="small"
+                  >
+                    error_outline
+                  </v-icon>
+                </template>
+                <span>{{ $t('Expired') }}</span>
+              </v-tooltip>
+            </td>
+            <td>{{ item.props.user }}</td>
+            <td>
+              <v-chip
+                v-for="scope in item.props.scopes"
+                :key="scope"
+                small
+              >
+                <strong>{{ scope }}</strong>&nbsp;
+                <span>({{ $t('scope') }})</span>
+              </v-chip>
+            </td>
+            <td>{{ item.props.text }}</td>
+            <td>
+              <date-time
+                :value="item.props.expireTime"
+                format="mediumDate"
+              />
+            </td>
+            <td
+              class="text-center"
             >
-              <template #activator="{props}">
+              {{ item.props.count }}
+            </td>
+            <td>{{ this.$filters.timeago(item.props.lastUsedTime) }}</td> 
+            <td
+              v-if="$config.customer_views"
+            >
+              {{ item.props.customer }}
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'write:keys'"
+                icon
+                class="btn--plain mr-0"
+                @click="editItem(item.props)"
+              >
                 <v-icon
-                  v-bind="props"
-                  color="primary"
                   size="small"
+                  color="grey-darken-3"
                 >
-                  check_circle
+                  edit
                 </v-icon>
-              </template>
-
-              <span>{{ $t('Active') }}</span>
-            </v-tooltip>
-            <v-tooltip
-              v-if="isExpired(props.item.expireTime)"
-              location="top"
-            >
-              <template #activator="{props}">
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:keys'"
+                icon
+                class="btn--plain mx-0"
+                @click="deleteItem(item.props)"
+              >
                 <v-icon
-                  v-bind="props"
-                  color="error"
                   size="small"
+                  color="grey-darken-3"
                 >
-                  error_outline
+                  delete
                 </v-icon>
-              </template>
-              <span>{{ $t('Expired') }}</span>
-            </v-tooltip>
-          </td>
-          <td>{{ props.item.user }}</td>
-          <td>
-            <v-chip
-              v-for="scope in props.item.scopes"
-              :key="scope"
-              small
-            >
-              <strong>{{ scope }}</strong>&nbsp;
-              <span>({{ $t('scope') }})</span>
-            </v-chip>
-          </td>
-          <td>{{ props.item.text }}</td>
-          <td>
-            <date-time
-              :value="props.item.expireTime"
-              format="mediumDate"
-            />
-          </td>
-          <td
-            class="text-center"
-          >
-            {{ props.item.count }}
-          </td>
-          <td>{{ this.$filters.timeago(props.item.lastUsedTime) }}</td> 
-          <td
-            v-if="$config.customer_views"
-          >
-            {{ props.item.customer }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'write:keys'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:keys'"
+                :href="`data:text/plain;base64,${toData(item.props)}`"
+                :download="`key_${item.props.id}.json`"
+                icon
+                class="btn--plain mx-0"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:keys'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
-              >
-                delete
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:keys'"
-              :href="`data:text/plain;base64,${toData(props.item)}`"
-              :download="`key_${props.item.id}.json`"
-              icon
-              class="btn--plain mx-0"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
-              >
-                get_app
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  get_app
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
         <template #no-data>
           <v-alert
@@ -357,7 +357,6 @@
             {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
           </v-alert>
         </template>
-
       </v-data-table>
     </v-card>
 
@@ -470,6 +469,7 @@ export default {
     this.getCustomers()
   },
   methods: {
+    debug: obj => console.log(obj),
     getApiKeys() {
       this.$store.dispatch('keys/getKeys')
     },

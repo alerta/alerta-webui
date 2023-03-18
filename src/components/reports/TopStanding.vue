@@ -16,22 +16,20 @@
         class="px-2"
         hide-default-footer
       >
-        <template
-          #items="props"
-        >
+        <template #item="{item}">
           <tr>
-            <td>{{ props.item.event }}</td>
+            <td>{{ item.props.event }}</td>
             <td class="text-center">
-              {{ props.item.count }}
+              {{ item.props.count }}
             </td>
             <td class="text-center">
-              {{ props.item.duplicateCount }}
+              {{ item.props.duplicateCount }}
             </td>
-            <td>{{ props.item.environments.join(', ') }}</td>
-            <td>{{ props.item.services.join(', ') }}</td>
+            <td>{{ item.props.environments.join(', ') }}</td>
+            <td>{{ item.props.services.join(', ') }}</td>
             <td>
               <span
-                v-for="r in props.item.resources"
+                v-for="r in item.props.resources"
                 :key="r.id"
               >
                 <router-link :to="`/alert/${r.id}`">
@@ -52,12 +50,12 @@ import i18n from '@/plugins/i18n'
 export default {
   data: () => ({
     headers: [
-      {title: i18n.global.t('Event'), key: 'event', sortable: false},
-      {title: i18n.global.t('Count'), key: 'count', sortable: false},
-      {title: i18n.global.t('DuplCount'), key: 'duplicateCount', sortable: false},
-      {title: i18n.global.t('Environment'), key: 'environment', sortable: false},
-      {title: i18n.global.t('Services'), key: 'services', sortable: false},
-      {title: i18n.global.t('Resources'), key: 'resources', sortable: false},
+      {title: i18n.global.t('Event'), value: 'event', sortable: false},
+      {title: i18n.global.t('Count'), value: 'count', sortable: false},
+      {title: i18n.global.t('DuplCount'), value: 'duplicateCount', sortable: false},
+      {title: i18n.global.t('Environment'), value: 'environment', sortable: false},
+      {title: i18n.global.t('Services'), value: 'services', sortable: false},
+      {title: i18n.global.t('Resources'), value: 'resources', sortable: false},
     ]
   }),
   computed: {

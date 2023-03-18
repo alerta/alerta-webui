@@ -986,7 +986,6 @@ export default {
     this.getNotes(this.id)
   },
   methods: {
-    log: obj => console.log(obj),
     getAlert() {
       this.$store.dispatch('alerts/getAlert', this.id)
     },
