@@ -129,7 +129,7 @@
 
       <span class="pr-2" />
     </v-tabs>
-    <!--v-data-table rows only render when the v-window is outside v-tabs?-->
+
     <v-window v-model="currentTab">
       <v-window-item
         v-for="env in environments"
