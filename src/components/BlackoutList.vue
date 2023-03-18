@@ -416,7 +416,7 @@
                 v-has-perms.disable="'write:blackouts'"
                 icon
                 class="btn--plain mr-0"
-                @click="editItem(item)"
+                @click="editItem(item.props)"
               >
                 <v-icon
                   size="small"
@@ -429,7 +429,7 @@
                 v-has-perms.disable="'write:blackouts'"
                 icon
                 class="btn--plain mx-0"
-                @click="copyItem(item)"
+                @click="copyItem(item.props)"
               >
                 <v-icon
                   size="small"
@@ -442,7 +442,7 @@
                 v-has-perms.disable="'write:blackouts'"
                 icon
                 class="btn--plain mx-0"
-                @click="deleteItem(item)"
+                @click="deleteItem(item.props)"
               >
                 <v-icon
                   size="small"
