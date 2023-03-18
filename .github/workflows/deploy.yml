@@ -1,8 +1,14 @@
-name: github-pages
+name: Deploy
 
 on:
   push:
-    branches: [master, release/*]
+    branches:
+      - master
+      - 'release/**'
+  pull_request:
+    branches:
+      - master
+      - 'release/**'
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -10,6 +16,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
@@ -32,6 +39,7 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
@@ -41,7 +49,7 @@ jobs:
       - run: npm install
       - run: |
           echo BASE_URL=./ > .env
-          echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.herokuapp.com >> .env
+          echo VUE_APP_ALERTA_ENDPOINT=https://alerta-api.fly.dev >> .env
           echo VUE_APP_TRACKING_ID=UA-44644195-7 >> .env
       - name: Build
         id: build
@@ -52,7 +60,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-      - uses: act10ns/slack@v1
+      - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
