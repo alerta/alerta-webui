@@ -611,7 +611,6 @@ export default {
     }
   },
   methods: {
-    debug: obj => console.log(obj),
     duration(item) {
       return moment.duration(moment().diff(moment(item.receiveTime)))
     },

@@ -2,7 +2,7 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="540px"
+      max-width="700px"
     >
       <v-form ref="form">
         <v-card>
@@ -18,6 +18,7 @@
                 <v-col
                   v-if="$config.customer_views"
                   xs="12"
+                  sm="12"
                 >
                   <v-select
                     v-model="editedItem.customer"
@@ -28,6 +29,7 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
                 >
                   <v-select
                     v-model="editedItem.environment"
@@ -40,6 +42,7 @@
 
                 <v-col
                   xs="4"
+                  sm="4"
                 >
                   <v-menu
                     ref="menu1"
@@ -70,6 +73,7 @@
 
                 <v-col
                   xs="2"
+                  sm="2"
                 >
                   <v-combobox
                     v-model="editedItem.period.startTime"
@@ -78,6 +82,7 @@
                 </v-col>
                 <v-col
                   xs="2"
+                  sm="2"
                 >
                   <v-combobox
                     v-model="editedItem.period.endTime"
@@ -87,6 +92,7 @@
 
                 <v-col
                   xs="4"
+                  sm="4"
                 >
                   <v-menu
                     v-model="menu2"
@@ -115,6 +121,7 @@
 
                 <v-col
                   xs="12"
+                  sm="6"
                 >
                   <v-combobox
                     v-model="editedItem.service"
@@ -129,6 +136,7 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.resource"
@@ -137,6 +145,7 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.event"
@@ -145,6 +154,7 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.group"
@@ -154,6 +164,7 @@
 
                 <v-col
                   xs="12"
+                  sm="6"
                 >
                   <v-combobox
                     v-model="editedItem.tags"
@@ -182,6 +193,7 @@
 
                 <v-col
                   xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.origin"
@@ -191,6 +203,7 @@
 
                 <v-col
                   xs="12"
+                  sm="12"
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
