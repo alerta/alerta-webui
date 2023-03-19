@@ -469,7 +469,6 @@ export default {
     this.getCustomers()
   },
   methods: {
-    debug: obj => console.log(obj),
     getApiKeys() {
       this.$store.dispatch('keys/getKeys')
     },

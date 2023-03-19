@@ -573,8 +573,7 @@ export default {
         .map(b => {
           let s = moment(b.startTime)
           let e = moment(b.endTime)
-          let result = Object.assign({}, {...b})
-          return Object.assign(result, {
+          return Object.assign({}, b, {
             period: {
               startDate: s.format('YYYY-MM-DD'),
               startTime: s.format('HH:mm'),
