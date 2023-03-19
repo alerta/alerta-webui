@@ -13,10 +13,9 @@
           </div>
         </div>
       </v-card-title>
+      <!--TODO: Arrange buttons vertically like before-->
       <v-card-actions>
-        <v-radio-group
-          class="mt-0"
-        >
+        <v-container fluid>
           <v-checkbox
             v-model="isDark"
             :label="$t('DarkTheme')"
@@ -29,7 +28,7 @@
             hide-details
             class="my-0"
           />
-        </v-radio-group>
+        </v-container>
       </v-card-actions>
     </v-card>
 
@@ -127,9 +126,7 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-radio-group
-            class="mt-0"
-          >
+          <v-container fluid>
             <v-checkbox
               v-model="showAllowedEnvs"
               :label="$t('ShowAllowedEnvs')"
@@ -142,7 +139,7 @@
               persistent-hint
               class="my-0"
             />
-          </v-radio-group>
+          </v-container>
         </v-card-actions>
         <v-card-actions>
           <v-row column>
@@ -244,16 +241,12 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-radio-group
-            class="mt-0"
-          >
-            <v-checkbox
-              v-model="blackoutStartNow"
-              :label="$t('BlackoutStartNow')"
-              hide-details
-              class="my-0"
-            />
-          </v-radio-group>
+          <v-checkbox
+            v-model="blackoutStartNow"
+            :label="$t('BlackoutStartNow')"
+            hide-details
+            class="my-0"
+          />
         </v-card-actions>
         <v-card-actions>
           <v-row column>
