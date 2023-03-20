@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-dialog
@@ -94,42 +95,44 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template #items="props">
-          <td>{{ props.item.match }}</td>
-          <td>
-            <v-chip>
-              <strong>{{ props.item.customer }}</strong>&nbsp;
-              <span>({{ $t('customer') }})</span>
-            </v-chip>
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:customers'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+        <template #items="{item}">
+          <tr>
+            <td>{{ item.props.match }}</td>
+            <td>
+              <v-chip>
+                <strong>{{ item.props.customer }}</strong>&nbsp;
+                <span>({{ $t('customer') }})</span>
+              </v-chip>
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'admin:customers'"
+                icon
+                class="btn--plain mr-0"
+                @click="editItem(item.props)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:customers'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  edit
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:customers'"
+                icon
+                class="btn--plain mx-0"
+                @click="deleteItem(item.props)"
               >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
         <template #no-data>
           <v-alert
@@ -179,9 +182,9 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: i18n.global.t('LookUp'), value: 'match' },
-      { text: i18n.global.t('Customer'), value: 'customer' },
-      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('LookUp'), value: 'match' },
+      { title: i18n.global.t('Customer'), value: 'customer' },
+      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
