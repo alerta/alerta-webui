@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-dialog
@@ -127,8 +128,8 @@
       </v-card-title>
 
       <v-data-table
-        :header="headers"
-        :item="perms"
+        :headers="headers"
+        :items="perms"
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
@@ -138,65 +139,65 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template #items="props">
-          <td>
-            <v-chip small>
-              <strong>{{ props.item.match }}</strong>&nbsp;
-              <span>({{ $t('role') }})</span>
-            </v-chip>
-            <v-tooltip location="top">
-              <template #activator="{props}">
+        <template #item="{item}">
+          <tr>
+            <td>
+              <v-chip small>
+                <strong>{{ item.props.title.match }}</strong>&nbsp;
+              </v-chip>
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="systemRoles.includes(item.props.title.match)"
+                    v-bind="props"
+                    size="small"
+                  >
+                    lock
+                  </v-icon>
+                </template>
+                <span>{{ $t('SystemRole') }}</span>
+              </v-tooltip>
+            </td>
+            <td>
+              <v-chip
+                v-for="scope in item.props.title.scopes"
+                :key="scope"
+                small
+              >
+                <strong>{{ scope }}</strong>&nbsp;
+              </v-chip>
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'admin:perms'"
+                icon
+                class="btn--plain mr-0"
+                :disabled="systemRoles.includes(item.props.title.match)"
+                @click="editItem(item.props.title)"
+              >
                 <v-icon
-                  v-if="systemRoles.includes(props.item.match)"
-                  v-bind="props"
                   size="small"
+                  color="grey-darken-3"
                 >
-                  lock
+                  edit
                 </v-icon>
-              </template>
-              <span>{{ $t('SystemRole') }}</span>
-            </v-tooltip>
-          </td>
-          <td>
-            <v-chip
-              v-for="scope in props.item.scopes"
-              :key="scope"
-              small
-            >
-              <strong>{{ scope }}</strong>&nbsp;
-              <span>({{ $t('scope') }})</span>
-            </v-chip>
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:perms'"
-              icon
-              class="btn--plain mr-0"
-              :disabled="systemRoles.includes(props.item.match)"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:perms'"
+                icon
+                class="btn--plain mx-0"
+                :disabled="systemRoles.includes(item.props.title.match)"
+                @click="deleteItem(item.props.title)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:perms'"
-              icon
-              class="btn--plain mx-0"
-              :disabled="systemRoles.includes(props.item.match)"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
-              >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
         <template #no-data>
           <v-alert
@@ -249,9 +250,9 @@ export default {
     wantScopes: [],
     dialog: false,
     headers: [
-      { text: i18n.global.t('Role'), value: 'match' },
-      { text: i18n.global.t('Scopes'), value: 'scopes' },
-      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('Role'), value: 'match' },
+      { title: i18n.global.t('Scopes'), value: 'scopes' },
+      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
