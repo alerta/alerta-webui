@@ -24,6 +24,7 @@
     "export-to-csv": "^0.2.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "nunjucks": "^3.2.3",
     "vue": "^3.2.47",
     "vue-authenticate": "github:alerta/vue-authenticate",
     "vue-axios": "^3.5.2",
