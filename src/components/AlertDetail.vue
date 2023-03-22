@@ -208,7 +208,7 @@
               v-bind="props"
               icon
               class="btn--plain px-1 mx-0"
-              @click="clipboardCopy(JSON.stringify(item, null, 4))"
+              @click="clipboardCopy(item)"
             >
               <v-icon
                 size="20px"
@@ -890,6 +890,7 @@ import debounce from 'lodash/debounce'
 import DateTime from './lib/DateTime'
 import AlertActions from '@/components/AlertActions'
 import i18n from '@/plugins/i18n'
+import nunjucks from 'nunjucks'
 
 export default {
   components: {
@@ -993,7 +994,7 @@ export default {
       this.$store.dispatch('alerts/getNotes', this.id)
     },
     isOpen(status) {
-      return status == 'open' || status == 'NORM'
+      return status == 'open' || status == 'NORM' || status == 'UNACK' || status == 'RTNUN'
     },
     isWatched(tags) {
       const tag = `watch:${this.username}`
@@ -1052,10 +1053,15 @@ export default {
     close() {
       this.$emit('close')
     },
-    clipboardCopy(text) {
+    clipboardCopy(item) {
       this.copyIconText = i18n.global.t('Copied')
+
+      let renderedText = this.$config.clipboard_template && nunjucks.renderString(this.$config.clipboard_template, item)
+
+      let text = JSON.stringify(item, null, 4)
       let textarea = document.createElement('textarea')
-      textarea.textContent = text
+
+      textarea.textContent = renderedText || text
       document.body.appendChild(textarea)
       textarea.select()
       document.execCommand('copy')

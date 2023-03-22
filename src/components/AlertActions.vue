@@ -193,7 +193,7 @@ export default {
       return this.$store.getters.getPreference('isDark')
     },
     isOpen(status) {
-      return this.status == 'open' || this.status == 'NORM'
+      return this.status == 'open' || this.status == 'NORM' || this.status == 'UNACK' || this.status == 'RTNUN'
     },
     isAcked() {
       return this.status == 'ack' || this.status == 'ACKED'

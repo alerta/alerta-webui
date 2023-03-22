@@ -1,18 +1,19 @@
-name: release
+name: Release
 
 on:
   push:
-    tags:
-    - 'v*'
+    tags: [ 'v*' ]
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
@@ -25,17 +26,19 @@ jobs:
         id: unit-test
         run: npm run test:unit
 
-      - uses: act10ns/slack@v1
+      - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
         if: failure()
 
   release:
+    name: Publish
     needs: test
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
@@ -78,8 +81,8 @@ jobs:
           asset_name: alerta-webui.tar.gz
           asset_content_type: application/gzip
 
-      - uses: act10ns/slack@v1
+      - uses: act10ns/slack@v2
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-        # if: failure()
+        if: failure()
