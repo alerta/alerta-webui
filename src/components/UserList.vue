@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-dialog
@@ -291,8 +292,8 @@
       </v-card-title>
 
       <v-data-table
-        :header="headers"
-        :item="users"
+        :headers="headers"
+        :items="users"
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
@@ -302,102 +303,102 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template #items="props">
-          <td>{{ 'props.item.name' }}</td>
-          <td class="text-center">
-            <v-tooltip location="top">
-              <template #activator="{props}">
+        <template #item="{item}">
+          <tr>
+            <td>{{ item.props.title.name }}</td>
+            <td class="text-center">
+              <v-tooltip location="top">
                 <v-icon
-                  v-bind:="props"
-                  :color="props.item.status == 'active' ? 'primary' : ''"
-                  @click="toggleUserStatus(props.item)"
+                  v-bind:="item"
+                  :color="item.props.title.status == 'active' ? 'primary' : ''"
+                  @click="toggleUserStatus(item.props)"
                 >
                   {{
-                    props.item.status === 'active' ? 'toggle_on' : 'toggle_off'
+                    item.props.title.status === 'active' ? 'toggle_on' : 'toggle_off'
                   }}
                 </v-icon>
-              </template>
-              <span>{{ this.$filters.capitalize(props.item.status) }}</span>
-            </v-tooltip>
-          </td>
-          <td>{{ props.item.login }}</td>
-          <td>{{ props.item.email }}</td>
-          <td class="text-center">
-            <v-tooltip location="top">
-              <template #activator="{props}">
-                <v-icon
-                  v-bind="props"
-                  @click="toggleEmailVerified(props.item)"
-                >
+                <span>{{ this.$filters.capitalize(item.props.title.status) }}</span>
+              </v-tooltip>
+            </td>
+            <td>{{ item.props.title.login }}</td>
+            <td>{{ item.props.title.email }}</td>
+            <td class="text-center">
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-bind="props"
+                    @click="toggleEmailVerified(item.props.title)"
+                  >
+                    {{
+                      item.props.title.email_verified
+                        ? 'check_box'
+                        : 'check_box_outline_blank'
+                    }}
+                  </v-icon>
+                </template>
+                <span>
                   {{
-                    props.item.email_verified
-                      ? 'check_box'
-                      : 'check_box_outline_blank'
+                    item.props.title.email_verified
+                      ? $t('EmailVerified')
+                      : $t('EmailNotVerified')
                   }}
+                </span>
+              </v-tooltip>
+            </td>
+            <td>
+              <v-chip
+                v-for="role in item.props.title.roles"
+                :key="role"
+              >
+                <strong>{{ role }}</strong>&nbsp;
+                <span>({{ $t('role') }})</span>
+              </v-chip>
+            </td>
+            <td class="text-right">
+              <date-time
+                :value="item.props.title.createTime"
+                format="mediumDate"
+              />
+            </td>
+            <td class="text-right">
+              <date-time
+                v-if="item.props.title.lastLogin"
+                :value="item.props.title.lastLogin"
+                format="mediumDate"
+              />
+            </td>
+            <td class="text-right">
+              {{ item.props.text }}
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'admin:users'"
+                icon
+                class="btn--plain mr-0"
+                @click="editItem(item.props)"
+              >
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  edit
                 </v-icon>
-              </template>
-              <span>
-                {{
-                  props.item.email_verified
-                    ? $t('EmailVerified')
-                    : $t('EmailNotVerified')
-                }}
-              </span>
-            </v-tooltip>
-          </td>
-          <td>
-            <v-chip
-              v-for="role in props.item.roles"
-              :key="role"
-            >
-              <strong>{{ role }}</strong>&nbsp;
-              <span>({{ $t('role') }})</span>
-            </v-chip>
-          </td>
-          <td class="text-right">
-            <date-time
-              :value="props.item.createTime"
-              format="mediumDate"
-            />
-          </td>
-          <td class="text-right">
-            <date-time
-              v-if="props.item.lastLogin"
-              :value="props.item.lastLogin"
-              format="mediumDate"
-            />
-          </td>
-          <td class="text-right">
-            {{ props.item.text }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:users'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:users'"
+                icon
+                class="btn--plain mx-0"
+                @click="deleteItem(item.props)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:users'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
-              >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
         <template #no-data>
           <v-alert
@@ -452,16 +453,16 @@ export default {
     wantRoles: [],
     dialog: false,
     headers: [
-      { text: i18n.global.t('Name'), value: 'name' },
-      { text: i18n.global.t('Status'), value: 'status' },
-      { text: i18n.global.t('Login'), value: 'login' },
-      { text: i18n.global.t('Email'), value: 'email' },
-      { text: i18n.global.t('VerifiedOrNot'), value: 'email_verified' },
-      { text: i18n.global.t('Roles'), value: 'roles' },
-      { text: i18n.global.t('Created'), value: 'createTime' },
-      { text: i18n.global.t('LastLogin'), value: 'lastLogin' },
-      { text: i18n.global.t('Comment'), value: 'text' },
-      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('Name'), value: 'name' },
+      { title: i18n.global.t('Status'), value: 'status' },
+      { title: i18n.global.t('Login'), value: 'login' },
+      { title: i18n.global.t('Email'), value: 'email' },
+      { title: i18n.global.t('VerifiedOrNot'), value: 'email_verified' },
+      { title: i18n.global.t('Roles'), value: 'roles' },
+      { title: i18n.global.t('Created'), value: 'createTime' },
+      { title: i18n.global.t('LastLogin'), value: 'lastLogin' },
+      { title: i18n.global.t('Comment'), value: 'text' },
+      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
