@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-dialog
@@ -184,8 +185,8 @@
       </v-card-title>
 
       <v-data-table
-        :header="headers"
-        :item="groups"
+        :headers="headers"
+        :items="groups"
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
@@ -194,55 +195,57 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template #items="props">
-          <td>{{ props.item.name }}</td>
-          <td class="text-left">
-            {{ props.item.text }}
-          </td>
-          <td>
-            {{ props.item.count }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+        <template #item="{item}">
+          <tr>
+            <td>{{ item.props.title.name }}</td>
+            <td class="text-left">
+              {{ item.props.title.text }}
+            </td>
+            <td>
+              {{ item.props.title.count }}
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'admin:groups'"
+                icon
+                class="btn--plain mr-0"
+                @click="editItem(item.props.title)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mr-0"
-              @click="addRemoveUsers(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  edit
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:groups'"
+                icon
+                class="btn--plain mr-0"
+                @click="addRemoveUsers(item.props.title)"
               >
-                person_add
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                size="small"
-                color="grey-darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  person_add
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:groups'"
+                icon
+                class="btn--plain mx-0"
+                @click="deleteItem(item.props.title)"
               >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
         <template #no-data>
           <v-alert
@@ -293,10 +296,10 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: i18n.global.t('Name'), value: 'name' },
-      { text: i18n.global.t('Description'), value: 'text' },
-      { text: i18n.global.t('NumberUsers'), value: 'count' },
-      { text: i18n.global.t('Actions'), value: 'actions', sortable: false }
+      { title: i18n.global.t('Name'), value: 'name' },
+      { title: i18n.global.t('Description'), value: 'text' },
+      { title: i18n.global.t('NumberUsers'), value: 'count' },
+      { title: i18n.global.t('Actions'), value: 'actions', sortable: false }
     ],
     editedId: null,
     editedItem: {
