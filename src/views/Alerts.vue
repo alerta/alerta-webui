@@ -334,7 +334,8 @@ export default {
       this.setSort(hashMap)
       this.setPanel(hashMap)
     }
-    this.currentTab = this.defaultTab
+    //TODO: This causes the alerts not to load automatically when going to alerts from another page
+    //this.currentTab = this.defaultTab
     this.setKiosk(this.isKiosk)
     this.cancelTimer()
     this.refreshAlerts()

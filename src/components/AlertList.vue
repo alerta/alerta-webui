@@ -5,7 +5,7 @@
       v-model="selected"
       :headers="customHeaders"
       :items="alerts"
-      item-key="id"
+      item-value="id"
       v-model:pagination="pagination"
       :total-items="pagination.totalItems"
       :rows-per-page-items="pagination.rowsPerPageItems"
@@ -17,7 +17,7 @@
       item-props
       show-select
     >
-      <template #item="{item}">
+      <template #item.data-table-select="{item, isSelected, toggleSelect}">
         <tr
           :style="{ 'background-color': severityColor(item.props.severity) }"
           class="hover-lighten"
@@ -28,24 +28,22 @@
             class="text-no-wrap label-warning"
             :style="Object.assign({}, fontStyle, { 'background-color': severityColor(item.props.severity)})"
           >
-            <!--TODO: item.selected doesn't exist. I don't know how to achieve this functionality in Vuetify 3-->
             <v-checkbox
               v-if="selectableRows"
-              v-model="item.selected"
-              :value="isSelected"
+              :model-value="isSelected([item])"
               primary
               hide-details
               color="gray"
               class="select-box"
               :ripple="false"
               :size="fontSize"
-              @click.stop
+              @click.stop="toggleSelect(item)"
             />
             <v-icon
               v-else-if="item.props.trendIndication == 'moreSevere'"
               :class="['trend-arrow', textColor(item.props.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; item.props.selected = true"
+              @click.stop="multiselect = true; toggleSelect(item)"
             >
               arrow_upward
             </v-icon>
@@ -53,7 +51,7 @@
               v-else-if="item.props.trendIndication == 'lessSevere'"
               :class="['trend-arrow', textColor(item.props.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; item.props.selected = true"
+              @click.stop="multiselect = true; toggleSelect(item)"
             >
               arrow_downward
             </v-icon>
@@ -61,7 +59,7 @@
               v-else
               :class="['trend-arrow', textColor(item.props.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; item.props.selected = true"
+              @click.stop="multiselect = true; toggleSelect(item)"
             >
               remove
             </v-icon>
@@ -215,7 +213,7 @@
             >
               {{ this.$filters.hhmmss(timeoutLeft(item.props.id)) }}
             </span>
-            <!-- rawData not supported -->
+            <!-- propsData not supported -->
             <span
               v-if="col == 'customer' && this.$config.customer_views"
             >
@@ -589,6 +587,7 @@ export default {
     },
     selected: {
       get() {
+        console.log(this.$store.state.alerts.selected)
         return this.$store.state.alerts.selected
       },
       set(value) {
@@ -611,6 +610,7 @@ export default {
     }
   },
   methods: {
+    debug: obj => console.log(obj),
     duration(item) {
       return moment.duration(moment().diff(moment(item.receiveTime)))
     },
