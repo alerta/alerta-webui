@@ -17,7 +17,7 @@
       item-props
       show-select
     >
-      <template #item.data-table-select="{item, isSelected, toggleSelect}">
+      <template #item="{item, isSelected, toggleSelect}">
         <tr
           :style="{ 'background-color': severityColor(item.props.severity) }"
           class="hover-lighten"
