@@ -85,8 +85,8 @@
       </v-card-title>
 
       <v-data-table
-        :header="headers"
-        :item="customers"
+        :headers="headers"
+        :items="customers"
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
@@ -95,12 +95,12 @@
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template #items="{item}">
+        <template #item="{item}">
           <tr>
-            <td>{{ item.props.match }}</td>
+            <td>{{ item.props.title.match }}</td>
             <td>
               <v-chip>
-                <strong>{{ item.props.customer }}</strong>&nbsp;
+                <strong>{{ item.props.title.customer }}</strong>&nbsp;
                 <span>({{ $t('customer') }})</span>
               </v-chip>
             </td>
@@ -109,7 +109,7 @@
                 v-has-perms.disable="'admin:customers'"
                 icon
                 class="btn--plain mr-0"
-                @click="editItem(item.props)"
+                @click="editItem(item.props.title)"
               >
                 <v-icon
                   size="small"
@@ -122,7 +122,7 @@
                 v-has-perms.disable="'admin:customers'"
                 icon
                 class="btn--plain mx-0"
-                @click="deleteItem(item.props)"
+                @click="deleteItem(item.props.title)"
               >
                 <v-icon
                   size="small"

@@ -1,30 +1,31 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <v-data-table
-    :header="headers"
-    :item="manifest"
+    :headers="headers"
+    :items="manifest"
     class="px-2"
     hide-actions
   >
-    <template #items="props">
+    <template #item="{item}">
       <td class="text-center">
         {{ version }}
       </td>
       <td>
-        <span class="hidden-sm-and-down">{{ this.$filters.capitalize(application) }} {{ $t('API') }} </span>{{ props.item.release }}
+        <span class="hidden-sm-and-down">{{ this.$filters.capitalize(application) }} {{ $t('API') }} </span>{{ item.props.title.release }}
       </td>
-      <td>{{ props.item.build }}</td>
+      <td>{{ item.props.build }}</td>
       <td>
         <date-time
-          v-if="props.item.date"
-          :value="props.item.date"
+          v-if="item.props.date"
+          :value="item.props.date"
           format="mediumDate"
         />
       </td>
       <td>
-        <span class="hidden-sm-and-down">{{ props.item.revision }}</span>
-        <span class="show-md-and-up">{{ props.item.revision.substring(0, 7) }}</span>
+        <span class="hidden-sm-and-down">{{ item.props.revision }}</span>
+        <span class="show-md-and-up">{{ item.props.revision.substring(0, 7) }}</span>
         <a
-          :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
+          :href="`https://github.com/alerta/alerta/commit/${item.props.revision}`"
           target="_blank"
         >
           <v-tooltip end>
@@ -76,12 +77,12 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: i18n.global.t('WebUI'), value: 'version', sortable: false},
-      {text: i18n.global.t('API'), value: 'release', sortable: false},
-      {text: i18n.global.t('Build'), value: 'build', sortable: false},
-      {text: i18n.global.t('Date'), value: 'date', sortable: false},
-      {text: i18n.global.t('GitRevision'), value: 'revision', sortable: false},
-      {text: i18n.global.t('APIEndpoint'), value: 'endpoint', sortable: false}
+      {title: i18n.global.t('WebUI'), value: 'version', sortable: false},
+      {title: i18n.global.t('API'), value: 'release', sortable: false},
+      {title: i18n.global.t('Build'), value: 'build', sortable: false},
+      {title: i18n.global.t('Date'), value: 'date', sortable: false},
+      {title: i18n.global.t('GitRevision'), value: 'revision', sortable: false},
+      {title: i18n.global.t('APIEndpoint'), value: 'endpoint', sortable: false}
     ],
     manifest: [],
     copyIconText: i18n.global.t('Copy')

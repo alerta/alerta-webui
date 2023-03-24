@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <v-card>
     <v-card-title class="text-h6">
@@ -59,8 +60,8 @@
     </v-card-title>
 
     <v-data-table
-      :header="computedHeaders"
-      :item="heartbeats"
+      :headers="computedHeaders"
+      :items="heartbeats"
       :rows-per-page-items="rowsPerPageItems"
       v-model:pagination="pagination"
       class="px-2"
@@ -69,16 +70,17 @@
       must-sort
       sort-icon="arrow_drop_down"
     >
-      <template #items="props">
-        <td>{{ props.item.origin }}</td>
+      <template #item="{item}">
+        {{ item }}
+        <td>{{ item.props.title.origin }}</td>
         <td
           v-if="$config.customer_views"
         >
-          {{ props.item.customer }}
+          {{ item.props.title.customer }}
         </td>
         <td>
           <v-chip
-            v-for="tag in props.item.tags"
+            v-for="tag in item.props.title.tags"
             :key="tag"
             label
             small
@@ -89,34 +91,34 @@
           </v-chip>
         </td>
         <td>
-          {{ props.item.attributes }}
+          {{ item.props.title.attributes }}
         </td>
         <td>
           <date-time
-            :value="props.item.createTime"
+            :value="item.props.title.createTime"
             format="mediumDate"
           />
         </td>
         <td>
           <date-time
-            :value="props.item.receiveTime"
+            :value="item.props.title.receiveTime"
             format="mediumDate"
           />
         </td>
         <td>
-          {{ diffTime(props.item.createTime, props.item.receiveTime) }} ms
+          {{ diffTime(item.props.title.createTime, item.props.title.receiveTime) }} ms
         </td>
         <td
           class="text-center text-no-wrap"
         >
-          {{ this.$filters.hhmmss(timeoutLeft(props.item)) }}
+          {{ this.$filters.hhmmss(timeoutLeft(item.props.title)) }}
         </td>
         <td>
-          {{ this.$filters.timeago(props.item.receiveTime) }}
+          {{ this.$filters.timeago(item.props.title.receiveTime) }}
         </td>
         <td>
-          <span :class="['label', 'label-' + props.item.status.toLowerCase()]">
-            {{ this.$filters.capitalize(props.item.status) }}
+          <span :class="['label', 'label-' + item.props.status.toLowerCase()]">
+            {{ this.$filters.capitalize(item.props.title.status) }}
           </span>
         </td>
         <td class="text-no-wrap">
@@ -124,7 +126,7 @@
             v-has-perms.disable="'write:heartbeats'"
             icon
             class="btn--plain mr-0"
-            @click="deleteItem(props.item)"
+            @click="deleteItem(item.props.title)"
           >
             <v-icon
               size="small"
@@ -179,17 +181,17 @@ export default {
     status: ['ok', 'slow', 'expired'],
     search: '',
     headers: [
-      { text: i18n.global.t('Origin'), value: 'origin' },
-      { text: i18n.global.t('Customer'), value: 'customer' },
-      { text: i18n.global.t('Tags'), value: 'tags' },
-      { text: i18n.global.t('Attributes'), value: 'attributes' },
-      { text: i18n.global.t('CreateTime'), value: 'createTime' },
-      { text: i18n.global.t('ReceiveTime'), value: 'receiveTime' },
-      { text: i18n.global.t('Latency'), value: 'latency' },
-      { text: i18n.global.t('Timeout'), value: 'timeout' },
-      { text: i18n.global.t('Since'), value: 'since' },
-      { text: i18n.global.t('Status'), value: 'status' },
-      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('Origin'), value: 'origin' },
+      { title: i18n.global.t('Customer'), value: 'customer' },
+      { title: i18n.global.t('Tags'), value: 'tags' },
+      { title: i18n.global.t('Attributes'), value: 'attributes' },
+      { title: i18n.global.t('CreateTime'), value: 'createTime' },
+      { title: i18n.global.t('ReceiveTime'), value: 'receiveTime' },
+      { title: i18n.global.t('Latency'), value: 'latency' },
+      { title: i18n.global.t('Timeout'), value: 'timeout' },
+      { title: i18n.global.t('Since'), value: 'since' },
+      { title: i18n.global.t('Status'), value: 'status' },
+      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
     ]
   }),
   computed: {

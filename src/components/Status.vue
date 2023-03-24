@@ -1,41 +1,44 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-data-table
-      :header="headers"
-      :item="metrics"
+      :headers="headers"
+      :items="metrics"
       class="px-2"
       hide-actions
     >
       <template
-        #items="props"
+        #item="{item}"
       >
-        <td>{{ props.item.title }}</td>
-        <td>{{ this.$filters.capitalize(props.item.type) }}</td>
-        <td>{{ props.item.group }}.{{ props.item.name }}</td>
-        <td>{{ props.item.value || props.item.count }}</td>
-        <td>{{ avgTime(props.item) }}</td>
+        <tr>
+          <td>{{ item.props.title }}</td>
+          <td>{{ this.$filters.capitalize(item.props.type) }}</td>
+          <td>{{ item.props.group }}.{{ item.props.name }}</td>
+          <td>{{ item.props.value || item.props.count }}</td>
+          <td>{{ avgTime(item.props) }}</td>
+        </tr>
       </template>
     </v-data-table>
 
     <v-data-table
-      :header="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
-      :item="uptime"
+      :headers="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
+      :items="uptime"
       class="px-2"
       hide-actions
     >
       <template
-        #items="props"
+        #item="{item}"
       >
         <td>{{ $t('LastUpdate') }}</td>
         <td>
           <date-time
-            v-if="props.item.lastTime"
-            :value="props.item.lastTime"
+            v-if="item.props.lastTime"
+            :value="item.props.lastTime"
             format="longDate"
           />
         </td>
         <td>{{ $t('Uptime') }}</td>
-        <td>{{ this.$filters.days(props.item.uptime / 1000) }}</td>
+        <td>{{ this.$filters.days(item.props.uptime / 1000) }}</td>
       </template>
     </v-data-table>
   </div>
@@ -52,11 +55,11 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: i18n.global.t('Metric'), value: 'title', sortable: false},
-      {text: i18n.global.t('Type'), value: 'type', sortable: false},
-      {text: i18n.global.t('Name'), value: 'name', sortable: false},
-      {text: i18n.global.t('Value'), value: 'value', sortable: false},
-      {text: i18n.global.t('AvgTime'), value: 'time', sortable: false},
+      {title: i18n.global.t('Metric'), value: 'title', sortable: false},
+      {title: i18n.global.t('Type'), value: 'type', sortable: false},
+      {title: i18n.global.t('Name'), value: 'name', sortable: false},
+      {title: i18n.global.t('Value'), value: 'value', sortable: false},
+      {title: i18n.global.t('AvgTime'), value: 'time', sortable: false},
     ]
   }),
   computed: {
