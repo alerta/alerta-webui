@@ -298,7 +298,7 @@
         v-model:pagination="pagination"
         class="px-2"
         :search="search"
-        :custom-filter="customFilter"
+        :custom-key-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
