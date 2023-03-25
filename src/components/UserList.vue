@@ -328,13 +328,8 @@
                   <v-icon
                     v-bind="props"
                     @click="toggleEmailVerified(item.props)"
-                  >
-                    {{
-                      item.props.email_verified
-                        ? 'check_box'
-                        : 'check_box_outline_blank'
-                    }}
-                  </v-icon>
+                    :icon="item.props.email_verified ? 'check_box' : 'check_box_outline_blank'"
+                  />
                 </template>
                 <span>
                   {{
