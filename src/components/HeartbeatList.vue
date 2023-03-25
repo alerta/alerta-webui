@@ -72,70 +72,72 @@
       item-props
     >
       <template #item="{item}">
-        <td>{{ item.props.origin }}</td>
-        <td
-          v-if="$config.customer_views"
-        >
-          {{ item.props.customer }}
-        </td>
-        <td>
-          <v-chip
-            v-for="tag in item.props.tags"
-            :key="tag"
-            label
-            small
+        <tr>
+          <td>{{ item.props.origin }}</td>
+          <td
+            v-if="$config.customer_views"
           >
-            <v-icon start>
+            {{ item.props.customer }}
+          </td>
+          <td>
+            <v-chip
+              v-for="tag in item.props.tags"
+              :key="tag"
               label
-            </v-icon>{{ tag }}
-          </v-chip>
-        </td>
-        <td>
-          {{ item.props.attributes }}
-        </td>
-        <td>
-          <date-time
-            :value="item.props.createTime"
-            format="mediumDate"
-          />
-        </td>
-        <td>
-          <date-time
-            :value="item.props.receiveTime"
-            format="mediumDate"
-          />
-        </td>
-        <td>
-          {{ diffTime(item.props.createTime, item.props.receiveTime) }} ms
-        </td>
-        <td
-          class="text-center text-no-wrap"
-        >
-          {{ this.$filters.hhmmss(timeoutLeft(item.props.title)) }}
-        </td>
-        <td>
-          {{ this.$filters.timeago(item.props.receiveTime) }}
-        </td>
-        <td>
-          <span :class="['label', 'label-' + item.props.status.toLowerCase()]">
-            {{ this.$filters.capitalize(item.props.status) }}
-          </span>
-        </td>
-        <td class="text-no-wrap">
-          <v-btn
-            v-has-perms.disable="'write:heartbeats'"
-            icon
-            class="btn--plain mr-0"
-            @click="deleteItem(item.props)"
-          >
-            <v-icon
-              size="small"
-              color="grey-darken-3"
+              small
             >
-              delete
-            </v-icon>
-          </v-btn>
-        </td>
+              <v-icon start>
+                label
+              </v-icon>{{ tag }}
+            </v-chip>
+          </td>
+          <td>
+            {{ item.props.attributes }}
+          </td>
+          <td>
+            <date-time
+              :value="item.props.createTime"
+              format="mediumDate"
+            />
+          </td>
+          <td>
+            <date-time
+              :value="item.props.receiveTime"
+              format="mediumDate"
+            />
+          </td>
+          <td>
+            {{ diffTime(item.props.createTime, item.props.receiveTime) }} ms
+          </td>
+          <td
+            class="text-center text-no-wrap"
+          >
+            {{ this.$filters.hhmmss(timeoutLeft(item.props.title)) }}
+          </td>
+          <td>
+            {{ this.$filters.timeago(item.props.receiveTime) }}
+          </td>
+          <td>
+            <span :class="['label', 'label-' + item.props.status.toLowerCase()]">
+              {{ this.$filters.capitalize(item.props.status) }}
+            </span>
+          </td>
+          <td class="text-no-wrap">
+            <v-btn
+              v-has-perms.disable="'write:heartbeats'"
+              icon
+              class="btn--plain mr-0"
+              @click="deleteItem(item.props)"
+            >
+              <v-icon
+                size="small"
+                color="grey-darken-3"
+              >
+                delete
+              </v-icon>
+            </v-btn>
+          </td>
+        </tr>
       </template>
       <template #no-data>
         <v-alert

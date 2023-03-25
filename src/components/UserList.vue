@@ -302,35 +302,35 @@
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
+        item-props
       >
         <template #item="{item}">
           <tr>
-            <td>{{ item.props.title.name }}</td>
-            <td class="text-center">
-              <v-tooltip location="top">
-                <v-icon
-                  v-bind:="item"
-                  :color="item.props.title.status == 'active' ? 'primary' : ''"
-                  @click="toggleUserStatus(item.props)"
-                >
-                  {{
-                    item.props.title.status === 'active' ? 'toggle_on' : 'toggle_off'
-                  }}
-                </v-icon>
-                <span>{{ this.$filters.capitalize(item.props.title.status) }}</span>
-              </v-tooltip>
-            </td>
-            <td>{{ item.props.title.login }}</td>
-            <td>{{ item.props.title.email }}</td>
+            <td>{{ item.props.name }}</td>
             <td class="text-center">
               <v-tooltip location="top">
                 <template #activator="{props}">
                   <v-icon
                     v-bind="props"
-                    @click="toggleEmailVerified(item.props.title)"
+                    :color="item.props.status == 'active' ? 'primary' : ''"
+                    :icon="item.props.status === 'active' ? 'toggle_on' : 'toggle_off'"
+                    @click="toggleUserStatus(item.props)"
+                  />
+                </template>
+                <span>{{ this.$filters.capitalize(item.props.status) }}</span>
+              </v-tooltip>
+            </td>
+            <td>{{ item.props.login }}</td>
+            <td>{{ item.props.email }}</td>
+            <td class="text-center">
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-bind="props"
+                    @click="toggleEmailVerified(item.props)"
                   >
                     {{
-                      item.props.title.email_verified
+                      item.props.email_verified
                         ? 'check_box'
                         : 'check_box_outline_blank'
                     }}
@@ -338,7 +338,7 @@
                 </template>
                 <span>
                   {{
-                    item.props.title.email_verified
+                    item.props.email_verified
                       ? $t('EmailVerified')
                       : $t('EmailNotVerified')
                   }}
@@ -347,7 +347,7 @@
             </td>
             <td>
               <v-chip
-                v-for="role in item.props.title.roles"
+                v-for="role in item.props.roles"
                 :key="role"
               >
                 <strong>{{ role }}</strong>&nbsp;
@@ -356,14 +356,14 @@
             </td>
             <td class="text-right">
               <date-time
-                :value="item.props.title.createTime"
+                :value="item.props.createTime"
                 format="mediumDate"
               />
             </td>
             <td class="text-right">
               <date-time
-                v-if="item.props.title.lastLogin"
-                :value="item.props.title.lastLogin"
+                v-if="item.props.lastLogin"
+                :value="item.props.lastLogin"
                 format="mediumDate"
               />
             </td>
