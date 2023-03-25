@@ -5,6 +5,7 @@
     :items="manifest"
     class="px-2"
     hide-actions
+    item-props
   >
     <template #item="{item}">
       <td class="text-center">
