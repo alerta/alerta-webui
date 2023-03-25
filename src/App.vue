@@ -75,22 +75,22 @@
                       {{ item.text }}
                     </v-list-item-title>
                   </v-list-item>
+                  <v-list-item
+                    v-for="(q, i) in item.queries"
+                    :key="i"
+                    @click="submitSearch(q.query)"
+                  >
+                    <v-list-item-title>{{ q.text }}</v-list-item-title>
+                    <v-list-item-action>
+                      <v-icon
+                        size="small"
+                        @click.stop="deleteSearch(q)"
+                      >
+                        {{ q.icon }}
+                      </v-icon>
+                    </v-list-item-action>
+                  </v-list-item>
                 </template>
-                <v-list-item
-                  v-for="(q, i) in item.queries"
-                  :key="i"
-                  @click="submitSearch(q.query)"
-                >
-                  <v-list-item-title>{{ q.text }}</v-list-item-title>
-                  <v-list-item-action>
-                    <v-icon
-                      size="small"
-                      @click.stop="deleteSearch(q)"
-                    >
-                      {{ q.icon }}
-                    </v-icon>
-                  </v-list-item-action>
-                </v-list-item>
               </v-list-group>
 
               <v-divider
@@ -763,10 +763,13 @@ export default {
   },
   methods: {
     submitSearch(query) {
-      const term = query.target.value
-      this.$store.dispatch('alerts/updateQuery', { q: term })
+      //When query is submitted through search box, the query is the Javascript onChange event
+      //When it's submitted through the saved search button, it is of type string
+      if(typeof(query) != 'string')
+        query = query.target.value
+      this.$store.dispatch('alerts/updateQuery', { q: query })
       this.$router.push({
-        query: { ...this.$router.query, q: term },
+        query: { ...this.$router.query, q: query },
         hash: this.$store.getters['alerts/getHash']
       })
       this.refresh()
