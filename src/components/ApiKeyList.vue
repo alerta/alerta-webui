@@ -391,22 +391,22 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: i18n.global.t('APIKey'), value: 'key', sortable: false },
-      { text: '', value: 'expireTime' },
-      { text: i18n.global.t('User'), value: 'user' },
-      { text: i18n.global.t('Scopes'), value: 'scopes' },
-      { text: i18n.global.t('Description'), value: 'text' },
-      { text: i18n.global.t('Expires'), value: 'expireTime' },
-      { text: i18n.global.t('Count'), value: 'count' },
-      { text: i18n.global.t('LastUsed'), value: 'lastUsedTime' },
-      { text: i18n.global.t('Customer'), value: 'customer' },
-      { text: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('APIKey'), value: 'key', sortable: false },
+      { title: '', value: 'expireTime' },
+      { title: i18n.global.t('User'), value: 'user' },
+      { title: i18n.global.t('Scopes'), value: 'scopes' },
+      { title: i18n.global.t('Description'), value: 'text' },
+      { title: i18n.global.t('Expires'), value: 'expireTime' },
+      { title: i18n.global.t('Count'), value: 'count' },
+      { title: i18n.global.t('LastUsed'), value: 'lastUsedTime' },
+      { title: i18n.global.t('Customer'), value: 'customer' },
+      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
       key: '',
       user: vm.editedId ? null : vm.username(),
-      text: '',
+      title: '',
       customer: null,
       scopes: [],
       expireTime: null
@@ -415,12 +415,12 @@ export default {
     pickerDate: vm.defaultExpireTime(),
     defaultItem: {
       user: vm.editedId ? null : vm.username(),
-      text: '',
+      title: '',
       customer: null,
       scopes: [],
       expireTime: null
     },
-    copyIconText: i18n.global.t('Copy')
+    copyIcontitle: i18n.global.t('Copy')
   }),
   computed: {
     computedHeaders() {
@@ -517,7 +517,7 @@ export default {
           {
             user: this.editedItem.user,
             scopes: this.editedItem.scopes,
-            text: this.editedItem.text,
+            title: this.editedItem.text,
             expireTime: this.endOfDay(this.pickerDate),
             customer: this.editedItem.customer
           }
