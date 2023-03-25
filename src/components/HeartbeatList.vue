@@ -69,18 +69,18 @@
       :loading="isLoading"
       must-sort
       sort-icon="arrow_drop_down"
+      item-props
     >
       <template #item="{item}">
-        {{ item }}
-        <td>{{ item.props.title.origin }}</td>
+        <td>{{ item.props.origin }}</td>
         <td
           v-if="$config.customer_views"
         >
-          {{ item.props.title.customer }}
+          {{ item.props.customer }}
         </td>
         <td>
           <v-chip
-            v-for="tag in item.props.title.tags"
+            v-for="tag in item.props.tags"
             :key="tag"
             label
             small
@@ -91,22 +91,22 @@
           </v-chip>
         </td>
         <td>
-          {{ item.props.title.attributes }}
+          {{ item.props.attributes }}
         </td>
         <td>
           <date-time
-            :value="item.props.title.createTime"
+            :value="item.props.createTime"
             format="mediumDate"
           />
         </td>
         <td>
           <date-time
-            :value="item.props.title.receiveTime"
+            :value="item.props.receiveTime"
             format="mediumDate"
           />
         </td>
         <td>
-          {{ diffTime(item.props.title.createTime, item.props.title.receiveTime) }} ms
+          {{ diffTime(item.props.createTime, item.props.receiveTime) }} ms
         </td>
         <td
           class="text-center text-no-wrap"
@@ -114,11 +114,11 @@
           {{ this.$filters.hhmmss(timeoutLeft(item.props.title)) }}
         </td>
         <td>
-          {{ this.$filters.timeago(item.props.title.receiveTime) }}
+          {{ this.$filters.timeago(item.props.receiveTime) }}
         </td>
         <td>
           <span :class="['label', 'label-' + item.props.status.toLowerCase()]">
-            {{ this.$filters.capitalize(item.props.title.status) }}
+            {{ this.$filters.capitalize(item.props.status) }}
           </span>
         </td>
         <td class="text-no-wrap">
@@ -126,7 +126,7 @@
             v-has-perms.disable="'write:heartbeats'"
             icon
             class="btn--plain mr-0"
-            @click="deleteItem(item.props.title)"
+            @click="deleteItem(item.props)"
           >
             <v-icon
               size="small"
