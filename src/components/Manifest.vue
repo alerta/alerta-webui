@@ -8,62 +8,64 @@
     item-props
   >
     <template #item="{item}">
-      <td class="text-center">
-        {{ version }}
-      </td>
-      <td>
-        <span class="hidden-sm-and-down">{{ this.$filters.capitalize(application) }} {{ $t('API') }} </span>{{ item.props.title.release }}
-      </td>
-      <td>{{ item.props.build }}</td>
-      <td>
-        <date-time
-          v-if="item.props.date"
-          :value="item.props.date"
-          format="mediumDate"
-        />
-      </td>
-      <td>
-        <span class="hidden-sm-and-down">{{ item.props.revision }}</span>
-        <span class="show-md-and-up">{{ item.props.revision.substring(0, 7) }}</span>
-        <a
-          :href="`https://github.com/alerta/alerta/commit/${item.props.revision}`"
-          target="_blank"
-        >
-          <v-tooltip end>
-            <template #activator="{props}">
+      <tr>
+        <td class="text-center">
+          {{ version }}
+        </td>
+        <td>
+          <span class="hidden-sm-and-down">{{ this.$filters.capitalize(application) }} {{ $t('API') }} </span>{{ item.props.release }}
+        </td>
+        <td>{{ item.props.build }}</td>
+        <td>
+          <date-time
+            v-if="item.props.date"
+            :value="item.props.date"
+            format="mediumDate"
+          />
+        </td>
+        <td>
+          <span class="hidden-sm-and-down">{{ item.props.revision }}</span>
+          <span class="show-md-and-up">{{ item.props.revision.substring(0, 7) }}</span>
+          <a
+            :href="`https://github.com/alerta/alerta/commit/${item.props.revision}`"
+            target="_blank"
+          >
+            <v-tooltip location="right">
+              <template #activator="{props}">
+                <v-icon
+                  v-bind="props"
+                  size="small"
+                >launch</v-icon>
+              </template>
               {{ $t('OpenGitHub') }}
+            </v-tooltip>
+          </a>
+        </td>
+        <td>
+          <a
+            :href="$config.endpoint"
+            target="_blank"
+          >
+            <span class="monospace">{{ $config.endpoint }}</span>
+          </a>
+          <v-tooltip
+            :key="copyIconText"
+            location="top"
+          >
+            <template #activator="{props}">
               <v-icon
                 v-bind="props"
                 size="small"
-              >launch</v-icon>
+                class="px-1"
+                @click="clipboardCopy($config.endpoint)"
+              >
+                content_copy
+              </v-icon>
             </template>
+            <span>{{ copyIconText }}</span>
           </v-tooltip>
-        </a>
-      </td>
-      <td>
-        <a
-          :href="$config.endpoint"
-          target="_blank"
-        >
-          <span class="monospace">{{ $config.endpoint }}</span>
-        </a>
-        <v-tooltip
-          :key="copyIconText"
-          location="top"
-        >
-          <template #activator="{props}">
-            <v-icon
-              v-bind="props"
-              size="small"
-              class="px-1"
-              @click="clipboardCopy($config.endpoint)"
-            >
-              content_copy
-            </v-icon>
-          </template>
-          <span>{{ copyIconText }}</span>
-        </v-tooltip>
-      </td>
+        </td>
+      </tr>
     </template>
   </v-data-table>
 </template>

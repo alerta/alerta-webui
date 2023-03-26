@@ -7,15 +7,13 @@
       class="px-2"
       hide-actions
     >
-      <template
-        #item="{item}"
-      >
+      <template #item="{item}">
         <tr>
-          <td>{{ item.props.title }}</td>
-          <td>{{ this.$filters.capitalize(item.props.type) }}</td>
-          <td>{{ item.props.group }}.{{ item.props.name }}</td>
-          <td>{{ item.props.value || item.props.count }}</td>
-          <td>{{ avgTime(item.props) }}</td>
+          <td>{{ item.raw.title }}</td>
+          <td>{{ this.$filters.capitalize(item.raw.type) }}</td>
+          <td>{{ item.raw.group }}.{{ item.raw.name }}</td>
+          <td>{{ item.raw.value || item.raw.count }}</td>
+          <td>{{ avgTime(item.raw) }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -26,19 +24,19 @@
       class="px-2"
       hide-actions
     >
-      <template
-        #item="{item}"
-      >
-        <td>{{ $t('LastUpdate') }}</td>
-        <td>
-          <date-time
-            v-if="item.props.lastTime"
-            :value="item.props.lastTime"
-            format="longDate"
-          />
-        </td>
-        <td>{{ $t('Uptime') }}</td>
-        <td>{{ this.$filters.days(item.props.uptime / 1000) }}</td>
+      <template #item="{item}">
+        <tr>
+          <td>{{ $t('LastUpdate') }}</td>
+          <td>
+            <date-time
+              v-if="item.raw.lastTime"
+              :value="item.raw.lastTime"
+              format="longDate"
+            />
+          </td>
+          <td>{{ $t('Uptime') }}</td>
+          <td>{{ this.$filters.days(item.raw.uptime / 1000) }}</td>
+        </tr>
       </template>
     </v-data-table>
   </div>
