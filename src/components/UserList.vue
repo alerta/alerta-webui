@@ -298,7 +298,7 @@
         v-model:pagination="pagination"
         class="px-2"
         :search="search"
-        :custom-key-filter="customFilter"
+        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -555,16 +555,19 @@ export default {
     filterByRoles(roles) {
       this.wantRoles = roles
     },
-    customFilter(items, search, filter) {
-      items = items.filter(item =>
-        this.wantRoles.length > 0 ? item.roles.some(x => this.wantRoles.includes(x)) : item
-      )
+    customFilter(value, query, item) {
+      //TODO: This function should return whether or not a given user has the
+      //role searched for?
+      return item.props.roles.some(x => x.includes(query))
+      // items = items.filter(item =>
+      //   this.wantRoles.length > 0 ? item.roles.some(x => this.wantRoles.includes(x)) : item
+      // )
 
-      if (search.trim() === '') return items
+      // if (search.trim() === '') return items
 
-      return items.filter(i => (
-        Object.keys(i).some(j => filter(i[j], search))
-      ))
+      // return items.filter(i => (
+      //   Object.keys(i).some(j => filter(i[j], search))
+      // ))
     },
     toggleUserStatus(item) {
       this.$store.dispatch('users/setUserStatus', [

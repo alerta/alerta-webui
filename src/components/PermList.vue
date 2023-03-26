@@ -312,16 +312,19 @@ export default {
     filterByScopes(scopes) {
       this.wantScopes = scopes
     },
-    customFilter(items, search, filter) {
-      items = items.filter(item =>
-        this.wantScopes.length > 0 ? item.scopes.some(x => this.wantScopes.includes(x)) : item
-      )
+    customFilter(value, query, item) {
+      //TODO: This function should return whether or not a given user has the
+      //scopes searched for?
+      return item.props.scopes.some(x => x.includes(query))
+      // items = items.filter(item =>
+      //   this.wantScopes.length > 0 ? item.scopes.some(x => this.wantScopes.includes(x)) : item
+      // )
 
-      if (search.trim() === '') return items
+      // if (search.trim() === '') return items
 
-      return items.filter(i => (
-        Object.keys(i).some(j => filter(i[j], search))
-      ))
+      // return items.filter(i => (
+      //   Object.keys(i).some(j => filter(i[j], search))
+      // ))
     },
     editItem(item) {
       this.editedId = item.id
