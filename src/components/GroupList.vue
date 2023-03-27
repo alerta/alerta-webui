@@ -75,9 +75,9 @@
               :key="item.id"
               @click="removeUser(item.id)"
             >
-              <v-list-item-avatar>
+              <v-avatar>
                 <v-icon>person</v-icon>
-              </v-list-item-avatar>
+              </v-avatar>
               <v-list-item-title>{{ item.name }}</v-list-item-title>
               <v-list-item-subtitle>{{ item.login }}</v-list-item-subtitle>
 
