@@ -5,7 +5,7 @@
       v-model="selected"
       :headers="customHeaders"
       :items="alerts"
-      item-value="id"
+      return-object
       v-model:pagination="pagination"
       :total-items="pagination.totalItems"
       :rows-per-page-items="pagination.rowsPerPageItems"
@@ -605,6 +605,9 @@ export default {
   watch: {
     rowsPerPage(val) {
       this.pagination = Object.assign({}, this.pagination, {rowsPerPage: val})
+    },
+    alerts(val) {
+      this.selected = val.filter(item => this.selected.map(s => s.id).includes(item.id))
     }
   },
   methods: {
@@ -639,7 +642,6 @@ export default {
       return this.$store.getters.getConfig('colors').severity[severity] || 'white'
     },
     selectItem(item) {
-      console.log(item)
       if (!this.selected.length) {
         this.$emit('set-alert', item)
       }

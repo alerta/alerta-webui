@@ -167,8 +167,6 @@
             <v-tooltip
               location="bottom"
             >
-              <!--update:model-value runs every time a character is entered or removed
-              in the search box which may be undesirable-->
               <template #activator="{props}">
                 <v-switch
                   v-bind="props"
