@@ -127,7 +127,6 @@
               :items="currentGroups"
               :menu-props="{ maxHeight: '400' }"
               :placeholder="$t('AllGroups')"
-              :label="$t('Group')"
               multiple
               variant="outlined"
               density="default"
