@@ -133,8 +133,6 @@
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
-        :search="search"
-        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -269,7 +267,13 @@ export default {
   }),
   computed: {
     perms() {
-      return this.$store.state.perms.permissions
+      return this.$store.state.perms.permissions.filter(perm => {
+        if(this.wantScopes.length > 0 && !perm.scopes.some(x => this.wantScopes.includes(x)))
+          return false 
+        if(this.search.trim() != '')
+          return perm.match.includes(this.search)
+        return true
+      })
     },
     scopes() {
       return this.$store.state.perms.scopes
@@ -311,20 +315,6 @@ export default {
     },
     filterByScopes(scopes) {
       this.wantScopes = scopes
-    },
-    customFilter(value, query, item) {
-      //TODO: This function should return whether or not a given user has the
-      //scopes searched for?
-      return item.props.scopes.some(x => x.includes(query))
-      // items = items.filter(item =>
-      //   this.wantScopes.length > 0 ? item.scopes.some(x => this.wantScopes.includes(x)) : item
-      // )
-
-      // if (search.trim() === '') return items
-
-      // return items.filter(i => (
-      //   Object.keys(i).some(j => filter(i[j], search))
-      // ))
     },
     editItem(item) {
       this.editedId = item.id

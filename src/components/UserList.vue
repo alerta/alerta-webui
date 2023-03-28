@@ -297,8 +297,6 @@
         :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
-        :search="search"
-        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -496,7 +494,19 @@ export default {
       return this.$config.provider == 'basic'
     },
     users() {
-      return this.$store.state.users.users.filter(u => !this.status || this.status.includes(u.status))
+      return this.$store.state.users.users.filter(user => {
+        if(this.status && !this.status.includes(user.status))
+          return false
+        if(this.wantRoles.length > 0 && !user.roles.some(x => this.wantRoles.includes(x)))
+          return false 
+        //TODO: Should this filter on other fields?
+        if(this.search.trim() != '')
+          return user.name.includes(this.search) ||
+            user.login.includes(this.search) ||
+            user.email.includes(this.search) ||
+            user.text.includes(this.search)
+        return true
+      })
     },
     allGroups() {
       return this.$store.state.groups.groups
@@ -554,20 +564,6 @@ export default {
     },
     filterByRoles(roles) {
       this.wantRoles = roles
-    },
-    customFilter(value, query, item) {
-      //TODO: This function should return whether or not a given user has the
-      //role searched for?
-      return item.props.roles.some(x => x.includes(query))
-      // items = items.filter(item =>
-      //   this.wantRoles.length > 0 ? item.roles.some(x => this.wantRoles.includes(x)) : item
-      // )
-
-      // if (search.trim() === '') return items
-
-      // return items.filter(i => (
-      //   Object.keys(i).some(j => filter(i[j], search))
-      // ))
     },
     toggleUserStatus(item) {
       this.$store.dispatch('users/setUserStatus', [
