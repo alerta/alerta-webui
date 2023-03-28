@@ -11,7 +11,7 @@
       :rows-per-page-items="pagination.rowsPerPageItems"
       :loading="isSearching"
       class="alert-table"
-      :class="[ displayDensity ]"
+      :density="displayDensity"
       :style="columnWidths"
       sort-icon="arrow_drop_down" 
       show-select
