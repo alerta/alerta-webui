@@ -45,6 +45,7 @@
         >
           <v-col
             xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-text-field
@@ -61,6 +62,7 @@
 
           <v-col
             xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-autocomplete
@@ -79,12 +81,12 @@
 
           <v-col
             xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-select
               v-model="filterSeverity"
               :items="severityList"              
-              :placeholder="$t('AllSeverities')"
               :label="$t('Severity')"
               multiple
               variant="outlined"
@@ -96,6 +98,7 @@
 
           <v-col
             xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-select
@@ -114,6 +117,7 @@
           <v-col
             v-if="$config.customer_views"
             xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-select
@@ -132,6 +136,7 @@
 
           <v-col
             xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-autocomplete
@@ -150,13 +155,13 @@
 
           <v-col
             xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-select
               v-model="filterGroup"
               :items="currentGroups"
               :menu-props="{ maxHeight: '400' }"
-              :placeholder="$t('AllGroups')"
               :label="$t('Group')"
               multiple
               variant="outlined"
@@ -168,6 +173,8 @@
 
           <v-col
             xs="12"
+            sm="12"
+
             class="pb-0"
           >
             <span class="text-body-2">{{ $t('DateTime') }}</span>

@@ -4,25 +4,35 @@
       <v-card-title class="text-h6">
         {{ $t('Reports') }}
         <v-spacer />
-        <v-col
-          xs="1"
-        >
-          <v-select
-            v-model.number="rowsPerPage"
-            :items="rowsPerPageItems"
-            :prefix="$t('Top')"
-            type="number"
-          />
-        </v-col>
+        <v-row> 
+          <v-col 
+            xs="12"
+            sm="6"
+            md="11"
+          >
+            <v-select
+              v-model.number="rowsPerPage"
+              :items="rowsPerPageItems"
+              :prefix="$t('Top')"
+              type="number"
+            />
+          </v-col>
 
-        <v-btn
-          variant="flat"
-          icon
-          :class="{ 'filter-active': isActive }"
-          @click="sidesheet = !sidesheet"
-        >
-          <v-icon>filter_list</v-icon>
-        </v-btn>
+          <v-col
+            xs="1"
+            sm="1"
+            md="1"
+          >
+            <v-btn
+              variant="flat"
+              icon
+              :class="{ 'filter-active': isActive }"
+              @click="sidesheet = !sidesheet"
+            >
+              <v-icon>filter_list</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <top-offenders />
