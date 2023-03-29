@@ -194,6 +194,7 @@
           <v-col
             v-show="showDateRange"
             xs="8"
+            sm="8"
             class="pb-0 pr-0"
           >
             <v-text-field
@@ -209,6 +210,7 @@
           <v-col
             v-show="showDateRange"
             xs="4"
+            sm="4"
             class="pb-0 pl-1"
           >
             <v-text-field
@@ -247,6 +249,7 @@
           <v-col
             v-show="showDateRange"
             xs="8"
+            sm="8"
             class="pb-0 pr-0"
           >
             <v-text-field
@@ -262,6 +265,7 @@
           <v-col
             v-show="showDateRange"
             xs="4"
+            sm="4"
             class="pb-0 pl-1"
           >
             <v-text-field
@@ -302,6 +306,7 @@
     <v-card flat>
       <v-col
         xs="12"
+        sm="12"
       >
         <v-card-actions>
           <v-btn
