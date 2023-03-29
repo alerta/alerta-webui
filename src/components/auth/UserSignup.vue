@@ -143,10 +143,12 @@ export default {
   },
   methods: {
     validate() {
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.signup()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.signup()
+        }
+      })
     },
     signup() {
       let credentials = {

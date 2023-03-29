@@ -117,12 +117,12 @@
                         readonly
                       />
                     </template>
-
-                    <v-date-picker
+                    <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+                    <!-- <v-date-picker
                       v-model="pickerDate"
                       :min="new Date().toISOString().slice(0, 10)"
                       @update:model-value="menu = false"
-                    />
+                    /> -->
                   </v-menu>
                 </v-col>
                 <v-col

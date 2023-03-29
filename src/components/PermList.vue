@@ -335,10 +335,12 @@ export default {
       }, 100)
     },
     validate() {
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.save()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.save()
+        }
+      })
     },
     save() {
       if (this.editedId) {

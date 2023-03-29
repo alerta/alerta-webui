@@ -582,8 +582,9 @@ export default {
       this.editedItem = Object.assign({}, item)
       this.getUserGroups(item.id)
       this.editedGroups = null
-      this.$refs.form.resetValidation()
       this.dialog = true
+      //This causes an error because the form doesn't exist yet when the button is clicked
+      //this.$refs.form.resetValidation()
     },
     deleteItem(item) {
       confirm(i18n.global.t('ConfirmDelete')) &&
@@ -598,10 +599,12 @@ export default {
       }, 100)
     },
     validate() {
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.save()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.save()
+        }
+      })
     },
     save() {
       if (this.editedId) {

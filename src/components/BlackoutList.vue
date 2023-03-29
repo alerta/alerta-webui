@@ -63,11 +63,12 @@
                         prepend-icon="event"
                       />
                     </template>
-                    <v-date-picker
+                    <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+                    <!-- <v-date-picker
                       v-model="editedItem.period.startDate"
                       no-title
                       @update:model-value="menu1 = false"
-                    />
+                    /> -->
                   </v-menu>
                 </v-col>
 
@@ -111,11 +112,12 @@
                         :label="$t('EndDate')"
                       />
                     </template>
-                    <v-date-picker
+                    <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+                    <!-- <v-date-picker
                       v-model="editedItem.period.endDate"
                       no-title
                       @update:model-value="menu2 = false"
-                    />
+                    /> -->
                   </v-menu>
                 </v-col>
 
@@ -745,11 +747,12 @@ export default {
       }, 100)
     },
     validate() {
-      //TODO: validate() returns a promise which should be awaited
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.save()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.save()
+        }
+      })
     },
     save() {
       if (this.editedId) {

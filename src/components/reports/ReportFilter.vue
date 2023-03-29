@@ -185,6 +185,7 @@
               :label="$t('DateTime')"
               variant="solo"
               prepend-inner-icon="schedule"
+              item-title="text"
               item-value="range"
               hide-details
             />
@@ -235,11 +236,12 @@
               <template #activator="{props}">
                 <div v-bind="props" />
               </template>
-              <v-date-picker
+              <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+              <!-- <v-date-picker
                 v-model="period.startDate"
                 no-title
                 @update:model-value="menu1 = false"
-              />
+              /> -->
             </v-menu>
           </v-col>
           <v-col
@@ -286,11 +288,12 @@
               <template #activator="{props}">
                 <div v-bind="props" />
               </template>
-              <v-date-picker
+              <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+              <!-- <v-date-picker
                 v-model="period.endDate"
                 no-title
                 @update:model-value="menu2 = false"
-              />
+              /> -->
             </v-menu>
           </v-col>
         </v-row>
@@ -357,7 +360,8 @@ export default {
         { text: i18n.global.t('Hour'), range: [-3600, null] },
         { text: i18n.global.t('SixHours'), range: [-3600 * 6, null] },
         { text: i18n.global.t('TwelveHours'), range: [-3600 * 12, null] },
-        { divider: true },
+        //TODO: These don't seem to work in Vuetify 3
+        //{ divider: true },
         { text: i18n.global.t('SelectRange'), range: [0, 0] },
       ]
     },
