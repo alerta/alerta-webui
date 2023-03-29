@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top>
+  <v-tooltip location="top">
     <template #activator="{props}">
       <span
         v-bind="props"
