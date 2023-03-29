@@ -119,7 +119,7 @@
                 v-if="showNotesIcon"
               >
                 <span
-                  v-if="lastNote(item.raw.id)"
+                  v-if="lastNote(item.raw)"
                   class="pl-2"
                 >
                   <v-tooltip location="bottom">
@@ -129,7 +129,7 @@
                         size="small"
                       >text_snippet</v-icon>
                     </template>
-                    <span>{{ lastNote(item.raw.id) }}</span>
+                    <span>{{ lastNote(item.raw) }}</span>
                   </v-tooltip>
                 </span>
               </span>
@@ -275,7 +275,7 @@
             <span
               v-if="col == 'note'"
             >
-              {{ lastNote(item.raw.id) }}
+              {{ lastNote(item.raw) }}
             </span>
           </td>
           <td
