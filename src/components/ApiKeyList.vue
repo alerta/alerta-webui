@@ -17,6 +17,7 @@
               <v-row wrap>
                 <v-col
                   xs="12"
+                  sm="12"
                 >
                   <v-tooltip
                     :key="copyIconText"
@@ -39,6 +40,7 @@
                 <v-col
                   v-if="!isAdmin"
                   xs="12"
+                  sm="12"
                 >
                   <v-text-field
                     v-model="editedItem.user"
@@ -49,6 +51,7 @@
                 <v-col
                   v-if="isAdmin"
                   xs="12"
+                  sm="12"
                 >
                   <v-select
                     v-model="editedItem.user"
@@ -59,6 +62,7 @@
                 <v-col
                   v-if="$config.customer_views"
                   xs="12"
+                  sm="12"
                 >
                   <v-select
                     v-model="editedItem.customer"
@@ -68,6 +72,7 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
                 >
                   <v-autocomplete
                     v-model="editedItem.scopes"
@@ -93,6 +98,7 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
                 >
                   <v-menu
                     v-model="menu"
@@ -121,6 +127,7 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
@@ -420,7 +427,7 @@ export default {
       scopes: [],
       expireTime: null
     },
-    copyIcontitle: i18n.global.t('Copy')
+    copyIconText: i18n.global.t('Copy')
   }),
   computed: {
     computedHeaders() {
