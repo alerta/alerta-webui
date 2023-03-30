@@ -210,7 +210,7 @@
               v-if="col == 'timeoutLeft'"
               class="text-right"
             >
-              {{ this.$filters.hhmmss(timeoutLeft(item.raw.id)) }}
+              {{ this.$filters.hhmmss(timeoutLeft(item.raw)) }}
             </span>
             <!-- propsData not supported -->
             <span

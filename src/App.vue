@@ -65,18 +65,19 @@
               :key="item.text"
               :prepend-icon="item.model ? item.icon : item['icon-alt']"
             >
-              <template #activator>
-                <v-list-item>
-                  <v-list-item-title>
-                    {{ item.text }}
-                  </v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                  v-for="(q, i) in item.queries"
-                  :key="i"
-                  @click="submitSearch(q.query)"
-                >
-                  <v-list-item-title>{{ q.text }}</v-list-item-title>
+              <template #activator="{props}">
+                <v-list-item 
+                  v-bind="props"
+                  :title="item.text"
+                />
+              </template>
+              <v-list-item
+                v-for="(q, i) in item.queries"
+                :key="i"
+                @click="submitSearch(q.query)"
+                :title="q.text"
+              >
+                <template #append>
                   <v-list-item-action>
                     <v-icon
                       size="small"
@@ -85,8 +86,8 @@
                       {{ q.icon }}
                     </v-icon>
                   </v-list-item-action>
-                </v-list-item>
-              </template>
+                </template>
+              </v-list-item>
             </v-list-group>
 
             <v-divider
@@ -128,7 +129,7 @@
 
         <v-text-field
           v-if="$route.name === 'alerts'"
-          v-model="query"
+          v-model="search"
           variant="solo"
           :label="$t('Search')"
           prepend-inner-icon="search"
@@ -563,7 +564,8 @@ export default {
     navbar: {
       signin: { icon: 'account_circle', text: i18n.global.t('SignIn'), path: '/login' }
     },
-    error: false
+    error: false,
+    search: ''
   }),
   computed: {
     items() {
@@ -760,6 +762,7 @@ export default {
       //When it's submitted through the saved search button, it is of type string
       if(typeof(query) != 'string')
         query = query.target.value
+      this.search = query
       this.$store.dispatch('alerts/updateQuery', { q: query })
       this.$router.push({
         query: { ...this.$router.query, q: query },
