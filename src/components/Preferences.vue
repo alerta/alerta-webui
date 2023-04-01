@@ -13,7 +13,6 @@
           </div>
         </div>
       </v-card-title>
-      <!--TODO: Arrange buttons vertically like before-->
       <v-card-actions>
         <v-container fluid>
           <v-checkbox
@@ -50,13 +49,13 @@
           </div>       
         </v-card-title>
         <v-card-actions>
-          <v-row column>
+          <v-col>
             <v-select
               v-model="isLanguages"
               :items="languages"
               :label="$t('Languages')"
             />
-          </v-row>
+          </v-col>
         </v-card-actions>
       </v-col>
     </v-card>
@@ -79,7 +78,7 @@
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-row column>
+          <v-col>
             <v-select
               v-model="longDate"
               :items="computedDateFormats"
@@ -103,7 +102,7 @@
               :items="timezoneOptions"
               :label="$t('DisplayMode')"
             />
-          </v-row>
+          </v-col>
         </v-card-actions>
       </v-col>
     </v-card>
@@ -142,7 +141,7 @@
           </v-container>
         </v-card-actions>
         <v-card-actions>
-          <v-row column>
+          <v-col>
             <v-select
               v-model="fontFamily"
               :items="computedFontFamilies"
@@ -218,7 +217,7 @@
               type="number"
               :suffix="$t('minutes')"
             />
-          </v-row>
+          </v-col>
         </v-card-actions>
       </v-col>
     </v-card>
