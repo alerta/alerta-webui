@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <!-- sort-icon might need to be moved to header slot -->
@@ -36,6 +37,7 @@
               class="select-box"
               :ripple="false"
               :size="fontSize"
+              :density="displayDensity"
               @click.stop="toggleSelect(item)"
             />
             <v-icon
