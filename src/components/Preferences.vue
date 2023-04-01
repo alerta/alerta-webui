@@ -331,6 +331,11 @@ export default {
     ackTimeoutOptions: [0, 60, 120, 240, 480, 1440],  // minutes
     shelveTimeoutOptions: [60, 120, 240, 480, 1440],  // minutes
     blackoutPeriodOptions: [1, 2, 8, 24, 48],  // hours
+    //These are to make up for the debounce not working
+    fontSize: null,
+    fontSizeTimer: null,
+    fontWeight: null,
+    fontWeightTimer:  null
   }),
   computed: {
     languages() {
@@ -474,33 +479,6 @@ export default {
         })
       }
     },
-    fontSize: {
-      get() {
-        return (
-          (this.$store.getters.getPreference('font')['font-size'] ||
-            this.$store.getters.getConfig('font')['font-size']).replace('px', '')
-        )
-      },
-      //WARNING: This causes the slider value to not update until the delay is over
-      set: debounce(function (value) {
-        this.$store.dispatch('setUserPrefs', {
-          font: {'font-size': value + 'px'}
-        })
-      }, 2000)
-    },
-    fontWeight: {
-      get() {
-        return (
-          (this.$store.getters.getPreference('font')['font-weight'] ||
-            this.$store.getters.getConfig('font')['font-weight'])
-        )
-      },
-      set: debounce(function (value) {
-        this.$store.dispatch('setUserPrefs', {
-          font: {'font-weight': value}
-        })
-      }, 2000)
-    },
     rowsPerPageItems() {
       return this.$store.state.alerts.pagination.rowsPerPageItems
     },
@@ -593,6 +571,31 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getUserPrefs')
+    //In the Vue 2 version of Alerta, the font size/weight sliders used a debounce
+    //function to delay the slider value being saved to the Vuex store. However
+    //it now causes the slider itself to not update until the value is saved.
+    //This is a workaround, where the fontSize/Weight value gets saved after initially
+    //being set when this component is mounted
+    this.fontSize = (this.$store.getters.getPreference('font')['font-size'] ||
+      this.$store.getters.getConfig('font')['font-size']).replace('px', '')
+    this.$watch('fontSize', (oldVal, newVal) => {
+      clearTimeout(this.fontSizeTimer)
+      this.fontSizeTimer = setTimeout(() => {
+        this.$store.dispatch('setUserPrefs', {
+          font: {'font-size': newVal + 'px'}
+        })
+      }, 2000)
+    })
+    this.fontWeight = (this.$store.getters.getPreference('font')['font-weight'] ||
+      this.$store.getters.getConfig('font')['font-weight'])
+    this.$watch('fontWeight', (oldVal, newVal) => {
+      clearTimeout(this.fontWeightTimer)
+      this.fontWeightTimer = setTimeout(() => {
+        this.$store.dispatch('setUserPrefs', {
+          font: {'font-weight': newVal}
+        })
+      }, 2000)
+    })
   },
   methods: {
     reset() {
