@@ -462,7 +462,8 @@ export default {
     computedFontFamilies() {
       const defaultFontFamily = this.$store.getters.getConfig('font')['font-family']
       return [
-        {title: defaultFontFamily.split(',')[0].replace(/"/g, ''), value: defaultFontFamily},
+        {title: defaultFontFamily.split(',')[1].replace(/"/g, ''), 
+         value: defaultFontFamily},
         ...this.webSafeFontFamilies
       ]
     },
