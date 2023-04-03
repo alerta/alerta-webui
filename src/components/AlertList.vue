@@ -815,7 +815,7 @@ div.select-box {
 }
 
 div.action-buttons {
-  position: absolute;
+  position: fixed;
   opacity: 0;
   right: 0;
   bottom: 0.5em;
