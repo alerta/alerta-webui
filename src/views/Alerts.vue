@@ -77,8 +77,8 @@
       <v-tab
         v-for="env in environments"
         :key="env"
-        :href="'#tab-' + env"
         @click="setEnv(env)"
+        :value="'tab-' + env"
       >
         {{ env }}&nbsp;({{ environmentCounts[env] || 0 }})
       </v-tab>
