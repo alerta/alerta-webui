@@ -5,8 +5,9 @@
       :headers="headers"
       :items="metrics"
       class="px-2"
-      hide-actions
     >
+      <!--TODO: This is to remove the "items per page" selection. Maybe find a more elegant solution?-->
+      <template #bottom />
       <template #item="{item}">
         <tr>
           <td>{{ item.raw.title }}</td>
@@ -22,8 +23,9 @@
       :headers="[{sortable: false},{sortable: false},{sortable: false},{sortable: false}]"
       :items="uptime"
       class="px-2"
-      hide-actions
     >
+      <!--TODO: This is to remove the "items per page" selection. Maybe find a more elegant solution?-->
+      <template #bottom />
       <template #item="{item}">
         <tr>
           <td>{{ $t('LastUpdate') }}</td>

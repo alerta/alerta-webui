@@ -4,9 +4,10 @@
     :headers="headers"
     :items="manifest"
     class="px-2"
-    hide-actions
     item-props
   >
+    <!--TODO: This is to remove the "items per page" selection. Maybe find a more elegant solution?-->
+    <template #bottom />
     <template #item="{item}">
       <tr>
         <td class="text-center">
