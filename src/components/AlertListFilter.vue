@@ -2,7 +2,7 @@
   <v-navigation-drawer
     :model-value="sidesheet"
     disable-resize-watcher
-    permanent
+    disable-route-watcher
     absolute
     :scrim="false"
     width="300"
