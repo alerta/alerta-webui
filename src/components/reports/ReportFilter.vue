@@ -6,6 +6,7 @@
     :scrim="false"
     width="300"
     location="end"
+    temporary
   >
     <v-card rounded="0">
       <v-toolbar

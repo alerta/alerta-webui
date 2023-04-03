@@ -2,10 +2,12 @@
   <v-navigation-drawer
     :model-value="sidesheet"
     disable-resize-watcher
+    permanent
     absolute
     :scrim="false"
     width="300"
     location="end"
+    temporary
   >
     <v-card rounded="0">
       <v-toolbar
