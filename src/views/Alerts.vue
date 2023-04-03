@@ -19,14 +19,14 @@
           <v-card-actions class="justify-center">
             <v-btn
               value="comfortable"
-              :class="{ primary: displayDensity == 'comfortable' }"
+              :color="displayDensity == 'comfortable' ? 'primary' : false"
               @click="displayDensity = 'comfortable'"
             >
               {{ $t('Comfortable') }}
             </v-btn>
             <v-btn
               value="compact"
-              :class="{ primary: displayDensity == 'compact' }"
+              :color="displayDensity == 'compact' ? 'primary' : false"
               @click="displayDensity = 'compact'"
             >
               {{ $t('Compact') }}
