@@ -601,6 +601,8 @@ export default {
   methods: {
     reset() {
       this.$store.dispatch('resetUserPrefs')
+      this.fontSize = (this.$store.getters.getConfig('font')['font-size']).replace('px', '')
+      this.fontWeight = (this.$store.getters.getConfig('font')['font-weight'])
     }
   }
 }

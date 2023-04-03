@@ -36,8 +36,7 @@
               color="gray"
               class="select-box"
               :ripple="false"
-              :size="fontSize"
-              :density="displayDensity"
+              density = "compact"
               @click.stop="toggleSelect(item)"
             />
             <v-icon
@@ -744,6 +743,7 @@ i.trend-arrow {
 
 div.select-box {
   width: 24px !important;
+  margin: -24px 0;
 }
 
 .label {
