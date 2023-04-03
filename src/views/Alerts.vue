@@ -436,7 +436,7 @@ export default {
 </script>
 
 <style>
-.filter-active::after {
+.filter-active::before {
   background-color: rgb(255, 82, 82);
   border-radius: 50%;
   box-sizing: border-box;
