@@ -45,19 +45,9 @@
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
+              :prepend-icon="item.icon"
+              :title="item.text"
             >
-              <v-list-item-action>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>
-                {{ item.text }}
-                <v-icon
-                  v-if="item.appendIcon"
-                  size="small"
-                >
-                  {{ item.appendIcon }}
-                </v-icon>
-              </v-list-item-title>
             </v-list-item>
 
             <v-list-group
