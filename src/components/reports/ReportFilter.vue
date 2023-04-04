@@ -360,15 +360,19 @@ export default {
     },
   }),
   computed: {
+    //TODO: Ranges are objects for the item-value of the v-select to avoid this bug
+    //https://github.com/vuetifyjs/vuetify/issues/17037#event-8903304397
+    //but they are still arrays for the dateRange field in the store
+    //or else the value will not be set in the URL route properly
     dateRanges() {
       return [
-        { text: i18n.global.t('Latest'), range: [null, null] },
-        { text: i18n.global.t('Hour'), range: [-3600, null] },
-        { text: i18n.global.t('SixHours'), range: [-3600 * 6, null] },
-        { text: i18n.global.t('TwelveHours'), range: [-3600 * 12, null] },
+        { text: i18n.global.t('Latest'), range: {start: null, end: null} },
+        { text: i18n.global.t('Hour'), range: {start: -3600, end: null} },
+        { text: i18n.global.t('SixHours'), range: {start: -3600 * 6, end: null} },
+        { text: i18n.global.t('TwelveHours'), range: {start: -3600 * 12, end: null} },
         //TODO: These don't seem to work in Vuetify 3
         //{ divider: true },
-        { text: i18n.global.t('SelectRange'), range: [0, 0] },
+        { text: i18n.global.t('SelectRange'), range: {start: 0, end: 0} },
       ]
     },
     isDark() {
@@ -484,12 +488,18 @@ export default {
     },
     filterDateRange: {
       get() {
-        return this.$store.state.reports.filter.dateRange[0] > 0
-          ? [0, 0]
-          : this.$store.state.reports.filter.dateRange
+        return this.$store.state.reports.filter.dateRange[0] > 0 ? 
+          {start: 0, end: 0} : 
+          {
+            text: i18n.global.t('SelectRange'), 
+            range: {
+              start: this.$store.state.reports.filter.dateRange[0],
+              end: this.$store.state.reports.filter.dateRange[1]
+            }
+          }
       },
       set(value) {
-        if (value[0] === 0) {
+        if (value.start === 0) {
           this.period = this.getDateRange(
             this.$store.state.reports.filter.dateRange[0]
               ? this.$store.state.reports.filter.dateRange[0]
@@ -502,7 +512,7 @@ export default {
         } else {
           this.showDateRange = false
           this.$store.dispatch('reports/setFilter', {
-            dateRange: value
+            dateRange: [value.start, value.end]
           })
         }
       }
