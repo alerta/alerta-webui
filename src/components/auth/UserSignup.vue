@@ -88,14 +88,16 @@
             {{ $t('SignUp') }}
           </v-btn>
         </v-form>
+        <br/>
         <div class="text-center">
           <span class="text-body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
+            class="theme--light text-primary"
             variant="flat"
-            color="primary"
             to="/login"
+            style="padding-left: 16px; margin-left: 8px;"
           >
             {{ $t('SignIn') }}
           </v-btn>
@@ -170,4 +172,5 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+</style>

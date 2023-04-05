@@ -44,18 +44,19 @@
             {{ $t('LogIn') }}
           </v-btn>
         </v-form>
+        <br/>
         <div class="text-center">
           <v-btn
+            class="theme--light text-primary"
             variant="flat"
-            color="primary"
             to="/signup"
             :disabled="!signupEnabled"
           >
             {{ $t('CreateAccount') }}
           </v-btn>
           <v-btn
+            class="theme--light text-primary"
             variant="flat"
-            color="primary"
             to="/forgot"
           >
             {{ $t('ForgotPassword') }}
