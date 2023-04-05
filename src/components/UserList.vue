@@ -446,16 +446,16 @@ export default {
     wantRoles: [],
     dialog: false,
     headers: [
-      { title: i18n.global.t('Name'), value: 'name' },
-      { title: i18n.global.t('Status'), value: 'status' },
-      { title: i18n.global.t('Login'), value: 'login' },
-      { title: i18n.global.t('Email'), value: 'email' },
-      { title: i18n.global.t('VerifiedOrNot'), value: 'email_verified' },
-      { title: i18n.global.t('Roles'), value: 'roles' },
-      { title: i18n.global.t('Created'), value: 'createTime' },
-      { title: i18n.global.t('LastLogin'), value: 'lastLogin' },
-      { title: i18n.global.t('Comment'), value: 'text' },
-      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('Name'), key: 'name' },
+      { title: i18n.global.t('Status'), key: 'status' },
+      { title: i18n.global.t('Login'), key: 'login' },
+      { title: i18n.global.t('Email'), key: 'email' },
+      { title: i18n.global.t('VerifiedOrNot'), key: 'email_verified' },
+      { title: i18n.global.t('Roles'), key: 'roles' },
+      { title: i18n.global.t('Created'), key: 'createTime' },
+      { title: i18n.global.t('LastLogin'), key: 'lastLogin' },
+      { title: i18n.global.t('Comment'), key: 'text' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {

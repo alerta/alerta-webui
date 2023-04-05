@@ -248,9 +248,9 @@ export default {
     wantScopes: [],
     dialog: false,
     headers: [
-      { title: i18n.global.t('Role'), value: 'match' },
-      { title: i18n.global.t('Scopes'), value: 'scopes' },
-      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('Role'), key: 'match' },
+      { title: i18n.global.t('Scopes'), key: 'scopes' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {

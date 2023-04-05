@@ -402,16 +402,16 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { title: i18n.global.t('APIKey'), value: 'key', sortable: false },
-      { title: '', value: 'expireTime' },
-      { title: i18n.global.t('User'), value: 'user' },
-      { title: i18n.global.t('Scopes'), value: 'scopes' },
-      { title: i18n.global.t('Description'), value: 'text' },
-      { title: i18n.global.t('Expires'), value: 'expireTime' },
-      { title: i18n.global.t('Count'), value: 'count' },
-      { title: i18n.global.t('LastUsed'), value: 'lastUsedTime' },
-      { title: i18n.global.t('Customer'), value: 'customer' },
-      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('APIKey'), key: 'key', sortable: false },
+      { title: '', key: 'expireTime' },
+      { title: i18n.global.t('User'), key: 'user' },
+      { title: i18n.global.t('Scopes'), key: 'scopes' },
+      { title: i18n.global.t('Description'), key: 'text' },
+      { title: i18n.global.t('Expires'), key: 'expireTime' },
+      { title: i18n.global.t('Count'), key: 'count' },
+      { title: i18n.global.t('LastUsed'), key: 'lastUsedTime' },
+      { title: i18n.global.t('Customer'), key: 'customer' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {

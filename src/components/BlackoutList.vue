@@ -534,23 +534,24 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { title: '', value: 'icons' },
-      { title: i18n.global.t('Customer'), value: 'customer' },
-      { title: i18n.global.t('Environment'), value: 'environment' },
-      { title: i18n.global.t('Service'), value: 'service' },
-      { title: i18n.global.t('Resource'), value: 'resource' },
-      { title: i18n.global.t('Event'), value: 'event' },
-      { title: i18n.global.t('Group'), value: 'group' },
-      { title: i18n.global.t('Tags'), value: 'tags' },
-      { title: i18n.global.t('Origin'), value: 'origin' },
-      { title: '', value: 'status' },
-      { title: i18n.global.t('Start'), value: 'startTime' },
-      { title: i18n.global.t('End'), value: 'endTime' },
-      { title: i18n.global.t('Expires'), value: 'remaining' },
-      { title: i18n.global.t('User'), value: 'user' },
-      // { title: 'Created', value: 'createTime' }, FIXME
-      { title: i18n.global.t('Reason'), value: 'text' },
-      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: '', key: 'icons' },
+      //This column doesn't appear in the original alerta
+      //{ title: i18n.global.t('Customer'), key: 'customer' },
+      { title: i18n.global.t('Environment'), key: 'environment' },
+      { title: i18n.global.t('Service'), key: 'service' },
+      { title: i18n.global.t('Resource'), key: 'resource' },
+      { title: i18n.global.t('Event'), key: 'event' },
+      { title: i18n.global.t('Group'), key: 'group' },
+      { title: i18n.global.t('Tags'), key: 'tags' },
+      { title: i18n.global.t('Origin'), key: 'origin' },
+      { title: '', key: 'status' },
+      { title: i18n.global.t('Start'), key: 'startTime' },
+      { title: i18n.global.t('End'), key: 'endTime' },
+      { title: i18n.global.t('Expires'), key: 'remaining' },
+      { title: i18n.global.t('User'), key: 'user' },
+      // { title: 'Created', key: 'createTime' }, FIXME
+      { title: i18n.global.t('Reason'), key: 'text' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {

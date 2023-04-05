@@ -913,17 +913,17 @@ export default {
       descending: true
     },
     headers: [
-      { title: i18n.global.t('AlertOrNoteId'), value: 'id', hide: 'smAndDown' },
-      { title: i18n.global.t('UpdateTime'), value: 'updateTime', hide: 'smAndDown' },
-      { title: i18n.global.t('Updated'), value: 'updateTime', hide: 'mdAndUp' },
-      { title: i18n.global.t('Severity'), value: 'severity', hide: 'smAndDown' },
-      { title: i18n.global.t('Status'), value: 'status', hide: 'smAndDown' },
-      { title: i18n.global.t('Timeout'), value: 'timeout', hide: 'smAndDown' },
-      { title: i18n.global.t('Type'), value: 'type' },
-      { title: i18n.global.t('Event'), value: 'event', hide: 'smAndDown' },
-      { title: i18n.global.t('Value'), value: 'value', hide: 'smAndDown' },
-      { title: i18n.global.t('User'), value: 'user' },
-      { title: i18n.global.t('Text'), value: 'text' }
+      { title: i18n.global.t('AlertOrNoteId'), key: 'id', hide: 'smAndDown' },
+      { title: i18n.global.t('UpdateTime'), key: 'updateTime', hide: 'smAndDown' },
+      { title: i18n.global.t('Updated'), key: 'updateTime', hide: 'mdAndUp' },
+      { title: i18n.global.t('Severity'), key: 'severity', hide: 'smAndDown' },
+      { title: i18n.global.t('Status'), key: 'status', hide: 'smAndDown' },
+      { title: i18n.global.t('Timeout'), key: 'timeout', hide: 'smAndDown' },
+      { title: i18n.global.t('Type'), key: 'type' },
+      { title: i18n.global.t('Event'), key: 'event', hide: 'smAndDown' },
+      { title: i18n.global.t('Value'), key: 'value', hide: 'smAndDown' },
+      { title: i18n.global.t('User'), key: 'user' },
+      { title: i18n.global.t('Text'), key: 'text' }
     ],
     copyIconText: i18n.global.t('Copy')
   }),

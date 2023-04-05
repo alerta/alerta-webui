@@ -183,17 +183,17 @@ export default {
     status: ['ok', 'slow', 'expired'],
     search: '',
     headers: [
-      { title: i18n.global.t('Origin'), value: 'origin' },
-      { title: i18n.global.t('Customer'), value: 'customer' },
-      { title: i18n.global.t('Tags'), value: 'tags' },
-      { title: i18n.global.t('Attributes'), value: 'attributes' },
-      { title: i18n.global.t('CreateTime'), value: 'createTime' },
-      { title: i18n.global.t('ReceiveTime'), value: 'receiveTime' },
-      { title: i18n.global.t('Latency'), value: 'latency' },
-      { title: i18n.global.t('Timeout'), value: 'timeout' },
-      { title: i18n.global.t('Since'), value: 'since' },
-      { title: i18n.global.t('Status'), value: 'status' },
-      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('Origin'), key: 'origin' },
+      { title: i18n.global.t('Customer'), key: 'customer' },
+      { title: i18n.global.t('Tags'), key: 'tags' },
+      { title: i18n.global.t('Attributes'), key: 'attributes' },
+      { title: i18n.global.t('CreateTime'), key: 'createTime' },
+      { title: i18n.global.t('ReceiveTime'), key: 'receiveTime' },
+      { title: i18n.global.t('Latency'), key: 'latency' },
+      { title: i18n.global.t('Timeout'), key: 'timeout' },
+      { title: i18n.global.t('Since'), key: 'since' },
+      { title: i18n.global.t('Status'), key: 'status' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ]
   }),
   computed: {

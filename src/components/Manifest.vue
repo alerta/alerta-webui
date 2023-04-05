@@ -81,12 +81,12 @@ export default {
   },
   data: () => ({
     headers: [
-      {title: i18n.global.t('WebUI'), value: 'version', sortable: false},
-      {title: i18n.global.t('API'), value: 'release', sortable: false},
-      {title: i18n.global.t('Build'), value: 'build', sortable: false},
-      {title: i18n.global.t('Date'), value: 'date', sortable: false},
-      {title: i18n.global.t('GitRevision'), value: 'revision', sortable: false},
-      {title: i18n.global.t('APIEndpoint'), value: 'endpoint', sortable: false}
+      {title: i18n.global.t('WebUI'), key: 'version', sortable: false},
+      {title: i18n.global.t('API'), key: 'release', sortable: false},
+      {title: i18n.global.t('Build'), key: 'build', sortable: false},
+      {title: i18n.global.t('Date'), key: 'date', sortable: false},
+      {title: i18n.global.t('GitRevision'), key: 'revision', sortable: false},
+      {title: i18n.global.t('APIEndpoint'), key: 'endpoint', sortable: false}
     ],
     manifest: [],
     copyIconText: i18n.global.t('Copy')

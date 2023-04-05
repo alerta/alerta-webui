@@ -182,9 +182,9 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { title: i18n.global.t('LookUp'), value: 'match' },
-      { title: i18n.global.t('Customer'), value: 'customer' },
-      { title: i18n.global.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('LookUp'), key: 'match' },
+      { title: i18n.global.t('Customer'), key: 'customer' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {

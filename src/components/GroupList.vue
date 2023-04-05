@@ -296,10 +296,10 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { title: i18n.global.t('Name'), value: 'name' },
-      { title: i18n.global.t('Description'), value: 'text' },
-      { title: i18n.global.t('NumberUsers'), value: 'count' },
-      { title: i18n.global.t('Actions'), value: 'actions', sortable: false }
+      { title: i18n.global.t('Name'), key: 'name' },
+      { title: i18n.global.t('Description'), key: 'text' },
+      { title: i18n.global.t('NumberUsers'), key: 'count' },
+      { title: i18n.global.t('Actions'), key: 'actions', sortable: false }
     ],
     editedId: null,
     editedItem: {

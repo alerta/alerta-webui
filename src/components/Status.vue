@@ -55,11 +55,11 @@ export default {
   },
   data: () => ({
     headers: [
-      {title: i18n.global.t('Metric'), value: 'title', sortable: false},
-      {title: i18n.global.t('Type'), value: 'type', sortable: false},
-      {title: i18n.global.t('Name'), value: 'name', sortable: false},
-      {title: i18n.global.t('Value'), value: 'value', sortable: false},
-      {title: i18n.global.t('AvgTime'), value: 'time', sortable: false},
+      {title: i18n.global.t('Metric'), key: 'title', sortable: false},
+      {title: i18n.global.t('Type'), key: 'type', sortable: false},
+      {title: i18n.global.t('Name'), key: 'name', sortable: false},
+      {title: i18n.global.t('Value'), key: 'value', sortable: false},
+      {title: i18n.global.t('AvgTime'), key: 'time', sortable: false},
     ]
   }),
   computed: {
