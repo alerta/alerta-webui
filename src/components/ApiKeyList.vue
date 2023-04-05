@@ -110,12 +110,16 @@
                     min-width="290px"
                   >
                     <template #activator>
-                      <v-text-field
+                      <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+                      <label v-html="$t('Expires')" for="date"/>
+                      <br/>
+                      <input type="date" v-model="pickerDate" name="date" class="datetime"/>
+                      <!-- <v-text-field
                         v-model="pickerDate"
                         :label="$t('Expires')"
                         prepend-icon="event"
                         readonly
-                      />
+                      /> -->
                     </template>
                     <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
                     <!-- <v-date-picker
@@ -569,5 +573,12 @@ input[monospace],
 td[monospace] {
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
     monospace;
+}
+
+.datetime {
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
 }
 </style>

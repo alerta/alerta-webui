@@ -56,12 +56,18 @@
                     min-width="290px"
                   >
                     <template #activator="{props}">
-                      <v-text-field
+                      <div v-bind="props">
+                        <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+                        <label v-html="$t('StartDate')" for="startdate"/>
+                        <br/>
+                        <input type="date" v-model="editedItem.period.startDate" name="startdate" class="datetime"/>
+                      </div>
+                      <!-- <v-text-field
                         v-bind="props"
                         v-model="editedItem.period.startDate"
                         :label="$t('StartDate')"
                         prepend-icon="event"
-                      />
+                      /> -->
                     </template>
                     <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
                     <!-- <v-date-picker
@@ -106,11 +112,17 @@
                     min-width="290px"
                   >
                     <template #activator="{props}">
-                      <v-text-field
+                      <div v-bind="props">
+                        <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+                        <label v-html="$t('EndDate')" for="enddate"/>
+                        <br/>
+                        <input type="date" v-model="editedItem.period.endDate" name="enddate" class="datetime"/>
+                      </div>
+                      <!-- <v-text-field
                         v-bind="props"
                         v-model="editedItem.period.endDate"
                         :label="$t('EndDate')"
-                      />
+                      /> -->
                     </template>
                     <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
                     <!-- <v-date-picker
@@ -800,4 +812,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.datetime {
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+}
+</style>

@@ -5,7 +5,7 @@
     disable-route-watcher
     absolute
     :scrim="false"
-    width="300"
+    width="400"
     location="end"
     temporary
   >
@@ -155,37 +155,45 @@
               hide-details
             />
           </v-col>
-
           <v-col
             v-show="showDateRange"
             xs="8"
-            sm="8"
+            sm="6"
             class="pb-0 pr-0"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('StartDate')" for="startdate"/>
+            <br/>
+            <input type="date" v-model="period.startDate" name="startdate" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.startDate"
               :label="$t('StartDate')"
               prepend-inner-icon="event"
               variant="outlined"
               hide-details
               @click:prepend-inner="menu1 = !menu1"
-            />
+            /> -->
           </v-col>
 
           <v-col
             v-show="showDateRange"
             xs="4"
-            sm="4"
+            sm="6"
             class="pb-0 pl-1"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('Time')" for="starttime"/>
+            <br/>
+            <input type="time" v-model="period.startTime" name="starttime" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.startTime"
               :label="$t('Time')"
               variant="outlined"
               hide-details
-            />
+            /> -->
           </v-col>
 
+          <!-- TODO: wait until v-date-picker is added
           <v-col
             class="pa-0"
           >
@@ -203,41 +211,50 @@
               <template #activator="{props}">
                 <div v-bind="props" />
               </template>
-              <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
-              <!-- <v-date-picker
+              TODO: Wait until v-date-picker is readded to Vuetify 3?
+              <v-date-picker
                 v-model="period.startDate"
                 no-title
                 @update:model-value="menu1 = false"
-              /> -->
+              />
             </v-menu>
-          </v-col>
+          </v-col> -->
           <v-col
             v-show="showDateRange"
             xs="8"
-            sm="8"
+            sm="6"
             class="pb-0 pr-0"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('EndDate')" for="enddate"/>
+            <br/>
+            <input type="date" v-model="period.endDate" name="enddate" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.endDate"
               :label="$t('EndDate')"
               prepend-inner-icon="event"
               variant="outlined"
               hide-details
               @click:prepend-inner="menu2 = !menu2"
-            />
+            /> -->
           </v-col>
 
           <v-col
             v-show="showDateRange"
             xs="4"
+            sm="6"
             class="pb-0 pl-1"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('Time')" for="endtime"/>
+            <br/>
+            <input type="time" v-model="period.endTime" name="endtime" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.endTime"
               :label="$t('Time')"
               variant="outlined"
               hide-details
-            />
+            /> -->
           </v-col>
           <v-col
             class="pa-0"
@@ -526,4 +543,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.datetime {
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+}
+</style>
