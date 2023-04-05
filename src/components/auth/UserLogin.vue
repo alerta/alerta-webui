@@ -2,11 +2,13 @@
   <v-container
     grid-list-sm
     fill-height
+    class="d-flex align-center" style="height: 70vh;"
   >
     <v-row
       align-center
       row
       wrap
+      class="justify-center"
     >
       <v-col
         v-if="isBasicAuth"
@@ -18,6 +20,7 @@
         <p class="text-center text-h5 font-weight-medium">
           {{ $t('LoginToContinue') }}
         </p>
+        <br/>
         <v-form @submit.prevent="login()">
           <v-text-field
             v-model.trim="username"
@@ -127,13 +130,6 @@
           </p>
         </div>
       </v-col>
-
-      <v-col
-        xs="12"
-        sm="8"
-        offset-xs0
-        offset-sm2
-      />
     </v-row>
   </v-container>
 </template>

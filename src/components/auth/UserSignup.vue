@@ -4,9 +4,9 @@
     fill-height
   >
     <v-row
-      align-center
       row
       wrap
+      class="justify-center"
     >
       <v-col
         xs="12"
