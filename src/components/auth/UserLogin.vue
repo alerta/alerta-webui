@@ -35,10 +35,11 @@
             name="password"
             :type="showPassword ? 'text' : 'password'"
             :label="$t('Password')"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             variant="outlined"
-            @click:append="showPassword = !showPassword"
+            @click:append-inner="showPassword = !showPassword"
           />
+        
           <v-btn
             block
             color="primary"

@@ -51,24 +51,24 @@
             name="password"
             :type="showPassword ? 'text' : 'password'"
             :label="$t('Password')"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
             variant="outlined"
             :rules="[rules.min]"
             required
-            @click:append="showPassword = !showPassword"
+            @click:append-inner="showPassword = !showPassword"
           />
           <v-text-field
             v-model="confirmPassword"
             name="confirm-password"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             :type="showPassword ? 'text' : 'password'"
             :label="$t('ConfirmPassword')"
             :disabled="!signupEnabled"
             variant="outlined"
             :rules="[rules.passwordMatch]"
             required
-            @click:append="showPassword = !showPassword"
+            @click:append-inner="showPassword = !showPassword"
           />
           <v-text-field
             v-model.trim="text"
