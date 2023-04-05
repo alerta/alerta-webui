@@ -26,7 +26,7 @@
             v-model.trim="username"
             name="login"
             type="text"
-            :label="$t('Username')"
+            :placeholder="$t('Username')"
             prepend-inner-icon="alternate_email"
             variant="outlined"
           />
@@ -34,7 +34,7 @@
             v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            :label="$t('Password')"
+            :placeholder="$t('Password')"
             :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             variant="outlined"
             @click:append-inner="showPassword = !showPassword"

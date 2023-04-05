@@ -2,6 +2,7 @@
   <v-container
     grid-list-sm
     fill-height
+    style="padding:12px"
   >
     <v-row
       row
@@ -29,7 +30,7 @@
             v-model.trim="name"
             name="name"
             type="text"
-            :label="$t('FullName')"
+            :placeholder="$t('FullName')"
             :disabled="!signupEnabled"
             variant="outlined"
             :rules="[rules.required]"
@@ -39,7 +40,7 @@
             v-model.trim="email"
             name="login"
             type="text"
-            :label="$t('Username')"
+            :placeholder="$t('Username')"
             prepend-inner-icon="alternate_email"
             :disabled="!signupEnabled"
             variant="outlined"
@@ -50,7 +51,7 @@
             v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            :label="$t('Password')"
+            :placeholder="$t('Password')"
             :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
             variant="outlined"
@@ -63,7 +64,7 @@
             name="confirm-password"
             :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             :type="showPassword ? 'text' : 'password'"
-            :label="$t('ConfirmPassword')"
+            :placeholder="$t('ConfirmPassword')"
             :disabled="!signupEnabled"
             variant="outlined"
             :rules="[rules.passwordMatch]"
@@ -74,7 +75,7 @@
             v-model.trim="text"
             name="text"
             type="text"
-            :label="$t('Description')"
+            :placeholder="$t('Description')"
             :disabled="!signupEnabled"
             variant="outlined"
           />
