@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-card
-      flat
       class="mx-auto"
       max-width="800"
     >
@@ -18,10 +17,7 @@
             wrap
           >
             <v-col
-              align-center
-              justify-center
-              layout
-              text-center
+              class="d-flex justify-center align-center"
             >
               <v-avatar
                 size="128"
@@ -71,28 +67,34 @@
               {{ profile.preferred_username }}
             </v-col>
           </v-row>
-
+          
           <v-card-text>
-            <v-container grid-list-md>
+            <v-container grid-list-md >
               <v-row wrap>
                 <v-col
                   xs="12"
-                  sm="6"
+                  sm="12"
+                  style=" padding-top: 0; padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="profile.name"
-                    :label="$t('FullName')"
+                    :placeholder="$t('FullName')"
                     readonly
+                    variant="outlined"
+
                   />
                 </v-col>
                 <v-col
-                  xs="9"
-                  sm="6"
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="profile.preferred_username"
-                    :label="$t('Username')"
+                    :placeholder="$t('Username')"
                     readonly
+                    variant="outlined"
                   />
                 </v-col>
 
@@ -100,21 +102,12 @@
                   v-if="provider[profile.provider]"
                   xs="3"
                   sm="3"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="provider[profile.provider].text"
-                    :label="$t('Provider')"
-                    readonly
-                  />
-                </v-col>
-
-                <v-col
-                  xs="12"
-                  sm="9"
-                >
-                  <v-text-field
-                    v-model="profile.sub"
-                    :label="$t('UserID')"
+                    :placeholder="$t('Provider')"
                     readonly
                   />
                 </v-col>
@@ -122,11 +115,29 @@
                 <v-col
                   xs="12"
                   sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
+                  
+                >
+                  <v-text-field
+                    v-model="profile.sub"
+                    :placeholder="$t('UserID')"
+                    readonly
+                    variant="outlined"
+
+                  />
+                </v-col>
+
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-if="profile.oid"
                     v-model="profile.oid"
-                    :label="$t('PrimaryUserID')"
+                    :placeholder="$t('PrimaryUserID')"
                     readonly
                   />
                 </v-col>
@@ -134,12 +145,16 @@
                 <v-col
                   xs="12"
                   sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="profile.email"
-                    :label="$t('Email')"
+                    :placeholder="$t('Email')"
                     readonly
-                    prepend-icon="email"
+                    prepend-inner-icon="email"
+                    variant="outlined"
+
                   >
                     <template 
                       v-if="profile.email_verified" 
@@ -153,7 +168,7 @@
                     </template>
                     <template 
                       v-else
-                      #append
+                      #append-inner
                     >
                       <v-icon
                         
@@ -168,14 +183,14 @@
                 <v-col
                   v-if="$config.customer_views"
                   xs="12"
+                  sm="12"
                 >
                   <v-combobox
                     v-model="customers"
-                    :label="$t('Customers')"
+                    :placeholder="$t('Customers')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
                   >
                     <template #selection="data">
                       <v-chip>
@@ -186,14 +201,17 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="profile.orgs"
-                    :label="$t('Organizations')"
+                    :placeholder="$t('Organizations')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
                   >
                     <template #selection="data">
                       <v-chip>
@@ -204,14 +222,18 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="profile.groups"
-                    :label="$t('Groups')"
+                    :placeholder="$t('Groups')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
+
                   >
                     <template #selection="data">
                       <v-chip>
@@ -222,14 +244,18 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="profile.roles"
-                    :label="$t('Roles')"
+                    :placeholder="$t('Roles')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
+
                   >
                     <template #selection="data">
                       <v-chip>
@@ -240,14 +266,18 @@
                 </v-col>
                 <v-col
                   xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="scopes"
-                    :label="$t('Scopes')"
+                    :placeholder="$t('Scopes')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
+                    :append-icon="$vuetify.icons.dropdown"
                   >
                     <template #selection="data">
                       <v-chip>
@@ -263,15 +293,13 @@
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue-darken-1"
-              variant="flat"
+              variant="fab"
               disabled
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue-darken-1"
-              variant="flat"
+              variant="fab"
               disabled
             >
               {{ $t('Save') }}
