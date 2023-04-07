@@ -849,7 +849,7 @@ export default {
       this.$store.dispatch('alerts/toggle', [sw, value])
     },
     toggleFullScreen() {
-      let elem = document.getElementById('alerta')
+      let elem = document.getElementById('app')
       if (!this.isFullscreen()) {
         elem.requestFullscreen()
       } else {

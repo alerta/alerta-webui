@@ -33,6 +33,11 @@ const vuetify = createVuetify({
     sets: {
       md
     }
+  },
+  defaults: {
+    global: {
+      attach: '#app'
+    }
   }
 })
 
