@@ -46,6 +46,7 @@
               v-has-perms="item.perms"
               :to="item.path"
               :prepend-icon="item.icon"
+              :append-icon="item.appendIcon"
               :title="item.text"
             >
             </v-list-item>
