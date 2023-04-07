@@ -312,7 +312,6 @@
       <v-data-table
         :headers="computedHeaders"
         :items="blackouts"
-        :rows-per-page-items="rowsPerPageItems"
         v-model:pagination="pagination"
         class="px-2"
         :search="search"
@@ -499,6 +498,18 @@
           >
             {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
           </v-alert>
+        </template>
+        <template #bottom>
+          <v-data-table-footer       
+            :items-per-page-options="rowsPerPageItems.map(
+              row => {
+                return {
+                  title: row.toString(),
+                  value: row
+                }
+              }
+            )"
+          />
         </template>
       </v-data-table>
     </v-card>

@@ -9,7 +9,6 @@
       return-object
       v-model:pagination="pagination"
       :total-items="pagination.totalItems"
-      :rows-per-page-items="pagination.rowsPerPageItems"
       :loading="isSearching"
       class="alert-table"
       :density="displayDensity"
@@ -468,6 +467,18 @@
           <span v-if="isLoading">{{ $t('Loading') }}...</span>
           <span v-if="!isLoading">{{ $t('NoDataAvailable') }}</span>
         </div>
+      </template>
+      <template #bottom>
+        <v-data-table-footer       
+          :items-per-page-options="pagination.rowsPerPageItems.map(
+            row => {
+              return {
+                title: row.toString(),
+                value: row
+              }
+            }
+          )"
+        />
       </template>
     </v-data-table>
   </div>
