@@ -78,7 +78,8 @@
                 >
                   <v-text-field
                     v-model="profile.name"
-                    :placeholder="$t('FullName')"
+                    dirty
+                    :label="$t('FullName')"
                     readonly
                     variant="outlined"
 
@@ -86,13 +87,14 @@
                 </v-col>
                 <v-col
                   xs="12"
-                  sm="12"
+                  sm="9"
                   style=" padding-top: 0;
   padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="profile.preferred_username"
-                    :placeholder="$t('Username')"
+                    dirty
+                    :label="$t('Username')"
                     readonly
                     variant="outlined"
                   />
@@ -107,7 +109,8 @@
                 >
                   <v-text-field
                     v-model="provider[profile.provider].text"
-                    :placeholder="$t('Provider')"
+                    dirty
+                    :label="$t('Provider')"
                     readonly
                   />
                 </v-col>
@@ -121,7 +124,8 @@
                 >
                   <v-text-field
                     v-model="profile.sub"
-                    :placeholder="$t('UserID')"
+                    dirty
+                    :label="$t('UserID')"
                     readonly
                     variant="outlined"
 
@@ -137,7 +141,8 @@
                   <v-text-field
                     v-if="profile.oid"
                     v-model="profile.oid"
-                    :placeholder="$t('PrimaryUserID')"
+                    dirty
+                    :label="$t('PrimaryUserID')"
                     readonly
                   />
                 </v-col>
@@ -150,7 +155,8 @@
                 >
                   <v-text-field
                     v-model="profile.email"
-                    :placeholder="$t('Email')"
+                    dirty
+                    :label="$t('Email')"
                     readonly
                     prepend-inner-icon="email"
                     variant="outlined"
@@ -187,7 +193,8 @@
                 >
                   <v-combobox
                     v-model="customers"
-                    :placeholder="$t('Customers')"
+                    dirty
+                    :label="$t('Customers')"
                     chips
                     multiple
                     readonly
@@ -207,7 +214,8 @@
                 >
                   <v-combobox
                     v-model="profile.orgs"
-                    :placeholder="$t('Organizations')"
+                    dirty
+                    :label="$t('Organizations')"
                     chips
                     multiple
                     readonly
@@ -228,7 +236,8 @@
                 >
                   <v-combobox
                     v-model="profile.groups"
-                    :placeholder="$t('Groups')"
+                    dirty
+                    :label="$t('Groups')"
                     chips
                     multiple
                     readonly
@@ -250,7 +259,8 @@
                 >
                   <v-combobox
                     v-model="profile.roles"
-                    :placeholder="$t('Roles')"
+                    dirty
+                    :label="$t('Roles')"
                     chips
                     multiple
                     readonly
@@ -272,7 +282,8 @@
                 >
                   <v-combobox
                     v-model="scopes"
-                    :placeholder="$t('Scopes')"
+                    dirty
+                    :label="$t('Scopes')"
                     chips
                     multiple
                     readonly
