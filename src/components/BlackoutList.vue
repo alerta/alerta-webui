@@ -251,62 +251,70 @@
 
     <v-card>
       <v-card-title class="text-h6">
-        {{ $t('Blackouts') }}
-        <v-spacer />
-        <v-btn-toggle
-          v-model="status"
-          class="bg-transparent"
-          multiple
-        >
-          <v-btn
-            value="active"
-            variant="flat"
-          >
-            <v-tooltip location="bottom">
-              <template #activator="{props}">
-                <v-icon v-bind="props">
-                  notifications_paused
-                </v-icon>
-              </template>
-              <span>{{ $t('Active') }}</span>
-            </v-tooltip>
-          </v-btn>
-          <v-btn
-            value="pending"
-            variant="flat"
-          >
-            <v-tooltip location="bottom">
-              <template #activator="{props}">
-                <v-icon v-bind="props">
-                  schedule
-                </v-icon>
-              </template>
-              <span>{{ $t('Pending') }}</span>
-            </v-tooltip>
-          </v-btn>
-          <v-btn
-            value="expired"
-            variant="flat"
-          >
-            <v-tooltip location="bottom">
-              <template #activator="{props}">
-                <v-icon
-                  v-bind="props">
-                  block
-                </v-icon>
-              </template>
-              <span>{{ $t('Expired') }}</span>
-            </v-tooltip>
-          </v-btn>
-        </v-btn-toggle>
-        <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          :label="$t('Search')"
-          single-line
-          hide-details
-        />
+        <v-row>
+          <v-col>
+            {{ $t('Blackouts') }}
+          </v-col>
+          <v-spacer />
+          <v-col>
+            <v-btn-toggle
+              v-model="status"
+              class="bg-transparent"
+              multiple
+            >
+              <v-btn
+                value="active"
+                variant="flat"
+              >
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon v-bind="props">
+                      notifications_paused
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Active') }}</span>
+                </v-tooltip>
+              </v-btn>
+              <v-btn
+                value="pending"
+                variant="flat"
+              >
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon v-bind="props">
+                      schedule
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Pending') }}</span>
+                </v-tooltip>
+              </v-btn>
+              <v-btn
+                value="expired"
+                variant="flat"
+              >
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon
+                      v-bind="props">
+                      block
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Expired') }}</span>
+                </v-tooltip>
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+          <v-spacer />
+          <v-col sm="5">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              :label="$t('Search')"
+              single-line
+              hide-details
+            />
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <v-data-table

@@ -90,41 +90,46 @@
 
     <v-card>
       <v-card-title class="text-h6">
-        {{ $t('Permissions') }}
-        <v-spacer />
-        <v-col
-          xs="3"
-          class="mr-3 pt-3"
-        >
-          <v-autocomplete
-            v-model="wantScopes"
-            :items="scopes"
-            :label="$t('Scopes')"
-            chips
-            multiple
+        <v-row>
+          <v-col>
+            {{ $t('Permissions') }}
+          </v-col>
+          <v-spacer />
+          <v-col
+            xs="3"
+            sm="3"
+            class="mr-3 pt-3"
           >
-            <template
-              #selection="data"
+            <v-autocomplete
+              v-model="wantScopes"
+              :items="scopes"
+              :label="$t('Scopes')"
+              chips
+              multiple
             >
-              <v-chip
-                :value="data.selected"
-                closable
+              <template
+                #selection="data"
               >
-                <strong>{{ data.item }}</strong>&nbsp;
-                <span>({{ $t('scope') }})</span>
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-        <v-col xs="6">
-          <v-text-field
-            v-model="search"
-            append-icon="search"
-            :label="$t('Search')"
-            single-line
-            hide-details
-          />
-        </v-col>
+                <v-chip
+                  :value="data.selected"
+                  closable
+                >
+                  <strong>{{ data.item }}</strong>&nbsp;
+                  <span>({{ $t('scope') }})</span>
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col xs="6" sm="6">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              :label="$t('Search')"
+              single-line
+              hide-details
+            />
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <v-data-table

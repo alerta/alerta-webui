@@ -36,22 +36,22 @@
                         :value="data.selected"
                         closable
                         class="chip--select-multi"
-                        @update:model-value="removeUser(data.item)"
+                        @update:model-value="removeUser(data.item.raw)"
+                        prepend-icon="person"
                       >
-                        <v-icon>person</v-icon>
-                        {{ data.item.name }}
+                        {{ data.item.raw.name }}
                       </v-chip>
                     </template>
-                    <template #item="data">
-                      <template v-if="typeof data.item !== 'object'">
-                        {{ data.item }}
-                      </template>
-                      <template v-else>
-                        <v-list-item :append-avatar="person" />
-                        <!-- <v-icon>person</v-icon> -->
-                        <v-list-item-title>{{ data.item.name }}</v-list-item-title>
-                        <v-list-item-subtitle>{{ data.item.email }}</v-list-item-subtitle>
-                      </template>
+                    <template #item="{props, item}">
+                      <v-list-item 
+                        v-bind="props"
+                        :title="item.raw.name"
+                        :subtitle="item.raw.email"
+                      >
+                        <template #prepend>
+                          <v-icon>person</v-icon>
+                        </template>
+                      </v-list-item>
                     </template>
                   </v-autocomplete>
                 </v-col>
@@ -68,7 +68,6 @@
             </div>
           </v-card-title>
 
-          <!-- removed avatar prop from v-list as it has been removed in Vuetify 2 -->
           <v-list>
             <v-list-item
               v-for="item in groupUsers"
@@ -173,15 +172,21 @@
 
     <v-card>
       <v-card-title class="text-h6">
-        {{ $t('Groups') }}
-        <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          :label="$t('Search')"
-          single-line
-          hide-details
-        />
+        <v-row>
+          <v-col>
+            {{ $t('Groups') }}
+          </v-col>
+          <v-spacer />
+          <v-col sm="7">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              :label="$t('Search')"
+              single-line
+              hide-details
+            />
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <v-data-table
@@ -426,6 +431,11 @@ export default {
       this.listbox = true
     },
     addUser(userId) {
+      //Null check because addUser gets triggered when the autocomplete
+      //is updated. This happens twice: once when the desired userId is
+      //entered and once when the autocomplete is cleared right after 
+      //which makes the userId null
+      if(!userId) return
       this.$store.dispatch('groups/addUserToGroup', [this.groupId, userId])
       setTimeout(() => {
         this.$refs.form.reset()

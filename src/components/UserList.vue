@@ -221,74 +221,81 @@
 
     <v-card>
       <v-card-title class="text-h6">
-        {{ $t('Users') }}
-        <v-spacer />
-        <v-btn-toggle
-          v-model="status"
-          class="bg-transparent"
-          multiple
-        >
-          <v-btn
-            value="active"
-            variant="flat"
-          >
-            <v-tooltip location="bottom">
-              <template #activator="{props}">
-                <v-icon v-bind="props">
-                  check_circle
-                </v-icon>
-              </template>
-              <span>{{ $t('Active') }}</span>
-            </v-tooltip>
-          </v-btn>
-          <v-btn
-            value="inactive"
-            variant="flat"
-          >
-            <v-tooltip location="bottom">
-              <template #activator="{props}">
-                <v-icon v-bind="props">
-                  block
-                </v-icon>
-              </template>
-              <span>{{ $t('Inactive') }}</span>
-            </v-tooltip>
-          </v-btn>
-        </v-btn-toggle>
-        <v-spacer />
-        <v-col
-          xs="3"
-          class="mr-3 pt-3"
-        >
-          <v-autocomplete
-            v-model="wantRoles"
-            :items="allowedRoles"
-            :label="$t('Roles')"
-            chips
-            multiple
-          >
-            <template
-              #selection="data"
+        <v-row>
+          <v-col>
+            {{ $t('Users') }}
+          </v-col>
+          <v-spacer />
+          <v-col>
+            <v-btn-toggle
+              v-model="status"
+              class="bg-transparent"
+              multiple
             >
-              <v-chip
-                :value="data.selected"
-                closable
+              <v-btn
+                value="active"
+                variant="flat"
               >
-                <strong>{{ data.item }}</strong>&nbsp;
-                <span>({{ $t('role') }})</span>
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-        <v-col xs="6">
-          <v-text-field
-            v-model="search"
-            append-icon="search"
-            :label="$t('Search')"
-            single-line
-            hide-details
-          />
-        </v-col>
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon v-bind="props">
+                      check_circle
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Active') }}</span>
+                </v-tooltip>
+              </v-btn>
+              <v-btn
+                value="inactive"
+                variant="flat"
+              >
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon v-bind="props">
+                      block
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Inactive') }}</span>
+                </v-tooltip>
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+          <v-spacer />
+          <v-col
+            xs="3"
+            sm="4"
+            class="mr-3 pt-3"
+          >
+            <v-autocomplete
+              v-model="wantRoles"
+              :items="allowedRoles"
+              :label="$t('Roles')"
+              chips
+              multiple
+            >
+              <template
+                #selection="data"
+              >
+                <v-chip
+                  :value="data.selected"
+                  closable
+                >
+                  <strong>{{ data.item }}</strong>&nbsp;
+                  <span>({{ $t('role') }})</span>
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col xs="6" sm="4">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              :label="$t('Search')"
+              single-line
+              hide-details
+            />
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <v-data-table

@@ -2,61 +2,69 @@
 <template>
   <v-card>
     <v-card-title class="text-h6">
-      {{ $t('Heartbeats') }}
-      <v-spacer />
-      <v-btn-toggle
-        v-model="status"
-        class="bg-transparent"
-        multiple
-      >
-        <v-btn
-          value="ok"
-          variant="flat"
-        >
-          <v-tooltip location="bottom">
-            <template #activator="{props}">
-              <v-icon v-bind="props">
-                check_circle
-              </v-icon>
-            </template>
-            <span>{{ $t('OK') }}</span>
-          </v-tooltip>
-        </v-btn>
-        <v-btn
-          value="slow"
-          variant="flat"
-        >
-          <v-tooltip location="bottom">
-            <template #activator="{props}">
-              <v-icon v-bind="props">
-                access_time
-              </v-icon>
-            </template>
-            <span>{{ $t('Slow') }}</span>
-          </v-tooltip>
-        </v-btn>
-        <v-btn
-          value="expired"
-          variant="flat"
-        >
-          <v-tooltip location="bottom">
-            <template #activator="{props}">
-              <v-icon v-bind="props">
-                timer_off
-              </v-icon>
-            </template>
-            <span>{{ $t('Expired') }}</span>
-          </v-tooltip>
-        </v-btn>
-      </v-btn-toggle>
-      <v-spacer />
-      <v-text-field
-        v-model="search"
-        append-icon="search"
-        :label="$t('Search')"
-        single-line
-        hide-details
-      />
+      <v-row>
+        <v-col>
+          {{ $t('Heartbeats') }}
+        </v-col>
+        <v-spacer />
+        <v-col>
+          <v-btn-toggle
+            v-model="status"
+            class="bg-transparent"
+            multiple
+          >
+            <v-btn
+              value="ok"
+              variant="flat"
+            >
+              <v-tooltip location="bottom">
+                <template #activator="{props}">
+                  <v-icon v-bind="props">
+                    check_circle
+                  </v-icon>
+                </template>
+                <span>{{ $t('OK') }}</span>
+              </v-tooltip>
+            </v-btn>
+            <v-btn
+              value="slow"
+              variant="flat"
+            >
+              <v-tooltip location="bottom">
+                <template #activator="{props}">
+                  <v-icon v-bind="props">
+                    access_time
+                  </v-icon>
+                </template>
+                <span>{{ $t('Slow') }}</span>
+              </v-tooltip>
+            </v-btn>
+            <v-btn
+              value="expired"
+              variant="flat"
+            >
+              <v-tooltip location="bottom">
+                <template #activator="{props}">
+                  <v-icon v-bind="props">
+                    timer_off
+                  </v-icon>
+                </template>
+                <span>{{ $t('Expired') }}</span>
+              </v-tooltip>
+            </v-btn>
+          </v-btn-toggle>
+        </v-col>
+        <v-spacer />
+        <v-col sm="6">
+          <v-text-field
+            v-model="search"
+            append-icon="search"
+            :label="$t('Search')"
+            single-line
+            hide-details
+          />
+        </v-col>
+      </v-row>
     </v-card-title>
     <v-data-table
       :headers="computedHeaders"

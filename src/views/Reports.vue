@@ -2,13 +2,15 @@
   <div class="reports">
     <v-card>
       <v-card-title class="text-h6">
-        {{ $t('Reports') }}
-        <v-spacer />
-        <v-row> 
+        <v-row>
+          <v-col>
+            {{ $t('Reports') }}
+          </v-col>
+          <v-spacer />
           <v-col 
             xs="12"
-            sm="6"
-            md="11"
+            sm="2"
+            md="2"
           >
             <v-select
               v-model.number="rowsPerPage"
@@ -17,7 +19,6 @@
               type="number"
             />
           </v-col>
-
           <v-col
             xs="1"
             sm="1"
