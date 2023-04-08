@@ -58,7 +58,6 @@
         hide-details
       />
     </v-card-title>
-
     <v-data-table
       :headers="computedHeaders"
       :items="heartbeats"
@@ -74,7 +73,7 @@
         <tr>
           <td>{{ item.props.origin }}</td>
           <td
-            v-if="$config.customer_views"
+            v-if="this.$config.customer_views"
           >
             {{ item.props.customer }}
           </td>
@@ -212,7 +211,7 @@ export default {
       return this.$store.state.heartbeats.heartbeats.filter(hb => !this.status || this.status.includes(hb.status))
     },
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter(h => !this.$config.customer_views ? h.key != 'customer' : true)
     },
     isLoading() {
       return this.$store.state.heartbeats.isLoading

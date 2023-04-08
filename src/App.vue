@@ -601,7 +601,7 @@ export default {
           text: i18n.global.t('Customers'),
           path: '/customers',
           perms: 'read:customers',
-          show: true
+          show: this.$config.customer_views
         },
         {
           icon: 'notifications_off',

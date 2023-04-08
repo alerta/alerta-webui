@@ -546,8 +546,7 @@ export default {
     dialog: false,
     headers: [
       { title: '', key: 'icons' },
-      //This column doesn't appear in the original alerta
-      //{ title: i18n.global.t('Customer'), key: 'customer' },
+      { title: i18n.global.t('Customer'), key: 'customer' },
       { title: i18n.global.t('Environment'), key: 'environment' },
       { title: i18n.global.t('Service'), key: 'service' },
       { title: i18n.global.t('Resource'), key: 'resource' },
@@ -623,7 +622,7 @@ export default {
         })
     },
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter(h => !this.$config.customer_views ? h.key != 'customer' : true)
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']

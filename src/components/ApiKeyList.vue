@@ -446,7 +446,7 @@ export default {
   }),
   computed: {
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter(h => !this.$config.customer_views ? h.key != 'customer' : true)
     },
     keys() {
       return this.$store.state.keys.keys.filter(k => !this.status || this.status.includes(this.statusFromExpireTime(k)))
