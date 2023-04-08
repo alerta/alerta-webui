@@ -40,6 +40,12 @@
             </td>
           </tr>
         </template>
+        <template #no-data>
+          <div class="text-center">
+            {{ $t('NoDataAvailable') }}
+          </div>
+        </template>
+        <template #bottom/>
       </v-data-table>
     </v-card>
   </div>
