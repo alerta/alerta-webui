@@ -157,6 +157,7 @@
           >
             <template #activator="{props}">
               <v-switch
+                color="secondary"
                 v-bind="props"
                 :v-model="isWatch"
                 hide-details
