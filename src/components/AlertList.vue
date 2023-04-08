@@ -25,7 +25,7 @@
           <!--TODO: Style is a temporary fix until background-color can be applied to <tr> elements-->
           <td
             class="text-no-wrap label-warning"
-            :style="Object.assign({}, fontStyle, { 'background-color': severityColor(item.raw.severity)})"
+            :style="{ 'background-color': severityColor(item.raw.severity), ...fontStyle}"
           >
             <v-checkbox
               v-if="selectableRows"
@@ -68,7 +68,7 @@
             v-for="col in this.$config.columns"
             :key="col"
             :class="['text-no-wrap', textColor(item.raw.severity)]"
-            :style="Object.assign({}, fontStyle, { 'background-color': severityColor(item.raw.severity)})"
+            :style="{ 'background-color': severityColor(item.raw.severity), ...fontStyle }"
           >
             <span
               v-if="col == 'id'"
@@ -514,7 +514,7 @@ export default {
       service: { title: i18n.global.t('Service'), key: 'service' },
       group: { title: i18n.global.t('Group'), key: 'group' },
       value: { title: i18n.global.t('Value'), key: 'value', class: 'value-header' },
-      title: { title: i18n.global.t('Description'), key: 'text', class: 'text-header' },
+      text: { title: i18n.global.t('Description'), key: 'text', class: 'text-header' },
       tags: { title: i18n.global.t('Tags'), key: 'tags' },
       attributes: { title: i18n.global.t('Attribute'), key: 'attributes' },
       origin: { title: i18n.global.t('Origin'), key: 'origin' },
@@ -621,6 +621,15 @@ export default {
     alerts(val) {
       this.selected = val.filter(item => this.selected.map(s => s.id).includes(item.id))
     }
+  },
+  mounted() {
+    //Workaround for the class-based approach not working
+    Object.assign(this.headersMap.value, {
+      width: `${this.valueWidth()}px`
+    })
+    Object.assign(this.headersMap.text, {
+      width: `${this.textWidth()}px`
+    })
   },
   methods: {
     duration(item) {
