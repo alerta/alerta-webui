@@ -322,120 +322,79 @@
               <!-- DEPRECATED -->
 
               <v-card-text>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('AlertId') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span class="console-text">{{ item.id }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('LastReceiveAlertId') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span class="console-text">{{ item.lastReceiveId }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('CreateTime') }}
-                      </div>
-                    </div>
-                    <div class="flex xs9 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <date-time
                           v-if="item.createTime"
                           :value="item.createTime"
                           format="longDate"
                         />
                         ({{ this.$filters.timeago(item.createTime) }})
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('ReceiveTime') }}
-                      </div>
-                    </div>
-                    <div class="flex xs9 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <date-time
                           v-if="item.receiveTime"
                           :value="item.receiveTime"
                           format="longDate"
                         />
                         ({{ this.$filters.timeago(item.receiveTime) }})
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('LastReceiveTime') }}
-                      </div>
-                    </div>
-                    <div class="flex xs9 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <date-time
                           v-if="item.lastReceiveTime"
                           :value="item.lastReceiveTime"
                           format="longDate"
                         />
                         ({{ this.$filters.timeago(item.lastReceiveTime) }})
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  v-if="$config.customer_views"
-                  class="flex xs12 ma-1"
-                >
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr v-if="$config.customer_views">
+                      <td class="text-grey">
                         {{ $t('Customer') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div
+                      </td>
+                      <td 
                         class="clickable"
                         @click="queryBy('customer', item.customer)"
                       >
                         {{ item.customer }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Service') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span
                           v-for="service in item.service"
                           :key="service"
@@ -443,70 +402,52 @@
                         >
                           <span class="clickable">{{ service }}</span>&nbsp;
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Environment') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div
-                        class="clickable"
-                        @click="queryBy('environment', item.environment)"
-                      >
-                        {{ item.environment }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                      <td>
+                        <span
+                          class="clickable"
+                          @click="queryBy('environment', item.environment)"
+                        >
+                          {{ item.environment }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Resource') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div
-                        class="clickable"
-                        @click="queryBy('resource', item.resource)"
-                      >
-                        {{ item.resource }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                      <td>
+                        <span
+                          class="clickable"
+                          @click="queryBy('resource', item.resource)"
+                        >
+                          {{ item.resource }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Event') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div
-                        class="clickable"
-                        @click="queryBy('event', item.event)"
-                      >
-                        {{ item.event }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                      <td>
+                        <span
+                          class="clickable"
+                          @click="queryBy('event', item.event)"
+                        >
+                          {{ item.event }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Correlate') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span
                           v-for="event in item.correlate"
                           :key="event"
@@ -514,56 +455,39 @@
                         >
                           <span class="clickable">{{ event }}</span>&nbsp;
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Group') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div
-                        class="clickable"
-                        @click="queryBy('group', item.group)"
-                      >
-                        {{ item.group }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                      <td>
+                        <span
+                          class="clickable"
+                          @click="queryBy('group', item.group)"
+                        >
+                          {{ item.group }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Severity') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span :class="['label', 'label-' + item.previousSeverity]">
                           {{ this.$filters.capitalize(item.previousSeverity) }}
                         </span>&nbsp;&rarr;&nbsp;
                         <span :class="['label', 'label-' + item.severity]">
                           {{ this.$filters.capitalize(item.severity) }}
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Status') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span class="label">
                           {{ this.$filters.capitalize(item.status) }}
                         </span>
@@ -571,158 +495,97 @@
                           v-if="statusNote && statusNote.user"
                         >&nbsp;{{ $t('by') }} <b>{{ statusNote.user }}</b> ({{ this.$filters.timeago(statusNote.updateTime) }})
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  v-if="statusNote && statusNote.user && statusNote.text"
-                  class="flex xs12 ma-1"
-                >
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey" />
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                    </tr>
+                    <tr v-if="statusNote && statusNote.user && statusNote.text">
+                      <td/>
+                      <td>
                         <v-icon size="small">
                           error_outline
                         </v-icon>
                         <i>&nbsp;{{ statusNote.text }}</i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Value') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         {{ item.value }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Text') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
-                        <span>{{ item.text }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                      <td>
+                        {{ item.text }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('TrendIndication') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span class="label">
                           {{ this.$filters.splitCaps(item.trendIndication) }}
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Timeout') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         {{ item.timeout }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Type') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span class="label">
                           {{ this.$filters.splitCaps(item.type) }}
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('DuplicateCount') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         {{ item.duplicateCount }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Repeat') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <span class="label">
                           {{ this.$filters.capitalize(item.repeat) }}
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Origin') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div
-                        class="clickable"
-                        @click="queryBy('origin', item.origin)"
-                      >
-                        {{ item.origin }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex xs12 ma-1">
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                      <td>
+                        <span
+                          class="clickable"
+                          @click="queryBy('origin', item.origin)"
+                        >
+                          {{ item.origin }}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-grey">
                         {{ $t('Tags') }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div>
+                      </td>
+                      <td>
                         <v-chip
                           v-for="tag in item.tags"
                           :key="tag"
@@ -734,49 +597,44 @@
                             label
                           </v-icon>{{ tag }}
                         </v-chip>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  v-for="(value, attr) in item.attributes"
-                  :key="attr"
-                  class="flex xs12 ma-1"
-                >
-                  <div class="d-flex align-top">
-                    <div class="flex xs3 text-left">
-                      <div class="text-grey">
+                      </td>
+                    </tr>
+                    <tr
+                      v-for="(value, attr) in item.attributes"
+                      :key="attr"                      
+                    >
+                      <td class="text-grey">
                         {{ this.$filters.splitCaps(attr) }}
-                      </div>
-                    </div>
-                    <div class="flex xs6 text-left">
-                      <div
-                        v-if="typeof value === 'object'"
-                      >
-                        <span
-                          v-for="v in value"
-                          :key="v"
-                          @click="queryBy(`_.${attr}`, v)"
+                      </td>
+                      <td>
+                        <div
+                          v-if="typeof value === 'object'"
                         >
-                          <span class="clickable">{{ v }}</span>&nbsp;
-                        </span>
-                      </div>
-                      <div
-                        v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
-                        class="link-text"
-                      >
-                        {{ value }}
-                      </div>
-                      <div
-                        v-else
-                        class="clickable"
-                        @click="queryBy(`_.${attr}`, value)"
-                      >
-                        {{ value }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                          <span
+                            v-for="v in value"
+                            :key="v"
+                            @click="queryBy(`_.${attr}`, v)"
+                          >
+                            <span class="clickable">{{ v }}</span>&nbsp;
+                          </span>
+                        </div>
+                        <div
+                          v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
+                          class="link-text"
+                        >
+                          {{ value }}
+                        </div>
+                        <div
+                          v-else
+                          class="clickable"
+                          @click="queryBy(`_.${attr}`, value)"
+                        >
+                          {{ value }}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </v-card-text>
             </v-card>
           </v-window-item>
