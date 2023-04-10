@@ -73,6 +73,7 @@
               :items="statusList"
               :label="$t('Status')"
               multiple
+              chips
               variant="outlined"
               density="default"
               :hint="$t('StatusDescription')"

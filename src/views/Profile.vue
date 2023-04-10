@@ -42,12 +42,7 @@
             row
             spacer
           >
-            <v-col
-              align-center
-              justify-center
-              layout
-              text-xs-center
-            >
+            <v-col class="d-flex align-center justify-center">
               <b>{{ profile.name }}</b>
             </v-col>
           </v-row>
@@ -55,12 +50,7 @@
             row
             spacer
           >
-            <v-col
-              align-center
-              justify-center
-              layout
-              text-xs-center
-            >
+            <v-col class="d-flex align-center justify-center">
               <span
                 v-if="profile.preferred_username && !profile.preferred_username.includes('@')"
               >@</span>
@@ -87,7 +77,7 @@
                 </v-col>
                 <v-col
                   xs="12"
-                  sm="12"
+                  sm="9"
                   style=" padding-top: 0;
   padding-bottom: 0;"
                 >
@@ -112,6 +102,7 @@
                     dirty
                     :label="$t('Provider')"
                     readonly
+                    variant="outlined"
                   />
                 </v-col>
 
@@ -160,11 +151,10 @@
                     readonly
                     prepend-inner-icon="email"
                     variant="outlined"
-
                   >
                     <template 
                       v-if="profile.email_verified" 
-                      #append
+                      #append-inner
                     >
                       <v-icon
                         color="success"

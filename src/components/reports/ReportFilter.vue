@@ -91,6 +91,7 @@
               :items="severityList"              
               :label="$t('Severity')"
               multiple
+              chips
               variant="outlined"
               density="default"
               :hint="$t('SeverityDescription')"
@@ -109,6 +110,7 @@
               :placeholder="$t('AllStatuses')"
               :label="$t('Status')"
               multiple
+              chips
               variant="outlined"
               density="default"
               :hint="$t('StatusDescription')"
