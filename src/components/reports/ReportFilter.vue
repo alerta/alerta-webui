@@ -7,6 +7,7 @@
     width="400"
     location="end"
     temporary
+    style="margin-top: 70px; height: auto"
   >
     <v-card rounded="0">
       <v-toolbar
@@ -183,8 +184,7 @@
               v-model="filterDateRange"
               :items="dateRanges"
               name="dateRange"
-              :label="$t('DateTime')"
-              variant="solo"
+              variant="plain"
               prepend-inner-icon="schedule"
               item-title="text"
               item-value="range"

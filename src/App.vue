@@ -3,9 +3,6 @@
     id="alerta"
     :theme="isDark ? 'dark' : 'light'"
   >
-    <!--Some vuetify components used a "light"/"dark" prop to get themes
-    v-theme-provider might need to be wrapped around specific elements rather than the whole app
-    TODO: pass isDark to this so it can be used properly or find another way to toggle themes-->
     <div v-if="!isKiosk">
       <v-navigation-drawer
         v-if="isLoggedIn || !isAuthRequired || isAllowReadonly"

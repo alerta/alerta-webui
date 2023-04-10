@@ -8,8 +8,7 @@
     width="300"
     location="end"
     temporary
-    style="margin-top: 70px;"
-    :elevation="0"
+    style="margin-top: 70px; height: auto"
   >
     <v-card rounded="0">
       <v-toolbar
@@ -148,8 +147,7 @@
               v-model="filterDateRange"
               :items="dateRanges"
               name="dateRange"
-              :label="$t('DateTime')"
-              variant="flat"
+              variant="plain"
               prepend-inner-icon="schedule"
               item-title="text"
               item-value="range"
@@ -300,7 +298,7 @@
           <v-spacer />
           <v-btn
             color="blue-darken-1"
-            variant="outline"
+            variant="flat"
             @click="reset"
           >
             {{ $t('Reset') }}
