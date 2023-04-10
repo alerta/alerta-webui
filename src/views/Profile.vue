@@ -87,7 +87,7 @@
                 </v-col>
                 <v-col
                   xs="12"
-                  sm="9"
+                  sm="12"
                   style=" padding-top: 0;
   padding-bottom: 0;"
                 >
