@@ -150,8 +150,7 @@
     
     <alert-list-filter
       :value="sidesheet"
-      @close="sidesheet = false"
-    />
+      @close="sidesheet = false"    />
   </div>
 </template>
 
