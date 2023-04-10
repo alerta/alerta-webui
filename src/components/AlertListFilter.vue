@@ -70,7 +70,6 @@
             <v-select
               v-model="filterStatus"
               :items="statusList"
-              :placeholder="$t('AllStatuses')"
               :label="$t('Status')"
               multiple
               variant="outlined"
