@@ -400,22 +400,30 @@
           </tr>
         </template>
         <template #no-data>
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
-            {{ $t('NoDisplay') }}
-          </v-alert>
+          <tr>
+            <td colspan="9">
+              <v-alert
+                :value="true"
+                color="error"
+                icon="warning"
+              >
+                {{ $t('NoDisplay') }}
+              </v-alert>
+            </td>
+          </tr>
         </template>
         <template #no-results>
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
-            {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}.
-          </v-alert>
+          <tr>
+            <td colspan="9">
+              <v-alert
+                :value="true"
+                color="error"
+                icon="warning"
+              >
+                {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}.
+              </v-alert>
+            </td>
+          </tr>
         </template>
         <template #bottom>
           <v-data-table-footer       
