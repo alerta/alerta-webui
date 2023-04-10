@@ -2,14 +2,12 @@
   <user-login />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import UserLogin from '@/components/auth/UserLogin.vue'
 
-@Component({
+export default {
   components: {
     UserLogin
   }
-})
-export default class Login extends Vue {}
+}
 </script>

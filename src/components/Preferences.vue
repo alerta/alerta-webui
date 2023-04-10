@@ -8,15 +8,13 @@
         class="pb-0"
       >
         <div>
-          <div class="headline">
+          <div class="text-h5">
             {{ $t('ApplicationSettings') }}
           </div>
         </div>
       </v-card-title>
       <v-card-actions>
-        <v-radio-group
-          class="mt-0"
-        >
+        <v-container fluid>
           <v-checkbox
             v-model="isDark"
             :label="$t('DarkTheme')"
@@ -29,7 +27,7 @@
             hide-details
             class="my-0"
           />
-        </v-radio-group>
+        </v-container>
       </v-card-actions>
     </v-card>
 
@@ -37,50 +35,50 @@
       flat
       class="pl-3"
     >
-      <v-flex
-        sm6
-        md4
+      <v-col
+        sm="6"
+        md="4"
       >
         <v-card-title
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('LanguageSettings') }}
             </div>
           </div>       
         </v-card-title>
         <v-card-actions>
-          <v-layout column>
+          <v-col>
             <v-select
               v-model="isLanguages"
               :items="languages"
               :label="$t('Languages')"
             />
-          </v-layout>
+          </v-col>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
     
     <v-card
       flat
       class="pl-3"
     >
-      <v-flex
-        sm6
-        md4
+      <v-col
+        sm="6"
+        md="4"
       >
         <v-card-title
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('DateTimeSettings') }}
             </div>
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-layout column>
+          <v-col>
             <v-select
               v-model="longDate"
               :items="computedDateFormats"
@@ -104,32 +102,30 @@
               :items="timezoneOptions"
               :label="$t('DisplayMode')"
             />
-          </v-layout>
+          </v-col>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
 
     <v-card
       flat
       class="pl-3"
     >
-      <v-flex
-        sm6
-        md4
+      <v-col
+        sm="6"
+        md="4"
       >
         <v-card-title
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('AlertSettings') }}
             </div>
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-radio-group
-            class="mt-0"
-          >
+          <v-container fluid>
             <v-checkbox
               v-model="showAllowedEnvs"
               :label="$t('ShowAllowedEnvs')"
@@ -139,14 +135,13 @@
             <v-checkbox
               v-model="showNotesIcon"
               :label="$t('ShowNotesIcon')"
-              :hint="$t('ShowNotesHint')"
               persistent-hint
               class="my-0"
             />
-          </v-radio-group>
+          </v-container>
         </v-card-actions>
         <v-card-actions>
-          <v-layout column>
+          <v-col>
             <v-select
               v-model="fontFamily"
               :items="computedFontFamilies"
@@ -154,27 +149,27 @@
             />
             <v-slider
               v-model="fontSize"
+              @update:model-value="updateFontSize"
               min="10"
               max="30"
               step="1"
               always-dirty
-              ticks="always"
+              show-ticks="always"
               thumb-label
               :label="$t('FontSize')"
-              :tick-labels="fontSizeLabels"
             />
 
             <v-slider
               v-model="fontWeight"
+              @update:model-value="updateFontWeight"
               min="100"
               max="900"
               step="100"
               always-dirty
-              ticks="always"
+              show-ticks="always"
               tick-size="2"
               thumb-label
               :label="$t('FontWeight')"
-              :tick-labels="fontWeightLabels"
             />
 
             <v-combobox
@@ -224,42 +219,38 @@
               type="number"
               :suffix="$t('minutes')"
             />
-          </v-layout>
+          </v-col>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
 
     <v-card
       flat
       class="pl-3"
     >
-      <v-flex
-        sm6
-        md4
+      <v-col
+        sm="6"
+        md="4"
       >
         <v-card-title
           class="pb-0"
         >
           <div>
-            <div class="headline">
+            <div class="text-h5">
               {{ $t('BlackoutSettings') }}
             </div>
           </div>
         </v-card-title>
         <v-card-actions>
-          <v-radio-group
-            class="mt-0"
-          >
-            <v-checkbox
-              v-model="blackoutStartNow"
-              :label="$t('BlackoutStartNow')"
-              hide-details
-              class="my-0"
-            />
-          </v-radio-group>
+          <v-checkbox
+            v-model="blackoutStartNow"
+            :label="$t('BlackoutStartNow')"
+            hide-details
+            class="my-0"
+          />
         </v-card-actions>
         <v-card-actions>
-          <v-layout column>
+          <v-row column>
             <v-combobox
               v-model.number="blackoutPeriod"
               :items="blackoutPeriodOptions"
@@ -267,27 +258,27 @@
               type="number"
               :suffix="$t('hours')"
             />
-          </v-layout>
+          </v-row>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
 
     <v-card flat>
-      <v-flex
-        sm6
-        md4
+      <v-col
+        sm="6"
+        md="4"
       >
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="blue darken-1"
-            flat
+            color="blue-darken-1"
+            variant="flat"
             @click="reset"
           >
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
   </v-form>
 </template>
@@ -326,13 +317,13 @@ export default {
       'HH:mm:ss.SSS Z',
     ],
     webSafeFontFamilies: [
-      {text: 'Sintony', value: '"Sintony", Arial, sans-serif'},
-      {text: 'Helvetica', value: '"Helvetica", Arial, sans-serif'},
-      {text: 'Verdana', value: '"Verdana", Arial, sans-serif'},
-      {text: 'Courier New', value: '"Courier New", Courier, monospace'},
-      {text: 'Consolas', value: '"Consolas", Courier, monospace'},
-      {text: 'Lucida Console', value: '"Lucida Console", Monaco, monospace'},
-      {text: 'Andale Mono', value: '"Andale Mono", Courier, monospace'}
+      {title: 'Sintony', value: '"Sintony", Arial, sans-serif'},
+      {title: 'Helvetica', value: '"Helvetica", Arial, sans-serif'},
+      {title: 'Verdana', value: '"Verdana", Arial, sans-serif'},
+      {title: 'Courier New', value: '"Courier New", Courier, monospace'},
+      {title: 'Consolas', value: '"Consolas", Courier, monospace'},
+      {title: 'Lucida Console', value: '"Lucida Console", Monaco, monospace'},
+      {title: 'Andale Mono', value: '"Andale Mono", Courier, monospace'}
     ],
     fontSizeLabels: ['tiny', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'huge'],
     fontWeightLabels: [ 'thin', '', '', 'normal', '', '', 'bold', '', 'heavy'],
@@ -342,20 +333,25 @@ export default {
     ackTimeoutOptions: [0, 60, 120, 240, 480, 1440],  // minutes
     shelveTimeoutOptions: [60, 120, 240, 480, 1440],  // minutes
     blackoutPeriodOptions: [1, 2, 8, 24, 48],  // hours
+    //These are to make up for the debounce not working
+    fontSize: 0,
+    fontSizeTimer: null,
+    fontWeight: 0,
+    fontWeightTimer:  null,
   }),
   computed: {
     languages() {
       return [
-        { text: i18n.t('English'), value: 'en' },
-        { text: i18n.t('French'), value: 'fr' },
-        { text: i18n.t('German'), value: 'de' },
-        { text: i18n.t('Turkish'), value: 'tr' }
+        { title: i18n.global.t('English'), value: 'en' },
+        { title: i18n.global.t('French'), value: 'fr' },
+        { title: i18n.global.t('German'), value: 'de' },
+        { title: i18n.global.t('Turkish'), value: 'tr' }
       ]
     },
     timezoneOptions() {
       return [
-        { text: i18n.t('UseLocal'), value: 'local' },
-        { text: i18n.t('UseUTC'), value: 'utc' }
+        { title: i18n.global.t('UseLocal'), value: 'local' },
+        { title: i18n.global.t('UseUTC'), value: 'utc' }
       ]
     },
     isLanguages: {
@@ -383,22 +379,22 @@ export default {
       }
     },
     computedDateFormats() {
-      moment.locale(i18n.locale)
+      moment.locale(i18n.global.locale.value)
       let allDateFormats = [...new Set([
         this.$store.getters.getConfig('dates').mediumDate,
         ...this.mediumDateFormats,
         this.$store.getters.getConfig('dates').longDate,
         ...this.longDateFormats
       ])]
-      return allDateFormats.map(f => ({text: moment().format(f), value: f}))
+      return allDateFormats.map(f => ({title: moment().format(f), value: f}))
     },
     computedTimeFormats() {
-      moment.locale(i18n.locale)
+      moment.locale(i18n.global.locale.value)
       let allTimeFormats = [...new Set([
         this.$store.getters.getConfig('dates').shortTime,
         ...this.timeFormats,
       ])]
-      return allTimeFormats.map(f => ({text: moment().format(f), value: f}))
+      return allTimeFormats.map(f => ({title: moment().format(f), value: f}))
     },
     longDate: {
       get() {
@@ -468,7 +464,8 @@ export default {
     computedFontFamilies() {
       const defaultFontFamily = this.$store.getters.getConfig('font')['font-family']
       return [
-        {text: defaultFontFamily.split(',')[0].replace(/"/g, ''), value: defaultFontFamily},
+        {title: defaultFontFamily.split(',')[0].replace(/"/g, ''), 
+         value: defaultFontFamily},
         ...this.webSafeFontFamilies
       ]
     },
@@ -484,32 +481,6 @@ export default {
           font: {'font-family': value}
         })
       }
-    },
-    fontSize: {
-      get() {
-        return (
-          (this.$store.getters.getPreference('font')['font-size'] ||
-            this.$store.getters.getConfig('font')['font-size']).replace('px', '')
-        )
-      },
-      set: debounce(function (value) {
-        this.$store.dispatch('setUserPrefs', {
-          font: {'font-size': value + 'px'}
-        })
-      }, 2000)
-    },
-    fontWeight: {
-      get() {
-        return (
-          (this.$store.getters.getPreference('font')['font-weight'] ||
-            this.$store.getters.getConfig('font')['font-weight'])
-        )
-      },
-      set: debounce(function (value) {
-        this.$store.dispatch('setUserPrefs', {
-          font: {'font-weight': value}
-        })
-      }, 2000)
     },
     rowsPerPageItems() {
       return this.$store.state.alerts.pagination.rowsPerPageItems
@@ -603,11 +574,33 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getUserPrefs')
+    this.fontSize = (this.$store.getters.getPreference('font')['font-size'] ||
+      this.$store.getters.getConfig('font')['font-size']).replace('px', '')
+    this.fontWeight = (this.$store.getters.getPreference('font')['font-weight'] ||
+      this.$store.getters.getConfig('font')['font-weight'])
   },
   methods: {
     reset() {
       this.$store.dispatch('resetUserPrefs')
-    }
+      this.fontSize = (this.$store.getters.getConfig('font')['font-size']).replace('px', '')
+      this.fontWeight = (this.$store.getters.getConfig('font')['font-weight'])
+    },
+    updateFontSize(value) {
+      clearTimeout(this.fontSizeTimer)
+      this.fontSizeTimer = setTimeout(() => {
+        this.$store.dispatch('setUserPrefs', {
+          font: {'font-size': value + 'px'}
+        })
+      }, 2000)
+    },
+    updateFontWeight(value) {
+      clearTimeout(this.fontWeightTimer)
+      this.fontWeightTimer = setTimeout(() => {
+        this.$store.dispatch('setUserPrefs', {
+          font: {'font-weight': value }
+        })
+      }, 2000)
+    },
   }
 }
 </script>

@@ -4,14 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import BlackoutList from '@/components/BlackoutList.vue'
 
-@Component({
+export default {
   components: {
     BlackoutList
   }
-})
-export default class Blackouts extends Vue {}
+}
 </script>

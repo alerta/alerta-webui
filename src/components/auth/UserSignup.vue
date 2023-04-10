@@ -2,19 +2,20 @@
   <v-container
     grid-list-sm
     fill-height
+    style="padding:12px"
   >
-    <v-layout
-      align-center
+    <v-row
       row
       wrap
+      class="justify-center"
     >
-      <v-flex
-        xs12
-        sm8
+      <v-col
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           <span v-show="signupEnabled">
             {{ $t('CreateAlertaAccount') }}
           </span>
@@ -29,9 +30,9 @@
             v-model.trim="name"
             name="name"
             type="text"
-            :label="$t('FullName')"
+            :placeholder="$t('FullName')"
             :disabled="!signupEnabled"
-            outline
+            variant="outlined"
             :rules="[rules.required]"
             required
           />
@@ -39,10 +40,10 @@
             v-model.trim="email"
             name="login"
             type="text"
-            :label="$t('Username')"
+            :placeholder="$t('Username')"
             prepend-inner-icon="alternate_email"
             :disabled="!signupEnabled"
-            outline
+            variant="outlined"
             :rules="[rules.required]"
             required
           />
@@ -50,33 +51,33 @@
             v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            :label="$t('Password')"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :placeholder="$t('Password')"
+            :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             :disabled="!signupEnabled"
-            outline
+            variant="outlined"
             :rules="[rules.min]"
             required
-            @click:append="showPassword = !showPassword"
+            @click:append-inner="showPassword = !showPassword"
           />
           <v-text-field
             v-model="confirmPassword"
             name="confirm-password"
-            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
+            :append-inner-icon="showPassword ? 'visibility_off' : 'visibility'"
             :type="showPassword ? 'text' : 'password'"
-            :label="$t('ConfirmPassword')"
+            :placeholder="$t('ConfirmPassword')"
             :disabled="!signupEnabled"
-            outline
+            variant="outlined"
             :rules="[rules.passwordMatch]"
             required
-            @click:append="showPassword = !showPassword"
+            @click:append-inner="showPassword = !showPassword"
           />
           <v-text-field
             v-model.trim="text"
             name="text"
             type="text"
-            :label="$t('Description')"
+            :placeholder="$t('Description')"
             :disabled="!signupEnabled"
-            outline
+            variant="outlined"
           />
           <v-btn
             :loading="isSending"
@@ -88,26 +89,28 @@
             {{ $t('SignUp') }}
           </v-btn>
         </v-form>
-        <div class="text-xs-center">
-          <span class="body-2">
+        <br/>
+        <div class="text-center">
+          <span class="text-body-2">
             {{ $t('AlreadyHaveAccount') }}
           </span>
           <v-btn
-            flat
-            color="primary"
+            class="theme--light text-primary"
+            variant="flat"
             to="/login"
+            style="padding-left: 16px; margin-left: 8px;"
           >
             {{ $t('SignIn') }}
           </v-btn>
         </div>
-      </v-flex>
-      <v-flex
-        xs12
-        sm8
+      </v-col>
+      <v-col
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       />
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 
@@ -124,10 +127,10 @@ export default {
     showPassword: false,
     text: null,
     rules: {
-      required: v => !!v || i18n.t('Required'),
-      min: v => (v && v.length >= 6) || i18n.t('Min6Char'),
+      required: v => !!v || i18n.global.t('Required'),
+      min: v => (v && v.length >= 6) || i18n.global.t('Min6Char'),
       passwordMatch: v =>
-        (v && v == vm.password) || i18n.t('PasswordNotMatch')
+        (v && v == vm.password) || i18n.global.t('PasswordNotMatch')
     }
   }),
   computed: {
@@ -143,10 +146,12 @@ export default {
   },
   methods: {
     validate() {
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.signup()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.signup()
+        }
+      })
     },
     signup() {
       let credentials = {
@@ -168,4 +173,5 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+</style>

@@ -4,14 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import GroupList from '@/components/GroupList.vue'
 
-@Component({
+export default {
   components: {
     GroupList
   }
-})
-export default class Groups extends Vue {}
+}
 </script>

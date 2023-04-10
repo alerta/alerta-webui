@@ -4,14 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import PermList from '@/components/PermList.vue'
 
-@Component({
+export default {
   components: {
     PermList
   }
-})
-export default class Perms extends Vue {}
+}
 </script>

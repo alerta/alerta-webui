@@ -7,16 +7,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+<script>
 import AlertDetail from '@/components/AlertDetail.vue'
 
-@Component({
+export default {
   components: {
     AlertDetail
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
   }
-})
-export default class Alert extends Vue {
-  @Prop() public id!: string
 }
 </script>

@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-dialog
@@ -7,63 +8,60 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ $t('AddRemoveUsers') }}
             </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex
-                  xs9
+              <v-row wrap>
+                <v-col
+                  xs="9"
                 >
                   <v-autocomplete
                     v-model="selected"
                     :disabled="isLoading"
                     :items="allUsers"
                     autofocus
-                    box
+                    variant="filled"
                     chips
                     :label="$t('Addusers')"
-                    item-text="name"
+                    item-title="name"
                     item-value="id"
-                    @change="addUser"
+                    @update:model-value="addUser"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip
-                        :selected="data.selected"
-                        close
+                        :value="data.selected"
+                        closable
                         class="chip--select-multi"
-                        @input="removeUser(data.item)"
+                        @update:model-value="removeUser(data.item.raw)"
+                        prepend-icon="person"
                       >
-                        <v-icon>person</v-icon>
-                        {{ data.item.name }}
+                        {{ data.item.raw.name }}
                       </v-chip>
                     </template>
-                    <template v-slot:item="data">
-                      <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content v-text="data.item" />
-                      </template>
-                      <template v-else>
-                        <v-list-tile-avatar>
+                    <template #item="{props, item}">
+                      <v-list-item 
+                        v-bind="props"
+                        :title="item.raw.name"
+                        :subtitle="item.raw.email"
+                      >
+                        <template #prepend>
                           <v-icon>person</v-icon>
-                        </v-list-tile-avatar>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name" />
-                          <v-list-tile-sub-title v-html="data.item.email" />
-                        </v-list-tile-content>
-                      </template>
+                        </template>
+                      </v-list-item>
                     </template>
                   </v-autocomplete>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-title primary-title>
             <div>
-              <div class="headline">
+              <div class="text-h5">
                 {{ groupName }}
               </div>
               <span>{{ $t('UsersInGroup') }}</span>
@@ -71,33 +69,30 @@
           </v-card-title>
 
           <v-list>
-            <v-list-tile
+            <v-list-item
               v-for="item in groupUsers"
               :key="item.id"
-              avatar
               @click="removeUser(item.id)"
             >
-              <v-list-tile-avatar>
+              <v-avatar>
                 <v-icon>person</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-html="item.name" />
-                <v-list-tile-sub-title v-html="item.login" />
-              </v-list-tile-content>
+              </v-avatar>
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+              <v-list-item-subtitle>{{ item.login }}</v-list-item-subtitle>
 
-              <v-list-tile-action>
+              <v-list-item-action>
                 <v-icon>
                   {{ item.status == 'active' ? 'remove_circle' : 'remove_circle_outline' }}
                 </v-icon>
-              </v-list-tile-action>
-            </v-list-tile>
+              </v-list-item-action>
+            </v-list-item>
           </v-list>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
-              flat
+              color="blue-darken-1"
+              variant="flat"
               @click="close"
             >
               Close
@@ -114,58 +109,58 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex
-                  xs12
-                  sm6
-                  md12
+              <v-row wrap>
+                <v-col
+                  xs="12"
+                  sm="6"
+                  md="12"
                 >
                   <v-chip
                     v-show="editedItem.name"
-                    close
+                    closable
                     @click="editedItem.name = null"
                   >
                     <strong>{{ editedItem.name }}</strong>&nbsp;
                     <span>({{ $t('group') }})</span>
                   </v-chip>
-                </v-flex>
+                </v-col>
                 <v-text-field
                   v-model.trim="editedItem.name"
                   :label="$t('Group')"
                   :rules="[rules.required]"
                   required
                 />
-                <v-flex
-                  xs12
+                <v-col
+                  xs="12"
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Description')"
                   />
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
-              flat
+              color="blue-darken-1"
+              variant="flat"
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue darken-1"
-              flat
+              color="blue-darken-1"
+              variant="flat"
               @click="validate"
             >
               {{ $t('Save') }}
@@ -176,99 +171,125 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
-        {{ $t('Groups') }}
-        <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          :label="$t('Search')"
-          single-line
-          hide-details
-        />
+      <v-card-title class="text-h6">
+        <v-row>
+          <v-col>
+            {{ $t('Groups') }}
+          </v-col>
+          <v-spacer />
+          <v-col sm="7">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              :label="$t('Search')"
+              single-line
+              hide-details
+            />
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <v-data-table
         :headers="headers"
         :items="groups"
-        :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
-          <td>{{ props.item.name }}</td>
-          <td class="text-xs-left">
-            {{ props.item.text }}
-          </td>
-          <td>
-            {{ props.item.count }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                small
-                color="grey darken-3"
+        <template #item="{item}">
+          <tr>
+            <td>{{ item.props.title.name }}</td>
+            <td class="text-left">
+              {{ item.props.title.text }}
+            </td>
+            <td>
+              {{ item.props.title.count }}
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'admin:groups'"
+                icon
+                class="btn--plain mr-0"
+                @click="editItem(item.props.title)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mr-0"
-              @click="addRemoveUsers(props.item)"
-            >
-              <v-icon
-                small
-                color="grey darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  edit
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:groups'"
+                icon
+                class="btn--plain mr-0"
+                @click="addRemoveUsers(item.props.title)"
               >
-                person_add
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:groups'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                small
-                color="grey darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  person_add
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:groups'"
+                icon
+                class="btn--plain mx-0"
+                @click="deleteItem(item.props.title)"
               >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
-        <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
-            {{ $t('NoDisplay') }}
-          </v-alert>
+        <template #no-data>
+          <tr>
+            <td colspan="4">
+              <v-alert
+                :value="true"
+                color="error"
+                icon="warning"
+                full-width
+              >
+                {{ $t('NoDisplay') }}
+              </v-alert>
+            </td>
+          </tr>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
-          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
-        </v-alert>
+        <template #no-results>
+          <tr>
+            <td colspan="4">
+              <v-alert
+                :value="true"
+                color="error"
+                icon="warning"
+              >
+                {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
+              </v-alert>
+            </td>
+          </tr>
+        </template>
+        <template #bottom>
+          <v-data-table-footer       
+            :items-per-page-options="rowsPerPageItems.map(
+              row => {
+                return {
+                  title: row.toString(),
+                  value: row
+                }
+              }
+            )"
+          />
+        </template>
       </v-data-table>
     </v-card>
 
@@ -300,10 +321,10 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: i18n.t('Name'), value: 'name' },
-      { text: i18n.t('Description'), value: 'text' },
-      { text: i18n.t('NumberUsers'), value: 'count' },
-      { text: i18n.t('Actions'), value: 'actions', sortable: false }
+      { title: i18n.global.t('Name'), key: 'name' },
+      { title: i18n.global.t('Description'), key: 'text' },
+      { title: i18n.global.t('NumberUsers'), key: 'count' },
+      { title: i18n.global.t('Actions'), key: 'actions', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -317,7 +338,7 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: v => !!v || i18n.global.t('Required')
     },
     groupId: null,
     groupName: '',
@@ -341,7 +362,7 @@ export default {
       return this.$store.state.groups.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewGroup') : i18n.t('EditGroup')
+      return !this.editedId ? i18n.global.t('NewGroup') : i18n.global.t('EditGroup')
     },
     refresh() {
       return this.$store.state.refresh
@@ -375,7 +396,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('groups/deleteGroup', item.id)
     },
     close() {
@@ -388,13 +409,15 @@ export default {
         this.groupId = null
         this.groupName = ''
         this.$store.dispatch('groups/clearGroupUsers')
-      }, 300)
+      }, 100)
     },
     validate() {
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.save()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.save()
+        }
+      })
     },
     save() {
       if (this.editedId) {
@@ -417,11 +440,16 @@ export default {
       this.listbox = true
     },
     addUser(userId) {
+      //Null check because addUser gets triggered when the autocomplete
+      //is updated. This happens twice: once when the desired userId is
+      //entered and once when the autocomplete is cleared right after 
+      //which makes the userId null
+      if(!userId) return
       this.$store.dispatch('groups/addUserToGroup', [this.groupId, userId])
       setTimeout(() => {
         this.$refs.form.reset()
         this.selected = null
-      }, 300)
+      }, 100)
     },
     removeUser(userId) {
       this.$store.dispatch('groups/removeUserFromGroup', [this.groupId, userId])

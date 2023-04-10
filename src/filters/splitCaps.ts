@@ -1,6 +1,4 @@
-import Vue from 'vue'
-
-export default Vue.filter('splitCaps', function (value) {
+export default function (value) {
   if (value == null) return ''
   return value
     .toString()
@@ -10,4 +8,4 @@ export default Vue.filter('splitCaps', function (value) {
       return word.charAt(0).toUpperCase() + word.slice(1)
     })
     .join(' ')
-})
+}

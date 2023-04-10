@@ -6,9 +6,9 @@ declare global {
 }
 
 const GoogleAnalytics = {
-  install(Vue, {trackingId, router}) {
+  install(app, {trackingId, router}) {
     if (!trackingId) {
-      Vue.prototype.$track = () => {}
+      app.config.globalProperties.$track = () => {}
     } else {
       const script = document.createElement('script')
       script.async = true
@@ -18,16 +18,16 @@ const GoogleAnalytics = {
 
       function gtag(...args: any[]) {
         const dataLayer = (window.dataLayer = window.dataLayer || [])
-        dataLayer.push(arguments)
+        dataLayer.push(arguments) 
       }
       gtag('js', new Date())
       gtag('config', trackingId)
 
-      Vue.prototype.$track = function (action: string, params?: object) {
+      app.config.globalProperties.$track = function (action: string, params?: object) {
         gtag('event', action, params)
       }
 
-      router.afterEach(to => {
+      router.afterEach(to => { 
         gtag('config', trackingId, {page_path: to.fullPath})
       })
     }

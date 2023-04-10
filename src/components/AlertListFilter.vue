@@ -1,18 +1,20 @@
 <template>
   <v-navigation-drawer
-    :value="sidesheet"
-    clipped
+    :model-value="sidesheet"
     disable-resize-watcher
+    disable-route-watcher
     absolute
-    hide-overlay
+    :scrim="false"
     width="300"
-    right
+    location="end"
+    temporary
+    style="margin-top: 70px; height: auto"
   >
-    <v-card tile>
+    <v-card rounded="0">
       <v-toolbar
         :color="isDark ? '#616161' : '#eeeeee'"
         card
-        dense
+        density="default"
       >
         <v-toolbar-title>
           {{ $t('Filters') }}
@@ -20,17 +22,19 @@
         <v-spacer />
         <v-toolbar-items />
         <v-menu
-          bottom
-          right
-          offset-y
+          location="bottom"
+          end
+          offset
         >
-          <v-btn
-            slot="activator"
-            icon
-            @click="close"
-          >
-            <v-icon>close</v-icon>
-          </v-btn>
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
+              @click="close"
+            >
+              <v-icon>close</v-icon>
+            </v-btn>
+          </template> 
         </v-menu>
       </v-toolbar>
 
@@ -38,47 +42,49 @@
         fluid
         grid-list-xl
       >
-        <v-layout
+        <v-row
           align-center
           wrap
         >
-          <v-flex
-            xs12
+          <v-col
+            xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-text-field
               v-model="filterText"
               :label="$t('Search')"
               prepend-inner-icon="search"
-              outline
-              dense
+              variant="outlined"
+              density="default"
               clearable
               :hint="$t('FilterDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
-            xs12
+          <v-col
+            xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-select
               v-model="filterStatus"
               :items="statusList"
-              small-chips
-              :placeholder="$t('AllStatuses')"
               :label="$t('Status')"
               multiple
-              outline
-              dense
+              chips
+              variant="outlined"
+              density="default"
               :hint="$t('StatusDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
+          <v-col
             v-if="$config.customer_views"
-            xs12
+            xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-select
@@ -88,15 +94,16 @@
               :placeholder="$t('AllCustomers')"
               :label="$t('Customer')"
               multiple
-              outline
-              dense
+              variant="outlined"
+              density="default"
               :hint="$t('CustomerDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
-            xs12
+          <v-col
+            xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-autocomplete
@@ -106,15 +113,16 @@
               :placeholder="$t('AllServices')"
               :label="$t('Service')"
               multiple
-              outline
-              dense
+              variant="outlined"
+              density="default"
               :hint="$t('ServiceDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
-            xs12
+          <v-col
+            xs="12"
+            sm="12"
             class="pb-0"
           >
             <v-select
@@ -122,140 +130,163 @@
               :items="currentGroups"
               :menu-props="{ maxHeight: '400' }"
               :placeholder="$t('AllGroups')"
-              :label="$t('Group')"
               multiple
-              outline
-              dense
+              variant="outlined"
+              density="default"
               :hint="$t('GroupDescription')"
               persistent-hint
             />
-          </v-flex>
+          </v-col>
 
-          <v-flex
-            xs12
+          <v-col
+            xs="12"
+            sm="12"
             class="pb-0"
           >
-            <span class="body-2">{{ $t('DateTime') }}</span>
+            <span class="text-body-2">{{ $t('DateTime') }}</span>
             <v-select
               v-model="filterDateRange"
               :items="dateRanges"
               name="dateRange"
-              :label="$t('DateTime')"
-              solo
-              flat
+              variant="plain"
               prepend-inner-icon="schedule"
+              item-title="text"
               item-value="range"
               hide-details
             />
-          </v-flex>
-
-          <v-flex
+          </v-col>
+          <v-col
             v-show="showDateRange"
-            xs8
+            xs="8"
+            sm="6"
             class="pb-0 pr-0"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('StartDate')" for="startdate"/>
+            <br/>
+            <input type="date" v-model="period.startDate" name="startdate" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.startDate"
               :label="$t('StartDate')"
               prepend-inner-icon="event"
-              outline
+              variant="outlined"
               hide-details
               @click:prepend-inner="menu1 = !menu1"
-            />
-          </v-flex>
+            /> -->
+          </v-col>
 
-          <v-flex
+          <v-col
             v-show="showDateRange"
-            xs4
+            xs="4"
+            sm="6"
             class="pb-0 pl-1"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('Time')" for="starttime"/>
+            <br/>
+            <input type="time" v-model="period.startTime" name="starttime" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.startTime"
               :label="$t('Time')"
-              outline
+              variant="outlined"
               hide-details
-            />
-          </v-flex>
+            /> -->
+          </v-col>
 
-          <v-flex
+          <!-- TODO: wait until v-date-picker is added
+          <v-col
             class="pa-0"
           >
             <v-menu
               ref="menu1"
               v-model="menu1"
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               lazy
               transition="scale-transition"
-              offset-y
               full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
+              <template #activator="{props}">
+                <div v-bind="props" />
+              </template>
+              TODO: Wait until v-date-picker is readded to Vuetify 3?
               <v-date-picker
                 v-model="period.startDate"
                 no-title
-                @input="menu1 = false"
+                @update:model-value="menu1 = false"
               />
             </v-menu>
-          </v-flex>
-          <v-flex
+          </v-col> -->
+          <v-col
             v-show="showDateRange"
-            xs8
+            xs="8"
+            sm="6"
             class="pb-0 pr-0"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('EndDate')" for="enddate"/>
+            <br/>
+            <input type="date" v-model="period.endDate" name="enddate" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.endDate"
               :label="$t('EndDate')"
               prepend-inner-icon="event"
-              outline
+              variant="outlined"
               hide-details
               @click:prepend-inner="menu2 = !menu2"
-            />
-          </v-flex>
+            /> -->
+          </v-col>
 
-          <v-flex
+          <v-col
             v-show="showDateRange"
-            xs4
+            xs="4"
+            sm="6"
             class="pb-0 pl-1"
           >
-            <v-text-field
+            <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+            <label v-html="$t('Time')" for="endtime"/>
+            <br/>
+            <input type="time" v-model="period.endTime" name="endtime" class="datetime"/>
+            <!-- <v-text-field
               v-model="period.endTime"
               :label="$t('Time')"
-              outline
+              variant="outlined"
               hide-details
-            />
-          </v-flex>
-          <v-flex
+            /> -->
+          </v-col>
+          <v-col
             class="pa-0"
           >
             <v-menu
               ref="menu2"
               v-model="menu2"
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               lazy
               transition="scale-transition"
-              offset-y
               full-width
               max-width="290px"
               min-width="290px"
             >
-              <div slot="activator" />
-              <v-date-picker
+              <template #activator="{props}">
+                <div v-bind="props" />
+              </template>
+              <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+              <!-- <v-date-picker
                 v-model="period.endDate"
                 no-title
-                @input="menu2 = false"
-              />
+                @update:model-value="menu2 = false"
+              /> -->
             </v-menu>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-container>
     </v-card>
     <v-card flat>
-      <v-flex
-        xs12
+      <v-col
+        xs="12"
       >
         <v-card-actions>
           <v-btn
@@ -267,14 +298,14 @@
           </v-btn>
           <v-spacer />
           <v-btn
-            color="blue darken-1"
-            flat
+            color="blue-darken-1"
+            variant="flat"
             @click="reset"
           >
             {{ $t('Reset') }}
           </v-btn>
         </v-card-actions>
-      </v-flex>
+      </v-col>
     </v-card>
   </v-navigation-drawer>
 </template>
@@ -308,14 +339,19 @@ export default {
     },
   }),
   computed: {
+    //TODO: Ranges are objects for the item-value of the v-select to avoid this bug
+    //https://github.com/vuetifyjs/vuetify/issues/17037#event-8903304397
+    //but they are still arrays for the dateRange field in the store
+    //or else the value will not be set in the URL route properly
     dateRanges() {
       return [
-        { text: i18n.t('Latest'), range: [null, null] },
-        { text: i18n.t('Hour'), range: [-3600, null] },
-        { text: i18n.t('SixHours'), range: [-3600 * 6, null] },
-        { text: i18n.t('TwelveHours'), range: [-3600 * 12, null] },
-        { divider: true },
-        { text: i18n.t('SelectRange'), range: [0, 0] },
+        { text: i18n.global.t('Latest'), range: {start: null, end: null} },
+        { text: i18n.global.t('Hour'), range: {start: -3600, end: null} },
+        { text: i18n.global.t('SixHours'), range: {start: -3600 * 6, end: null} },
+        { text: i18n.global.t('TwelveHours'), range: {start: -3600 * 12, end: null} },
+        //TODO: These don't seem to work in Vuetify 3
+        //{ divider: true },
+        { text: i18n.global.t('SelectRange'), range: {start: 0, end: 0} },
       ]
     },
     isDark() {
@@ -406,12 +442,18 @@ export default {
     },
     filterDateRange: {
       get() {
-        return this.$store.state.alerts.filter.dateRange[0] > 0
-          ? [0, 0]
-          : this.$store.state.alerts.filter.dateRange
+        return this.$store.state.alerts.filter.dateRange[0] > 0 ? 
+          {start: 0, end: 0} : 
+          {
+            text: i18n.global.t('SelectRange'), 
+            range: {
+              start: this.$store.state.alerts.filter.dateRange[0],
+              end: this.$store.state.alerts.filter.dateRange[1]
+            }
+          }
       },
       set(value) {
-        if (value[0] === 0) {
+        if (value.start === 0) {
           this.period = this.getDateRange(
             this.$store.state.alerts.filter.dateRange[0]
               ? this.$store.state.alerts.filter.dateRange[0]
@@ -424,7 +466,7 @@ export default {
         } else {
           this.showDateRange = false
           this.$store.dispatch('alerts/setFilter', {
-            dateRange: value
+            dateRange: [value.start, value.end]
           })
         }
       }
@@ -445,7 +487,7 @@ export default {
     this.getServices()
     this.getGroups()
 
-    if (this.filterDateRange[0] === 0) {
+    if (this.filterDateRange.start === 0) {
       this.period = this.getDateRange(
         this.$store.state.alerts.filter.dateRange[0],
         this.$store.state.alerts.filter.dateRange[1]
@@ -501,4 +543,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.datetime {
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+}
+</style>

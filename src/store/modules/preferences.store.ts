@@ -1,12 +1,12 @@
 import UsersApi from '@/services/api/user.service'
-import stateMerge from 'vue-object-merge'
 import i18n from '@/plugins/i18n'
+import stateMerge from 'vue-object-merge'
 
 const getDefaults = () => {
   return {
     isDark: false,
     isMute: true,
-    languagePref: i18n.locale,
+    languagePref: i18n.global.locale,
     audioURL: './audio/alert_high-intensity.ogg',
     dates: {
       longDate: null,
@@ -21,7 +21,7 @@ const getDefaults = () => {
       'font-family': null,
       'font-size': null,
       'font-weight': null
-    },
+    },/**/
     rowsPerPage: 20,
     valueWidth: 50, // px
     textWidth: 400, // px
@@ -60,7 +60,7 @@ const actions = {
         commit('SET_PREFS', attributes.prefs)
       })
       .catch(error =>
-        dispatch('notifications/error', Error('' + i18n.t('SettingsError')), {
+        dispatch('notifications/error', Error('' + i18n.global.t('SettingsError')), {
           root: true
         })
       )
@@ -69,7 +69,7 @@ const actions = {
     return UsersApi.updateMeAttributes({prefs: {[s]: v}})
       .then(response => dispatch('getUserPrefs'))
       .then(() =>
-        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+        dispatch('notifications/success', i18n.global.t('SettingsSaved'), {
           root: true
         })
       )
@@ -78,7 +78,7 @@ const actions = {
     return UsersApi.updateMeAttributes({prefs: prefs})
       .then(response => dispatch('getUserPrefs'))
       .then(() =>
-        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+        dispatch('notifications/success', i18n.global.t('SettingsSaved'), {
           root: true
         })
       )
@@ -87,7 +87,7 @@ const actions = {
     return UsersApi.updateMeAttributes({prefs: null})
       .then(response => commit('RESET_PREFS'))
       .then(() =>
-        dispatch('notifications/success', i18n.t('SettingsReset'), {
+        dispatch('notifications/success', i18n.global.t('SettingsReset'), {
           root: true
         })
       )
@@ -101,7 +101,7 @@ const actions = {
         commit('SET_QUERIES', attributes.queries)
       })
       .catch(error =>
-        dispatch('notifications/error', Error('' + i18n.t('SettingsError')), {
+        dispatch('notifications/error', Error('' + i18n.global.t('SettingsError')), {
           root: true
         })
       )
@@ -111,7 +111,7 @@ const actions = {
     return UsersApi.updateMeAttributes({queries: qlist})
       .then(response => dispatch('getUserQueries'))
       .then(() =>
-        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+        dispatch('notifications/success', i18n.global.t('SettingsSaved'), {
           root: true
         })
       )
@@ -121,7 +121,7 @@ const actions = {
     return UsersApi.updateMeAttributes({queries: qlist})
       .then(response => dispatch('getUserQueries'))
       .then(() =>
-        dispatch('notifications/success', i18n.t('SettingsSaved'), {
+        dispatch('notifications/success', i18n.global.t('SettingsSaved'), {
           root: true
         })
       )
@@ -130,7 +130,7 @@ const actions = {
     return UsersApi.updateMeAttributes({queries: null})
       .then(response => commit('RESET_QUERIES'))
       .then(() =>
-        dispatch('notifications/success', i18n.t('SettingsReset'), {
+        dispatch('notifications/success', i18n.global.t('SettingsReset'), {
           root: true
         })
       )

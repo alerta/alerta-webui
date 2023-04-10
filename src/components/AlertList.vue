@@ -1,109 +1,109 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
+    <!-- sort-icon might need to be moved to header slot -->
     <v-data-table
       v-model="selected"
       :headers="customHeaders"
       :items="alerts"
-      item-key="id"
-      :pagination.sync="pagination"
+      return-object
+      v-model:pagination="pagination"
       :total-items="pagination.totalItems"
-      :rows-per-page-items="pagination.rowsPerPageItems"
       :loading="isSearching"
       class="alert-table"
-      :class="[ displayDensity ]"
+      :density="displayDensity"
       :style="columnWidths"
-      sort-icon="arrow_drop_down"
-      select-all
+      sort-icon="arrow_drop_down" 
+      show-select
     >
-      <template
-        slot="items"
-        slot-scope="props"
-      >
+      <template #item="{item, isSelected, toggleSelect}">
         <tr
-          :style="{ 'background-color': severityColor(props.item.severity) }"
+          :style="{ 'background-color': severityColor(item.raw.severity) }"
           class="hover-lighten"
-          @click="selectItem(props.item)"
+          @click="selectItem(item.raw)"
         >
+          <!--TODO: Style is a temporary fix until background-color can be applied to <tr> elements-->
           <td
-            class="text-no-wrap"
-            :style="fontStyle"
+            class="text-no-wrap label-warning"
+            :style="{ 'background-color': severityColor(item.raw.severity), ...fontStyle}"
           >
             <v-checkbox
               v-if="selectableRows"
-              v-model="props.selected"
+              :model-value="isSelected([item])"
               primary
               hide-details
               color="gray"
               class="select-box"
               :ripple="false"
-              :size="fontSize"
-              @click.stop
+              density = "compact"
+              @click.stop="toggleSelect(item)"
             />
             <v-icon
-              v-else-if="props.item.trendIndication == 'moreSevere'"
-              :class="['trend-arrow', textColor(props.item.severity)]"
+              v-else-if="item.raw.trendIndication == 'moreSevere'"
+              :class="['trend-arrow', textColor(item.raw.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; toggleSelect(item)"
             >
               arrow_upward
             </v-icon>
             <v-icon
-              v-else-if="props.item.trendIndication == 'lessSevere'"
-              :class="['trend-arrow', textColor(props.item.severity)]"
+              v-else-if="item.raw.trendIndication == 'lessSevere'"
+              :class="['trend-arrow', textColor(item.raw.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; toggleSelect(item)"
             >
               arrow_downward
             </v-icon>
             <v-icon
               v-else
-              :class="['trend-arrow', textColor(props.item.severity)]"
+              :class="['trend-arrow', textColor(item.raw.severity)]"
               :size="fontSize"
-              @click.stop="multiselect = true; props.selected = true"
+              @click.stop="multiselect = true; toggleSelect(item)"
             >
               remove
             </v-icon>
           </td>
+          <!--TODO: Style is a temporary fix until background-color can be applied to <tr> elements-->
           <td
-            v-for="col in $config.columns"
+            v-for="col in this.$config.columns"
             :key="col"
-            :class="['text-no-wrap', textColor(props.item.severity)]"
-            :style="fontStyle"
+            :class="['text-no-wrap', textColor(item.raw.severity)]"
+            :style="{ 'background-color': severityColor(item.raw.severity), ...fontStyle }"
           >
             <span
               v-if="col == 'id'"
             >
-              {{ props.item.id | shortId }}
+              {{ this.$filters.shortId(item.raw.id) }}
             </span>
             <span
               v-if="col == 'resource'"
             >
-              {{ props.item.resource }}
+              {{ item.raw.resource }}
             </span>
             <span
               v-if="col == 'event'"
             >
-              {{ props.item.event }}
+              {{ item.raw.event }}
             </span>
             <span
               v-if="col == 'environment'"
             >
-              {{ props.item.environment }}
+              {{ item.raw.environment }}
             </span>
             <span
               v-if="col == 'severity'"
             >
               <span
-                :class="['label', 'label-' + props.item.severity.toLowerCase()]"
+                :class="['label', 'label-' + item.raw.severity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ props.item.severity | capitalize }}
+                {{ this.$filters.capitalize(item.raw.severity) }}
               </span>
             </span>
             <span
               v-if="col == 'correlate'"
             >
-              {{ props.item.correlate.join(', ') }}
+              {{ item.raw.correlate.join(', ') }}
             </span>
             <span
               v-if="col == 'status'"
@@ -112,25 +112,24 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ props.item.status | capitalize }}
+                {{ this.$filters.capitalize(item.raw.status) }}
 
               </span>
               <span
                 v-if="showNotesIcon"
               >
                 <span
-                  v-if="lastNote(props.item)"
+                  v-if="lastNote(item.raw)"
                   class="pl-2"
                 >
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
+                  <v-tooltip location="bottom">
+                    <template #activator="{props}">
                       <v-icon
-                        v-bind="attrs"
-                        small
-                        v-on="on"
+                        v-bind="props"
+                        size="small"
                       >text_snippet</v-icon>
                     </template>
-                    <span>{{ lastNote(props.item) }}</span>
+                    <span>{{ lastNote(item.raw) }}</span>
                   </v-tooltip>
                 </span>
               </span>
@@ -138,19 +137,19 @@
             <span
               v-if="col == 'service'"
             >
-              {{ props.item.service.join(', ') }}
+              {{ item.raw.service.join(', ') }}
             </span>
             <span
               v-if="col == 'group'"
             >
-              {{ props.item.group }}
+              {{ item.raw.group }}
             </span>
             <span
               v-if="col == 'value'"
             >
               <div class="fixed-table">
                 <div class="text-truncate">
-                  <span v-html="props.item.value" />
+                  <span>{{ item.raw.value }}</span>
                 </div>
               </div>
             </span>
@@ -159,7 +158,7 @@
             >
               <div class="fixed-table">
                 <div class="text-truncate">
-                  <span v-html="props.item.text" />
+                  <span>{{ item.raw.text }}</span>
                 </div>
               </div>
             </span>
@@ -167,7 +166,7 @@
               v-if="col == 'tags'"
             >
               <span
-                v-for="tag in props.item.tags"
+                v-for="tag in item.raw.tags"
                 :key="tag"
               ><span
                 class="label"
@@ -175,14 +174,14 @@
               >{{ tag }}</span>&nbsp;</span>
             </span>
             <span
-              v-if="props.item.attributes.hasOwnProperty(col)"
+              v-if="item.raw.attributes.hasOwnProperty(col)"
             >
-              <span v-html="props.item.attributes[col]" />
+              <span>{{ item.raw.attributes[col] }}</span>
             </span>
             <span
               v-if="col == 'origin'"
             >
-              {{ props.item.origin }}
+              {{ item.raw.origin }}
             </span>
             <span
               v-if="col == 'type'"
@@ -191,38 +190,38 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ props.item.type | splitCaps }}
+                {{ this.$filters.splitCaps(item.raw.type) }}
               </span>
             </span>
             <span
               v-if="col == 'createTime'"
             >
               <date-time
-                :value="props.item.createTime"
+                :value="item.raw.createTime"
                 format="mediumDate"
               />
             </span>
             <span
               v-if="col == 'timeout'"
             >
-              {{ props.item.timeout | hhmmss }}
+              {{ this.$filters.hhmmss(item.raw.timeout) }}
             </span>
             <span
               v-if="col == 'timeoutLeft'"
-              class="text-xs-right"
+              class="text-right"
             >
-              {{ timeoutLeft(props.item) | hhmmss }}
+              {{ this.$filters.hhmmss(timeoutLeft(item.raw)) }}
             </span>
-            <!-- rawData not supported -->
+            <!-- propsData not supported -->
             <span
-              v-if="col == 'customer' && $config.customer_views"
+              v-if="col == 'customer' && this.$config.customer_views"
             >
-              {{ props.item.customer }}
+              {{ item.raw.customer }}
             </span>
             <span
               v-if="col == 'duplicateCount'"
             >
-              {{ props.item.duplicateCount }}
+              {{ item.raw.duplicateCount }}
             </span>
             <span
               v-if="col == 'repeat'"
@@ -231,17 +230,17 @@
                 class="label"
                 :style="fontStyle"
               >
-                {{ props.item.repeat | capitalize }}
+                {{ this.$filters.capitalize(item.raw.repeat) }}
               </span>
             </span>
             <span
               v-if="col == 'previousSeverity'"
             >
               <span
-                :class="['label', 'label-' + props.item.previousSeverity.toLowerCase()]"
+                :class="['label', 'label-' + item.raw.previousSeverity.toLowerCase()]"
                 :style="fontStyle"
               >
-                {{ props.item.previousSeverity | capitalize }}
+                {{ this.$filters.capitalize(item.raw.previousSeverity) }}
               </span>
             </span>
             <!-- trendIndication not supported -->
@@ -249,26 +248,26 @@
               v-if="col == 'receiveTime'"
             >
               <date-time
-                :value="props.item.receiveTime"
+                :value="item.raw.receiveTime"
                 format="mediumDate"
               />
             </span>
             <span
               v-if="col == 'duration'"
-              class="text-xs-right"
+              class="text-right"
             >
-              {{ duration(props.item) | hhmmss }}
+              {{ this.$filters.hhmmss(duration(item.raw.id)) }}
             </span>
             <span
               v-if="col == 'lastReceiveId'"
             >
-              {{ props.item.lastReceiveId | shortId }}
+              {{ this.$filters.shortId(item.raw.lastReceiveId) }}
             </span>
             <span
               v-if="col == 'lastReceiveTime'"
             >
               <date-time
-                :value="props.item.lastReceiveTime"
+                :value="item.raw.lastReceiveTime"
                 format="mediumDate"
               />
             </span>
@@ -276,24 +275,24 @@
             <span
               v-if="col == 'note'"
             >
-              {{ lastNote(props.item) }}
+              {{ lastNote(item.raw) }}
             </span>
           </td>
           <td
-            :class="['text-no-wrap', textColor(props.item.severity)]"
+            :class="['text-no-wrap', textColor(item.raw.severity)]"
           >
             <div
               class="action-buttons"
-              :style="{ 'background-color': severityColor(props.item.severity) }"
+              :style="{ 'background-color': severityColor(item.raw.severity) }"
             >
               ...&nbsp;
               <v-btn
-                v-if="isAcked(props.item.status) || isClosed(props.item.status)"
-                flat
+                v-if="isAcked(item.raw.status) || isClosed(item.raw.status)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'open')"
+                @click.stop="takeAction(item.raw.id, 'open')"
               >
                 <v-icon
                   :size="fontSize"
@@ -303,12 +302,12 @@
               </v-btn>
 
               <v-btn
-                v-if="!isWatched(props.item.tags)"
-                flat
+                v-if="!isWatched(item.raw.tags)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="watchAlert(props.item.id)"
+                @click.stop="watchAlert(item.raw.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -317,12 +316,12 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-if="isWatched(props.item.tags)"
-                flat
+                v-if="isWatched(item.raw.tags)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="unwatchAlert(props.item.id)"
+                @click.stop="unwatchAlert(item.raw.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -332,12 +331,12 @@
               </v-btn>
 
               <v-btn
-                v-if="isOpen(props.item.status)"
-                flat
+                v-if="isOpen(item.raw.status)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="ackAlert(props.item.id)"
+                @click.stop="ackAlert(item.raw.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -346,12 +345,12 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-if="isAcked(props.item.status)"
-                flat
+                v-if="isAcked(item.raw.status)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'unack')"
+                @click.stop="takeAction(item.raw.id, 'unack')"
               >
                 <v-icon
                   :size="fontSize"
@@ -361,12 +360,12 @@
               </v-btn>
 
               <v-btn
-                v-if="isOpen(props.item.status) || isAcked(props.item.status)"
-                flat
+                v-if="isOpen(item.raw.status) || isAcked(item.raw.status)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="shelveAlert(props.item.id)"
+                @click.stop="shelveAlert(item.raw.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -375,12 +374,12 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                v-if="isShelved(props.item.status)"
-                flat
+                v-if="isShelved(item.raw.status)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'unshelve')"
+                @click.stop="takeAction(item.raw.id, 'unshelve')"
               >
                 <v-icon
                   :size="fontSize"
@@ -390,12 +389,12 @@
               </v-btn>
 
               <v-btn
-                v-if="!isClosed(props.item.status)"
-                flat
+                v-if="!isClosed(item.raw.status)"
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="takeAction(props.item.id, 'close')"
+                @click.stop="takeAction(item.raw.id, 'close')"
               >
                 <v-icon
                   :size="fontSize"
@@ -404,11 +403,11 @@
                 </v-icon>
               </v-btn>
               <v-btn
-                flat
+                variant="flat"
                 icon
-                small
+                size="small"
                 class="btn--plain pa-0 ma-0"
-                @click.stop="deleteAlert(props.item.id)"
+                @click.stop="deleteAlert(item.raw.id)"
               >
                 <v-icon
                   :size="fontSize"
@@ -421,7 +420,7 @@
                 icon
                 small
                 class="btn--plain pa-0 ma-0"
-                @click.stop="clipboardCopy(JSON.stringify(props.item, null, 4))"
+                @click.stop="clipboardCopy(JSON.stringify(item.raw, null, 4))"
               >
                 <v-icon
                   :size="fontSize"
@@ -431,44 +430,55 @@
               </v-btn> -->
 
               <v-menu
-                bottom
-                left
+                location="left bottom"
               >
-                <v-btn
-                  slot="activator"
-                  flat
-                  icon
-                  small
-                  class="btn--plain pa-0 ma-0"
-                >
-                  <v-icon small>
-                    more_vert
-                  </v-icon>
-                </v-btn>
+                <template #activator="{props}">
+                  <v-btn
+                    v-bind="props"
+                    variant="flat"
+                    icon
+                    size="small"
+                    class="btn--plain pa-0 ma-0"
+                  >
+                    <v-icon size="small">
+                      more_vert
+                    </v-icon>
+                  </v-btn>
+                </template>
 
-                <v-list
-                  subheader
-                >
-                  <v-subheader>Actions</v-subheader>
+                <v-list>
+                  <v-list-subheader>Actions</v-list-subheader>
                   <v-divider />
-                  <v-list-tile
+                  <v-list-item
                     v-for="(action, i) in actions"
                     :key="i"
-                    @click.stop="takeAction(props.item.id, action)"
+                    @click.stop="takeAction(item.raw.id, action)"
                   >
-                    <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
-                  </v-list-tile>
+                    <v-list-item-title>{{ this.$filters.splitCaps(action) }}</v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </div>
           </td>
         </tr>
       </template>
-      <template slot="no-data">
-        <div class="text-xs-center">
+      <template #no-data>
+        <div class="text-center">
           <span v-if="isLoading">{{ $t('Loading') }}...</span>
           <span v-if="!isLoading">{{ $t('NoDataAvailable') }}</span>
         </div>
+      </template>
+      <template #bottom>
+        <v-data-table-footer       
+          :items-per-page-options="pagination.rowsPerPageItems.map(
+            row => {
+              return {
+                title: row.toString(),
+                value: row
+              }
+            }
+          )"
+        />
       </template>
     </v-data-table>
   </div>
@@ -494,34 +504,34 @@ export default {
   data: vm => ({
     search: '',
     headersMap: {
-      id: { text: i18n.t('AlertId'), value: 'id' },
-      resource: { text: i18n.t('Resource'), value: 'resource' },
-      event: { text: i18n.t('Event'), value: 'event' },
-      environment: { text: i18n.t('Environment'), value: 'environment' },
-      severity: { text: i18n.t('Severity'), value: 'severity' },
-      correlate: { text: i18n.t('Correlate'), value: 'correlate' },
-      status: { text: i18n.t('Status'), value: 'status' },
-      service: { text: i18n.t('Service'), value: 'service' },
-      group: { text: i18n.t('Group'), value: 'group' },
-      value: { text: i18n.t('Value'), value: 'value', class: 'value-header' },
-      text: { text: i18n.t('Description'), value: 'text', class: 'text-header' },
-      tags: { text: i18n.t('Tags'), value: 'tags' },
-      attributes: { text: i18n.t('Attribute'), value: 'attributes' },
-      origin: { text: i18n.t('Origin'), value: 'origin' },
-      type: { text: i18n.t('Type'), value: 'type' },
-      createTime: { text: i18n.t('CreateTime'), value: 'createTime' },
-      timeout: { text: i18n.t('Timeout'), value: 'timeout' },
-      timeoutLeft: { text: i18n.t('TimeoutLeft'), value: 'timeoutLeft' },
-      customer: { text: i18n.t('Customer'), value: 'customer' },
-      duplicateCount: { text: i18n.t('Dupl'), value: 'duplicateCount' },
-      repeat: { text: i18n.t('Repeat'), value: 'repeat' },
-      previousSeverity: { text: i18n.t('PrevSeverity'), value: 'previousSeverity' },
-      trendIndication: { text: i18n.t('TrendIndication'), value: 'trendIndication' },
-      receiveTime: { text: i18n.t('ReceiveTime'), value: 'receiveTime' },
-      duration: { text: i18n.t('Duration'), value: 'duration' },
-      lastReceiveId: { text: i18n.t('LastReceiveId'), value: 'lastReceiveId' },
-      lastReceiveTime: { text: i18n.t('LastReceiveTime'), value: 'lastReceiveTime' },
-      note: { text: i18n.t('LastNote'), value: 'note', sortable: false }
+      id: { title: i18n.global.t('AlertId'), key: 'id' },
+      resource: { title: i18n.global.t('Resource'), key: 'resource' },
+      event: { title: i18n.global.t('Event'), key: 'event' },
+      environment: { title: i18n.global.t('Environment'), key: 'environment' },
+      severity: { title: i18n.global.t('Severity'), key: 'severity' },
+      correlate: { title: i18n.global.t('Correlate'), key: 'correlate' },
+      status: { title: i18n.global.t('Status'), key: 'status' },
+      service: { title: i18n.global.t('Service'), key: 'service' },
+      group: { title: i18n.global.t('Group'), key: 'group' },
+      value: { title: i18n.global.t('Value'), key: 'value', class: 'value-header' },
+      text: { title: i18n.global.t('Description'), key: 'text', class: 'text-header' },
+      tags: { title: i18n.global.t('Tags'), key: 'tags' },
+      attributes: { title: i18n.global.t('Attribute'), key: 'attributes' },
+      origin: { title: i18n.global.t('Origin'), key: 'origin' },
+      type: { title: i18n.global.t('Type'), key: 'type' },
+      createTime: { title: i18n.global.t('CreateTime'), key: 'createTime' },
+      timeout: { title: i18n.global.t('Timeout'), key: 'timeout' },
+      timeoutLeft: { title: i18n.global.t('TimeoutLeft'), key: 'timeoutLeft' },
+      customer: { title: i18n.global.t('Customer'), key: 'customer' },
+      duplicateCount: { title: i18n.global.t('Dupl'), key: 'duplicateCount' },
+      repeat: { title: i18n.global.t('Repeat'), key: 'repeat' },
+      previousSeverity: { title: i18n.global.t('PrevSeverity'), key: 'previousSeverity' },
+      trendIndication: { title: i18n.global.t('TrendIndication'), key: 'trendIndication' },
+      receiveTime: { title: i18n.global.t('ReceiveTime'), key: 'receiveTime' },
+      duration: { title: i18n.global.t('Duration'), key: 'duration' },
+      lastReceiveId: { title: i18n.global.t('LastReceiveId'), key: 'lastReceiveId' },
+      lastReceiveTime: { title: i18n.global.t('LastReceiveTime'), key: 'lastReceiveTime' },
+      note: { title: i18n.global.t('LastNote'), key: 'note', sortable: false }
     },
     details: false,
     selectedId: null,
@@ -540,7 +550,7 @@ export default {
       return {
         'font-family': font['font-family'],
         'font-size': font['font-size'],
-        'font-weight': font['font-weight']
+        'font-weight': font['font-weight'],
       }
     },
     fontSize() {
@@ -577,7 +587,7 @@ export default {
     },
     customHeaders() {
       return this.$config.columns.map(c =>
-        this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c }
+        this.headersMap[c] || { title: this.$filters.capitalize(c), value: 'attributes.' + c }
       )
     },
     selectedItem() {
@@ -607,7 +617,19 @@ export default {
   watch: {
     rowsPerPage(val) {
       this.pagination = Object.assign({}, this.pagination, {rowsPerPage: val})
+    },
+    alerts(val) {
+      this.selected = val.filter(item => this.selected.map(s => s.id).includes(item.id))
     }
+  },
+  mounted() {
+    //Workaround for the class-based approach not working
+    Object.assign(this.headersMap.value, {
+      width: `${this.valueWidth()}px`
+    })
+    Object.assign(this.headersMap.text, {
+      width: `${this.textWidth()}px`
+    })
   },
   methods: {
     duration(item) {
@@ -686,7 +708,7 @@ export default {
         .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
     deleteAlert: debounce(function(id) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('alerts/deleteAlert', id)
           .then(() => this.$store.dispatch('alerts/getAlerts'))
     }, 200, {leading: true, trailing: false}),
@@ -741,6 +763,7 @@ i.trend-arrow {
 
 div.select-box {
   width: 24px !important;
+  margin: -24px 0;
 }
 
 .label {
@@ -812,10 +835,10 @@ div.select-box {
 }
 
 div.action-buttons {
-  position: absolute;
+  position: fixed;
   opacity: 0;
   right: 0;
-  top: 0.5em;
+  bottom: 0.5em;
   height: 2em;
 }
 

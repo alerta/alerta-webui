@@ -1,31 +1,27 @@
 <template>
   <div>
     <v-card
-      flat
       class="mx-auto"
       max-width="800"
     >
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               Profile
             </span>
           </v-card-title>
 
-          <v-layout
+          <v-row
             row
             wrap
           >
-            <v-flex
-              align-center
-              justify-center
-              layout
-              text-xs-center
+            <v-col
+              class="d-flex justify-center align-center"
             >
               <v-avatar
                 size="128"
-                color="grey lighten-4"
+                color="grey-lighten-4"
               >
                 <img
                   v-if="avatar && !error"
@@ -35,232 +31,276 @@
                 <v-icon
                   v-else
                   size="148"
-                  color="grey lighten-2"
+                  color="grey-lighten-2"
                 >
                   account_circle
                 </v-icon>
               </v-avatar>
-            </v-flex>
-          </v-layout>
-          <v-layout
+            </v-col>
+          </v-row>
+          <v-row
             row
             spacer
           >
-            <v-flex
-              align-center
-              justify-center
-              layout
-              text-xs-center
-            >
+            <v-col class="d-flex align-center justify-center">
               <b>{{ profile.name }}</b>
-            </v-flex>
-          </v-layout>
-          <v-layout
+            </v-col>
+          </v-row>
+          <v-row
             row
             spacer
           >
-            <v-flex
-              align-center
-              justify-center
-              layout
-              text-xs-center
-            >
+            <v-col class="d-flex align-center justify-center">
               <span
                 v-if="profile.preferred_username && !profile.preferred_username.includes('@')"
               >@</span>
               {{ profile.preferred_username }}
-            </v-flex>
-          </v-layout>
-
+            </v-col>
+          </v-row>
+          
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex
-                  xs12
+            <v-container grid-list-md >
+              <v-row wrap>
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0; padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="profile.name"
+                    dirty
                     :label="$t('FullName')"
                     readonly
+                    variant="outlined"
+
                   />
-                </v-flex>
-                <v-flex
-                  xs9
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="9"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="profile.preferred_username"
+                    dirty
                     :label="$t('Username')"
                     readonly
+                    variant="outlined"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   v-if="provider[profile.provider]"
-                  xs3
+                  xs="3"
+                  sm="3"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="provider[profile.provider].text"
+                    dirty
                     :label="$t('Provider')"
                     readonly
+                    variant="outlined"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs12
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
+                  
                 >
                   <v-text-field
                     v-model="profile.sub"
+                    dirty
                     :label="$t('UserID')"
                     readonly
-                  />
-                </v-flex>
+                    variant="outlined"
 
-                <v-flex
-                  xs12
+                  />
+                </v-col>
+
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-if="profile.oid"
                     v-model="profile.oid"
+                    dirty
                     :label="$t('PrimaryUserID')"
                     readonly
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs12
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-text-field
                     v-model="profile.email"
+                    dirty
                     :label="$t('Email')"
                     readonly
-                    prepend-icon="email"
+                    prepend-inner-icon="email"
+                    variant="outlined"
                   >
-                    <template v-if="profile.email_verified">
+                    <template 
+                      v-if="profile.email_verified" 
+                      #append-inner
+                    >
                       <v-icon
-                        slot="append"
                         color="success"
                       >
                         check
                       </v-icon>
                     </template>
-                    <template v-else>
+                    <template 
+                      v-else
+                      #append-inner
+                    >
                       <v-icon
-                        slot="append"
+                        
                         color="error"
                       >
                         clear
                       </v-icon>
                     </template>
                   </v-text-field>
-                </v-flex>
+                </v-col>
 
-                <v-flex
+                <v-col
                   v-if="$config.customer_views"
-                  xs12
+                  xs="12"
+                  sm="12"
                 >
                   <v-combobox
                     v-model="customers"
+                    dirty
                     :label="$t('Customers')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(customer)
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="profile.orgs"
+                    dirty
                     :label="$t('Organizations')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(org)
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="profile.groups"
+                    dirty
                     :label="$t('Groups')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
+
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(group)
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="profile.roles"
+                    dirty
                     :label="$t('Roles')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
+
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(role)
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="12"
+                  style=" padding-top: 0;
+  padding-bottom: 0;"
                 >
                   <v-combobox
                     v-model="scopes"
+                    dirty
                     :label="$t('Scopes')"
                     chips
                     multiple
                     readonly
-                    placeholder="(none)"
+                    variant="outlined"
+                    :append-icon="$vuetify.icons.dropdown"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(scope)
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
-              flat
+              variant="fab"
               disabled
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue darken-1"
-              flat
+              variant="fab"
               disabled
             >
               {{ $t('Save') }}

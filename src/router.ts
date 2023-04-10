@@ -1,17 +1,14 @@
 import Vue from 'vue'
-import VueRouter, {RouterOptions} from 'vue-router'
+import {createRouter as createVueRouter, createWebHistory, RouterOptions} from 'vue-router'
 
 import {store} from '@/main'
 
 import Alerts from './views/Alerts.vue'
 import Alert from './views/Alert.vue'
 
-Vue.use(VueRouter)
-
-export function createRouter(basePath): VueRouter {
-  const router = new VueRouter({
-    mode: 'history',
-    base: basePath || process.env.BASE_URL,
+export function createRouter(basePath) {
+  const router = createVueRouter({
+    history: createWebHistory(basePath || process.env.BASE_URL),
     routes: [
       {
         path: '/alerts',
@@ -94,7 +91,11 @@ export function createRouter(basePath): VueRouter {
       {
         path: '/help',
         name: 'help',
-        component: () => window.open('https://docs.alerta.io/?utm_source=app', '_blank')
+        // Allow for non-caching of the route so users can open the Help link an unlimited amount of times
+        component: () => {
+          const newTab = window.open('about:blank', '_blank')
+          newTab!.location.href = 'https://docs.alerta.io/?utm_source=app'
+        }
       },
       {
         path: '/about',
@@ -139,7 +140,7 @@ export function createRouter(basePath): VueRouter {
         meta: {title: 'Logout'}
       },
       {
-        path: '*',
+        path: '/:pathMatch(.*)',
         redirect: to => {
           // redirect hashbang mode links to HTML5 mode links
           if (to.fullPath.substr(0, 3) === '/#/') {

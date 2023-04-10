@@ -2,14 +2,12 @@
   <user-forgot />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import UserForgot from '@/components/auth/UserForgot.vue'
 
-@Component({
+export default {
   components: {
     UserForgot
   }
-})
-export default class Forgot extends Vue {}
+}
 </script>

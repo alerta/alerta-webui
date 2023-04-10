@@ -5,9 +5,9 @@
     :color="snackbar.type"
     :timeout="snackbar.timeout"
   >
-    {{ snackbar.text | capitalize }}
+    {{ this.$filters.capitalize(snackbar.text) }}
     <v-btn
-      flat
+      variant="flat"
       @click="close"
     >
       {{ snackbar.action }}

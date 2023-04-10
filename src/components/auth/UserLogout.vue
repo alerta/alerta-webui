@@ -3,28 +3,28 @@
     grid-list-sm
     fill-height
   >
-    <v-layout
+    <v-row
       align-center
       row
       wrap
     >
-      <v-flex
-        xs12
-        sm8
+      <v-col
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       >
-        <p class="text-xs-center headline font-weight-medium">
+        <p class="text-center text-h5 font-weight-medium">
           {{ $t('LoggedOut') }}
         </p>
-      </v-flex>
-      <v-flex
-        xs12
-        sm8
+      </v-col>
+      <v-col
+        xs="12"
+        sm="8"
         offset-xs0
         offset-sm2
       />
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 

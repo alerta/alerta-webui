@@ -4,7 +4,7 @@
     :type="banner.type"
     :icon="banner.icon"
     dismissible
-    outline
+    variant="outlined"
   >
     {{ banner.text }}
   </v-alert>

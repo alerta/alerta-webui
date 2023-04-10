@@ -1,23 +1,25 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="540px"
+      max-width="700px"
     >
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex
+              <v-row wrap>
+                <v-col
                   v-if="$config.customer_views"
-                  xs12
+                  xs="12"
+                  sm="12"
                 >
                   <v-select
                     v-model="editedItem.customer"
@@ -25,9 +27,10 @@
                     :label="$t('Customer')"
                     clearable
                   />
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="12"
                 >
                   <v-select
                     v-model="editedItem.environment"
@@ -36,83 +39,104 @@
                     :rules="[rules.required]"
                     required
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs4
+                <v-col
+                  xs="4"
+                  sm="4"
                 >
                   <v-menu
                     ref="menu1"
                     v-model="menu1"
                     :close-on-content-click="false"
-                    :nudge-right="40"
+                    :offset="40"
                     lazy
                     transition="scale-transition"
-                    offset-y
                     full-width
                     max-width="290px"
                     min-width="290px"
                   >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.period.startDate"
-                      :label="$t('StartDate')"
-                      prepend-icon="event"
-                    />
-                    <v-date-picker
+                    <template #activator="{props}">
+                      <div v-bind="props">
+                        <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+                        <label v-html="$t('StartDate')" for="startdate"/>
+                        <br/>
+                        <input type="date" v-model="editedItem.period.startDate" name="startdate" class="datetime"/>
+                      </div>
+                      <!-- <v-text-field
+                        v-bind="props"
+                        v-model="editedItem.period.startDate"
+                        :label="$t('StartDate')"
+                        prepend-icon="event"
+                      /> -->
+                    </template>
+                    <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+                    <!-- <v-date-picker
                       v-model="editedItem.period.startDate"
                       no-title
-                      @input="menu1 = false"
-                    />
+                      @update:model-value="menu1 = false"
+                    /> -->
                   </v-menu>
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs2
+                <v-col
+                  xs="2"
+                  sm="2"
                 >
                   <v-combobox
                     v-model="editedItem.period.startTime"
                     :items="times"
                   />
-                </v-flex>
-                <v-flex
-                  xs2
+                </v-col>
+                <v-col
+                  xs="2"
+                  sm="2"
                 >
                   <v-combobox
                     v-model="editedItem.period.endTime"
                     :items="times"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs4
+                <v-col
+                  xs="4"
+                  sm="4"
                 >
                   <v-menu
                     v-model="menu2"
                     :close-on-content-click="false"
-                    :nudge-right="40"
+                    :offset="40"
                     lazy
                     transition="scale-transition"
-                    offset-y
                     full-width
                     max-width="290px"
                     min-width="290px"
                   >
-                    <v-text-field
-                      slot="activator"
-                      v-model="editedItem.period.endDate"
-                      :label="$t('EndDate')"
-                    />
-                    <v-date-picker
+                    <template #activator="{props}">
+                      <div v-bind="props">
+                        <!--TODO: Native input elements are used while v-date-picker is not yet released for Vuetify 3-->
+                        <label v-html="$t('EndDate')" for="enddate"/>
+                        <br/>
+                        <input type="date" v-model="editedItem.period.endDate" name="enddate" class="datetime"/>
+                      </div>
+                      <!-- <v-text-field
+                        v-bind="props"
+                        v-model="editedItem.period.endDate"
+                        :label="$t('EndDate')"
+                      /> -->
+                    </template>
+                    <!--TODO: Wait until v-date-picker is readded to Vuetify 3?-->
+                    <!-- <v-date-picker
                       v-model="editedItem.period.endDate"
                       no-title
-                      @input="menu2 = false"
-                    />
+                      @update:model-value="menu2 = false"
+                    /> -->
                   </v-menu>
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs12
+                <v-col
+                  xs="12"
+                  sm="6"
                 >
                   <v-combobox
                     v-model="editedItem.service"
@@ -124,34 +148,38 @@
                     :hint="$t('ChooseService')"
                     persistent-hint
                   />
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.resource"
                     :label="$t('Resource')"
                   />
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.event"
                     :label="$t('Event')"
                   />
-                </v-flex>
-                <v-flex
-                  xs12
+                </v-col>
+                <v-col
+                  xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.group"
                     :label="$t('Group')"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs12
+                <v-col
+                  xs="12"
+                  sm="6"
                 >
                   <v-combobox
                     v-model="editedItem.tags"
@@ -160,60 +188,59 @@
                     multiple
                     chips
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
+                    <template #selection="data">
                       <v-chip
                         :key="JSON.stringify(data.item)"
-                        :selected="data.selected"
+                        :value="data.selected"
                         :disabled="data.disabled"
                         class="v-chip--select-multi"
                         label
                         small
-                        @input="data.parent.selectItem(data.item)"
+                        @update:model-value="data.parent.selectItem(data.item)"
                       >
-                        <v-icon left>
+                        <v-icon start>
                           label
                         </v-icon>{{ data.item }}
                       </v-chip>
                     </template>
                   </v-combobox>
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs12
+                <v-col
+                  xs="12"
+                  sm="6"
                 >
                   <v-text-field
                     v-model.trim="editedItem.origin"
                     :label="$t('Origin')"
                   />
-                </v-flex>
+                </v-col>
 
-                <v-flex
-                  xs12
+                <v-col
+                  xs="12"
+                  sm="12"
                 >
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Reason')"
                   />
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
-              flat
+              color="blue-darken-1"
+              variant="flat"
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue darken-1"
-              flat
+              color="blue-darken-1"
+              variant="flat"
               @click="validate"
             >
               {{ $t('Save') }}
@@ -224,241 +251,283 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
-        {{ $t('Blackouts') }}
-        <v-spacer />
-        <v-btn-toggle
-          v-model="status"
-          class="transparent"
-          multiple
-        >
-          <v-btn
-            value="active"
-            flat
-          >
-            <v-tooltip bottom>
-              <v-icon slot="activator">
-                notifications_paused
-              </v-icon>
-              <span>{{ $t('Active') }}</span>
-            </v-tooltip>
-          </v-btn>
-          <v-btn
-            value="pending"
-            flat
-          >
-            <v-tooltip bottom>
-              <v-icon slot="activator">
-                schedule
-              </v-icon>
-              <span>{{ $t('Pending') }}</span>
-            </v-tooltip>
-          </v-btn>
-          <v-btn
-            value="expired"
-            flat
-          >
-            <v-tooltip bottom>
-              <v-icon slot="activator">
-                block
-              </v-icon>
-              <span>{{ $t('Expired') }}</span>
-            </v-tooltip>
-          </v-btn>
-        </v-btn-toggle>
-        <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          :label="$t('Search')"
-          single-line
-          hide-details
-        />
+      <v-card-title class="text-h6">
+        <v-row>
+          <v-col>
+            {{ $t('Blackouts') }}
+          </v-col>
+          <v-spacer />
+          <v-col>
+            <v-btn-toggle
+              v-model="status"
+              class="bg-transparent"
+              multiple
+            >
+              <v-btn
+                value="active"
+                variant="flat"
+              >
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon v-bind="props">
+                      notifications_paused
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Active') }}</span>
+                </v-tooltip>
+              </v-btn>
+              <v-btn
+                value="pending"
+                variant="flat"
+              >
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon v-bind="props">
+                      schedule
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Pending') }}</span>
+                </v-tooltip>
+              </v-btn>
+              <v-btn
+                value="expired"
+                variant="flat"
+              >
+                <v-tooltip location="bottom">
+                  <template #activator="{props}">
+                    <v-icon
+                      v-bind="props">
+                      block
+                    </v-icon>
+                  </template>
+                  <span>{{ $t('Expired') }}</span>
+                </v-tooltip>
+              </v-btn>
+            </v-btn-toggle>
+          </v-col>
+          <v-spacer />
+          <v-col sm="5">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              :label="$t('Search')"
+              single-line
+              hide-details
+            />
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <v-data-table
         :headers="computedHeaders"
         :items="blackouts"
-        :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         class="px-2"
         :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
+        item-props
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
-          <td>
-            <v-tooltip top>
-              {{ $t('WholeEnvironment') }}
-              <v-icon
-                v-if="onlyEnvironment(props.item)"
-                slot="activator"
-                color="red"
+        <template #item="{item}">
+          <tr>
+            <td>
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="onlyEnvironment(item.props)"
+                    v-bind="props"
+                    color="red"
+                    size="small"
+                  >
+                    report_problem
+                  </v-icon>
+                </template>
+                {{ $t('WholeEnvironment') }}
+              </v-tooltip>
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="onlyOrigin(item.props)"
+                    v-bind="props"
+                    color="red"
+                    size="small"
+                  >
+                    report_problem
+                  </v-icon>
+                </template>
+                {{ $t('AllOrigin') }}
+              </v-tooltip>
+            </td>
+            <td
+              v-if="$config.customer_views"
+            >
+              {{ item.props.customer }}
+            </td>
+            <td>{{ item.props.environment }}</td>
+            <td>
+              <v-chip
+                v-for="service in item.props.service"
+                :key="service"
+                variant="outlined"
                 small
               >
-                report_problem
-              </v-icon>
-            </v-tooltip>
-            <v-tooltip top>
-              {{ $t('AllOrigin') }}
-              <v-icon
-                v-if="onlyOrigin(props.item)"
-                slot="activator"
-                color="red"
-                small
-              >
-                report_problem
-              </v-icon>
-            </v-tooltip>
-          </td>
-          <td
-            v-if="$config.customer_views"
-          >
-            {{ props.item.customer }}
-          </td>
-          <td>{{ props.item.environment }}</td>
-          <td>
-            <v-chip
-              v-for="service in props.item.service"
-              :key="service"
-              outline
-              small
-            >
-              {{ service }}
-            </v-chip>
-          </td>
-          <td>{{ props.item.resource }}</td>
-          <td>{{ props.item.event }}</td>
-          <td>{{ props.item.group }}</td>
-          <td>
-            <v-chip
-              v-for="tag in props.item.tags"
-              :key="tag"
-              label
-              small
-            >
-              <v-icon left>
+                {{ service }}
+              </v-chip>
+            </td>
+            <td>{{ item.props.resource }}</td>
+            <td>{{ item.props.event }}</td>
+            <td>{{ item.props.group }}</td>
+            <td>
+              <v-chip
+                v-for="tag in item.props.tags"
+                :key="tag"
                 label
-              </v-icon>{{ tag }}
-            </v-chip>
-          </td>
-          <td>{{ props.item.origin }}</td>
-          <td class="text-xs-right">
-            <v-tooltip top>
-              {{ props.item.status | capitalize }}
-              <v-icon
-                v-if="props.item.status == 'pending'"
-                slot="activator"
-                light
                 small
               >
-                schedule
-              </v-icon>
+                <v-icon start>
+                  label
+                </v-icon>{{ tag }}
+              </v-chip>
+            </td>
+            <td>{{ item.props.origin }}</td>
+            <td class="text-right">
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="item.props.status == 'pending'"
+                    v-bind="props"
+                    light
+                    size="small"
+                  >
+                    schedule
+                  </v-icon>
 
-              <v-icon
-                v-if="props.item.status == 'active'"
-                slot="activator"
-                color="primary"
-                small
-              >
-                notifications_paused
-              </v-icon>
+                  <v-icon
+                    v-if="item.props.status == 'active'"
+                    v-bind="props"
+                    color="primary"
+                    size="small"
+                  >
+                    notifications_paused
+                  </v-icon>
 
-              <v-icon
-                v-if="props.item.status == 'expired'"
-                slot="activator"
-                small
-              >
-                block
-              </v-icon>
-            </v-tooltip>
-          </td>
-          <td class="text-xs-left">
-            <date-time
-              :value="props.item.startTime"
-              format="mediumDate"
-            />
-          </td>
-          <td class="text-xs-left">
-            <date-time
-              :value="props.item.endTime"
-              format="mediumDate"
-            />
-          </td>
-          <td
-            class="text-xs-left text-no-wrap"
-          >
-            {{ props.item.endTime | until }}
-          </td>
-          <td class="text-xs-left">
-            {{ props.item.user }}
-          </td>
-          <td class="text-xs-left">
-            {{ props.item.text }}
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'write:blackouts'"
-              icon
-              class="btn--plain mr-0"
-              @click="editItem(props.item)"
+                  <v-icon
+                    v-if="item.props.status == 'expired'"
+                    v-bind="props"
+                    size="small"
+                  >
+                    block
+                  </v-icon>
+                </template>
+                {{ this.$filters.capitalize(item.props.status) }}
+              </v-tooltip>
+            </td>
+            <td class="text-left">
+              <date-time
+                :value="item.props.startTime"
+                format="mediumDate"
+              />
+            </td>
+            <td class="text-left">
+              <date-time
+                :value="item.props.endTime"
+                format="mediumDate"
+              />
+            </td>
+            <td
+              class="text-left text-no-wrap"
             >
-              <v-icon
-                small
-                color="grey darken-3"
+              {{ this.$filters.until(item.props.endTime) }}
+            </td>
+            <td class="text-left">
+              {{ item.props.user }}
+            </td>
+            <td class="text-left">
+              {{ item.props.text }}
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'write:blackouts'"
+                icon
+                class="btn--plain mr-0"
+                @click="editItem(item.props)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'write:blackouts'"
-              icon
-              class="btn--plain mx-0"
-              @click="copyItem(props.item)"
-            >
-              <v-icon
-                small
-                color="grey darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  edit
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'write:blackouts'"
+                icon
+                class="btn--plain mx-0"
+                @click="copyItem(item.props)"
               >
-                content_copy
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'write:blackouts'"
-              icon
-              class="btn--plain mx-0"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                small
-                color="grey darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  content_copy
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'write:blackouts'"
+                icon
+                class="btn--plain mx-0"
+                @click="deleteItem(item.props)"
               >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
-        <template slot="no-data">
-          <v-alert
-            :value="true"
-            color="error"
-            icon="warning"
-          >
-            {{ $t('NoDisplay') }}
-          </v-alert>
+        <template #no-data>
+          <tr>
+            <td colspan="13">
+              <v-alert
+                :value="true"
+                color="error"
+                icon="warning"
+              >
+                {{ $t('NoDisplay') }}
+              </v-alert>
+            </td>
+          </tr>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
-          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
-        </v-alert>
+        
+        <template #no-results>
+          <tr>
+            <td colspan="13">
+              <v-alert
+                :value="true"
+                color="error"
+                icon="warning"
+              >
+                {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
+              </v-alert>
+            </td>
+          </tr>
+        </template>
+        <template #bottom>
+          <v-data-table-footer       
+            :items-per-page-options="rowsPerPageItems.map(
+              row => {
+                return {
+                  title: row.toString(),
+                  value: row
+                }
+              }
+            )"
+          />
+        </template>
       </v-data-table>
     </v-card>
 
@@ -493,23 +562,23 @@ export default {
     search: '',
     dialog: false,
     headers: [
-      { text: '', value: 'icons' },
-      { text: i18n.t('Customer'), value: 'customer' },
-      { text: i18n.t('Environment'), value: 'environment' },
-      { text: i18n.t('Service'), value: 'service' },
-      { text: i18n.t('Resource'), value: 'resource' },
-      { text: i18n.t('Event'), value: 'event' },
-      { text: i18n.t('Group'), value: 'group' },
-      { text: i18n.t('Tags'), value: 'tags' },
-      { text: i18n.t('Origin'), value: 'origin' },
-      { text: '', value: 'status' },
-      { text: i18n.t('Start'), value: 'startTime' },
-      { text: i18n.t('End'), value: 'endTime' },
-      { text: i18n.t('Expires'), value: 'remaining' },
-      { text: i18n.t('User'), value: 'user' },
-      // { text: 'Created', value: 'createTime' }, FIXME
-      { text: i18n.t('Reason'), value: 'text' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { title: '', key: 'icons' },
+      { title: i18n.global.t('Customer'), key: 'customer' },
+      { title: i18n.global.t('Environment'), key: 'environment' },
+      { title: i18n.global.t('Service'), key: 'service' },
+      { title: i18n.global.t('Resource'), key: 'resource' },
+      { title: i18n.global.t('Event'), key: 'event' },
+      { title: i18n.global.t('Group'), key: 'group' },
+      { title: i18n.global.t('Tags'), key: 'tags' },
+      { title: i18n.global.t('Origin'), key: 'origin' },
+      { title: '', key: 'status' },
+      { title: i18n.global.t('Start'), key: 'startTime' },
+      { title: i18n.global.t('End'), key: 'endTime' },
+      { title: i18n.global.t('Expires'), key: 'remaining' },
+      { title: i18n.global.t('User'), key: 'user' },
+      // { title: 'Created', key: 'createTime' }, FIXME
+      { title: i18n.global.t('Reason'), key: 'text' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -549,7 +618,7 @@ export default {
       text: ''
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: v => !!v || i18n.global.t('Required')
     }
   }),
   computed: {
@@ -559,7 +628,7 @@ export default {
         .map(b => {
           let s = moment(b.startTime)
           let e = moment(b.endTime)
-          return Object.assign(b, {
+          return Object.assign({}, b, {
             period: {
               startDate: s.format('YYYY-MM-DD'),
               startTime: s.format('HH:mm'),
@@ -570,7 +639,7 @@ export default {
         })
     },
     computedHeaders() {
-      return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
+      return this.headers.filter(h => !this.$config.customer_views ? h.key != 'customer' : true)
     },
     allowedCustomers() {
       return this.$store.getters['customers/customers']
@@ -588,7 +657,7 @@ export default {
       return this.$store.state.blackouts.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewBlackout') : i18n.t('EditBlackout')
+      return !this.editedId ? i18n.global.t('NewBlackout') : i18n.global.t('EditBlackout')
     },
     blackoutStartNow() {
       return this.$store.getters.getPreference('blackoutStartNow')
@@ -705,7 +774,7 @@ export default {
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('blackouts/deleteBlackout', item.id)
     },
     close() {
@@ -715,13 +784,15 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedItem.period = this.defaultTimes()
         this.editedId = null
-      }, 300)
+      }, 100)
     },
     validate() {
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.save()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.save()
+        }
+      })
     },
     save() {
       if (this.editedId) {
@@ -769,4 +840,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.datetime {
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+}
+</style>

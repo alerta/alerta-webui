@@ -71,7 +71,7 @@ const actions = {
         dispatch('getGroupUsers', groupId)
       })
       .then(() =>
-        dispatch('notifications/success', i18n.t('UserAddedGroup'), {
+        dispatch('notifications/success', i18n.global.t('UserAddedGroup'), {
           root: true
         })
       )
@@ -82,7 +82,7 @@ const actions = {
         dispatch('getGroupUsers', groupId)
       })
       .then(() =>
-        dispatch('notifications/success', i18n.t('UserRemovedGroup'), {
+        dispatch('notifications/success', i18n.global.t('UserRemovedGroup'), {
           root: true
         })
       )

@@ -1,3 +1,4 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <div>
     <v-dialog
@@ -7,38 +8,38 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <span class="headline">
+            <span class="text-h5">
               {{ formTitle }}
             </span>
           </v-card-title>
 
           <v-card-text>
             <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex
-                  xs12
-                  sm6
-                  md12
+              <v-row wrap>
+                <v-col
+                  xs="12"
+                  sm="6"
+                  md="12"
                 >
                   <v-chip
                     v-show="editedItem.match"
-                    close
+                    closable
                     @click="editedItem.match = null"
                   >
                     <strong>{{ editedItem.match }}</strong>&nbsp;
                     <span>({{ $t('role') }})</span>
                   </v-chip>
-                </v-flex>
+                </v-col>
                 <v-text-field
                   v-model.trim="editedItem.match"
                   :label="$t('Role')"
                   :rules="[rules.required]"
                   required
                 />
-                <v-flex
-                  xs12
-                  sm6
-                  md12
+                <v-col
+                  xs="12"
+                  sm="6"
+                  md="12"
                 >
                   <v-autocomplete
                     v-model="editedItem.scopes"
@@ -46,39 +47,38 @@
                     :label="$t('Scopes')"
                     chips
                     clearable
-                    solo
+                    variant="solo"
                     multiple
                   >
                     <template
-                      slot="selection"
-                      slot-scope="data"
+                      #selection="data"
                     >
                       <v-chip
-                        :selected="data.selected"
-                        close
+                        :value="data.selected"
+                        closable
                       >
                         <strong>{{ data.item }}</strong>&nbsp;
                         <span>({{ $t('scope') }})</span>
                       </v-chip>
                     </template>
                   </v-autocomplete>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
 
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
-              flat
+              color="blue-darken-1"
+              variant="flat"
               @click="close"
             >
               {{ $t('Cancel') }}
             </v-btn>
             <v-btn
-              color="blue darken-1"
-              flat
+              color="blue-darken-1"
+              variant="flat"
               @click="validate"
             >
               {{ $t('Save') }}
@@ -89,119 +89,119 @@
     </v-dialog>
 
     <v-card>
-      <v-card-title class="title">
-        {{ $t('Permissions') }}
-        <v-spacer />
-        <v-flex
-          xs3
-          class="mr-3 pt-3"
-        >
-          <v-autocomplete
-            v-model="wantScopes"
-            :items="scopes"
-            :label="$t('Scopes')"
-            chips
-            multiple
+      <v-card-title class="text-h6">
+        <v-row>
+          <v-col>
+            {{ $t('Permissions') }}
+          </v-col>
+          <v-spacer />
+          <v-col
+            xs="3"
+            sm="3"
+            class="mr-3 pt-3"
           >
-            <template
-              slot="selection"
-              slot-scope="data"
+            <v-autocomplete
+              v-model="wantScopes"
+              :items="scopes"
+              :label="$t('Scopes')"
+              chips
+              multiple
             >
-              <v-chip
-                :selected="data.selected"
-                close
+              <template
+                #selection="data"
               >
-                <strong>{{ data.item }}</strong>&nbsp;
-                <span>({{ $t('scope') }})</span>
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-flex>
-        <v-flex xs6>
-          <v-text-field
-            v-model="search"
-            append-icon="search"
-            :label="$t('Search')"
-            single-line
-            hide-details
-          />
-        </v-flex>
+                <v-chip
+                  :value="data.selected"
+                  closable
+                >
+                  <strong>{{ data.item }}</strong>&nbsp;
+                  <span>({{ $t('scope') }})</span>
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col xs="6" sm="6">
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              :label="$t('Search')"
+              single-line
+              hide-details
+            />
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <v-data-table
         :headers="headers"
         :items="perms"
-        :rows-per-page-items="rowsPerPageItems"
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         class="px-2"
-        :search="search"
-        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
-          <td>
-            <v-chip small>
-              <strong>{{ props.item.match }}</strong>&nbsp;
-              <span>({{ $t('role') }})</span>
-            </v-chip>
-            <v-tooltip top>
-              <v-icon
-                v-if="systemRoles.includes(props.item.match)"
-                slot="activator"
+        <template #item="{item}">
+          <tr>
+            <td>
+              <v-chip small>
+                <strong>{{ item.props.title.match }}</strong>&nbsp;
+              </v-chip>
+              <v-tooltip location="top">
+                <template #activator="{props}">
+                  <v-icon
+                    v-if="systemRoles.includes(item.props.title.match)"
+                    v-bind="props"
+                    size="small"
+                  >
+                    lock
+                  </v-icon>
+                </template>
+                <span>{{ $t('SystemRole') }}</span>
+              </v-tooltip>
+            </td>
+            <td>
+              <v-chip
+                v-for="scope in item.props.title.scopes"
+                :key="scope"
                 small
               >
-                lock
-              </v-icon>
-              <span>{{ $t('SystemRole') }}</span>
-            </v-tooltip>
-          </td>
-          <td>
-            <v-chip
-              v-for="scope in props.item.scopes"
-              :key="scope"
-              small
-            >
-              <strong>{{ scope }}</strong>&nbsp;
-              <span>({{ $t('scope') }})</span>
-            </v-chip>
-          </td>
-          <td class="text-no-wrap">
-            <v-btn
-              v-has-perms.disable="'admin:perms'"
-              icon
-              class="btn--plain mr-0"
-              :disabled="systemRoles.includes(props.item.match)"
-              @click="editItem(props.item)"
-            >
-              <v-icon
-                small
-                color="grey darken-3"
+                <strong>{{ scope }}</strong>&nbsp;
+              </v-chip>
+            </td>
+            <td class="text-no-wrap">
+              <v-btn
+                v-has-perms.disable="'admin:perms'"
+                icon
+                class="btn--plain mr-0"
+                :disabled="systemRoles.includes(item.props.title.match)"
+                @click="editItem(item.props.title)"
               >
-                edit
-              </v-icon>
-            </v-btn>
-            <v-btn
-              v-has-perms.disable="'admin:perms'"
-              icon
-              class="btn--plain mx-0"
-              :disabled="systemRoles.includes(props.item.match)"
-              @click="deleteItem(props.item)"
-            >
-              <v-icon
-                small
-                color="grey darken-3"
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  edit
+                </v-icon>
+              </v-btn>
+              <v-btn
+                v-has-perms.disable="'admin:perms'"
+                icon
+                class="btn--plain mx-0"
+                :disabled="systemRoles.includes(item.props.title.match)"
+                @click="deleteItem(item.props.title)"
               >
-                delete
-              </v-icon>
-            </v-btn>
-          </td>
+                <v-icon
+                  size="small"
+                  color="grey-darken-3"
+                >
+                  delete
+                </v-icon>
+              </v-btn>
+            </td>
+          </tr>
         </template>
-        <template slot="no-data">
+        <template #no-data>
           <v-alert
             :value="true"
             color="error"
@@ -210,14 +210,27 @@
             {{ $t('NoDisplay') }}
           </v-alert>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >
-          {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
-        </v-alert>
+        <template #no-results>
+          <v-alert
+            :value="true"
+            color="error"
+            icon="warning"
+          >
+            {{ $t('SearchNoResult1') }} "{{ search }}" {{ $t('SearchNoResult2') }}
+          </v-alert>
+        </template>
+        <template #bottom>
+          <v-data-table-footer       
+            :items-per-page-options="rowsPerPageItems.map(
+              row => {
+                return {
+                  title: row.toString(),
+                  value: row
+                }
+              }
+            )"
+          />
+        </template>
       </v-data-table>
     </v-card>
 
@@ -251,9 +264,9 @@ export default {
     wantScopes: [],
     dialog: false,
     headers: [
-      { text: i18n.t('Role'), value: 'match' },
-      { text: i18n.t('Scopes'), value: 'scopes' },
-      { text: i18n.t('Actions'), value: 'name', sortable: false }
+      { title: i18n.global.t('Role'), key: 'match' },
+      { title: i18n.global.t('Scopes'), key: 'scopes' },
+      { title: i18n.global.t('Actions'), key: 'name', sortable: false }
     ],
     editedId: null,
     editedItem: {
@@ -265,12 +278,18 @@ export default {
       scopes: []
     },
     rules: {
-      required: v => !!v || i18n.t('Required')
+      required: v => !!v || i18n.global.t('Required')
     }
   }),
   computed: {
     perms() {
-      return this.$store.state.perms.permissions
+      return this.$store.state.perms.permissions.filter(perm => {
+        if(this.wantScopes.length > 0 && !perm.scopes.some(x => this.wantScopes.includes(x)))
+          return false 
+        if(this.search.trim() != '')
+          return perm.match.includes(this.search)
+        return true
+      })
     },
     scopes() {
       return this.$store.state.perms.scopes
@@ -285,7 +304,7 @@ export default {
       return this.$store.state.perms.isLoading
     },
     formTitle() {
-      return !this.editedId ? i18n.t('NewPermission') : i18n.t('EditPermission')
+      return !this.editedId ? i18n.global.t('NewPermission') : i18n.global.t('EditPermission')
     },
     refresh() {
       return this.$store.state.refresh
@@ -313,39 +332,31 @@ export default {
     filterByScopes(scopes) {
       this.wantScopes = scopes
     },
-    customFilter(items, search, filter) {
-      items = items.filter(item =>
-        this.wantScopes.length > 0 ? item.scopes.some(x => this.wantScopes.includes(x)) : item
-      )
-
-      if (search.trim() === '') return items
-
-      return items.filter(i => (
-        Object.keys(i).some(j => filter(i[j], search))
-      ))
-    },
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
     deleteItem(item) {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         this.$store.dispatch('perms/deletePerm', item.id)
     },
     close() {
       this.dialog = false
+      /*eslint-disable*/
       setTimeout(() => {
         this.$refs.form.reset()
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedId = null
-      }, 300)
+      }, 100)
     },
     validate() {
-      if (this.$refs.form.validate()) {
-        this.$refs.form.resetValidation()
-        this.save()
-      }
+      this.$refs.form.validate().then((status) => {
+        if(status){
+          this.$refs.form.resetValidation()
+          this.save()
+        }
+      })
     },
     save() {
       if (this.editedId) {

@@ -4,14 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import Preferences from '@/components/Preferences.vue'
 
-@Component({
+export default {
   components: {
     Preferences
   }
-})
-export default class Settings extends Vue {}
+}
 </script>

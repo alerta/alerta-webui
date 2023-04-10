@@ -1,13 +1,10 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n'
+import {createI18n} from 'vue-i18n'
 
 // import file language from @/locales
 import {en} from '@/locales/en'
 import {fr} from '@/locales/fr'
 import {de} from '@/locales/de'
 import {tr} from '@/locales/tr'
-
-Vue.use(VueI18n)
 
 const loadLocaleMessages = {
   en,
@@ -25,7 +22,7 @@ if (language.length > 2) {
 }
 
 // variable i18n for translation
-const i18n = new VueI18n({
+const i18n = createI18n({
   locale: language,
   fallbackLocale: 'en', // set fallback locale
   messages: loadLocaleMessages

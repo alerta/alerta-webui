@@ -2,14 +2,12 @@
   <user-confirm />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import UserConfirm from '@/components/auth/UserConfirm.vue'
 
-@Component({
+export default {
   components: {
     UserConfirm
   }
-})
-export default class Confirm extends Vue {}
+}
 </script>

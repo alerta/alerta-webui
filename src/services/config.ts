@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Axios, {AxiosResponse, AxiosInstance} from 'axios'
 
 class Config {

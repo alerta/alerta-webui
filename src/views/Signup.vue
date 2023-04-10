@@ -2,14 +2,12 @@
   <user-signup />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import UserSignup from '@/components/auth/UserSignup.vue'
 
-@Component({
+export default {
   components: {
     UserSignup
   }
-})
-export default class Signup extends Vue {}
+}
 </script>

@@ -4,14 +4,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<!-- Removed lang="ts" for now due to compiler errors -->
+<script>
 import UserList from '@/components/UserList.vue'
 
-@Component({
+export default {
   components: {
     UserList
   }
-})
-export default class Users extends Vue {}
+}
 </script>

@@ -3,10 +3,10 @@
     <v-card>
       <v-card-title primary-title>
         <div>
-          <div class="headline">
+          <div class="text-h5">
             {{ $t('Top') }} {{ rowsPerPage }} {{ $t('Flapping') }}
           </div><br>
-          <span class="grey--text">{{ $t('TopFlappingDescription') }}</span>
+          <span class="text-grey">{{ $t('TopFlappingDescription') }}</span>
         </div>
         <v-spacer />
       </v-card-title>
@@ -14,32 +14,38 @@
         :headers="headers"
         :items="top10"
         class="px-2"
-        hide-actions
+        hide-default-footer
+        item-props
       >
-        <template
-          slot="items"
-          slot-scope="props"
-        >
-          <td>{{ props.item.event }}</td>
-          <td class="text-xs-center">
-            {{ props.item.count }}
-          </td>
-          <td class="text-xs-center">
-            {{ props.item.duplicateCount }}
-          </td>
-          <td>{{ props.item.environments.join(', ') }}</td>
-          <td>{{ props.item.services.join(', ') }}</td>
-          <td>
-            <span
-              v-for="r in props.item.resources"
-              :key="r.id"
-            >
-              <router-link :to="`/alert/${r.id}`">
-                {{ r.resource }}
-              </router-link>
-            </span>
-          </td>
+        <template #item="{item}">
+          <tr>
+            <td>{{ item.props.event }}</td>
+            <td class="text-center">
+              {{ item.props.count }}
+            </td>
+            <td class="text-center">
+              {{ item.props.duplicateCount }}
+            </td>
+            <td>{{ item.props.environments.join(', ') }}</td>
+            <td>{{ item.props.services.join(', ') }}</td>
+            <td>
+              <span
+                v-for="r in item.props.resources"
+                :key="r.id"
+              >
+                <router-link :to="`/alert/${r.id}`">
+                  {{ r.resource }}
+                </router-link>
+              </span>
+            </td>
+          </tr>
         </template>
+        <template #no-data>
+          <div class="text-center">
+            {{ $t('NoDataAvailable') }}
+          </div>
+        </template>
+        <template #bottom/>
       </v-data-table>
     </v-card>
   </div>
@@ -51,12 +57,12 @@ import i18n from '@/plugins/i18n'
 export default {
   data: () => ({
     headers: [
-      {text: i18n.t('Event'), value: 'event', sortable: false},
-      {text: i18n.t('Count'), value: 'count', sortable: false},
-      {text: i18n.t('DuplCount'), value: 'duplicateCount', sortable: false},
-      {text: i18n.t('Environment'), value: 'environment', sortable: false},
-      {text: i18n.t('Services'), value: 'services', sortable: false},
-      {text: i18n.t('Resources'), value: 'resources', sortable: false},
+      {title: i18n.global.t('Event'), key: 'event', sortable: false},
+      {title: i18n.global.t('Count'), key: 'count', sortable: false},
+      {title: i18n.global.t('DuplCount'), key: 'duplicateCount', sortable: false},
+      {title: i18n.global.t('Environment'), key: 'environment', sortable: false},
+      {title: i18n.global.t('Services'), key: 'services', sortable: false},
+      {title: i18n.global.t('Resources'), key: 'resources', sortable: false},
     ]
   }),
   computed: {

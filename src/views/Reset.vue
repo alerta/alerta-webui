@@ -2,14 +2,12 @@
   <user-reset />
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import UserReset from '@/components/auth/UserReset.vue'
 
-@Component({
+export default {
   components: {
     UserReset
   }
-})
-export default class Reset extends Vue {}
+}
 </script>

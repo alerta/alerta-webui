@@ -4,14 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import HeartbeatList from '@/components/HeartbeatList.vue'
 
-@Component({
+export default {
   components: {
     HeartbeatList
   }
-})
-export default class Heartbeats extends Vue {}
+}
 </script>

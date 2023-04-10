@@ -59,7 +59,7 @@ const state = {
 
 const mutations = {
   SET_CONFIG(state, config) {
-    stateMerge(state, config)
+    stateMerge(state,config)
   }
 }
 

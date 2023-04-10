@@ -4,14 +4,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import ApiKeyList from '@/components/ApiKeyList.vue'
 
-@Component({
+export default {
   components: {
     ApiKeyList
   }
-})
-export default class ApiKeys extends Vue {}
+}
 </script>

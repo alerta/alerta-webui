@@ -1,22 +1,20 @@
 <template>
   <v-app
     id="alerta"
-    :dark="isDark"
+    :theme="isDark ? 'dark' : 'light'"
   >
     <div v-if="!isKiosk">
       <v-navigation-drawer
         v-if="isLoggedIn || !isAuthRequired || isAllowReadonly"
         v-model="drawer"
-        :clipped="$vuetify.breakpoint.lgAndUp"
         disable-resize-watcher
-        fixed
-        app
+        position="fixed"
       >
         <v-toolbar
           :color="isDark ? '#616161' : '#eeeeee'"
           flat
         >
-          <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
           <router-link
             to="/"
@@ -37,58 +35,47 @@
         </v-toolbar>
 
         <v-divider />
-        <v-list dense>
+        <v-list density="default">
           <template v-for="(item, index) in items">
-            <v-list-tile
+            <v-list-item
               v-if="item.icon && item.show"
               :key="item.text"
               v-has-perms="item.perms"
               :to="item.path"
+              :prepend-icon="item.icon"
+              :append-icon="item.appendIcon"
+              :title="item.text"
             >
-              <v-list-tile-action>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ item.text }}
-                  <v-icon
-                    v-if="item.appendIcon"
-                    small
-                  >
-                    {{ item.appendIcon }}
-                  </v-icon>
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
+            </v-list-item>
 
             <v-list-group
               v-else-if="item.queries && item.queries.length > 0"
               :key="item.text"
               :prepend-icon="item.model ? item.icon : item['icon-alt']"
-              sub-group
-              no-action
             >
-              <template v-slot:activator>
-                <v-list-tile>
-                  <v-list-tile-title>
-                    {{ item.text }}
-                  </v-list-tile-title>
-                </v-list-tile>
+              <template #activator="{props}">
+                <v-list-item 
+                  v-bind="props"
+                  :title="item.text"
+                />
               </template>
-              <v-list-tile
+              <v-list-item
                 v-for="(q, i) in item.queries"
                 :key="i"
                 @click="submitSearch(q.query)"
+                :title="q.text"
               >
-                <v-list-tile-title v-text="q.text" />
-                <v-list-tile-action>
-                  <v-icon
-                    small
-                    @click.stop="deleteSearch(q)"
-                    v-text="q.icon"
-                  />
-                </v-list-tile-action>
-              </v-list-tile>
+                <template #append>
+                  <v-list-item-action>
+                    <v-icon
+                      size="small"
+                      @click.stop="deleteSearch(q)"
+                    >
+                      {{ q.icon }}
+                    </v-icon>
+                  </v-list-item-action>
+                </template>
+              </v-list-item>
             </v-list-group>
 
             <v-divider
@@ -105,7 +92,7 @@
         flat
         class="mb-1"
       >
-        <v-toolbar-side-icon
+        <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
         />
 
@@ -130,26 +117,24 @@
 
         <v-text-field
           v-if="$route.name === 'alerts'"
-          v-model="query"
-          :flat="!hasFocus"
+          v-model="search"
+          variant="solo"
           :label="$t('Search')"
           prepend-inner-icon="search"
-          solo
           clearable
-          height="44"
           class="pt-2 mr-3 hidden-sm-and-down"
           @focus="hasFocus = true"
           @blur="hasFocus = false"
           @change="submitSearch"
           @click:clear="clearSearch"
         >
-          <template v-slot:append-outer>
+          <template #append>
             <v-tooltip
-              bottom
+              location="bottom"
             >
-              <template v-slot:activator="{ on }">
+              <template #activator="{props}">
                 <v-icon
-                  v-on="on"
+                  v-bind="props"
                   @click="saveSearch"
                 >
                   push_pin
@@ -164,83 +149,98 @@
           v-if="$route.name === 'alerts'"
           v-show="isLoggedIn"
         >
-          <v-tooltip bottom>
-            <v-switch
-              slot="activator"
-              :input-value="isWatch"
-              hide-details
-              open-delay="3000"
-              @change="toggle('isWatch', $event)"
-            />
+          <v-tooltip
+            location="bottom"
+          >
+            <template #activator="{props}">
+              <v-switch
+                color="secondary"
+                v-bind="props"
+                :v-model="isWatch"
+                hide-details
+                open-delay="3000"
+                @update:model-value="toggle('isWatch', $event)"
+              />
+            </template>
             <span>{{ $t('Watch') }}</span>
           </v-tooltip>
         </div>
 
         <v-spacer class="hidden-sm-and-down" />
 
-        <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-            @click="toggleFullScreen"
-          >
-            <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-bind="props"
+              icon
+              @click="toggleFullScreen"
+            >
+              <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('FullScreen') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-          >
-            <v-icon @click="refresh">
-              refresh
-            </v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-bind="props"
+              icon
+            >
+              <v-icon @click="refresh">
+                refresh
+              </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Refresh') }}</span>
         </v-tooltip>
-
-        <v-menu
-          v-show="isLoggedIn"
-          v-model="menu"
-          :close-on-content-click="false"
-          :nudge-width="200"
-          offset-x
-        >
-          <v-btn
-            slot="activator"
-            icon
+        <div>
+          <v-menu
+            v-if="isLoggedIn"
+            v-model="menu"
+            :close-on-content-click="false"
+            offset="20"
           >
-            <v-avatar
-              size="32px"
-            >
-              <img
-                v-if="avatar && !error"
-                :src="avatar"
-                @error="error = true"
+            <template #activator="{props}">
+              <v-btn
+                v-bind="props"
+                icon
               >
-              <v-icon
-                v-else
-                v-text="navbar.signin.icon"
-              />
-            </v-avatar>
-          </v-btn>
-
-          <profile-me
-            v-if="profile"
-            :profile="profile"
-            @close="menu = false"
-          />
-        </v-menu>
+                <v-avatar
+                  size="32px"
+                >
+                  <img
+                    v-if="avatar && !error"
+                    :src="avatar"
+                    @error="error = true"
+                  >
+                  <v-icon
+                    v-else
+                  >
+                    {{ navbar.signin.icon }}
+                  </v-icon>
+                </v-avatar>
+              </v-btn>
+            </template>
+            <profile-me
+              v-if="profile"
+              :profile="profile"
+              @close="menu = false"
+            />
+          </v-menu>
+        </div>
 
         <span class="hidden-xs-only">
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
-            round
-            outline
+            rounded
+            variant="outlined"
             color="primary"
             to="/signup"
           >
@@ -248,7 +248,7 @@
           </v-btn>
           <v-btn
             v-show="!isLoggedIn"
-            round
+            rounded
             color="primary"
             to="/login"
           >
@@ -281,131 +281,157 @@
 
         <v-spacer />
 
-        <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="toggleWatch()"
-          >
-            <v-icon>
-              visibility
-            </v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
+              class="btn--plain"
+              @click="toggleWatch()"
+            >
+              <v-icon>
+                visibility
+              </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Watch') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="bulkAckAlert()"
-          >
-            <v-icon>
-              check
-            </v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
+              class="btn--plain"
+              @click="bulkAckAlert()"
+            >
+              <v-icon>
+                check
+              </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Ack') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="bulkShelveAlert()"
-          >
-            <v-icon>
-              schedule
-            </v-icon>
-          </v-btn>
+        <v-tooltip location="bottom">
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
+              class="btn--plain"
+              @click="bulkShelveAlert()"
+            >
+              <v-icon>
+                schedule
+              </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Shelve') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="takeBulkAction('close')"
-          >
-            <v-icon>
-              highlight_off
-            </v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
+              class="btn--plain"
+              @click="takeBulkAction('close')"
+            >
+              <v-icon>
+                highlight_off
+              </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Close') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            icon
-            class="btn--plain"
-            @click="bulkDeleteAlert()"
-          >
-            <v-icon>
-              delete
-            </v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
+              class="btn--plain"
+              @click="bulkDeleteAlert()"
+            >
+              <v-icon>
+                delete
+              </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Delete') }}</span>
         </v-tooltip>
 
         <v-menu
-          bottom
-          left
+          location="left bottom"
         >
-          <v-btn
-            slot="activator"
-            flat
-            icon
-            small
-            class="btn--plain px-1 mx-0"
-          >
-            <v-icon small>
-              more_vert
-            </v-icon>
-          </v-btn>
-
-          <v-list
-            subheader
-          >
-            <v-subheader>Actions</v-subheader>
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              variant="flat"
+              icon
+              size="small"
+              class="btn--plain px-1 mx-0"
+            >
+              <v-icon
+                size="small"
+              >
+                more_vert
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-subheader>Actions</v-list-subheader>
             <v-divider />
-            <v-list-tile
+            <v-list-item
               v-for="(action, i) in actions"
               :key="i"
               @click="takeBulkAction(action)"
             >
-              <v-list-tile-title>{{ action | splitCaps }}</v-list-tile-title>
-            </v-list-tile>
+              <v-list-item-title>{{ this.$filters.splitCaps(action) }}</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
 
         <v-spacer />
 
-        <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-            @click="toggleFullScreen"
-          >
-            <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-bind="props"
+              icon
+              @click="toggleFullScreen"
+            >
+              <v-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('FullScreen') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
-          <v-btn
-            v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
-            slot="activator"
-            icon
-          >
-            <v-icon @click="refresh">
-              refresh
-            </v-icon>
-          </v-btn>
+        <v-tooltip
+          location="bottom"
+        >
+          <template #activator="{props}">
+            <v-btn
+              v-show="isLoggedIn || !isAuthRequired || isAllowReadonly"
+              v-bind="props"
+              icon
+            >
+              <v-icon @click="refresh">
+                refresh
+              </v-icon>
+            </v-btn>
+          </template>
           <span>{{ $t('Refresh') }}</span>
         </v-tooltip>
 
@@ -414,27 +440,29 @@
           v-model="menu"
           :close-on-content-click="false"
           :nudge-width="200"
-          offset-x
+          offset
         >
-          <v-btn
-            slot="activator"
-            icon
-          >
-            <v-avatar
-              size="32px"
+          <template #activator="{props}">
+            <v-btn
+              v-bind="props"
+              icon
             >
-              <img
-                v-if="avatar && !error"
-                :src="avatar"
-                @error="error = true"
+              <v-avatar
+                size="32px"
               >
-              <v-icon
-                v-else
-                v-text="navbar.signin.icon"
-              />
-            </v-avatar>
-          </v-btn>
-
+                <img
+                  v-if="avatar && !error"
+                  :src="avatar"
+                  @error="error = true"
+                >
+                <v-icon
+                  v-else
+                >
+                  {{ navbar.signin.icon }}
+                </v-icon>
+              </v-avatar>
+            </v-btn>
+          </template>
           <profile-me
             v-if="profile"
             :profile="profile"
@@ -445,8 +473,8 @@
         <span class="hidden-xs-only">
           <v-btn
             v-show="!isLoggedIn && isSignupEnabled"
-            round
-            outline
+            rounded
+            variant="outlined"
             color="primary"
             disabled
           >
@@ -454,7 +482,7 @@
           </v-btn>
           <v-btn
             v-show="!isLoggedIn"
-            round
+            rounded
             color="primary"
             disabled
           >
@@ -464,19 +492,21 @@
       </v-toolbar>
     </div>
 
-    <v-content>
+    <v-main>
       <banner />
+      <!--This may need to be changed
+      https://router.vuejs.org/guide/migration/#router-view-keep-alive-and-transition-->
       <router-view />
       <snackbar />
-    </v-content>
+    </v-main>
 
     <div v-if="!isKiosk">
       <span class="hidden-sm-and-up">
         <v-btn
           v-show="!isLoggedIn && isSignupEnabled"
           block
-          round
-          outline
+          rounded
+          variant="outlined"
           color="primary"
           to="/signup"
           :disabled="selected.length > 0"
@@ -486,7 +516,7 @@
         <v-btn
           v-show="!isLoggedIn"
           block
-          round
+          rounded
           color="primary"
           to="/login"
           :disabled="selected.length > 0"
@@ -521,16 +551,17 @@ export default {
     dialog: false,
     drawer: false,
     navbar: {
-      signin: { icon: 'account_circle', text: i18n.t('SignIn'), path: '/login' }
+      signin: { icon: 'account_circle', text: i18n.global.t('SignIn'), path: '/login' }
     },
-    error: false
+    error: false,
+    search: ''
   }),
   computed: {
     items() {
       return [
         {
           icon: 'list',
-          text: i18n.t('Alerts'),
+          text: i18n.global.t('Alerts'),
           path: '/alerts',
           perms: 'read:alerts',
           show: true
@@ -538,62 +569,62 @@ export default {
         {
           icon: 'expand_less',
           'icon-alt': 'expand_more',
-          text: i18n.t('Searches'),
+          text: i18n.global.t('Searches'),
           model: false,
           queries: this.queries
         },
         {
           icon: 'timer',
-          text: i18n.t('Heartbeats'),
+          text: i18n.global.t('Heartbeats'),
           path: '/heartbeats',
           perms: 'read:heartbeats',
           show: true
         },
         {
           icon: 'person',
-          text: i18n.t('Users'),
+          text: i18n.global.t('Users'),
           path: '/users',
           perms: 'admin:users',
           show: true
         },
         {
           icon: 'people',
-          text: i18n.t('Groups'),
+          text: i18n.global.t('Groups'),
           path: '/groups',
           perms: 'read:groups',
           show: this.$config.provider == 'basic'
         },
         {
           icon: 'domain',
-          text: i18n.t('Customers'),
+          text: i18n.global.t('Customers'),
           path: '/customers',
           perms: 'read:customers',
           show: this.$config.customer_views
         },
         {
           icon: 'notifications_off',
-          text: i18n.t('Blackouts'),
+          text: i18n.global.t('Blackouts'),
           path: '/blackouts',
           perms: 'read:blackouts',
           show: true
         },
         {
           icon: 'security',
-          text: i18n.t('Permissions'),
+          text: i18n.global.t('Permissions'),
           path: '/perms',
           perms: 'read:perms',
           show: true
         },
         {
           icon: 'vpn_key',
-          text: i18n.t('APIKeys'),
+          text: i18n.global.t('APIKeys'),
           path: '/keys',
           perms: 'read:keys',
           show: this.isLoggedIn || !this.isAuthRequired
         },
         {
           icon: 'assessment',
-          text: i18n.t('Reports'),
+          text: i18n.global.t('Reports'),
           path: '/reports',
           perms: 'read:alerts',
           show: true
@@ -601,14 +632,14 @@ export default {
         { divider: true},
         {
           icon: 'account_circle',
-          text: i18n.t('Profile'),
+          text: i18n.global.t('Profile'),
           path: '/profile',
           perms: null,
           show: this.isLoggedIn
         },
         {
           icon: 'settings',
-          text: i18n.t('Settings'),
+          text: i18n.global.t('Settings'),
           path: '/settings',
           perms: null,
           show: this.isLoggedIn
@@ -616,7 +647,7 @@ export default {
         // { icon: 'chat_bubble', text: 'Send feedback' },
         {
           icon: 'help',
-          text: i18n.t('Help'),
+          text: i18n.global.t('Help'),
           path: '/help',
           appendIcon: 'open_in_new',
           perms: null,
@@ -624,7 +655,7 @@ export default {
         },
         {
           icon: 'info',
-          text: i18n.t('About'),
+          text: i18n.global.t('About'),
           path: '/about',
           perms: 'read:management',
           show: true
@@ -705,7 +736,7 @@ export default {
       }
     },
     languagePref(val) {
-      i18n.locale = val
+      i18n.global.locale = val
     }
   },
   mounted() {
@@ -716,6 +747,11 @@ export default {
   },
   methods: {
     submitSearch(query) {
+      //When query is submitted through search box, the query is the Javascript onChange event
+      //When it's submitted through the saved search button, it is of type string
+      if(typeof(query) != 'string')
+        query = query.target.value
+      this.search = query
       this.$store.dispatch('alerts/updateQuery', { q: query })
       this.$router.push({
         query: { ...this.$router.query, q: query },
@@ -802,7 +838,7 @@ export default {
       this.$store.dispatch('alerts/unwatchAlert', id)
     },
     bulkDeleteAlert() {
-      confirm(i18n.t('ConfirmDelete')) &&
+      confirm(i18n.global.t('ConfirmDelete')) &&
         Promise.all(this.selected.map(a => this.$store.dispatch('alerts/deleteAlert', a.id, false))).then(() => {
           this.clearSelected()
           this.$store.dispatch('alerts/getAlerts')
@@ -812,7 +848,7 @@ export default {
       this.$store.dispatch('alerts/toggle', [sw, value])
     },
     toggleFullScreen() {
-      let elem = document.getElementById('alerta')
+      let elem = document.getElementById('app')
       if (!this.isFullscreen()) {
         elem.requestFullscreen()
       } else {

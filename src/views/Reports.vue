@@ -1,28 +1,39 @@
 <template>
   <div class="reports">
     <v-card>
-      <v-card-title class="title">
-        {{ $t('Reports') }}
-        <v-spacer />
-        <v-flex
-          xs1
-        >
-          <v-select
-            v-model.number="rowsPerPage"
-            :items="rowsPerPageItems"
-            :prefix="$t('Top')"
-            type="number"
-          />
-        </v-flex>
-
-        <v-btn
-          flat
-          icon
-          :class="{ 'filter-active': isActive }"
-          @click="sidesheet = !sidesheet"
-        >
-          <v-icon>filter_list</v-icon>
-        </v-btn>
+      <v-card-title class="text-h6">
+        <v-row>
+          <v-col>
+            {{ $t('Reports') }}
+          </v-col>
+          <v-spacer />
+          <v-col 
+            xs="12"
+            sm="2"
+            md="2"
+          >
+            <v-select
+              v-model.number="rowsPerPage"
+              :items="rowsPerPageItems"
+              :prefix="$t('Top')"
+              type="number"
+            />
+          </v-col>
+          <v-col
+            xs="1"
+            sm="1"
+            md="1"
+          >
+            <v-btn
+              variant="flat"
+              icon
+              :class="{ 'filter-active': isActive }"
+              @click="sidesheet = !sidesheet"
+            >
+              <v-icon>filter_list</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-card-title>
 
       <top-offenders />
@@ -38,6 +49,7 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import TopOffenders from '@/components/reports/TopOffenders.vue'
 import TopFlapping from '@/components/reports/TopFlapping.vue'
 import TopStanding from '@/components/reports/TopStanding.vue'
@@ -49,7 +61,7 @@ export default {
     TopOffenders,
     TopFlapping,
     TopStanding,
-    ReportFilter: () => import('@/components/reports/ReportFilter.vue')
+    ReportFilter: defineAsyncComponent(() => import('@/components/reports/ReportFilter.vue'))
   },
   data: () => ({
     sidesheet: false,

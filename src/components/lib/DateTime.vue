@@ -1,12 +1,14 @@
 <template>
-  <v-tooltip top>
-    <span
-      slot="activator"
-      class="text-no-wrap"
-    >
-      {{ value | date(displayMode, formatString) }}
-    </span>
-    <span>{{ value | date('utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
+  <v-tooltip location="top">
+    <template #activator="{props}">
+      <span
+        v-bind="props"
+        class="text-no-wrap"
+      >
+        {{ this.$filters.date(value, displayMode, formatString) }}
+      </span>
+    </template>
+    <span>{{ this.$filters.date(value, 'utc', 'YYYY/MM/DD HH:mm:ss.SSS Z') }}</span>
   </v-tooltip>
 </template>
 
@@ -14,7 +16,7 @@
 
 import moment from 'moment'
 import i18n from '@/plugins/i18n'
-moment.locale(i18n.locale)
+moment.locale(i18n.global.locale.value)
 
 export default {
   props: {

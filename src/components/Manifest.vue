@@ -1,66 +1,72 @@
+<!-- eslint-disable vuetify/no-deprecated-components -->
 <template>
   <v-data-table
     :headers="headers"
     :items="manifest"
     class="px-2"
-    hide-actions
+    item-props
   >
-    <template
-      slot="items"
-      slot-scope="props"
-    >
-      <td class="text-xs-center">
-        {{ version }}
-      </td>
-      <td>
-        <span class="hidden-sm-and-down">{{ application | capitalize }} {{ $t('API') }} </span>{{ props.item.release }}
-      </td>
-      <td>{{ props.item.build }}</td>
-      <td>
-        <date-time
-          v-if="props.item.date"
-          :value="props.item.date"
-          format="mediumDate"
-        />
-      </td>
-      <td>
-        <span class="hidden-sm-and-down">{{ props.item.revision }}</span>
-        <span class="show-md-and-up">{{ props.item.revision.substring(0, 7) }}</span>
-        <a
-          :href="`https://github.com/alerta/alerta/commit/${props.item.revision}`"
-          target="_blank"
-        >
-          <v-tooltip right>
-            {{ $t('OpenGitHub') }}
-            <v-icon
-              slot="activator"
-              small
-            >launch</v-icon>
-          </v-tooltip>
-        </a>
-      </td>
-      <td>
-        <a
-          :href="$config.endpoint"
-          target="_blank"
-        >
-          <span class="monospace">{{ $config.endpoint }}</span>
-        </a>
-        <v-tooltip
-          :key="copyIconText"
-          top
-        >
-          <v-icon
-            slot="activator"
-            small
-            class="px-1"
-            @click="clipboardCopy($config.endpoint)"
+    <!--TODO: This is to remove the "items per page" selection. Maybe find a more elegant solution?-->
+    <template #bottom />
+    <template #item="{item}">
+      <tr>
+        <td class="text-center">
+          {{ version }}
+        </td>
+        <td>
+          <span class="hidden-sm-and-down">{{ this.$filters.capitalize(application) }} {{ $t('API') }} </span>{{ item.props.release }}
+        </td>
+        <td>{{ item.props.build }}</td>
+        <td>
+          <date-time
+            v-if="item.props.date"
+            :value="item.props.date"
+            format="mediumDate"
+          />
+        </td>
+        <td>
+          <span class="hidden-sm-and-down">{{ item.props.revision }}</span>
+          <span class="show-md-and-up">{{ item.props.revision.substring(0, 7) }}</span>
+          <a
+            :href="`https://github.com/alerta/alerta/commit/${item.props.revision}`"
+            target="_blank"
           >
-            content_copy
-          </v-icon>
-          <span>{{ copyIconText }}</span>
-        </v-tooltip>
-      </td>
+            <v-tooltip location="right">
+              <template #activator="{props}">
+                <v-icon
+                  v-bind="props"
+                  size="small"
+                >launch</v-icon>
+              </template>
+              {{ $t('OpenGitHub') }}
+            </v-tooltip>
+          </a>
+        </td>
+        <td>
+          <a
+            :href="$config.endpoint"
+            target="_blank"
+          >
+            <span class="monospace">{{ $config.endpoint }}</span>
+          </a>
+          <v-tooltip
+            :key="copyIconText"
+            location="top"
+          >
+            <template #activator="{props}">
+              <v-icon
+                v-bind="props"
+                size="small"
+                class="px-1"
+                @click="clipboardCopy($config.endpoint)"
+              >
+                content_copy
+              </v-icon>
+            </template>
+            <span>{{ copyIconText }}</span>
+          </v-tooltip>
+        </td>
+      </tr>
     </template>
   </v-data-table>
 </template>
@@ -75,15 +81,15 @@ export default {
   },
   data: () => ({
     headers: [
-      {text: i18n.t('WebUI'), value: 'version', sortable: false},
-      {text: i18n.t('API'), value: 'release', sortable: false},
-      {text: i18n.t('Build'), value: 'build', sortable: false},
-      {text: i18n.t('Date'), value: 'date', sortable: false},
-      {text: i18n.t('GitRevision'), value: 'revision', sortable: false},
-      {text: i18n.t('APIEndpoint'), value: 'endpoint', sortable: false}
+      {title: i18n.global.t('WebUI'), key: 'version', sortable: false},
+      {title: i18n.global.t('API'), key: 'release', sortable: false},
+      {title: i18n.global.t('Build'), key: 'build', sortable: false},
+      {title: i18n.global.t('Date'), key: 'date', sortable: false},
+      {title: i18n.global.t('GitRevision'), key: 'revision', sortable: false},
+      {title: i18n.global.t('APIEndpoint'), key: 'endpoint', sortable: false}
     ],
     manifest: [],
-    copyIconText: i18n.t('Copy')
+    copyIconText: i18n.global.t('Copy')
   }),
   computed: {
     application() {
@@ -110,7 +116,7 @@ export default {
       return this.$store.dispatch('management/getManifest')
     },
     clipboardCopy(text) {
-      this.copyIconText = i18n.t('Copied')
+      this.copyIconText = i18n.global.t('Copied')
       let textarea = document.createElement('textarea')
       textarea.textContent = text
       document.body.appendChild(textarea)
@@ -118,7 +124,7 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(textarea)
       setTimeout(() => {
-        this.copyIconText = i18n.t('Copy')
+        this.copyIconText = i18n.global.t('Copy')
       }, 2000)
     }
   }
