@@ -9,8 +9,8 @@
       v-model="densityDialog"
       max-width="340px"
     >
-      <v-form ref="form">
-        <v-card>
+      <v-card>
+        <v-form ref="form">
           <v-card-title class="justify-center">
             <span class="text-h6">
               {{ $t('ChooseDisplayDensity') }}
@@ -42,8 +42,8 @@
               {{ $t('OK') }}
             </v-btn>
           </v-card-actions>
-        </v-card>
-      </v-form>
+        </v-form>
+      </v-card>
     </v-dialog>
 
     <v-expand-transition>

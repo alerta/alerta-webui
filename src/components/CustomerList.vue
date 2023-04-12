@@ -5,8 +5,8 @@
       v-model="dialog"
       max-width="500px"
     >
-      <v-form ref="form">
-        <v-card>
+      <v-card>
+        <v-form ref="form">
           <v-card-title>
             <span class="text-h5">
               {{ formTitle }}
@@ -67,8 +67,8 @@
               {{ $t('Save') }}
             </v-btn>
           </v-card-actions>
-        </v-card>
-      </v-form>
+        </v-form>
+      </v-card>
     </v-dialog>
 
     <v-card>
