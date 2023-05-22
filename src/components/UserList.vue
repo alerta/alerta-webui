@@ -262,7 +262,7 @@
           class="mr-3 pt-3"
         >
           <v-autocomplete
-            v-model="wantRoles"
+            v-model="roles"
             :items="allowedRoles"
             :label="$t('Roles')"
             chips
@@ -296,11 +296,10 @@
       <v-data-table
         :headers="headers"
         :items="users"
-        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
+        :rows-per-page-items="pagination.rowsPerPageItems"
+        :total-items="pagination.totalItems"
         class="px-2"
-        :search="search"
-        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -440,17 +439,7 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    descending: true,
-    page: 1,
-    rowsPerPageItems: [10, 20, 30, 40, 50],
-    pagination: {
-      sortBy: 'name',
-      rowsPerPage: 20
-    },
-    // totalItems: number,
-    status: ['active', 'inactive'],
     search: '',
-    wantRoles: [],
     dialog: false,
     headers: [
       { text: i18n.t('Name'), value: 'name' },
@@ -525,6 +514,30 @@ export default {
     },
     refresh() {
       return this.$store.state.refresh
+    },
+    pagination: {
+      get() {
+        return this.$store.state.users.pagination
+      },
+      set(value) {
+        this.$store.dispatch('users/setPagination', value)
+      }
+    },
+    status: {
+      get() {
+        return this.$store.state.users.filter.status
+      },
+      set(value) {
+        this.$store.dispatch('users/setFilter', {status: value})
+      }
+    },
+    roles: {
+      get() {
+        return this.$store.state.users.filter.roles
+      },
+      set(value) {
+        this.$store.dispatch('users/setFilter', {roles: value})
+      }
     }
   },
   watch: {
@@ -558,10 +571,6 @@ export default {
       this.wantRoles = roles
     },
     customFilter(items, search, filter) {
-      items = items.filter(item =>
-        this.wantRoles.length > 0 ? item.roles.some(x => this.wantRoles.includes(x)) : item
-      )
-
       if (search.trim() === '') return items
 
       return items.filter(i => (

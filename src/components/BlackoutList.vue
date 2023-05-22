@@ -279,10 +279,10 @@
       <v-data-table
         :headers="computedHeaders"
         :items="blackouts"
-        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
+        :rows-per-page-items="pagination.rowsPerPageItems"
+        :total-items="pagination.totalItems"
         class="px-2"
-        :search="search"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -481,15 +481,6 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    descending: true,
-    page: 1,
-    rowsPerPageItems: [10, 20, 30, 40, 50],
-    pagination: {
-      sortBy: 'startTime',
-      rowsPerPage: 20
-    },
-    // totalItems: number,
-    status: ['active', 'pending', 'expired'],
     search: '',
     dialog: false,
     headers: [
@@ -555,7 +546,7 @@ export default {
   computed: {
     blackouts() {
       return this.$store.state.blackouts.blackouts
-        .filter(b => !this.status || this.status.includes(b.status))
+        .filter(b => Object.keys(b).some(k => b[k] && b[k].toString().toLowerCase().includes(this.search.toLowerCase())))
         .map(b => {
           let s = moment(b.startTime)
           let e = moment(b.endTime)
@@ -613,6 +604,22 @@ export default {
     },
     refresh() {
       return this.$store.state.refresh
+    },
+    pagination: {
+      get() {
+        return this.$store.state.blackouts.pagination
+      },
+      set(value) {
+        this.$store.dispatch('blackouts/setPagination', value)
+      }
+    },
+    status: {
+      get() {
+        return this.$store.state.blackouts.filter.status
+      },
+      set(value) {
+        this.$store.dispatch('blackouts/setFilter', {status: value})
+      }
     }
   },
   watch: {
