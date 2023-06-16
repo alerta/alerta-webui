@@ -12,7 +12,7 @@
               sm6
               md9
             >
-              <span class="headline" >
+              <span class="headline">
                 {{ formTitle }}
               </span>
             </v-flex>
@@ -327,28 +327,27 @@
           multiple
         >
           <v-btn
-            value="active"
+            value="true"
+            flat
+          >
+            <v-tooltip bottom>
+              <v-icon slot="activator">
+                notifications
+              </v-icon>
+              <span>{{ $t('Active') }}</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn
+            value="false"
             flat
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
                 notifications_paused
               </v-icon>
-              <span>{{ $t('Active') }}</span>
-            </v-tooltip>
-          </v-btn>
-          <v-btn
-            value="deactivated"
-            flat
-          >
-            <v-tooltip bottom>
-              <v-icon slot="activator">
-                schedule
-              </v-icon>
               <span>{{ $t('Deactivated') }}</span>
             </v-tooltip>
           </v-btn>
-          
         </v-btn-toggle>
         <v-spacer />
         <v-text-field
@@ -366,6 +365,7 @@
         :pagination.sync="pagination"
         :total-items="pagination.totalItems"
         :rows-per-page-items="pagination.rowsPerPageItems"
+        :search="search"
         class="px-2"
         :loading="isLoading"
         must-sort
@@ -375,6 +375,21 @@
           slot="items"
           slot-scope="props"
         >
+          <td>
+            <v-btn
+              v-has-perms.disable="'write:notification_rules'"
+              icon
+              class="btn--plain mx-0"
+              @click="changeState(props.item)"
+            >
+              <v-icon
+                small
+                :color="props.item.active ? 'green': 'red'"
+              >
+                {{ props.item.active ? "check_circle": "cancel" }}
+              </v-icon>
+            </v-btn>
+          </td>
           <td v-if="$config.customer_views">
             {{ props.item.customer }}
           </td>
@@ -382,7 +397,7 @@
           <td>{{ props.item.channelId }}</td>
           <td>
             <v-chip
-              v-for="number in props.item.receivers"
+              v-for="number in [...props.item.receivers, ...users.filter(b => props.item.userIds.includes(b.id)).map(b => b.name), ...groups.filter(b => props.item.groupIds.includes(b.id)).map(b => b.name)]"
               :key="number"
               outline
               small
@@ -441,27 +456,6 @@
                 label
               </v-icon>{{ tag }}
             </v-chip>
-          </td>
-          <td class="text-xs-right">
-            <v-tooltip top>
-              {{ props.item.status | capitalize }}
-              <v-icon
-                v-if="props.item.status == 'active'"
-                slot="activator"
-                color="primary"
-                small
-              >
-                accept
-              </v-icon>
-
-              <v-icon
-                v-if="props.item.status == 'deactivated'"
-                slot="activator"
-                small
-              >
-                block
-              </v-icon>
-            </v-tooltip>
           </td>
           <td class="text-xs-left">
             {{ props.item.user }}
@@ -548,16 +542,17 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    status: ['active', 'deactivated'],
+    status: ['true', 'false'],
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     search: '',
     dialog: false,
     headers: [
+      { text: i18n.t('Acitve'), value: 'active' },
       { text: i18n.t('Customer'), value: 'customer' },
       { text: i18n.t('Environment'), value: 'environment' },
       { text: i18n.t('Channel'), value: 'channel' },
       { text: i18n.t('Receivers'), value: 'receivers' },
-      { text: i18n.t('OnCallOrNot'), value: 'useOnCall' },
+      { text: i18n.t('OnCall'), value: 'useOnCall' },
       { text: i18n.t('Severity'), value: 'severity' },
       { text: i18n.t('Days'), value: 'days' },
       { text: i18n.t('Start'), value: 'startTime' },
@@ -567,7 +562,6 @@ export default {
       { text: i18n.t('Event'), value: 'event' },
       { text: i18n.t('Group'), value: 'group' },
       { text: i18n.t('Tags'), value: 'tags' },
-      { text: '', value: 'status' },
       { text: i18n.t('User'), value: 'user' },
       { text: 'Text', value: 'text' },
       { text: i18n.t('Actions'), value: 'name', sortable: false }
@@ -634,13 +628,7 @@ export default {
   computed: {
     notification_rules() {
       return this.$store.state.notificationRules.notification_rules
-        .filter(b =>
-          this.search
-            ? Object.keys(b).some(
-              k => b[k] && b[k].toString().includes(this.search)
-            )
-            : true
-        )
+        .filter(b => !this.status  || this.status.includes(String(b.active)))
         .map(b => {
           let period = {
             startTime: '',
@@ -834,6 +822,14 @@ export default {
         this.$refs.form.resetValidation()
         this.save()
       }
+    },
+    changeState(item) {
+      this.$store.dispatch('notificationRules/updateNotificationRule', [
+        item.id,
+        {
+          active: !item.active,
+        }
+      ])
     },
     save() {
       let sTimeStr = null
