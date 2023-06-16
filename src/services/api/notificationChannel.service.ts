@@ -21,5 +21,8 @@ export default {
   },
   deleteNotificationChannel(id: string) {
     return api.delete(`/notificationchannels/${id}`)
+  },
+  testNotificationChannel(id: string, data: object) {
+    return api.post(`/notificationchannels/${id}/test`, data)
   }
 }

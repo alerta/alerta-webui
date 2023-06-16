@@ -150,20 +150,99 @@
         </v-card>
       </v-form>
     </v-dialog>
+    <v-dialog
+      v-model="testDialog"
+      max-width="540px"
+    >
+      <v-form ref="form">
+        <v-card>
+          <v-card-title>
+            <span class="headline">
+              TestNotificationChannel
+            </span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="testedItem.text"
+                    :label="$t('message')"
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs12
+                  sm6
+                  md9
+                >
+                  <v-combobox
+                    v-model="testedItem.receivers"
+                    :label="$t('Receivers')"
+                    multiple
+                    chips
+                  />
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-select
+                    v-model="testedItem.userIds"
+                    :items="users"
+                    item-text="name"
+                    item-value="id"
+                    :label="$t('Users')"
+                    chips
+                    multiple
+                  />
+                </v-flex>
+
+                <v-flex xs12>
+                  <v-select
+                    v-model="testedItem.groupIds"
+                    :items="groups"
+                    item-text="name"
+                    item-value="id"
+                    :label="$t('Groups')"
+                    chips
+                    multiple
+                  />
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="closeTest"
+            >
+              {{ $t('Cancel') }}
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="test"
+            >
+              {{ $t('Test') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
 
     <v-card>
       <v-card-title class="title">
         {{ $t('notificationChannels') }}
         <v-spacer />
         <v-tooltip bottom>
-          <v-template slot="activator">
+          <template slot="activator">
             <v-btn @click="copyEncryptionKey">
               Get New Encryption Key
-              <!-- <v-icon slot="activator">
-                notifications_paused
-              </v-icon> -->
             </v-btn>
-          </v-template>
+          </template>
           <span>{{
             $t('Genereates New Encryption Key And Copies It To Clipboard')
           }}</span>
@@ -207,10 +286,22 @@
           <td>{{ props.item.sender }}</td>
           <td>{{ props.item.type }}</td>
           <td>{{ props.item.host }}</td>
-          <td>{{ props.item.platformId }}</td>
-          <td>{{ props.item.platformPartnerId }}</td>
+          <td>{{ props.item.verify }}</td>
 
           <td class="text-no-wrap">
+            <v-btn
+              v-has-perms.disable="'write:notification_channels'"
+              icon
+              class="btn--plain mr-0"
+              @click="testItem(props.item)"
+            >
+              <v-icon
+                small
+                color="grey darken-3"
+              >
+                {{props.item.type == "sendgrid" || props.item.type == "smtp" ? "mail": "sms"}}
+              </v-icon>
+            </v-btn>
             <v-btn
               v-has-perms.disable="'write:notification_channels'"
               icon
@@ -299,13 +390,31 @@ export default {
     ],
     search: '',
     dialog: false,
+    testDialog: false,
     headers: [
       { text: i18n.t('Customer'), value: 'customer' },
       { text: i18n.t('Id'), value: 'id' },
       { text: i18n.t('Sender'), value: 'sender' },
       { text: i18n.t('Type'), value: 'type' },
+      { text: i18n.t('Host'), value: 'type' },
+      { text: i18n.t('Verify'), value: 'type' },
       { text: i18n.t('Actions'), value: 'name', sortable: false }
     ],
+    testId: null,
+    testedItem: {
+      receivers: [],
+      userIds: [],
+      groupIds: [],
+      useOnCall: false,
+      text: '',
+    },
+    defaultTestItem: {
+      receivers: [],
+      userIds: [],
+      groupIds: [],
+      useOnCall: false,
+      text: '',
+    },
     editedId: null,
     editedItem: {
       customer: null,
@@ -359,6 +468,12 @@ export default {
         this.$store.dispatch('notificationChannels/setPagination', value)
       }
     },
+    users() {
+      return this.$store.state.users.users
+    },
+    groups() {
+      return this.$store.state.groups.groups
+    },
     computedHeaders() {
       return this.headers.filter(h =>
         !this.$config.customer_views ? h.value != 'customer' : true
@@ -382,6 +497,9 @@ export default {
   watch: {
     dialog(val) {
       val || this.close()
+    },
+    testDialog(val) {
+      val || this.closeTest()
     },
     refresh(val) {
       if (!val) return
@@ -421,8 +539,11 @@ export default {
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
-      console.log(item)
       this.dialog = true
+    },
+    testItem(item) {
+      this.testId = item.id
+      this.testDialog = true
     },
     copyItem(item) {
       this.editedItem = Object.assign({}, item)
@@ -443,6 +564,14 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedId = null
       }, 300)
+    },
+    closeTest() {
+      this.testDialog = false
+      this.testedItem = Object.assign({}, this.defaultTest)
+    },
+    test() {
+      console.log(this.testedItem, this.testId)
+      this.$store.dispatch('notificationChannels/testNotificationChannel', [this.testId, this.testedItem])
     },
     validate() {
       if (this.$refs.form.validate()) {

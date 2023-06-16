@@ -78,6 +78,9 @@ const actions = {
   },
   setPagination({ commit }, pagination) {
     commit('SET_PAGINATION', pagination)
+  },
+  testNotificationChannel({ dispatch, commit }, [notificationChannelId, data]) {
+    return NotificationChannelApi.testNotificationChannel(notificationChannelId, data)  
   }
 }
 
