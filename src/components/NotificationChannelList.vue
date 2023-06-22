@@ -299,7 +299,7 @@
                 small
                 color="grey darken-3"
               >
-                {{props.item.type == "sendgrid" || props.item.type == "smtp" ? "mail": "sms"}}
+                {{ props.item.type == "sendgrid" || props.item.type == "smtp" ? "mail": "sms" }}
               </v-icon>
             </v-btn>
             <v-btn
@@ -570,7 +570,6 @@ export default {
       this.testedItem = Object.assign({}, this.defaultTest)
     },
     test() {
-      console.log(this.testedItem, this.testId)
       this.$store.dispatch('notificationChannels/testNotificationChannel', [this.testId, this.testedItem])
     },
     validate() {
