@@ -660,7 +660,7 @@ export default {
               text:
                 b.text === null
                   ? ''
-                  : b.text.replace(/%\(([\w\.]*)\)s/g, '{$1}')
+                  : b.text.replace(/%\(([\w\[\]\. ]*)\)s/g, '{$1}')
             }
           )
         })
@@ -873,7 +873,7 @@ export default {
             tags: this.editedItem.tags,
             startTime: sTimeStr,
             endTime: eTimeStr,
-            text: this.editedItem.text.replace(/\{([\w\.]*)\}/g, '%($1)s'),
+            text: this.editedItem.text.replace(/\{([\w\[\]\. ]*)\}/g, '%($1)s'),
             days: this.editedItem.days,
             severity: this.editedItem.severity,
             channelId: this.editedItem.channelId,
@@ -888,7 +888,7 @@ export default {
             id: null,
             startTime: sTimeStr,
             endTime: eTimeStr,
-            text: this.editedItem.text.replace(/\{(\w*)\}/g, '%($1)s')
+            text: this.editedItem.text.replace(/\{([\w\[\]\. ]*)\}/g, '%($1)s')
           })
         )
       }
