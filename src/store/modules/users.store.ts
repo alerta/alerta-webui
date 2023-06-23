@@ -80,7 +80,9 @@ const actions = {
 }
 
 const getters = {
-  countryCodes: state => {return state.countryCodes}
+  countryCodes: state => {
+    return state.countryCodes
+  }
 }
 
 export default {

@@ -35,7 +35,7 @@ const mutations = {
 }
 
 const actions = {
-  getNotificationRules({ commit, state }) {
+  getNotificationRules({commit, state}) {
     commit('SET_LOADING')
 
     let params = new URLSearchParams(state.query)
@@ -48,28 +48,27 @@ const actions = {
     params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
 
     return NotificationRuleApi.getNotificationRules(params)
-      .then(({ notificationRules, total, pageSize }) => commit('SET_NOTIFICATION_RULE', [notificationRules, total, pageSize]))
+      .then(({notificationRules, total, pageSize}) =>
+        commit('SET_NOTIFICATION_RULE', [notificationRules, total, pageSize])
+      )
       .catch(() => commit('RESET_LOADING'))
   },
-  createNotificationRule({ dispatch, commit }, notificationrule) {
-    return NotificationRuleApi.createNotificationRule(notificationrule)
-      .then(response => {
-        dispatch('getNotificationRules')
-      })
+  createNotificationRule({dispatch, commit}, notificationrule) {
+    return NotificationRuleApi.createNotificationRule(notificationrule).then(response => {
+      dispatch('getNotificationRules')
+    })
   },
-  updateNotificationRule({ dispatch, commit }, [notificationRuleId, update]) {
-    return NotificationRuleApi.updateNotificationRule(notificationRuleId, update)
-      .then(response => {
-        dispatch('getNotificationRules')
-      })
+  updateNotificationRule({dispatch, commit}, [notificationRuleId, update]) {
+    return NotificationRuleApi.updateNotificationRule(notificationRuleId, update).then(response => {
+      dispatch('getNotificationRules')
+    })
   },
-  deleteNotificationRule({ dispatch, commit }, notificationRuleId) {
-    return NotificationRuleApi.deleteNotificationRule(notificationRuleId)
-      .then(response => {
-        dispatch('getNotificationRules')
-      })
+  deleteNotificationRule({dispatch, commit}, notificationRuleId) {
+    return NotificationRuleApi.deleteNotificationRule(notificationRuleId).then(response => {
+      dispatch('getNotificationRules')
+    })
   },
-  setPagination({ commit }, pagination) {
+  setPagination({commit}, pagination) {
     commit('SET_PAGINATION', pagination)
   }
 }

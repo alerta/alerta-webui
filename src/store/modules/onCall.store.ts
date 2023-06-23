@@ -35,7 +35,7 @@ const mutations = {
 }
 
 const actions = {
-  getOnCalls({ commit, state }) {
+  getOnCalls({commit, state}) {
     commit('SET_LOADING')
 
     let params = new URLSearchParams(state.query)
@@ -45,33 +45,28 @@ const actions = {
     params.append('page-size', state.pagination.rowsPerPage)
 
     // add server-side sort
-    params.append(
-      'sort-by',
-      (state.pagination.descending ? '-' : '') + state.pagination.sortBy
-    )
+    params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
 
     return OnCallApi.getOnCalls(params)
-      .then(({ onCalls, total, pageSize }) =>
-        commit('SET_ON_CALL', [onCalls, total, pageSize])
-      )
+      .then(({onCalls, total, pageSize}) => commit('SET_ON_CALL', [onCalls, total, pageSize]))
       .catch(() => commit('RESET_LOADING'))
   },
-  createOnCall({ dispatch, commit }, notificationrule) {
+  createOnCall({dispatch, commit}, notificationrule) {
     return OnCallApi.createOnCall(notificationrule).then(response => {
       dispatch('getOnCalls')
     })
   },
-  updateOnCall({ dispatch, commit }, [onCallId, update]) {
+  updateOnCall({dispatch, commit}, [onCallId, update]) {
     return OnCallApi.updateOnCall(onCallId, update).then(response => {
       dispatch('getOnCalls')
     })
   },
-  deleteOnCall({ dispatch, commit }, onCallId) {
+  deleteOnCall({dispatch, commit}, onCallId) {
     return OnCallApi.deleteOnCall(onCallId).then(response => {
       dispatch('getOnCalls')
     })
   },
-  setPagination({ commit }, pagination) {
+  setPagination({commit}, pagination) {
     commit('SET_PAGINATION', pagination)
   }
 }

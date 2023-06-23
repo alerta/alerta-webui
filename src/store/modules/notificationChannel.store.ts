@@ -39,10 +39,10 @@ const mutations = {
 }
 
 const actions = {
-  getEncryptionKey({ commit, state }){
-    return NotificationChannelApi.getEncryptionKey().then(({key})=>commit('SET_ENCRYPTION_KEY', key))
+  getEncryptionKey({commit, state}) {
+    return NotificationChannelApi.getEncryptionKey().then(({key}) => commit('SET_ENCRYPTION_KEY', key))
   },
-  getNotificationChannels({ commit, state }) {
+  getNotificationChannels({commit, state}) {
     commit('SET_LOADING')
 
     let params = new URLSearchParams(state.query)
@@ -55,32 +55,31 @@ const actions = {
     params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
 
     return NotificationChannelApi.getNotificationChannels(params)
-      .then(({ notificationChannels: notificationChannels, total, pageSize }) => commit('SET_NOTIFICATION_CHANNEL', [notificationChannels, total, pageSize]))
+      .then(({notificationChannels: notificationChannels, total, pageSize}) =>
+        commit('SET_NOTIFICATION_CHANNEL', [notificationChannels, total, pageSize])
+      )
       .catch(() => commit('RESET_LOADING'))
   },
-  createNotificationChannel({ dispatch, commit }, notificationchannel) {
-    return NotificationChannelApi.createNotificationChannel(notificationchannel)
-      .then(response => {
-        dispatch('getNotificationChannels')
-      })
+  createNotificationChannel({dispatch, commit}, notificationchannel) {
+    return NotificationChannelApi.createNotificationChannel(notificationchannel).then(response => {
+      dispatch('getNotificationChannels')
+    })
   },
-  updateNotificationChannel({ dispatch, commit }, [notificationChannelId, update]) {
-    return NotificationChannelApi.updateNotificationChannel(notificationChannelId, update)
-      .then(response => {
-        dispatch('getNotificationChannels')
-      })
+  updateNotificationChannel({dispatch, commit}, [notificationChannelId, update]) {
+    return NotificationChannelApi.updateNotificationChannel(notificationChannelId, update).then(response => {
+      dispatch('getNotificationChannels')
+    })
   },
-  deleteNotificationChannel({ dispatch, commit }, notificationChannelId) {
-    return NotificationChannelApi.deleteNotificationChannel(notificationChannelId)
-      .then(response => {
-        dispatch('getNotificationChannels')
-      })
+  deleteNotificationChannel({dispatch, commit}, notificationChannelId) {
+    return NotificationChannelApi.deleteNotificationChannel(notificationChannelId).then(response => {
+      dispatch('getNotificationChannels')
+    })
   },
-  setPagination({ commit }, pagination) {
+  setPagination({commit}, pagination) {
     commit('SET_PAGINATION', pagination)
   },
-  testNotificationChannel({ dispatch, commit }, [notificationChannelId, data]) {
-    return NotificationChannelApi.testNotificationChannel(notificationChannelId, data)  
+  testNotificationChannel({dispatch, commit}, [notificationChannelId, data]) {
+    return NotificationChannelApi.testNotificationChannel(notificationChannelId, data)
   }
 }
 
@@ -89,7 +88,9 @@ const getters = {
     return state.pagination
   },
   ids: state => {
-    return state.notification_channels.map(channel => {return channel.id})
+    return state.notification_channels.map(channel => {
+      return channel.id
+    })
   }
 }
 
