@@ -7,6 +7,8 @@ const state = {
 
   blackouts: [],
 
+  query: '',
+
   filter: {
     status: ['active', 'pending', 'expired']
   },
@@ -33,6 +35,9 @@ const mutations = {
   SET_PAGINATION(state, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
   },
+  SET_QUERY(state, query) {
+    state.query = query
+  },
   SET_FILTER(state, filter) {
     state.filter = Object.assign({}, state.filter, filter)
   },
@@ -46,6 +51,8 @@ const actions = {
     commit('SET_LOADING')
 
     let params = new URLSearchParams()
+
+    params.append('q', state.query)
 
     state.filter.status.map(st => params.append('status', st))
 
@@ -75,6 +82,10 @@ const actions = {
   },
   setPagination({dispatch, commit}, pagination) {
     commit('SET_PAGINATION', pagination)
+    dispatch('getBlackouts')
+  },
+  setQuery({dispatch, commit}, query) {
+    commit('SET_QUERY', query)
     dispatch('getBlackouts')
   },
   setFilterStatus({dispatch, commit}, filter) {

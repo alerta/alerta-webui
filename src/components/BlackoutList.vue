@@ -481,7 +481,6 @@ export default {
     ListButtonAdd
   },
   data: vm => ({
-    search: '',
     dialog: false,
     headers: [
       { text: '', value: 'icons' },
@@ -546,7 +545,6 @@ export default {
   computed: {
     blackouts() {
       return this.$store.state.blackouts.blackouts
-        .filter(b => Object.keys(b).some(k => b[k] && b[k].toString().toLowerCase().includes(this.search.toLowerCase())))
         .map(b => {
           let s = moment(b.startTime)
           let e = moment(b.endTime)
@@ -619,6 +617,14 @@ export default {
       },
       set(value) {
         this.$store.dispatch('blackouts/setFilter', {status: value})
+      }
+    },
+    search: {
+      get() {
+        return this.$store.state.blackouts.query
+      },
+      set(value) {
+        this.$store.dispatch('blackouts/setQuery', value)
       }
     }
   },
