@@ -11,7 +11,7 @@ export default ({ mode }) => {
   }
 
   const port = import.meta.env.VITE_PORT || 3000
-  const shouldUseHttps = import.meta.env.VITE_HTTPS.toLowerCase() === 'true'
+  const shouldUseHttps = !!import.meta.env.VITE_HTTPS
 
   return defineConfig({
     plugins: [vue(), loadVersion()],
