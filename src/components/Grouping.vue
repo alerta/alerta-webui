@@ -54,6 +54,18 @@
           v-model="incident.tags"
           :disabled="!incident.title"
         />
+        <v-autocomplete
+          v-if="isCreating"
+          label="Owner"
+          v-model="incident.ownerId"
+          :items="users"
+          item-text="name"
+          item-value="id"
+          hide-details
+          class="flex-grow-0"
+          :loading="$store.state.users.loading"
+          @focus="getUsers"
+        />
 
         <pre v-if="isDev" class="caption">{{
           JSON.stringify(incident, null, 2)
@@ -126,10 +138,13 @@ export default Vue.extend({
   },
   computed: {
     isCreating() {
-      return this.incident?.id === undefined
+      return 'id' in this.incident && this.incident.id === undefined
     },
     isDev() {
       return import.meta.env.DEV
+    },
+    users() {
+      return this.$store.state.users.users
     }
   },
   watch: {
@@ -148,10 +163,18 @@ export default Vue.extend({
       // @ts-ignore
       this.$refs.combobox?.blur()
 
-      this.incident = { id: undefined, title: item }
+      this.incident = {
+        id: undefined,
+        title: item,
+        ownerId: this.$store.getters['auth/getId']
+      }
       this.created.push(this.incident)
 
       return true
+    },
+    getUsers() {
+      if (!this.$store.state.users.users?.length)
+        this.$store.dispatch('users/getUsers')
     },
     submit() {
       if (!this.incident) return

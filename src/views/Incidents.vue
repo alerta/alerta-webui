@@ -107,6 +107,20 @@
               :items="severities"
               :menu-props="{ offsetY: true }"
             />
+
+            <v-autocomplete
+              label="Owner"
+              v-model="newIncident.ownerId"
+              :items="users"
+              item-text="name"
+              item-value="id"
+              hide-details
+              outlined
+              dense
+              class="flex-grow-0"
+              :loading="$store.state.users.loading"
+              @focus="getUsers"
+            />
           </v-form>
         </v-card-text>
         <v-divider />
@@ -141,7 +155,7 @@
             dense
             multiple
             class="flex-grow-0"
-            :loading="this.$store.state.users.loading"
+            :loading="$store.state.users.loading"
             @focus="getUsers"
           />
           <v-btn
@@ -428,6 +442,9 @@ export default Vue.extend({
 
     this.cancelTimer()
     this.refreshIncidents()
+    this.newIncident = {
+      ownerId: this.$store.getters['auth/getId']
+    }
   },
   beforeDestroy() {
     this.cancelTimer()
@@ -544,7 +561,9 @@ export default Vue.extend({
         .then(() => {
           this.addIncidentDialog = false
           this.$store.dispatch('notifications/success', 'Incident created')
-          this.newIncident = {}
+          this.newIncident = {
+            ownerId: this.$store.getters['auth/getId']
+          }
           this.getIncidents()
         })
     },
