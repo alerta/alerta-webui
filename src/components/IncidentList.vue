@@ -58,17 +58,6 @@
           {{ $tc('AlertsCnt', incident.alerts.length) }}
         </span>
         <div class="d-flex align-center ellipsize">
-          <v-avatar size="24" class="mr-1">
-            <img
-              v-if="incident.owner.avatar"
-              :src="incident.owner.avatar"
-              @error="error = true"
-            />
-            <v-icon v-else size="20" color="grey lighten-2">
-              mdi-account-circle
-            </v-icon>
-          </v-avatar>
-
           <span class="ellipsize">
             {{ incident.owner.name }}
           </span>
@@ -183,9 +172,9 @@
 </template>
 
 <script lang="ts">
-import { IIncidents } from '@/store/interfaces'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import DateFormat from '@/components/lib/DateFormat.vue'
+import { IIncidents } from '@/store/interfaces'
 import { debounce } from 'lodash'
 import Vue, { PropType } from 'vue'
 import { DataTableHeader } from 'vuetify'

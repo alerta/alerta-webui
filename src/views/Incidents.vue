@@ -119,7 +119,6 @@
               dense
               class="flex-grow-0"
               :loading="$store.state.users.loading"
-              @focus="getUsers"
             />
           </v-form>
         </v-card-text>
@@ -401,6 +400,7 @@ export default Vue.extend({
       this.setPage(1)
     },
     addIncidentDialog(val) {
+      if (val) this.getUsers()
       if (val && !this.alerts?.length) this.$store.dispatch('alerts/getAlerts')
     },
     pagination: {

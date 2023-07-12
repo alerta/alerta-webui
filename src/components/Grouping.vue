@@ -64,7 +64,6 @@
           hide-details
           class="flex-grow-0"
           :loading="$store.state.users.loading"
-          @focus="getUsers"
         />
 
         <pre v-if="isDev" class="caption">{{
@@ -149,7 +148,7 @@ export default Vue.extend({
   },
   watch: {
     dialog() {
-      if (this.dialog) return
+      if (this.dialog) return this.getUsers()
       this.search = ''
       this.incident = {}
     }
