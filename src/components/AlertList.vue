@@ -20,7 +20,7 @@
         slot-scope="props"
       >
         <tr
-          :style="{ 'background-color': severityColor(props.item.severity) }"
+          :style="{ 'background-color': severityColor(props.item.severity, props.item.status) }"
           class="hover-lighten"
           @click="selectItem(props.item)"
         >
@@ -284,7 +284,7 @@
           >
             <div
               class="action-buttons"
-              :style="{ 'background-color': severityColor(props.item.severity) }"
+              :style="{ 'background-color': severityColor(props.item.severity, props.item.status) }"
             >
               ...&nbsp;
               <v-btn
@@ -637,8 +637,9 @@ export default {
         ? `${this.$store.getters.getConfig('colors').text}--text`
         : ''
     },
-    severityColor(severity) {
-      return this.$store.getters.getConfig('colors').severity[severity] || 'white'
+    severityColor(severity, status) {
+      const config = this.$store.getters.getConfig('colors')
+      return (config.status || {})[status] || config.severity[severity] || 'white'
     },
     selectItem(item) {
       if (!this.selected.length) {
@@ -646,7 +647,7 @@ export default {
       }
     },
     isOpen(status) {
-      return status == 'open' || status == 'NORM' || status == 'UNACK' || status == 'RTNUN'
+      return status == 'open' || status == 'unack' || status == 'NORM' || status == 'UNACK' || status == 'RTNUN'
     },
     isWatched(tags) {
       return tags ? tags.indexOf(`watch:${this.username}`) > -1 : false
