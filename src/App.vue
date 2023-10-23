@@ -536,6 +536,13 @@ export default {
           show: true
         },
         {
+          icon: 'arrow_upward',
+          text: i18n.t('EscalationRules'),
+          path: '/escalationrules',
+          perms: 'read:escalation_rules',
+          show: true
+        },
+        {
           icon: 'expand_less',
           'icon-alt': 'expand_more',
           text: i18n.t('Searches'),

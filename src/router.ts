@@ -4,6 +4,7 @@ import VueRouter, {RouterOptions} from 'vue-router'
 import {store} from '@/main'
 
 import Alerts from './views/Alerts.vue'
+import History from './views/History.vue'
 import Alert from './views/Alert.vue'
 
 Vue.use(VueRouter)
@@ -66,6 +67,12 @@ export function createRouter(basePath): VueRouter {
         name: 'notificationrules',
         component: () => import(/* webpackChunkName: 'user' */ './views/NotificationRule.vue'),
         meta: {title: 'NotificationRules', requiresAuth: true}
+      },
+      {
+        path: '/escalationrules',
+        name: 'escalationrules',
+        component: () => import(/* webpackChunkName: 'user' */ './views/EscalationRule.vue'),
+        meta: {title: 'EscalationRules', requiresAuth: true}
       },
       {
         path: '/notificationchannels',
