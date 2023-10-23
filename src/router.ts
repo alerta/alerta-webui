@@ -26,6 +26,17 @@ export function createRouter(basePath): VueRouter {
         meta: {title: 'Alerts', requiresAuth: true}
       },
       {
+        path: '/history',
+        name: 'history',
+        component: History,
+        props: route => ({
+          query: route.query,
+          isKiosk: route.query.kiosk,
+          hash: route.hash
+        }),
+        meta: {title: 'History', requiresAuth: true}
+      },
+      {
         path: '/alert/:id',
         name: 'alert',
         component: Alert,

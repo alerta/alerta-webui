@@ -536,6 +536,13 @@ export default {
           show: true
         },
         {
+          icon: 'list',
+          text: i18n.t('History'),
+          path: '/history',
+          perms: 'read:alerts',
+          show: true
+        },
+        {
           icon: 'arrow_upward',
           text: i18n.t('EscalationRules'),
           path: '/escalationrules',

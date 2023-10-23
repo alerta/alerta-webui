@@ -10,6 +10,7 @@ const state = {
   isSearching: false,
 
   alerts: [],
+  history: [],
   selected: [], // used by multi-select checkboxes
   environments: [],
   services: [],
@@ -27,6 +28,9 @@ const state = {
 
   // query, filter and pagination
   query: {}, // URLSearchParams
+  historyFilter:{
+    environment: null,
+  },
   filter: {
     // local defaults
     environment: null,
@@ -43,7 +47,8 @@ const state = {
     rowsPerPage: 20,
     sortBy: 'default',
     descending: false,
-    rowsPerPageItems: [5, 10, 20, 50, 100, 200]
+    rowsPerPageItems: [5, 10, 20, 50, 100, 200],
+    rowsPerPageHistoryItems: [20, 50, 100, 200, {text:'All', value: -1}]
   }
 }
 
@@ -61,6 +66,11 @@ const mutations = {
     state.alerts = alerts
     state.pagination.totalItems = total
     state.pagination.rowsPerPage = pageSize
+  },
+  SET_HISTORY(state, [history, total]): any {
+    state.history = history
+    state.pagination.totalHistoryItems = total
+
   },
   RESET_LOADING(state): any {
     state.isLoading = false
@@ -95,6 +105,9 @@ const mutations = {
   },
   SET_FILTER(state, filter): any {
     state.filter = Object.assign({}, state.filter, filter)
+  },
+  SET_HISTORY_FILTER(state, filter): any {
+    state.historyFilter = Object.assign({}, state.historyFilter, filter)
   },
   SET_PAGINATION(state, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
@@ -165,6 +178,22 @@ const actions = {
     return AlertsApi.getAlerts(params)
       .then(({alerts, total, pageSize}) => commit('SET_ALERTS', [alerts, total, pageSize]))
       .catch(() => commit('RESET_LOADING'))
+  },
+
+  getAlertHistory({commit, state}) {
+    let params = new URLSearchParams(state.query)
+
+    state.historyFilter.environment && params.append('environment', state.filter.environment)
+
+
+    params.append('page', state.pagination.page)
+    params.append('page-size', '1000')
+
+    return AlertsApi.getAlertHistory(params)
+    .then(({history, total}) => commit('SET_HISTORY', [history, total]))
+  },
+  setHistoryFilter({commit}, filter) {
+    commit('SET_FILTER', filter)
   },
   updateQuery({commit}, query) {
     commit('SET_SEARCH_QUERY', query)
@@ -304,6 +333,9 @@ const getters = {
     } else {
       return state.alerts
     }
+  },
+  history: (state, getters, rootState) => {
+      return state.history
   },
   environments:
     (state, getters, rootState) =>
