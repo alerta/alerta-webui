@@ -24,6 +24,7 @@
           label="Incident"
           item-text="title"
           item-value="id"
+          aria-required
           @input="onInput"
           ref="combobox"
         >
@@ -53,6 +54,13 @@
           label="Tags"
           v-model="incident.tags"
           :disabled="!incident.title"
+        />
+        <v-text-field 
+          v-if="isCreating"
+          label="External ID"
+          hint="ID of an external object (e.g. Netbox Circuit ID)"
+          persistent-hint
+          v-model="incident.externalId"
         />
         <v-autocomplete
           v-if="isCreating"

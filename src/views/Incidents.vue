@@ -104,8 +104,19 @@
               outlined
               dense
               v-model="newIncident.severity"
+              hide-details
+              class="mb-3"
               :items="severities"
               :menu-props="{ offsetY: true }"
+            />
+
+            <v-text-field 
+              label="External ID"
+              outlined
+              dense
+              hide-details
+              class="mb-3"
+              v-model="newIncident.externalId"
             />
 
             <v-autocomplete
