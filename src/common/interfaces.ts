@@ -27,6 +27,7 @@ export interface IIncident {
   tags: string[]
   createTime: number
   timeout: number
+  externalId?: string
   customer?: string
   snoozeMessage?: string
   previousSeverity: string
@@ -35,6 +36,7 @@ export interface IIncident {
   history: any[]
 
   alerts: string[] // alert ids
+  lastReceiveTime?: string
 
   owner?: IUser
 }

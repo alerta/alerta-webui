@@ -113,7 +113,7 @@
             icon
             v-has-perms="'write:alerts'"
             plain
-            @click="deleteIncident(incident.id)"
+            @click="deleteIncident()"
           >
             <v-icon size="20px">mdi-delete</v-icon>
           </v-btn>
@@ -275,7 +275,7 @@
     <v-dialog v-model="assignDialog" max-width="500">
       <v-card>
         <v-card-title>{{ $t('Reassign') }}</v-card-title>
-        <v-card-subtitle>
+        <v-card-subtitle v-if="incident.owner">
           Currently assigned to: {{ incident.owner.name }}
         </v-card-subtitle>
 
@@ -358,15 +358,10 @@
               <span>
                 {{ incident.title }}
               </span>
-              <div class="flex-shrink-0">
+              <div class="flex-shrink-0" v-if="incident.owner">
                 <span class="subtitle-1 mr-2">{{ incident.owner.name }}</span>
                 <v-avatar size="30">
-                  <img
-                    v-if="incident.owner.avatar"
-                    :src="incident.owner.avatar"
-                    @error="error = true"
-                  />
-                  <v-icon v-else size="28" color="grey lighten-2">
+                  <v-icon size="28" color="grey lighten-2">
                     mdi-account-circle
                   </v-icon>
                 </v-avatar>
@@ -434,13 +429,25 @@
                 <span v-else> No alerts</span>
               </div>
               <div v-if="isShelved(incident.status) && incident.snoozeTime">
-                <strong> Snoozed until: </strong>
+                <strong>Snoozed until:</strong>
                 <date-format
                   format="mediumDate"
                   :value="incident.snoozeTime"
                 ></date-format>
               </div>
+              <span v-if="!updating && incident.externalId">
+                <strong>External ID:</strong>
+                {{ incident.externalId }}
+              </span>
             </div>
+
+            <v-text-field
+              v-if="updating"
+              label="External ID"
+              outlined
+              dense
+              v-model="incident.externalId"
+            />
 
             <v-combobox
               chips
@@ -537,7 +544,7 @@
             </template>
             <template v-slot:[`item.type`]="{ item }">
               <span class="label">
-                {{ item.type || 'unknown' | splitCaps }}
+                {{ (item.type || 'unknown') | splitCaps }}
               </span>
             </template>
           </v-data-table>
@@ -559,7 +566,6 @@ import { IAlert, IIncident, INote, IUser } from '@/common/interfaces'
 import AlertList from '@/components/AlertList.vue'
 import CloseIncidentConfirm from '@/components/CloseIncidentConfirm.vue'
 import DateFormat from '@/components/lib/DateFormat.vue'
-import { store } from '@/main'
 import i18n from '@/plugins/i18n'
 import { IIncidents } from '@/store/interfaces'
 import { cloneDeep, omit, pickBy } from 'lodash'
@@ -759,9 +765,9 @@ export default Vue.extend({
       if (this.assignDialog && !this.users.length)
         return this.$store.dispatch('users/getUsers')
     },
-    ackIncident(id: string, text: string) {
+    ackIncident(id: string) {
       this.$store
-        .dispatch('incidents/takeAction', [id, 'ack', text, this.ackTimeout])
+        .dispatch('incidents/takeAction', [id, 'ack', null, this.ackTimeout])
         .then(() => this.getIncident())
     },
     shelveIncident() {
