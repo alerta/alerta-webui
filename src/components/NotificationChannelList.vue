@@ -80,9 +80,9 @@
                 >
                   <v-text-field
                     v-model="editedItem.apiSid"
-                    :type="editedItem.type !== 'smtp' ? 'password' : 'text'"
+                    :type="editedItem.type !== 'smtp' && editedItem.type !== 'jira' ? 'password' : 'text'"
                     :label="
-                      (editedItem.type !== 'smtp' && editedItem.type !== 'link_mobility') ? $t('ApiSid') : $t('Username')
+                      (editedItem.type !== 'smtp' && editedItem.type !== 'link_mobility' && editedItem.type !== 'jira') ? $t('ApiSid') : $t('Username')
                     "
                     :rules="[rules.required]"
                     required
@@ -386,7 +386,8 @@ export default {
       { text: 'twilio (sms)', value: 'twilio_sms' },
       { text: 'twilio (call + sms)', value: 'twilio_call' },
       { text: 'link moblity (sms)', value: 'link_mobility' },
-      { text: 'link moblity xml (sms)', value: 'link_mobility_xml' }
+      { text: 'link moblity xml (sms)', value: 'link_mobility_xml' },
+      { text: 'jira', value: 'jira' }
     ],
     search: '',
     dialog: false,
