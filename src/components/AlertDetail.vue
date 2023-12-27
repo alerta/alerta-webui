@@ -725,7 +725,7 @@
                         </span>
                       </div>
                       <div
-                        v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
+                        v-else-if="typeof value === 'string' && /<\/?[a-z][\s\S]*>/i.test(value)"
                         class="link-text"
                         v-html="value"
                       />
