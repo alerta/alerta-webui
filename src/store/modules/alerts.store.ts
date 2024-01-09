@@ -28,8 +28,8 @@ const state = {
 
   // query, filter and pagination
   query: {}, // URLSearchParams
-  historyFilter:{
-    environment: null,
+  historyFilter: {
+    environment: null
   },
   filter: {
     // local defaults
@@ -42,13 +42,18 @@ const state = {
     dateRange: [null, null]
   },
 
+  historyPagination: {
+    page: 1,
+    rowsPerPage: 20,
+    rowsPerPageItems: [10, 20, 50, 100, 200, 500, 1000],
+  },
+
   pagination: {
     page: 1,
     rowsPerPage: 20,
     sortBy: 'default',
     descending: false,
     rowsPerPageItems: [5, 10, 20, 50, 100, 200],
-    rowsPerPageHistoryItems: [20, 50, 100, 200, {text:'All', value: -1}]
   }
 }
 
@@ -69,8 +74,7 @@ const mutations = {
   },
   SET_HISTORY(state, [history, total]): any {
     state.history = history
-    state.pagination.totalHistoryItems = total
-
+    state.historyPagination.totalItems = total
   },
   RESET_LOADING(state): any {
     state.isLoading = false
@@ -111,6 +115,9 @@ const mutations = {
   },
   SET_PAGINATION(state, pagination) {
     state.pagination = Object.assign({}, state.pagination, pagination)
+  },
+  SET_HISTORY_PAGINATION(state, pagination) {
+    state.historyPagination = Object.assign({}, state.historyPagination, pagination)
   },
   SET_PANEL(state, panel) {
     state.showPanel = panel
@@ -185,12 +192,10 @@ const actions = {
 
     state.historyFilter.environment && params.append('environment', state.filter.environment)
 
+    params.append('page', state.historyPagination.page)
+    params.append('page-size', state.historyPagination.rowsPerPage)
 
-    params.append('page', state.pagination.page)
-    params.append('page-size', '1000')
-
-    return AlertsApi.getAlertHistory(params)
-    .then(({history, total}) => commit('SET_HISTORY', [history, total]))
+    return AlertsApi.getAlertHistory(params).then(({history, total}) => commit('SET_HISTORY', [history, total]))
   },
   setHistoryFilter({commit}, filter) {
     commit('SET_FILTER', filter)
@@ -319,6 +324,9 @@ const actions = {
   setPagination({commit}, pagination) {
     commit('SET_PAGINATION', pagination)
   },
+  setHistoryPagination({commit}, pagination) {
+    commit('SET_HISTORY_PAGINATION', pagination)
+  },
   setPanel({commit}, panel) {
     commit('SET_PANEL', panel)
   }
@@ -335,7 +343,7 @@ const getters = {
     }
   },
   history: (state, getters, rootState) => {
-      return state.history
+    return state.history
   },
   environments:
     (state, getters, rootState) =>

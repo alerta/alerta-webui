@@ -123,7 +123,7 @@ export default {
       return this.$store.getters['auth/isLoggedIn']
     },
     pagination() {
-      return this.$store.state.alerts.pagination
+      return this.$store.state.alerts.historyPagination
     }
   },
   watch: {
@@ -171,13 +171,13 @@ export default {
       })
     },
     setSort(sort) {
-      this.$store.dispatch('alerts/setPagination', {
+      this.$store.dispatch('alerts/setHistoryPagination', {
         descending: sort.sd == '1',
         sortBy: sort.sb
       })
     },
     setPage(page) {
-      this.$store.dispatch('alerts/setPagination', {page: page})
+      this.$store.dispatch('alerts/setHistoryPagination', {page: page})
     },
     setPanel(panel) {
       this.$store.dispatch('alerts/setPanel', panel.asi == '1')

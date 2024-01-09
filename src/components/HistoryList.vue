@@ -4,7 +4,9 @@
       :headers="customHeaders"
       :items="history"
       item-key="id"
-      :rows-per-page-items="pagination.rowsPerPageHistoryItems"
+      :pagination.sync="pagination"
+      :total-items="pagination.totalItems"
+      :rows-per-page-items="pagination.rowsPerPageItems"
       class="alert-table"
       :class="[ displayDensity ]"
       :style="columnWidths"
@@ -275,10 +277,10 @@ export default {
     },
     pagination: {
       get() {
-        return this.$store.state.alerts.pagination
+        return this.$store.state.alerts.historyPagination
       },
       set(value) {
-        this.$store.dispatch('alerts/setPagination', value)
+        this.$store.dispatch('alerts/setHistoryPagination', value)
       }
     },
     customHeaders() {
@@ -300,6 +302,11 @@ export default {
     },
     username() {
       return this.$store.getters['auth/getUsername']
+    }
+  },
+  watch: {
+    rowsPerPage(val) {
+      this.pagination = Object.assign({}, this.pagination, {rowsPerPage: val})
     }
   },
   methods: {

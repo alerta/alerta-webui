@@ -48,9 +48,7 @@ const actions = {
     params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
 
     return EscalationRuleApi.getEscalationRules(params)
-      .then(({escalationRules, total, pageSize}) =>
-        commit('SET_ESCALATION_RULE', [escalationRules, total, pageSize])
-      )
+      .then(({escalationRules, total, pageSize}) => commit('SET_ESCALATION_RULE', [escalationRules, total, pageSize]))
       .catch(() => commit('RESET_LOADING'))
   },
   createEscalationRule({dispatch, commit}, escalationrule) {

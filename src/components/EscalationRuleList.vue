@@ -715,7 +715,6 @@ export default {
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
-      console.log(this.editedItem)
       this.dialog = true
     },
     copyItem(item) {
