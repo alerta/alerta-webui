@@ -44,6 +44,13 @@
                 </v-flex>
 
                 <v-flex xs12>
+                  <v-text-field
+                    v-model.trim="editedItem.name"
+                    :label="$t('Name')"
+                  />
+                </v-flex>
+
+                <v-flex xs12>
                   <v-select
                     v-model="editedItem.environment"
                     :items="allowedEnvironments"
@@ -393,6 +400,7 @@
           <td v-if="$config.customer_views">
             {{ props.item.customer }}
           </td>
+          <td>{{ props.item.name }}</td>
           <td>{{ props.item.environment }}</td>
           <td>{{ props.item.channelId }}</td>
           <td>
@@ -549,6 +557,7 @@ export default {
     headers: [
       { text: i18n.t('Acitve'), value: 'active' },
       { text: i18n.t('Customer'), value: 'customer' },
+      { text: i18n.t('Name'), value: 'Name' },
       { text: i18n.t('Environment'), value: 'environment' },
       { text: i18n.t('Channel'), value: 'channel' },
       { text: i18n.t('Receivers'), value: 'receivers' },
@@ -570,6 +579,7 @@ export default {
     editedItem: {
       active: true,
       customer: null,
+      name: null,
       environment: null,
       receivers: [],
       userIds: [],
@@ -598,6 +608,7 @@ export default {
     defaultItem: {
       active: true,
       customer: null,
+      name: null,
       environment: null,
       receivers: [],
       userIds: [],
@@ -866,6 +877,7 @@ export default {
           {
             active: this.editedItem.active,
             customer: this.editedItem.customer,
+            name: this.editedItem.name,
             environment: this.editedItem.environment,
             receivers: this.editedItem.receivers,
             userIds: this.editedItem.userIds,
