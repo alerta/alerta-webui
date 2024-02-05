@@ -291,7 +291,7 @@
           >
             <v-tooltip bottom>
               <v-icon slot="activator">
-                notification_paused
+                notifications_paused
               </v-icon>
               <span>{{ $t('Deactivated') }}</span>
             </v-tooltip>
