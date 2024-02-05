@@ -536,7 +536,7 @@ export default {
           show: true
         },
         {
-          icon: 'list',
+          icon: 'history',
           text: i18n.t('History'),
           path: '/history',
           perms: 'read:alerts',
@@ -578,6 +578,20 @@ export default {
           show: this.$config.provider == 'basic'
         },
         {
+          icon: 'people',
+          text: i18n.t('NotificationGroups'),
+          path: '/notificationgroups',
+          perms: 'read:notification_groups',
+          show: true
+        },
+        {
+          icon: 'phone',
+          text: i18n.t('OnCall'),
+          path: '/oncall',
+          perms: 'read:notification_rules',
+          show: true
+        },
+        {
           icon: 'domain',
           text: i18n.t('Customers'),
           path: '/customers',
@@ -602,13 +616,6 @@ export default {
           icon: 'notifications',
           text: i18n.t('NotificationRules'),
           path: '/notificationrules',
-          perms: 'read:notification_rules',
-          show: true
-        },
-        {
-          icon: 'notifications',
-          text: i18n.t('OnCall'),
-          path: '/oncall',
           perms: 'read:notification_rules',
           show: true
         },

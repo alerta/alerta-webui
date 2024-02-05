@@ -677,7 +677,7 @@ export default {
       return this.$store.state.users.users
     },
     groups() {
-      return this.$store.state.groups.groups
+      return this.$store.state.notificationGroups.notificationGroups
     },
     computedHeaders() {
       return this.headers.filter(h =>
@@ -747,6 +747,7 @@ export default {
       this.getTags()
       this.getUsers()
       this.getGroups()
+      this.getNotificaitonGroups()
     },
     pagination: {
       handler() {
@@ -764,6 +765,7 @@ export default {
     this.getTags()
     this.getUsers()
     this.getGroups()
+    this.getNotificaitonGroups()
     this.editedItem = Object.assign({}, this.defaultItem)
   },
   methods: {
@@ -781,6 +783,9 @@ export default {
     },
     getGroups() {
       this.$store.dispatch('groups/getGroups')
+    },
+    getNotificaitonGroups() {
+      this.$store.dispatch('notificationGroups/getNotificationGroups')
     },
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')

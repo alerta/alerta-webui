@@ -62,6 +62,12 @@ export function createRouter(basePath): VueRouter {
         meta: {title: 'Groups', requiresAuth: true}
       },
       {
+        path: '/notificationgroups',
+        name: 'notificationgroups',
+        component: () => import(/* webpackChunkName: 'user' */ './views/NotificationGroup.vue'),
+        meta: {title: 'notificationgroup', requiresAuth: true}
+      },
+      {
         path: '/customers',
         name: 'customers',
         component: () => import(/* webpackChunkName: 'admin' */ './views/Customers.vue'),

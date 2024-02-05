@@ -8,6 +8,7 @@ import notificationRules from './modules/notificationRule.store'
 import escalationRules from './modules/escalationRule.store'
 import notificationChannels from './modules/notificationChannel.store'
 import onCalls from './modules/onCall.store'
+import notificationGroups from './modules/notificationGroup.store'
 import users from './modules/users.store'
 import groups from './modules/groups.store'
 import perms from './modules/perms.store'
@@ -52,6 +53,7 @@ export function createStore(): Store<any> {
       escalationRules,
       notificationChannels,
       onCalls,
+      notificationGroups,
       users,
       groups,
       perms,

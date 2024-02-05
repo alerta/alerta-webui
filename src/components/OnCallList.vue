@@ -601,7 +601,7 @@ export default {
       return this.$store.state.users.users
     },
     groups() {
-      return this.$store.state.groups.groups
+      return this.$store.state.notificationGroups.notificationGroups
     },
     computedHeaders() {
       return this.headers.filter(h =>
@@ -684,7 +684,7 @@ export default {
       this.$store.dispatch('users/getUsers')
     },
     getGroups() {
-      this.$store.dispatch('groups/getGroups')
+      this.$store.dispatch('notificationGroups/getNotificationGroups')
     },
     editItem(item) {
       this.editedId = item.id
