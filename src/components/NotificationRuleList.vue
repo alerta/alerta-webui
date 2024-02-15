@@ -205,6 +205,17 @@
                     :label="$t('Advanced Severity')"
                   />
                 </v-flex>
+                <v-flex
+                  xs12
+                >
+                  <v-select
+                    v-model="editedItem.status"
+                    :items="statuses"
+                    :label="$t('Status')"
+                    chips
+                    multiple
+                  />
+                </v-flex>
 
                 <v-flex xs12>
                   <v-select
@@ -426,6 +437,16 @@
           </td>
           <td>
             <v-chip
+              v-for="status in props.item.status"
+              :key="status"
+              outline
+              small
+            >
+              {{ status }}
+            </v-chip>
+          </td>
+          <td>
+            <v-chip
               v-for="day in props.item.days"
               :key="day"
               outline
@@ -563,6 +584,7 @@ export default {
       { text: i18n.t('Receivers'), value: 'receivers' },
       { text: i18n.t('OnCall'), value: 'useOnCall' },
       { text: i18n.t('Severity'), value: 'severity' },
+      { text: i18n.t('Status'), value: 'status' },
       { text: i18n.t('Days'), value: 'days' },
       { text: i18n.t('Start'), value: 'startTime' },
       { text: i18n.t('End'), value: 'endTime' },
@@ -599,6 +621,7 @@ export default {
       text: '',
       days: [],
       severity: [],
+      status: [],
       advancedSeverity: [],
       useAdvancedSeverity: false,
       channelId: null
@@ -628,6 +651,7 @@ export default {
       text: '',
       days: [],
       severity: [],
+      status: [],
       advancedSeverity: [],
       useAdvancedSeverity: false,
       channelId: null
@@ -723,6 +747,9 @@ export default {
     },
     severities() {
       return Object.keys(this.$store.getters.getConfig('alarm_model').severity)
+    },
+    statuses() {
+      return Object.keys(this.$store.getters.getConfig('alarm_model').status)
     },
     times() {
       return Array.from(
@@ -893,6 +920,7 @@ export default {
             text: this.editedItem.text.replace(/\{([\w\[\]\. ]*)\}/g, '%($1)s'),
             days: this.editedItem.days,
             severity: this.editedItem.severity,
+            status: this.editedItem.status,
             channelId: this.editedItem.channelId,
             advancedSeverity: this.editedItem.advancedSeverity,
             useAdvancedSeverity: this.editedItem.useAdvancedSeverity
