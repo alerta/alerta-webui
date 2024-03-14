@@ -1,6 +1,98 @@
 <template>
   <div>
     <v-dialog
+      v-model="active_dialog"
+      max-width="540px"
+    >
+      <v-form ref="form">
+        <v-card>
+          <v-card-title>
+            <v-flex
+              xs12
+              sm6
+              md9
+            >
+              <span class="headline">
+                Active
+              </span>
+            </v-flex>
+            <v-flex
+              xs12
+              sm6
+              md3
+            >
+              <v-checkbox
+                v-model="editedItem.active"
+                :label="$t('Active')"
+              />
+            </v-flex>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex
+                  xs8
+                >
+                  <v-menu
+                    ref="menu1"
+                    v-model="menu1"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="editedItem.reactivateDate"
+                      :label="$t('ReactivateDate')"
+                      prepend-icon="event"
+                    />
+                    <v-date-picker
+                      v-model="editedItem.reactivateDate"
+                      no-title
+                      @input="menu1 = false"
+                    />
+                  </v-menu>
+                </v-flex>
+
+                <v-flex
+                  xs4
+                >
+                  <v-combobox
+                    v-model="editedItem.reactivateTime"
+                    :items="times"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="close_active"
+            >
+              {{ $t('Cancel') }}
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              flat
+              @click="changeState(editedItem)"
+            >
+              {{ $t('Save') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
+    <v-dialog
       v-model="dialog"
       max-width="540px"
     >
@@ -27,7 +119,7 @@
               />
             </v-flex>
           </v-card-title>
-          
+
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
@@ -40,6 +132,44 @@
                     :items="allowedCustomers"
                     :label="$t('Customer')"
                     clearable
+                  />
+                </v-flex>
+
+                <v-flex
+                  xs8
+                >
+                  <v-menu
+                    ref="menu1"
+                    v-model="menu1"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="editedItem.reactivateDate"
+                      :label="$t('ReactivateDate')"
+                      prepend-icon="event"
+                    />
+                    <v-date-picker
+                      v-model="editedItem.reactivateDate"
+                      no-title
+                      @input="menu1 = false"
+                    />
+                  </v-menu>
+                </v-flex>
+
+                <v-flex
+                  xs4
+                >
+                  <v-combobox
+                    v-model="editedItem.reactivateTime"
+                    :items="times"
                   />
                 </v-flex>
 
@@ -383,7 +513,6 @@
         :pagination.sync="pagination"
         :total-items="pagination.totalItems"
         :rows-per-page-items="pagination.rowsPerPageItems"
-        :search="search"
         class="px-2"
         :loading="isLoading"
         must-sort
@@ -398,7 +527,7 @@
               v-has-perms.disable="'write:notification_rules'"
               icon
               class="btn--plain mx-0"
-              @click="changeState(props.item)"
+              @click="editActive(props.item)"
             >
               <v-icon
                 small
@@ -413,6 +542,7 @@
           </td>
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.environment }}</td>
+          <td>{{ props.item.reactivateDate }} {{ props.item.reactivateTime }}</td>
           <td>{{ props.item.channelId }}</td>
           <td>
             <v-chip
@@ -575,11 +705,13 @@ export default {
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     search: '',
     dialog: false,
+    active_dialog: false,
     headers: [
       { text: i18n.t('Acitve'), value: 'active' },
       { text: i18n.t('Customer'), value: 'customer' },
       { text: i18n.t('Name'), value: 'Name' },
       { text: i18n.t('Environment'), value: 'environment' },
+      { text: i18n.t('Reactivate'), value: 'reactivate' },
       { text: i18n.t('Channel'), value: 'channel' },
       { text: i18n.t('Receivers'), value: 'receivers' },
       { text: i18n.t('OnCall'), value: 'useOnCall' },
@@ -687,7 +819,8 @@ export default {
               '0' + eTime.getMinutes()
             ).slice(-2)}`
           }
-
+          let reactivate = b.reactivate ? moment(b.reactivate) : null
+          
           return Object.assign(
             { ...b },
             {
@@ -696,7 +829,8 @@ export default {
                 b.text === null
                   ? ''
                   : b.text.replace(/%\(([\w\[\]\. ]*)\)s/g, '{$1}')
-            }
+            },
+            reactivate ? {reactivateDate: reactivate.format('YYYY-MM-DD'),reactivateTime: reactivate.format('HH:mm'),} : {} 
           )
         })
     },
@@ -776,7 +910,7 @@ export default {
       val || this.close()
     },
     refresh(val) {
-      if (!val) return
+      if (val) return
       this.getNotificationRules()
       this.getNotificationChannels()
       this.getCustomers()
@@ -828,13 +962,20 @@ export default {
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')
     },
+    toISODate(date, time) {
+      return new Date(date + ' ' + time).toISOString()
+    },
     getServices() {
       this.$store.dispatch('alerts/getServices')
     },
     getTags() {
       this.$store.dispatch('alerts/getTags')
     },
-
+    editActive(item) {
+      this.editedId = item.id
+      this.editedItem = Object.assign({}, item)
+      this.active_dialog = true
+    },
     editItem(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
@@ -860,6 +1001,13 @@ export default {
         this.editedId = null
       }, 300)
     },
+    close_active() {
+      this.active_dialog = false
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedId = null
+      }, 300)
+    },
     validate() {
       if (this.$refs.form.validate()) {
         this.$refs.form.resetValidation()
@@ -870,9 +1018,14 @@ export default {
       this.$store.dispatch('notificationRules/updateNotificationRule', [
         item.id,
         {
-          active: !item.active,
+          active: item.active,
+          reactivate: this.editedItem.reactivateDate ? this.toISODate(
+            this.editedItem.reactivateDate,
+            this.editedItem.reactivateTime
+          ) : null
         }
       ])
+      this.close_active()
     },
     save() {
       let sTimeStr = null
@@ -923,7 +1076,11 @@ export default {
             status: this.editedItem.status,
             channelId: this.editedItem.channelId,
             advancedSeverity: this.editedItem.advancedSeverity,
-            useAdvancedSeverity: this.editedItem.useAdvancedSeverity
+            useAdvancedSeverity: this.editedItem.useAdvancedSeverity,
+            reactivate:  this.editedItem.reactivateDate ? this.toISODate(
+              this.editedItem.reactivateDate,
+              this.editedItem.reactivateTime
+            ) : null
           }
         ])
       } else {
