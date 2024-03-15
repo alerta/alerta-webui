@@ -974,7 +974,9 @@ export default {
     editActive(item) {
       this.editedId = item.id
       this.editedItem = Object.assign({}, item)
-      this.active_dialog = true
+      this.editedItem.active = !this.editedItem.active
+      if (this.editedItem.active) this.changeState(this.editedItem)
+      else this.active_dialog = true
     },
     editItem(item) {
       this.editedId = item.id

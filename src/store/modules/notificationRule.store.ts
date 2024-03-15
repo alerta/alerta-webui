@@ -9,10 +9,10 @@ const state = {
 
   pagination: {
     page: 1,
-    rowsPerPage: 20,
+    rowsPerPage: 15,
     sortBy: 'startTime',
     descending: true,
-    rowsPerPageItems: [10, 20, 50, 100, 200]
+    rowsPerPageItems: [10, 15, 30, 50, 100, 200]
   }
 }
 
