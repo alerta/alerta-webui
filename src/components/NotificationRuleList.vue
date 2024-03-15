@@ -499,11 +499,13 @@
         </v-btn-toggle>
         <v-spacer />
         <v-text-field
-          v-model="search"
+          v-model="query"
           append-icon="search"
-          :label="$t('Search')"
+          clearable
           single-line
           hide-details
+          :label="$t('Search')"
+          @change="setSearch"
         />
       </v-card-title>
 
@@ -834,6 +836,16 @@ export default {
           )
         })
     },
+    query: {
+      get() {
+        return this.$store.state.notificationRules.query
+          ? this.$store.state.notificationRules.query.q
+          : null
+      },
+      set(value) {
+        // FIXME: offer query suggestions to user here, in future
+      }
+    },
     pagination: {
       get() {
         return this.$store.getters['notificationRules/pagination']
@@ -941,6 +953,10 @@ export default {
     this.editedItem = Object.assign({}, this.defaultItem)
   },
   methods: {
+    setSearch(query) {
+      this.$store.dispatch('notificationRules/updateQuery', {q: query})
+      this.refresh_all()
+    },
     getNotificationRules() {
       this.$store.dispatch('notificationRules/getNotificationRules')
     },
@@ -1028,6 +1044,12 @@ export default {
         }
       ])
       this.close_active()
+    },
+    refresh_all() {
+      this.$store.dispatch('set', ['refresh', true])
+      setTimeout(() => {
+        this.$store.dispatch('set', ['refresh', false])
+      }, 300)
     },
     save() {
       let sTimeStr = null

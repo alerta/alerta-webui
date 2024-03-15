@@ -7,6 +7,8 @@ const state = {
 
   notification_rules: [],
 
+  query: {},
+
   pagination: {
     page: 1,
     rowsPerPage: 15,
@@ -19,6 +21,9 @@ const state = {
 const mutations = {
   SET_LOADING(state) {
     state.isLoading = true
+  },
+  SET_SEARCH_QUERY(state, query): any {
+    state.query = query
   },
   SET_NOTIFICATION_RULE(state, [notificationRules, total, pageSize]) {
     state.isLoading = false
@@ -37,7 +42,6 @@ const mutations = {
 const actions = {
   getNotificationRules({commit, state}) {
     commit('SET_LOADING')
-
     let params = new URLSearchParams(state.query)
 
     // add server-side paging
@@ -70,7 +74,10 @@ const actions = {
   },
   setPagination({commit}, pagination) {
     commit('SET_PAGINATION', pagination)
-  }
+  },
+  updateQuery({commit}, query) {
+    commit('SET_SEARCH_QUERY', query)
+  },
 }
 
 const getters = {
