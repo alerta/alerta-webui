@@ -115,7 +115,7 @@ const actions = {
   setFilter({dispatch, commit}, filter) {
     commit('SET_FILTER', filter)
     dispatch('getUsers')
-  },
+  }
 }
 
 const getters = {
