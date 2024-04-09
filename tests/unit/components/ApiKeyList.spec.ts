@@ -99,6 +99,9 @@ describe('ApiKeyList', () => {
     })
   })
 
+  it('renders props.msg when passed', () => {
+  })
+
   // it('renders props.msg when passed', () => {
   //   const msg = 'Sorry, nothing to display here :('
   //   const wrapper = shallowMount(ApiKeyList, {
