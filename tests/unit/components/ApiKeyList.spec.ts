@@ -100,18 +100,16 @@ describe('ApiKeyList', () => {
   })
 
   it('renders props.msg when passed', () => {
+    const msg = 'Sorry, nothing to display here :('
+    const wrapper = shallowMount(ApiKeyList, {
+      propsData: {msg},
+      store,
+      i18n,
+      mocks: {
+        $config: () => true
+      }
+    })
+    // expect(wrapper.text()).toMatch(msg)
+    expect('foo').toMatch('bar')
   })
-
-  // it('renders props.msg when passed', () => {
-  //   const msg = 'Sorry, nothing to display here :('
-  //   const wrapper = shallowMount(ApiKeyList, {
-  //     propsData: {msg},
-  //     store,
-  //     i18n,
-  //     mocks: {
-  //       $config: () => true
-  //     }
-  //   })
-  //   expect(wrapper.text()).toMatch(msg)
-  // })
 })
