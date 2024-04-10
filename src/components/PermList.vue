@@ -131,10 +131,11 @@
       <v-data-table
         :headers="headers"
         :items="perms"
+        :rows-per-page-items="rowsPerPageItems"
         :pagination.sync="pagination"
-        :rows-per-page-items="pagination.rowsPerPageItems"
-        :total-items="pagination.totalItems"
         class="px-2"
+        :search="search"
+        :custom-filter="customFilter"
         :loading="isLoading"
         must-sort
         sort-icon="arrow_drop_down"
@@ -237,6 +238,14 @@ export default {
     ListButtonAdd
   },
   data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40, 50],
+    pagination: {
+      sortBy: 'match',
+      rowsPerPage: 20
+    },
+    // totalItems: number,
     search: '',
     systemRoles: ['admin', 'user', 'guest'],
     wantScopes: [],
@@ -262,7 +271,6 @@ export default {
   computed: {
     perms() {
       return this.$store.state.perms.permissions
-        .filter(this.customFilter)
     },
     scopes() {
       return this.$store.state.perms.scopes
@@ -281,14 +289,6 @@ export default {
     },
     refresh() {
       return this.$store.state.refresh
-    },
-    pagination: {
-      get() {
-        return this.$store.state.perms.pagination
-      },
-      set(value) {
-        this.$store.dispatch('perms/setPagination', value)
-      }
     }
   },
   watch: {

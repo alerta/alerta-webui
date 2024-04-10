@@ -8,40 +8,19 @@ const state = {
 
   domains: [],
   users: [],
-  groups: [],
-
-  filter: {
-    status: ['active', 'inactive'],
-    roles: []
-  },
-
-  pagination: {
-    page: 1,
-    rowsPerPage: 20,
-    sortBy: 'name',
-    descending: true,
-    rowsPerPageItems: [5, 10, 20, 50, 100, 200]
-  }
+  groups: []
 }
 
 const mutations = {
   SET_LOADING(state) {
     state.isLoading = true
   },
-  SET_USERS(state, [users, total, pageSize]) {
+  SET_USERS(state, users) {
     state.isLoading = false
     state.users = users
-    state.pagination.totalItems = total
-    state.pagination.rowsPerPage = pageSize
   },
   SET_USER_GROUPS(state, groups) {
     state.groups = groups
-  },
-  SET_PAGINATION(state, pagination) {
-    state.pagination = Object.assign({}, state.pagination, pagination)
-  },
-  SET_FILTER(state, filter) {
-    state.filter = Object.assign({}, state.filter, filter)
   },
   RESET_USER_GROUPS(state) {
     state.groups = []
@@ -52,21 +31,10 @@ const mutations = {
 }
 
 const actions = {
-  getUsers({commit, state}) {
+  getUsers({commit}) {
     commit('SET_LOADING')
-
-    let params = new URLSearchParams()
-
-    state.filter.status.map(st => params.append('status', st))
-    state.filter.roles.map(st => params.append('role', st))
-
-    params.append('page', state.pagination.page)
-    params.append('page-size', state.pagination.rowsPerPage)
-
-    params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
-
-    return UsersApi.getUsers(params)
-      .then(({users, total, pageSize}) => commit('SET_USERS', [users, total, pageSize]))
+    return UsersApi.getUsers({})
+      .then(({users}) => commit('SET_USERS', users))
       .catch(() => commit('RESET_LOADING'))
   },
   createUser({dispatch, commit}, user) {
@@ -107,15 +75,7 @@ const actions = {
   },
   resetUserGroups({commit}) {
     commit('RESET_USER_GROUPS')
-  },
-  setPagination({dispatch, commit}, pagination) {
-    commit('SET_PAGINATION', pagination)
-    dispatch('getUsers')
-  },
-  setFilter({dispatch, commit}, filter) {
-    commit('SET_FILTER', filter)
-    dispatch('getUsers')
-  },
+  }
 }
 
 const getters = {

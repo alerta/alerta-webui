@@ -55,10 +55,10 @@
     <v-data-table
       :headers="computedHeaders"
       :items="heartbeats"
+      :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
-      :rows-per-page-items="pagination.rowsPerPageItems"
-      :total-items="pagination.totalItems"
       class="px-2"
+      :search="search"
       :loading="isLoading"
       must-sort
       sort-icon="arrow_drop_down"
@@ -163,6 +163,16 @@ export default {
     DateTime
   },
   data: () => ({
+    descending: true,
+    page: 1,
+    rowsPerPageItems: [10, 20, 30, 40, 50],
+    pagination: {
+      sortBy: 'receiveTime',
+      descending: true,
+      rowsPerPage: 20
+    },
+    // totalItems: number,
+    status: ['ok', 'slow', 'expired'],
     search: '',
     headers: [
       { text: i18n.t('Origin'), value: 'origin' },
@@ -180,8 +190,7 @@ export default {
   }),
   computed: {
     heartbeats() {
-      return this.$store.state.heartbeats.heartbeats
-        .filter(h => Object.keys(h).some(k => h[k] && h[k].toString().toLowerCase().includes(this.search.toLowerCase())))
+      return this.$store.state.heartbeats.heartbeats.filter(hb => !this.status || this.status.includes(hb.status))
     },
     computedHeaders() {
       return this.headers.filter(h => !this.$config.customer_views ? h.value != 'customer' : true)
@@ -191,22 +200,6 @@ export default {
     },
     refresh() {
       return this.$store.state.refresh
-    },
-    pagination: {
-      get() {
-        return this.$store.state.heartbeats.pagination
-      },
-      set(value) {
-        this.$store.dispatch('heartbeats/setPagination', value)
-      }
-    },
-    status: {
-      get() {
-        return this.$store.state.heartbeats.filter.status
-      },
-      set(value) {
-        this.$store.dispatch('heartbeats/setFilter', {status: value})
-      }
     }
   },
   watch: {
