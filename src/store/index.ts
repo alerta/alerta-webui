@@ -5,6 +5,7 @@ import alerts from './modules/alerts.store'
 import heartbeats from './modules/heartbeats.store'
 import blackouts from './modules/blackouts.store'
 import notificationRules from './modules/notificationRule.store'
+import notificationHistory from './modules/notificationHistory.store'
 import escalationRules from './modules/escalationRule.store'
 import notificationChannels from './modules/notificationChannel.store'
 import onCalls from './modules/onCall.store'
@@ -50,6 +51,7 @@ export function createStore(): Store<any> {
       heartbeats,
       blackouts,
       notificationRules,
+      notificationHistory,
       escalationRules,
       notificationChannels,
       onCalls,

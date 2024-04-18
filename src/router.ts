@@ -84,6 +84,12 @@ export function createRouter(basePath): VueRouter {
         name: 'notificationrules',
         component: () => import(/* webpackChunkName: 'user' */ './views/NotificationRule.vue'),
         meta: {title: 'NotificationRules', requiresAuth: true}
+      }, 
+      {
+        path: '/notificationhistory',
+        name: 'notificationhistory',
+        component: () => import(/* webpackChunkName: 'user' */ './views/NotificationHistory.vue'),
+        meta: {title: 'NotificationHistory', requiresAuth: true}
       },
       {
         path: '/escalationrules',

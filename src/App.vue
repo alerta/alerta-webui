@@ -620,6 +620,13 @@ export default {
           show: true
         },
         {
+          icon: 'history',
+          text: i18n.t('NotificationHistory'),
+          path: '/notificationhistory',
+          perms: 'read:notification_history',
+          show: true
+        },
+        {
           icon: 'security',
           text: i18n.t('Permissions'),
           path: '/perms',
