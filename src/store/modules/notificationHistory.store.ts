@@ -19,7 +19,7 @@ const mutations = {
   SET_LOADING(state) {
     state.isLoading = true
   },
-  SET_NOTIFICATION_HISTORY (state, [notificationHistory, total, pageSize]) {
+  SET_NOTIFICATION_HISTORY(state, [notificationHistory, total, pageSize]) {
     state.isLoading = false
     state.notification_history = notificationHistory
     state.pagination.totalItems = total
@@ -52,16 +52,16 @@ const actions = {
       )
       .catch(() => commit('RESET_LOADING'))
   },
-  
+
   setPagination({commit}, pagination) {
     commit('SET_PAGINATION', pagination)
-  },
+  }
 }
 
 const getters = {
   pagination: state => {
     return state.pagination
-  },
+  }
 }
 
 export default {

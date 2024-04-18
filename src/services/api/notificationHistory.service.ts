@@ -6,5 +6,5 @@ export default {
       params: query
     }
     return api.get('/notificationhistory', config)
-  },
+  }
 }

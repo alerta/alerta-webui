@@ -48,7 +48,9 @@ const actions = {
     params.append('sort-by', (state.pagination.descending ? '-' : '') + state.pagination.sortBy)
 
     return NotificationGroupApi.getNotificationGroups(params)
-      .then(({notificationGroups, total, pageSize}) => commit('SET_NOTIFICATION_GROUP', [notificationGroups, total, pageSize]))
+      .then(({notificationGroups, total, pageSize}) =>
+        commit('SET_NOTIFICATION_GROUP', [notificationGroups, total, pageSize])
+      )
       .catch(() => commit('RESET_LOADING'))
   },
   createNotificationGroup({dispatch, commit}, notificationrule) {

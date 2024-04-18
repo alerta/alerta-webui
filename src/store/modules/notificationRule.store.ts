@@ -77,7 +77,7 @@ const actions = {
   },
   updateQuery({commit}, query) {
     commit('SET_SEARCH_QUERY', query)
-  },
+  }
 }
 
 const getters = {
