@@ -1052,7 +1052,6 @@ export default {
       }, 300)
     },
     save() {
-      console.log( this.editedItem.useOnCall)
       let sTimeStr = null
       let eTimeStr = null
       if (

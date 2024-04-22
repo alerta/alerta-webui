@@ -112,9 +112,8 @@ export function createRouter(basePath): VueRouter {
       {
         path: '/oncall',
         name: 'oncall',
-        component: () =>
-          import(/* webpackChunkName: 'user' */ './views/OnCall.vue'),
-        meta: { title: 'oncall', requiresAuth: true }
+        component: () => import(/* webpackChunkName: 'user' */ './views/OnCall.vue'),
+        meta: {title: 'oncall', requiresAuth: true}
       },
       {
         path: '/perms',
