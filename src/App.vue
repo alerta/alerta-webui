@@ -350,6 +350,29 @@
           </v-btn>
           <span>{{ $t('Delete') }}</span>
         </v-tooltip>
+        <v-text-field
+          v-if="showNote"
+          v-model.trim="noteText"
+          :counter="maxNoteLength"
+          :maxlength="maxNoteLength"
+          :minlength="minNoteLength"
+          :rules="textRules"
+          :label="$t('AddNote')"
+          required
+        />
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
+            @click="showNote ? bulkAddNote() : toggleNote()"
+          >
+            <v-icon>
+              note_add
+            </v-icon>
+          </v-btn>
+          <span>{{ $t('AddNote') }}</span>
+        </v-tooltip>
 
         <v-menu
           bottom
@@ -520,6 +543,8 @@ export default {
     hints: true,
     dialog: false,
     drawer: false,
+    noteText: '',
+    showNote: false,
     navbar: {
       signin: { icon: 'account_circle', text: i18n.t('SignIn'), path: '/login' }
     },
@@ -849,6 +874,18 @@ export default {
     },
     unwatchAlert(id) {
       this.$store.dispatch('alerts/unwatchAlert', id)
+    },
+    toggleNote() {
+      this.showNote = !this.showNote
+      this.noteText = ''
+    },
+    bulkAddNote() {
+      this.noteText ?
+        Promise.all(this.selected.map(a => this.$store.dispatch('alerts/addNote', [a.id, this.noteText]))).then(() => {
+          this.clearSelected()
+          this.$store.dispatch('alerts/getAlerts')
+          this.toogleNote()
+        }) : this.toggleNote()
     },
     bulkDeleteAlert() {
       confirm(i18n.t('ConfirmDelete')) &&
