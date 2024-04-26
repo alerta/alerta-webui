@@ -154,11 +154,6 @@
             </span>
             <!-- trendIndication not supported -->
             <!-- only history supported is most recent note -->
-            <span
-              v-if="col == 'note'"
-            >
-              {{ lastNote(props.item) }}
-            </span>
           </td>
         </tr>
       </template>
@@ -201,7 +196,8 @@ export default {
       'receiveTime',
       'duration',
       'lastReceiveId',
-      'lastReceiveTime'
+      'lastReceiveTime',
+      'note'
     ],
     allowedHeaders: [
       'attributes',
@@ -243,7 +239,6 @@ export default {
       timeout: { text: i18n.t('Timeout'), value: 'timeout', sortable: false  },
       timeoutLeft: { text: i18n.t('TimeoutLeft'), value: 'timeoutLeft', sortable: false  },
       customer: { text: i18n.t('Customer'), value: 'customer', sortable: false  },
-      note: { text: i18n.t('LastNote'), value: 'note', sortable: false }
     },
     details: false,
     timer: null
@@ -318,10 +313,6 @@ export default {
       let lastModified = item.updateTime
       let expireTime = moment(lastModified).add(item.timeout, 'seconds')
       return expireTime.isAfter() ? expireTime.diff(moment(), 'seconds') : moment.duration()
-    },
-    lastNote(item) {
-      const note = item.history.filter(h => h.type == 'note' || h.type == 'dismiss').pop()
-      return note && note.type == 'note' ? note.text : ''
     },
     valueWidth() {
       return this.$store.getters.getPreference('valueWidth')
