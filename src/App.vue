@@ -356,7 +356,7 @@
           :counter="maxNoteLength"
           :maxlength="maxNoteLength"
           :minlength="minNoteLength"
-          :rules="textRules"
+          :rules="noteRules"
           :label="$t('AddNote')"
           required
         />
@@ -536,7 +536,7 @@ export default {
     Snackbar
   },
   props: [],
-  data: () => ({
+  data: vm => ({
     hasFocus: false,
     menu: false,
     message: false,
@@ -545,6 +545,12 @@ export default {
     drawer: false,
     noteText: '',
     showNote: false,
+    maxNoteLength: 200,
+    minNoteLength: 0,
+    noteRules: [
+      v => !!v || i18n.t('TextIsRequired'),
+      v => (v && v.length <= vm.maxNoteLength) || `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t('characters')}`
+    ],
     navbar: {
       signin: { icon: 'account_circle', text: i18n.t('SignIn'), path: '/login' }
     },
@@ -884,7 +890,7 @@ export default {
         Promise.all(this.selected.map(a => this.$store.dispatch('alerts/addNote', [a.id, this.noteText]))).then(() => {
           this.clearSelected()
           this.$store.dispatch('alerts/getAlerts')
-          this.toogleNote()
+          this.toggleNote()
         }) : this.toggleNote()
     },
     bulkDeleteAlert() {
