@@ -350,6 +350,44 @@
           </v-btn>
           <span>{{ $t('Delete') }}</span>
         </v-tooltip>
+        
+        <v-text-field
+          v-if="showNote"
+          v-model.trim="noteText"
+          :counter="maxNoteLength"
+          :maxlength="maxNoteLength"
+          :minlength="minNoteLength"
+          :rules="noteRules"
+          :label="$t('AddNote')"
+          required
+        />
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
+            @click="showNote ? bulkAddNote() : toggleNote()"
+          >
+            <v-icon>
+              note_add
+            </v-icon>
+          </v-btn>
+          <span>{{ $t('AddNote') }}</span>
+        </v-tooltip>
+        
+        <v-tooltip bottom>
+          <v-btn
+            slot="activator"
+            icon
+            class="btn--plain"
+            @click="bulkDeleteLastNote()"
+          >
+            <v-icon>
+              cancel_presentation
+            </v-icon>
+          </v-btn>
+          <span>{{ $t('DeleteNote') }}</span>
+        </v-tooltip>
 
         <v-menu
           bottom
@@ -513,13 +551,21 @@ export default {
     Snackbar
   },
   props: [],
-  data: () => ({
+  data: vm => ({
     hasFocus: false,
     menu: false,
     message: false,
     hints: true,
     dialog: false,
     drawer: false,
+    noteText: '',
+    showNote: false,
+    maxNoteLength: 200,
+    minNoteLength: 0,
+    noteRules: [
+      v => !!v || i18n.t('TextIsRequired'),
+      v => (v && v.length <= vm.maxNoteLength) || `${i18n.t('TextMustBeLessThan')} ${vm.maxNoteLength} ${i18n.t('characters')}`
+    ],
     navbar: {
       signin: { icon: 'account_circle', text: i18n.t('SignIn'), path: '/login' }
     },
@@ -849,6 +895,25 @@ export default {
     },
     unwatchAlert(id) {
       this.$store.dispatch('alerts/unwatchAlert', id)
+    },
+    toggleNote() {
+      this.showNote = !this.showNote
+      this.noteText = ''
+    },
+    bulkAddNote() {
+      this.noteText ?
+        Promise.all(this.selected.map(a => this.$store.dispatch('alerts/addNote', [a.id, this.noteText]))).then(() => {
+          this.clearSelected()
+          this.$store.dispatch('alerts/getAlerts')
+          this.toggleNote()
+        }) : this.toggleNote()
+    },
+    bulkDeleteLastNote(){
+      confirm(i18n.t('confirmDelete')) &&
+        Promise.all(this.selected.map(a => {const note = a.history.filter(h => h.type == 'note').pop();this.$store.dispatch('alerts/deleteNote', [a.id, note.id])})).then(() => {
+          this.clearSelected()
+          this.$store.dispatch('alerts/getAlerts')
+        })
     },
     bulkDeleteAlert() {
       confirm(i18n.t('ConfirmDelete')) &&
