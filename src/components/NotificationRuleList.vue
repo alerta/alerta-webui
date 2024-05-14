@@ -139,8 +139,8 @@
                   xs8
                 >
                   <v-menu
-                    ref="menu1"
-                    v-model="menu1"
+                    ref="menu2"
+                    v-model="menu2"
                     :close-on-content-click="false"
                     :nudge-right="40"
                     lazy
@@ -159,7 +159,7 @@
                     <v-date-picker
                       v-model="editedItem.reactivateDate"
                       no-title
-                      @input="menu1 = false"
+                      @input="menu2 = false"
                     />
                   </v-menu>
                 </v-flex>
