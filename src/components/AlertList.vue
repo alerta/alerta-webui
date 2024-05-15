@@ -390,7 +390,7 @@
               </v-btn>
 
               <v-btn
-                v-if="!isClosed(props.item.status)"
+                v-if="!isClosed(props.item.status) && isAlertAlarmModel()"
                 flat
                 icon
                 small
@@ -404,6 +404,7 @@
                 </v-icon>
               </v-btn>
               <v-btn
+                v-if="haveDeleteScope()"
                 flat
                 icon
                 small
@@ -660,6 +661,14 @@ export default {
     },
     isClosed(status) {
       return status == 'closed'
+    },
+    haveDeleteScope(){
+      const scopes = this.$store.getters['auth/scopes']
+      if (this.$config.delete_alert_scope_enforced) return scopes.includes('admin') || scopes.includes('admin:alerts') || scopes.includes('delete:alerts')
+      else return scopes.includes('admin') || scopes.includes('admin:alerts') || scopes.includes('write') || scopes.includes('write:alerts') || scopes.includes('delete:alerts')
+    },
+    isAlertAlarmModel(){
+      return !this.$config.alarm_model.name.includes('ISA 18')
     },
     takeAction: debounce(function(id, action) {
       this.$store

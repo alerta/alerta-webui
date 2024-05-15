@@ -138,7 +138,10 @@
           <span>{{ $t('Unshelve') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip
+          v-if="isAlertAlarmModel()"
+          bottom
+        >
           <v-btn
             slot="activator"
             :disabled="isClosed(item.status)"
@@ -155,7 +158,10 @@
           <span>{{ $t('Close') }}</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip
+          v-if="haveDeleteScope()"
+          bottom
+        >
           <v-btn
             slot="activator"
             icon
@@ -961,6 +967,14 @@ export default {
     },
     getNotes() {
       this.$store.dispatch('alerts/getNotes', this.id)
+    },
+    haveDeleteScope(){
+      const scopes = this.$store.getters['auth/scopes']
+      if (this.$config.delete_alert_scope_enforced) return scopes.includes('admin') || scopes.includes('admin:alerts') || scopes.includes('delete:alerts')
+      else return scopes.includes('admin') || scopes.includes('admin:alerts') || scopes.includes('write') || scopes.includes('write:alerts') || scopes.includes('delete:alerts')
+    },
+    isAlertAlarmModel(){
+      return !this.$config.alarm_model.name.includes('ISA 18')
     },
     isOpen(status) {
       return status == 'open' || status == 'NORM' || status == 'UNACK' || status == 'RTNUN'
