@@ -40,6 +40,7 @@
             <td>{{ props.item.channel }}</td>
             <td>{{ props.item.rule }}</td>
             <td>{{ props.item.alert }}</td>
+            <td>{{ props.item.error}}</td>
             <td>{{ props.item.confirmed }}</td>
             <td>{{ props.item.confirmed_time }}</td>
           </tr>
@@ -83,6 +84,7 @@ export default {
       { text: i18n.t('Channel'), value: 'channel' },
       { text: i18n.t('NotificationRule'), value: 'rule' },
       { text: i18n.t('Alert'), value: 'alert' },
+      { text: i18n.t('Error'), value: 'error' },
       { text: i18n.t('Confirmed'), value: 'confirmed' },
       { text: i18n.t('ConfirmedTime'), value: 'confirmed_time' },
     ],
