@@ -38,8 +38,19 @@
             <td>{{ props.item.receiver }}</td>
             <td>{{ props.item.sender }}</td>
             <td>{{ props.item.channel }}</td>
-            <td>{{ props.item.rule }}</td>
-            <td>{{ props.item.alert }}</td>
+            <td
+              class="clickable"
+              @click="findNotificationRule(props.item.rule)"
+            >
+              {{ props.item.rule }}
+            </td>
+            <td
+              class="clickable"
+              @click="findAlert(props.item.alert)"
+            >
+              {{ props.item.alert }}
+            </td>
+            <td>{{ props.item.error }}</td>
             <td>{{ props.item.confirmed }}</td>
             <td>{{ props.item.confirmed_time }}</td>
           </tr>
@@ -83,6 +94,7 @@ export default {
       { text: i18n.t('Channel'), value: 'channel' },
       { text: i18n.t('NotificationRule'), value: 'rule' },
       { text: i18n.t('Alert'), value: 'alert' },
+      { text: i18n.t('Error'), value: 'error' },
       { text: i18n.t('Confirmed'), value: 'confirmed' },
       { text: i18n.t('ConfirmedTime'), value: 'confirmed_time' },
     ],
@@ -150,8 +162,21 @@ export default {
       const config = this.$store.getters.getConfig('colors')
       return config.severity[confirmed ? 'ok' : sent ? 'warning' : 'critical'] || 'white'
     },
+    findAlert(id){
+      this.$router.push({ path: `/alerts?q=id:"${id}"` })
+    },
+    findNotificationRule(id){
+      this.$router.push({ path: `/notificationrules?q=id:"${id}"` })
+    }
   }
 }
 </script>
 
-<style></style>
+<style>
+td.clickable {
+  cursor: pointer;
+  color: #3f51b5;
+  font-weight: 400;
+  text-decoration: underline;
+}
+</style>

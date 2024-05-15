@@ -139,8 +139,8 @@
                   xs8
                 >
                   <v-menu
-                    ref="menu1"
-                    v-model="menu1"
+                    ref="menu2"
+                    v-model="menu2"
                     :close-on-content-click="false"
                     :nudge-right="40"
                     lazy
@@ -159,7 +159,7 @@
                     <v-date-picker
                       v-model="editedItem.reactivateDate"
                       no-title
-                      @input="menu1 = false"
+                      @input="menu2 = false"
                     />
                   </v-menu>
                 </v-flex>
@@ -435,6 +435,35 @@
                 </v-flex>
 
                 <v-flex xs12>
+                  <v-combobox
+                    v-model="editedItem.excludedTags"
+                    :items="currentTags"
+                    :label="$t('Excluded Tags')"
+                    multiple
+                    chips
+                  >
+                    <template
+                      slot="selection"
+                      slot-scope="data"
+                    >
+                      <v-chip
+                        :key="JSON.stringify(data.item)"
+                        :selected="data.selected"
+                        :disabled="data.disabled"
+                        class="v-chip--select-multi"
+                        label
+                        small
+                        @input="data.parent.selectItem(data.item)"
+                      >
+                        <v-icon left>
+                          label
+                        </v-icon>{{ data.item }}
+                      </v-chip>
+                    </template>
+                  </v-combobox>
+                </v-flex>
+
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Text')"
@@ -506,6 +535,7 @@
           hide-details
           :label="$t('Search')"
           @change="setSearch"
+          @click:clear="clearSearch"
         />
       </v-card-title>
 
@@ -609,6 +639,18 @@
           <td>
             <v-chip
               v-for="tag in props.item.tags"
+              :key="tag"
+              label
+              small
+            >
+              <v-icon left>
+                label
+              </v-icon>{{ tag }}
+            </v-chip>
+          </td>
+          <td>
+            <v-chip
+              v-for="tag in props.item.excludedTags"
               :key="tag"
               label
               small
@@ -727,6 +769,7 @@ export default {
       { text: i18n.t('Event'), value: 'event' },
       { text: i18n.t('Group'), value: 'group' },
       { text: i18n.t('Tags'), value: 'tags' },
+      { text: i18n.t('Excluded Tags'), value: 'excludedTags' },
       { text: i18n.t('User'), value: 'user' },
       { text: 'Text', value: 'text' },
       { text: i18n.t('Actions'), value: 'name', sortable: false }
@@ -746,6 +789,7 @@ export default {
       event: null,
       group: null,
       tags: [],
+      excludedTags: [],
       period: {
         startTime: '',
         endTime: ''
@@ -776,6 +820,7 @@ export default {
       event: null,
       group: null,
       tags: [],
+      excludedTags: [],
       period: {
         startTime: '',
         endTime: ''
@@ -955,6 +1000,13 @@ export default {
   methods: {
     setSearch(query) {
       this.$store.dispatch('notificationRules/updateQuery', {q: query})
+      this.$router.push({query: {...this.$router.query, q: query}})
+      this.refresh_all()
+    },
+    clearSearch() {
+      this.query = null
+      this.$store.dispatch('notificationRules/updateQuery', {})
+      this.$router.push({query: {...this.$router.query, q: undefined}})
       this.refresh_all()
     },
     getNotificationRules() {
@@ -1092,6 +1144,7 @@ export default {
             event: this.editedItem.event,
             group: this.editedItem.group,
             tags: this.editedItem.tags,
+            excludedTags: this.editedItem.excludedTags,
             startTime: sTimeStr,
             endTime: eTimeStr,
             text: this.editedItem.text.replace(/\{([\w\[\]\. ]*)\}/g, '%($1)s'),
