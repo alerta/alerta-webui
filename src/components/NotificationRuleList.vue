@@ -435,6 +435,35 @@
                 </v-flex>
 
                 <v-flex xs12>
+                  <v-combobox
+                    v-model="editedItem.excludedTags"
+                    :items="currentTags"
+                    :label="$t('Excluded Tags')"
+                    multiple
+                    chips
+                  >
+                    <template
+                      slot="selection"
+                      slot-scope="data"
+                    >
+                      <v-chip
+                        :key="JSON.stringify(data.item)"
+                        :selected="data.selected"
+                        :disabled="data.disabled"
+                        class="v-chip--select-multi"
+                        label
+                        small
+                        @input="data.parent.selectItem(data.item)"
+                      >
+                        <v-icon left>
+                          label
+                        </v-icon>{{ data.item }}
+                      </v-chip>
+                    </template>
+                  </v-combobox>
+                </v-flex>
+
+                <v-flex xs12>
                   <v-text-field
                     v-model.trim="editedItem.text"
                     :label="$t('Text')"
@@ -618,6 +647,18 @@
               </v-icon>{{ tag }}
             </v-chip>
           </td>
+          <td>
+            <v-chip
+              v-for="tag in props.item.excludedTags"
+              :key="tag"
+              label
+              small
+            >
+              <v-icon left>
+                label
+              </v-icon>{{ tag }}
+            </v-chip>
+          </td>
           <td class="text-xs-left">
             {{ props.item.user }}
           </td>
@@ -727,6 +768,7 @@ export default {
       { text: i18n.t('Event'), value: 'event' },
       { text: i18n.t('Group'), value: 'group' },
       { text: i18n.t('Tags'), value: 'tags' },
+      { text: i18n.t('Excluded Tags'), value: 'excludedTags' },
       { text: i18n.t('User'), value: 'user' },
       { text: 'Text', value: 'text' },
       { text: i18n.t('Actions'), value: 'name', sortable: false }
@@ -746,6 +788,7 @@ export default {
       event: null,
       group: null,
       tags: [],
+      excludedTags: [],
       period: {
         startTime: '',
         endTime: ''
@@ -776,6 +819,7 @@ export default {
       event: null,
       group: null,
       tags: [],
+      excludedTags: [],
       period: {
         startTime: '',
         endTime: ''
@@ -1092,6 +1136,7 @@ export default {
             event: this.editedItem.event,
             group: this.editedItem.group,
             tags: this.editedItem.tags,
+            excludedTags: this.editedItem.excludedTags,
             startTime: sTimeStr,
             endTime: eTimeStr,
             text: this.editedItem.text.replace(/\{([\w\[\]\. ]*)\}/g, '%($1)s'),
