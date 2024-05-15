@@ -4,14 +4,27 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+<script>
 import NotificationRuleList from '@/components/NotificationRuleList.vue'
 
-@Component({
+export default {
   components: {
     NotificationRuleList
+  },
+  props: {
+    query: {
+      type: Object,
+      required: false,
+      default: () => {}
+    }
+  },
+  created (){
+    this.setSearch(this.query)
+  },
+  methods: {
+    setSearch(query) {
+      this.$store.dispatch('notificationRules/updateQuery', query)
+    }
   }
-})
-export default class NotificationRule extends Vue {}
+}
 </script>

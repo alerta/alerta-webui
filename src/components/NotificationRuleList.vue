@@ -535,6 +535,7 @@
           hide-details
           :label="$t('Search')"
           @change="setSearch"
+          @click:clear="clearSearch"
         />
       </v-card-title>
 
@@ -999,6 +1000,13 @@ export default {
   methods: {
     setSearch(query) {
       this.$store.dispatch('notificationRules/updateQuery', {q: query})
+      this.$router.push({query: {...this.$router.query, q: query}})
+      this.refresh_all()
+    },
+    clearSearch() {
+      this.query = null
+      this.$store.dispatch('notificationRules/updateQuery', {})
+      this.$router.push({query: {...this.$router.query, q: undefined}})
       this.refresh_all()
     },
     getNotificationRules() {
