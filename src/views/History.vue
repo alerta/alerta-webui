@@ -1,40 +1,45 @@
 <template>
   <div class="alerts">
-    <v-tabs
-      v-model="currentTab"
-      class="px-1"
-      grow
-    >
-      <v-tab
-        v-for="env in environments"
-        :key="env"
-        :href="'#tab-' + env"
-        @click="setEnv(env)"
-      >
-        {{ env }}&nbsp;({{ environmentCounts[env] || 0 }})
-      </v-tab>
-  
-      <v-spacer />
-
-      <v-tabs-items
+    <v-card>
+      <v-card-title class="title">
+        {{ $t('Alerts History') }}
+      </v-card-title>
+      <v-tabs
         v-model="currentTab"
+        class="px-1"
+        grow
       >
-        <v-tab-item
+        <v-tab
           v-for="env in environments"
           :key="env"
-          :value="'tab-' + env"
-          :transition="false"
-          :reverse-transition="false"
+          :href="'#tab-' + env"
+          @click="setEnv(env)"
         >
-          <keep-alive max="1">
-            <history-list
-              v-if="env == filter.environment || env == 'ALL'"
-              :history="historyByEnvironment"
-            />
-          </keep-alive>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-tabs>
+          {{ env }}&nbsp;({{ environmentCounts[env] || 0 }})
+        </v-tab>
+    
+        <v-spacer />
+
+        <v-tabs-items
+          v-model="currentTab"
+        >
+          <v-tab-item
+            v-for="env in environments"
+            :key="env"
+            :value="'tab-' + env"
+            :transition="false"
+            :reverse-transition="false"
+          >
+            <keep-alive max="1">
+              <history-list
+                v-if="env == filter.environment || env == 'ALL'"
+                :history="historyByEnvironment"
+              />
+            </keep-alive>
+          </v-tab-item>
+        </v-tabs-items>
+      </v-tabs>
+    </v-card>
   </div>
 </template>
 
@@ -151,6 +156,7 @@ export default {
     }
   },
   created() {
+    this.setSearch(this.query)
     if (this.hash) {
       let hashMap = utils.fromHash(this.hash)
       this.setFilter(hashMap)
@@ -184,6 +190,9 @@ export default {
     },
     getHistory() {
       return this.$store.dispatch('alerts/getAlertHistory')
+    },
+    setSearch(query) {
+      this.$store.dispatch('alerts/updateQuery', query)
     },
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')

@@ -129,7 +129,7 @@
         <v-spacer />
 
         <v-text-field
-          v-if="$route.name === 'alerts'"
+          v-if="$route.name === 'alerts' || $route.name === 'history'"
           v-model="query"
           :flat="!hasFocus"
           :label="$t('Search')"
