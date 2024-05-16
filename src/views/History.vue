@@ -151,6 +151,7 @@ export default {
     }
   },
   created() {
+    this.setSearch(this.query)
     if (this.hash) {
       let hashMap = utils.fromHash(this.hash)
       this.setFilter(hashMap)
@@ -184,6 +185,9 @@ export default {
     },
     getHistory() {
       return this.$store.dispatch('alerts/getAlertHistory')
+    },
+    setSearch(query) {
+      this.$store.dispatch('alerts/updateQuery', query)
     },
     getEnvironments() {
       this.$store.dispatch('alerts/getEnvironments')
