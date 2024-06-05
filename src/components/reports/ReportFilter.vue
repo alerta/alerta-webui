@@ -70,7 +70,7 @@
           </v-flex>
 
           <v-flex xs12 class="pb-0">
-            <v-select
+            <v-autocomplete
               v-model="filterStatus"
               :items="statusList"
               small-chips
@@ -115,7 +115,7 @@
           </v-flex>
 
           <v-flex xs12 class="pb-0">
-            <v-select
+            <v-autocomplete
               v-model="filterGroup"
               :items="currentGroups"
               :menu-props="{ maxHeight: '400' }"

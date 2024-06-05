@@ -26,7 +26,13 @@ export default ({ mode }) => {
     server: {
       port,
       hmr: {
-        clientPort: shouldUseHttps ? 443 : 80
+        clientPort: shouldUseHttps ? 443 : port
+      },
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+         }
       }
     },
     preview: {
