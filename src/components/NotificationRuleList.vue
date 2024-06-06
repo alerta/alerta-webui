@@ -199,6 +199,20 @@
                     required
                   />
                 </v-flex>
+                
+                <v-flex xs8>
+                  <v-text-field
+                    v-model.trim="editedItem.timeObj.time"
+                    :label="$t('DelayTime')"
+                  />
+                </v-flex>
+                <v-flex xs4>
+                  <v-select
+                    v-model="editedItem.timeObj.interval"
+                    :items="intervals"
+                    :label="$t('Interval')"
+                  />
+                </v-flex>
 
                 <v-flex
                   xs12
@@ -572,6 +586,7 @@
           <td v-if="$config.customer_views">
             {{ props.item.customer }}
           </td>
+          <td>{{ props.item.delayTime }}</td>
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.environment }}</td>
           <td>{{ props.item.reactivateDate }} {{ props.item.reactivateTime }}</td>
@@ -747,12 +762,14 @@ export default {
   data: vm => ({
     status: ['true', 'false'],
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    intervals: ['second','minute', 'hour', 'days'],
     search: '',
     dialog: false,
     active_dialog: false,
     headers: [
       { text: i18n.t('Acitve'), value: 'active' },
       { text: i18n.t('Customer'), value: 'customer' },
+      { text: i18n.t('Delay'), value: 'delay' },
       { text: i18n.t('Name'), value: 'Name' },
       { text: i18n.t('Environment'), value: 'environment' },
       { text: i18n.t('Reactivate'), value: 'reactivate' },
@@ -780,6 +797,10 @@ export default {
       customer: null,
       name: null,
       environment: null,
+      timeObj: {
+        time: null,
+        interval: null
+      },
       receivers: [],
       userIds: [],
       groupIds: [],
@@ -811,6 +832,10 @@ export default {
       customer: null,
       name: null,
       environment: null,
+      timeObj: {
+        time: null,
+        interval: null
+      },
       receivers: [],
       userIds: [],
       groupIds: [],
@@ -867,11 +892,16 @@ export default {
             ).slice(-2)}`
           }
           let reactivate = b.reactivate ? moment(b.reactivate) : null
+
           
           return Object.assign(
             { ...b },
             {
               period: period,
+              timeObj: {
+                time: b.delayTime,
+                interval: 'second'
+              },
               text:
                 b.text === null
                   ? ''
@@ -1135,6 +1165,7 @@ export default {
             customer: this.editedItem.customer,
             name: this.editedItem.name,
             environment: this.editedItem.environment,
+            delayTime: this.editedItem.timeObj.time ? `${this.editedItem.timeObj.time} ${this.editedItem.timeObj.interval}` : null,
             receivers: this.editedItem.receivers,
             userIds: this.editedItem.userIds,
             groupIds: this.editedItem.groupIds,
@@ -1167,6 +1198,7 @@ export default {
             id: null,
             startTime: sTimeStr,
             endTime: eTimeStr,
+            delayTime: this.editedItem.timeObj.time ? `${this.editedItem.timeObj.time} ${this.editedItem.timeObj.interval}` : null,
             text: this.editedItem.text.replace(/\{([\w\[\]\. ]*)\}/g, '%($1)s')
           })
         )

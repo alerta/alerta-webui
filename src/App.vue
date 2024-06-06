@@ -659,6 +659,13 @@ export default {
           show: true
         },
         {
+          icon: 'av_timer',
+          text: i18n.t('NotificationDelay'),
+          path: '/notificationdelays',
+          perms: 'read:notification_rules',
+          show: true
+        },
+        {
           icon: 'notifications',
           text: i18n.t('NotificationRules'),
           path: '/notificationrules',

@@ -80,6 +80,12 @@ export function createRouter(basePath): VueRouter {
         meta: {title: 'Blackouts', requiresAuth: true}
       },
       {
+        path: '/notificationdelays',
+        name: 'notificationdelays',
+        component: () => import(/* webpackChunkName: 'user' */ './views/NotificationDelay.vue'),
+        meta: {title: 'NotificationDelays', requiresAuth: true}
+      },
+      {
         path: '/notificationrules',
         name: 'notificationrules',
         props: route => ({
