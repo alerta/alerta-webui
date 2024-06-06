@@ -589,6 +589,20 @@ export default {
           show: true
         },
         {
+          icon: 'history',
+          text: i18n.t('NotificationHistory'),
+          path: '/notificationhistory',
+          perms: 'read:notification_history',
+          show: true
+        },
+        {
+          icon: 'av_timer',
+          text: i18n.t('NotificationDelay'),
+          path: '/notificationdelays',
+          perms: 'read:notification_rules',
+          show: true
+        },
+        {
           icon: 'arrow_upward',
           text: i18n.t('EscalationRules'),
           path: '/escalationrules',
@@ -659,24 +673,10 @@ export default {
           show: true
         },
         {
-          icon: 'av_timer',
-          text: i18n.t('NotificationDelay'),
-          path: '/notificationdelays',
-          perms: 'read:notification_rules',
-          show: true
-        },
-        {
           icon: 'notifications',
           text: i18n.t('NotificationRules'),
           path: '/notificationrules',
           perms: 'read:notification_rules',
-          show: true
-        },
-        {
-          icon: 'history',
-          text: i18n.t('NotificationHistory'),
-          path: '/notificationhistory',
-          perms: 'read:notification_history',
           show: true
         },
         {
