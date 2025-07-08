@@ -288,6 +288,7 @@ export default {
       keycloak: { icon: 'fas fa-key', text: 'Keycloak' },
       openid: { icon: 'fab fa-openid', text: 'OpenID Connect' },
       pingfederate: { icon: 'fas fa-id-badge', text: 'PingFederate' },
+      cas: { icon: 'fas fa-id-badge', text: 'CAS' },
       saml2: { icon: 'fas fa-id-badge', text: 'SAML2' }
     },
     error: false

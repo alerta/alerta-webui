@@ -116,7 +116,20 @@ export function vueAuth(config) {
         scope: 'openid+profile+email',
         pfidpadapterid: 'kerberos',
         oauthType: '2.0'
-      }
+      },
+      cas: {
+        name: 'CAS',
+        url: '/auth/cas',
+        authorizationEndpoint: config.cas_server
+          ? `${config.cas_server}/login`
+          : undefined,
+        redirectUri: getRedirectUri(basePath),
+        defaultUrlParams: ['service'],
+        requiredUrlParams: ['service'],
+        service: config.cas_server ? getRedirectUri(basePath) : undefined,
+        responseType: 'ticket',
+        responseParams: { ticket: 'ticket' }
+      },
     }
   })
 }

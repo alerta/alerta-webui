@@ -50,7 +50,9 @@
                           <v-icon>person</v-icon>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
+                          <!-- eslint-disable-next-line vue/no-v-html -->
                           <v-list-tile-title v-html="data.item.name" />
+                          <!-- eslint-disable-next-line vue/no-v-html -->
                           <v-list-tile-sub-title v-html="data.item.email" />
                         </v-list-tile-content>
                       </template>
@@ -81,7 +83,9 @@
                 <v-icon>person</v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
+                <!-- eslint-disable-next-line vue/no-v-html -->
                 <v-list-tile-title v-html="item.name" />
+                <!-- eslint-disable-next-line vue/no-v-html -->
                 <v-list-tile-sub-title v-html="item.login" />
               </v-list-tile-content>
 

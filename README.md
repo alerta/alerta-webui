@@ -50,7 +50,7 @@ build-time environment variable is possible but should not be be
 necessary for most deployments.
 
     $ export VUE_APP_CLIENT_ID=0ffe5d26-6c66-4871-a6fa-593d9fa972b1
-
+    $ export VUE_APP_CAS_SERVER=https://cas.example.com
 Quick Start
 -----------
 

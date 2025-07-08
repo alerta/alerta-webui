@@ -579,6 +579,7 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div>
+                        <!-- eslint-disable-next-line vue/no-v-html -->
                         <span v-html="item.text" />
                       </div>
                     </div>
@@ -724,6 +725,7 @@
                           <span class="clickable">{{ v }}</span>&nbsp;
                         </span>
                       </div>
+                      <!-- eslint-disable vue/no-v-html -->
                       <div
                         v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
                         class="link-text"

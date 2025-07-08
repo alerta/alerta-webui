@@ -1,4 +1,4 @@
-import Axios, {AxiosResponse, AxiosInstance} from 'axios'
+import Axios, { AxiosResponse, AxiosInstance } from 'axios'
 
 class Config {
   private config: any = {}
@@ -14,59 +14,57 @@ class Config {
 
   getConfig(): Promise<any> {
     return this.getEnvConfig()
-      .then(response => {
-        return this.setEnvConfig(response)
-      })
+      .then((response) => this.setEnvConfig(response))
+      .then(() => this.getLocalConfig())
+      .then((response) => this.setLocalConfig(response))
       .then(() => {
-        return this.getLocalConfig()
-      })
-      .then(response => {
-        return this.setLocalConfig(response)
-      })
-      .then(response => {
-        let endpoint = this.config.endpoint ? this.config.endpoint : 'http://localhost:8080'
+        const endpoint = this.config.endpoint || 'http://localhost:8080'
         return this.getRemoteConfig(endpoint)
       })
-      .then(response => {
-        return this.setRemoteConfig(response)
-      })
+      .then((response) => this.setRemoteConfig(response))
       .catch((error: any) => {
-        console.log(error)
-        throw error
+        throw new Error(`[Config] Failed to load configuration: ${error.message || error}`)
       })
   }
 
-  getEnvConfig() {
-    return new Promise((resolve, reject) => {
-      let envConfig = {}
+  getEnvConfig(): Promise<any> {
+    return new Promise((resolve) => {
+      const envConfig: any = {}
+
       if (process.env.VUE_APP_ALERTA_ENDPOINT) {
         envConfig['endpoint'] = process.env.VUE_APP_ALERTA_ENDPOINT
       }
       if (process.env.VUE_APP_CLIENT_ID) {
         envConfig['client_id'] = process.env.VUE_APP_CLIENT_ID
       }
+      if (process.env.VUE_APP_CAS_SERVER) {
+        envConfig['cas_server'] = process.env.VUE_APP_CAS_SERVER
+      }
       if (process.env.VUE_APP_TRACKING_ID) {
         envConfig['tracking_id'] = process.env.VUE_APP_TRACKING_ID
       }
+
       resolve(envConfig)
     })
   }
 
-  getLocalConfig() {
+  getLocalConfig(): Promise<any> {
     const basePath = process.env.BASE_URL
+
     return this.$http
       .get(`${basePath}config.json`)
-      .then(response => response.data)
-      .catch((error: any) => {
-        console.warn(error.message)
+      .then((response) => response.data)
+      .catch(() => {
+        // On retourne un objet vide en cas d'échec sans console.warn
+        return {}
       })
   }
 
-  getRemoteConfig(endpoint: string) {
+  getRemoteConfig(endpoint: string): Promise<any> {
     return this.$http
       .get(`${endpoint}/config`)
-      .then(response => response.data)
-      .catch((error: any) => {
+      .then((response) => response.data)
+      .catch((error) => {
         alert(
           `ERROR: Failed to retrieve client config from Alerta API endpoint ${endpoint}/config.\n\n` +
             'This could be due to the API not being available, or to a missing or invalid ' +
@@ -77,7 +75,7 @@ class Config {
       })
   }
 
-  mergeConfig() {
+  mergeConfig(): any {
     return (this.config = {
       ...this.remoteConfig,
       ...this.localConfig,
@@ -85,22 +83,22 @@ class Config {
     })
   }
 
-  setEnvConfig(data: any) {
+  setEnvConfig(data: any): any {
     this.envConfig = data
     return this.mergeConfig()
   }
 
-  setLocalConfig(data: any) {
+  setLocalConfig(data: any): any {
     this.localConfig = data
     return this.mergeConfig()
   }
 
-  setRemoteConfig(data: any) {
+  setRemoteConfig(data: any): any {
     this.remoteConfig = data
     return this.mergeConfig()
   }
 
-  $get() {
+  $get(): any {
     return this.config
   }
 }

@@ -150,6 +150,7 @@
             >
               <div class="fixed-table">
                 <div class="text-truncate">
+                  <!-- eslint-disable-next-line vue/no-v-html -->
                   <span v-html="props.item.value" />
                 </div>
               </div>
@@ -159,6 +160,7 @@
             >
               <div class="fixed-table">
                 <div class="text-truncate">
+                  <!-- eslint-disable-next-line vue/no-v-html -->
                   <span v-html="props.item.text" />
                 </div>
               </div>
@@ -177,6 +179,7 @@
             <span
               v-if="props.item.attributes.hasOwnProperty(col)"
             >
+              <!-- eslint-disable-next-line vue/no-v-html -->
               <span v-html="props.item.attributes[col]" />
             </span>
             <span

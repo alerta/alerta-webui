@@ -1,4 +1,5 @@
 import AuthApi from '@/services/api/auth.service'
+import CasApi from '@/services/api/cas.service'
 
 export function makeStore(vueAuth) {
   return {
@@ -49,6 +50,17 @@ export function makeStore(vueAuth) {
         return vueAuth
           .login(credentials)
           .then(() => commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()]))
+          .then(() => dispatch('getUserPrefs', {}, {root: true}))
+          .catch(error => {
+            throw error
+          })
+      },
+      casAuthenticate({commit, dispatch}, {ticket, service}) {
+        return CasApi.authenticate(ticket, service)
+          .then(token => {
+            vueAuth.setToken(token)
+            commit('SET_AUTH', [vueAuth.getToken(), vueAuth.getPayload()])
+          })
           .then(() => dispatch('getUserPrefs', {}, {root: true}))
           .catch(error => {
             throw error

@@ -137,6 +137,7 @@
   </v-container>
 </template>
 
+
 <script>
 import i18n from '@/plugins/i18n'
 
@@ -165,6 +166,22 @@ export default {
   created() {
     if (this.$config.provider == 'saml2') {
       this.authenticateUsingSAML()
+    } else if (this.$config.provider === 'cas') {
+      if (this.$route.query.ticket) {
+        this.message = `Authenticating with ${this.authProvider} ...`
+        this.$store
+          .dispatch('auth/casAuthenticate', {
+            ticket: this.$route.query.ticket,
+            service: window.location.origin + (this.$route.fullPath.split('?')[0] || '/')
+          })
+          .then(() => this.$router.push({ path: this.$route.query.redirect || '/' }))
+          .catch(error => {
+            console.error(error)
+            this.error = error.response?.data?.message || error.message
+          })
+      } else {
+        this.authenticateUsingCas()
+      }
     } else if (this.authProvider) {
       this.authenticate()
     }
@@ -181,6 +198,11 @@ export default {
         .catch(error => this.error = error.response.data.message)
     },
     authenticate() {
+      if (this.$config.provider === 'cas') {
+        this.authenticateUsingCas()
+        return
+      }
+
       if (this.authProvider) {
         this.message = `Authenticating with ${this.authProvider} ...`
         this.$store
@@ -209,7 +231,23 @@ export default {
         return
       })
       auth_win = window.open(this.$config.endpoint + '/auth/saml', i18n.t('AuthInProgress'))
+    },
+    authenticateUsingCas() {
+      const provider = this.$config.provider
+      const options = this.$store.getters['auth/getOptions']['providers'][provider]
+
+      if (!options || !options.authorizationEndpoint) {
+        this.message = i18n.t('AuthNotPossible')
+        this.error = `Unknown authentication provider (${provider})`
+        return
+      }
+
+      const serviceUrl = window.location.origin + (this.$route.fullPath || '/')
+      const loginUrl = `${options.authorizationEndpoint}?service=${encodeURIComponent(serviceUrl)}`
+
+      window.location.href = loginUrl
     }
+
   }
 }
 </script>

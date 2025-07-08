@@ -18,6 +18,7 @@ const state = {
   keycloak_realm: null,
   keycloak_url: null,
   pingfederate_url: null,
+  cas_server: null,
 
   site_logo_url: '',
 
