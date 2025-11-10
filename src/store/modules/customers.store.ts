@@ -47,7 +47,10 @@ const actions = {
 
 const getters = {
   customers: state => {
-    return state.customers.map(c => c.customer)
+    return state.customers
+      .map(c => c.customer)
+      .filter(c => !!c)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
   }
 }
 
