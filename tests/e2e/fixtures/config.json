@@ -1,0 +1,71 @@
+{
+  "audio": {},
+  "auth_required": false,
+  "allow_readonly": true,
+  "readonly_scopes": ["read"],
+  "provider": "basic",
+  "customer_views": false,
+  "signup_enabled": true,
+  "email_verification": false,
+  "client_id": null,
+  "github_url": "https://github.com",
+  "gitlab_url": "https://gitlab.com",
+  "keycloak_realm": null,
+  "keycloak_url": null,
+  "pingfederate_url": null,
+  "colors": {
+    "severity": {
+      "critical": "#D32F2F",
+      "major": "#E64A19",
+      "minor": "#FFA000",
+      "warning": "#FFD740",
+      "normal": "#388E3C",
+      "ok": "#388E3C",
+      "informational": "#1976D2",
+      "debug": "#616161",
+      "security": "#BA68C8",
+      "unknown": "#9E9E9E"
+    },
+    "text": "white",
+    "highlight": "skyblue"
+  },
+  "severity": {
+    "critical": 1,
+    "major": 2,
+    "minor": 3,
+    "warning": 4,
+    "normal": 5,
+    "ok": 5,
+    "informational": 6,
+    "debug": 7,
+    "security": 8,
+    "unknown": 9
+  },
+  "dates": {
+    "longDate": "ddd D MMM, YYYY HH:mm:ss.SSS Z",
+    "mediumDate": "ddd D MMM HH:mm",
+    "shortTime": "HH:mm"
+  },
+  "alarm_model": {
+    "name": "ISMA"
+  },
+  "timeouts": {
+    "alert": 86400,
+    "heartbeat": 300,
+    "ack": 7200,
+    "shelve": 7200
+  },
+  "actions": [],
+  "filter": {
+    "text": null,
+    "environment": null,
+    "status": ["open", "ack"],
+    "customer": null,
+    "service": null,
+    "group": null,
+    "dateRange": [null, null]
+  },
+  "sort_by": ["severity", "lastReceiveTime"],
+  "columns": [],
+  "environments": []
+}

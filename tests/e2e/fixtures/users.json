@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": "u-001",
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "status": "active",
+      "roles": ["admin"],
+      "email_verified": true,
+      "createTime": "2024-01-01T00:00:00.000Z",
+      "lastLogin": "2024-01-15T10:00:00.000Z",
+      "login": "admin@example.com",
+      "provider": "basic",
+      "text": ""
+    },
+    {
+      "id": "u-002",
+      "name": "Regular User",
+      "email": "user@example.com",
+      "status": "active",
+      "roles": ["user"],
+      "email_verified": true,
+      "createTime": "2024-01-10T00:00:00.000Z",
+      "lastLogin": "2024-01-15T08:00:00.000Z",
+      "login": "user@example.com",
+      "provider": "basic",
+      "text": ""
+    }
+  ],
+  "status": "ok"
+}
