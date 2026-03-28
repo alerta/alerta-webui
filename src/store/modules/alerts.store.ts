@@ -263,7 +263,27 @@ const actions = {
       )
     }
 
-    return AlertsApi.getEnvironments(params).then(({environments}) => commit('SET_ENVIRONMENTS', environments))
+    // Async funcion to retrieve the whole list of environments from API with pagination
+    async function getAllEnvironments(params: URLSearchParams) {
+      let next = true
+      const allEnvironments: any = []
+      while (next) {
+        const data = await AlertsApi.getEnvironments(params)
+        const { environments, more, page } = data
+
+        // Add current page environments to results
+        allEnvironments.push(...environments)
+        
+        // Check if there are more pages
+        next = more
+
+        // add server-side paging
+        params.set('page', (page + 1).toString())
+      }
+      return allEnvironments
+    }
+
+    return getAllEnvironments(params).then(environments => commit('SET_ENVIRONMENTS', environments))
   },
   getServices({commit}) {
     return AlertsApi.getServices({}).then(({services}) => commit('SET_SERVICES', services))
