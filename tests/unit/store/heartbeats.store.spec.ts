@@ -10,10 +10,10 @@ jest.mock('@/services/api/heartbeat.service', () => ({
 
 import HeartbeatsApi from '@/services/api/heartbeat.service'
 
-const { mutations, actions } = heartbeatsStore
+const {mutations, actions} = heartbeatsStore
 
 function freshState() {
-  return { isLoading: false, heartbeats: [] }
+  return {isLoading: false, heartbeats: []}
 }
 
 describe('heartbeats store', () => {
@@ -27,7 +27,7 @@ describe('heartbeats store', () => {
     it('SET_HEARTBEATS stores heartbeats and clears loading', () => {
       const state = freshState()
       state.isLoading = true
-      const heartbeats = [{ id: 'h1', origin: 'web01' }]
+      const heartbeats = [{id: 'h1', origin: 'web01'}]
       mutations.SET_HEARTBEATS(state, heartbeats)
       expect(state.isLoading).toBe(false)
       expect(state.heartbeats).toEqual(heartbeats)
@@ -51,26 +51,26 @@ describe('heartbeats store', () => {
     })
 
     it('getHeartbeats fetches and commits heartbeats', async () => {
-      (HeartbeatsApi.getHeartbeats as jest.Mock).mockResolvedValue({
-        heartbeats: [{ id: 'h1', origin: 'web01' }]
+      ;(HeartbeatsApi.getHeartbeats as jest.Mock).mockResolvedValue({
+        heartbeats: [{id: 'h1', origin: 'web01'}]
       })
 
-      await actions.getHeartbeats({ commit })
+      await actions.getHeartbeats({commit})
       expect(commit).toHaveBeenCalledWith('SET_LOADING')
-      expect(commit).toHaveBeenCalledWith('SET_HEARTBEATS', [{ id: 'h1', origin: 'web01' }])
+      expect(commit).toHaveBeenCalledWith('SET_HEARTBEATS', [{id: 'h1', origin: 'web01'}])
     })
 
     it('getHeartbeats resets loading on failure', async () => {
-      (HeartbeatsApi.getHeartbeats as jest.Mock).mockRejectedValue(new Error('fail'))
+      ;(HeartbeatsApi.getHeartbeats as jest.Mock).mockRejectedValue(new Error('fail'))
 
-      await actions.getHeartbeats({ commit })
+      await actions.getHeartbeats({commit})
       expect(commit).toHaveBeenCalledWith('RESET_LOADING')
     })
 
     it('deleteHeartbeat deletes and refreshes list', async () => {
-      (HeartbeatsApi.deleteHeartbeat as jest.Mock).mockResolvedValue({})
+      ;(HeartbeatsApi.deleteHeartbeat as jest.Mock).mockResolvedValue({})
 
-      await actions.deleteHeartbeat({ dispatch, commit }, 'h1')
+      await actions.deleteHeartbeat({dispatch, commit}, 'h1')
       expect(HeartbeatsApi.deleteHeartbeat).toHaveBeenCalledWith('h1')
       expect(dispatch).toHaveBeenCalledWith('getHeartbeats')
     })

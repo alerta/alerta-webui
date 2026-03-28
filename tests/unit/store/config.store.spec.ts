@@ -4,7 +4,7 @@ jest.mock('vue-object-merge', () => {
   return (state: any, config: any) => Object.assign(state, config)
 })
 
-const { state: defaultState, mutations, actions, getters } = configStore
+const {state: defaultState, mutations, actions, getters} = configStore
 
 function freshState() {
   return JSON.parse(JSON.stringify(defaultState))
@@ -37,7 +37,7 @@ describe('config store', () => {
     it('SET_CONFIG merges nested objects', () => {
       const state = freshState()
       mutations.SET_CONFIG(state, {
-        dates: { longDate: 'YYYY-MM-DD HH:mm:ss' }
+        dates: {longDate: 'YYYY-MM-DD HH:mm:ss'}
       })
       expect(state.dates.longDate).toBe('YYYY-MM-DD HH:mm:ss')
     })
@@ -62,8 +62,8 @@ describe('config store', () => {
   describe('actions', () => {
     it('updateConfig commits SET_CONFIG', () => {
       const commit = jest.fn()
-      const config = { endpoint: 'http://new.api.com' }
-      actions.updateConfig({ commit }, config)
+      const config = {endpoint: 'http://new.api.com'}
+      actions.updateConfig({commit}, config)
       expect(commit).toHaveBeenCalledWith('SET_CONFIG', config)
     })
   })

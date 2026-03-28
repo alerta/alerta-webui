@@ -102,17 +102,17 @@ describe('utils', () => {
 
   describe('toHash', () => {
     it('converts object to hash string', () => {
-      const result = utils.toHash({ environment: 'Production', status: 'open,ack' })
+      const result = utils.toHash({environment: 'Production', status: 'open,ack'})
       expect(result).toBe('environment:Production;status:open,ack')
     })
 
     it('filters out falsy values', () => {
-      const result = utils.toHash({ environment: 'Production', text: null, status: undefined })
+      const result = utils.toHash({environment: 'Production', text: null, status: undefined})
       expect(result).toBe('environment:Production')
     })
 
     it('returns empty string for all-falsy object', () => {
-      const result = utils.toHash({ text: null, environment: null })
+      const result = utils.toHash({text: null, environment: null})
       expect(result).toBe('')
     })
 
@@ -124,7 +124,7 @@ describe('utils', () => {
   describe('fromHash', () => {
     it('parses hash string into object', () => {
       const result = utils.fromHash('#environment:Production;status:open,ack')
-      expect(result).toEqual({ environment: 'Production', status: 'open,ack' })
+      expect(result).toEqual({environment: 'Production', status: 'open,ack'})
     })
 
     it('returns empty object for empty hash', () => {
@@ -133,7 +133,7 @@ describe('utils', () => {
     })
 
     it('handles single key-value pair', () => {
-      expect(utils.fromHash('#env:Dev')).toEqual({ env: 'Dev' })
+      expect(utils.fromHash('#env:Dev')).toEqual({env: 'Dev'})
     })
   })
 })
