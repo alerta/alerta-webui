@@ -82,7 +82,7 @@ export function vueAuth(config) {
         name: 'Keycloak',
         url: '/auth/keycloak',
         clientId: config.client_id,
-        authorizationEndpoint: `${config.keycloak_url}/auth/realms/${config.keycloak_realm}/protocol/openid-connect/auth`,
+        authorizationEndpoint: `${config.keycloak_url}/realms/${config.keycloak_realm}/protocol/openid-connect/auth`,
         redirectUri: getRedirectUri(basePath),
         requiredUrlParams: ['scope'],
         optionalUrlParams: ['display', 'state'],
