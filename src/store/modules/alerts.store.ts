@@ -305,16 +305,23 @@ const getters = {
       return state.alerts
     }
   },
+
   environments:
     (state, getters, rootState) =>
     (showAllowedEnvs = true) => {
       if (showAllowedEnvs) {
         return [
-          ...new Set([...(rootState.config.environments || []), ...state.environments.map(e => e.environment)])
-        ].sort()
+          ...new Set([
+            ...(rootState.config.environments || []),
+            ...state.environments.map(e => e.environment)
+          ])
+        ].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
       }
-      return state.environments.map(e => e.environment).sort()
+      return state.environments
+        .map(e => e.environment)
+        .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
     },
+
   counts: state => {
     return state.environments.reduce(
       (grp, e) => {
@@ -322,18 +329,31 @@ const getters = {
         grp['ALL'] = grp['ALL'] + e.count
         return grp
       },
-      {ALL: 0}
+      { ALL: 0 }
     )
   },
+
   services: state => {
-    return state.services.map(s => s.service).sort()
+    return state.services
+      .map(s => s.service)
+      .filter(s => !!s)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
   },
+
   groups: state => {
-    return state.groups.map(g => g.group).sort()
+    return state.groups
+      .map(g => g.group)
+      .filter(g => !!g)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
   },
+
   tags: state => {
-    return state.tags.map(t => t.tag).sort()
+    return state.tags
+      .map(t => t.tag)
+      .filter(t => !!t)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
   },
+
   getHash: state => {
     const filterHash = utils.toHash(state.filter)
     const sortBy = state.pagination.sortBy ? state.pagination.sortBy : 'default'
