@@ -20,7 +20,7 @@ export default {
     return api.put(`/alert/${alertId}/untag`, data)
   },
   updateAttributes(alertId: string, attributes: object) {
-    let data = {
+    const data = {
       attributes: attributes
     }
     return api.put(`/alert/${alertId}/attributes`, data)
@@ -42,38 +42,38 @@ export default {
       queryInProgress.cancel('Too many search requests. Cancelling current query.')
     }
     queryInProgress = axios.CancelToken.source()
-    let config = {
+    const config = {
       params: query,
       cancelToken: queryInProgress.token
     }
     return api.get('/alerts', config)
   },
   getAlertHistory(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/alerts/history', config)
   },
   getCounts(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/alerts/count', config)
   },
   getTop10Count(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/alerts/top10/count', config)
   },
   getTop10Flapping(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/alerts/top10/flapping', config)
   },
   getTop10Standing(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/alerts/top10/standing', config)
@@ -84,25 +84,25 @@ export default {
   },
 
   getEnvironments(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/environments', config)
   },
   getServices(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/services', config)
   },
   getGroups(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/alerts/groups', config)
   },
   getTags(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/alerts/tags', config)

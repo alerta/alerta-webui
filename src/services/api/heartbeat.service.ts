@@ -5,7 +5,7 @@ export default {
     return api.get(`/heartbeat/${id}`)
   },
   getHeartbeats(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/heartbeats', config)

@@ -28,9 +28,9 @@ const api = {
   },
 
   request(method: Method, url: string, data?: any, config?: AxiosRequestConfig) {
-    let t0 = performance.now()
+    const t0 = performance.now()
     return axios.request({...config, url, method, data}).then(response => {
-      let t1 = performance.now()
+      const t1 = performance.now()
       Vue.prototype.$track('timing_complete', {
         name: method,
         event_category: 'API',

@@ -175,7 +175,7 @@ export function createRouter(basePath): VueRouter {
   })
 
   router.beforeEach((to, from, next) => {
-    let externalUrl = to.fullPath.replace('/', '')
+    const externalUrl = to.fullPath.replace('/', '')
     if (externalUrl.match(/^(http(s)?|ftp):\/\//)) {
       window.open(externalUrl, '_blank')
     } else {

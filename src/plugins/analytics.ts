@@ -13,7 +13,7 @@ const GoogleAnalytics = {
       const script = document.createElement('script')
       script.async = true
       script.src = `https://www.googletagmanager.com/gtag/js?id=${trackingId}`
-      let head: HTMLElement = document.head!
+      const head: HTMLElement = document.head!
       head.appendChild(script)
 
       function gtag(...args: any[]) {

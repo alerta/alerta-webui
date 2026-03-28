@@ -12,7 +12,7 @@ function getRedirectUri(path: string) {
 }
 
 export function vueAuth(config) {
-  let basePath = config.base_path || process.env.BASE_URL
+  const basePath = config.base_path || process.env.BASE_URL
   return new VueAuthenticate(Vue.prototype.$http, {
     tokenPath: 'token',
     tokenName: 'token',

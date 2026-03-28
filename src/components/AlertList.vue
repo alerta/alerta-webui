@@ -123,7 +123,7 @@
                   class="pl-2"
                 >
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
+                    <template #activator="{ on, attrs }">
                       <v-icon
                         v-bind="attrs"
                         small

@@ -45,7 +45,7 @@ const mutations = {
 
 function getParams(state) {
   // get "lucene" query params (?q=)
-  let params = new URLSearchParams(state.query)
+  const params = new URLSearchParams(state.query)
 
   // append filter params to query params
   state.filter.environment && params.append('environment', state.filter.environment)
@@ -87,15 +87,15 @@ function getParams(state) {
 
 const actions = {
   getTopOffenders({commit, state}) {
-    let params = getParams(state)
+    const params = getParams(state)
     return AlertsApi.getTop10Count(params).then(({top10}) => commit('SET_TOP_OFFENDERS', top10))
   },
   getTopFlapping({commit, state}) {
-    let params = getParams(state)
+    const params = getParams(state)
     return AlertsApi.getTop10Flapping(params).then(({top10}) => commit('SET_TOP_FLAPPING', top10))
   },
   getTopStanding({commit, state}) {
-    let params = getParams(state)
+    const params = getParams(state)
     return AlertsApi.getTop10Standing(params).then(({top10}) => commit('SET_TOP_STANDING', top10))
   },
 

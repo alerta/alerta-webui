@@ -108,7 +108,7 @@ const actions = {
   getAlerts({rootGetters, commit, state}) {
     commit('SET_LOADING')
     // get "lucene" query params (?q=)
-    let params = new URLSearchParams(state.query)
+    const params = new URLSearchParams(state.query)
 
     // append filter params to query params
     state.filter.environment && params.append('environment', state.filter.environment)
@@ -231,7 +231,7 @@ const actions = {
 
   getEnvironments({commit, state}) {
     // get "lucene" query params (?q=)
-    let params = new URLSearchParams(state.query)
+    const params = new URLSearchParams(state.query)
 
     // append filter params to query params
     state.filter.status && state.filter.status.map(st => params.append('status', st))
@@ -335,11 +335,11 @@ const getters = {
     return state.tags.map(t => t.tag).sort()
   },
   getHash: state => {
-    let filterHash = utils.toHash(state.filter)
-    let sortBy = state.pagination.sortBy ? state.pagination.sortBy : 'default'
-    let descending = state.pagination.descending ? 1 : 0
-    let paginationHash = `sb:${sortBy};sd:${descending}`
-    let asiHash = `asi:${state.showPanel ? 1 : 0}`
+    const filterHash = utils.toHash(state.filter)
+    const sortBy = state.pagination.sortBy ? state.pagination.sortBy : 'default'
+    const descending = state.pagination.descending ? 1 : 0
+    const paginationHash = `sb:${sortBy};sd:${descending}`
+    const asiHash = `asi:${state.showPanel ? 1 : 0}`
     return `#${filterHash};${paginationHash};${asiHash}`
   }
 }

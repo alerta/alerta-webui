@@ -14,7 +14,7 @@ export default {
     return api.get('/user/me/attributes')
   },
   getUsers(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/users', config)
@@ -26,13 +26,13 @@ export default {
     return api.put('/user/me', data)
   },
   updateUserAttributes(userId: string, attributes: object) {
-    let data = {
+    const data = {
       attributes: attributes
     }
     return api.put(`/user/${userId}/attributes`, data)
   },
   updateMeAttributes(attributes: object) {
-    let data = {
+    const data = {
       attributes: attributes
     }
     return api.put('/user/me/attributes', data)
