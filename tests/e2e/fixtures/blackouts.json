@@ -1,0 +1,21 @@
+{
+  "blackouts": [
+    {
+      "id": "bo-001",
+      "environment": "Production",
+      "service": ["Web"],
+      "resource": null,
+      "event": null,
+      "group": null,
+      "tags": [],
+      "customer": null,
+      "startTime": "2024-01-15T22:00:00.000Z",
+      "endTime": "2024-01-16T06:00:00.000Z",
+      "duration": 28800,
+      "user": "admin",
+      "text": "Scheduled maintenance window",
+      "status": "active"
+    }
+  ],
+  "status": "ok"
+}

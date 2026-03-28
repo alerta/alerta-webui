@@ -1,0 +1,7 @@
+{
+  "environments": [
+    { "environment": "Production", "count": 2 },
+    { "environment": "Development", "count": 1 }
+  ],
+  "status": "ok"
+}

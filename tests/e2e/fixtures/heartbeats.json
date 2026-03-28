@@ -1,0 +1,31 @@
+{
+  "heartbeats": [
+    {
+      "id": "hb-001",
+      "origin": "web01",
+      "tags": ["production"],
+      "type": "Heartbeat",
+      "createTime": "2024-01-15T10:00:00.000Z",
+      "timeout": 300,
+      "receiveTime": "2024-01-15T10:05:00.000Z",
+      "customer": null,
+      "latency": 50,
+      "since": 300,
+      "status": "ok"
+    },
+    {
+      "id": "hb-002",
+      "origin": "db01",
+      "tags": ["production"],
+      "type": "Heartbeat",
+      "createTime": "2024-01-15T09:50:00.000Z",
+      "timeout": 300,
+      "receiveTime": "2024-01-15T10:05:00.000Z",
+      "customer": null,
+      "latency": 120,
+      "since": 900,
+      "status": "slow"
+    }
+  ],
+  "status": "ok"
+}
