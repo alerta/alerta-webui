@@ -1,12 +1,12 @@
 export default {
   getAllowedScopes(scopes: string[], allScopes: string[]) {
-    let derivedScopes: string[] = []
+    const derivedScopes: string[] = []
 
     function expandScope(scope: string) {
       return allScopes.filter(s => s.startsWith(scope))
     }
 
-    for (let scope of scopes) {
+    for (const scope of scopes) {
       derivedScopes.push(...expandScope(scope))
       if (scope.startsWith('admin')) {
         derivedScopes.push(...expandScope(scope.replace('admin', 'delete')))
@@ -26,7 +26,7 @@ export default {
       .join(';')
   },
   fromHash(hash: string): object {
-    let h = decodeURI(hash).substring(1)
+    const h = decodeURI(hash).substring(1)
     return h
       ? h
           .split(';')

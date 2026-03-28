@@ -8,7 +8,7 @@ export default {
     return api.get(`/customer/${id}`)
   },
   getCustomers(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/customers', config)

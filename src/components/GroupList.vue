@@ -30,7 +30,7 @@
                     item-value="id"
                     @change="addUser"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip
                         :selected="data.selected"
                         close
@@ -41,7 +41,7 @@
                         {{ data.item.name }}
                       </v-chip>
                     </template>
-                    <template v-slot:item="data">
+                    <template #item="data">
                       <template v-if="typeof data.item !== 'object'">
                         <v-list-tile-content v-text="data.item" />
                       </template>

@@ -11,7 +11,7 @@ export default {
     return api.get(`/group/${groupId}/users`)
   },
   getGroups(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/groups', config)

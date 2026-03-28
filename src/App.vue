@@ -68,7 +68,7 @@
               sub-group
               no-action
             >
-              <template v-slot:activator>
+              <template #activator>
                 <v-list-tile>
                   <v-list-tile-title>
                     {{ item.text }}
@@ -143,11 +143,11 @@
           @change="submitSearch"
           @click:clear="clearSearch"
         >
-          <template v-slot:append-outer>
+          <template #append-outer>
             <v-tooltip
               bottom
             >
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <v-icon
                   v-on="on"
                   @click="saveSearch"

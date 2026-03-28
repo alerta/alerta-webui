@@ -41,7 +41,7 @@ const mutations = {
     stateMerge(state, prefs)
   },
   RESET_PREFS(state) {
-    let q = state.queries
+    const q = state.queries
     Object.assign(state, getDefaults())
     stateMerge(state, {queries: q})
   },
@@ -107,7 +107,7 @@ const actions = {
       )
   },
   addUserQuery({dispatch, state}, query) {
-    let qlist = state.queries.filter(q => q.text != query.text).concat([query])
+    const qlist = state.queries.filter(q => q.text != query.text).concat([query])
     return UsersApi.updateMeAttributes({queries: qlist})
       .then(response => dispatch('getUserQueries'))
       .then(() =>
@@ -117,7 +117,7 @@ const actions = {
       )
   },
   removeUserQuery({dispatch, state}, query) {
-    let qlist = state.queries.filter(q => q.text != query.text)
+    const qlist = state.queries.filter(q => q.text != query.text)
     return UsersApi.updateMeAttributes({queries: qlist})
       .then(response => dispatch('getUserQueries'))
       .then(() =>

@@ -8,7 +8,7 @@ export default {
     return api.get(`/key/${key}`)
   },
   getKeys(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/keys', config)

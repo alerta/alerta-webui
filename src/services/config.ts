@@ -24,7 +24,7 @@ class Config {
         return this.setLocalConfig(response)
       })
       .then(response => {
-        let endpoint = this.config.endpoint ? this.config.endpoint : 'http://localhost:8080'
+        const endpoint = this.config.endpoint ? this.config.endpoint : 'http://localhost:8080'
         return this.getRemoteConfig(endpoint)
       })
       .then(response => {
@@ -38,7 +38,7 @@ class Config {
 
   getEnvConfig() {
     return new Promise((resolve, reject) => {
-      let envConfig = {}
+      const envConfig = {}
       if (process.env.VUE_APP_ALERTA_ENDPOINT) {
         envConfig['endpoint'] = process.env.VUE_APP_ALERTA_ENDPOINT
       }

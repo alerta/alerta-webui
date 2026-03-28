@@ -5,7 +5,7 @@ export default {
     return api.post('/perm', data)
   },
   getPerms(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/perms', config)

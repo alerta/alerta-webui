@@ -166,7 +166,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(customer)
                       </v-chip>
@@ -184,7 +184,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(org)
                       </v-chip>
@@ -202,7 +202,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(group)
                       </v-chip>
@@ -220,7 +220,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(role)
                       </v-chip>
@@ -238,7 +238,7 @@
                     readonly
                     placeholder="(none)"
                   >
-                    <template v-slot:selection="data">
+                    <template #selection="data">
                       <v-chip>
                         <strong>{{ data.item }}</strong>&nbsp;(scope)
                       </v-chip>

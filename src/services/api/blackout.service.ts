@@ -8,7 +8,7 @@ export default {
     return api.get(`/blackout/${id}`)
   },
   getBlackouts(query: object) {
-    let config = {
+    const config = {
       params: query
     }
     return api.get('/blackouts', config)
