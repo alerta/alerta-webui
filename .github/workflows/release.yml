@@ -55,6 +55,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          name: Release ${{ github.ref_name }}
           files: ./alerta-webui.zip
       - name: Upload Compressed TAR File
         id: upload-tarball
