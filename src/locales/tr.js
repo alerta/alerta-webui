@@ -70,6 +70,7 @@ export const tr = {
   Unshelve: 'Raftan kaldır',
   Close: 'Kapat',
   Watch: 'İzle',
+  Notes: 'Notlar',
   Unwatch: 'İzleme kaldır',
   AddNote: 'Not ekle',
   Delete: 'Sil',
