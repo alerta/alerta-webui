@@ -37,7 +37,7 @@
     "moment": "^2.30.1",
     "nunjucks": "^3.2.4",
     "sass": "^1.98.0",
-    "uuid": "^9.0.1",
+    "uuid": "^14.0.0",
     "vue": "^2.7.16",
     "vue-authenticate": "github:alerta/vue-authenticate",
     "vue-class-component": "^6.3.2",
