@@ -31,7 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vue/vue2-jest": "^27.0.0",
-    "axios": "^1.14.0",
+    "axios": "^1.16.0",
     "export-to-csv": "^1.4.0",
     "lodash": "^4.17.23",
     "moment": "^2.30.1",
