@@ -27,7 +27,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@alerta/vue-authenticate": "github:alerta/vue-authenticate",
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^7.29.6",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@vue/vue2-jest": "^27.0.0",
