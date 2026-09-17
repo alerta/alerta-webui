@@ -130,6 +130,7 @@
 
       <v-tabs-items
         v-model="currentTab"
+        touchless
       >
         <v-tab-item
           v-for="env in environments"

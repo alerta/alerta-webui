@@ -5,6 +5,7 @@
     disable-resize-watcher
     absolute
     hide-overlay
+    touchless
     width="300"
     right
   >
